@@ -320,6 +320,8 @@ Preferences, not requirements. Any plan should justify each or propose better.
 necessary and which are chosen.
 
 - Compute: Savio (§17).
+- Orchestration: Ray, for rollout fan-out and sweeps, launched inside a Slurm
+  allocation. Chosen rather than necessary — see §11 for the honest accounting.
 - Training: PyTorch; LoRA (already SimLingo's recipe); versioned configs;
   checkpointing.
 - Tracking: Weights & Biases.
@@ -817,26 +819,35 @@ retrofitted justification is how a codebase turns into slop.
 - **The evaluation harness.** Config in, comparable numbers out, across many
   variants and both of us.
 
-**Cut, versus the brief.** The brief approved three things as team-learning
-infrastructure. With two people and Savio, they no longer pay for themselves:
+**Build, wanted but not scientifically necessary.** Stated plainly so nobody
+invents a justification later. The brief's own honest accounting, kept:
 
-- **The serving stack (vLLM/Triton).** The brief's own honest accounting said it
-  is justified by parallel rollout fan-out, not by making any single rollout
-  faster, since SimLingo runs a 4 fps loop on a 1B model where per-step latency
-  dominates. On Savio, parallel fan-out is what a job array does. **Cut.** If
-  rollout throughput turns out to be the binding constraint, revisit — but
-  measure first.
-- **Ray.** Same reasoning, and the brief already said job arrays would do it.
-  **Cut.**
+- **Ray**, for rollout fan-out and sweep orchestration. A Slurm job array would
+  also do it, and §17.2 says so. Ray is chosen anyway: it gives one orchestration
+  layer across rollout fan-out, the layer sweep, and the baseline matrix, with
+  retries and failure handling that we would otherwise hand-roll in bash, and it
+  keeps the fan-out code portable off Savio — which matters because NRP is the
+  documented fallback and the tool is meant to run elsewhere (§8). The honest
+  version: this is an engineering choice with a real but secondary payoff, not a
+  scientific requirement. Ray on Slurm means launching a Ray cluster inside an
+  allocation; budget a day for that and do not let it become a week.
+
+**Cut, versus the brief.**
+
+- **The serving stack (vLLM/Triton).** The brief's own accounting said it is
+  justified by parallel rollout fan-out, not by making any single rollout faster,
+  since SimLingo runs a 4 fps loop on a 1B model where per-step latency
+  dominates. With Ray doing the fan-out, the serving stack has no remaining
+  justification. **Cut.** If per-rollout throughput turns out to be the binding
+  constraint, revisit — but measure at Step 1 first.
 - **Re-implementing the image-editing baseline** rather than adapting a published
   pipeline. The sim-rendered B4 variant is both cheaper and fairer in simulation,
   so it is primary; the image-edit variant is secondary and only if time allows.
 
-This is the one place I am overriding a brief design decision on grounds other
-than fact. The brief approved these explicitly and said so plainly, which is
-exactly the right instinct — but it approved them for a five-person team that
-wanted the engineering experience. That rationale is gone. Logged in
-`CONFLICTS.md`; say the word and they come back.
+The brief approved all three explicitly and said plainly that they were chosen
+for team learning rather than scientific necessity, which is the right instinct.
+That rationale weakened at two people, which is why two are cut — but Ray carries
+its own justification above and stays. Logged in `CONFLICTS.md`.
 
 ## 12. Borrowed configuration
 
@@ -1019,7 +1030,7 @@ discovery/         contrastive/, sae/, probe_residual/, preprocessing/
 baselines/         random/, taxonomy/, behavioral/, enumerated/, domino/,
                    detector/, activation_stats/
 gate/              describability gate + shuffle control
-harness/           config schema, runner, results DB, metrics, PREREGISTRATION.md,
+harness/           config schema, Ray runner, results DB, metrics, PREREGISTRATION.md,
                    KEY_COMMITMENT.txt
 generation/        scenario authoring, solvability checks
 repair/            targeted data + LoRA + replay
@@ -1126,8 +1137,15 @@ which is preemptible. **Use lowprio for rollout fan-out** — rollouts are
 independent and individually cheap to lose, which is exactly the workload
 preemption suits. Do not use it for fine-tunes without checkpointing.
 
-Job arrays are supported and are how we fan out rollouts and sweeps. This is why
-the serving stack and Ray are cut (§11).
+Job arrays are supported and are the fallback fan-out mechanism. We drive
+rollouts and sweeps through **Ray** instead (§11), launched inside a Slurm
+allocation — one orchestration layer for rollouts, the layer sweep and the
+baseline matrix, portable off Savio. Preemption under `savio_lowprio` interacts
+with a long-lived Ray cluster, so size allocations to survive it: prefer several
+shorter allocations over one long one, and make rollout tasks idempotent and
+individually re-runnable so a lost worker costs one rollout rather than a batch.
+If Ray on Slurm fights us for more than a day, fall back to a plain job array and
+move on — the fan-out mechanism is not the contribution.
 
 ### 17.3 What the budget is spent on
 

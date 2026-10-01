@@ -232,19 +232,31 @@ The brief had one undifferentiated corpus. Nominal / dev / test, with blinding
 only on test, is what makes "sweep freely" and "blind result" compatible at once.
 `PRD.md` §9.2.
 
-### C8 · Serving stack, Ray, image-edit reimplementation · **cut** · reversible
+### C8 · Serving stack, Ray, image-edit reimplementation · partly reversed
 The brief approved all three explicitly as infrastructure chosen for team
 learning, and said so honestly rather than inventing a justification — the right
 instinct.
 
-**Cut anyway**, because that rationale was for a five-person team wanting
-engineering experience, and there are two of you. On Savio, parallel rollout
-fan-out is what a job array does, which is the brief's own stated justification
-for the serving stack. The sim-rendered B4 variant is cheaper *and* fairer than
-the image-edit port, so it is primary.
+**Initially all three were cut**, on the grounds that the team-learning rationale
+was written for five people and there are two, and that on Savio parallel rollout
+fan-out is what a job array does — the brief's own stated justification for the
+serving stack.
 
-**This is the one place a brief design decision is overridden on grounds other
-than fact.** Say the word and it comes back. `PRD.md` §11, §17.2.
+**Reversed for Ray, 2026-10-01, on instruction.** Ray is back, and it is better
+placed in the brief's own "wanted but not scientifically necessary" category than
+cut outright. Its standing justification: one orchestration layer across rollout
+fan-out, the layer sweep and the baseline matrix, with retries and failure
+handling we would otherwise hand-roll, and fan-out code that stays portable off
+Savio — which matters because NRP is the documented fallback and §8 commits the
+tool to running elsewhere. A job array remains the fallback, and §17.2 carries the
+operational caveat: Ray inside a Slurm allocation interacts badly with
+`savio_lowprio` preemption, so tasks must be idempotent, and if it fights us for
+more than a day we fall back.
+
+**Still cut:** the serving stack (with Ray doing fan-out it has no remaining
+justification, by the brief's own accounting) and re-implementing the image-edit
+baseline (the sim-rendered B4 variant is cheaper *and* fairer in simulation, so it
+is primary). Both reversible on the same terms. `PRD.md` §6.1, §11, §17.2.
 
 ### C9 · Workstreams and blinded roles → sequential steps · superseded by you
 The brief had five workstreams with directory ownership; the handoff had five

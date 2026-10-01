@@ -147,6 +147,11 @@ control and §16.2 cannot close without it.
       a live risk on NRP and it is the most likely Step 1 blocker.
 - [ ] Where do the SimLingo checkpoint and dataset go, given the quota answer?
 - [ ] Note the module system's CUDA and Python versions.
+- [ ] **Ray on Slurm.** Can a Ray cluster come up inside an allocation — head
+      node plus one worker, `ray.init()`, one remote task returning a value? This
+      is the smallest check that de-risks §11's orchestration choice. If it needs
+      more than a day of fighting, we fall back to a plain job array; knowing that
+      now is worth more than solving it now.
 
 ---
 
