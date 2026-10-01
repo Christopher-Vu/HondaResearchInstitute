@@ -1,0 +1,964 @@
+% ==============================================================================
+% 99P Labs / Honda Research Institute USA x UC Berkeley CDSS Data Discovery
+% Bibliography for Failure-Axis Discovery in Driving VLAs (+ Track A background)
+%
+% AUDITED 2026-09-28. Every entry below was checked against primary or strong
+% secondary sources; see docs/CITATION_AUDIT.md for verdicts and evidence URLs.
+% Keys from the pre-audit file are preserved so existing docs keep resolving,
+% but their CONTENT was corrected (titles, authors, venues, arXiv ids).
+% Do not add entries without first adding an audit row with evidence.
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% 1. Driving VLAs, end-to-end driving policies, benchmarks and simulators
+% ------------------------------------------------------------------------------
+
+@inproceedings{Renz2025cvpr,
+  title     = {{SimLingo}: Vision-Only Closed-Loop Autonomous Driving with Language-Action Alignment},
+  author    = {Renz, Katrin and Chen, Long and Arani, Elahe and Sinavski, Oleg},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {11993--12003},
+  year      = {2025},
+  eprint    = {2503.09594},
+  archivePrefix = {arXiv},
+  note      = {Code (Apache-2.0): https://github.com/RenzKa/simlingo; dataset on Hugging Face under a Wayve non-commercial licence}
+}
+
+% Duplicate of Renz2025cvpr kept only because older docs cite this key.
+@inproceedings{simlingo2025,
+  title     = {{SimLingo}: Vision-Only Closed-Loop Autonomous Driving with Language-Action Alignment},
+  author    = {Renz, Katrin and Chen, Long and Arani, Elahe and Sinavski, Oleg},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {11993--12003},
+  year      = {2025},
+  eprint    = {2503.09594},
+  archivePrefix = {arXiv}
+}
+
+@article{renz2024carllava,
+  title   = {{CarLLaVA}: Vision Language Models for Camera-Only Closed-Loop Driving},
+  author  = {Renz, Katrin and Chen, Long and others},
+  journal = {arXiv preprint arXiv:2406.10165},
+  year    = {2024},
+  note    = {CARLA Challenge 2024 report; renamed SimLingo-BASE in Renz2025cvpr. Full author list not re-verified.}
+}
+
+@inproceedings{drivemoe2025,
+  title     = {{DriveMoE}: Mixture-of-Experts for Vision-Language-Action Model in End-to-End Autonomous Driving},
+  author    = {Yang, Zhenjie and Chai, Yilin and Jia, Xiaosong and Li, Qifeng and Shao, Yuqian and Zhu, Xuekai and Su, Haisheng and Yan, Junchi},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {10678--10688},
+  year      = {2026},
+  eprint    = {2505.16278},
+  archivePrefix = {arXiv},
+  note      = {Includes the Drive-pi0 baseline; code https://github.com/Thinklab-SJTU/DriveMoE (no licence file)}
+}
+
+@inproceedings{zhou2025autovla,
+  title     = {{AutoVLA}: A Vision-Language-Action Model for End-to-End Autonomous Driving with Adaptive Reasoning and Reinforcement Fine-Tuning},
+  author    = {Zhou, Zewei and Cai, Tianhui and Zhao, Seth Z. and Zhang, Yun and Huang, Zhiyu and Zhou, Bolei and Ma, Jiaqi},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2025},
+  eprint    = {2506.13757},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=Cxj4jZ7mRI}
+}
+
+@misc{autovla_code2026,
+  title        = {{AutoVLA}: Official Implementation and Checkpoints},
+  author       = {Zhou, Zewei and Cai, Tianhui and Zhao, Seth Z. and Zhang, Yun and Huang, Zhiyu and Zhou, Bolei and Ma, Jiaqi},
+  year         = {2026},
+  howpublished = {\url{https://github.com/ucla-mobility/AutoVLA}},
+  note         = {Code released 2026-02, checkpoint 2026-05 (https://huggingface.co/Zewei-Zhou/AutoVLA); UCLA Academic Software License; no CARLA/Bench2Drive code}
+}
+
+@inproceedings{fu2025orion,
+  title     = {{ORION}: A Holistic End-to-End Autonomous Driving Framework by Vision-Language Instructed Action Generation},
+  author    = {Fu, Haoyu and Zhang, Diankun and Zhao, Zongchuang and Cui, Jianfeng and Liang, Dingkang and Zhang, Chong and Zhang, Dingyuan and Xie, Hongwei and Wang, Bing and Bai, Xiang},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year      = {2025},
+  eprint    = {2503.19755},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{nguyen2026lead,
+  title     = {{LEAD}: Minimizing Learner-Expert Asymmetry in End-to-End Driving},
+  author    = {Nguyen, Long and Fauth, Micha and Jaeger, Bernhard and Dauner, Daniel and Igl, Maximilian and Geiger, Andreas and Chitta, Kashyap},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026},
+  eprint    = {2512.20563},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{jaeger2023hidden,
+  title     = {Hidden Biases of End-to-End Driving Models},
+  author    = {Jaeger, Bernhard and Chitta, Kashyap and Geiger, Andreas},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year      = {2023}
+}
+
+@inproceedings{zimmerlin2024hidden,
+  title     = {Hidden Biases of End-to-End Driving Datasets},
+  author    = {Zimmerlin, Julian and Bei{\ss}wenger, Jens and Jaeger, Bernhard and Geiger, Andreas and Chitta, Kashyap},
+  booktitle = {IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)},
+  year      = {2024}
+}
+
+@inproceedings{shao2024lmdrive,
+  title     = {{LMDrive}: Closed-Loop End-to-End Driving with Large Language Models},
+  author    = {Shao, Hao and Hu, Yuxuan and Wang, Letian and Waslander, Steven L. and Liu, Yu and Li, Hongsheng},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2024}
+}
+
+@inproceedings{jia2025drivetransformer,
+  title     = {{DriveTransformer}: Unified Transformer for Scalable End-to-End Autonomous Driving},
+  author    = {Jia, Xiaosong and You, Junqi and Zhang, Zhiyuan and Yan, Junchi},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025}
+}
+
+@inproceedings{drivevlm2024,
+  title     = {{DriveVLM}: The Convergence of Autonomous Driving and Large Vision-Language Models},
+  author    = {Tian, Xiaoyu and Gu, Junru and Li, Bailin and Liu, Yicheng and Wang, Yang and Zhao, Zhiyong and Zhan, Kun and Jia, Peng and Lang, Xianpeng and Zhao, Hang},
+  booktitle = {Proceedings of The 8th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {270},
+  pages     = {4698--4726},
+  publisher = {PMLR},
+  year      = {2024},
+  eprint    = {2402.12289},
+  archivePrefix = {arXiv},
+  note      = {No public code or weights as of 2026-09-28}
+}
+
+@inproceedings{sima2024drivelm,
+  title     = {{DriveLM}: Driving with Graph Visual Question Answering},
+  author    = {Sima, Chonghao and Renz, Katrin and Chitta, Kashyap and Chen, Li and Zhang, Hanxue and Xie, Chengen and Bei{\ss}wenger, Jens and Luo, Ping and Geiger, Andreas and Li, Hongyang},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  pages     = {256--274},
+  year      = {2024},
+  eprint    = {2312.14150},
+  archivePrefix = {arXiv}
+}
+
+@article{nvidia2025alpamayo,
+  title   = {{Alpamayo-R1}: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail},
+  author  = {{NVIDIA} and Wang, Yan and Luo, Wenjie and Bai, Junjie and others},
+  journal = {arXiv preprint arXiv:2511.00088},
+  year    = {2025},
+  note    = {Official citation from the NVlabs/alpamayo README (last author Marco Pavone); model renamed Alpamayo 1 in Jan 2026. Code: \url{https://github.com/NVlabs/alpamayo}; weights: nvidia/Alpamayo-R1-10B}
+}
+
+@inproceedings{jia2024bench2drive,
+  title     = {{Bench2Drive}: Towards Multi-Ability Benchmarking of Closed-Loop End-To-End Autonomous Driving},
+  author    = {Jia, Xiaosong and Yang, Zhenjie and Li, Qifeng and Zhang, Zhiyuan and Yan, Junchi},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS) Datasets and Benchmarks Track},
+  year      = {2024},
+  eprint    = {2406.03877},
+  archivePrefix = {arXiv},
+  note      = {CARLA 0.9.15; state the benchmark version (v0.0.3 vs v0.0.4) when reporting numbers}
+}
+
+@inproceedings{gerstenecker2026fail2drive,
+  title     = {{Fail2Drive}: Benchmarking Closed-Loop Driving Generalization},
+  author    = {Gerstenecker, Simon and Geiger, Andreas and Renz, Katrin},
+  booktitle = {IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year      = {2026},
+  eprint    = {2604.08535},
+  archivePrefix = {arXiv},
+  note      = {To appear. Code: https://github.com/autonomousvision/fail2drive}
+}
+
+@inproceedings{carla2017,
+  title     = {{CARLA}: An Open Urban Driving Simulator},
+  author    = {Dosovitskiy, Alexey and Ros, German and Codevilla, Felipe and Lopez, Antonio and Koltun, Vladlen},
+  booktitle = {Proceedings of the 1st Annual Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {78},
+  pages     = {1--16},
+  year      = {2017},
+  eprint    = {1711.03938},
+  archivePrefix = {arXiv}
+}
+
+@misc{carla_scenariorunner,
+  title        = {{ScenarioRunner} for {CARLA}},
+  author       = {{CARLA Team}},
+  howpublished = {\url{https://github.com/carla-simulator/scenario_runner}},
+  year         = {2019}
+}
+
+@article{zhai2023admlp,
+  title   = {Rethinking the Open-Loop Evaluation of End-to-End Autonomous Driving in {nuScenes}},
+  author  = {Zhai, Jiang-Tian and Feng, Ze and Du, Jinhao and Mao, Yongqiang and Liu, Jiang-Jiang and Tan, Zichang and Zhang, Yifu and Ye, Xiaoqing and Wang, Jingdong},
+  journal = {arXiv preprint arXiv:2305.10430},
+  year    = {2023}
+}
+
+@inproceedings{li2024egostatus,
+  title     = {Is Ego Status All You Need for Open-Loop End-to-End Autonomous Driving?},
+  author    = {Li, Zhiqi and Yu, Zhiding and Lan, Shiyi and Li, Jiahan and Kautz, Jan and Lu, Tong and Alvarez, Jose M.},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2024},
+  eprint    = {2312.03031},
+  archivePrefix = {arXiv}
+}
+
+% ------------------------------------------------------------------------------
+% 2. Mechanistic interpretability of VLAs / driving models (closest neighbours)
+% ------------------------------------------------------------------------------
+
+@article{batra2026mmdiff,
+  title   = {Multimodal Model Diffing for Feature Discovery and Control},
+  author  = {Batra, Hunar and Naghashyar, Lachin and Khakzar, Ashkan and Torr, Philip and Schroeder de Witt, Christian and Venhoff, Constantin and Clark, Ronald},
+  journal = {arXiv preprint arXiv:2608.09928},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2608.09928},
+  note    = {Batra and Naghashyar are equal-contribution first authors; author order follows the official repository BibTeX (arXiv digests list Naghashyar first) -- confirm on arXiv before camera-ready. Also an ICML 2026 workshop poster.}
+}
+
+@misc{majumdar2026card,
+  title         = {{CARD}: Diagnosing Belief to Action Routing Failures in Vision Language Models},
+  author        = {Majumdar, Souptik Kumar and K{\"o}gel, Fabian and Bulling, Andreas},
+  year          = {2026},
+  eprint        = {2608.20763},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2608.20763},
+  note          = {arXiv preprint (v1 21 Aug 2026); not an AAAI 2026 paper}
+}
+
+@article{buurmeijer2026observing,
+  title   = {Observing and Controlling Features in Vision-Language-Action Models},
+  author  = {Buurmeijer, Hugo and Amo Alonso, Carmen and Swann, Aiden and Pavone, Marco},
+  journal = {arXiv preprint arXiv:2603.05487},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2603.05487},
+  note    = {v1 Mar 2026 (OpenVLA, pi0.5); v2 Sep 2026 reports four VLAs}
+}
+
+@inproceedings{swann2026sparse,
+  title     = {Sparse Autoencoders Reveal Interpretable and Steerable Features in {VLA} Models},
+  author    = {Swann, Aiden and McGranahan, Lachlain and Buurmeijer, Hugo and Kennedy III, Monroe and Schwager, Mac},
+  booktitle = {Conference on Robot Learning (CoRL)},
+  year      = {2026},
+  eprint    = {2603.19183},
+  archivePrefix = {arXiv},
+  note      = {Venue per the authors' repository (https://github.com/swannaiden/drvla)}
+}
+
+@article{jin2026eventsae,
+  title   = {Event-Grounded Sparse Autoencoders for Vision-Language-Action Policies},
+  author  = {Jin, Xinchen and Chatterjee, Aditya and Kumar, Pranav and Paleja, Rohan},
+  journal = {arXiv preprint arXiv:2605.17204},
+  year    = {2026}
+}
+
+@article{grant2026notall,
+  title   = {Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models},
+  author  = {Grant, Bryce and Zhao, Xijia and Wang, Peng},
+  journal = {arXiv preprint arXiv:2603.19233},
+  year    = {2026}
+}
+
+@inproceedings{haon2025mechanistic,
+  title     = {Mechanistic Interpretability for Steering Vision-Language-Action Models},
+  author    = {H{\"a}on, Bear and Stocking, Kaylene Caswell and Chuang, Ian and Tomlin, Claire},
+  booktitle = {Proceedings of the 9th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {305},
+  year      = {2025},
+  eprint    = {2509.00328},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=YvsUD8C9QS}
+}
+
+@article{motzkus2026driving,
+  title   = {Driving the Wrong Way: Leveraging Interpretability in End2End Autonomous Driving Models},
+  author  = {Motzkus, Franz and Bernhard, Sebastian},
+  journal = {arXiv preprint arXiv:2607.06328},
+  year    = {2026}
+}
+
+@inproceedings{tas2025words,
+  title     = {Words in Motion: Extracting Interpretable Control Vectors for Motion Transformers},
+  author    = {Tas, Omer Sahin and Wagner, Royden},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2406.11624},
+  archivePrefix = {arXiv}
+}
+
+@article{babu2026depthwise,
+  title   = {Depth-Wise Probing and Pruning of the Planning Token in a Driving Vision-Language-Action Model},
+  author  = {Babu, Harisankar and Coors, Benjamin and Lang, Christopher and Berkemeyer, Hendrik and Asfour, Tamim and Foell, Simon},
+  journal = {arXiv preprint arXiv:2608.07361},
+  year    = {2026}
+}
+
+@article{panda2026whatdotheysee,
+  title   = {What Do They See? Interpreting Complex Road Scenarios Through the Eyes of Vision-Language-Action Models for Safe and Trustworthy Autonomous Vehicle Learning},
+  author  = {Panda, Kalpana and Maia, Wesley and Agarwal, Vinti and Greer, Ross},
+  journal = {arXiv preprint arXiv:2607.16938},
+  year    = {2026}
+}
+
+@article{joseph2025prisma,
+  title   = {Prisma: An Open Source Toolkit for Mechanistic Interpretability in Vision and Video},
+  author  = {Joseph, Sonia and Suresh, Praneet and Hufe, Lorenz and Stevinson, Edward and Graham, Robert and Vadi, Yash and Bzdok, Danilo and Lapuschkin, Sebastian and Sharkey, Lee and Richards, Blake Aaron},
+  journal = {arXiv preprint arXiv:2504.19475},
+  year    = {2025}
+}
+
+@misc{chen2026longtailsae,
+  title        = {Long-Tail Driving Scene Discovery (tail-guided sparse autoencoder on a driving VLM)},
+  author       = {Chen, Yike and Chen, Zihua and Zhao, Yusong},
+  year         = {2026},
+  howpublished = {GitHub repository, \url{https://github.com/CCC917111/long-tail-driving-scene-discovery}},
+  note         = {Student capstone (CUHK-Shenzhen), not peer reviewed; tracked as a prior-art signal only}
+}
+
+% ------------------------------------------------------------------------------
+% 3. Sparse autoencoders, steering, probing and clustering methods
+% ------------------------------------------------------------------------------
+
+@article{bricken2023towards,
+  title   = {Towards Monosemanticity: Decomposing Language Models With Dictionary Learning},
+  author  = {Bricken, Trenton and Templeton, Adly and Batson, Joshua and Chen, Brian and Jermyn, Adam and Conerly, Tom and Turner, Nick and Anil, Cem and Denison, Carson and Askell, Amanda and Lasenby, Robert and Wu, Yifan and Kravec, Shauna and Schiefer, Nicholas and Maxwell, Tim and Joseph, Nicholas and Hatfield-Dodds, Zac and Tamkin, Alex and Nguyen, Karina and McLean, Brayden and Burke, Josiah E. and Hume, Tristan and Carter, Shan and Henighan, Tom and Olah, Christopher},
+  journal = {Transformer Circuits Thread},
+  year    = {2023},
+  url     = {https://transformer-circuits.pub/2023/monosemantic-features}
+}
+
+@inproceedings{gao2024scaling,
+  title     = {Scaling and Evaluating Sparse Autoencoders},
+  author    = {Gao, Leo and Dupr{\'e} la Tour, Tom and Tillman, Henk and Goh, Gabriel and Troll, Rajan and Radford, Alec and Sutskever, Ilya and Leike, Jan and Wu, Jeffrey},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2406.04093},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=tcsZt9ZNKD}
+}
+
+@article{rajamanoharan2024jumprelu,
+  title   = {Jumping Ahead: Improving Reconstruction Fidelity with {JumpReLU} Sparse Autoencoders},
+  author  = {Rajamanoharan, Senthooran and Lieberum, Tom and Sonnerat, Nicolas and Conmy, Arthur and Varma, Vikrant and Kram{\'a}r, J{\'a}nos and Nanda, Neel},
+  journal = {arXiv preprint arXiv:2407.14435},
+  year    = {2024}
+}
+
+@inproceedings{rajamanoharan2024gated,
+  title     = {Improving Sparse Decomposition of Language Model Activations with Gated Sparse Autoencoders},
+  author    = {Rajamanoharan, Senthooran and Conmy, Arthur and Smith, Lewis and Lieberum, Tom and Varma, Vikrant and Kram{\'a}r, J{\'a}nos and Shah, Rohin and Nanda, Neel},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {37},
+  year      = {2024},
+  note      = {arXiv:2404.16014, titled 'Improving Dictionary Learning with Gated Sparse Autoencoders'}
+}
+
+@misc{bloom2024saelens,
+  title        = {{SAELens}},
+  author       = {Bloom, Joseph and Tigges, Curt and Duong, Anthony and Chanin, David},
+  year         = {2024},
+  howpublished = {\url{https://github.com/decoderesearch/SAELens}}
+}
+
+@article{lindsey2024crosscoders,
+  title   = {Sparse Crosscoders for Cross-Layer Features and Model Diffing},
+  author  = {Lindsey, Jack and Templeton, Adly and Marcus, Jonathan and Conerly, Thomas and Batson, Joshua and Olah, Christopher},
+  journal = {Transformer Circuits Thread},
+  year    = {2024},
+  url     = {https://transformer-circuits.pub/2024/crosscoders/index.html}
+}
+
+@article{turner2023actadd,
+  title   = {Steering Language Models With Activation Engineering},
+  author  = {Turner, Alexander Matt and Thiergart, Lisa and Leech, Gavin and Udell, David and Vazquez, Juan J. and Mini, Ulisse and MacDiarmid, Monte},
+  journal = {arXiv preprint arXiv:2308.10248},
+  year    = {2023},
+  note    = {Earlier versions titled 'Activation Addition: Steering Language Models Without Optimization'}
+}
+
+@inproceedings{rimsky2024caa,
+  title     = {Steering {L}lama 2 via Contrastive Activation Addition},
+  author    = {Rimsky, Nina and Gabrieli, Nick and Schulz, Julian and Tong, Meg and Hubinger, Evan and Turner, Alexander Matt},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {15504--15522},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.828},
+  note      = {First author now listed as Nina Panickssery in the ACL Anthology}
+}
+
+@inproceedings{alain2016probes,
+  title     = {Understanding Intermediate Layers Using Linear Classifier Probes},
+  author    = {Alain, Guillaume and Bengio, Yoshua},
+  booktitle = {International Conference on Learning Representations (ICLR), Workshop Track},
+  year      = {2017},
+  eprint    = {1610.01644},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{campello2013hdbscan,
+  title     = {Density-Based Clustering Based on Hierarchical Density Estimates},
+  author    = {Campello, Ricardo J. G. B. and Moulavi, Davoud and Sander, J{\"o}rg},
+  booktitle = {Advances in Knowledge Discovery and Data Mining (PAKDD)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {7819},
+  pages     = {160--172},
+  publisher = {Springer},
+  year      = {2013},
+  doi       = {10.1007/978-3-642-37456-2_14}
+}
+
+@article{mcinnes2017hdbscan,
+  title   = {hdbscan: Hierarchical density based clustering},
+  author  = {McInnes, Leland and Healy, John and Astels, Steve},
+  journal = {The Journal of Open Source Software},
+  volume  = {2},
+  number  = {11},
+  pages   = {205},
+  year    = {2017},
+  doi     = {10.21105/joss.00205}
+}
+
+@article{kuhn1955hungarian,
+  title   = {The {H}ungarian Method for the Assignment Problem},
+  author  = {Kuhn, Harold W.},
+  journal = {Naval Research Logistics Quarterly},
+  volume  = {2},
+  number  = {1--2},
+  pages   = {83--97},
+  year    = {1955},
+  doi     = {10.1002/nav.3800020109}
+}
+
+% ------------------------------------------------------------------------------
+% 4. Robot VLAs, failure detection, red-teaming and scenario generation
+%    NOTE: most of the "failure" papers below are MANIPULATION papers, and several
+%    are 2025-2026 preprints; the pre-audit entries had wrong titles/venues.
+% ------------------------------------------------------------------------------
+
+@inproceedings{roboart2025,
+  title     = {Predictive Red Teaming: Breaking Policies Without Breaking Robots},
+  author    = {Majumdar, Anirudha and Sharma, Mohit and Kalashnikov, Dmitry and Singh, Sumeet and Sermanet, Pierre and Sindhwani, Vikas},
+  booktitle = {Proceedings of The 9th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {305},
+  pages     = {1615--1635},
+  publisher = {PMLR},
+  year      = {2025},
+  eprint    = {2502.06575},
+  archivePrefix = {arXiv},
+  note      = {RoboART is the name of the pipeline; manipulation (bimanual Kuka, diffusion policies); no code released}
+}
+
+@inproceedings{safe2025,
+  title     = {{SAFE}: Multitask Failure Detection for Vision-Language-Action Models},
+  author    = {Gu, Qiao and Ju, Yuanliang and Sun, Shengxiang and Gilitschenski, Igor and Nishimura, Haruki and Itkina, Masha and Shkurti, Florian},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {38},
+  pages     = {40041--40076},
+  year      = {2025},
+  eprint    = {2506.09937},
+  archivePrefix = {arXiv}
+}
+
+@article{vlafail2025,
+  title   = {{VLA-FAIL}: Efficient Task Failure Detection for Finetuned Vision-Language-Action Models},
+  author  = {Seligmann, Florian and Gospodinov, Emiliyan and Dincer, Enes Ulas and Neumann, Gerhard},
+  journal = {arXiv preprint arXiv:2606.21386},
+  year    = {2026},
+  note    = {Key kept for compatibility; this is a 2026 manipulation preprint}
+}
+
+@article{probeact2025,
+  title   = {{ProbeAct}: Probe-Guided Training-Free Failure Recovery in Vision-Language-Action Models},
+  author  = {Zhang, Fan and Park, Seongbin and Mirzasoleiman, Baharan and Talebi, Shahriar and Sehatbakhsh, Nader},
+  journal = {arXiv preprint arXiv:2606.09740},
+  year    = {2026},
+  note    = {Key kept for compatibility; not a CVPR 2025 paper}
+}
+
+@inproceedings{ifailsense2025,
+  title     = {{I-FailSense}: Towards General Robotic Failure Detection with Vision-Language Models},
+  author    = {Grislain, Clemence and Rahimi, Hamed and Sigaud, Olivier and Chetouani, Mohamed},
+  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  year      = {2026},
+  eprint    = {2509.16072},
+  archivePrefix = {arXiv}
+}
+
+@article{reasonbreak2025,
+  title   = {{ReasonBreak}: Probing Vulnerabilities in Reasoning-Enabled Vision-Language-Action Models for Autonomous Driving},
+  author  = {Teymoorianfard, Mohammadreza and Monteuuis, Jean-Philippe and Petit, Jonathan and Houmansadr, Amir},
+  journal = {arXiv preprint arXiv:2605.29114},
+  year    = {2026},
+  note    = {Key kept for compatibility; not a NeurIPS 2025 paper. Unrelated to the ICLR 2026 geo-privacy paper also named ReasonBreak.}
+}
+
+@article{resample2024,
+  title   = {{RESample}: A Robust Data Augmentation Framework via Exploratory Sampling for Robotic Manipulation},
+  author  = {Xue, Yuquan and Lu, Guanxing and Wu, Zhenyu and Zhang, Chuanrui and Jia, Bofang and Gu, Zhengyi and Wang, Ziwei},
+  journal = {arXiv preprint arXiv:2510.17640},
+  year    = {2025},
+  note    = {Key kept for compatibility; not an ICRA 2024 paper}
+}
+
+@inproceedings{robomonkey2025,
+  title     = {{RoboMonkey}: Scaling Test-Time Sampling and Verification for Vision-Language-Action Models},
+  author    = {Kwok, Jacky and Agia, Christopher and Sinha, Rohan and Foutter, Matt and Li, Shulu and Stoica, Ion and Mirhoseini, Azalia and Pavone, Marco},
+  booktitle = {Proceedings of The 9th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {305},
+  pages     = {3200--3217},
+  publisher = {PMLR},
+  year      = {2025},
+  eprint    = {2506.17811},
+  archivePrefix = {arXiv}
+}
+
+@article{rover2025,
+  title   = {{RoVer}: Robot Reward Model as Test-Time Verifier for Vision-Language-Action Model},
+  author  = {Dai, Mingtong and Liu, Lingbo and Bai, Yongjie and Liu, Yang and Wang, Zhouxia and Su, Rui and Chen, Chunjie and Lin, Liang and Wu, Xinyu},
+  journal = {arXiv preprint arXiv:2510.10975},
+  year    = {2025}
+}
+
+@inproceedings{kim2024openvla,
+  title     = {{OpenVLA}: An Open-Source Vision-Language-Action Model},
+  author    = {Kim, Moo Jin and Pertsch, Karl and Karamcheti, Siddharth and Xiao, Ted and Balakrishna, Ashwin and Nair, Suraj and Rafailov, Rafael and Foster, Ethan P. and Sanketi, Pannag R. and Vuong, Quan and Kollar, Thomas and Burchfiel, Benjamin and Tedrake, Russ and Sadigh, Dorsa and Levine, Sergey and Liang, Percy and Finn, Chelsea},
+  booktitle = {Proceedings of The 8th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {270},
+  pages     = {2679--2713},
+  publisher = {PMLR},
+  year      = {2024},
+  eprint    = {2406.09246},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{octo2024,
+  title     = {Octo: An Open-Source Generalist Robot Policy},
+  author    = {{Octo Model Team} and Ghosh, Dibya and Walke, Homer and Pertsch, Karl and Black, Kevin and Mees, Oier and Dasari, Sudeep and Hejna, Joey and Xu, Charles and Luo, Jianlan and Kreiman, Tobias and Tan, You Liang and Sanketi, Pannag and Vuong, Quan and Xiao, Ted and Sadigh, Dorsa and Finn, Chelsea and Levine, Sergey},
+  booktitle = {Proceedings of Robotics: Science and Systems (RSS)},
+  year      = {2024},
+  eprint    = {2405.12213},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{brohan2023rt2,
+  title     = {{RT-2}: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control},
+  author    = {Brohan, Anthony and Brown, Noah and Carbajal, Justice and Chebotar, Yevgen and Chen, Xi and Choromanski, Krzysztof and Ding, Tianli and Driess, Danny and Dubey, Avinava and Finn, Chelsea and others},
+  booktitle = {Proceedings of The 7th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {229},
+  pages     = {2165--2183},
+  publisher = {PMLR},
+  year      = {2023},
+  eprint    = {2307.15818},
+  archivePrefix = {arXiv}
+}
+
+@article{black2024pi0,
+  title   = {$\pi_0$: A Vision-Language-Action Flow Model for General Robot Control},
+  author  = {Black, Kevin and Brown, Noah and Driess, Danny and others},
+  journal = {arXiv preprint arXiv:2410.24164},
+  year    = {2024}
+}
+
+@inproceedings{chen2026vilta,
+  title     = {{VILTA}: A {VLM}-in-the-Loop Adversary for Enhancing Driving Policy Robustness},
+  author    = {Chen, Qimao and Li, Fang and Xu, Shaoqing and Lai, Zhiyi and Xie, Zixun and Luo, Yuechen and Jiang, Shengyin and Li, Hanbing and Chen, Long and Wang, Bing and Zhang, Yi and Yang, Zhi-Xin},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {40},
+  number    = {4},
+  pages     = {2984--2992},
+  year      = {2026},
+  doi       = {10.1609/aaai.v40i4.37290},
+  eprint    = {2601.12672},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{luo2026elfvla,
+  title     = {Unleashing {VLA} Potentials in Autonomous Driving via Explicit Learning from Failures},
+  author    = {Luo, Yuechen and Chen, Qimao and Li, Fang and Xu, Shaoqing and Liu, Jaxin and Song, Ziying and Yang, Zhi-xin and Wen, Fuxi},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026},
+  eprint    = {2603.01063},
+  archivePrefix = {arXiv},
+  note      = {Author order follows arXiv; CVF listing differs. 'Jaxin Liu' spelling unverified. Check the CVF PDF before camera-ready.}
+}
+
+@inproceedings{hanselmann2022king,
+  title     = {{KING}: Generating Safety-Critical Driving Scenarios for Robust Imitation via Kinematics Gradients},
+  author    = {Hanselmann, Niklas and Renz, Katrin and Chitta, Kashyap and Bhattacharyya, Apratim and Geiger, Andreas},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2022},
+  doi       = {10.1007/978-3-031-19839-7_20},
+  eprint    = {2204.13683},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{wang2021advsim,
+  title     = {{AdvSim}: Generating Safety-Critical Scenarios for Self-Driving Vehicles},
+  author    = {Wang, Jingkang and Pun, Ava and Tu, James and Manivasagam, Sivabalan and Sadat, Abbas and Casas, Sergio and Ren, Mengye and Urtasun, Raquel},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {9904--9913},
+  year      = {2021},
+  doi       = {10.1109/CVPR46437.2021.00978}
+}
+
+@inproceedings{zhang2023cat,
+  title     = {{CAT}: Closed-loop Adversarial Training for Safe End-to-End Driving},
+  author    = {Zhang, Linrui and Peng, Zhenghao and Li, Quanyi and Zhou, Bolei},
+  booktitle = {Proceedings of The 7th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {229},
+  pages     = {2357--2372},
+  publisher = {PMLR},
+  year      = {2023}
+}
+
+@inproceedings{zhang2024chatscene,
+  title     = {{ChatScene}: Knowledge-Enabled Safety-Critical Scenario Generation for Autonomous Vehicles},
+  author    = {Zhang, Jiawei and Xu, Chejian and Li, Bo},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {15459--15469},
+  year      = {2024},
+  eprint    = {2405.14062},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{zhong2023ctgplusplus,
+  title     = {Language-Guided Traffic Simulation via Scene-Level Diffusion},
+  author    = {Zhong, Ziyuan and Rempe, Davis and Chen, Yuxiao and Ivanovic, Boris and Cao, Yulong and Xu, Danfei and Pavone, Marco and Ray, Baishakhi},
+  booktitle = {Proceedings of The 7th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {229},
+  pages     = {144--177},
+  publisher = {PMLR},
+  year      = {2023},
+  eprint    = {2306.06344},
+  archivePrefix = {arXiv},
+  note      = {CTG++; operates on nuScenes-style data, not CARLA}
+}
+
+@inproceedings{wang2024chatsim,
+  title     = {Editable Scene Simulation for Autonomous Driving via Collaborative {LLM}-Agents},
+  author    = {Wei, Yuxi and Wang, Zi and Lu, Yifan and Xu, Chenxin and Liu, Changxing and Zhao, Hao and Chen, Siheng and Wang, Yanfeng},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {15077--15087},
+  year      = {2024},
+  eprint    = {2402.05746},
+  archivePrefix = {arXiv},
+  note      = {ChatSim; edits Waymo scene reconstructions, not CARLA. Key kept for compatibility (first author is Wei).}
+}
+
+@inproceedings{agia2025cupid,
+  title     = {{CUPID}: Curating Data your Robot Loves with Influence Functions},
+  author    = {Agia, Christopher and Sinha, Rohan and Yang, Jingyun and Antonova, Rika and Pavone, Marco and Nishimura, Haruki and Itkina, Masha and Bohg, Jeannette},
+  booktitle = {Conference on Robot Learning (CoRL)},
+  year      = {2025},
+  eprint    = {2506.19121},
+  archivePrefix = {arXiv}
+}
+
+@article{corso2021survey,
+  title   = {A Survey of Algorithms for Black-Box Safety Validation of Cyber-Physical Systems},
+  author  = {Corso, Anthony and Moss, Robert J. and Koren, Mark and Lee, Ritchie and Kochenderfer, Mykel J.},
+  journal = {Journal of Artificial Intelligence Research},
+  volume  = {72},
+  pages   = {377--428},
+  year    = {2021},
+  doi     = {10.1613/jair.1.12716}
+}
+
+% ------------------------------------------------------------------------------
+% 5. Slice discovery methods
+% ------------------------------------------------------------------------------
+
+@inproceedings{eyuboglu2022domino,
+  title     = {Domino: Discovering Systematic Errors with Cross-Modal Embeddings},
+  author    = {Eyuboglu, Sabri and Varma, Maya and Saab, Khaled and Delbrouck, Jean-Benoit and Lee-Messer, Christopher and Dunnmon, Jared and Zou, James and R{\'e}, Christopher},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2022},
+  eprint    = {2203.14960},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=FPCMqjI0jXN}
+}
+
+@inproceedings{deon2022spotlight,
+  title     = {The Spotlight: A General Method for Discovering Systematic Errors in Deep Learning Models},
+  author    = {d'Eon, Greg and d'Eon, Jason and Wright, James R. and Leyton-Brown, Kevin},
+  booktitle = {Proceedings of the 2022 ACM Conference on Fairness, Accountability, and Transparency (FAccT)},
+  pages     = {1962--1981},
+  year      = {2022},
+  doi       = {10.1145/3531146.3533240},
+  eprint    = {2107.00758},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{sohoni2020george,
+  title     = {No Subclass Left Behind: Fine-Grained Robustness in Coarse-Grained Classification Problems},
+  author    = {Sohoni, Nimit S. and Dunnmon, Jared A. and Angus, Geoffrey and Gu, Albert and R{\'e}, Christopher},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  pages     = {19339--19352},
+  year      = {2020},
+  eprint    = {2011.12945},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{sagadeeva2021sliceline,
+  title     = {{SliceLine}: Fast, Linear-Algebra-based Slice Finding for {ML} Model Debugging},
+  author    = {Sagadeeva, Svetlana and Boehm, Matthias},
+  booktitle = {Proceedings of the 2021 International Conference on Management of Data (SIGMOD)},
+  pages     = {2290--2299},
+  year      = {2021},
+  doi       = {10.1145/3448016.3457323}
+}
+
+% ------------------------------------------------------------------------------
+% 6. Fine-tuning, RL fine-tuning and continual learning
+% ------------------------------------------------------------------------------
+
+@inproceedings{hu2022lora,
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2022},
+  url       = {https://openreview.net/forum?id=nZeVKeeFYf9}
+}
+
+@article{shao2024deepseekmath,
+  title   = {{DeepSeekMath}: Pushing the Limits of Mathematical Reasoning in Open Language Models},
+  author  = {Shao, Zhihong and Wang, Peiyi and Zhu, Qihao and Xu, Runxin and Song, Junxiao and Bi, Xiao and Zhang, Haowei and Zhang, Mingchuan and Li, Y. K. and Wu, Y. and Guo, Daya},
+  journal = {arXiv preprint arXiv:2402.03300},
+  year    = {2024},
+  note    = {Introduces GRPO}
+}
+
+@inproceedings{rolnick2019replay,
+  title     = {Experience Replay for Continual Learning},
+  author    = {Rolnick, David and Ahuja, Arun and Schwarz, Jonathan and Lillicrap, Timothy and Wayne, Gregory},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {32},
+  year      = {2019},
+  eprint    = {1811.11682},
+  archivePrefix = {arXiv}
+}
+
+@article{kirkpatrick2017ewc,
+  title   = {Overcoming Catastrophic Forgetting in Neural Networks},
+  author  = {Kirkpatrick, James and Pascanu, Razvan and Rabinowitz, Neil and Veness, Joel and Desjardins, Guillaume and Rusu, Andrei A. and Milan, Kieran and Quan, John and Ramalho, Tiago and Grabska-Barwinska, Agnieszka and Hassabis, Demis and Clopath, Claudia and Kumaran, Dharshan and Hadsell, Raia},
+  journal = {Proceedings of the National Academy of Sciences},
+  volume  = {114},
+  number  = {13},
+  pages   = {3521--3526},
+  year    = {2017},
+  doi     = {10.1073/pnas.1611835114}
+}
+
+@misc{chen2026phaser,
+  title         = {{PHASER}: Phase-Aware and Semantic Experience Replay for Vision-Language-Action Models},
+  author        = {Chen, Ziyang and Wang, Shaoguang and Guo, Weiyu and Cai, Qianyi and Zhang, He and Li, Pengteng and Zhao, Yiren and Guo, Yandong},
+  year          = {2026},
+  eprint        = {2606.03598},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  note          = {Manipulation (LIBERO) continual learning; no public code as of 2026-09-28}
+}
+
+% ------------------------------------------------------------------------------
+% 7. Industrial data engines (cite as misc entries: talks and blogs)
+% ------------------------------------------------------------------------------
+
+@misc{mobileye2026meteor,
+  title        = {Diagnosing the Long Tail: How {Mobileye} Turns Edge Cases into Targeted Training},
+  author       = {{Mobileye}},
+  howpublished = {Mobileye Blog, \url{https://www.mobileye.com/blog/diagnosing-the-long-tail-how-mobileye-turns-edge-cases-into-targeted-training/}},
+  year         = {2026},
+  month        = may,
+  note         = {Published May 27, 2026; describes Meteor (data mining) and Genario (scenario generation). Accessed 2026-09-28.}
+}
+
+@misc{shalevshwartz2026drivinglongtail,
+  title        = {Driving the Long Tail: Efficient Scaling via Automatic Scenario Discovery},
+  author       = {Shalev-Shwartz, Shai and Shashua, Amnon},
+  howpublished = {Mobileye Opinion, \url{https://www.mobileye.com/opinion/driving-the-long-tail/}},
+  year         = {2026},
+  note         = {Accessed 2026-09-28; verify exact publication date on the page}
+}
+
+@misc{shalevshwartz2026wadkeynote,
+  title        = {Driving the Long Tail: Efficient Scaling via Automatic Scenario Discovery},
+  author       = {Shalev-Shwartz, Shai},
+  howpublished = {Keynote, CVPR 2026 Workshop on Autonomous Driving (WAD), Denver, CO},
+  year         = {2026},
+  month        = jun,
+  note         = {June 3, 2026}
+}
+
+@misc{tesla2019autonomyday,
+  title        = {Tesla Autonomy Day},
+  author       = {{Tesla, Inc.}},
+  howpublished = {Investor event livestream (talks by A. Karpathy, P. Bannon, E. Musk), Palo Alto, CA},
+  year         = {2019},
+  month        = apr,
+  note         = {April 22, 2019. Video: \url{https://www.youtube.com/live/Ucp0TTmvqOE}}
+}
+
+@misc{karpathy2020scaledml,
+  title        = {{AI} for Full-Self Driving at {Tesla}},
+  author       = {Karpathy, Andrej},
+  howpublished = {Talk, ScaledML Conference 2020},
+  year         = {2020},
+  note         = {Video: \url{https://www.youtube.com/watch?v=hx7BXih7zx8}}
+}
+
+@misc{karpathy2020cvprscalability,
+  title        = {Keynote Talk, {CVPR} 2020 Workshop on Scalability in Autonomous Driving},
+  author       = {Karpathy, Andrej},
+  howpublished = {IEEE/CVF CVPR 2020 Workshops, virtual},
+  year         = {2020},
+  month        = jun,
+  note         = {Video: \url{https://www.youtube.com/watch?v=X2CpuabzRaY}}
+}
+
+@misc{karpathy2021cvprwad,
+  title        = {Keynote Talk, {CVPR} 2021 Workshop on Autonomous Driving ({WAD})},
+  author       = {Karpathy, Andrej},
+  howpublished = {IEEE/CVF CVPR 2021 Workshop on Autonomous Driving, virtual},
+  year         = {2021},
+  month        = jun,
+  note         = {June 20, 2021 (221 manually implemented triggers). Video: \url{https://www.youtube.com/watch?v=g6bOwQdCJrc}}
+}
+
+@misc{tesla2021aiday,
+  title        = {Tesla {AI} Day 2021},
+  author       = {{Tesla, Inc.}},
+  howpublished = {Livestream event},
+  year         = {2021},
+  month        = aug,
+  note         = {August 19, 2021. Video: \url{https://www.youtube.com/watch?v=j0z4FweCy4M}}
+}
+
+@inproceedings{liang2024aide,
+  title     = {{AIDE}: An Automatic Data Engine for Object Detection in Autonomous Driving},
+  author    = {Liang, Mingfu and Su, Jong-Chyi and Schulter, Samuel and Garg, Sparsh and Zhao, Shiyu and Wu, Ying and Chandraker, Manmohan},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2024},
+  eprint    = {2403.17373},
+  archivePrefix = {arXiv}
+}
+
+% ------------------------------------------------------------------------------
+% 8. Honda Research Institute USA datasets (request-only, non-commercial)
+% ------------------------------------------------------------------------------
+
+@inproceedings{malla2023drama,
+  title     = {{DRAMA}: Joint Risk Localization and Captioning in Driving},
+  author    = {Malla, Srikanth and Choi, Chiho and Dwivedi, Isht and Choi, Joon Hee and Li, Jiachen},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  pages     = {1043--1052},
+  year      = {2023},
+  eprint    = {2209.10767},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{ramanishka2018hdd,
+  title     = {Toward Driving Scene Understanding: A Dataset for Learning Driver Behavior and Causal Reasoning},
+  author    = {Ramanishka, Vasili and Chen, Yi-Ting and Misu, Teruhisa and Saenko, Kate},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {7699--7707},
+  year      = {2018}
+}
+
+@inproceedings{kim2019had,
+  title     = {Grounding Human-to-Vehicle Advice for Self-driving Vehicles},
+  author    = {Kim, Jinkyu and Misu, Teruhisa and Chen, Yi-Ting and Tawari, Ashish and Canny, John},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {10583--10591},
+  year      = {2019},
+  doi       = {10.1109/CVPR.2019.01084}
+}
+
+@inproceedings{sachdeva2024rank2tell,
+  title     = {{Rank2Tell}: A Multimodal Driving Dataset for Joint Importance Ranking and Reasoning},
+  author    = {Sachdeva, Enna and Agarwal, Nakul and Chundi, Suhas and Roelofs, Sean and Li, Jiachen and Kochenderfer, Mykel and Choi, Chiho and Dariush, Behzad},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  pages     = {7513--7522},
+  year      = {2024},
+  eprint    = {2309.06597},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{godbole2025dramax,
+  title     = {{DRAMA-X}: A Fine-grained Intent Prediction and Risk Reasoning Benchmark For Driving},
+  author    = {Godbole, Mihir and Gao, Xiangbo and Tu, Zhengzhong},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
+  year      = {2025},
+  eprint    = {2506.17590},
+  archivePrefix = {arXiv}
+}
+
+% ------------------------------------------------------------------------------
+% 9. Track A background: open-question discovery and self-critique
+% ------------------------------------------------------------------------------
+
+@misc{neurips2026interp4discovery,
+  title        = {Interpretability for Discovery: Understanding and Discovering Novel Knowledge in {AI} Models},
+  author       = {Bai, Xiaoyan and Belinkov, Yonatan and Lubana, Ekdeep Singh and Nikankin, Yaniv and Tan, Chenhao and {Amirtha Varshini A S}},
+  howpublished = {NeurIPS 2026 Workshop, Atlanta, GA, USA, \url{https://interpretability4discovery.github.io/}},
+  year         = {2026},
+  note         = {Non-archival; submission deadline 2 Sep 2026 (passed)}
+}
+
+@misc{evidence2026backtest,
+  title         = {Evidence-Based Scientific Question Discovery: A Framework with Historical Backtesting},
+  author        = {Mao, Hui},
+  year          = {2026},
+  eprint        = {2608.09968},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.DL},
+  note          = {The previously listed id 2608.01234 is an unrelated paper}
+}
+
+@article{lu2024aiscientist,
+  title   = {The {AI} {S}cientist: Towards Fully Automated Open-Ended Scientific Discovery},
+  author  = {Lu, Chris and Lu, Cong and Lange, Robert Tjarko and Foerster, Jakob and Clune, Jeff and Ha, David},
+  journal = {arXiv preprint arXiv:2408.06292},
+  year    = {2024}
+}
+
+@inproceedings{wang2024scimon,
+  title     = {{SciMON}: Scientific Inspiration Machines Optimized for Novelty},
+  author    = {Wang, Qingyun and Downey, Doug and Ji, Heng and Hope, Tom},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {279--299},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.18}
+}
+
+@inproceedings{shinn2023reflexion,
+  title     = {Reflexion: Language Agents with Verbal Reinforcement Learning},
+  author    = {Shinn, Noah and Cassano, Federico and Gopinath, Ashwin and Narasimhan, Karthik and Yao, Shunyu},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {36},
+  pages     = {8634--8652},
+  year      = {2023},
+  eprint    = {2303.11366},
+  archivePrefix = {arXiv}
+}
+
+@inproceedings{madaan2023selfrefine,
+  title     = {Self-Refine: Iterative Refinement with Self-Feedback},
+  author    = {Madaan, Aman and Tandon, Niket and Gupta, Prakhar and Hallinan, Skyler and Gao, Luyu and Wiegreffe, Sarah and Alon, Uri and Dziri, Nouha and Prabhumoye, Shrimai and Yang, Yiming and Gupta, Shashank and Majumder, Bodhisattwa Prasad and Hermann, Katherine and Welleck, Sean and Yazdanbakhsh, Amir and Clark, Peter},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {36},
+  pages     = {46534--46594},
+  year      = {2023},
+  eprint    = {2303.17651},
+  archivePrefix = {arXiv}
+}

@@ -1,0 +1,31 @@
+# Planted-gap answer key — never commit
+gaps/sealed/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Experiment outputs
+outputs/
+runs/
+checkpoints/
+*.ckpt
+*.pt
+wandb/
+mlruns/
+
+# Data, rollouts, activations (keep manifests, not blobs)
+data/
+rollouts/
+activations/
+*.h5
+*.npz
+*.zarr/
+
+# Local
+.env
+.DS_Store

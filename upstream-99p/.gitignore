@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Experiment outputs
+outputs/
+runs/
+checkpoints/
+*.ckpt
+*.pt
+wandb/
+mlruns/
+
+# Data and rollouts (keep manifests, not blobs)
+data/
+rollouts/
+activations/
+*.h5
+*.npz
+
+# Local
+.env
+.DS_Store
+
+# Planted-gap answer key (P4 only; never commit)
+sealed/
