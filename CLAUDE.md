@@ -39,6 +39,34 @@ is the point.
 Good: `add ray back for rollout fan-out`, `fix sbatch directive placement`.
 Bad: multi-paragraph rationale, trailing attribution, past tense.
 
+## Don't over-code
+
+The failure mode in this repo is writing code nobody asked for. A file that
+exists because a spec mentioned it, a wrapper for a one-line command, a stub that
+prints "not yet implemented" — all of that is cost with no benefit, and it has
+already happened here once (`scripts/run_rollout.sh`, deleted).
+
+Rules:
+
+- **Write code when a decision is already made and the work is mechanical.**
+  Scoring arithmetic, schema validation, a CI guard — yes. Scaffolding for a step
+  that is blocked — no.
+- **No stubs, no placeholder files, no "not yet implemented".** If it does not
+  work, it does not exist. A spec in `docs/steps/` is how we record intent.
+- **No abstraction before the second caller exists.** `PRD.md` §8.2 is explicit
+  about this for the adapter interface, and it generalises: the interface you
+  guess will be wrong in ways you cannot see until two real things use it.
+- **No wrapper for something a person can type.** `submit.sh` earns its place
+  because it reads config and refuses an unsafe submission; a wrapper around
+  `pytest` would not.
+- **Prefer a sentence in a doc over a script.** Most of what this project needs
+  recorded is a decision or a finding, not an executable.
+- **When the next move is ambiguous, say so and stop.** Do not resolve ambiguity
+  by building something plausible.
+
+Tests are not over-coding: they encode reasoning that would otherwise be lost.
+But test behaviour we rely on, not coverage for its own sake.
+
 ## Keeping memory across sessions
 
 `docs/STATUS.md` is the handoff. **Update it at the end of any session that
