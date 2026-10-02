@@ -1,0 +1,7 @@
+# Shell scripts and sbatch files must keep LF endings — CRLF breaks the
+# shebang on Linux ("bad interpreter: No such file or directory").
+*.sh      text eol=lf
+*.sbatch  text eol=lf
+*.yaml    text eol=lf
+*.yml     text eol=lf
+*.py      text eol=lf
