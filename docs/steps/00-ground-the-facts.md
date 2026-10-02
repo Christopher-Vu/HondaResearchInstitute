@@ -12,97 +12,43 @@ Nothing here needs a GPU. Both tracks can run in parallel.
 
 ---
 
-## Track A — Paper facts (Chris)
+## Track A — Paper facts (Chris) · **DONE 2026-10-01**
 
-Four papers. For each item: confirm, correct, or strike, and write the page or
-section where you found it. Edit `PRD.md` in place and strike the unverified
-blocks as they resolve.
+Findings: [`docs/step0-trackA-findings.md`](../step0-trackA-findings.md), applied
+to `PRD.md` in commit `3d2e394`.
 
-### A1 · Dr. VLA — `arXiv 2603.19183`
+Papers read: Dr. VLA 2603.19183v2, Fail2Drive 2604.08535v1, SimLingo 2503.09594v1,
+RoboART 2502.06575v1, SAFE 2506.09937v2, RESample 2510.17640v4.
 
-Code was announced for release 1 Oct 2026 at `github.com/swannaiden/drvla`;
-check whether it landed, since it would save us the SAE stack and the
-memorization filter.
+**What changed in the plan:**
 
-**The one that matters:**
+1. **D1 closed — expansion ratio is 1, the brief was right.** With the paper's own
+   reason quoted. The handoff was wrong. `PRD.md` §12.2.
+2. **Dr. VLA code is released**, no LICENSE file. Step 7 becomes "configure an SAE
+   stack" rather than "build one", but the causal check is still ours.
+3. **The memorization filter is demoted to an ablation** — it would plausibly
+   delete planted-gap features, since a gap looks memorized by its definition.
+   `PRD.md` §9.2, `CONFLICTS.md` C17.
+4. **B7's gap signal is our construction, not Dr. VLA's**, so it needs a written
+   definition before Step 6 — and it may be stronger than we want. C18.
+5. **SimLingo does not freeze the vision encoder**; our freezing it is a
+   deviation and is now labeled as one. C19.
+6. **RoboART's VLM critic is real** — the brief was right, this log's A5 had
+   over-corrected. Restored.
+7. **The motivating case study is confirmed verbatim**, including the mechanism,
+   *but* a framing caution was added: `PedestriansOnRoad` is listable, so do not
+   present it as an unlistable conjunction. `PRD.md` §3.2.
 
-- [ ] **Expansion ratio.** `PRD.md` §12.2 / `CONFLICTS.md` D1. The brief says
-      ratio 1, claiming larger ratios give more dead features at robotics scale
-      with no interpretability gain. The handoff says 8×–32×. Find what the paper
-      actually used and whether that finding exists. **If the brief is right, the
-      warning not to "fix" it stands and we use ratio 1.** Write the answer into
-      §12.2 and close §16.1.
+**Still open from Track A:**
 
-Also confirm, lower stakes:
-
-- [ ] `k` and how it scales with `d` (brief: k=100 at d=2048 → we are at d=896).
-- [ ] Optimizer, lr, batch, epochs, pre-bias method, dead-latent threshold.
-- [ ] Number of seeds (brief says six).
-- [ ] The generality / memorization metric: what the components are and how they
-      are combined. We need this twice — as a filter in §9.2 and as baseline B7.
-- [ ] Describability protocol as actually run, and the interpretable fraction
-      against the neuron baseline (brief: 79.2% vs 30%, over 120 sampled).
-- [ ] The ablation result (brief: removing top general features → 0/40 success).
-- [ ] Mean-pooling over tokens, and their report that per-token was less
-      interpretable.
-
-### A2 · Fail2Drive — `arXiv 2604.08535`, IROS 2026
-
-- [ ] **The motivating case study.** `PRD.md` §3.2. Does the pedestrian-in-ego-lane
-      result exist (brief: 98.50 → 19.68, collisions in 87% of episodes)? Is the
-      mechanism — language-action module following a hallucinated vehicle-shaped
-      lead actor — stated in the paper or was it inferred? **If it is not in the
-      paper, the §3.2 unverified block gets struck and the aggregate framing
-      stands.** Do not cite a mechanism the authors did not claim.
-- [ ] SimLingo's in-distribution and generalization DS/SR/HM, and the four
-      category figures (brief: Behavior −64.2%, Visual-lateral −32.2%,
-      Visual-longitudinal −9.0%, Robustness −5.9%).
-- [ ] The exact wording of the no-training rule, so `PRD.md` §4.7 quotes rather
-      than paraphrases it.
-- [ ] What the authoring toolbox actually exposes, and whether PDM-Lite ships
-      usable as a standalone solvability checker.
-- [ ] Their seed protocol.
-
-### A3 · SimLingo — `arXiv 2503.09594`, CVPR 2025 · PDF is at `upstream-99p/papers/`
-
-- [ ] Qwen2-0.5B layer count and hidden size, **from the loaded config, not the
-      paper.** Everything in §12.1's storage arithmetic keys off `d = 896`.
-- [ ] Where the waypoint query tokens are and what reads them — this is the
-      action-bottleneck hook site in §9.2.
-- [ ] LoRA r/α and which components are frozen (handoff: r=32, α=64, vision
-      frozen, waypoint heads trainable).
-- [ ] CoT-off vs CoT-on numbers (handoff: 84.41 ± 1.76 vs 85.07 ± 0.95, Table 10).
-- [ ] Multi-ability success rates (handoff Table 8: Merging 54.0, Overtaking 57.0,
-      Emergency Brake 88.3, Give Way 53.3, Traffic Sign 82.5) — these set the
-      background failure rate our gaps must stand out against.
-- [ ] The interestingness-bucket sampler: bucket names and weights, and confirm
-      the audit's claim that withholding means filtering route directories rather
-      than zeroing weights. Mode A only, but record it now while you are here.
-- [ ] Training cost (handoff: 14 epochs, 8×A100-80GB, ~24h ≈ 190 A100-h) and the
-      released config's batch size, which reportedly differs from the paper's.
-
-### A4 · RoboART — `arXiv 2502.06575`, CoRL 2025
-
-- [ ] The 12 conditions, and confirm they are levels of a few factors rather than
-      12 independent factors. `PRD.md` §4.1 says so; it changes how we write B4's
-      factor list.
-- [ ] The anomaly detector: kNN in policy embedding space, k, and the conformal
-      calibration.
-- [ ] Spearman ρ and mean absolute prediction error, so our §10.2 metric matches
-      theirs exactly.
-- [ ] The co-finetuning recipe (handoff: 80/20 mixture, lr 5e-6, ~20K steps) and
-      the 2–7× claim's exact scope.
-
-### A5 · Event-grounded SAEs — `arXiv 2605.17204`
-
-New since the brief, and the closest method precedent. Read enough to:
-
-- [ ] State in one paragraph how we differ, for the related-work section.
-- [ ] Extract their residual-preserving zero-out procedure — `PRD.md` §9.2 names
-      it as the causal-check template.
-- [ ] Check for released code.
-
----
+- [ ] **A5 · Event-grounded SAEs (2605.17204).** PDF not yet supplied. Needed for
+      the related-work paragraph and as the causal-check template (`PRD.md` §9.2).
+      **Does not block Step 1.** Due before Step 9.
+- [ ] Email the Dr. VLA authors about licensing (`PRD.md` §16.10).
+- [ ] Items needing a loaded model or repo rather than a paper, now folded into
+      Steps 1–2 (`PRD.md` §16.11): Qwen2-0.5B layer count and hidden size, bucket
+      weights, the route-directory withholding claim, the Bench2Drive version,
+      PDMLite-F2D standalone use, the Fail2Drive toolbox API.
 
 ## Track B — Savio access (Jerry primary, Chris confirms)
 
@@ -157,12 +103,15 @@ control and §16.2 cannot close without it.
 
 ## Done condition
 
-1. Every **unverified** flag in `PRD.md` is confirmed with a reference or struck.
-2. `CONFLICTS.md` D1 is closed — the SAE expansion ratio has one answer.
-3. Both of us have run a GPU job on Savio and know what hardware we got.
-4. The support email is sent.
-5. `docs/WHAT_BROKE.md` exists and has its first entry, even if the entry is
-   "nothing broke yet."
+1. ~~Every unverified flag in `PRD.md` is confirmed or struck.~~ **Done** for the
+   paper-answerable ones; the model/repo-answerable ones moved to §16.11.
+2. ~~`CONFLICTS.md` D1 closed.~~ **Done — expansion ratio 1.**
+3. [ ] **Both of us have run a GPU job on Savio and know what hardware we got.**
+   ← the remaining blocker for Step 1.
+4. [ ] The support email is sent.
+5. ~~`docs/WHAT_BROKE.md` exists with its first entry.~~ **Done.**
+
+**Status: Track A done, Track B not started. Step 1 is blocked only on item 3.**
 
 ## What we are explicitly not doing yet
 
