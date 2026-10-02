@@ -16,6 +16,7 @@ discovered axis to show the failure closes.
 
 | Document | What it is |
 |---|---|
+| **[`docs/STATUS.md`](docs/STATUS.md)** | One page: where things are, what is blocked, what is next. Read this first. |
 | **[`PRD.md`](PRD.md)** | The grounding document. Read §1–§5 for the argument, §9 for the method, §13 for the steps. |
 | **[`CONFLICTS.md`](CONFLICTS.md)** | Every disagreement between the two source documents and what we decided. Read when you want to know *why* something is the way it is. |
 | **[`docs/steps/`](docs/steps/)** | One spec per step. Currently: [Step 0](docs/steps/00-ground-the-facts.md). |
