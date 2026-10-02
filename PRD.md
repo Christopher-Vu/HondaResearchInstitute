@@ -81,25 +81,36 @@ Its instrument cannot reach them even if the factor were listed.
 
 ### 3.2 The motivating case study
 
-Fail2Drive evaluated SimLingo on scenarios where the targeted shift is isolated
-against a paired in-distribution route. SimLingo's harmonic-mean score falls from
-80.9 in-distribution to 62.2 on the generalization split, and its Behavior
-category falls hardest, by 64.2%.
+Verified from Fail2Drive §4.2 and Fig. 6 (Step 0, Track A). On the
+`PedestriansOnRoad` scenario, where pedestrians walk in the ego lane and the
+correct behavior is to slow and follow at a safe distance, SimLingo's harmonic
+mean **drops from 98.50 to 19.68, with collisions in 87% of cases.** The authors'
+own stated mechanism: its language-action module *"often hallucinates a
+nonexistent car or cyclist to follow… showing overfitting to the language used
+during training."* Their summary: vehicle-following cues do not generalize to
+non-vehicle agents.
 
-The failure is not any single listable factor. It is a conjunction — a particular
-actor type, in a particular lane position, at a particular sustained speed,
-against a behavior learned only from differently-shaped cues. No factor list
-contains that conjunction. But it is a coherent, nameable axis, and the policy's
-own internals are where the learned prior lives.
+Aggregate context, same table: in-distribution HM 80.9, generalization HM 62.2,
+with the Behavior category falling hardest at −64.2%.
 
-> **Unverified.** The brief described a specific pedestrian-in-ego-lane scenario
-> with a score drop from 98.50 to 19.68 and collisions in 87% of episodes, and
-> attributed a mechanism (the language-action module hallucinating a
-> vehicle-shaped lead actor). The handoff's audit confirms Fail2Drive's identity
-> and the aggregate SimLingo numbers but does not confirm that per-scenario
-> figure or that mechanism. **Do not cite the specific numbers or the mechanism
-> until someone reads them out of the paper.** This is Step 0 homework. The
-> aggregate framing above is safe to use now.
+**Use this case study carefully, because it is not an unlistable conjunction and
+claiming otherwise is an own-goal.** `PedestriansOnRoad` is an authored scenario
+class, and any competent factor list could name "pedestrians walking in the ego
+lane." If we present it as something enumeration could never reach, the first
+reviewer to open Fail2Drive will notice.
+
+What it *is* evidence for, and what we should claim: the policy's competence
+rests on a **cue-specific prior learned from the training distribution** —
+following behavior bound to vehicle-shaped agents — and that prior lives in the
+policy's internals, not in the scenario description. The failure is legible as a
+representational fact and illegible as a factor name, because the factor name
+("pedestrians in lane") is in the training data everywhere while the thing that
+breaks is the shape of the learned following cue. That is the argument this paper
+is about, and it survives the fact that the scenario itself is listable.
+
+The genuinely unlistable conjunctions are what our planted interactional gaps are
+for (§9.1). This case study motivates *why* representation-level discovery is
+worth trying; it does not itself demonstrate that enumeration fails.
 
 ### 3.3 Why now
 
@@ -124,14 +135,27 @@ pipeline, not the paper, which is titled *Predictive Red Teaming: Breaking
 Policies Without Breaking Robots*.
 
 **The competitor.** A human enumerates environmental factors; nominal
-observations are edited with Imagen 3 to reflect each factor; degradation is
-predicted by an anomaly detector measuring mean k-nearest-neighbor cosine
-distance in *policy embedding space*, thresholded by conformal prediction.
+observations are edited with Imagen 3 to reflect each factor; **four candidate
+edits are generated per input and a Gemini Pro 1.5 critic picks the best or
+discards all four**; degradation is predicted by an anomaly detector measuring
+mean k-nearest-neighbor cosine distance in *policy embedding space*, thresholded
+by conformal prediction (k = 5 against 3000 nominal first-timestep observations
+for one policy, k = 10 against 500 for the other, 100 edited observations per
+factor).
 
-Results: 12 author-chosen off-nominal conditions, two visuomotor diffusion
-policies, bimanual Kuka manipulation. Spearman ρ of 0.8 and 0.7 between predicted
-and true factor rankings. Targeted collection for the worst factors, co-finetuned
-at an 80/20 old/new mixture, gives 2–7× improvement.
+Results: 12 off-nominal conditions, two visuomotor diffusion policies, bimanual
+Kuka manipulation. Spearman ρ of 0.8 and 0.7 between predicted and true factor
+rankings, and average absolute success-rate prediction error of 0.10 and 0.19,
+with ground truth from 20+ hardware episodes per factor. Targeted collection of
+~100 trajectories (about an hour) for each of the three worst factors,
+co-finetuned at an 80/20 old/new mixture per mini-batch at lr 5e-6 for 20K steps,
+gives **2–7×** improvement on the collected conditions and 2–5× on uncollected
+ones.
+
+**The 12 conditions are levels of only five factors** — lighting color, table
+background color, four distractor objects, one person near the table, one
+table-height change. That is a narrower factor space than "12 factors" suggests,
+and it is worth saying so when we describe what enumeration bought them.
 
 **The framing that matters.** RoboART already uses internal representations — the
 anomaly score is computed in the policy's own embedding space. Do not write
@@ -140,9 +164,17 @@ versus unsupervised discovery**, and secondarily **single-frame observation edit
 versus temporal, interactional structure**. A reviewer will know this; getting it
 wrong costs credibility immediately.
 
-Note the setting: manipulation, no weather, and the 12 conditions are levels of a
-few factors (lighting color, background color, distractor objects, a person by the
-table, table height). Not VLAs, not driving, not language-conditioned.
+Note the setting: manipulation, no weather, not VLAs, not driving, not
+language-conditioned.
+
+**One more detail that helps us.** They score only the **first-timestep**
+observation of each episode. Our argument is that driving failures are temporal
+and interactional, so an instrument that reads one frame per episode cannot reach
+them — and this is that instrument, stated in their own method. Use it.
+
+Their limitations section names both halves of our contribution explicitly:
+*hidden environmental factors* (their method needs a visible change) and
+*multi-round predictive red teaming* (theirs uses one fixed factor set).
 
 ### 4.2 SAFE
 
@@ -150,11 +182,12 @@ table, table height). Not VLAs, not driving, not language-conditioned.
 arXiv 2506.09937. Code at `vla-safe/SAFE`.* Title: *Multitask Failure Detection
 for Vision-Language-Action Models*. Manipulation.
 
-Trains a small MLP or LSTM head on VLA hidden states to emit a scalar failure
-likelihood, thresholded by functional conformal prediction. Features come from the
-final layer before decoding; aggregation is ablated over First / Last / Mean /
-First&Last, and the real-world configuration is pre-logits features with Mean.
-Detector training takes under a minute.
+Trains a small 1–2 layer MLP or LSTM head on VLA hidden states to emit a scalar
+failure likelihood, thresholded by functional conformal prediction. Features come
+from the final layer before decoding; aggregation is ablated over First / Last /
+Mean / First&Last, and the real-world configuration is pre-logits features with
+Mean. **Detector training takes under a minute on an A100-40GB** — which is why
+B6 is nearly free.
 
 **Our relationship to it.** SAFE detects per-episode failure and raises an alert.
 We aggregate across a corpus and emit a data directive — a different object. We
@@ -169,30 +202,37 @@ CoRL 2026 per the authors' repo. Code at `swannaiden/drvla`, release announced
 for 1 Oct 2026.* Title: *Sparse Autoencoders Reveal Interpretable and Steerable
 Features in VLA Models*. Trains SAEs on residual-stream activations of π0.5.
 
-Contributions we care about:
+All figures below verified against the PDF (Step 0, Track A).
 
-- **A generality metric requiring no rollouts** separating general features from
-  memorized episode-specific ones. Most features are memorized.
+- **A generality metric requiring no rollouts.** Four per-feature statistics —
+  episode coverage, mean onset count, mean peak activation, relative run length —
+  fed to a logistic regression giving P(general), validated on 30 hand-labeled
+  features per dataset at 100% / 96.7% leave-one-out accuracy. **Most features
+  are memorized:** only 2.62% general on π0.5/LIBERO, 10.81% on π0.5/DROID, 0.45%
+  on OpenVLA/LIBERO-Goal.
 - **A describability protocol:** label a feature interpretable when its temporal
   activation pattern consistently aligns with an identifiable sensorimotor event.
-- **Causal validation by ablation.**
+  **95 of 120 SAE features (79.2%) were interpretable, against 6 of 20 FFN
+  neurons (30.0%).** Note the baseline n is 20, not 120 — cite it correctly.
+- **Causal validation by ablation**, on real-world DROID tasks: unsteered 39/40,
+  random memorized features 37/40, random general 26/40, **top-4 most general
+  0/40.**
 
-**Two consequences.** First, this gives us a describability protocol and a
-memorization filter — adopt both rather than inventing them. Second, their
-metrics are *a baseline we must beat and which costs almost nothing to run*,
-because they need no rollouts. If activation statistics over the training data
-recover gaps as well as our rollout-based pipeline does, our compute story
-collapses. Run this early (§9.3, B7; Step 6).
+**Three consequences.** First, we adopt their describability protocol and their
+SAE configuration (§12.2). Second, their metrics are *a baseline we must beat and
+which costs almost nothing to run*, because they need no rollouts — if activation
+statistics over the training data recover gaps as well as our rollout pipeline
+does, our compute story collapses, which is why it is Step 6 (§9.3, B7).
 
-Their stated limitation is useful to us: clean top-activating examples do not
-imply steerability — predictive is not causal. Our closed loop is a causal test.
+Third, and least obvious: **we do not adopt their memorization filter as a
+default.** A planted gap looks memorized by their definition, so filtering on it
+would plausibly delete what we are hunting. It becomes an ablation; see §9.2.
 
-> **Correction to the brief.** The brief cited specific figures — LOO accuracy
-> 100%/96.7% over 30 hand-labeled features, 95 of 120 features interpretable
-> (79.2%) against a 30% neuron baseline, 0/40 success after ablation, expansion
-> ratio 1, k=100 for d=2048, six seeds. The audit does not confirm these
-> individually. **Treat all Dr. VLA numbers as unverified until the paper is
-> read.** Step 0. The qualitative claims above are safe.
+Their stated limitation is useful to us: *"meaningful top activations of a feature
+does not imply reliable steerability"* — predictive is not causal. Our closed loop
+is a causal test. They also propose, untested, that episode-specific features
+could diagnose fine-tuning brittleness and that feature metrics could act as a
+training-time proxy for generalization (§6) — which is our thesis, unclaimed.
 
 ### 4.4 Event-grounded SAEs
 
@@ -230,18 +270,23 @@ why our problem is not an attribution problem. Discuss, do not run.
 *Gerstenecker, Geiger, Renz. **IROS 2026** (to appear); arXiv 2604.08535. Code at
 `autonomousvision/fail2drive`. CARLA 0.9.15.* A paired-route closed-loop
 generalization benchmark: 100 route pairs, 17 unseen scenarios, 30 novel assets
-(animals, visual noise, adversarial obstacles), where only the targeted shift
-varies between a route and its in-distribution twin. Metrics are Driving Score,
-Success Rate, and their harmonic mean. Ships a scenario-authoring toolbox and
-PDM-Lite, a privileged rule-based expert usable as a solvability check.
+(17 animal assets, visual noise, adversarial obstacles), where only the targeted
+shift varies between a route and its in-distribution twin. Metrics are Driving
+Score, Success Rate, and their harmonic mean, averaged over three seeds. Ships a
+scenario, asset and behavior authoring toolbox, and **PDMLite-F2D**, a privileged
+rule-based expert offered as a solvability check for newly authored scenarios —
+it scores 94.6 HM on the generalization split, so it is a credible oracle.
 
 It gives us SimLingo's generalization profile (§10.1), a source of Mode B gap
 regions (§9.1), and a ready-made held-out measurement for the "did not degrade
 general performance" claim.
 
-**The rule that binds us: models must not train or fine-tune on Fail2Drive
-routes, scenario definitions, or assets.** Three consequences, stated explicitly
-because the brief left an ambiguity here that an agent could walk into:
+**The rule that binds us**, quoted from §3.2: *"Models must not use the routes,
+scenario definitions, or assets introduced in Fail2Drive for training or
+fine-tuning. The benchmark serves strictly as a held-out test set."* Pretraining
+on external data and foundation models is explicitly allowed, so SimLingo's own
+pretraining is fine. Three consequences, stated explicitly because the brief left
+an ambiguity here that an agent could walk into:
 
 1. **Evaluating** on Fail2Drive is fine and is what it is for.
 2. Using Fail2Drive's **CARLA build and authoring toolbox** is fine.
@@ -576,8 +621,23 @@ expected to miss control gaps and that does not count against them.
 - **SAE latents.** TopK SAE on the selected layer, raw and residualized, trained
   on unlabeled dev and test activations. Test *outcome labels* may never be used
   to tune it. Report dead-latent fraction, explained variance, and waypoint error
-  when reconstructions are spliced back in. Apply the Dr. VLA memorization filter
-  before ranking.
+  when reconstructions are spliced back in.
+
+  **The memorization filter is an ablation, not a default — and this is
+  deliberate.** Dr. VLA's classifier labels a feature memorized when it fires
+  roughly once per episode across a coherent but small subset of the data. *That
+  is a precise description of a planted gap:* one cut-in per route, in 4–8% of the
+  pool. Filtering on it would plausibly delete exactly the features we are trying
+  to find. Two further reasons not to take it on faith: the classifier was fit on
+  30 hand-labeled **manipulation** features, so transfer to driving is unproven;
+  and in their models only 0.45%–10.81% of features are general, so the filter is
+  aggressive. Run discovery with the filter off as the default and on as an
+  ablation, report both, and if the filter version wins, say so. If we ever want
+  it as a default, relabel ~30 driving features and refit first.
+
+  This cuts against §4.3's "adopt rather than invent," and the reason is that
+  our use is not theirs: they filter to find *general* features, we are hunting
+  something that looks memorized by construction.
 - **Probe residuals.** Decode a pre-registered generic state list (lead distance
   and relative speed, nearest-pedestrian distance, traffic-light state,
   time-to-intersection, occlusion flag) from activations, fitted on success
@@ -657,10 +717,27 @@ each one closes a specific reviewer objection, named below.
   internals, or would any perceptual embedding do?*
 - **B6 Detector-embedding clustering, SAFE-style.** Train a failure detector on
   the same activations, cluster its latent space. *Is discovery just detection?*
-- **B7 Rollout-free activation statistics, Dr. VLA-style.** Generality and
-  memorization metrics over the training data, with memorized-feature
-  concentration as the gap signal. **Cheap and dangerous — if this wins, our
-  rollout corpus is not justified. Run it early (Step 6), not late.**
+- **B7 Rollout-free activation statistics, Dr. VLA-style.** The four per-feature
+  statistics — episode coverage `c`, mean onset count `ō` (τ_on = 0.1), mean peak
+  activation `ā`, relative run length `ℓ̄_r` — computed over the training data
+  with no rollouts, using memorized-feature concentration as the gap signal.
+
+  **This construction is ours, not theirs.** Dr. VLA never proposes these metrics
+  as a gap signal; they use them to separate general from memorized features.
+  So B7 needs a written definition — how concentration is measured, over what
+  partition, and how it ranks into axes — committed **before Step 6**, or it is
+  not a fair baseline.
+
+  **And note the irony, which cuts against us.** A planted gap looks memorized by
+  construction (§9.2): it fires about once per episode across a small coherent
+  subset. So a statistic designed to *find* memorized features may be unusually
+  well-suited to finding our gaps. **B7 may be stronger than we would like**, and
+  it costs no rollouts at all.
+
+  **Cheap and dangerous — if this wins, our rollout corpus is not justified. Run
+  it early (Step 6), not late.** It would still be a paper: a negative result
+  about when expensive discovery is worth paying for. But we need the runway to
+  write that one instead, which is the entire reason it is Step 6.
 
 A VLM-captioning baseline (cluster captions of failure clips, Meteor-style) is
 worth adding if time allows; it is the surface-semantic industrial pipeline and a
@@ -689,9 +766,18 @@ what rescues unmatched axes: an axis that reproduces but matches no planted gap
 is a *validated natural axis*, not an error, and is reported through a secondary
 "validated precision."
 
-**Repair.** SimLingo's native LoRA on the LLM, vision encoder frozen, waypoint
-heads trainable, with a 1:1 mix of targeted and replay data. Hyperparameters fixed
-before targeted data is generated and identical across conditions.
+**Repair.** LoRA (r = 32, α = 64, dropout 0.1) on all the LLM's linear layers,
+which is SimLingo's native path, with a 1:1 mix of targeted and replay data.
+Hyperparameters fixed before targeted data is generated and identical across
+conditions.
+
+**We freeze the vision encoder; SimLingo does not.** Their recipe fully
+finetunes every component except the LLM (§12.3). Freezing is our deliberate
+deviation: a repair step that retrains the encoder can fix a failure by shifting
+perception, which both costs more compute and muddies the claim that we repaired
+the *decision* the discovered axis names. Label it as our deviation in the paper,
+not as SimLingo's recipe, and run an unfrozen arm if a reviewer would ask or if
+the frozen version underfits.
 
 **Controls, at matched frames and matched GPU-hours.** This is what makes the
 result mean "targeting worked" rather than "more data helped":
@@ -738,15 +824,18 @@ Category-wise generalization, useful for checking that our setup reproduces the
 Visual-lateral −32.2%, Visual-longitudinal −9.0%, Robustness −5.9%.
 
 SimLingo also already fails often in interactive abilities, which sets the
-background failure rate our planted gaps must stand out against: Merging 54.0%,
-Overtaking 57.0%, Give Way 53.3%, Emergency Brake 88.3%, Traffic Sign 82.5%.
+background failure rate our planted gaps must stand out against (paper Table 8):
+Merging 54.01, Overtaking 57.04, Give Way 53.33, Emergency Brake 88.33, Traffic
+Sign 82.45, mean 67.03.
 Natural failures will dominate the test pool. Size prevalence with a power
 analysis on dev, and aim interactional gaps at the known-weak abilities.
 
-**Run with commentary and chain-of-thought off** in the main campaign. The
-published difference is within noise — 84.41 ± 1.76 without versus 85.07 ± 0.95
-with — and turning it off removes a text-generation pass from every step. CoT on
-is an ablation.
+**Run with commentary and chain-of-thought off** in the main campaign. Paper
+Table 10: without CoT, DS 84.41 ± 1.76 / SR 64.84 ± 2.42; with CoT, DS 85.07 ±
+0.95 / SR 67.27 ± 2.11. The DS difference is within noise, turning CoT off removes
+a text-generation pass from every step, and at 15–20× slower than real time that
+matters. Note the SR gap is larger than the DS gap, so report both and keep CoT-on
+as an ablation.
 
 ### 10.2 Primary metrics
 
@@ -851,9 +940,10 @@ its own justification above and stays. Logged in `CONFLICTS.md`.
 
 ## 12. Borrowed configuration
 
-Copy these rather than rediscovering them. **Everything in this section is
-unverified until Step 0 confirms it from the papers**, because the brief's
-numbers here came from memory and the audit did not check them individually.
+Copy these rather than rediscovering them. **Verified against the primary PDFs
+in Step 0, Track A** (`docs/step0-trackA-findings.md` holds the per-item
+references). Items still marked ❓ there need a loaded model or a repo rather than
+a paper, and are resolved in Steps 1–2.
 
 ### 12.1 Activation capture and hooking
 
@@ -866,7 +956,8 @@ numbers here came from memory and the audit did not check them individually.
 - For a SAFE-style detector: final layer before decoding to logits, pre-logits
   with mean aggregation. Ablate First / Last / Mean / First&Last.
 
-Storage arithmetic, which decides what we can log: at `layers × tokens × 896 × 2`
+Storage arithmetic, which decides what we can log — recompute it once d is
+confirmed at Step 1. At `layers × tokens × d × 2`
 bytes in fp16, logging all 24 layers over ~35 token-vectors is about 1.5 MB per
 frame; three layers is about 190 KB per frame, so a few thousand rollouts is
 roughly 70 GB. Log all layers on the small dev pilot only, then three layers at
@@ -878,25 +969,48 @@ gate only. Without this, the causal checks are not reproducible.
 
 ### 12.2 SAE training
 
-- TopK architecture with an auxiliary loss; JumpReLU as an ablation.
-- Dictionary width 8×–32× of d = 896, so roughly 7,000–29,000 latents.
-- Geometric-median pre-bias, unit-norm decoder columns, dead-latent
-  re-initialization.
-- Train several seeds and check that top features for a given episode recover
-  consistently.
+Verified against Dr. VLA App. B.1 and Table 6 (Step 0, Track A).
 
-> The brief said expansion ratio 1 rather than 8–16, attributing to Dr. VLA a
-> finding that larger ratios produce more dead features at robotics scale with no
-> interpretability gain, and warned against "fixing" it. The handoff instead
-> specifies 8×–32×. **This is a real, unresolved contradiction on a parameter
-> that matters.** Resolve it from the paper in Step 0. If the brief is right, the
-> warning stands and we use ratio 1. Until then, sweep width as an ablation and
-> do not hard-code either.
+- TopK architecture with an AuxK auxiliary loss, `k_aux` 512, aux coefficient
+  1/32. JumpReLU as an ablation.
+- **Expansion ratio 1.** At d = 896 that is a 896-latent dictionary — but
+  **d = 896 is itself unconfirmed** (§16.11) and comes from the handoff rather
+  than the SimLingo paper, which does not state it. Read it off the loaded config
+  at Step 1; every storage estimate and dictionary size here scales with it.
+  Dr. VLA:
+  *"larger expansion ratios lead to substantially more dead features while
+  providing similar interpretability in our setting… likely due to the much
+  smaller scale dataset sizes… in robotics."* **This is counterintuitive coming
+  from LLM work — do not "fix" it.** 8×–32× is an ablation, not the default.
+  (For reference, they used 0.5 on OpenVLA to hold the dictionary near 2048.)
+- **k:** 100 at d = 2048, and 64 at d = 1024. No scaling rule is stated, so at
+  d = 896 **sweep k ∈ {32, 48, 64}** rather than extrapolating.
+- Adam (0.9, 0.999), lr 1e-4, batch 4096, 100 epochs, grad clip 1.0.
+- Pre-bias initialized to the geometric median of 10k samples. Per-sample
+  mean-subtraction and ℓ2 normalization. Unit-norm decoder columns with
+  tangent-projected gradients. No encoder or decoder bias.
+- Dead-latent threshold: no activation in the last 500 steps.
+- **Six seeds**, checking that top features for a given episode recover
+  consistently.
+- Ablation operator for the causal check: `y' = y − (yᵀv)v`, applied at every
+  token and, in their diffusion setting, every denoising step.
+
+**The code is released** at `github.com/swannaiden/drvla`: SAE training, the
+generality metrics, the general-vs-memorized classifier, a feature index and a
+dashboard. It does **not** include steering or ablation code, and the hooks are
+π0.5/openpi-specific, so the causal check (§9.2) is still ours to write. **There
+is no LICENSE file — ask the authors before vendoring any of it.**
 
 ### 12.3 Fine-tuning
 
-- SimLingo's own recipe: LoRA r = 32, α = 64 on the LLM's linear layers, vision
-  encoder frozen, waypoint heads trainable, SmoothL1 on waypoints.
+- SimLingo's own recipe, verified (paper §4.2 + appendix): LoRA r = 32, α = 64,
+  dropout 0.1 on all the LLM's linear layers, and **every other component fully
+  finetuned — the vision encoder is trained, not frozen.** SmoothL1 on waypoints,
+  changed from L2 because of training instability. AdamW, lr 3e-5, weight decay
+  0.1, cosine schedule with 5% warmup. 14 epochs on 8×A100-80GB in about 24 hours
+  (≈192 A100-hours); batch 12 per GPU, 96 global.
+- **Our repair step freezes the vision encoder, which is a deviation from that
+  recipe, not an instance of it** (§9.4).
 - For targeted co-fine-tuning, an 80/20 old/new mixture at reduced learning rate
   is a reasonable starting point from RoboART; the default here is a 1:1 targeted
   and replay mix, which is more conservative. State the deviation either way.
@@ -1076,8 +1190,10 @@ overlap. The course poster symposium happens regardless.
 
 Items 1 and 2 close before Step 5 writes code.
 
-1. **SAE expansion ratio** — ratio 1 per the brief, or 8×–32× per the handoff.
-   Contradictory; resolve from the paper (§12.2). *Step 0.*
+1. ~~**SAE expansion ratio.**~~ **Closed 2026-10-01: ratio 1**, confirmed from
+   Dr. VLA App. B.1 (§12.2). The brief was right; 8×–32× is an ablation.
+   Successor question: **k at d = 896**, which has no stated scaling rule —
+   sweep {32, 48, 64}. *Step 7.*
 2. **Gap portfolio size** — bounded by measured rollout throughput from Step 1
    and Savio's actual SU rate, not by the brief's guess. *Step 1.*
 3. **Hook point** — residual stream versus waypoint query tokens versus vision
@@ -1093,6 +1209,16 @@ Items 1 and 2 close before Step 5 writes code.
    Bench2Drive data organized so a slice is a folder filter. *Step 11 or cut.*
 8. **Describability model** — a pinned open model, with the exact ID logged, and
    a closed API only as an optional comparison. *Step 7.*
+9. **B7's gap signal.** Memorized-feature concentration as a gap signal is our
+   construction, not Dr. VLA's, so it needs a written definition before it can be
+   a fair baseline (§9.3). *Before Step 6.*
+10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
+    before vendoring anything from it; reimplement from the paper if they decline.
+    *Step 7, but email now.*
+11. **Qwen2-0.5B layer count and hidden size**, bucket weights, the Bench2Drive
+    version, PDMLite-F2D standalone usability, and the Fail2Drive toolbox API
+    surface. None are answerable from the papers — they need the loaded model or
+    the repos. *Steps 1–2.*
 
 **Closed, versus the brief:** fine-tune cost is no longer blocking, because Mode B
 needs no fine-tune for planting. Delete-versus-regenerate is deferred with Mode A.

@@ -1,6 +1,6 @@
 # Conflict log
 
-Every place `prod.md` (the brief) and `upstream-99p/docs/MASTER_HANDOFF.md` (the
+Every place `prd.md` (the brief) and `upstream-99p/docs/MASTER_HANDOFF.md` (the
 handoff) disagreed, what `PRD.md` does about it, and why. Kept so that nobody
 re-opens a settled question, and so that any decision can be reversed knowingly.
 
@@ -53,40 +53,73 @@ unseen scenarios, **30 novel assets**.
 **Resolution:** these mostly agree — 100 pairs is 200 routes. Venue and asset
 count added. `PRD.md` §4.7.
 
-### A5 · RoboART venue and description · applied
+### A5 · RoboART venue and description · applied, then partly reverted
 Brief treated it as an arXiv preprint and wrote that a "Gemini VLM critic filters
 four candidate edits per input." Handoff: **CoRL 2025**, PMLR 305:1615–1635;
-RoboART is the pipeline name, not the title; 12 author-chosen conditions that are
-levels of a few factors; **no weather**; no public code.
+RoboART is the pipeline name, not the title; 12 conditions that are levels of a
+few factors; **no weather**; no public code.
 
-**Resolution:** corrected. The brief's framing warning — that RoboART already
-reads policy embeddings, so the axis is *enumerated list vs. unsupervised
-discovery* — is **kept verbatim in spirit** because it is the single most
-important positioning point in either document. `PRD.md` §4.1.
+**Resolution:** venue and naming corrected, those stand.
+
+**Reverted 2026-10-01 (Step 0, Track A):** the VLM critic **is real** — RoboART
+§4.1 and Fig. 4 generate four edits per input and have Gemini Pro 1.5 pick the
+best or discard all four. **The brief was right and this log was wrong to drop
+it.** Restored in `PRD.md` §4.1, along with the verified detector parameters,
+prediction-error figures, and the fact that the 12 conditions are levels of five
+factors.
+
+Also recovered, and useful: they score only the **first-timestep** observation of
+each episode, which is direct support for our temporal argument, and their
+limitations section names both halves of our contribution.
+
+The brief's framing warning — that RoboART already reads policy embeddings, so the
+axis is *enumerated list vs. unsupervised discovery* — is **kept** because it is
+the single most important positioning point in either document.
 
 ### A6 · RESample citation · applied
 Brief and the repo bibliography both had this wrong in different ways. It is
 arXiv 2510.17640, a preprint with no acceptance found — not ICRA 2024.
 Still cut as a baseline, for the brief's original reasoning. `PRD.md` §4.5.
 
-### A7 · Motivating case study · applied, with a flag
+### A7 · Motivating case study · **resolved: the brief was right**
 The brief's §3.2 leaned on a specific Fail2Drive result: SimLingo's score falling
-98.50 → 19.68 with collisions in 87% of episodes, and a named mechanism (the
-language-action module hallucinating a vehicle-shaped lead actor). The audit
-confirms Fail2Drive and SimLingo's aggregate numbers but **not** that
-per-scenario figure or that mechanism.
+98.50 → 19.68 with collisions in 87% of episodes, and a named mechanism. The audit
+could not confirm it, so it was flagged unverified.
 
-**Resolution:** `PRD.md` §3.2 rewritten around the verified aggregate numbers
-(HM 80.9 → 62.2, Behavior −64.2%) and carries an explicit **unverified** block.
-The specific figures are Step 0 homework. The brief's *argument* — that the
-failure is a conjunction no list contains — is untouched and still works.
+**Resolved 2026-10-01 (Step 0, Track A), in the brief's favour.** Fail2Drive §4.2
+and Fig. 6, verbatim: *"SimLingo performs particularly poorly, dropping from 98.50
+to 19.68 HM with collisions in 87% of cases. Its language-action module often
+hallucinates a nonexistent car or cyclist to follow (Fig. 6), showing overfitting
+to the language used during training."* Both the numbers and the mechanism are the
+authors' own, and the scenario is `PedestriansOnRoad`.
 
-### A8 · Dr. VLA numbers · applied as flag
+One wording fix: the paper says "car or cyclist", not "vehicle-shaped lead actor".
+Cite their phrasing.
+
+**But a framing caution was added that neither source document had, and it
+matters more than the numbers.** `PedestriansOnRoad` is an authored scenario class
+that any factor list could name. Presenting it as an unlistable conjunction is an
+own-goal a reviewer will catch. `PRD.md` §3.2 now claims what the evidence
+supports — that the policy's competence rests on a cue-specific prior living in
+its internals rather than in the scenario description — and defers the
+unlistability argument to the planted interactional gaps, which is where it
+belongs.
+
+### A8 · Dr. VLA numbers · **resolved: the brief was right throughout**
 The brief quoted LOO accuracy 100%/96.7%, 95-of-120 features interpretable
-(79.2%) vs 30% for neurons, 0/40 after ablation, six seeds. The audit confirms
-the paper's identity but not these figures.
+(79.2%) vs 30% for neurons, 0/40 after ablation, six seeds, expansion ratio 1,
+k = 100 at d = 2048. The audit could not confirm these individually, so they were
+flagged.
 
-**Resolution:** marked unverified, qualitative claims kept. Step 0. `PRD.md` §4.3.
+**Resolved 2026-10-01 (Step 0, Track A). Every figure confirmed**, with one
+citation fix: the FFN-neuron baseline is 6/20 = 30.0%, so the baseline n is 20 and
+not 120. Applied in `PRD.md` §4.3 and §12.2.
+
+The code also shipped (`swannaiden/drvla`, last commit 2026-09-29): SAE training,
+generality metrics, classifier, feature index, dashboard. **No LICENSE file — ask
+before vendoring.** No steering or ablation code, and the hooks are
+π0.5/openpi-specific, so our causal check is still ours to write. Step 7 drops
+from "build an SAE stack" to "configure one".
 
 ### A9 · Missing prior art · applied
 The brief omitted **event-grounded SAEs** (Jin et al., arXiv 2605.17204) — the
@@ -311,17 +344,59 @@ conversation to have early. `PRD.md` §18.
 
 ---
 
+### C16 · SAE expansion ratio · **closed in the brief's favour**
+See D1 below, now resolved. Dr. VLA App. B.1 / Table 6 / Fig. 4 confirm expansion
+ratio **1**, with the explicit reason: larger ratios give substantially more dead
+features at robotics dataset scale with similar interpretability. The brief's
+warning not to "fix" this stands and is quoted in `PRD.md` §12.2. 8×–32× is an
+ablation. The handoff was wrong.
+
+### C17 · Memorization filter demoted to an ablation · new, 2026-10-01
+Both source documents said to adopt Dr. VLA's memorization filter before ranking
+SAE latents. Step 0 found a reason not to.
+
+Their classifier calls a feature memorized when it fires about once per episode
+across a coherent but small subset of the data. **That is a description of a
+planted gap** — one cut-in per route, in 4–8% of the pool. Filtering on it would
+plausibly delete the features we are hunting. Compounding it: the classifier was
+fit on 30 hand-labeled *manipulation* features, and only 0.45%–10.81% of features
+come out general, so it is aggressive and its transfer to driving is unproven.
+
+**Resolution:** filter off by default, on as an ablation, both reported. If we
+ever want it as a default, relabel ~30 driving features and refit. `PRD.md` §9.2,
+§4.3.
+
+This is the first place we knowingly depart from "adopt rather than invent"
+(§4.3), and the justification is that our use inverts theirs: they filter to find
+*general* features; we are hunting something memorized-looking by construction.
+
+### C18 · B7 needs our own definition · new, 2026-10-01
+`PRD.md` §9.3 credited "memorized-feature concentration as the gap signal" to
+Dr. VLA. **They never propose that.** The four statistics are theirs; using their
+concentration as a gap signal is our construction, so it needs a written
+definition — how concentration is measured, over what partition, how it ranks
+into axes — committed before Step 6, or B7 is not a fair baseline.
+
+Related, and uncomfortable: by C17's logic a planted gap looks memorized, so a
+statistic built to find memorized features may be *unusually* good at finding our
+gaps. **B7 may be stronger than we want**, at zero rollout cost. That raises the
+stakes on running it at Step 6 rather than later. `PRD.md` §9.3.
+
+### C19 · Vision encoder freezing is our deviation, not SimLingo's recipe · new
+`PRD.md` §9.4 and §12.3 described "vision encoder frozen" as SimLingo's own
+recipe. **It is not.** Paper §4.2: *"We fully finetune all components besides the
+LLM for which we use LoRA."* The encoder is trained.
+
+**Resolution:** freezing is kept as our repair-step choice, with a stated reason —
+a repair that retrains the encoder can fix a failure by shifting perception, which
+costs more and muddies the claim that we repaired the *decision* the axis names —
+but it is now labeled a deviation. Run an unfrozen arm if the frozen one underfits.
+`PRD.md` §9.4, §12.3.
+
 ## D. Open contradictions
 
-### D1 · SAE expansion ratio · **unresolved, matters**
-The brief says **ratio 1**, attributing to Dr. VLA a finding that larger ratios
-produce more dead features at robotics dataset scale with no interpretability
-gain, and explicitly warns "do not fix it." The handoff says **8×–32× of d = 896**
-(≈7k–29k latents).
-
-These cannot both be right, and the brief's framing implies someone read a
-specific counterintuitive finding. Resolve from the paper in **Step 0**. Until
-then, sweep width as an ablation and hard-code neither. `PRD.md` §12.2, §16.1.
+### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
+Resolved in the brief's favour: expansion ratio **1**. See C16. No longer open.
 
 ### D2 · Gap portfolio size · open
 Brief: 3–5 gaps, budget-bound by fine-tune cost. Handoff: 4–6 plus 2 decoys,
