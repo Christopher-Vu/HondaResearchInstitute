@@ -93,3 +93,25 @@ on the reply, not on anything we can write.
 different facts. Worth checking the second before planning around the first.
 A retired partition is also a reminder to re-verify inherited infrastructure
 claims — this one came from documentation, not from a successful job.
+
+## 2026-10-02 — Mac compatibility and commentary-off model bring-up
+
+The available machine is an Apple M5 Pro Mac with 48 GB RAM. CARLA 0.9.15 has
+standard Windows/Linux server releases and no macOS Python wheel. A community
+Windows-server path using Wine/D3DMetal is being tested, rather than changing
+the experiment to CARLA 0.10. Docker Desktop's initial `info` probe returned 500;
+no existing containers or VM state were deleted or reset.
+
+Downloaded the released SimLingo checkpoint at Hugging Face revision
+`26c7c89e797d4e25bbf640013317af8da26a5454` and verified SHA256
+`ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28`.
+Its full model strict-loads on CPU and emits finite 10-point speed and 20-point
+route predictions from a dummy camera input.
+
+The pinned source defaults to commentary on. Setting `predict_language=False`
+exposed a real error: `forward_model()` returns `(features, logits)`, but the
+commentary-off branch passes that tuple to a tensor-indexing function. Reproduced
+the original `TypeError`, patched the unpacking, and wired the agent's
+`use_cot=False` setting into the model. The same weights and input then pass.
+The patch and verifier are under `adapters/simlingo/`; CPU model execution does
+not establish CARLA camera rendering or closed-loop experiment readiness.

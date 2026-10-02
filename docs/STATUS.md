@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-01
+Last updated: 2026-10-02
 
 ---
 
@@ -15,7 +15,21 @@ Track A (paper facts) is complete: six papers read, findings in
 `docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B (Savio access) is
 blocked on cluster administration.
 
-**Step 1 cannot start.** It needs a GPU partition.
+**Step 1 is partially prepared locally.** The full SimLingo checkpoint strict-loads
+and produces finite waypoints on the M5 Pro Mac's CPU with commentary off. CARLA
+visual and closed-loop validation are still in progress; Savio execution and
+throughput/VRAM measurements remain blocked on the GPU partition.
+
+Pinned artifacts and a reproducible offline verification command are in
+`adapters/simlingo/README.md`. The source's commentary-off branch had a tuple
+unpacking error; the regression was reproduced and fixed in the pinned patch.
+The loaded model confirms hidden size 896, 24 decoder layers and the exact query
+parameter names. Bench2Drive 0.0.3 is confirmed from the pinned source.
+
+**Active local bring-up:** installing Windows CARLA 0.9.15 through
+Sikarugir/Wine and D3DMetal. This community-supported Mac route has not yet been
+verified here. Progress and local evidence live in `results/setup/`; no real
+camera frame or completed route has been recorded yet.
 
 ## The blocker
 
@@ -78,8 +92,8 @@ replan toward NRP rather than a debugging session.
   related-work paragraph and as the causal-check template. Due before Step 9.
 - **Dr. VLA's repo has no LICENSE file.** Ask the authors before vendoring any of
   it; reimplement from the paper if they decline.
-- **`d` (hidden size) is still unconfirmed.** The handoff says 896; the SimLingo
-  paper does not state it. Every storage estimate and the SAE dictionary size
-  scale with it. Read it off the loaded config at Step 1.
+- **Model architecture is now confirmed locally.** Hidden size 896 and 24
+  decoder layers were read from the strict-loaded released model; query module
+  paths are recorded in the SimLingo adapter README and PRD §16.11.
 - **The gap portfolio size** (`PRD.md` §16.2) is budget-bound and cannot close
   until the rollout throughput measurement and the SU rate both exist.

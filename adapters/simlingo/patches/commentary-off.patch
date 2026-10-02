@@ -1,0 +1,32 @@
+--- a/team_code/config_simlingo.py
++++ b/team_code/config_simlingo.py
+@@ -6,7 +6,7 @@
+         # -----------------------------------------------------------------------------
+         self.eval_route_as = 'target_point' # "target_point" or "target_point_command" "command", -1 -> use from model config
+         # if target_point_command (trained on both we eval with targetpoint)
+-        self.use_cot = True
++        self.use_cot = False
+ 
+         self.carla_frame_rate = 1.0 / 20.0  # CARLA frame rate in milliseconds
+         self.carla_fps = 20  # Simulator Frames per second
+--- a/team_code/agent_simlingo.py
++++ b/team_code/agent_simlingo.py
+@@ -171,6 +171,7 @@
+             ).to(self.device)
+         torch.set_default_dtype(default_dtype)
+         self.model.load_state_dict(torch.load(self.config_path))
++        self.model.predict_language = self.config.use_cot
+         self.iter = self.config_path.split("epoch=")[-1].split("/")[0]
+         self.session = self.config_path.split("/")[-4]
+         
+--- a/simlingo_training/models/driving.py
++++ b/simlingo_training/models/driving.py
+@@ -176,7 +176,7 @@
+                 self.language.append(self.tokenizer.batch_decode(sampled_tokens, skip_special_tokens=True)[0])
+         else:
+             # single forward pass same as during training so we can use the same function
+-            features = self.forward_model(driving_input, adaptor_dict)
++            features, _ = self.forward_model(driving_input, adaptor_dict)
+             outputs_by_adaptor = self.adaptors.split_outputs_by_adaptor(adaptor_dict, features)
+             predictions = self.adaptors.driving.get_predictions(outputs_by_adaptor['driving'])
+ 

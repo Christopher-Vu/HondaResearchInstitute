@@ -1,0 +1,20 @@
+source:
+  repository: https://github.com/RenzKa/simlingo.git
+  revision: 743b243afd6cf5ff51b9fa1f8cac86f22d569684
+  patch: adapters/simlingo/patches/commentary-off.patch
+checkpoint:
+  repository: RenzKa/simlingo
+  revision: 26c7c89e797d4e25bbf640013317af8da26a5454
+  file: simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt
+  bytes: 2569679322
+  sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+base_model:
+  repository: OpenGVLab/InternVL2-1B
+  revision: 0d75ccd166b1d0b79446ae6c5d1a4a667f1e6187
+simulator:
+  version: "0.9.15"
+  supported_server_platforms: [linux-x86_64, windows-x86_64]
+benchmark:
+  name: Bench2Drive
+  version: "0.0.3"
+  source: simlingo/Bench2Drive

@@ -10,20 +10,20 @@ step: 1
 policy:
   name: simlingo
   hf_repo: RenzKa/simlingo
-  ckpt_sha256: TBD-STEP1        # record from the downloaded checkpoint
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28        # verified against publisher SHA256
   cot: false                     # PRD 10.1 / D4 — commentary and CoT off
   # Read these off the loaded config, do not trust the defaults below.
   # PRD 16.11. Every storage estimate in 12.1 and the SAE width in 12.2
   # scale with hidden_size.
   arch:
-    hidden_size: TBD-STEP1       # handoff claims 896; paper does not state it
-    num_decoder_layers: TBD-STEP1 # handoff claims 24
-    query_token_module: TBD-STEP1 # path to q_p / q_w — the Step 3 hook site
+    hidden_size: 896       # read from strict-loaded model
+    num_decoder_layers: 24 # read from strict-loaded model
+    query_token_module: adaptors.driving # query_embeds_wps / query_embeds_speed; Step 3 hook site
 
 simulator:
   carla_version: "0.9.15"
   carla_build: TBD-STEP1         # stock vs Fail2Drive custom build
-  bench2drive_version: TBD-STEP1 # v0.0.3 and v0.0.4 are NOT comparable
+  bench2drive_version: "0.0.3" # v0.0.3 and v0.0.4 are NOT comparable
   mode: synchronous
   fixed_delta_seconds: 0.05
   render_offscreen: true         # PRD 1.2 — the most likely blocker

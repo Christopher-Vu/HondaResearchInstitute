@@ -646,7 +646,8 @@ expected to miss control gaps and that does not count against them.
   which separates "right perception, wrong decision" from "wrong perception."
 
 **Hook point.** Open (§16). SimLingo's LLM is Qwen2-0.5B — 24 decoder layers,
-hidden size 896, to be confirmed from the loaded config. Two candidate sites: the
+hidden size 896, confirmed by strict-loaded checkpoint inference on 2026-10-02.
+Two candidate sites: the
 LLM residual stream, and the learnable waypoint query tokens before the MLP head.
 The query tokens are the action bottleneck, since the waypoint MLPs read only
 those. Also include the vision bridge, because at least one paper reports the
@@ -973,10 +974,10 @@ Verified against Dr. VLA App. B.1 and Table 6 (Step 0, Track A).
 
 - TopK architecture with an AuxK auxiliary loss, `k_aux` 512, aux coefficient
   1/32. JumpReLU as an ablation.
-- **Expansion ratio 1.** At d = 896 that is a 896-latent dictionary — but
-  **d = 896 is itself unconfirmed** (§16.11) and comes from the handoff rather
-  than the SimLingo paper, which does not state it. Read it off the loaded config
-  at Step 1; every storage estimate and dictionary size here scales with it.
+- **Expansion ratio 1.** At d = 896 that is a 896-latent dictionary.
+  **d = 896 is confirmed** by strict-loaded checkpoint inference on 2026-10-02;
+  the SimLingo paper itself does not state it. Every storage estimate and
+  dictionary size here scales with it.
   Dr. VLA:
   *"larger expansion ratios lead to substantially more dead features while
   providing similar interpretability in our setting… likely due to the much
@@ -1215,10 +1216,12 @@ Items 1 and 2 close before Step 5 writes code.
 10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
     before vendoring anything from it; reimplement from the paper if they decline.
     *Step 7, but email now.*
-11. **Qwen2-0.5B layer count and hidden size**, bucket weights, the Bench2Drive
-    version, PDMLite-F2D standalone usability, and the Fail2Drive toolbox API
-    surface. None are answerable from the papers — they need the loaded model or
-    the repos. *Steps 1–2.*
+11. **Bucket weights**, PDMLite-F2D standalone usability, and the Fail2Drive
+    toolbox API surface remain open. *Steps 1–2.* The strict-loaded released
+    SimLingo model confirms Qwen2 hidden size 896 and 24 decoder layers as of
+    2026-10-02. Query parameters live at `adaptors.driving.query_embeds_wps` and
+    `adaptors.driving.query_embeds_speed`; their readouts are `route_head` and
+    `speed_wps_head`. The pinned SimLingo source includes Bench2Drive 0.0.3.
 
 **Closed, versus the brief:** fine-tune cost is no longer blocking, because Mode B
 needs no fine-tune for planting. Delete-versus-regenerate is deferred with Mode A.

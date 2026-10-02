@@ -1,0 +1,12 @@
+# Offline model verification only. The CARLA/Bench2Drive runtime is separate.
+torch==2.2.0
+torchvision==0.17.0
+numpy==1.26.4
+pytorch-lightning==2.4.0
+torchmetrics==1.3.1
+transformers==4.46.3
+peft==0.13.2
+hydra-core==1.3.2
+einops==0.7.0
+timm==0.9.16
+pyyaml==6.0.3
