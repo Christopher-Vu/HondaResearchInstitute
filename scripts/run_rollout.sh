@@ -1,11 +1,4 @@
 #!/usr/bin/env bash
-# Step 1 scaffold — single SimLingo rollout under Slurm on Savio.
-#
-# Fill the TBD values from Step 0 Track B (partition name, account) before use.
-# Deliberately minimal: no Ray, no fan-out. One route. See
-# docs/steps/01-smallest-rollout.md
-set -euo pipefail
-
 #SBATCH --job-name=simlingo-step1
 #SBATCH --account=ic_cdss170fall
 #SBATCH --partition=TBD-STEP0        # ask the program contact; do not guess
@@ -14,6 +7,15 @@ set -euo pipefail
 #SBATCH --cpus-per-task=8
 #SBATCH --time=0-02:00:00
 #SBATCH --output=results/step1/slurm-%j.out
+#
+# Step 1 scaffold — single SimLingo rollout under Slurm on Savio.
+# Fill the TBD values from Step 0 Track B before use.
+# Deliberately minimal: no Ray, no fan-out. One route.
+# See docs/steps/01-smallest-rollout.md
+#
+# NOTE: #SBATCH directives must appear before the first executable line,
+# so keep `set -euo pipefail` and everything else below this block.
+set -euo pipefail
 
 CONFIG="${1:-configs/rollout/step1-single-route.yaml}"
 mkdir -p results/step1
