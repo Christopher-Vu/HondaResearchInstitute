@@ -68,3 +68,28 @@ can be handed back, rather than as sessions an agent drives.
 
 **Also:** scripts written on Windows got CRLF endings, which break the shebang
 on Linux. Added `.gitattributes` forcing LF on `.sh`/`.sbatch`/`.yaml`/`.py`.
+
+## 2026-10-01 — Savio GPU partitions blocked; pivoted to GPU-free work
+
+**Expected:** working login means we can submit a GPU job.
+
+**Actual:** login works (user christophervu) but `ic_cdss170fall` has only
+`savio2_gpu`, which is **retired**, and `savio3_gpu` / `savio4_gpu` are
+**rejected**. No usable GPU partition. Support request open. Step 1 is blocked
+on the reply, not on anything we can write.
+
+**Did:**
+- Externalised every cluster setting to `configs/cluster/savio.yaml`. No script
+  names a partition, QoS or GPU type. `scripts/submit.sh` reads it and refuses
+  GPU submission while `gpu.available: false`, printing the reason — so the
+  failure mode is a clear message rather than a confusing Slurm rejection.
+- Built the GPU-free half of the harness instead: schema contracts, Hungarian
+  scoring, metrics, 32 tests. The headline metric is now verified on synthetic
+  data before any rollout exists.
+- Added the sealed-key CI guard the PRD promised, with tests that inject real
+  leaks to prove it fails.
+
+**Lesson:** "we have an allowance" and "we have a usable partition" are
+different facts. Worth checking the second before planning around the first.
+A retired partition is also a reminder to re-verify inherited infrastructure
+claims — this one came from documentation, not from a successful job.
