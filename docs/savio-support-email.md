@@ -58,7 +58,7 @@ christopher.vu@berkeley.edu
 
 | # | Blocks |
 |---|---|
-| 1 | `scripts/run_rollout.sh` `--partition`. Step 1 cannot submit without it. |
+| 1 | `configs/cluster/savio.yaml` `gpu.partition`. Nothing GPU-bound can submit without it. |
 | 2 | `PRD.md` §16.2 and §17.3 — the budget is in SUs, not GPU-hours. |
 | 3 | Whether a 220-route × 3-seed run fits one job or needs checkpointing. |
 | 4 | Step 3's activation store layout. |

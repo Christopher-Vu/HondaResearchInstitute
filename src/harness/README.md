@@ -1,6 +1,9 @@
-# harness
+# src/harness
 
-Config schema, Ray runner, results DB, metrics, and the pre-registration.
+Config schema, scoring, metrics, and (later) the Ray runner and results DB.
+
+`PREREGISTRATION.md` and `KEY_COMMITMENT.txt` live here too, next to the code
+that reads them.
 
 ## Contents
 
