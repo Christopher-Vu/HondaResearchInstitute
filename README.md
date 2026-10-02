@@ -19,7 +19,7 @@ discovered axis to show the failure closes.
 | **[`docs/STATUS.md`](docs/STATUS.md)** | One page: where things are, what is blocked, what is next. Read this first. |
 | **[`PRD.md`](PRD.md)** | The grounding document. Read §1–§5 for the argument, §9 for the method, §13 for the steps. |
 | **[`CONFLICTS.md`](CONFLICTS.md)** | Every disagreement between the two source documents and what we decided. Read when you want to know *why* something is the way it is. |
-| **[`docs/steps/`](docs/steps/)** | One spec per step. Currently: [Step 0](docs/steps/00-ground-the-facts.md). |
+| **[`docs/steps/`](docs/steps/)** | One spec per step. [Step 0](docs/steps/00-ground-the-facts.md), [Step 1](docs/steps/01-smallest-rollout.md), the [GPU-free queue](docs/steps/gpu-free-queue.md), and the [SimLingo setup brief](docs/steps/adapter-simlingo-brief.md) for collaborators. |
 | `docs/WHAT_BROKE.md` | Running log of what broke. Written as it happens, not reconstructed. |
 | `upstream-99p/` | The `Imhaohao/99p` repo as pulled at `ad3932f`, read-only reference. Its `docs/CITATION_AUDIT.md` is the evidence ledger behind most facts in the PRD. |
 
@@ -55,6 +55,16 @@ and the B1 random baseline — 45 tests, all passing without a GPU.
 That ordering is deliberate rather than opportunistic: the scoring code wants to
 be frozen and hash-committed *before* the test pool exists (`PRD.md` §9.1), so
 building it now is correct.
+
+### Setup
+
+```bash
+python -m venv .venv && . .venv/bin/activate   # Windows: .venv\Scriptsctivate
+pip install -r requirements.txt
+```
+
+`requirements.txt` is the harness only. SimLingo, CARLA and torch are the policy
+stack and belong in `adapters/simlingo/` once Step 1 establishes what works.
 
 ### Running the checks
 
