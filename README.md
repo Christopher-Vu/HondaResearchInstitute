@@ -59,7 +59,8 @@ building it now is correct.
 ### Setup
 
 ```bash
-python -m venv .venv && . .venv/bin/activate   # Windows: .venv\Scriptsctivate
+python -m venv .venv
+. .venv/bin/activate      # Windows PowerShell: .venv/Scripts/Activate.ps1
 pip install -r requirements.txt
 ```
 
