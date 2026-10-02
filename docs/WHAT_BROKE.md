@@ -39,3 +39,32 @@ non-colliding name. Fixed the README.
 
 **Lesson:** on this box, filenames differing only in case are the same file.
 Applies to any future `README.md`/`readme.md` or config-casing pair.
+
+## 2026-10-01 — Step 1 cannot be agent-automated; Savio needs interactive MFA
+
+**Expected:** hand Step 1 to an agent and have it run start to finish.
+
+**Actual:** structurally impossible. Savio requires a PIN plus a rotating
+6-digit TOTP code at every login, and `ic_` allowances do not permit unattended
+SSH keys. `hpc.brc.berkeley.edu` is reachable from this box and the TCP
+connection succeeds, but authentication needs a human with a phone. There is
+also no local GPU to rehearse against.
+
+Compounding it: the `--partition` value for `ic_cdss170fall` is not published,
+so even an authenticated agent could not submit a correct job yet.
+
+**Did:** split the work by what actually needs a human.
+- `docs/savio-support-email.md` — send first; longest external latency, and
+  answers 1-2 are half the input to PRD §16.2.
+- `scripts/savio_recon.sh` — one paste on a login node, read-only, answers most
+  of Step 1 stages 1.1-1.2 without waiting for the email reply.
+- `scripts/check_gpu.sbatch` — Step 0's done-condition, and it probes the
+  off-screen rendering question (libGL/vulkan/Xvfb) since that is the most
+  likely project-level blocker.
+
+**Lesson:** MFA-gated clusters make the human the bottleneck for the first
+touch of every environment. Design the asks as single-paste scripts whose output
+can be handed back, rather than as sessions an agent drives.
+
+**Also:** scripts written on Windows got CRLF endings, which break the shebang
+on Linux. Added `.gitattributes` forcing LF on `.sh`/`.sbatch`/`.yaml`/`.py`.
