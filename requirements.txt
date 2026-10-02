@@ -1,0 +1,15 @@
+# Harness and analysis dependencies. Deliberately minimal.
+#
+# This does NOT include SimLingo, CARLA, torch or transformers. Those are the
+# policy and simulator stack, they are large, and they are version-sensitive to
+# the cluster. They belong in adapters/simlingo/requirements.txt once Step 1
+# establishes what actually works. See docs/steps/01-smallest-rollout.md
+#
+#   python -m venv .venv && . .venv/bin/activate   # Windows: .venv\Scripts\activate
+#   pip install -r requirements.txt
+#   python -m pytest -q
+
+pyyaml>=6.0          # config loading (harness/config.py)
+pytest>=7.0          # tests
+scipy>=1.10          # Hungarian assignment; scoring falls back to brute force
+                     # without it, so this is a speed dependency not a hard one

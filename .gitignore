@@ -8,13 +8,15 @@ __pycache__/
 venv/
 *.egg-info/
 .ipynb_checkpoints/
+.pytest_cache/
 
 # Experiment outputs
 outputs/
 runs/
-checkpoints/
+results/
 *.ckpt
 *.pt
+*.safetensors
 wandb/
 mlruns/
 
@@ -25,6 +27,12 @@ activations/
 *.h5
 *.npz
 *.zarr/
+
+# Model checkpoints and containers — large, never in git
+checkpoints/
+*.sif
+*.simg
+*.tar
 
 # Local
 .env
