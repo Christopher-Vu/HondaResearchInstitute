@@ -41,9 +41,32 @@ and why.
 
 ## Where things stand
 
-Step 0 — grounding the facts and getting onto Savio. Nothing is built yet, and
-that is correct: several numbers the plan rests on have not been read out of a
-paper by anyone on this team, and two of them would change what we build.
+**Blocked on Savio GPU access.** Login works, but `ic_cdss170fall` has only
+`savio2_gpu` (retired); `savio3_gpu` and `savio4_gpu` are rejected. A support
+request is open — see [`docs/savio-support-email.md`](docs/savio-support-email.md).
+Step 1 cannot start until that clears.
+
+Working in the meantime on the GPU-free half of the harness
+([`docs/steps/gpu-free-queue.md`](docs/steps/gpu-free-queue.md)). Done so far:
+the scoring layer, the data contracts, the sealed-key CI guard, config hashing,
+and the B1 random baseline — 45 tests, all passing without a GPU.
+
+That ordering is deliberate rather than opportunistic: the scoring code wants to
+be frozen and hash-committed *before* the test pool exists (`PRD.md` §9.1), so
+building it now is correct.
+
+### Running the checks
+
+```bash
+python -m pytest -q                        # 45 tests, no GPU needed
+python scripts/check_sealed_imports.py     # sealed-key guard
+python scripts/check_configs.py            # config hashes + unresolved TBDs
+```
+
+Cluster settings live only in
+[`configs/cluster/savio.yaml`](configs/cluster/savio.yaml). No script names a
+partition or GPU type; `scripts/submit.sh` reads that file and refuses GPU
+submission while `gpu.available: false`.
 
 ## Reading it out loud
 
