@@ -1,0 +1,24 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest pyyaml scipy
+
+      # PRD 9.1: a sealed-key leak is silent, so it gets a guard not care.
+      - name: sealed-key guard
+        run: python scripts/check_sealed_imports.py
+
+      # PRD 6.2: every experiment is a config; placeholders must be visible.
+      - name: configs parse
+        run: python scripts/check_configs.py
+
+      # The headline metric, tested on synthetic data with no GPU.
+      - name: tests
+        run: python -m pytest -q
