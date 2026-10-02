@@ -2,8 +2,21 @@
 
 **Owner:** both. Jerry drives the cluster and container, Chris drives the agent
 and config.
-**Depends on:** Step 0 Track B item 3 — both of us have run a GPU job on Savio.
+**Depends on:** a usable GPU partition on Savio.
 **Blocks:** Step 2 (reproduction) and, through the throughput number, §16.2.
+
+> **BLOCKED as of 2026-10-01.** Login works (user `christophervu`), but
+> `ic_cdss170fall` has only `savio2_gpu`, which is **retired**, and `savio3_gpu`
+> and `savio4_gpu` are **rejected**. There is no usable GPU partition and a
+> support request is open. Nothing in this step can run until it is answered.
+>
+> **Do not hardcode a partition or GPU type anywhere.** All of it lives in
+> `configs/cluster/savio.yaml`; `scripts/submit.sh` reads that file and refuses
+> GPU submission while `gpu.available: false`. When the reply arrives, set
+> `gpu.available`, `gpu.partition`, `gpu.qos` and `gpu.gres` there and nothing
+> else needs editing.
+>
+> Meanwhile the GPU-free queue in `docs/steps/gpu-free-queue.md` is the work.
 
 **The goal is one route. Not the benchmark.** One route, one seed, commentary and
 chain-of-thought off, in a container, from a versioned config, with wall-clock

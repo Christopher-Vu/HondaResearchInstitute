@@ -18,12 +18,15 @@ I'm an undergraduate on a Data Discovery project using the `ic_cdss170fall`
 allowance, working on interpretability for an autonomous-driving policy with
 99P Labs / Honda Research Institute. My account is registered under the project.
 
-We're sizing a simulation campaign before we commit to it, and I couldn't find
-the following in the program's Savio documentation. Could you point me to it or
-answer directly?
+I can log in, but I have no usable GPU partition, so I'm currently blocked.
+Question 1 is the blocker; the rest are so we can size the campaign correctly
+once it clears.
 
-1. **Which GPU partitions can `ic_cdss170fall` submit to?** I want to put the
-   correct `--partition` in our job scripts rather than guess.
+1. **Which GPU partitions can `ic_cdss170fall` submit to?** This is the blocking
+   question. The account currently appears to have only `savio2_gpu`, which I
+   understand is retired, and jobs submitted to `savio3_gpu` and `savio4_gpu` are
+   rejected. Could you either add the project to a current GPU partition or tell
+   me which one we should be using?
 2. **What is the Service Unit charging rate for GPU jobs** on those partitions?
    Our workload is estimated in GPU-hours and I'd like to convert that to SUs
    against our allowance before scheduling it.
