@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
+# Resource flags (account/partition/qos/gres/cpus) come from
+# configs/cluster/savio.yaml via scripts/submit.sh. Do not add them here.
 #SBATCH --job-name=simlingo-step1
-#SBATCH --account=ic_cdss170fall
-#SBATCH --partition=TBD-STEP0        # ask the program contact; do not guess
-#SBATCH --qos=savio_normal           # not lowprio: we want this to not be preempted
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
 #SBATCH --time=0-02:00:00
 #SBATCH --output=results/step1/slurm-%j.out
 #
 # Step 1 scaffold — single SimLingo rollout under Slurm on Savio.
-# Fill the TBD values from Step 0 Track B before use.
+#   bash scripts/submit.sh gpu scripts/run_rollout.sh <config>
+# Blocked until configs/cluster/savio.yaml has a GPU partition.
 # Deliberately minimal: no Ray, no fan-out. One route.
 # See docs/steps/01-smallest-rollout.md
 #
