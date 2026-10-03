@@ -1,0 +1,118 @@
+diff --git a/simlingo_training/models/driving.py b/simlingo_training/models/driving.py
+index e9f8bf4..e257371 100644
+--- a/simlingo_training/models/driving.py
++++ b/simlingo_training/models/driving.py
+@@ -176,7 +176,7 @@ class DrivingModel(pl.LightningModule):
+                 self.language.append(self.tokenizer.batch_decode(sampled_tokens, skip_special_tokens=True)[0])
+         else:
+             # single forward pass same as during training so we can use the same function
+-            features = self.forward_model(driving_input, adaptor_dict)
++            features, _ = self.forward_model(driving_input, adaptor_dict)
+             outputs_by_adaptor = self.adaptors.split_outputs_by_adaptor(adaptor_dict, features)
+             predictions = self.adaptors.driving.get_predictions(outputs_by_adaptor['driving'])
+ 
+diff --git a/team_code/agent_simlingo.py b/team_code/agent_simlingo.py
+index 4675d47..af1d474 100644
+--- a/team_code/agent_simlingo.py
++++ b/team_code/agent_simlingo.py
+@@ -85,7 +85,8 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+             print(f"Save path root: {self.save_path_root}")
+         self.step = -1
+         self.initialized = False
+-        self.device = torch.device('cuda')
++        self.device = torch.device(os.environ.get('SIMLINGO_DEVICE', 'cuda'))
++        self.dtype = torch.bfloat16 if self.device.type == 'cuda' else torch.float32
+         self.DrivingInput = {}
+         self.config = GlobalConfig()
+ 
+@@ -150,6 +151,10 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+             cfg = OmegaConf.load(file)
+         self.cfg = cfg
+         self.cfg.model.vision_model.use_global_img = cfg.data_module.use_global_img
++        base_model = os.environ.get('SIMLINGO_BASE_MODEL')
++        if base_model:
++            cfg.model.vision_model.variant = base_model
++            cfg.model.language_model.variant = base_model
+     
+         processor = AutoProcessor.from_pretrained(cfg.model.vision_model.variant, trust_remote_code=True)
+         if 'tokenizer' in processor.__dict__:
+@@ -159,9 +164,9 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+         self.tokenizer.add_special_tokens({'additional_special_tokens': ['<WAYPOINTS>','<WAYPOINTS_DIFF>', '<ORG_WAYPOINTS_DIFF>', '<ORG_WAYPOINTS>', '<WAYPOINT_LAST>', '<ROUTE>', '<ROUTE_DIFF>', '<TARGET_POINT>']})
+         self.tokenizer.padding_side = "left"
+         # llm_tokenizer = AutoTokenizer.from_pretrained(cfg.model.language_model.variant)
+-        cache_dir = f"pretrained/{(cfg.model.vision_model.variant.split('/')[1])}"
++        cache_dir = base_model or f"pretrained/{(cfg.model.vision_model.variant.split('/')[1])}"
+         default_dtype = torch.get_default_dtype()
+-        torch.set_default_dtype(torch.bfloat16)
++        torch.set_default_dtype(self.dtype)
+         self.model = hydra.utils.instantiate(
+                 cfg.model,
+                 cfg_data_module=cfg.data_module,
+@@ -170,7 +175,9 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+                 _recursive_=False
+             ).to(self.device)
+         torch.set_default_dtype(default_dtype)
+-        self.model.load_state_dict(torch.load(self.config_path))
++        self.model.load_state_dict(torch.load(self.config_path, map_location='cpu', weights_only=True), strict=True)
++        self.model.eval()
++        self.model.predict_language = self.config.use_cot
+         self.iter = self.config_path.split("epoch=")[-1].split("/")[0]
+         self.session = self.config_path.split("/")[-4]
+         
+@@ -583,7 +590,7 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+                         questions.append(conv[i]['content'][0]['text'])
+                         conv[i]['content'] = conv[i]['content'][0]['text']
+                         
+-        cache_dir = f"pretrained/{(self.cfg.model.vision_model.variant.split('/')[1])}"
++        cache_dir = os.environ.get('SIMLINGO_BASE_MODEL') or f"pretrained/{(self.cfg.model.vision_model.variant.split('/')[1])}"
+         # get absolute path from workspace dir not wokring dir
+         cache_dir = to_absolute_path(cache_dir)
+         model_path = f"{cache_dir}/conversation.py"
+@@ -654,7 +661,7 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+                 loss_masking=None,
+         )
+ 
+-        self.DrivingInput["camera_images"] = processed_image.to(self.device).bfloat16()
++        self.DrivingInput["camera_images"] = processed_image.to(device=self.device, dtype=self.dtype)
+         self.DrivingInput["image_sizes"] = image_sizes
+         self.DrivingInput["camera_intrinsics"] = torch.repeat_interleave(get_camera_intrinsics(W, H, 110).unsqueeze(0), 1, dim=0).view(1, 3, 3).float().to(self.device),
+         self.DrivingInput["camera_extrinsics"] = torch.repeat_interleave(get_camera_extrinsics().unsqueeze(0), 1, dim=0).view(1, 4, 4).float().to(self.device),
+@@ -666,6 +673,7 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+         return result
+ 
+     @torch.no_grad()
++    @torch.inference_mode()
+     def run_step(self, input_data, timestamp, sensors=None):  # pylint: disable=locally-disabled, unused-argument
+         self.step += 1
+ 
+@@ -806,7 +814,7 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+         """
+         assert route_waypoints.size(0) == 1
+         route_waypoints = route_waypoints[0].data.cpu().numpy()
+-        speed = velocity[0].data.cpu().numpy()
++        speed = float(velocity.item())
+         speed_waypoints = speed_waypoints[0].data.cpu().numpy()
+ 
+         # m / s required to drive
+@@ -864,7 +872,7 @@ class LingoAgent(autonomous_agent.AutonomousAgent):
+ 
+         del self.model
+         del self.config
+-        if self.cfg.data_module.encoder == 'llavanext':
++        if self.cfg.data_module.get('encoder') == 'llavanext':
+             del self.processor
+ 
+ 
+diff --git a/team_code/config_simlingo.py b/team_code/config_simlingo.py
+index 5b537d9..601f79f 100644
+--- a/team_code/config_simlingo.py
++++ b/team_code/config_simlingo.py
+@@ -6,7 +6,7 @@ class GlobalConfig:
+         # -----------------------------------------------------------------------------
+         self.eval_route_as = 'target_point' # "target_point" or "target_point_command" "command", -1 -> use from model config
+         # if target_point_command (trained on both we eval with targetpoint)
+-        self.use_cot = True
++        self.use_cot = False
+ 
+         self.carla_frame_rate = 1.0 / 20.0  # CARLA frame rate in milliseconds
+         self.carla_fps = 20  # Simulator Frames per second

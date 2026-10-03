@@ -1,22 +1,97 @@
 # adapters/simlingo
 
-The SimLingo adapter. **Closed-loop execution remains unverified** — see
-`../../docs/steps/adapter-simlingo-brief.md` for what is in scope.
+The Mac bring-up runs the stock Windows CARLA 0.9.15 server through
+Sikarugir/D3DMetal and uses a compiled arm64 Python client. This local run is
+separate from Savio Step 1 and the Fail2Drive custom server.
 
-Keep this concrete and specific. `PRD.md` §8.2: build the general interface by
-refactoring after this works, not before. Step 11.
+## Open the simulation
+
+Double-click `../../Open CARLA.command`, or run from the repository root:
+
+```bash
+.runtime/policy-venv/bin/python adapters/simlingo/run_local.py
+```
+
+The command starts a fresh server, opens the policy's actual RGB camera in a
+native window with its own event loop, runs route 26956 with SimLingo, saves Bench2Drive results and
+controls under `results/local-mac/<timestamp>/`, then stops the server. Keep the
+Mac lid open and the screen unlocked to inspect the window. The launcher
+prevents ordinary idle sleep for the duration of the run; plugging into power is
+recommended. Space freezes the displayed image without
+changing the experiment; Escape stops the run. An occupied port 2000 is rejected.
+
+`configs/rollout/local-mac.yaml` pins Town05, SignalizedJunctionRightTurn, seed 0,
+commentary off, MPS inference with CPU operator fallback, and Epic rendering.
+Low rendering crashed the Windows server during sensor startup on this Mac.
+The native client reports `0.9.15-macclient`; the server reports `0.9.15`. The
+client suffix identifies our build and produces a version-string warning.
+
+```mermaid
+flowchart LR
+  Launch[Open CARLA command] --> Server[CARLA creates the street and camera]
+  Server --> Policy[SimLingo reads the camera]
+  Policy --> Controls[Steering throttle and brake]
+  Controls --> Server
+  Server --> View[Camera window in its own process]
+  Controls --> Results[Bench2Drive results and control log]
+```
+
+`readiness.json` is written only after a finished route with model-driven
+throttle, no skipped scenario and no agent/server crash. A policy driving failure
+is recorded separately from a software failure. Local evidence does not supply
+Savio throughput, whole-stack peak VRAM, full 220-route readiness, or Fail2Drive
+custom-build compatibility. Official additional maps are installed, and all
+12 towns referenced by the benchmark XML are present. All 22,211 packaged files
+passed length and CRC checks. Town12 also passed a 100-frame camera/control smoke
+test. These checks do not establish successful policy runs across every town.
+
+Verified local result: `results/local-mac/20261002-182756/readiness.json`.
+The 73.757 m route completed with 293 actual model inference steps in 244.670 wall
+seconds (14.7 simulated seconds, 0.0601× real time). No collisions, traffic-light
+or stop violations, deviation or timeout were recorded. Minimum-speed ratios are
+logged at every checkpoint by the pinned criterion and have no score penalty.
+This run is integration evidence; one route does not reproduce benchmark scores.
+The desktop view and Space pause/resume were inspected; Escape was verified to
+stop the evaluator and server without issuing readiness for the cancelled run.
+
+The launcher creates `.runtime/CARLA Camera.app` from the installed Python app,
+assigns it a separate local app identity and signs the copy locally. The viewer
+uses the same virtual environment and reads atomically saved real camera images.
+It does not create another sensor or control the vehicle.
+
+## Native client and runtime
+
+Exact revisions, checksums and patch paths are in
+`../../configs/setup/simlingo-artifacts.yaml`. The native client build follows
+[nfriend's Mac client guide](https://github.com/nfriend/carla/blob/0786f27568f1adfa645232e812b440cc7e3742ed/Docs/build_mac_client.md).
+Boost 1.80 needs `patches/boost-python311-enum.patch` for Python 3.11. Apply that
+patch to the Boost source with `patch -p1`, rebuild the static Boost.Python
+archive, then rebuild the wheel. Both CARLA dependency archives must contain the
+fixed `enum.o`.
+
+```bash
+uv pip install --python .runtime/policy-venv/bin/python -r adapters/simlingo/requirements-mac.lock
+uv pip install --python .runtime/policy-venv/bin/python .runtime/carla-native/PythonAPI/carla/dist/carla-0.9.15-cp311-cp311-macosx_26_0_arm64.whl
+git -C .runtime/simlingo apply ../../adapters/simlingo/patches/external-server.patch
+.runtime/policy-venv/bin/python adapters/simlingo/verify_carla.py --host localhost
+```
+
+The CARLA verifier checks exact synchronous camera/frame matches, actual pixels,
+and vehicle movement. Its result is a camera/control smoke test, not SimLingo
+route evidence. The launcher checks source patches and checkpoint/client-wheel
+checksums before starting. `requirements-mac.lock` excludes the separately built
+CARLA wheel. The old Docker client route was unstable and is not used.
 
 ## Offline checkpoint verification
 
 The Mac setup has pinned source in `.runtime/simlingo`, the base model in
 `.runtime/InternVL2-1B`, and the checksum-verified released weights under
 `checkpoints/simlingo/`. Exact revisions live in
-`../../configs/setup/simlingo-artifacts.yaml`; the CPU environment is separate
-from the harness and CARLA runtime.
+`../../configs/setup/simlingo-artifacts.yaml`; the policy environment is separate
+from the harness. The same frozen Mac environment supports CPU verification, MPS
+inference and the native CARLA client.
 
 ```bash
-uv venv --python 3.11 .runtime/policy-venv
-uv pip install --python .runtime/policy-venv/bin/python -r adapters/simlingo/requirements-cpu.lock
 HF_HUB_OFFLINE=1 .runtime/policy-venv/bin/python adapters/simlingo/verify_checkpoint.py
 ```
 
@@ -25,14 +100,17 @@ strict-loads the whole model, then checks finite waypoint outputs from a dummy
 camera input. It writes `results/setup/model-smoke.json`; it never marks CARLA
 camera rendering or closed-loop driving as verified.
 
-`patches/commentary-off.patch` selects commentary-off inference in the agent and
-unpacks the feature/logit tuple correctly in that model branch. The original
+`patches/runtime-compatibility.patch` selects CPU/MPS/CUDA with matching dtypes,
+strict-loads the weights, selects evaluation mode, uses the installed base model
+for both loading and prompts, and fixes the scalar speed input to the PID
+controller. It also selects commentary-off inference and unpacks the feature/logit
+tuple correctly in that model branch. The original
 branch raises `TypeError: tuple indices must be integers or slices, not tuple`;
 the patched branch passes with the same released weights. Apply it after cloning
 the manifest's source revision:
 
 ```bash
-git -C .runtime/simlingo apply ../../adapters/simlingo/patches/commentary-off.patch
+git -C .runtime/simlingo apply ../../adapters/simlingo/patches/runtime-compatibility.patch
 ```
 
 ## Policy facts

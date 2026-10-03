@@ -1,7 +1,7 @@
 source:
   repository: https://github.com/RenzKa/simlingo.git
   revision: 743b243afd6cf5ff51b9fa1f8cac86f22d569684
-  patch: adapters/simlingo/patches/commentary-off.patch
+  patch: adapters/simlingo/patches/runtime-compatibility.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454
@@ -12,9 +12,47 @@ base_model:
   repository: OpenGVLab/InternVL2-1B
   revision: 0d75ccd166b1d0b79446ae6c5d1a4a667f1e6187
 simulator:
-  version: "0.9.15"
-  supported_server_platforms: [linux-x86_64, windows-x86_64]
+  version: 0.9.15
+  supported_server_platforms:
+  - linux-x86_64
+  - windows-x86_64
 benchmark:
   name: Bench2Drive
-  version: "0.0.3"
+  version: 0.0.3
   source: simlingo/Bench2Drive
+local_mac:
+  server:
+    package: CARLA_0.9.15.zip
+    sha256: 2650b7b3fbe21fefd7c7cd2c0d53a0e5e2df9e51a4e0eec9bcf9ac0291697c39
+    wrapper: Sikarugir 1.0.21
+    engine: WS12WineCX24.0.7_7
+    graphics: D3DMetal 4.0b2
+    render_quality: Epic
+  client:
+    repository: https://github.com/nfriend/carla.git
+    revision: 0786f27568f1adfa645232e812b440cc7e3742ed
+    version_label: 0.9.15-macclient
+    wheel: .runtime/carla-native/PythonAPI/carla/dist/carla-0.9.15-cp311-cp311-macosx_26_0_arm64.whl
+    sha256: 63ef943a6c410a80599d22619a642528caf0eefdfc3f32d927932aa128f40c8e
+    boost_python_patch: adapters/simlingo/patches/boost-python311-enum.patch
+  benchmark_patch: adapters/simlingo/patches/external-server.patch
+  requirements: adapters/simlingo/requirements-mac.lock
+  additional_maps:
+    package: AdditionalMaps_0.9.15.zip
+    source_url: https://carla-releases.s3.us-east-005.backblazeb2.com/Windows/AdditionalMaps_0.9.15.zip
+    sha256: df0e8aff9fb11815c980fb6ee18b7a49d1930adb3a3c612bb2e6a2b21a4ee978
+    archive_bytes: 7211521479
+    assets_crc_verified: 22211
+    benchmark_towns:
+    - Town01
+    - Town02
+    - Town03
+    - Town04
+    - Town05
+    - Town06
+    - Town07
+    - Town10HD
+    - Town11
+    - Town12
+    - Town13
+    - Town15

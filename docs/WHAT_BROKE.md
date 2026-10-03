@@ -115,3 +115,87 @@ the original `TypeError`, patched the unpacking, and wired the agent's
 `use_cot=False` setting into the model. The same weights and input then pass.
 The patch and verifier are under `adapters/simlingo/`; CPU model execution does
 not establish CARLA camera rendering or closed-loop experiment readiness.
+
+
+## 2026-10-02 — Native client and local route bring-up
+
+The Docker client could handshake but stalled during synchronous operations.
+Built an arm64 Python 3.11 client from nfriend/CARLA revision
+`0786f27568f1adfa645232e812b440cc7e3742ed`. Boost 1.80's enum used a Python GC
+flag without a traverse function; the upstream one-line Boost.Python fix made
+it import. NumPy 1.26.4 and framework Python headers were required for the build.
+The client labels itself `0.9.15-macclient`, so the version-string warning is
+expected and recorded. Real camera/frame matching and control then passed.
+
+A route omitted `SCENARIO_RUNNER_ROOT` and silently skipped its scenario. That
+attempt is invalid. The launcher sets the path and rejects any skipped-scenario
+log or agent/server crash. Some later diagnostic retries overlapped a helper's
+live tests; those attempts are excluded. All subsequent runs have one lifecycle
+owner and one evaluator.
+
+Low rendering crashed Unreal's render thread during camera warmup. Threading
+flags, off-screen mode and a warmup delay did not resolve it. Epic rendering
+reached real sensor input. Repeated world reloads were also unstable, so local
+launches use a fresh server per route. Server readiness retries create a new
+client after a failed startup connection.
+
+The first live step tried to call Hugging Face `snapshot_download` with the
+installed base-model directory as a repository ID. The prompt code now uses the
+same offline directory as model setup. Cleanup expected an absent legacy
+`data_module.encoder` field; it now reads that optional field safely.
+
+The first model prediction exposed a one-element speed array in the PID history,
+which NumPy 1.26 rejects as a ragged array. The PID boundary now requires scalar
+speed with `velocity.item()`. The agent explicitly enters evaluation mode and
+uses inference mode. MPS requires CPU fallback for bicubic upsampling under
+PyTorch 2.2.0. The complete route now passes with
+294 model inference steps and 100% route completion. Evidence is in
+`results/local-mac/20261002-160934/`; the launcher stopped its owned server.
+
+Minimum-speed records include ratios above 100%. In the pinned criterion, every
+checkpoint unconditionally emits `MIN_SPEED_INFRACTION`; the percentage is ego
+mean speed divided by background mean speed. Slow background traffic therefore
+produces large values. The pinned statistics manager marks this penalty as
+`unused`, matching PRD §13. Raw events and scores are preserved. This single
+route verifies local plumbing and does not establish benchmark reproduction.
+
+
+The first native window processed events on the inference thread, and macOS
+accessibility calls could not inspect it reliably. Existing programs also share
+Python's default app identity. The camera now runs in a separate, locally signed
+Python app with its own event loop. Desktop camera pixels, Space pause/resume and
+continued model controls were observed.
+
+After closing the viewer, the upstream evaluator could linger in shutdown. The
+viewer now records cancellation before announcing it; the launcher's log reader
+then stops its owned process group immediately. Escape cleanup passed and the
+cancelled run has no readiness result. The complete route using the independent
+viewer is `results/local-mac/20261002-163439/`.
+
+
+## 2026-10-02 — Viewer teardown and Mac sleep
+
+Normal viewer teardown sends SIGTERM. SDL converted that signal into a quit event,
+so the camera incorrectly recorded a user cancellation after a completed route.
+The viewer now sets SDL_NO_SIGNAL_HANDLERS=1 before initialization, preserving
+normal process termination while Escape and window-close still record a user stop.
+
+The subsequent route stalled inside MPS inference and was correctly rejected as
+an agent crash. The power log records maintenance sleep at 17:33:49 for 721
+seconds during that attempt, followed by a dark wake at 17:45:50. The lid is now
+open. The launcher uses macOS caffeinate to prevent ordinary idle display/system
+sleep only while the run is active; it does not override lid closure or change
+persistent power settings. The failed attempt remains in
+`results/local-mac/20261002-173210/` with no readiness report.
+
+The official additional map package was streamed into the dedicated CARLA app
+after space became available. Every packaged file passed length and CRC checks,
+and Town12 passed camera/control smoke. Task-generated native build caches were
+removed after confirming the installed client uses system dynamic libraries; the
+pinned wheel and source remain available.
+
+Final delivered-launch validation after map installation and both lifecycle fixes
+passed in `results/local-mac/20261002-182756/`: 100% completion, 293 model steps,
+14.7 simulated seconds in 244.670 wall seconds. Normal teardown did not create
+a user-stop marker; readiness was saved. No owned camera, model, Wine/server or
+caffeinate processes remained afterward.

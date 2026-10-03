@@ -15,7 +15,7 @@ jobs:
         run: ruff check src scripts adapters tests
 
       - name: adapter typecheck
-        run: mypy --follow-imports=skip --ignore-missing-imports adapters/simlingo/verify_checkpoint.py
+        run: mypy --follow-imports=skip --ignore-missing-imports adapters/simlingo
 
       # PRD 9.1: a sealed-key leak is silent, so it gets a guard not care.
       - name: sealed-key guard
