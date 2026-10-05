@@ -1,17 +1,21 @@
 # Step 1 — smallest possible SimLingo rollout.
 # One route, one seed, CoT off. See docs/steps/01-smallest-rollout.md
+# Run by scripts/step1.sbatch through adapters/simlingo/run_savio.py.
 #
 # Fields marked TBD-STEP1 are what this step measures or discovers.
-# Do not guess them; fill them from the run and commit the result.
+# Do not guess them; fill them from results/savio/<job>/route/readiness.json
+# and commit the result.
 
 name: step1-single-route
 step: 1
+scope: savio_step1_single_route
 
 policy:
   name: simlingo
   hf_repo: RenzKa/simlingo
   ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28        # verified against publisher SHA256
   cot: false                     # PRD 10.1 / D4 — commentary and CoT off
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
   # Read these off the loaded config, do not trust the defaults below.
   # PRD 16.11. Every storage estimate in 12.1 and the SAE width in 12.2
   # scale with hidden_size.
@@ -22,24 +26,29 @@ policy:
 
 simulator:
   carla_version: "0.9.15"
-  carla_build: TBD-STEP1         # stock vs Fail2Drive custom build
+  carla_build: stock-linux-release   # official CARLA_0.9.15.tar.gz, not the Fail2Drive build
   bench2drive_version: "0.0.3" # v0.0.3 and v0.0.4 are NOT comparable
   mode: synchronous
   fixed_delta_seconds: 0.05
   render_offscreen: true         # PRD 1.2 — the most likely blocker
+  quality: Epic                  # matches the Mac run
+  timeout_seconds: 60
 
 route:
-  # One short, dull route. Prefer a scenario NOT in the known-weak ability
-  # list (PRD 10.1) so a failure is informative rather than expected.
-  route_id: TBD-STEP1
+  # The route the Mac run completed (results/local-mac/20261002-182756), so the
+  # first Savio result can be compared with a known-good one. Town05 ships in
+  # the base CARLA package.
+  id: "26956"
+  town: Town05
+  scenario: SignalizedJunctionRightTurn
   seed: 0
 
 measure:
   wall_clock_seconds: TBD-STEP1
   simulated_seconds: TBD-STEP1
   real_time_factor: TBD-STEP1    # simulated / wall-clock; expect ~0.045-0.065
-  peak_vram_gb: TBD-STEP1        # whole container, including the CARLA server
+  peak_vram_gb: TBD-STEP1        # whole stack, including the CARLA server
 
 outputs:
-  results_dir: results/step1/
+  results_dir: results/savio/
   record_infractions: true

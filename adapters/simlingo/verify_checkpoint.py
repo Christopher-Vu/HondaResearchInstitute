@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -12,7 +10,7 @@ from typing import Any
 
 import hydra
 import torch
-import yaml
+from artifacts import verify_artifacts
 from omegaconf import OmegaConf
 from transformers import AutoTokenizer
 
@@ -22,30 +20,6 @@ SPECIAL_TOKENS = [
     "<ORG_WAYPOINTS>", "<WAYPOINT_LAST>", "<ROUTE>", "<ROUTE_DIFF>",
     "<TARGET_POINT>",
 ]
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def verify_artifacts(source: Path, checkpoint: Path) -> dict[str, Any]:
-    manifest = yaml.safe_load((ROOT / "configs/setup/simlingo-artifacts.yaml").read_text())
-    revision = subprocess.check_output(
-        ["git", "-C", str(source), "rev-parse", "HEAD"], text=True,
-    ).strip()
-    if revision != manifest["source"]["revision"]:
-        raise ValueError("SimLingo source revision does not match the artifact manifest")
-    if sha256(checkpoint) != manifest["checkpoint"]["sha256"]:
-        raise ValueError("SimLingo checkpoint checksum does not match the publisher")
-    subprocess.run([
-        "git", "-C", str(source), "apply", "--reverse", "--check",
-        str(ROOT / manifest["source"]["patch"]),
-    ], check=True)
-    return manifest
 
 
 def load_model(base: Path, checkpoint: Path) -> tuple[Any, Any]:

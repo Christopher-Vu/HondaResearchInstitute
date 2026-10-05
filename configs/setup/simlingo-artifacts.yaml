@@ -2,6 +2,7 @@ source:
   repository: https://github.com/RenzKa/simlingo.git
   revision: 743b243afd6cf5ff51b9fa1f8cac86f22d569684
   patch: adapters/simlingo/patches/runtime-compatibility.patch
+  benchmark_patch: adapters/simlingo/patches/external-server.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454
@@ -20,6 +21,19 @@ benchmark:
   name: Bench2Drive
   version: 0.0.3
   source: simlingo/Bench2Drive
+  towns:
+  - Town01
+  - Town02
+  - Town03
+  - Town04
+  - Town05
+  - Town06
+  - Town07
+  - Town10HD
+  - Town11
+  - Town12
+  - Town13
+  - Town15
 local_mac:
   server:
     package: CARLA_0.9.15.zip
@@ -35,7 +49,6 @@ local_mac:
     wheel: .runtime/carla-native/PythonAPI/carla/dist/carla-0.9.15-cp311-cp311-macosx_26_0_arm64.whl
     sha256: 63ef943a6c410a80599d22619a642528caf0eefdfc3f32d927932aa128f40c8e
     boost_python_patch: adapters/simlingo/patches/boost-python311-enum.patch
-  benchmark_patch: adapters/simlingo/patches/external-server.patch
   requirements: adapters/simlingo/requirements-mac.lock
   additional_maps:
     package: AdditionalMaps_0.9.15.zip
@@ -43,16 +56,20 @@ local_mac:
     sha256: df0e8aff9fb11815c980fb6ee18b7a49d1930adb3a3c612bb2e6a2b21a4ee978
     archive_bytes: 7211521479
     assets_crc_verified: 22211
-    benchmark_towns:
-    - Town01
-    - Town02
-    - Town03
-    - Town04
-    - Town05
-    - Town06
-    - Town07
-    - Town10HD
-    - Town11
-    - Town12
-    - Town13
-    - Town15
+linux:
+  # Savio and any other Linux GPU host. Stock CARLA runs from the official tarball
+  # on the host, as upstream SimLingo does; see configs/cluster/savio.yaml for the
+  # container fallback.
+  server:
+    package: CARLA_0.9.15.tar.gz
+    source_url: https://carla-releases.s3.us-east-005.backblazeb2.com/Linux/CARLA_0.9.15.tar.gz
+    bytes: 8386636048
+    sha256: 7b2f432ce74b251593f95dcc8dee6d99ad9625c2a71a2d6d48f24d879de19ef7
+  additional_maps:
+    package: AdditionalMaps_0.9.15.tar.gz
+    source_url: https://carla-releases.s3.us-east-005.backblazeb2.com/Linux/AdditionalMaps_0.9.15.tar.gz
+    bytes: 7375946087
+    sha256: 49db78d14fef1f403f69fe1a13f1f1802f2111a6d98161826b2ae0d6dd96bba8
+  # carla 0.9.15 publishes Linux wheels for CPython 3.7-3.10 only.
+  python: "3.10"
+  requirements: adapters/simlingo/requirements-linux.lock
