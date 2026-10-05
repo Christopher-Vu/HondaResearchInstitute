@@ -393,6 +393,24 @@ costs more and muddies the claim that we repaired the *decision* the axis names 
 but it is now labeled a deviation. Run an unfrozen arm if the frozen one underfits.
 `PRD.md` §9.4, §12.3.
 
+### C20 · Step 1 runs CARLA from the release tarball, not a container · new, 2026-10-05, pending review
+`docs/steps/01-smallest-rollout.md` stage 1.1 plans a CARLA 0.9.15 container, with
+"build from the CARLA release tarball directly" as its fallback. **We start with
+the fallback.** No published Apptainer recipe for 0.9.15 was found; the closest
+attempt (carla-simulator/carla#4256, 0.9.11 on a Compute Canada cluster) failed on
+a read-only image, and the official image has open Vulkan failures on newer hosts
+(#8079). Upstream SimLingo's own `setup_carla.sh` runs the tarball on the host.
+
+**Resolution (proposed):** `adapters/simlingo/setup_savio.py` unpacks the pinned,
+checksummed tarball and maps under `.runtime/carla-linux`, and `run_savio.py`
+runs `CarlaUE4.sh -RenderOffScreen` on the GPU node. If host Vulkan fails, set
+`carla.container` in `configs/cluster/savio.yaml` and the same tree runs inside
+the official image. The done-condition's "in the container" is the part this
+changes; reproducibility comes from the pinned tarball checksum instead.
+
+Related finding: `savio_lowprio` is not associated with `ic_cdss170fall`, so
+`PRD.md` §17.2's lowprio fan-out does not apply. Fan-out uses the `*_ica` QoS.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
@@ -409,7 +427,7 @@ Both documents say sweep rather than guess. But one method must be *named primar
 before the test pool is generated, because the random baseline's set sizes and the
 closed-loop target rule both key off it. Closes at **Step 7**. `PRD.md` §16.5.
 
-### D4 · Savio operational unknowns · open, now more important
-Partition names, SU charging rate for GPU jobs, max wall time, storage quota. The
+### D4 · Savio operational unknowns · open, partly closed 2026-10-05
+Partition names are now known (`configs/cluster/savio.yaml`, from `sacctmgr`). SU charging rate for GPU jobs, max wall time, storage quota. The
 brief flagged all four; the handoff's cost estimates were sized for NRP hardware
 and do not transfer. Ask the program contact. `PRD.md` §17.4.

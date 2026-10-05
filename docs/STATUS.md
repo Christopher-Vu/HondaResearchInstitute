@@ -3,19 +3,24 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-02
+Last updated: 2026-10-05
 
 ---
 
 ## Current position
 
-**Step 0 — Track A done, Track B blocked.**
+**Step 0 — Track A done, Track B unblocked; Step 1 built and ready to submit.**
 
 Track A (paper facts) is complete: six papers read, findings in
-`docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B (Savio access) is
-blocked on cluster administration.
+`docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B: the allowance
+does have GPU access (`savio4_gpu` / `a5k_gpu4_ica`, `savio3_gpu` /
+`a40_gpu3_ica`); the earlier "rejected" was the wrong QoS (`docs/WHAT_BROKE.md`).
+**No GPU job has run yet.** The Savio Step 1 path is written but untested on the
+cluster: `adapters/simlingo/setup_savio.py`, `run_savio.py`,
+`scripts/step1.sbatch`. CARLA runs from the release tarball on the GPU node
+(`CONFLICTS.md` C20, pending review).
 
-**Local CARLA and SimLingo completed a real route end to end. Savio Step 1 remains blocked.** The
+**Local CARLA and SimLingo completed a real route end to end.** The
 released model strict-loads on CPU and MPS. Stock Windows CARLA 0.9.15 runs on the
 M5 Pro through Sikarugir/D3DMetal, using an arm64 client compiled for Python 3.11.
 The camera/control smoke passed 100 matching frames and moved the vehicle 4.704 m.
@@ -46,25 +51,29 @@ frames after installation. Evidence is in
 policy routes. Keep the lid open during runs; the launcher prevents ordinary
 idle sleep with a temporary assertion and releases it on exit.
 
-## The blocker
+## Next, in order
 
-Savio login works (user `christophervu`, allowance `ic_cdss170fall`), but there is
-no usable GPU partition: `savio2_gpu` is retired, `savio3_gpu` and `savio4_gpu`
-are rejected. A support request is open — the text is in
-`docs/savio-support-email.md`.
+The exact commands are in `docs/steps/01-smallest-rollout.md`.
 
-When the reply arrives: set `gpu.available`, `gpu.partition`, `gpu.qos` and
-`gpu.gres` in `configs/cluster/savio.yaml`. Nothing else needs editing.
+1. Push this branch, then clone it under `/global/scratch/users/$USER` on Savio.
+2. Run `setup_savio.py` on a login node (about 20 GB of downloads; rerun after
+   any interruption). Any failure here is a download or disk problem, not CARLA.
+3. Submit `scripts/check_gpu.sbatch`. Its output closes Step 0 and says whether
+   the GPU node has a Vulkan loader and outbound internet.
+4. Submit `scripts/step1.sbatch`. If stage 1.2 (`render`) fails, read
+   `results/savio/<job>/render/server.log`, then try the container fallback in
+   `configs/cluster/savio.yaml`. If that also fails, it is the NRP replan.
+5. Copy the measured wall-clock, real-time factor and peak VRAM from
+   `route/readiness.json` into `configs/rollout/step1-single-route.yaml` and
+   `PRD.md` §17.3, and close §16.2.
 
-Separately, **an agent can never reach the cluster** — login requires a PIN plus
-a rotating 6-digit code and `ic_` allowances forbid unattended keys. Cluster work
-means handing Chris a script to paste and reading back the output. Two such
-scripts exist: `scripts/savio_recon.sh` (read-only recon) and
-`scripts/check_gpu.sbatch` (GPU smoke test, also probes off-screen rendering).
+**An agent can never reach the cluster.** Login requires a PIN plus a rotating
+6-digit code and `ic_` allowances forbid unattended keys. A person logs in in a
+terminal; an agent can read that terminal's output but not type into it.
 
 ## Built so far
 
-53 CPU tests pass; local CARLA and model bring-up use the Mac GPU.
+60 CPU tests pass; local CARLA and model bring-up use the Mac GPU.
 
 | Piece | Where |
 |---|---|
@@ -74,6 +83,8 @@ scripts exist: `scripts/savio_recon.sh` (read-only recon) and
 | B1 random baseline | `src/baselines/random_baseline.py` |
 | Sealed-key CI guard | `scripts/check_sealed_imports.py` |
 | Cluster indirection | `configs/cluster/savio.yaml`, `scripts/submit.sh` |
+| Savio runtime setup and Step 1 job | `adapters/simlingo/setup_savio.py`, `run_savio.py`, `scripts/step1.sbatch` |
+| Route runner shared by Mac and Savio | `adapters/simlingo/route_run.py` |
 
 Building the scoring layer before any rollout exists is deliberate, not
 opportunistic: `PRD.md` §9.1 wants it frozen and hash-committed before the test
@@ -86,20 +97,11 @@ pool is generated.
   constraints: `docs/steps/adapter-simlingo-brief.md`. Partial progress expected,
   because the GPU block limits how far it can go.
 
-## Next, if still blocked
+## In parallel with Step 1
 
 `docs/steps/gpu-free-queue.md`, in order. The top item is **B7's gap-signal
-definition** (`PRD.md` §16.9, `CONFLICTS.md` C18) — memorized-feature
-concentration as a gap signal is our construction, not Dr. VLA's, so it needs a
-written definition before Step 6 or B7 is not a fair baseline. Writing it before
-we have seen any activations is also the honest order.
-
-## Next, when unblocked
-
-`docs/steps/01-smallest-rollout.md`. One route, not the benchmark. The five
-stages are ordered so each failure is cheap to attribute; stage 1.2 (off-screen
-rendering) is the most likely project-level blocker, and if it fails that is a
-replan toward NRP rather than a debugging session.
+definition** (`PRD.md` §16.9, `CONFLICTS.md` C18). It must be written before
+anyone looks at real activations, and Step 3 will produce them soon.
 
 ## Open questions worth remembering
 
@@ -112,3 +114,5 @@ replan toward NRP rather than a debugging session.
   paths are recorded in the SimLingo adapter README and PRD §16.11.
 - **The gap portfolio size** (`PRD.md` §16.2) is budget-bound and cannot close
   until the rollout throughput measurement and the SU rate both exist.
+- **`savio_lowprio` is not available to this allowance**, so `PRD.md` §17.2's
+  preemptible fan-out plan needs revisiting before Step 2 (`CONFLICTS.md` C20).

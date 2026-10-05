@@ -199,3 +199,31 @@ passed in `results/local-mac/20261002-182756/`: 100% completion, 293 model steps
 14.7 simulated seconds in 244.670 wall seconds. Normal teardown did not create
 a user-stop marker; readiness was saved. No owned camera, model, Wine/server or
 caffeinate processes remained afterward.
+
+## 2026-10-05 — Savio GPU "rejection" was the wrong QoS, not missing access
+
+**Expected (2026-10-01 entry above):** `ic_cdss170fall` has no usable GPU
+partition; wait for support.
+
+**Actual:** `sacctmgr -nP show assoc user=$USER format=Account,Partition,QOS`
+lists the allowance on `savio3_gpu` with `a40_gpu3_ica`, `v100_gpu3_ica` and
+`gtx2080_gpu3_ica`, and on `savio4_gpu` with `a5k_gpu4_ica`. The earlier jobs
+asked for `savio_normal`, which these partitions only offer to other account
+types. Typed `--gres` (`gpu:A5000:1`) and the per-type CPU ratio (4 per A5000,
+8 per A40) are also required. `savio_lowprio` is not associated at all, so
+`PRD.md` §17.2's lowprio fan-out plan does not apply to this allowance.
+
+**Did:** filled `configs/cluster/savio.yaml` from the association list (A5000 by
+default, A40 as the documented alternative) and built the Step 1 path:
+`adapters/simlingo/setup_savio.py`, `run_savio.py` and `scripts/step1.sbatch`.
+No GPU job has run yet.
+
+**Lesson:** read the scheduler's own association table before concluding that
+access is missing. "Rejected" without the rejection text was not evidence.
+
+The same day, a Mac regression run after splitting `run_local.py` into the
+shared `route_run.py` hung for 30 seconds inside the unchanged Sikarugir
+launcher call, before any refactored code ran, while two 8 GB downloads were
+streaming. An immediate rerun passed: `results/local-mac/20261005-150141/`,
+route completed, 294 model steps, 0.0558x real time, only the unpenalized
+minimum-speed checks. If the launcher timeout recurs, rerun before debugging.

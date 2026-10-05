@@ -11,6 +11,10 @@ re-deriving things that are already settled.
 
 ## The situation you are walking into
 
+> **Superseded 2026-10-05:** the GPU block below was the wrong QoS, not missing
+> access, and the closed-loop route now runs on a Mac and is built for Savio.
+> Current state: `docs/STATUS.md`.
+
 **We have no usable GPU partition.** Savio login works, but the allowance
 `ic_cdss170fall` has only `savio2_gpu`, which is retired; `savio3_gpu` and
 `savio4_gpu` are rejected. A support request is open and unanswered.

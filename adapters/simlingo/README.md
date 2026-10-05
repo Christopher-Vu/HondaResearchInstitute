@@ -1,8 +1,39 @@
 # adapters/simlingo
 
 The Mac bring-up runs the stock Windows CARLA 0.9.15 server through
-Sikarugir/D3DMetal and uses a compiled arm64 Python client. This local run is
-separate from Savio Step 1 and the Fail2Drive custom server.
+Sikarugir/D3DMetal and uses a compiled arm64 Python client. Savio runs the stock
+Linux server on the GPU node. Both launchers share `route_run.py` (evaluator,
+environment, readiness checks) and `artifacts.py` (pinned checksums), and use the
+same `.runtime/` and `checkpoints/` layout. Neither covers the Fail2Drive custom
+server.
+
+## Run on Savio
+
+From a clone of this repository under `/global/scratch/users/$USER`, on a login
+node. Setup is idempotent and checksum-verified; rerun it after an interruption.
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv run --no-project --python 3.10 --with pyyaml adapters/simlingo/setup_savio.py
+bash scripts/submit.sh gpu scripts/check_gpu.sbatch
+bash scripts/submit.sh gpu scripts/step1.sbatch
+```
+
+Setup clones the pinned SimLingo revision and applies both source patches,
+downloads the checkpoint and InternVL2-1B at pinned revisions, downloads and
+unpacks the Linux CARLA tarball and additional maps (about 16 GB, checked against
+`configs/setup/simlingo-artifacts.yaml`), and builds `.runtime/policy-venv` from
+`requirements-linux.lock` (Python 3.10, because carla 0.9.15 has no Linux wheel
+for 3.11). A fresh clone plus the two patches matches the Mac source tree byte for
+byte.
+
+`step1.sbatch` runs `run_savio.py render` (100 synchronous frames, non-black
+camera, vehicle moves), `verify_checkpoint.py`, then `run_savio.py route` on
+route 26956, the route the Mac run completed. Evidence lands in
+`results/savio/<job>/`; `route/readiness.json` carries wall-clock, real-time
+factor and whole-stack peak VRAM sampled from `nvidia-smi`. CARLA takes a free
+port block per job, because GPU nodes are shared. If `render` fails on host
+Vulkan, set `carla.container` in `configs/cluster/savio.yaml`.
 
 ## Open the simulation
 
