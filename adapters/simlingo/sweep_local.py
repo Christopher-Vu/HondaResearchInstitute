@@ -23,7 +23,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from route_run import ROOT, ROUTES
+from route_run import ROOT, ROUTES, route_from_xml
 
 PENALIZED = ("collisions_layout", "collisions_pedestrian", "collisions_vehicle", "red_light",
              "stop_infraction", "outside_route_lanes", "yield_emergency_vehicle_infractions",
@@ -150,6 +150,7 @@ def deadline_today(clock: str) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--routes", help="comma-separated route ids to run instead of the seeded sample")
     parser.add_argument("--until", required=True, help="local HH:MM after which no new route starts")
     parser.add_argument("--cap-minutes", type=float, default=35)
     parser.add_argument("--capture-every", type=int, default=0, help="passed to run_local.py")
@@ -158,8 +159,10 @@ def main() -> None:
     args = parser.parse_args()
     stop_at = deadline_today(args.until)
     args.output.mkdir(parents=True, exist_ok=True)
-    plan = sample_routes(args.seed)
-    (args.output / "plan.json").write_text(json.dumps({"seed": args.seed, "routes": plan}, indent=2) + "\n")
+    plan = ([route_from_xml(route_id) for route_id in args.routes.split(",")] if args.routes
+            else sample_routes(args.seed))
+    (args.output / "plan.json").write_text(
+        json.dumps({"seed": None if args.routes else args.seed, "routes": plan}, indent=2) + "\n")
     finished = args.output / "routes.jsonl"
     rows = [json.loads(line) for line in finished.read_text().splitlines()] if finished.is_file() else []
     done = {row["id"] for row in rows}
