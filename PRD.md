@@ -1200,8 +1200,9 @@ upstream-99p/      the 99p repo as pulled, read-only reference
 No single deadline. We submit at whatever rung the results have reached, and
 having targets at several time scales means a result is never stranded.
 **Recheck every date before acting on it** — several in the brief had already
-passed when it was written. IEEE IV, RSS and CVPR dates below were checked on
-2026-10-06 against each venue's own page; the rest were not.
+passed when it was written. IEEE IV, RSS, CVPR and IROS dates below were checked
+on 2026-10-06 (IROS against the IEEE RAS listing, the others against each venue's
+own page); the workshop dates were not.
 
 - **Nearest archival, 6 pages including references:** IEEE IV 2027, papers
   due **15 November 2026** (call for papers; no timezone stated), Perth,
@@ -1215,7 +1216,8 @@ passed when it was written. IEEE IV, RSS and CVPR dates below were checked on
   November and February.
 - **Rolling:** IEEE RA-L, which transfers to IROS presentation; IEEE T-IV for the
   journal version with full closed-loop results.
-- **Fallback archival conference:** IROS 2027, early March.
+- **Fallback archival conference:** IROS 2027, papers due **1 March 2027**
+  (IEEE RAS event listing), Florence, 26 September–1 October 2027.
 
 Do not submit substantially the same work to two venues whose review periods
 overlap. The course poster symposium happens regardless.
