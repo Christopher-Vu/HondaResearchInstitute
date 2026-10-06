@@ -63,11 +63,13 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
   (`docs/WHAT_BROKE.md`). One collision failure (28330), one route capped at
   35 wall minutes while stalled (2144). Real-time factor 0.059.
 - **SimLingo stalls, and the benchmark hides it.** 9 of 28 routes stood still
-  or crawled for 38+ simulated seconds: at debris, behind a cyclist, leaving a
-  parking space, before an overtake, at route start on an open highway, at a
-  foggy junction on green, behind a blocked intersection. 7 moved again only
-  when the agent's scripted stuck detector forced throttle; all 7 scored 100.
-  Whether such stalls should become a dense label is a design question.
+  or crawled for 38+ simulated seconds. Eight were stalls: at debris, behind a
+  cyclist, leaving a parking space, before an overtake, at route start on an
+  open highway, in a sequential lane change, at a foggy junction on green, and
+  behind a blocked intersection. The ninth was the collision route, pinned
+  against a car at full throttle. 7 stalls moved again only when the agent's
+  scripted stuck detector forced throttle, and all 7 scored 100. Whether such
+  stalls should become a dense label is a design question.
 - **Stall repeats:** routes 1956, 23659 and 25845 were rerun after 07:50 into
   `results/local-sweep/20261006-repeats/` to see whether stalls recur.
 - **Step 3 replay passes on the Mac.** Replaying logged inputs reproduces the
