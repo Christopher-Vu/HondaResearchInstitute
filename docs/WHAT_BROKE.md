@@ -244,9 +244,10 @@ that the policy camera keeps CARLA's defaults: Bench2Drive's agent wrapper sets
 only size and field of view, and 0.9.15 defaults to histogram auto-exposure,
 motion blur 0.45 and post-processing on, all of which carry state across
 frames. A first look favours rendering: against the 2026-10-02 18:27 run, the
-first policy frame of three later runs differs in 1.4-3.9% of pixels, scattered
-over the whole image and mostly by one or two intensity levels (at most 33 of 255
-in fewer than 0.1% of pixels). A different world state would differ in patches.
+first policy frame of four other runs differs in 1.2-4.8% of pixels, scattered
+over the whole image and mostly by one or two intensity levels (at most 33 of 255,
+in under 0.1% of pixels). A different world state would differ in patches. The
+earliest run (2026-10-02 16:09) differs in 75% of pixels; not investigated.
 By step 40 the drives have separated (13.6% of pixels differ by more than 8).
 
 **Did:** nothing to the code. Recorded so that two things are planned for rather
