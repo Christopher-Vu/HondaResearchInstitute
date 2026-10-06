@@ -822,7 +822,8 @@ Two facts that change how we read these. **First, record the Bench2Drive
 version** — v0.0.3 and v0.0.4 numbers are not comparable, and under v0.0.4
 SimLingo is 86.55 DS. Second, **the only public reproduction attempt we know of
 got DS 75.5**, on 219 routes, configuration unconfirmed, with no maintainer
-reply. So the practical bring-up bar is **DS ≥ 75**, not 85, and anything below
+reply (RenzKa/simlingo issue #43; rechecked 2026-10-06, now closed with no reply
+or explanation visible). So the practical bring-up bar is **DS ≥ 75**, not 85, and anything below
 that means debugging rather than proceeding. Three evaluation seeds.
 
 Category-wise generalization, useful for checking that our setup reproduces the
