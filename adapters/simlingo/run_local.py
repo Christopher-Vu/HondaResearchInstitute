@@ -18,8 +18,9 @@ from typing import Any
 
 import yaml
 from artifacts import sha256, verify_artifacts
-from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, check_external_server_patch, check_route,
-                       evaluator_command, policy_environment, run_evaluator, summarize, wait_for_server)
+from route_run import (AGENT, CHECKPOINT, ROOT, SOURCE, Ports, check_external_server_patch, check_route,
+                       evaluator_command, policy_environment, route_from_xml, run_evaluator, summarize,
+                       wait_for_server)
 
 APP = Path.home() / "Applications/Sikarugir/CARLA.app"
 CAMERA_APP = ROOT / ".runtime/CARLA Camera.app"
@@ -92,10 +93,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=ROOT / "configs/rollout/local-mac.yaml")
     parser.add_argument("--no-view", action="store_true")
+    parser.add_argument("--route", help="Bench2Drive route id; town and scenario come from the routes file")
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--capture-every", type=int,
+                        help="record Step 3 activations each step and replay inputs every N steps")
     args = parser.parse_args()
     config = yaml.safe_load(args.config.read_text())
+    if args.route:
+        config["route"].update(route_from_xml(args.route))
     manifest = preflight(config)
-    output = ROOT / "results/local-mac" / datetime.now().strftime("%Y%m%d-%H%M%S")
+    output = args.output or ROOT / "results/local-mac" / datetime.now().strftime("%Y%m%d-%H%M%S")
     output.mkdir(parents=True)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
     configure_wrapper(config)
@@ -107,10 +114,15 @@ def main() -> None:
                 subprocess.run([str(APP / "Contents/MacOS/launcher")], stdout=log, stderr=subprocess.STDOUT,
                                timeout=30, check=True)
             versions = wait_for_server(PORTS.rpc)
+            extra = {"PYTORCH_ENABLE_MPS_FALLBACK": "1", "__PYVENV_LAUNCHER__": sys.executable}
+            agent = AGENT
+            if args.capture_every:
+                extra["SIMLINGO_CAPTURE_EVERY"] = str(args.capture_every)
+                agent = AGENT.with_name("capture_agent.py")
             environment = policy_environment(
                 output, config["policy"]["device"], ROOT / ".runtime/carla-native/PythonAPI/carla",
-                not args.no_view, {"PYTORCH_ENABLE_MPS_FALLBACK": "1", "__PYVENV_LAUNCHER__": sys.executable})
-            command = evaluator_command(output, config, PORTS, int(config["policy"]["cpu_threads"]))
+                not args.no_view, extra)
+            command = evaluator_command(output, config, PORTS, int(config["policy"]["cpu_threads"]), agent)
             if not run_evaluator(output, command, environment):
                 print(f"CARLA stopped by user. Partial evidence is in {output}; no readiness result was issued.")
                 return

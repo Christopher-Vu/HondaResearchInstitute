@@ -33,6 +33,16 @@ class Ports:
     traffic_manager: int
 
 
+def route_from_xml(route_id: str) -> dict[str, str]:
+    selected = ET.parse(ROUTES).find(f".//route[@id='{route_id}']")
+    if selected is None:
+        raise ValueError(f"Route {route_id} is not in the pinned routes file")
+    scenario = selected.find("scenarios/scenario")
+    if scenario is None:
+        raise ValueError(f"Route {route_id} has no authored scenario")
+    return {"id": route_id, "town": str(selected.get("town")), "scenario": str(scenario.get("type"))}
+
+
 def check_route(config: dict[str, Any]) -> None:
     selected = ET.parse(ROUTES).find(f".//route[@id='{config['route']['id']}']")
     if selected is None or selected.get("town") != config["route"]["town"]:
@@ -85,7 +95,8 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
     return values
 
 
-def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int) -> list[str]:
+def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
+                      agent: Path = AGENT) -> list[str]:
     evaluator = SOURCE / "Bench2Drive/leaderboard/leaderboard/leaderboard_evaluator.py"
     bootstrap = ("import runpy,torch; "
                  f"torch.set_num_threads({cpu_threads}); "
@@ -96,7 +107,7 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--traffic-manager-seed", str(config["route"]["seed"]),
             "--timeout", str(config["simulator"]["timeout_seconds"]), "--debug", "2",
             "--routes", str(ROUTES), "--routes-subset", config["route"]["id"],
-            "--agent", str(AGENT), "--agent-config", str(CHECKPOINT) + "+agent",
+            "--agent", str(agent), "--agent-config", str(CHECKPOINT) + "+agent",
             "--checkpoint", str(output / "result.json"),
             "--debug-checkpoint", str(output / "live.txt")]
 
