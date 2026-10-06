@@ -1243,6 +1243,10 @@ Items 1 and 2 close before Step 5 writes code.
 7. **Second policy for the cross-model check**, and whether it survives at all.
    Candidate: Drive-π0 from the DriveMoE repo, PaliGemma-3B based, trained on
    Bench2Drive data organized so a slice is a folder filter. *Step 11 or cut.*
+   Checked 2026-10-06 (`docs/step0-trackA-findings.md`): CVPR 2026; checkpoints
+   are released on Hugging Face (`rethinklab/DriveMoE`, Drive-π0 at 11.8 GB in
+   bfloat16) under **CC BY-NC 4.0**, so clear any 99P/Honda use first; Bench2Drive
+   DS 55.85, SR 30.0% for Drive-π0 (DriveMoE 74.22, 48.64%), paper Table 2.
 8. **Describability model** — a pinned open model, with the exact ID logged, and
    a closed API only as an optional comparison. *Step 7.*
 9. **B7's gap signal.** Memorized-feature concentration as a gap signal is our

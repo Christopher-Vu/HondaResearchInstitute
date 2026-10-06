@@ -96,6 +96,20 @@ every route directory. Zeroing one bucket's weight therefore leaves its frames r
 splits each batch 0.5/0.5 between driving and dreamer datasets (line 96). Whether the commentary
 and VQA labels leak a withheld concept is not checked here.
 
+**Drive-π0 / DriveMoE, 2026-10-06** (arXiv 2505.16278v2, HTML; GitHub `Thinklab-SJTU/DriveMoE`;
+Hugging Face `rethinklab/DriveMoE`; read through a fetch tool):
+
+- ✅ CVPR 2026. Checkpoints released: `DrivePi0_Base_bf16.pt` 11.8 GB, `DrivePi0_Base_fp32.pt` and
+  `DrivePi0_Full_fp32.pt` 18.2 GB each, `DriveMoE_base_bf16.pt` 13.5 GB, plus scenario labels.
+- ✅ Model-card licence **CC BY-NC 4.0**; no licence seen on the GitHub page. Non-commercial terms
+  matter if the sponsor ever uses results from it.
+- ✅ Bench2Drive closed loop, Table 2: Drive-π0 DS 55.85, SR 30.00%; DriveMoE DS 74.22, SR 48.64%.
+  Parameters 2606M (Drive-π0) and 3008M (DriveMoE); 260 ms inference latency reported for DriveMoE.
+- 🔶 Drive-π0 is a π0-style model, a VLM backbone plus an action expert. Event-grounded SAEs found
+  that π0.5's action expert responds to random-feature edits almost as much as to ranked ones, so a
+  Drive-π0 cross-model check would also test whether our causal checks survive that architecture.
+  Its 30% success rate also means far more failures per rollout than SimLingo.
+
 **Repo check, 2026-10-06** (`github.com/autonomousvision/fail2drive`, README, `toolbox/README.md`,
 `slurm_evaluate.py`; read through a fetch tool):
 
