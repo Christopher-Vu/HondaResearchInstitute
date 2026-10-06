@@ -262,17 +262,19 @@ Step 3's determinism check has to replay *logged* inputs offline, which is what
 off) and a driving score near 84, with PRD §8's practical bar at DS ≥ 75.
 
 **Actual:** the overnight sweep (`results/local-sweep/20261006-overnight/`, one
-seeded route per scenario type, 28 of 44 run) scored 26 of 27 routes a success
-(96.3%) with mean DS 97.1 (standard error 2.9). Under the paper's rate, 26 or
-more of 27 has probability 0.0001. Per ability: Merging 7/8 (paper 54.0%),
+seeded route per scenario type, 31 of 44 run) scored 27 of 29 routes a success
+(93.1%) with mean DS 97.1 (standard error 2.7). Under the paper's rate, 27 or
+more of 29 has probability 0.0005. Per ability: Merging 8/10 (paper 54.0%),
 Overtaking 5/5 (57.0%), Emergency Brake 9/9 (88.3%), Give Way 2/2 (53.3%),
-Traffic Signs 10/11 (82.5%). The one failure was route 28330, three vehicle
-collisions after a left turn into traffic.
+Traffic Signs 11/12 (82.5%). The failures were route 28330, three vehicle
+collisions after a left turn into traffic (DS 20.9), and route 3800, a brief
+lane departure (DS 95.9).
 
-What it hides: 9 of 28 routes stood still or crawled for 38+ simulated
-seconds, and 7 of those only moved again when SimLingo's scripted stuck
-detector forced throttle. Bench2Drive scores those as successes. One more
-(route 2144) never recovered and hit the 35-minute wall cap unscored. Three
+What it hides: 10 of 31 routes stood still or crawled for 38+ simulated
+seconds, and 8 only moved again when SimLingo's scripted stuck detector forced
+throttle. Bench2Drive scores those as successes. Two stalled routes hit the
+wall cap unscored: 2144 at 35 minutes, and 3457 at the 15-minute cap used in
+the last half hour. Three
 of the rescued stalls (1956, 23659, 25845), rerun at the end of the night,
 stalled again at the same place for 40–41 seconds.
 

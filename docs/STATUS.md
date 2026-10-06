@@ -58,18 +58,20 @@ replay de-risk from 02:20 to 09:20. Report with screenshots:
 https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 - **Sweep:** `adapters/simlingo/sweep_local.py`, one seeded route per scenario
-  type; 28 of 44 run (`results/local-sweep/20261006-overnight/`). 26 of 27
-  scored routes succeeded (96.3%, mean DS 97.1), far above the paper's 64.8%
-  (`docs/WHAT_BROKE.md`). One collision failure (28330), one route capped at
-  35 wall minutes while stalled (2144). Real-time factor 0.059.
-- **SimLingo stalls, and the benchmark hides it.** 9 of 28 routes stood still
-  or crawled for 38+ simulated seconds. Eight were stalls: at debris, behind a
-  cyclist, leaving a parking space, before an overtake, at route start on an
-  open highway, in a sequential lane change, at a foggy junction on green, and
-  behind a blocked intersection. The ninth was the collision route, pinned
-  against a car at full throttle. 7 stalls moved again only when the agent's
-  scripted stuck detector forced throttle, and all 7 scored 100. Whether such
-  stalls should become a dense label is a design question.
+  type; 31 of 44 run (`results/local-sweep/20261006-overnight/`). 27 of 29
+  scored routes succeeded (93.1%, mean DS 97.1), far above the paper's 64.8%
+  (`docs/WHAT_BROKE.md`). Failures: collisions on 28330, a lane departure on
+  3800. Two stalled routes were capped unscored (2144, 3457). Real-time factor
+  0.059.
+- **SimLingo stalls, and the benchmark hides it.** 10 of 31 routes stood still
+  or crawled for 38+ simulated seconds. Nine were stalls: at debris, behind a
+  cyclist, leaving a parking space, before two overtakes (an accident and a
+  parked obstacle), at route start on an open highway, in a sequential lane
+  change, at a foggy junction on green, and behind a blocked intersection. The
+  tenth was the collision route, pinned against a car at full throttle. 8
+  stalls moved again only when the agent's scripted stuck detector forced
+  throttle; the 7 that finished all scored 100. Whether such stalls should
+  become a dense label is a design question.
 - **The stalls are reproducible.** Routes 1956, 23659 and 25845, rerun after
   07:50 (`results/local-sweep/20261006-repeats/`), stalled again at the same
   place for 40–41 simulated seconds, each rescued by one creep. Despite
@@ -84,8 +86,8 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
   32x smaller than the fp32 tensor. Measured table in `PRD.md` §12.1.
 - **Closed loop is not reproducible:** the same route and seed see faintly
   different camera pixels from frame one (`docs/WHAT_BROKE.md`).
-- **Step 2 sizing, first cut:** 37.5 simulated seconds per route on average,
-  so 220 routes are about 35–51 GPU-hours at PRD §17.3's 0.045–0.065 real-time
+- **Step 2 sizing, first cut:** 36.2 simulated seconds per route on average,
+  so 220 routes are about 34–49 GPU-hours at PRD §17.3's 0.045–0.065 real-time
   factor, before server start-up and with the capped route as a lower bound.
 - **Desk research closed several open items:** event-grounded SAEs read,
   Fail2Drive repo checked, bucket weights and route-directory withholding
