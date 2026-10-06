@@ -1200,14 +1200,17 @@ upstream-99p/      the 99p repo as pulled, read-only reference
 No single deadline. We submit at whatever rung the results have reached, and
 having targets at several time scales means a result is never stranded.
 **Recheck every date before acting on it** — several in the brief had already
-passed when it was written.
+passed when it was written. IEEE IV, RSS and CVPR dates below were checked on
+2026-10-06 against each venue's own page; the rest were not.
 
-- **Nearest archival, ~6 pages:** IEEE IV 2027, mid-November. Best fit for a
-  discovery-only or comparative result.
-- **Archival extended abstract:** RSS 2027 Stage 1, early December, with an
-  invited full paper the following April — which means a discovery result can go
+- **Nearest archival, 6 pages including references:** IEEE IV 2027, papers
+  due **15 November 2026** (call for papers; no timezone stated), Perth,
+  15–18 June 2027. Best fit for a discovery-only or comparative result.
+- **Archival extended abstract:** RSS 2027 Stage 1, due **4 December 2026 AoE**,
+  with the full paper due 16 April 2027 — which means a discovery result can go
   in while the closed loop finishes.
-- **High bar:** CVPR 2027, mid-November.
+- **High bar:** CVPR 2027, registration **10 November 2026 AoE**, paper
+  **16 November 2026 AoE**.
 - **Non-archival, in person:** AAAI-27 and ICLR 2027 workshops, roughly late
   November and February.
 - **Rolling:** IEEE RA-L, which transfers to IROS presentation; IEEE T-IV for the
