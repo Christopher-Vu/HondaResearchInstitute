@@ -284,3 +284,16 @@ to 18 cm on the frames checked; the Windows CARLA build renders differently;
 chance. Step 2 on Savio is the comparison, and an fp32 arm there would
 separate precision from platform. If Savio lands near the paper, do not
 "fix" the Mac result; report both.
+
+## 2026-10-06 — Imhaohao cannot push to the shared repository
+
+**Expected:** `git push -u origin codex/carla-bringup` puts the branch on GitHub
+so Savio can clone it.
+
+**Actual:** HTTP 403. The Imhaohao GitHub account has no write access to
+`Christopher-Vu/HondaResearchInstitute`.
+
+**Did:** shipped the branch as a git bundle instead (`git bundle create`, `scp`
+to `dtn.brc.berkeley.edu`, `git clone` from the file on Savio). It works but the
+Savio copy goes stale with every new commit. Chris to add Imhaohao as a
+collaborator.
