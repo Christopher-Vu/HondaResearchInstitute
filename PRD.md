@@ -964,6 +964,24 @@ frame; three layers is about 190 KB per frame, so a few thousand rollouts is
 roughly 70 GB. Log all layers on the small dev pilot only, then three layers at
 scale. Per-rollout Zarr or Parquet shards plus a SQL index.
 
+**Measured 2026-10-06** on the Mac capture run of route 26956
+(`adapters/simlingo/capture_agent.py`). Each forward pass is 573–574 tokens:
+512 image tokens (two 448×448 tiles of 256), about 31 prompt tokens, then the 30
+driving queries (20 route, 10 speed), which are always the last 30 positions.
+The policy runs at 20 Hz. Per frame, in fp16:
+
+| What is logged | Per frame | Per simulated second |
+|---|---|---|
+| Mean over all tokens, 24 layers | 42 KB | 0.84 MB |
+| Mean over the 30 driving queries, 24 layers | 42 KB | 0.84 MB |
+| The 30 driving-query tokens kept individually, 24 layers (the "~35 token-vectors" above) | 1.29 MB | 26 MB |
+| Every token, 24 layers | 24.7 MB | 490 MB |
+| Exact preprocessed model input for replay (fp32 image tiles dominate) | 4.8 MB | 97 MB |
+
+Mean-pooled activations are cheap. The replay inputs are what cost storage, so
+"all failure-window frames at minimum" (60 frames, 290 MB per failure) is the
+binding choice, not the layer count.
+
 Store the **exact preprocessed model input losslessly** for every frame that may
 be replayed — all failure-window frames at minimum. JPEG thumbnails are for the
 gate only. Without this, the causal checks are not reproducible.

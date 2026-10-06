@@ -90,6 +90,41 @@ assigns it a separate local app identity and signs the copy locally. The viewer
 uses the same virtual environment and reads atomically saved real camera images.
 It does not create another sensor or control the vehicle.
 
+## Many routes, and Step 3 capture
+
+```bash
+.runtime/policy-venv/bin/python adapters/simlingo/run_local.py --no-view --route 24841
+.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --until 08:45 --capture-every 10
+HF_HUB_OFFLINE=1 .runtime/policy-venv/bin/python adapters/simlingo/replay_capture.py RUN_DIR --device mps
+```
+
+`--route` takes the town and scenario from the pinned routes file. `sweep_local.py`
+runs one seeded route per scenario type (44 of the 220; the file has exactly five
+per type, so the sample is stratified), one fresh server per route, and resumes
+when rerun with the same `--output`. It retries a route only when it failed
+before the evaluator started, so a driving outcome is never re-rolled, and it caps
+each route at 35 wall minutes; a capped route is unscored, not failed. Each
+record also carries the longest stationary stretch and how often SimLingo's own
+stuck detector forced it forward (40 simulated seconds still, then 15 creep
+frames). A route can score 100 only because that heuristic rescued it.
+
+`--capture-every N` swaps in `capture_agent.py`, which hooks all 24 decoder-layer
+outputs (PRD §12.1) and logs, every step, both waypoint heads and each layer's
+output mean-pooled over all tokens and over the 30 driving queries. Every Nth step
+it saves the exact model input. `replay_capture.py` reruns those inputs offline.
+On 2026-10-06 (route 26956, 29 saved frames, `results/local-step3/`):
+
+| Logged on | Replayed on | Worst waypoint difference | Within 1e-3 m |
+|---|---|---|---|
+| MPS fp32 | MPS fp32 | 0.0 m | yes |
+| MPS fp32 | CPU fp32 | 9.1e-5 m | yes |
+
+The replay also confirms that the last 30 positions of the final block, after the
+final norm, are exactly what the driving head decodes. Capture cost no measurable
+speed (0.0595× against 0.0558–0.0601× without it). This meets Step 3's replay
+condition on the Mac only; Savio runs CUDA in bfloat16 and must be checked
+there.
+
 ## Native client and runtime
 
 Exact revisions, checksums and patch paths are in
