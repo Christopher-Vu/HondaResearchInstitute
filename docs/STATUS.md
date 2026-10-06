@@ -129,7 +129,7 @@ anyone looks at real activations, and Step 3 will produce them soon.
   `docs/step0-trackA-findings.md`). Its causal edit assumes a per-token SAE,
   which clashes with §12.1's mean-pooling; decide the causal operator before
   Step 7. Its code is MIT-licensed.
-- **Dr. VLA's repo has no LICENSE file.** Ask the authors before vendoring any of
+- **Dr. VLA's repo has no LICENSE file** (rechecked 2026-10-06: none in the tree or `pyproject.toml`). Ask the authors before vendoring any of
   it; reimplement from the paper if they decline.
 - **Model architecture is now confirmed locally.** Hidden size 896 and 24
   decoder layers were read from the strict-loaded released model; query module
