@@ -88,6 +88,14 @@ leading_object_walker 0.05; changed_route 0.08; parkinglane 0.008. The same file
 from its first frame in a parking lane. One route proves nothing, but it is a cheap first
 hypothesis for the dev pool.
 
+**Route-directory withholding, 2026-10-06**: ✅ the handoff's claim holds in the pinned source.
+`simlingo_training/dataloader/dataset_base.py` builds one dataset per bucket from the same
+`data/simlingo/*/*/*/Town*` route-directory glob, and the `all` bucket (weight 0.082) draws from
+every route directory. Zeroing one bucket's weight therefore leaves its frames reachable through
+`all` and any overlapping bucket, so Mode A must filter route directories. `datamodule.py` also
+splits each batch 0.5/0.5 between driving and dreamer datasets (line 96). Whether the commentary
+and VQA labels leak a withheld concept is not checked here.
+
 **Repo check, 2026-10-06** (`github.com/autonomousvision/fail2drive`, README, `toolbox/README.md`,
 `slurm_evaluate.py`; read through a fetch tool):
 
@@ -195,7 +203,7 @@ against the PDF before quoting them in the paper.
 
 - ~~A5 Event-grounded SAEs (2605.17204)~~: read 2026-10-06 from the arXiv HTML, section above.
 - ❓ Items that need a repo or a loaded model, not a paper. Closed since: Qwen layer count and hidden size,
-  the B2D version, bucket weights and the Fail2Drive toolbox API (sections above). Still open: the
-  route-directory withholding claim, and PDMLite-F2D on a route XML we authored.
+  the B2D version, bucket weights, route-directory withholding and the Fail2Drive toolbox API
+  (sections above). Still open: PDMLite-F2D on a route XML we authored, and the commentary/VQA leak.
 - Dr. VLA license: ask the authors.
 - Unrelated typo: CONFLICTS.md calls the brief `prod.md`, but the PRD calls it `prd.md`.
