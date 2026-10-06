@@ -70,8 +70,11 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
   against a car at full throttle. 7 stalls moved again only when the agent's
   scripted stuck detector forced throttle, and all 7 scored 100. Whether such
   stalls should become a dense label is a design question.
-- **Stall repeats:** routes 1956, 23659 and 25845 were rerun after 07:50 into
-  `results/local-sweep/20261006-repeats/` to see whether stalls recur.
+- **The stalls are reproducible.** Routes 1956, 23659 and 25845, rerun after
+  07:50 (`results/local-sweep/20261006-repeats/`), stalled again at the same
+  place for 40–41 simulated seconds, each rescued by one creep. Despite
+  pixel-level nondeterminism, these stalls are properties of the scene, which
+  makes them usable targets for the discovery methods.
 - **Step 3 replay passes on the Mac.** Replaying logged inputs reproduces the
   waypoints exactly on MPS and to 9.1e-5 m on CPU. Float16 drifts by up to
   4.8 cm and bfloat16 (Savio's dtype) by up to 18 cm, so replay must match the

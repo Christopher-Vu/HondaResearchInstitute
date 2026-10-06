@@ -272,7 +272,9 @@ collisions after a left turn into traffic.
 What it hides: 9 of 28 routes stood still or crawled for 38+ simulated
 seconds, and 7 of those only moved again when SimLingo's scripted stuck
 detector forced throttle. Bench2Drive scores those as successes. One more
-(route 2144) never recovered and hit the 35-minute wall cap unscored.
+(route 2144) never recovered and hit the 35-minute wall cap unscored. Three
+of the rescued stalls (1956, 23659, 25845), rerun at the end of the night,
+stalled again at the same place for 40–41 seconds.
 
 **Did:** nothing to the stack. Candidate explanations, none tested: this Mac
 runs fp32 where published CUDA runs use bfloat16, which moves waypoints by up
