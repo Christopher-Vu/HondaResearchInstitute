@@ -46,9 +46,10 @@ RoboART 2502.06575v1, SAFE 2506.09937v2, RESample 2510.17640v4.
       Spot-check the quotes against the PDF before citing them.
 - [ ] Email the Dr. VLA authors about licensing (`PRD.md` §16.10).
 - [ ] Items needing a loaded model or repo rather than a paper, now folded into
-      Steps 1–2 (`PRD.md` §16.11): Qwen2-0.5B layer count and hidden size, bucket
-      weights, the route-directory withholding claim, the Bench2Drive version,
-      PDMLite-F2D standalone use, the Fail2Drive toolbox API.
+      Steps 1–2 (`PRD.md` §16.11). Closed: Qwen2-0.5B layer count and hidden size
+      (2026-10-02), the Bench2Drive version (0.0.3), bucket weights and the
+      Fail2Drive toolbox API (2026-10-06). Still open: the route-directory
+      withholding claim, and PDMLite-F2D on a route XML we authored.
 
 ## Track B — Savio access (Jerry primary, Chris confirms)
 

@@ -194,7 +194,8 @@ against the PDF before quoting them in the paper.
 ## Still open after Track A
 
 - ~~A5 Event-grounded SAEs (2605.17204)~~: read 2026-10-06 from the arXiv HTML, section above.
-- ❓ Items that need a repo or a loaded model, not a paper: Qwen layer count and hidden size, bucket weights,
-  the route-directory withholding claim, the B2D version, PDMLite-F2D standalone use, and the Fail2Drive toolbox API.
+- ❓ Items that need a repo or a loaded model, not a paper. Closed since: Qwen layer count and hidden size,
+  the B2D version, bucket weights and the Fail2Drive toolbox API (sections above). Still open: the
+  route-directory withholding claim, and PDMLite-F2D on a route XML we authored.
 - Dr. VLA license: ask the authors.
 - Unrelated typo: CONFLICTS.md calls the brief `prod.md`, but the PRD calls it `prd.md`.
