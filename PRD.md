@@ -977,10 +977,16 @@ The policy runs at 20 Hz. Per frame, in fp16:
 | The 30 driving-query tokens kept individually, 24 layers (the "~35 token-vectors" above) | 1.29 MB | 26 MB |
 | Every token, 24 layers | 24.7 MB | 490 MB |
 | Exact preprocessed model input for replay (fp32 image tiles dominate) | 4.8 MB | 97 MB |
+| The agent's own JPEG of the camera frame, which regenerates that input | ~150 KB | 3 MB |
 
-Mean-pooled activations are cheap. The replay inputs are what cost storage, so
-"all failure-window frames at minimum" (60 frames, 290 MB per failure) is the
-binding choice, not the layer count.
+Mean-pooled activations are cheap; the replay inputs are what cost storage.
+SimLingo JPEG-encodes every camera frame at test time (to match its JPEG
+training data) and the model only ever sees the decoded JPEG. Rerunning the
+agent's own preprocessing on the saved camera frame reproduced the logged fp32
+image input exactly (difference 0.0 on 14 of 14 frames), so storing those JPEG
+bytes plus the small speed, target-point and prompt tensors is lossless for
+replay and 32× smaller. That holds only with the same OpenCV and Pillow builds;
+pin them and re-verify on Savio before relying on it there.
 
 Store the **exact preprocessed model input losslessly** for every frame that may
 be replayed — all failure-window frames at minimum. JPEG thumbnails are for the
