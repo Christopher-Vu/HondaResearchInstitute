@@ -88,7 +88,7 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
   different camera pixels from frame one (`docs/WHAT_BROKE.md`).
 - **Step 2 sizing, first cut:** 36.2 simulated seconds per route on average,
   so 220 routes are about 34–49 GPU-hours at PRD §17.3's 0.045–0.065 real-time
-  factor, before server start-up and with the capped route as a lower bound.
+  factor, before server start-up and with capped routes as lower bounds.
 - **Desk research closed several open items:** event-grounded SAEs read,
   Fail2Drive repo checked, bucket weights and route-directory withholding
   confirmed from source, Drive-π0 release and licence checked, venue deadlines
