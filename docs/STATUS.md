@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-06 (overnight local session, in progress)
+Last updated: 2026-10-06 (overnight local session)
 
 ---
 
@@ -54,22 +54,38 @@ idle sleep with a temporary assertion and releases it on exit.
 ## Overnight local work, 2026-10-06
 
 Savio was not touched. The Mac GPU ran a local route sweep and the Step 3
-replay de-risk. **This section is mid-session until it says otherwise.**
+replay de-risk from 02:20 to 09:20. Report with screenshots:
+https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 - **Sweep:** `adapters/simlingo/sweep_local.py`, one seeded route per scenario
-  type, results in `results/local-sweep/20261006-overnight/` (`routes.jsonl`,
-  `summary.json`). Routes from the third onward also carry Step 3 capture.
-  SimLingo often stops still for 40 simulated seconds until its own stuck
-  detector creeps it forward, so a route takes 6 to 33 wall minutes.
+  type; 28 of 44 run (`results/local-sweep/20261006-overnight/`). 26 of 27
+  scored routes succeeded (96.3%, mean DS 97.1), far above the paper's 64.8%
+  (`docs/WHAT_BROKE.md`). One collision failure (28330), one route capped at
+  35 wall minutes while stalled (2144). Real-time factor 0.059.
+- **SimLingo stalls, and the benchmark hides it.** 9 of 28 routes stood still
+  or crawled for 38+ simulated seconds: at debris, behind a cyclist, leaving a
+  parking space, before an overtake, at route start on an open highway, at a
+  foggy junction on green, behind a blocked intersection. 7 moved again only
+  when the agent's scripted stuck detector forced throttle; all 7 scored 100.
+  Whether such stalls should become a dense label is a design question.
+- **Stall repeats:** routes 1956, 23659 and 25845 were rerun after 07:50 into
+  `results/local-sweep/20261006-repeats/` to see whether stalls recur.
 - **Step 3 replay passes on the Mac.** Replaying logged inputs reproduces the
   waypoints exactly on MPS and to 9.1e-5 m on CPU. Float16 drifts by up to
   4.8 cm and bfloat16 (Savio's dtype) by up to 18 cm, so replay must match the
   logging dtype, and Mac and Savio rollouts are not frame-comparable. Details
-  in the adapter README.
+  in the adapter README. Routes from the third onward carry capture.
 - **Replay storage:** the agent's own JPEG regenerates the exact model input,
   32x smaller than the fp32 tensor. Measured table in `PRD.md` §12.1.
-- **Closed loop is not reproducible:** the same route and seed see different
-  camera pixels from frame one (`docs/WHAT_BROKE.md`).
+- **Closed loop is not reproducible:** the same route and seed see faintly
+  different camera pixels from frame one (`docs/WHAT_BROKE.md`).
+- **Step 2 sizing, first cut:** 37.5 simulated seconds per route on average,
+  so 220 routes are about 35–51 GPU-hours at PRD §17.3's 0.045–0.065 real-time
+  factor, before server start-up and with the capped route as a lower bound.
+- **Desk research closed several open items:** event-grounded SAEs read,
+  Fail2Drive repo checked, bucket weights and route-directory withholding
+  confirmed from source, Drive-π0 release and licence checked, venue deadlines
+  pinned (`PRD.md` §15, `docs/step0-trackA-findings.md`).
 - **Activations from tonight are on disk but unread.** B7's definition still
   has to be written before anyone opens them.
 
