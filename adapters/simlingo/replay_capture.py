@@ -3,8 +3,10 @@
     HF_HUB_OFFLINE=1 .runtime/policy-venv/bin/python adapters/simlingo/replay_capture.py RUN_DIR --device mps
 
 Step 3's done-condition (PRD 13) is that a replayed frame reproduces the logged waypoints to within
-1e-3 m. This also checks that the last `driving_tokens` positions of the final block, after the final
-norm, are exactly the features the driving head decodes, which is what the driving-query mean assumes.
+1e-3 m. The model is rebuilt in the dtype the run logged with, since half precision alone moves
+waypoints by centimetres. This also checks that the last `driving_tokens` positions of the final
+block, after the final norm, are exactly the features the driving head decodes, which is what the
+driving-query mean assumes.
 """
 from __future__ import annotations
 
@@ -92,6 +94,18 @@ def replay_frame(model: Any, probe: Probe, frame: Any, record: dict[str, Any],
     }
 
 
+def load_in_dtype(dtype: torch.dtype) -> Any:
+    """Build the model the way the agent does: parameters created in its dtype (bfloat16 on CUDA)."""
+    default = torch.get_default_dtype()
+    torch.set_default_dtype(dtype)
+    try:
+        model, _tokenizer = load_model(ROOT / ".runtime/InternVL2-1B",
+                                       ROOT / "checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt")
+    finally:
+        torch.set_default_dtype(default)
+    return model
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("run", type=Path)
@@ -105,8 +119,7 @@ def main() -> None:
     sys.path.insert(0, str(ROOT / ".runtime/simlingo"))
     torch.set_num_threads(8)
     device = torch.device(args.device)
-    model, _tokenizer = load_model(ROOT / ".runtime/InternVL2-1B",
-                                   ROOT / "checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt")
+    model = load_in_dtype(getattr(torch, steps["dtype"].removeprefix("torch.")))
     model.to(device)
     probe = Probe(model)
     rows = [replay_frame(model, probe, torch.load(path, weights_only=False), by_step[int(path.stem)], device)
