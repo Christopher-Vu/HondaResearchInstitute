@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-05
+Last updated: 2026-10-06 (overnight local session, in progress)
 
 ---
 
@@ -50,6 +50,26 @@ frames after installation. Evidence is in
 `results/setup/town12-smoke/result.json`. These checks do not validate all 220
 policy routes. Keep the lid open during runs; the launcher prevents ordinary
 idle sleep with a temporary assertion and releases it on exit.
+
+## Overnight local work, 2026-10-06
+
+Savio was not touched. The Mac GPU ran a local route sweep and the Step 3
+replay de-risk. **This section is mid-session until it says otherwise.**
+
+- **Sweep:** `adapters/simlingo/sweep_local.py`, one seeded route per scenario
+  type, results in `results/local-sweep/20261006-overnight/` (`routes.jsonl`,
+  `summary.json`). Routes from the third onward also carry Step 3 capture.
+  SimLingo often stops still for 40 simulated seconds until its own stuck
+  detector creeps it forward, so a route takes 6 to 33 wall minutes.
+- **Step 3 replay passes on the Mac.** Replaying logged inputs reproduces the
+  waypoints exactly on MPS and to 9.1e-5 m on CPU. Float16 drifts by up to
+  4.8 cm, so replay must match the logging dtype. Details in the adapter README.
+- **Replay storage:** the agent's own JPEG regenerates the exact model input,
+  32x smaller than the fp32 tensor. Measured table in `PRD.md` §12.1.
+- **Closed loop is not reproducible:** the same route and seed see different
+  camera pixels from frame one (`docs/WHAT_BROKE.md`).
+- **Activations from tonight are on disk but unread.** B7's definition still
+  has to be written before anyone opens them.
 
 ## Next, in order
 
