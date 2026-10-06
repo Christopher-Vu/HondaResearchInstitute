@@ -239,8 +239,11 @@ same config) see different camera pixels from the very first policy frame
 until step 16-20, when controls diverge; speed differs by up to 3 m/s at
 the same step index later in the route. All five still completed the route in
 293-295 model steps. The server starts the route on a different frame each time
-(first frame 47-167), so warm-up length is one candidate cause; Epic-quality
-temporal rendering is another. Not yet separated.
+(first frame 47-167), so warm-up length is one candidate cause. Another is
+that the policy camera keeps CARLA's defaults: Bench2Drive's agent wrapper sets
+only size and field of view, and 0.9.15 defaults to histogram auto-exposure,
+motion blur 0.45 and post-processing on, all of which carry state across
+frames. Not yet separated.
 
 **Did:** nothing to the code. Recorded so that two things are planned for rather
 than discovered: a closed-loop rerun is a new sample, not a replay, so efficacy
