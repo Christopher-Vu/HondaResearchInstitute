@@ -63,7 +63,9 @@ replay de-risk. **This section is mid-session until it says otherwise.**
   detector creeps it forward, so a route takes 6 to 33 wall minutes.
 - **Step 3 replay passes on the Mac.** Replaying logged inputs reproduces the
   waypoints exactly on MPS and to 9.1e-5 m on CPU. Float16 drifts by up to
-  4.8 cm, so replay must match the logging dtype. Details in the adapter README.
+  4.8 cm and bfloat16 (Savio's dtype) by up to 18 cm, so replay must match the
+  logging dtype, and Mac and Savio rollouts are not frame-comparable. Details
+  in the adapter README.
 - **Replay storage:** the agent's own JPEG regenerates the exact model input,
   32x smaller than the fp32 tensor. Measured table in `PRD.md` §12.1.
 - **Closed loop is not reproducible:** the same route and seed see different
