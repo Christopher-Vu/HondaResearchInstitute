@@ -1251,8 +1251,10 @@ Items 1 and 2 close before Step 5 writes code.
 10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
     before vendoring anything from it; reimplement from the paper if they decline.
     *Step 7, but email now.*
-11. **Bucket weights**, PDMLite-F2D standalone usability, and the Fail2Drive
-    toolbox API surface remain open. *Steps 1–2.* The strict-loaded released
+11. **Bucket weights** and PDMLite-F2D on our own route XML remain open. *Steps 1–2.*
+    The Fail2Drive toolbox is a GUI route builder over leaderboard route XML, with
+    no Python API, and Fail2Drive runs on its own simulator build
+    (`docs/step0-trackA-findings.md`, repo check 2026-10-06). The strict-loaded released
     SimLingo model confirms Qwen2 hidden size 896 and 24 decoder layers as of
     2026-10-02. Query parameters live at `adaptors.driving.query_embeds_wps` and
     `adaptors.driving.query_embeds_speed`; their readouts are `route_head` and

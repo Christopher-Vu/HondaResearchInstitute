@@ -76,6 +76,26 @@ features. B7 may therefore be stronger than we would like.
 | PDM-Lite | ✅ PDMLite-F2D is offered as a solvability check for new scenarios (gen HM 94.6). ❓ Whether it runs standalone is a repo question. | §5 |
 | Toolbox | ✅ Scenario, asset, and behavior authoring; 17 animal assets; customizable obstacles. ❓ API surface is a repo question. | §5, Supp. A |
 
+**Repo check, 2026-10-06** (`github.com/autonomousvision/fail2drive`, README, `toolbox/README.md`,
+`slurm_evaluate.py`; read through a fetch tool):
+
+- ✅ MIT licence. Routes and scenarios are leaderboard route XML files (`fail2drive_split/`), run with
+  `leaderboard/leaderboard/leaderboard_evaluator_local.py --routes … --agent …`.
+- ✅ **Custom simulator**: `fail2drive_simulator.tar.gz` from the Hugging Face dataset
+  `SimonGer/fail2drive`, with a cp310 Linux client wheel. The README says stock `carla==0.9.15`
+  "should work, but may cause warnings". So Fail2Drive runs need a second CARLA install beside the
+  stock one Step 1 uses (CONFLICTS C20).
+- ✅ **The toolbox is a GUI, not a Python API**: a graphical route builder (`start_window.sh`) with
+  60+ scenario types and a Custom Obstacle Designer, reading and writing route XML, singly or by
+  folder. Generating many scenario variants for Step 10 therefore means writing route XML directly.
+- 🔶 PDMLite-F2D is an ordinary leaderboard agent (`team_code/visu_agent.py`, `--track MAP`), so it
+  should run on any route XML we author; the README does not say so outright. Test it on one
+  authored route before relying on it as the solvability check.
+- ✅ `slurm_evaluate.py` is their cluster launcher: one route per job, free port blocks per job,
+  `-RenderOffScreen`, a 60 s start-up wait, and resubmission up to 3 times only for crash statuses
+  such as "Failed - Agent crashed". It is a working reference for Step 2's fan-out now that
+  `savio_lowprio` is unavailable (PRD §17.2's job-array fallback).
+
 🔶 **Framing caution for §3.2.** PedestriansOnRoad is an authored scenario class, and any factor
 list could name "pedestrians walking in the ego lane". Use it as evidence that SimLingo's behavior
 rests on cue-specific priors. Do **not** present it as an unlistable conjunction. The paper's own
