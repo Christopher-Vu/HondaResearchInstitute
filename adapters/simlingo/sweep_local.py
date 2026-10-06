@@ -97,8 +97,16 @@ def longest_stationary_seconds(controls: Path, still_below: float = 0.1) -> floa
 
 
 def creep_events(evaluator_log: Path) -> int:
-    """Times SimLingo's own stuck detector forced it forward (40 simulated seconds still, then 15 creep frames)."""
-    return evaluator_log.read_text().count("force_move: 0\n") if evaluator_log.is_file() else 0
+    """Times SimLingo's own stuck detector started forcing it forward (40 simulated seconds still).
+
+    Each creep prints `force_move: 14` while the car stays still, then counts down; the model can
+    take over before the countdown ends, so an episode is counted where a run of 14s begins.
+    """
+    if not evaluator_log.is_file():
+        return 0
+    values = [int(line.rsplit(" ", 1)[1]) for line in evaluator_log.read_text().splitlines()
+              if line.startswith("force_move: ")]
+    return sum(value == 14 and (index == 0 or values[index - 1] != 14) for index, value in enumerate(values))
 
 
 def route_record(route: dict[str, str], output: Path, exit_code: int | None, wall: float,

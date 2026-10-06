@@ -70,3 +70,11 @@ def test_stationary_time_is_the_longest_still_run_in_simulated_seconds(tmp_path)
         for i, v in enumerate(speeds)))
     assert sweep_local.longest_stationary_seconds(tmp_path / "controls.jsonl") == 1.0
     assert sweep_local.longest_stationary_seconds(tmp_path / "missing.jsonl") == 0.0
+
+
+def test_creep_episodes_count_starts_even_when_the_model_takes_over(tmp_path):
+    log = ["SimLingo step 1", "force_move: 14", "force_move: 14", "force_move: 13", "force_move: 7",
+           "SimLingo step 900", "force_move: 14", "force_move: 13", "force_move: 0", "force_move: 14"]
+    (tmp_path / "evaluator.log").write_text("\n".join(log) + "\n")
+    assert sweep_local.creep_events(tmp_path / "evaluator.log") == 3
+    assert sweep_local.creep_events(tmp_path / "missing.log") == 0
