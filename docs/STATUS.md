@@ -87,7 +87,12 @@ The exact commands are in `docs/steps/01-smallest-rollout.md`.
    `configs/cluster/savio.yaml`. If that also fails, it is the NRP replan.
 5. Copy the measured wall-clock, real-time factor and peak VRAM from
    `route/readiness.json` into `configs/rollout/step1-single-route.yaml` and
-   `PRD.md` §17.3, and close §16.2.
+   `PRD.md` §17.3, and close §16.2. Compare the Savio route with the Mac runs on
+   outcome and real-time factor only; trajectories will differ (rendering noise,
+   and bfloat16 moves waypoints by up to 18 cm).
+6. Size Step 2 with tonight's numbers: 220 routes × mean simulated seconds per
+   route (`results/local-sweep/20261006-overnight/`) ÷ Savio's real-time factor.
+   Stalls make simulated time per route vary from 10 to over 100 seconds.
 
 **An agent can never reach the cluster.** Login requires a PIN plus a rotating
 6-digit code and `ic_` allowances forbid unattended keys. A person logs in in a
