@@ -76,6 +76,18 @@ features. B7 may therefore be stronger than we would like.
 | PDM-Lite | ✅ PDMLite-F2D is offered as a solvability check for new scenarios (gen HM 94.6). ❓ Whether it runs standalone is a repo question. | §5 |
 | Toolbox | ✅ Scenario, asset, and behavior authoring; 17 animal assets; customizable obstacles. ❓ API surface is a repo question. | §5, Supp. A |
 
+**SimLingo bucket weights, 2026-10-06**: ✅ read from the released checkpoint's own
+`checkpoints/simlingo/.hydra/config.yaml` (`data_module.train_partitions`, bucket path
+`database/bucketsv2_simlingo_v2_2025_01_10`). Sampling shares, summing to 1.0: all 0.082;
+acceleration buckets 0.03 each (four); lateral_control_1_2 0.12; lateral_control_higher_5 0.12;
+start_from_stop 0.07; vehicle_front 0.04; vehicle_side 0.08; leading_object_vehicle 0.09;
+leading_object_traffic.stop 0.07; leading_object_traffic.traffic_light 0.07;
+leading_object_walker 0.05; changed_route 0.08; parkinglane 0.008. The same file records
+`precision: 16-mixed`, 8 GPUs and `max_epochs: 15` (the checkpoint is `epoch=013`).
+🔶 Parking-lane samples get 0.8% of the draw, and the overnight sweep's ParkingExit route stalled
+from its first frame in a parking lane. One route proves nothing, but it is a cheap first
+hypothesis for the dev pool.
+
 **Repo check, 2026-10-06** (`github.com/autonomousvision/fail2drive`, README, `toolbox/README.md`,
 `slurm_evaluate.py`; read through a fetch tool):
 

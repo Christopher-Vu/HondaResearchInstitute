@@ -1251,7 +1251,8 @@ Items 1 and 2 close before Step 5 writes code.
 10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
     before vendoring anything from it; reimplement from the paper if they decline.
     *Step 7, but email now.*
-11. **Bucket weights** and PDMLite-F2D on our own route XML remain open. *Steps 1–2.*
+11. PDMLite-F2D on our own route XML remains open. *Steps 1–2.* Bucket weights are
+    read from the released checkpoint's config (`docs/step0-trackA-findings.md`).
     The Fail2Drive toolbox is a GUI route builder over leaderboard route XML, with
     no Python API, and Fail2Drive runs on its own simulator build
     (`docs/step0-trackA-findings.md`, repo check 2026-10-06). The strict-loaded released
