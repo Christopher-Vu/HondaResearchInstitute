@@ -227,3 +227,23 @@ launcher call, before any refactored code ran, while two 8 GB downloads were
 streaming. An immediate rerun passed: `results/local-mac/20261005-150141/`,
 route completed, 294 model steps, 0.0558x real time, only the unpenalized
 minimum-speed checks. If the launcher timeout recurs, rerun before debugging.
+
+## 2026-10-06 — Same route and seed does not reproduce the same rollout
+
+**Expected:** synchronous CARLA with a fixed traffic-manager seed replays the
+same drive, so repeated runs of route 26956 give identical control traces.
+
+**Actual:** the five completed Mac runs of 26956 (2026-10-02 and 2026-10-05,
+same config) see different camera pixels from the very first policy frame
+(per-frame mean 105.889-105.949). Throttle is saturated early, which hides it
+until step 16-20, when controls diverge; speed differs by up to 3 m/s at
+the same step index later in the route. All five still completed the route in
+293-295 model steps. The server starts the route on a different frame each time
+(first frame 47-167), so warm-up length is one candidate cause; Epic-quality
+temporal rendering is another. Not yet separated.
+
+**Did:** nothing to the code. Recorded so that two things are planned for rather
+than discovered: a closed-loop rerun is a new sample, not a replay, so efficacy
+and reproduction tests (§9.1, Step 10) must be statistical over seeds; and
+Step 3's determinism check has to replay *logged* inputs offline, which is what
+`adapters/simlingo/replay_capture.py` does. Unchecked on Savio.
