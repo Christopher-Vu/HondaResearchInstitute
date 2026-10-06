@@ -255,3 +255,28 @@ than discovered: a closed-loop rerun is a new sample, not a replay, so efficacy
 and reproduction tests (§9.1, Step 10) must be statistical over seeds; and
 Step 3's determinism check has to replay *logged* inputs offline, which is what
 `adapters/simlingo/replay_capture.py` does. Unchecked on Savio.
+
+## 2026-10-06 — The Mac drives Bench2Drive far better than the paper says
+
+**Expected:** a success rate near SimLingo's published 64.8% (Table 10, CoT
+off) and a driving score near 84, with PRD §8's practical bar at DS ≥ 75.
+
+**Actual:** the overnight sweep (`results/local-sweep/20261006-overnight/`, one
+seeded route per scenario type, 28 of 44 run) scored 26 of 27 routes a success
+(96.3%) with mean DS 97.1 (standard error 2.9). Under the paper's rate, 26 or
+more of 27 has probability 0.0001. Per ability: Merging 7/8 (paper 54.0%),
+Overtaking 5/5 (57.0%), Emergency Brake 9/9 (88.3%), Give Way 2/2 (53.3%),
+Traffic Signs 10/11 (82.5%). The one failure was route 28330, three vehicle
+collisions after a left turn into traffic.
+
+What it hides: 9 of 28 routes stood still or crawled for 38+ simulated
+seconds, and 7 of those only moved again when SimLingo's scripted stuck
+detector forced throttle. Bench2Drive scores those as successes. One more
+(route 2144) never recovered and hit the 35-minute wall cap unscored.
+
+**Did:** nothing to the stack. Candidate explanations, none tested: this Mac
+runs fp32 where published CUDA runs use bfloat16, which moves waypoints by up
+to 18 cm on the frames checked; the Windows CARLA build renders differently;
+chance. Step 2 on Savio is the comparison, and an fp32 arm there would
+separate precision from platform. If Savio lands near the paper, do not
+"fix" the Mac result; report both.
