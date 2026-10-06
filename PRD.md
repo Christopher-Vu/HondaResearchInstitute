@@ -238,7 +238,12 @@ training-time proxy for generalization (§6) — which is our thesis, unclaimed.
 
 *Jin, Chatterjee, Kumar, Paleja (Purdue). arXiv 2605.17204.* SAE features ranked
 against behavioural events clustered from rollouts, with VLM labels and
-residual-preserving zero-out checks, on OpenVLA and π0.5.
+residual-preserving zero-out checks, on OpenVLA and π0.5. Read 2026-10-06
+(`docs/step0-trackA-findings.md`, A5): per-token BatchTopK SAEs on LIBERO; the
+edit is `x′ = x + Dec(z′) − Dec(z)`; event-aligned features cut OpenVLA's success
+rate by 21.2 pp against 1.3 pp for random features, while on π0.5's action expert
+random features did comparable damage. VLM labels are visualization only. Code is
+MIT-licensed (github.com/xc-j/Event-SAE).
 
 **The closest method precedent, and the brief missed it entirely.** Differentiate
 on four axes: we are failure-conditioned, scored against planted gaps, in

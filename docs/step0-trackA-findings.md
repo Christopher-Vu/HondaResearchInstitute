@@ -2,7 +2,7 @@
 
 Verified 2026-10-01 against the PDFs: Dr. VLA arXiv 2603.19183v2, Fail2Drive 2604.08535v1,
 SimLingo 2503.09594v1, RoboART 2502.06575v1, SAFE 2506.09937v2, RESample 2510.17640v4.
-**Not yet read: Event-grounded SAEs (2605.17204). A5 stays open.**
+**Event-grounded SAEs (2605.17204) read 2026-10-06 from the arXiv HTML; see its section below.**
 
 **For the agent applying this:** treat every ✅ line as ground truth. Strike the matching
 **Unverified** block in `PRD.md` and add the cited reference. Make each ⚠️ correction exactly as
@@ -116,11 +116,52 @@ summary supports that reading: *"vehicle-following cues do not generalize to non
 
 ✅ arXiv 2510.17640v4 lists no venue. This matches PRD §4.5.
 
+## Event-grounded SAEs (arXiv 2605.17204): A5, read 2026-10-06
+
+Read from the arXiv HTML rendering (submitted 2026-05-17) through a fetch tool,
+not from the PDF. Lines in quotes were requested verbatim; spot-check them
+against the PDF before quoting them in the paper.
+
+| Item | Finding | Ref |
+|---|---|---|
+| Authors | ✅ Jin, Chatterjee, Kumar, Paleja, Department of Computer Science, Purdue. Matches PRD §4.4. | title page |
+| Policies | ✅ OpenVLA and π0.5 (PaliGemma backbone plus action expert), four LIBERO suites, one Mobile ALOHA real-robot task. Manipulation only. | §4.1 |
+| SAE | ✅ BatchTopK, k = 64, on post-block residual activations. "activations are not mean-pooled across tokens before training". 50 rollouts per task. Widths: OpenVLA 4096 to 32768 (8×); π0.5 PaliGemma 2048 to 2048 and action expert 1024 to 1024 (1×). | §3.1, §4.1 |
+| Events | ✅ Keyframes by Automatic Waypoint Extraction on end-effector position, described by a visual embedding, robot state with gripper, and temporal progress. Agglomerative clustering at cosine distance 0.18; a cluster is kept if it recurs in at least half the task's episodes. 36–61 clusters per suite. | §3.2, §3.3, §4.2 |
+| Ranking | ✅ Features scored against pulse and step templates around each event, with the window mean subtracted first. | §3.4 |
+| Labels | ✅ A VLM (gemini-3.1-pro-preview) labels clusters, but the labels are visualization only and play no part in ranking or intervention scoring. Their limitation (ii). | §3.3, §5 |
+| Causal edit | ✅ "x′=x+Dec(z′)−Dec(z)", with z′ scaling the selected latents by α (α = 0 is zero-out). Only the SAE-explained part changes and the reconstruction error is kept. Outcome is ΔSR in percentage points. The control is random alive features excluding the top-ranked ones. The text does not say which token positions the edit is applied at. | §3.5, §4.3 |
+| Results | ✅ OpenVLA layer 31: event-aligned ΔSR −21.2 pp against −1.3 pp for random alive features. π0.5 PaliGemma: single-feature edits stay close to baseline. π0.5 action expert: "window-mean, task-mean, and even random-alive features all produce comparable disruption" (random −0.7 to −23.4 pp). | Table 3, §4.3 |
+| Failure focus | ✅ Not failure-conditioned, no planted or known ground truth, no repair. Our four differentiators in PRD §4.4 hold. | whole paper |
+| Code | ✅ github.com/xc-j/Event-SAE, **MIT licence** (checked in the repository's LICENSE file), with collection and intervention hooks for OpenVLA and openpi. Unlike Dr. VLA, it can be vendored. | README, LICENSE |
+
+🔶 **Design consequences for the PRD owners. Not applied.**
+
+1. **Their causal template assumes a per-token SAE.** The edit decodes and
+   re-encodes the residual at token level. PRD §12.1 mean-pools per frame before
+   training. An SAE fit to frame means has no defined per-token edit, so the
+   §9.2 causal check either needs a per-token SAE at the intervention layer or a
+   different operator, such as Dr. VLA's `y' = y − (yᵀv)v` applied at every token.
+   Decide before Step 7.
+2. **Random-feature controls are not optional.** On π0.5's action expert,
+   random features did as much damage as top-ranked ones. Every causal verdict
+   needs the random-alive arm, which PRD §13 Step 9's "matched controls" covers.
+3. **Intervention site matters, and SimLingo's resembles OpenVLA's.** The
+   effects were real only where actions are decoded directly from the edited
+   stream (OpenVLA), not where they pass through a KV-cache to a separate action
+   expert (π0.5). SimLingo decodes waypoints from the final block's outputs at
+   its 30 driving-query positions (confirmed 2026-10-06, adapter README), with no
+   separate action expert, so those positions are the first site to try.
+4. **Their event clustering is a cheap baseline we do not have.** Clustering
+   behavioural keyframes and ranking features against them, with no failure
+   labels, sits between B3 (behavioural stratification) and our methods.
+   Consider it as an optional baseline or ablation.
+
 ---
 
 ## Still open after Track A
 
-- **A5 Event-grounded SAEs (2605.17204):** PDF not yet supplied.
+- ~~A5 Event-grounded SAEs (2605.17204)~~: read 2026-10-06 from the arXiv HTML, section above.
 - ❓ Items that need a repo or a loaded model, not a paper: Qwen layer count and hidden size, bucket weights,
   the route-directory withholding claim, the B2D version, PDMLite-F2D standalone use, and the Fail2Drive toolbox API.
 - Dr. VLA license: ask the authors.

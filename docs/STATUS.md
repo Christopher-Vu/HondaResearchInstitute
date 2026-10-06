@@ -125,8 +125,10 @@ anyone looks at real activations, and Step 3 will produce them soon.
 
 ## Open questions worth remembering
 
-- **Event-grounded SAEs (arXiv 2605.17204)** has not been read. Needed for the
-  related-work paragraph and as the causal-check template. Due before Step 9.
+- **Event-grounded SAEs (arXiv 2605.17204)** is read (2026-10-06,
+  `docs/step0-trackA-findings.md`). Its causal edit assumes a per-token SAE,
+  which clashes with §12.1's mean-pooling; decide the causal operator before
+  Step 7. Its code is MIT-licensed.
 - **Dr. VLA's repo has no LICENSE file.** Ask the authors before vendoring any of
   it; reimplement from the paper if they decline.
 - **Model architecture is now confirmed locally.** Hidden size 896 and 24
