@@ -112,6 +112,9 @@ frames). A route can score 100 only because that heuristic rescued it.
 outputs (PRD §12.1) and logs, every step, both waypoint heads and each layer's
 output mean-pooled over all tokens and over the 30 driving queries. Every Nth step
 it saves the exact model input. `replay_capture.py` reruns those inputs offline.
+The per-step log is flushed every 200 steps and when the route ends, so a route
+stopped at the wall cap loses its last partial block (route 2144 kept 2,000 of
+2,168 steps).
 On 2026-10-06 (route 26956, 29 saved frames, `results/local-step3/`):
 
 | Logged on | Replayed on | Worst waypoint difference | Within 1e-3 m |
