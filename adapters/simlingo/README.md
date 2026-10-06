@@ -119,12 +119,15 @@ On 2026-10-06 (route 26956, 29 saved frames, `results/local-step3/`):
 | MPS fp32 | MPS fp32 | 0.0 m | yes |
 | MPS fp32 | CPU fp32 | 9.1e-5 m | yes |
 | MPS fp32 | MPS float16 | 4.8 cm (1.1 cm mean per frame) | no |
+| MPS fp32 | CPU bfloat16, first 4 frames | 18 cm (8.8 cm mean per frame) | no |
 
-Half precision alone moves waypoints by centimetres, so a replay must use the
-dtype the run logged with, and Mac fp32 rollouts are not frame-comparable with
-Savio's bfloat16 ones (bfloat16 has three fewer mantissa bits than float16, and
-MPS in this torch build has no bfloat16). On Savio, check CUDA bfloat16 replay
-against itself first.
+Half precision alone moves waypoints by centimetres, and bfloat16, which Savio
+runs, by up to 18 cm on these frames. So a replay must use the dtype the run
+logged with (`replay_capture.py` rebuilds the model in it), and Mac fp32
+rollouts are a measurably different policy from Savio's bfloat16 ones at the
+frame level. MPS in this torch build has no bfloat16 and CPU bfloat16 took
+about 10 minutes a frame, hence four frames. On Savio, check CUDA bfloat16
+replay against itself first.
 
 The replay also confirms that the last 30 positions of the final block, after the
 final norm, are exactly what the driving head decodes. Capture cost no measurable
