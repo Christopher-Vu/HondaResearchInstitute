@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-07 afternoon (Mac CARLA runs moved to compute-box; Savio still blocked)
+Last updated: 2026-10-07 afternoon (compute-box set up but crashes on black frames; Savio still blocked)
 
 ---
 
@@ -51,18 +51,18 @@ frames after installation. Evidence is in
 policy routes. Keep the lid open during runs; the launcher prevents ordinary
 idle sleep with a temporary assertion and releases it on exit.
 
-## compute-box, 2026-10-07 (in progress)
+## compute-box, 2026-10-07: set up, but cannot run routes yet
 
-CARLA runs moved off the laptop to compute-box (`ssh compute-box`, M1 Pro,
-16 GB; also serves production's Blender offload). Setup is complete and checked
-against the laptop's install (`docs/WHAT_BROKE.md`). **Mid-task:** the last two
-stall repeats, 17635 and 24841, are running there into
-`compute-box:~/HondaResearchInstitute/results/local-sweep/20261007-computebox-repeats/`
-(expected done around 16:30), started from `~/run_routes.command` with a
-120-minute cap and a swap/disk guard (`~/run_routes.sh`). When they finish,
-copy that folder back to `results/local-sweep/` and add them to the stall
-analysis. compute-box runs at 0.021× real time (laptop 0.059×), so budget
-about 2.8 times the laptop's wall time per route there.
+CARLA runs were moved off the laptop to compute-box (`ssh compute-box`, M1 Pro,
+16 GB; it also serves production's Blender offload). Setup is complete and
+matches the laptop's install, but 4 of 5 route attempts crashed on a black
+camera frame within the first 2 simulated seconds (`docs/WHAT_BROKE.md`). No
+compute-box route has produced a result. **The two stall repeats 17635 and 24841
+are still undone.** Options: rerun them on the laptop (about 50 minutes,
+plugged in), free memory on compute-box (Docker Desktop, old standardphysics
+processes) and retry, or wait for Savio. To retry there:
+`open -a Terminal ~/run_routes.command` on compute-box (sweep with a 120-minute
+cap and a swap/disk guard; it runs at 0.009–0.021× real time).
 
 ## Overnight local work, 2026-10-06
 

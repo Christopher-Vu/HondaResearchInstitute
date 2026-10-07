@@ -23,6 +23,14 @@ the laptop (0.021× real time, measured), so the last two repeats, 17635 and
 memory guard stops CARLA before swap can freeze the box, since it also serves
 production. Setbacks along the way are in `docs/WHAT_BROKE.md`.
 
+It did not work out. After one clean test, all four real attempts at the two
+routes crashed within 2 simulated seconds because CARLA handed SimLingo a black
+camera frame, which never happened on the laptop. The likely cause is too
+little GPU memory on the 16 GB box, but that is unconfirmed. The two routes are
+still undone, so the stall-repeat set is 4 of 6. One real fix came out of it:
+the sweep had been keeping Bench2Drive's score for a crashed agent, and now
+leaves such routes unscored (`034fe3f`). No laptop route was affected.
+
 ## 2026-10-07 (morning) — Finishing the Mac sweep after the battery died
 
 The second local night run stopped after an hour: the Mac was on battery and

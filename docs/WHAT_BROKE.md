@@ -30,6 +30,18 @@ did. Dead ends count. "Turned out to be my typo" counts.
   5.9 GB swap. With SimLingo on MPS it still runs, with swap steady at 6–7 GB,
   but at 0.021× real time against the laptop's 0.059×.
 
+- **Then the camera went black.** After one clean test (route 17635 drove 11
+  simulated seconds at 0.021×), every real attempt crashed: 17635 twice at about
+  2 simulated seconds and 24841 twice at its first step, each with SimLingo's
+  "CARLA supplied a black or uniform policy camera frame" check. These runs ran
+  at 0.009–0.010×, half the speed of the clean test. This never happened in any
+  laptop run. Most likely the 16 GB box runs short of GPU memory at Epic and
+  D3DMetal stops rendering; not confirmed. Bench2Drive scored the crashes (5.31)
+  and the sweep kept that score, so `route_record` now leaves any status outside
+  `VALID_OUTCOMES` unscored (`034fe3f`), the same rule `run_local.py` already
+  applied. Evidence: `results/local-sweep/20261007-computebox-blackframes/` and
+  `20261007-computebox-repeats/`.
+
 **Did:** ran the remaining repeat routes there with the sweep's wall cap raised
 from 35 to 120 minutes (at 0.021× a 35-minute cap ends a route after about 45
 simulated seconds, which would leave stall routes unscored) and a guard that
