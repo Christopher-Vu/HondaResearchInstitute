@@ -16,8 +16,6 @@ were started in this session.
 
 ## 2026-10-06 — Getting the code and model onto Savio for the first time
 
-*Session in progress; this entry will be updated before it ends.*
-
 The goal tonight is Step 1: the first real driving run on Savio, Berkeley's
 computing cluster. It answers one question the whole budget depends on — how
 fast the simulator runs on their GPUs — and it uses about 1–1.5 of the 8
@@ -49,6 +47,24 @@ Savio is still correct for Steps 0 and 1. The sweep also showed the full
 220-route benchmark (Step 2) needs roughly 34–49 GPU-hours, an estimate from
 Mac speed, so it cannot be finished tonight.
 
-**Left to do:** submit the GPU check (`scripts/check_gpu.sbatch`), then the
-one-route run (`scripts/step1.sbatch`), and record the measured speed and memory
-use.
+**Two pieces for people outside the project, built from the Mac runs.** A web
+page ([Inside SimLingo's Stall](https://claude.ai/artifact/Bg3omkBQDvnS5iY1WQncan),
+private until shared) replays route 1956, where the car sat parked for 41.1
+seconds with the brake fully on until the agent's stuck timer forced the
+throttle at 40.1 s. Its camera and pedal traces are real. Its view inside the
+model is invented. The page also has a short video of the only crash in the
+overnight sweep, route 28330: the car turned left across traffic at 14.4 m/s,
+hit two cars, then held full throttle against the second one for about a minute
+(3 vehicle collisions, score 20.9; `results/local-sweep/20261006-overnight/route-28330`).
+Neither piece is committed: both are presentation, not evidence.
+
+**The recorded internal activity stayed closed.** Showing the real activity
+would have meant opening it before baseline B7's rule is written down, which
+the project forbids so that rule cannot be shaped by what we see. The page uses
+made-up activity instead, labelled as such on every panel. Writing B7's
+definition is now the thing blocking a real version.
+
+**Left to do:** this session ended without confirming the GPU check
+(`scripts/check_gpu.sbatch`) was submitted, so no Savio GPU job is known to
+have run. After it, the one-route run (`scripts/step1.sbatch`), then record the
+measured speed and memory use.

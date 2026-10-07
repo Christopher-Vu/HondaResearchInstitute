@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-06 (overnight local session)
+Last updated: 2026-10-07 (Savio setup done; no GPU job confirmed)
 
 ---
 
@@ -100,9 +100,12 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 The exact commands are in `docs/steps/01-smallest-rollout.md`.
 
-1. Push this branch, then clone it under `/global/scratch/users/$USER` on Savio.
-2. Run `setup_savio.py` on a login node (about 20 GB of downloads; rerun after
-   any interruption). Any failure here is a download or disk problem, not CARLA.
+1. ~~Clone and run `setup_savio.py` on Savio.~~ Done 2026-10-06 under
+   `/global/scratch/users/imhaohao/HondaResearchInstitute`, from a git bundle at
+   `857ec95` because Imhaohao cannot push to GitHub (`docs/WHAT_BROKE.md`).
+   Checksums matched; all 12 benchmark towns present. Refresh that copy before
+   any run that needs code newer than `857ec95`.
+2. Chris: add Imhaohao as a collaborator on the GitHub repo.
 3. Submit `scripts/check_gpu.sbatch`. Its output closes Step 0 and says whether
    the GPU node has a Vulkan loader and outbound internet.
 4. Submit `scripts/step1.sbatch`. If stage 1.2 (`render`) fails, read
