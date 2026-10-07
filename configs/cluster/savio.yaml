@@ -50,7 +50,9 @@ storage:
   activations_estimate_gb: 150
 
 limits:
-  max_wall_time: null       # per the allowance, not the general Savio docs
+  # sacctmgr show qos a5k_gpu4_ica, 2026-10-07: MaxJobsPU 4, MaxWall 08:00:00.
+  max_wall_time: "08:00:00"
+  max_running_jobs_per_user: 4
   job_array_width_cap: null
   lowprio_available: false  # not in the sacctmgr association list for ic_cdss170fall
 

@@ -299,3 +299,26 @@ Savio copy goes stale with every new commit. Chris to add Imhaohao as a
 collaborator.
 
 **Resolved 2026-10-07:** the same push succeeded; Imhaohao now has write access.
+
+## 2026-10-07 — First Savio GPU jobs: carla import fails on the node, and the dependency did not hold
+
+**Expected:** `check_gpu.sbatch`, then `step1.sbatch`, then the 31-route array
+`route_sample.sbatch` submitted with `SBATCH_DEPENDENCY=afterok:<step1>`, so the
+array would only start if Step 1 passed.
+
+**Actual:** the GPU check completed (3 s, RTX A5000 visible). Step 1 failed in
+2 s at `import carla`: reading
+`.runtime/policy-venv/lib/python3.10/site-packages/carla.libs/libz-7d499572.so.1.2.11`
+returned "Cannot send after transport endpoint shutdown", a filesystem error
+from the scratch file system, not a Python one. All 31 array tasks then ran
+anyway and failed the same way in 1–5 s each, so the dependency set through the
+`SBATCH_DEPENDENCY` environment variable was not applied. Cost was a few
+GPU-minutes. `sacctmgr` shows the QoS allows 4 running jobs per user and 8 hours
+of wall time (now in `configs/cluster/savio.yaml`).
+
+**Did:** nothing on the cluster yet. Next: try `import carla` on a login node to
+tell a bad file from a bad node; if the file is unreadable everywhere,
+reinstall the carla wheel into the venv so its libraries are rewritten. Pass the
+dependency as a real `--dependency` flag before resubmitting the array, since
+`scripts/submit.sh` currently forwards extra arguments to the script, not to
+sbatch.
