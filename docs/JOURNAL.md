@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-07 (01:15) — First Savio GPU jobs ran, and failed on a file read
+
+The GPU check passed: the job landed on an RTX A5000 and finished cleanly. Step 1
+and all 31 tasks of the comparison array then failed within seconds, each at
+the same point: Python could not read one library file inside the CARLA client
+package on Savio's scratch disk ("Cannot send after transport endpoint
+shutdown", which is the file system refusing the read, not a code bug). The
+array should have waited for Step 1 to pass, but the dependency was passed as
+an environment variable and Slurm ignored it, so all 31 tasks started anyway.
+Nothing was lost beyond a few GPU-minutes. Details and next steps are in
+`docs/WHAT_BROKE.md`. The cluster's limits are now recorded: 4 running jobs per
+user and 8 hours per job (`configs/cluster/savio.yaml`).
+
 ## 2026-10-07 — An overnight Savio comparison run, chained after Step 1
 
 The Mac drove 31 Bench2Drive routes on 2026-10-06 and succeeded on 27 of 29
