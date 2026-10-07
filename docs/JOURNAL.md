@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-07 (morning) — Finishing the Mac sweep after the battery died
+
+The second local night run stopped after an hour: the Mac was on battery and
+went to sleep at 1% charge at 01:58 (`docs/WHAT_BROKE.md`). It was restarted at
+08:50 on mains power, the two routes the sleep had cut off were set aside and
+rerun, and the sweep reached 37 of its 44 routes by 09:50. Measured so far: 31
+of 34 scored routes succeeded (91.2%) against the paper's 64.8%, with 11 routes
+stalling for 38 or more simulated seconds, 9 of them only freed by SimLingo's
+scripted creep forward. The rest of the sweep, then reruns of six stalled
+routes, keep running.
+
+Two smaller fixes landed. `scripts/submit.sh` now passes `--dependency` and
+other `--` options to Slurm, because Savio ignored the environment-variable form
+last night (tested with a fake `sbatch`). And the sweep no longer counts a route
+whose scenario Bench2Drive skipped: route 23918 was scored 100 by the benchmark
+even though its InterurbanActorFlow scenario failed to set up, which will need
+checking in every Step 2 log too. The Savio file-read problem is still open;
+the recovery plan is in `docs/STATUS.md`.
+
 ## 2026-10-07 (01:15) — First Savio GPU jobs ran, and failed on a file read
 
 The GPU check passed: the job landed on an RTX A5000 and finished cleanly. Step 1
