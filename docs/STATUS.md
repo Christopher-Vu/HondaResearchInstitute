@@ -111,6 +111,12 @@ The exact commands are in `docs/steps/01-smallest-rollout.md`.
 4. Submit `scripts/step1.sbatch`. If stage 1.2 (`render`) fails, read
    `results/savio/<job>/render/server.log`, then try the container fallback in
    `configs/cluster/savio.yaml`. If that also fails, it is the NRP replan.
+4a. Overnight, chained after Step 1: `scripts/route_sample.sbatch` reruns the 31
+   routes the Mac drove (`configs/rollout/savio-mac-paired.yaml`) in bfloat16,
+   one route per array task, at most 4 at once, 50 minutes each. Submit with
+   `SBATCH_DEPENDENCY=afterok:<step1 job id>` so it starts only if Step 1
+   passes. Expect roughly 6 GPU-hours at Mac speed. It answers whether the
+   Mac's 93% success rate is precision or platform (`docs/WHAT_BROKE.md`).
 5. Copy the measured wall-clock, real-time factor and peak VRAM from
    `route/readiness.json` into `configs/rollout/step1-single-route.yaml` and
    `PRD.md` §17.3, and close §16.2. Compare the Savio route with the Mac runs on

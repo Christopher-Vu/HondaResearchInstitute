@@ -5,6 +5,29 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-07 — An overnight Savio comparison run, chained after Step 1
+
+The Mac drove 31 Bench2Drive routes on 2026-10-06 and succeeded on 27 of 29
+scored ones (93%), against the 64.8% the SimLingo paper reports. One untested
+explanation is number precision. The Mac runs the model in 32-bit floats, while
+CUDA runs, Savio's included, use bfloat16 (a 16-bit format), which moves the
+model's waypoints by up to 18 cm on the frames checked.
+
+To test it, this session added a Slurm job array (one batch job per route):
+`scripts/route_sample.sbatch` reads the same 31 route ids from
+`configs/rollout/savio-mac-paired.yaml` and runs each through `run_savio.py`,
+which gained a `--route` option. It is meant to be submitted with a dependency
+on the Step 1 job, so it only runs if Step 1 shows that CARLA renders on Savio
+and a route completes. A test checks that the array size matches the route
+list. An existing port test was also fixed: it asked the operating system for
+any free port, which on the Mac is often above 60,000, outside the range the
+code searches.
+
+Two sessions were committing in this checkout at once, and one backed out the
+`--route` change as an accident before it was restored (`7662bee`). Nothing was
+lost. Nothing has been submitted to Savio by this session; the user types every
+cluster command.
+
 ## 2026-10-06 (evening) — Making the local sweep safe to leave running past midnight
 
 The local sweep script (`adapters/simlingo/sweep_local.py`) stops starting new

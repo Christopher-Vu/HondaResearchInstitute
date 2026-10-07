@@ -35,6 +35,15 @@ factor and whole-stack peak VRAM sampled from `nvidia-smi`. CARLA takes a free
 port block per job, because GPU nodes are shared. If `render` fails on host
 Vulkan, set `carla.container` in `configs/cluster/savio.yaml`.
 
+After Step 1 passes, `route_sample.sbatch` runs the routes listed in
+`configs/rollout/savio-mac-paired.yaml`, one per array task, into
+`results/savio/<array job>/route-<id>/`. `run_savio.py route --route ID` runs any
+single route. Chain it on Step 1 so it never starts after a failed render:
+
+```bash
+SBATCH_DEPENDENCY=afterok:<step1 job id> bash scripts/submit.sh gpu scripts/route_sample.sbatch
+```
+
 ## Open the simulation
 
 Double-click `../../Open CARLA.command`, or run from the repository root:
