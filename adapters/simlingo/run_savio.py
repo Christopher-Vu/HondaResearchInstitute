@@ -3,7 +3,8 @@
     .runtime/policy-venv/bin/python adapters/simlingo/run_savio.py render
     .runtime/policy-venv/bin/python adapters/simlingo/run_savio.py route
 
-`scripts/step1.sbatch` runs both, in order, inside one GPU allocation.
+`scripts/step1.sbatch` runs both, in order, inside one GPU allocation. `--route` replaces the
+config's route, which is how `scripts/route_sample.sbatch` runs one route per array task.
 """
 from __future__ import annotations
 
@@ -23,8 +24,8 @@ from typing import Any
 import yaml
 from artifacts import verify_artifacts
 from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, check_external_server_patch, check_route,
-                       evaluator_command, policy_environment, run_evaluator, stop_process_group,
-                       summarize, wait_for_server)
+                       evaluator_command, policy_environment, route_from_xml, run_evaluator,
+                       stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
 STEP1_CONFIG = ROOT / "configs/rollout/step1-single-route.yaml"
@@ -171,11 +172,14 @@ def main() -> None:
     parser.add_argument("mode", choices=["render", "route"])
     parser.add_argument("--config", type=Path, default=STEP1_CONFIG)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--route", help="Bench2Drive route id; town and scenario come from the routes file")
     args = parser.parse_args()
     run_id = os.environ.get("SLURM_JOB_ID") or datetime.now().strftime("%Y%m%d-%H%M%S")
     output = args.output or ROOT / "results/savio" / run_id / args.mode
     output.mkdir(parents=True, exist_ok=True)
     config = yaml.safe_load(args.config.read_text())
+    if args.route:
+        config["route"].update(route_from_xml(args.route))
     container = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"]["container"]
     report = (render if args.mode == "render" else route)(output, config, container)
     print(json.dumps(report, indent=2))
