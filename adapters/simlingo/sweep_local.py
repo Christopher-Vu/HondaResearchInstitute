@@ -23,7 +23,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from route_run import ROOT, ROUTES, route_from_xml
+from route_run import ROOT, ROUTES, VALID_OUTCOMES, route_from_xml
 
 PENALIZED = ("collisions_layout", "collisions_pedestrian", "collisions_vehicle", "red_light",
              "stop_infraction", "outside_route_lanes", "yield_emergency_vehicle_infractions",
@@ -119,17 +119,19 @@ def route_record(route: dict[str, str], output: Path, exit_code: int | None, wal
     result_path = output / "result.json"
     evaluator_log = output / "evaluator.log"
     record["scenario_skipped"] = evaluator_log.is_file() and "Skipping scenario" in evaluator_log.read_text()
-    if result_path.is_file() and not record["scenario_skipped"]:
-        records = json.loads(result_path.read_text()).get("_checkpoint", {}).get("records", [])
-        if records:
-            entry = records[0]
-            counts = {name: len(entry["infractions"].get(name, [])) for name in PENALIZED}
-            record.update({
-                "status": entry["status"], **entry["scores"], **entry["meta"],
-                "infractions": {name: count for name, count in counts.items() if count},
-                "success": entry["status"] in {"Completed", "Perfect"} and not any(counts.values()),
-            })
-    if "status" not in record:
+    records = json.loads(result_path.read_text()).get("_checkpoint", {}).get("records", []) \
+        if result_path.is_file() else []
+    if records:
+        record["status"] = records[0]["status"]
+    if records and records[0]["status"] in VALID_OUTCOMES and not record["scenario_skipped"]:
+        entry = records[0]
+        counts = {name: len(entry["infractions"].get(name, [])) for name in PENALIZED}
+        record.update({
+            **entry["scores"], **entry["meta"],
+            "infractions": {name: count for name, count in counts.items() if count},
+            "success": entry["status"] in {"Completed", "Perfect"} and not any(counts.values()),
+        })
+    if "score_composed" not in record:
         log = output.parent / f"{output.name}.launcher.log"
         record["error_tail"] = log.read_text().strip().splitlines()[-3:] if log.is_file() else []
     return record

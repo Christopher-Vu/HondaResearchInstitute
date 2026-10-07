@@ -87,6 +87,13 @@ def test_until_rolls_over_midnight_for_overnight_runs():
     assert sweep_local.next_deadline("23:00", evening) == datetime(2026, 10, 6, 23, 0).timestamp()
 
 
+def test_agent_crash_is_unscored_even_though_bench2drive_scores_it(tmp_path):
+    write_result(tmp_path / "run", "Failed - Agent crashed", {})
+    row = sweep_local.route_record({"id": "1", "scenario": "Accident"}, tmp_path / "run", 1, 330.0, 1)
+    assert row["status"] == "Failed - Agent crashed" and "score_composed" not in row
+    assert sweep_local.summarize([row])["routes_scored"] == 0
+
+
 def test_skipped_scenario_is_unscored_even_though_bench2drive_scores_it(tmp_path):
     write_result(tmp_path / "run", "Completed", {})
     (tmp_path / "run" / "evaluator.log").write_text("Skipping scenario 'InterurbanActorFlow_1' due to setup error\n")
