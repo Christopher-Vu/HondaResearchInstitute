@@ -5,6 +5,15 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-06 (evening) — Making the local sweep safe to leave running past midnight
+
+The local sweep script (`adapters/simlingo/sweep_local.py`) stops starting new
+routes at a clock time given as `--until HH:MM`. It read that time as *today*,
+so an overnight run started at 21:40 with `--until 06:30` would have treated
+06:30 as already past and stopped at once. It now means the next time the clock
+reads 06:30, with a test for the midnight case. Nothing else changed; no runs
+were started in this session.
+
 ## 2026-10-06 — Getting the code and model onto Savio for the first time
 
 *Session in progress; this entry will be updated before it ends.*

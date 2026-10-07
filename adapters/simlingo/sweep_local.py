@@ -19,7 +19,7 @@ import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -149,23 +149,25 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def deadline_today(clock: str) -> float:
+def next_deadline(clock: str, now: datetime | None = None) -> float:
+    """The next time the wall clock reads HH:MM, so an overnight run can say `--until 06:30`."""
+    now = now or datetime.now()
     hour, minute = map(int, clock.split(":"))
-    target = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
-    return target.timestamp()
+    target = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    return (target if target > now else target + timedelta(days=1)).timestamp()
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--routes", help="comma-separated route ids to run instead of the seeded sample")
-    parser.add_argument("--until", required=True, help="local HH:MM after which no new route starts")
+    parser.add_argument("--until", required=True, help="next local HH:MM after which no new route starts")
     parser.add_argument("--cap-minutes", type=float, default=35)
     parser.add_argument("--capture-every", type=int, default=0, help="passed to run_local.py")
     parser.add_argument("--output", type=Path,
                         default=ROOT / "results/local-sweep" / datetime.now().strftime("%Y%m%d-%H%M%S"))
     args = parser.parse_args()
-    stop_at = deadline_today(args.until)
+    stop_at = next_deadline(args.until)
     args.output.mkdir(parents=True, exist_ok=True)
     plan = ([route_from_xml(route_id) for route_id in args.routes.split(",")] if args.routes
             else sample_routes(args.seed))

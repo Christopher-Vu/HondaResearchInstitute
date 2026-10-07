@@ -78,3 +78,10 @@ def test_creep_episodes_count_starts_even_when_the_model_takes_over(tmp_path):
     (tmp_path / "evaluator.log").write_text("\n".join(log) + "\n")
     assert sweep_local.creep_events(tmp_path / "evaluator.log") == 3
     assert sweep_local.creep_events(tmp_path / "missing.log") == 0
+
+
+def test_until_rolls_over_midnight_for_overnight_runs():
+    from datetime import datetime
+    evening = datetime(2026, 10, 6, 21, 40)
+    assert sweep_local.next_deadline("06:30", evening) == datetime(2026, 10, 7, 6, 30).timestamp()
+    assert sweep_local.next_deadline("23:00", evening) == datetime(2026, 10, 6, 23, 0).timestamp()
