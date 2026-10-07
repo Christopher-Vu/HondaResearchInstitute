@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-07 (afternoon) — CARLA runs moved from the laptop to compute-box
+
+The local sweep made the laptop too laggy to work on, so the CARLA setup was
+rebuilt on compute-box, a separate M1 Pro Mac with 16 GB of memory reached over
+Tailscale (described in the standardphysics project's notes). The laptop sweep
+was stopped cleanly at 13:00. By then the 44-route sample was complete and
+four of the six stall repeats were done; route 17635 was cut off mid-run and
+left no record, so it reruns from the start.
+
+compute-box now has the same CARLA install (identical file list, stored
+compressed at 17 GB), the pinned SimLingo source, weights and Python
+environment, and passed a live route start. It is about 2.8 times slower than
+the laptop (0.021× real time, measured), so the last two repeats, 17635 and
+24841, run there with a 120-minute cap into
+`results/local-sweep/20261007-computebox-repeats/`, which records the host. A
+memory guard stops CARLA before swap can freeze the box, since it also serves
+production. Setbacks along the way are in `docs/WHAT_BROKE.md`.
+
 ## 2026-10-07 (morning) — Finishing the Mac sweep after the battery died
 
 The second local night run stopped after an hour: the Mac was on battery and

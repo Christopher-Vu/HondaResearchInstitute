@@ -8,6 +8,34 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-07 — Moving the Mac CARLA runs to compute-box
+
+**Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro
+16 GB Mac on the tailnet, and keep sweeping there.
+
+**Actual, four surprises:**
+- The laptop left the shared network mid-copy; Tailscale fell back to a relay at
+  about 1.2 MB/s and dropped connections. compute-box instead downloaded the
+  pinned Windows CARLA and AdditionalMaps zips itself (about 20 MB/s, checksums
+  matched) and only the 476 MB Wine wrapper went over the relay.
+- `ditto -x -k --hfsCompression` (unzip with APFS compression) failed on 347 of
+  34,087 files with "Invalid argument" and stored the rest uncompressed. Plain
+  `ditto --hfsCompression` file to file works, so a small script extracted each
+  zip member, compressed it that way and checked the zip CRC. CARLA shrinks from
+  30 GB to 17 GB; the file list matches the laptop's install exactly.
+- Running the Sikarugir `launcher` over SSH prints "Closing Sikarugir" and starts
+  nothing. CARLA starts when launched inside the logged-in desktop session
+  (`open -a CARLA.app`, or the sweep started from a Terminal window via `open`).
+- Memory: CARLA at Epic, idle, takes the box to 10.8 GB wired (GPU) memory and
+  5.9 GB swap. With SimLingo on MPS it still runs, with swap steady at 6–7 GB,
+  but at 0.021× real time against the laptop's 0.059×.
+
+**Did:** ran the remaining repeat routes there with the sweep's wall cap raised
+from 35 to 120 minutes (at 0.021× a 35-minute cap ends a route after about 45
+simulated seconds, which would leave stall routes unscored) and a guard that
+stops CARLA if swap passes 8 GB or free disk drops under 5 GB, because the box
+also serves production's Blender offload.
+
 ## 2026-10-01 — Reconciled the two planning documents
 
 **Expected:** two competing PRDs needing a winner picked.

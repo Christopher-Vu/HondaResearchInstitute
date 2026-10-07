@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-07 (Savio setup done; no GPU job confirmed)
+Last updated: 2026-10-07 afternoon (Mac CARLA runs moved to compute-box; Savio still blocked)
 
 ---
 
@@ -51,6 +51,19 @@ frames after installation. Evidence is in
 policy routes. Keep the lid open during runs; the launcher prevents ordinary
 idle sleep with a temporary assertion and releases it on exit.
 
+## compute-box, 2026-10-07 (in progress)
+
+CARLA runs moved off the laptop to compute-box (`ssh compute-box`, M1 Pro,
+16 GB; also serves production's Blender offload). Setup is complete and checked
+against the laptop's install (`docs/WHAT_BROKE.md`). **Mid-task:** the last two
+stall repeats, 17635 and 24841, are running there into
+`compute-box:~/HondaResearchInstitute/results/local-sweep/20261007-computebox-repeats/`
+(expected done around 16:30), started from `~/run_routes.command` with a
+120-minute cap and a swap/disk guard (`~/run_routes.sh`). When they finish,
+copy that folder back to `results/local-sweep/` and add them to the stall
+analysis. compute-box runs at 0.021× real time (laptop 0.059×), so budget
+about 2.8 times the laptop's wall time per route there.
+
 ## Overnight local work, 2026-10-06
 
 Savio was not touched. The Mac GPU ran a local route sweep and the Step 3
@@ -58,7 +71,7 @@ replay de-risk from 02:20 to 09:20. Report with screenshots:
 https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 - **Sweep:** `adapters/simlingo/sweep_local.py`, one seeded route per scenario
-  type; 37 of 44 run as of 2026-10-07 09:50, the rest still running
+  type; all 44 done by 2026-10-07 13:00 (figures below are from the first 37)
   (`results/local-sweep/20261006-overnight/`). 31 of 34 scored routes succeeded
   (91.2%, mean DS 96.1), far above the paper's 64.8% (`docs/WHAT_BROKE.md`).
   Failures: collisions on 28330 and 24781, a lane departure on 3800. Two
