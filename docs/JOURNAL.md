@@ -25,8 +25,8 @@ GPU-hours available tonight. Every earlier run happened on the Mac.
 (Imhaohao) does not have write access to `Christopher-Vu/HondaResearchInstitute`,
 so GitHub refused the push with a permission error. Instead, the branch was
 packed into a single file (a *git bundle*, 33 MB, ending at commit `857ec95`),
-uploaded to Savio's file-transfer machine, and cloned from there. Chris needs
-to add Imhaohao as a collaborator before the normal push route works.
+uploaded to Savio's file-transfer machine, and cloned from there. By the next
+morning Imhaohao had write access and the branch was pushed normally.
 
 **The agent cannot type on Savio.** Logging in needs a PIN plus a code that
 changes every 30 seconds, so a person types every Savio command and the agent

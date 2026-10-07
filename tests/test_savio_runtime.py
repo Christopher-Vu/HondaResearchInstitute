@@ -68,3 +68,28 @@ def test_short_download_is_rejected(tmp_path):
     source.write_bytes(b"x" * 10)
     with pytest.raises(ValueError, match="expected 20 bytes"):
         download(source.as_uri(), tmp_path / "out/archive.tar.gz", 20, None)
+
+
+def test_route_sample_array_covers_exactly_the_configured_routes():
+    import re
+    from pathlib import Path
+
+    import yaml
+    root = Path(__file__).resolve().parents[1]
+    routes = yaml.safe_load((root / "configs/rollout/savio-mac-paired.yaml").read_text())["routes"]
+    header = (root / "scripts/route_sample.sbatch").read_text()
+    first, last = map(int, re.search(r"#SBATCH --array=(\d+)-(\d+)", header).groups())
+    assert (first, last) == (0, len(routes) - 1)
+    assert len(set(routes)) == len(routes)
+
+
+def test_route_sample_ids_exist_in_the_pinned_routes_file():
+    from pathlib import Path
+
+    import yaml
+    from route_run import ROUTES, route_from_xml
+    if not ROUTES.is_file():
+        pytest.skip("pinned routes file not installed")
+    root = Path(__file__).resolve().parents[1]
+    for route_id in yaml.safe_load((root / "configs/rollout/savio-mac-paired.yaml").read_text())["routes"]:
+        assert route_from_xml(route_id)["id"] == route_id

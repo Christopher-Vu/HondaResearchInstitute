@@ -105,7 +105,7 @@ The exact commands are in `docs/steps/01-smallest-rollout.md`.
    `857ec95` because Imhaohao cannot push to GitHub (`docs/WHAT_BROKE.md`).
    Checksums matched; all 12 benchmark towns present. Refresh that copy before
    any run that needs code newer than `857ec95`.
-2. Chris: add Imhaohao as a collaborator on the GitHub repo.
+2. ~~Push access for Imhaohao.~~ Works as of 2026-10-07; the branch is on GitHub.
 3. Submit `scripts/check_gpu.sbatch`. Its output closes Step 0 and says whether
    the GPU node has a Vulkan loader and outbound internet.
 4. Submit `scripts/step1.sbatch`. If stage 1.2 (`render`) fails, read

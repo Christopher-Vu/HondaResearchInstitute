@@ -297,3 +297,5 @@ so Savio can clone it.
 to `dtn.brc.berkeley.edu`, `git clone` from the file on Savio). It works but the
 Savio copy goes stale with every new commit. Chris to add Imhaohao as a
 collaborator.
+
+**Resolved 2026-10-07:** the same push succeeded; Imhaohao now has write access.
