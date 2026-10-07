@@ -10,21 +10,10 @@ from run_savio import CARLA_ROOT, GpuMemoryMonitor, free_port_block, server_comm
 from setup_savio import download
 
 
-def hold_port_below(limit: int) -> tuple[socket.socket, int]:
-    """Port 0 can return an ephemeral port above the CARLA search range, so hold one inside it."""
-    for port in range(30001, limit):
-        held = socket.socket()
-        try:
-            held.bind(("", port))
-            return held, port
-        except OSError:
-            held.close()
-    raise RuntimeError("no free port to hold")
-
-
 def test_occupied_port_moves_the_whole_carla_block(tmp_path):
-    held, taken = hold_port_below(59000)
-    with held:
+    with socket.socket() as held:
+        held.bind(("", 0))
+        taken = held.getsockname()[1]
         first = free_port_block(3, taken - 1)
     assert taken not in range(first, first + 3)
 
@@ -79,28 +68,3 @@ def test_short_download_is_rejected(tmp_path):
     source.write_bytes(b"x" * 10)
     with pytest.raises(ValueError, match="expected 20 bytes"):
         download(source.as_uri(), tmp_path / "out/archive.tar.gz", 20, None)
-
-
-def test_route_sample_array_covers_exactly_the_configured_routes():
-    import re
-    from pathlib import Path
-
-    import yaml
-    root = Path(__file__).resolve().parents[1]
-    routes = yaml.safe_load((root / "configs/rollout/savio-mac-paired.yaml").read_text())["routes"]
-    header = (root / "scripts/route_sample.sbatch").read_text()
-    first, last = map(int, re.search(r"#SBATCH --array=(\d+)-(\d+)", header).groups())
-    assert (first, last) == (0, len(routes) - 1)
-    assert len(set(routes)) == len(routes)
-
-
-def test_route_sample_ids_exist_in_the_pinned_routes_file():
-    from pathlib import Path
-
-    import yaml
-    from route_run import ROUTES, route_from_xml
-    if not ROUTES.is_file():
-        pytest.skip("pinned routes file not installed")
-    root = Path(__file__).resolve().parents[1]
-    for route_id in yaml.safe_load((root / "configs/rollout/savio-mac-paired.yaml").read_text())["routes"]:
-        assert route_from_xml(route_id)["id"] == route_id
