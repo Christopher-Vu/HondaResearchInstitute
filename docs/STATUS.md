@@ -112,8 +112,14 @@ The exact commands are in `docs/steps/01-smallest-rollout.md`.
    `results/savio/<job>/render/server.log`, then try the container fallback in
    `configs/cluster/savio.yaml`. If that also fails, it is the NRP replan.
    First attempt 2026-10-07: Step 1 failed in 2 s at `import carla`, the scratch
-   disk refusing to read a CARLA client library (`docs/WHAT_BROKE.md`). Next:
-   `import carla` on a login node; reinstall the carla wheel if it fails there.
+   disk refusing to read a CARLA client library (`docs/WHAT_BROKE.md`). On
+   Lustre-style storage this error marks a file whose data was lost, and such
+   files usually cannot be deleted, so an in-place reinstall may fail. Next, on
+   a login node, list every unreadable file:
+   `find .runtime -type f -print0 | xargs -0 cat > /dev/null 2> unreadable.txt`.
+   If they are all under `.runtime/policy-venv`, rename that directory aside and
+   rerun `setup_savio.py`; it rebuilds the venv from the lock file and ends by
+   probing `import carla, torch`. Anything elsewhere goes to Savio support.
 4a. Overnight, chained after Step 1: `scripts/route_sample.sbatch` reruns the 31
    routes the Mac drove (`configs/rollout/savio-mac-paired.yaml`) in bfloat16,
    one route per array task, at most 4 at once, 50 minutes each. Submit with
