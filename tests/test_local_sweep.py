@@ -85,3 +85,10 @@ def test_until_rolls_over_midnight_for_overnight_runs():
     evening = datetime(2026, 10, 6, 21, 40)
     assert sweep_local.next_deadline("06:30", evening) == datetime(2026, 10, 7, 6, 30).timestamp()
     assert sweep_local.next_deadline("23:00", evening) == datetime(2026, 10, 6, 23, 0).timestamp()
+
+
+def test_skipped_scenario_is_unscored_even_though_bench2drive_scores_it(tmp_path):
+    write_result(tmp_path / "run", "Completed", {})
+    (tmp_path / "run" / "evaluator.log").write_text("Skipping scenario 'InterurbanActorFlow_1' due to setup error\n")
+    row = sweep_local.route_record({"id": "1", "scenario": "InterurbanActorFlow"}, tmp_path / "run", 1, 400.0, 1)
+    assert row["scenario_skipped"] and "score_composed" not in row

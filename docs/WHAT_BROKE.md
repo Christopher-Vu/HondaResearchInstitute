@@ -336,3 +336,18 @@ Because 07:30 had passed by then, the sweep stopped starting routes and the
 chain jumped to the reruns, which were stopped and reordered.
 
 **Lesson:** check `pmset -g batt` says AC power before leaving a night run.
+
+## 2026-10-07 — Bench2Drive scores a route whose scenario never ran
+
+**Expected:** every Bench2Drive route plays its authored scenario.
+
+**Actual:** route 23918 (Town13, InterurbanActorFlow) logged "Skipping scenario
+'InterurbanActorFlow_1' due to setup error: Couldn't find an end position",
+then drove the empty route and was scored 100, a success. `route_run.summarize`
+already refused readiness for it, but `sweep_local.route_record` read the score
+from `result.json` and counted it.
+
+**Did:** `route_record` now marks such a run `scenario_skipped` and leaves it
+unscored (tested); the stored record was rewritten. The setup error is a map
+query, so it will likely recur on Savio, and the official 220-route score would
+count it silently. Check every Step 2 log for "Skipping scenario".

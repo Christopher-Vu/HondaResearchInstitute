@@ -117,7 +117,9 @@ def route_record(route: dict[str, str], output: Path, exit_code: int | None, wal
                               "longest_stationary_sim_seconds": longest_stationary_seconds(output / "controls.jsonl"),
                               "creep_events": creep_events(output / "evaluator.log")}
     result_path = output / "result.json"
-    if result_path.is_file():
+    evaluator_log = output / "evaluator.log"
+    record["scenario_skipped"] = evaluator_log.is_file() and "Skipping scenario" in evaluator_log.read_text()
+    if result_path.is_file() and not record["scenario_skipped"]:
         records = json.loads(result_path.read_text()).get("_checkpoint", {}).get("records", [])
         if records:
             entry = records[0]
