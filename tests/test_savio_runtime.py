@@ -10,10 +10,21 @@ from run_savio import CARLA_ROOT, GpuMemoryMonitor, free_port_block, server_comm
 from setup_savio import download
 
 
+def hold_port_below(limit: int) -> tuple[socket.socket, int]:
+    """Port 0 can return an ephemeral port above the CARLA search range, so hold one inside it."""
+    for port in range(30001, limit):
+        held = socket.socket()
+        try:
+            held.bind(("", port))
+            return held, port
+        except OSError:
+            held.close()
+    raise RuntimeError("no free port to hold")
+
+
 def test_occupied_port_moves_the_whole_carla_block(tmp_path):
-    with socket.socket() as held:
-        held.bind(("", 0))
-        taken = held.getsockname()[1]
+    held, taken = hold_port_below(59000)
+    with held:
         first = free_port_block(3, taken - 1)
     assert taken not in range(first, first + 3)
 
