@@ -1,0 +1,29 @@
+# The 31 routes the Mac drove on 2026-10-06 (results/local-sweep/20261006-overnight/),
+# rerun on Savio in bfloat16 to test whether precision or platform explains the Mac's
+# 93% success rate against the paper's 64.8% (docs/WHAT_BROKE.md, 2026-10-06).
+# Run by scripts/route_sample.sbatch, one route per array task, after Step 1 passes.
+# Town and scenario for each id come from the pinned routes file.
+
+name: savio-mac-paired
+scope: savio_mac_paired_sample
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches the Mac runs
+  timeout_seconds: 60
+
+route:
+  seed: 0
+
+routes: ["24841", "26394", "2144", "24258", "1956", "1773", "24206", "2127", "25845", "24224",
+         "28111", "23659", "11755", "26990", "26405", "3099", "17635", "3178", "2847", "14909",
+         "27515", "3380", "24367", "28330", "2790", "25439", "24759", "2204", "4937", "3800",
+         "3457"]
