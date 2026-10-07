@@ -9,7 +9,7 @@
 # One route per array task from configs/rollout/savio-mac-paired.yaml, each with
 # its own CARLA server. The array range must cover that file's route list
 # (tests/test_savio_runtime.py checks it). Submit once Step 1 has passed:
-#   SBATCH_DEPENDENCY=afterok:<step1 job id> bash scripts/submit.sh gpu scripts/route_sample.sbatch
+#   bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 

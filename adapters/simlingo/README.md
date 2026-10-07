@@ -41,7 +41,7 @@ After Step 1 passes, `route_sample.sbatch` runs the routes listed in
 single route. Chain it on Step 1 so it never starts after a failed render:
 
 ```bash
-SBATCH_DEPENDENCY=afterok:<step1 job id> bash scripts/submit.sh gpu scripts/route_sample.sbatch
+bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch
 ```
 
 ## Open the simulation

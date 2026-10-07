@@ -3,14 +3,21 @@
 # no script hardcodes a partition, QoS or GPU type.
 #
 #   bash scripts/submit.sh gpu scripts/check_gpu.sbatch
+#   bash scripts/submit.sh gpu --dependency=afterok:123 scripts/route_sample.sbatch
 #   bash scripts/submit.sh cpu scripts/validate_configs.sbatch
 #
+# Options starting with -- before the script go to sbatch; anything after it goes
+# to the script. Savio's sbatch ignored SBATCH_DEPENDENCY, so pass --dependency here.
 # Refuses to submit a GPU job while gpu.available is false.
 set -euo pipefail
 
-KIND="${1:?usage: submit.sh <gpu|cpu> <script.sbatch> [args...]}"
-SCRIPT="${2:?usage: submit.sh <gpu|cpu> <script.sbatch> [args...]}"
-shift 2
+USAGE="usage: submit.sh <gpu|cpu> [--sbatch-option ...] <script.sbatch> [args...]"
+KIND="${1:?$USAGE}"
+shift
+EXTRA=()
+while [ $# -gt 0 ] && [[ "$1" == --* ]]; do EXTRA+=("$1"); shift; done
+SCRIPT="${1:?$USAGE}"
+shift
 CFG="${CLUSTER_CONFIG:-configs/cluster/savio.yaml}"
 
 [ -f "$CFG" ] || { echo "no cluster config at $CFG" >&2; exit 1; }
@@ -56,6 +63,7 @@ ARGS=(--account="$ACCOUNT" --partition="$PART")
 [ -n "$QOS" ]  && ARGS+=(--qos="$QOS")
 [ -n "$GRES" ] && ARGS+=(--gres="$GRES")
 [ -n "$CPUS" ] && ARGS+=(--cpus-per-task="$CPUS")
+ARGS+=(${EXTRA[@]+"${EXTRA[@]}"})
 
 echo "sbatch ${ARGS[*]} $SCRIPT $*"
 exec sbatch "${ARGS[@]}" "$SCRIPT" "$@"

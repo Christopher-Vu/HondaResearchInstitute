@@ -318,7 +318,21 @@ of wall time (now in `configs/cluster/savio.yaml`).
 
 **Did:** nothing on the cluster yet. Next: try `import carla` on a login node to
 tell a bad file from a bad node; if the file is unreadable everywhere,
-reinstall the carla wheel into the venv so its libraries are rewritten. Pass the
-dependency as a real `--dependency` flag before resubmitting the array, since
-`scripts/submit.sh` currently forwards extra arguments to the script, not to
-sbatch.
+reinstall the carla wheel into the venv so its libraries are rewritten. `scripts/submit.sh` now forwards `--` options before the script to sbatch,
+so the array is submitted with a real `--dependency=afterok:<step1>`.
+
+## 2026-10-07 — The Mac ran out of battery an hour into the night run
+
+**Expected:** the second local night run (13 remaining sample routes, then six
+stall reruns) would finish by morning; the launcher's `caffeinate` keeps the Mac
+from idling to sleep.
+
+**Actual:** the Mac was on battery at 47%. It entered "Low Power Sleep" at 1%
+at 01:58 (`pmset -g log`) and stayed asleep until 08:47. `caffeinate` blocks
+idle sleep, not a flat battery. One route finished (24781); 3905 was cut off by
+the sleep and 23918 failed on waking because its CARLA server was gone. Both
+are set aside in `results/local-sweep/20261007-sleep-invalid.jsonl` and rerun.
+Because 07:30 had passed by then, the sweep stopped starting routes and the
+chain jumped to the reruns, which were stopped and reordered.
+
+**Lesson:** check `pmset -g batt` says AC power before leaving a night run.
