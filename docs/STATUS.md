@@ -3,22 +3,40 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-07 afternoon (compute-box set up but crashes on black frames; Savio still blocked)
+Last updated: 2026-10-08 02:10 (Step 1 passed on Savio; Step 2 pilot queued; overnight agent session in progress)
 
 ---
 
 ## Current position
 
-**Step 0 — Track A done, Track B unblocked; Step 1 built and ready to submit.**
+**Step 1 passed on Savio, 2026-10-08. Step 2 (Bench2Drive-220) is starting.**
+
+Step 1, job 39732394 on one A40 (`gpu_a40` profile): off-screen rendering gave
+a real camera image, the checkpoint strict-loaded (hidden size 896, 24 layers),
+and route 26956 completed with score 100 in 299 model steps. Measured: **0.071×
+real time** (Mac 0.060×), **9.4 GB** whole-stack peak VRAM, 4.75 SU for the
+9.7-minute job. Numbers are in `configs/rollout/step1-single-route.yaml` and
+`PRD.md` §17.3; evidence in `results/savio/39732394/` (laptop copy). Done
+condition items still open: "in the container" is replaced by the pinned
+tarball (`CONFLICTS.md` C20, pending review), §16.2 has its inputs but is a
+design call for Chris and Jerry, and a person who did not set it up has not yet
+rerun it.
+
+**Step 2 in progress (overnight session, 2026-10-08).** Config
+`configs/rollout/step2-bench2drive220.yaml`: all 220 routes, one seed, CoT off,
+bfloat16, with Step 3 capture every 10th step. It also covers the 31 Mac-paired
+routes, so `savio-mac-paired.yaml` (old item 4a) is not run separately. Runs two
+routes per A40 (`scripts/route_sample.sbatch <config> 2`) after a pilot of the
+first four routes, array job **39732614**. Score with
+`adapters/simlingo/score_routes.py`, which reports Bench2Drive's own merge and a
+clean number without skipped scenarios, and lists crashed routes for rerun. The
+first pilot (39732585) died on a faulty A40 in `n0214`; always pass
+`--exclude=n0214.savio3` until Savio fixes it (`docs/WHAT_BROKE.md`).
 
 Track A (paper facts) is complete: six papers read, findings in
 `docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B: the allowance
-does have GPU access (`savio4_gpu` / `a5k_gpu4_ica`, `savio3_gpu` /
-`a40_gpu3_ica`); the earlier "rejected" was the wrong QoS (`docs/WHAT_BROKE.md`).
-**No GPU job has run yet.** The Savio Step 1 path is written but untested on the
-cluster: `adapters/simlingo/setup_savio.py`, `run_savio.py`,
-`scripts/step1.sbatch`. CARLA runs from the release tarball on the GPU node
-(`CONFLICTS.md` C20, pending review).
+has GPU access on A5000 (`gpu` profile) and A40 (`gpu_a40` profile). On
+2026-10-08 the A5000 queue was days long while A40s started within minutes.
 
 **Local CARLA and SimLingo completed a real route end to end.** The
 released model strict-loads on CPU and MPS. Stock Windows CARLA 0.9.15 runs on the
@@ -114,42 +132,24 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-The exact commands are in `docs/steps/01-smallest-rollout.md`.
+Steps 0–1 on Savio are done (setup, push access, GPU check, Step 1 route,
+measurements into the config and `PRD.md` §17.3). The 2026-10-07 `import carla`
+failure was a passing scratch fault; nothing was rebuilt (`docs/WHAT_BROKE.md`).
 
-1. ~~Clone and run `setup_savio.py` on Savio.~~ Done 2026-10-06 under
-   `/global/scratch/users/imhaohao/HondaResearchInstitute`, from a git bundle at
-   `857ec95` because Imhaohao cannot push to GitHub (`docs/WHAT_BROKE.md`).
-   Checksums matched; all 12 benchmark towns present. Refresh that copy before
-   any run that needs code newer than `857ec95`.
-2. ~~Push access for Imhaohao.~~ Works as of 2026-10-07; the branch is on GitHub.
-3. Submit `scripts/check_gpu.sbatch`. Its output closes Step 0 and says whether
-   the GPU node has a Vulkan loader and outbound internet.
-4. Submit `scripts/step1.sbatch`. If stage 1.2 (`render`) fails, read
-   `results/savio/<job>/render/server.log`, then try the container fallback in
-   `configs/cluster/savio.yaml`. If that also fails, it is the NRP replan.
-   First attempt 2026-10-07: Step 1 failed in 2 s at `import carla`, the scratch
-   disk refusing to read a CARLA client library (`docs/WHAT_BROKE.md`). On
-   Lustre-style storage this error marks a file whose data was lost, and such
-   files usually cannot be deleted, so an in-place reinstall may fail. Next, on
-   a login node, list every unreadable file:
-   `find .runtime -type f -print0 | xargs -0 cat > /dev/null 2> unreadable.txt`.
-   If they are all under `.runtime/policy-venv`, rename that directory aside and
-   rerun `setup_savio.py`; it rebuilds the venv from the lock file and ends by
-   probing `import carla, torch`. Anything elsewhere goes to Savio support.
-4a. Overnight, chained after Step 1: `scripts/route_sample.sbatch` reruns the 31
-   routes the Mac drove (`configs/rollout/savio-mac-paired.yaml`) in bfloat16,
-   one route per array task, at most 4 at once, 50 minutes each. Submit with
-   `bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch` so it starts only if Step 1
-   passes. Expect roughly 6 GPU-hours at Mac speed. It answers whether the
-   Mac's 93% success rate is precision or platform (`docs/WHAT_BROKE.md`).
-5. Copy the measured wall-clock, real-time factor and peak VRAM from
-   `route/readiness.json` into `configs/rollout/step1-single-route.yaml` and
-   `PRD.md` §17.3, and close §16.2. Compare the Savio route with the Mac runs on
-   outcome and real-time factor only; trajectories will differ (rendering noise,
-   and bfloat16 moves waypoints by up to 18 cm).
-6. Size Step 2 with tonight's numbers: 220 routes × mean simulated seconds per
-   route (`results/local-sweep/20261006-overnight/`) ÷ Savio's real-time factor.
-   Stalls make simulated time per route vary from 10 to over 100 seconds.
+1. Finish Step 2. Check the pilot (array 39732614, routes 1711, 1773, 1790,
+   1792): all four have `readiness.json` or a driving outcome, capture wrote
+   `capture/steps.pt`, and per-route real-time factor with two routes per GPU
+   beats half of Step 1's 0.071. Then submit the rest, tasks 2–109:
+   `bash scripts/submit.sh gpu_a40 --exclude=n0214.savio3 --time=0-03:00:00 --array=2-109%4 --job-name=step2-b2d220 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml 2`
+2. Score: `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/<pilot> results/savio/<rest> [retries]`.
+   Rerun the routes it lists under `rerun` as a new array, never re-roll a
+   driving outcome. The bar is official DS ≥ 75 (`PRD.md` §10.1).
+3. Per-ability scores: `Bench2Drive/tools/ability_benchmark.py` on the merged
+   JSON. It starts its own CARLA, so it needs one short GPU job.
+4. Compare with the Mac sample on the 31 shared routes (outcome only). If Savio
+   lands near the paper's 64.8% success while the Mac got 93%, an fp32 arm on
+   Savio separates precision from platform (`docs/WHAT_BROKE.md`, 2026-10-06).
+5. Close `PRD.md` §16.2 (gap portfolio size) as a design decision, using §17.3.
 
 **An agent can reach the cluster only through a shared SSH connection that a
 person opened.** Login requires a PIN plus a rotating 6-digit code and `ic_`
