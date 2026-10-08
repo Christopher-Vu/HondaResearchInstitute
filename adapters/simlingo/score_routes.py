@@ -4,8 +4,9 @@
         configs/rollout/step2-bench2drive220.yaml results/savio/<array job> [<retry job> ...]
 
 Each configured route takes its first attempt, in job order, with a driving outcome (`VALID_OUTCOMES`),
-so a driving result is never re-rolled. Routes with no such attempt, because the agent or simulator
-crashed or the job ended first, are listed under `rerun` and never scored.
+so a driving result is never re-rolled. Routes attempted without one, because the agent or simulator
+crashed or the job ended first, are listed under `rerun` and never scored; routes with no attempt
+yet are listed under `not_run`.
 
 Two numbers come out. `official` is `Bench2Drive/tools/merge_route_json.py` run over the chosen
 results, which is how published scores are made and so the one compared with PRD 10.1; it counts
@@ -81,13 +82,15 @@ def official_merge(chosen: dict[str, Path], folder: Path) -> dict[str, Any]:
 def score(config_path: Path, job_dirs: list[Path], output: Path) -> dict[str, Any]:
     config = yaml.safe_load(config_path.read_text())
     attempts = attempts_by_route(job_dirs)
-    rows, rerun, chosen = [], [], {}
+    rows, rerun, not_run, chosen = [], [], [], {}
     for route_id in config["routes"]:
         tried = attempts.get(route_id, [])
         attempt = chosen_attempt(tried)
+        if not tried:
+            not_run.append(route_id)
+            continue
         if attempt is None:
-            rerun.append({"id": route_id, "attempts": len(tried),
-                          "last_status": status_of(tried[-1]) if tried else None})
+            rerun.append({"id": route_id, "attempts": len(tried), "last_status": status_of(tried[-1])})
             continue
         chosen[route_id] = attempt
         rows.append({**route_from_xml(route_id), "job": attempt.parent.name, "attempts": len(tried),
@@ -102,7 +105,7 @@ def score(config_path: Path, job_dirs: list[Path], output: Path) -> dict[str, An
         "scenario_skipped": [row["id"] for row in rows if row["scenario_skipped"]],
         "simulated_seconds_total": round(sum(row.get("duration_game", 0) for row in rows), 1),
         "wall_seconds_total": round(sum(row.get("duration_system", 0) for row in rows), 1),
-        "rerun": rerun,
+        "rerun": rerun, "not_run": not_run,
     }
     (output / "summary.json").write_text(json.dumps(report, indent=2) + "\n")
     return report
@@ -117,7 +120,7 @@ def main() -> None:
     name = yaml.safe_load(args.config.read_text())["name"]
     report = score(args.config, args.jobs, args.output or args.jobs[0].parent / name)
     print(json.dumps({key: report[key] for key in ("routes_with_outcome", "official", "clean")}, indent=2))
-    print(f"rerun: {[row['id'] for row in report['rerun']]}")
+    print(f"rerun: {[row['id'] for row in report['rerun']]}; not run yet: {len(report['not_run'])}")
 
 
 if __name__ == "__main__":

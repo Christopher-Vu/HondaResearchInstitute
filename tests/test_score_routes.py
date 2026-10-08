@@ -44,7 +44,14 @@ def test_first_driving_outcome_wins_and_crashes_go_to_rerun(campaign):
     attempt(retry, "2", "Completed", 80.0, "Skipping scenario 'InterurbanActorFlow_1'\n")
     attempt(first, "3", "Failed - Simulation crashed", 0.0)
     report = score_routes.score(config, [retry, first], root / "out")
-    assert [row["id"] for row in report["rerun"]] == ["3"]
+    assert [row["id"] for row in report["rerun"]] == ["3"] and report["not_run"] == []
     assert report["official"]["eval num"] == 2
     assert report["official"]["driving score"] == pytest.approx(90.0)
     assert report["clean"]["routes_scored"] == 1 and report["scenario_skipped"] == ["2"]
+
+
+def test_routes_never_attempted_are_not_reruns(campaign):
+    root, config = campaign
+    attempt(root / "100", "1", "Completed", 100.0)
+    report = score_routes.score(config, [root / "100"], root / "out")
+    assert report["rerun"] == [] and report["not_run"] == ["2", "3"]
