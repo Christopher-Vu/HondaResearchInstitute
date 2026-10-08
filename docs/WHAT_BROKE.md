@@ -8,6 +8,29 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-08 — The Savio "lost file" was a passing scratch fault, and the A5000 queue was jammed
+
+**Expected (2026-10-07 entry below):** the CARLA client library that Step 1
+could not read had lost its data on scratch, so the venv would need rebuilding.
+
+**Actual:** on a login node at 01:40, `import carla` worked and the checkpoint
+hashed to the pinned SHA256. The 2026-10-07 failures hit two nodes within
+minutes: `n0120` got "Cannot send after transport endpoint shutdown" on the
+library (the node's scratch client had been cut off), `n0129` got a plain
+input/output error reading the checkpoint. Both are node-to-filesystem faults
+that had cleared by the next day. Nothing was rebuilt.
+
+Then the queue: `savio4_gpu` had 9 A5000 nodes down and 4 drained, 846 pending
+jobs, and 57 A5000 jobs ahead of ours on priority. `sbatch --test-only` put a new
+A5000 job three days out. The same Step 1 submitted as an A40 job
+(`savio3_gpu`, `a40_gpu3_ica`, 8 CPUs) started within minutes, even though
+`--test-only` had estimated 20 hours.
+
+**Did:** added a `gpu_a40` profile to `configs/cluster/savio.yaml` and
+`scripts/submit.sh`, queued Step 1 on both, and cancelled the A5000 copy when
+the A40 one started. `--test-only` estimates assume every running job uses its
+full time limit, so they overstate the wait; try both GPU types before waiting.
+
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
 **Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro

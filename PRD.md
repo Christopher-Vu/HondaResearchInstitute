@@ -1231,7 +1231,10 @@ Items 1 and 2 close before Step 5 writes code.
    Successor question: **k at d = 896**, which has no stated scaling rule —
    sweep {32, 48, 64}. *Step 7.*
 2. **Gap portfolio size** — bounded by measured rollout throughput from Step 1
-   and Savio's actual SU rate, not by the brief's guess. *Step 1.*
+   and Savio's actual SU rate, not by the brief's guess. *Step 1.* Both inputs
+   now exist (§17.3, 2026-10-08): about 4.6 SU per rollout on an A40 against a
+   200,000 SU shared pool. Not yet closed, because it is a design choice for the
+   two of us; the binding constraint looks like A40 queue time, not SU.
 3. **Hook point** — residual stream versus waypoint query tokens versus vision
    bridge. Sweep (§9.2). *Step 4.*
 4. **Layer and aggregation.** Sweep. A legitimate compute use. *Step 4.*
@@ -1332,6 +1335,31 @@ third-party fork reports roughly 60 minutes per 300 simulated seconds on an A600
 expect worse with per-frame inference. A thousand-plus-rollout campaign plus
 efficacy pilots and baseline rollouts is on the order of **300–1,000
 GPU-hours.** Fix the real budget from the Step 1 measurement.
+
+**Measured, Step 1 (2026-10-08, Savio job 39732394).** One A40 (`savio3_gpu`,
+8 CPUs), per-frame inference, bfloat16, route 26956: 15.0 simulated seconds in
+210.4 s, so **0.071× real time** (the Mac gets 0.060× on the same route). Whole
+stack peak VRAM was **9.4 GB**, and while driving the GPU was about 42% busy
+with CARLA and the policy using about one CPU core each. Starting the server and
+loading the model add roughly 100 s per route. The job cost **4.75 SU** for
+9.7 minutes: Savio charges 3.67 SU per CPU-hour here, so an A40 job with its
+required 8 CPUs costs about **29 SU per hour**. The allowance holds 200,000 SU,
+shared across the program, with 1,894 used by 2026-10-08.
+
+Extrapolated for one route per GPU, at the Mac sweep's mean of 33.4 simulated
+seconds per route: about 9.5 minutes, 0.16 GPU-hours and **4.6 SU per
+rollout**. Step 2's two-routes-per-GPU pilot measures how far sharing cuts this.
+
+| Item | Rollouts | GPU-hours | SU |
+|---|---|---|---|
+| Bench2Drive-220, one seed (Step 2) | 220 | 35 | 1,020 |
+| Bench2Drive-220, three seeds | 660 | 104 | 3,060 |
+| Dev pool (Step 4) | 600–1,000 | 95–158 | 2,780–4,630 |
+| Test pool (Step 8) | 1,500–2,500 | 237–395 | 6,950–11,580 |
+| Efficacy pilots, per candidate (Step 5) | 60 | 9 | 280 |
+
+These are lower bounds: stalled routes run several times the mean, and the A40
+queue, not the SU pool, set the pace on 2026-10-08 (`docs/WHAT_BROKE.md`).
 
 **Storage.** Roughly 150 GB for activations and images at three layers, plus the
 training dataset if Mode A ever runs. Confirm the quota.
