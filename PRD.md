@@ -818,6 +818,12 @@ One full cycle minimum, two if the infrastructure holds. One policy only.
 | Fail2Drive in-distribution | HM | 80.9 |
 | Fail2Drive generalization | HM | 62.2 |
 
+**Measured, Step 2 (2026-10-08, Savio, one seed, CoT off, bfloat16, v0.0.3):
+DS 88.60, SR 72.7%** over all 220 routes by Bench2Drive's own merge script;
+88.63 / 73.7% over the 213 routes whose scenario ran (`configs/rollout/step2-bench2drive220.yaml`).
+One seed against the paper's three, so the gap above 84.41 / 64.84 is not yet
+evidence of anything; per-ability scores in `results/savio/step2-bench2drive220/`.
+
 Two facts that change how we read these. **First, record the Bench2Drive
 version** — v0.0.3 and v0.0.4 numbers are not comparable, and under v0.0.4
 SimLingo is 86.55 DS. Second, **the only public reproduction attempt we know of
@@ -1360,6 +1366,13 @@ rollout**. Step 2's two-routes-per-GPU pilot measures how far sharing cuts this.
 
 These are lower bounds: stalled routes run several times the mean, and the A40
 queue, not the SU pool, set the pace on 2026-10-08 (`docs/WHAT_BROKE.md`).
+
+**Measured, Step 2 (2026-10-08).** Bench2Drive-220 with two routes per A40 took
+**31.0 GPU-hours and 910 SU**, failed tasks and reruns included: 4.1 SU per
+rollout against the 4.6 estimated above, although routes averaged 42.5 simulated
+seconds rather than 33.4. Sharing a GPU runs about 1.4 times as many simulated
+seconds per hour as one route alone. At up to 6 A40s at once the 220 routes took
+5 hours of wall time.
 
 **Storage.** Roughly 150 GB for activations and images at three layers, plus the
 training dataset if Mode A ever runs. Confirm the quota.
