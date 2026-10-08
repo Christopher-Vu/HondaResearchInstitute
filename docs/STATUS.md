@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-08 02:10 (Step 1 passed on Savio; Step 2 pilot queued; overnight agent session in progress)
+Last updated: 2026-10-08 02:25 (Step 1 passed on Savio; Step 2 running; overnight agent session in progress)
 
 ---
 
@@ -27,7 +27,7 @@ rerun it.
 bfloat16, with Step 3 capture every 10th step. It also covers the 31 Mac-paired
 routes, so `savio-mac-paired.yaml` (old item 4a) is not run separately. Runs two
 routes per A40 (`scripts/route_sample.sbatch <config> 2`) after a pilot of the
-first four routes, array job **39732614**. Score with
+first four routes, array job **39732614**, then the main array **39732818**. Score with
 `adapters/simlingo/score_routes.py`, which reports Bench2Drive's own merge and a
 clean number without skipped scenarios, and lists crashed routes for rerun. The
 first pilot (39732585) died on a faulty A40 in `n0214`; always pass
@@ -136,11 +136,12 @@ Steps 0–1 on Savio are done (setup, push access, GPU check, Step 1 route,
 measurements into the config and `PRD.md` §17.3). The 2026-10-07 `import carla`
 failure was a passing scratch fault; nothing was rebuilt (`docs/WHAT_BROKE.md`).
 
-1. Finish Step 2. Check the pilot (array 39732614, routes 1711, 1773, 1790,
-   1792): all four have `readiness.json` or a driving outcome, capture wrote
-   `capture/steps.pt`, and per-route real-time factor with two routes per GPU
-   beats half of Step 1's 0.071. Then submit the rest, tasks 2–109:
-   `bash scripts/submit.sh gpu_a40 --exclude=n0214.savio3 --time=0-03:00:00 --array=2-109%4 --job-name=step2-b2d220 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml 2`
+1. Finish Step 2. Running since 2026-10-08 02:20: pilot **39732614** (routes
+   1711, 1790, 1792 scored; 1773's CARLA crashed at startup), main array
+   **39732818** (tasks 2–109, two routes per A40, at most 4 A40s), and 1773's
+   rerun **39732819**. Do not change runtime code on Savio (`run_savio.py`,
+   the agents, `route_run.py`) until these finish, since every task runs the
+   checkout it starts with (`cd8ac06` behaviour).
 2. Score: `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/<pilot> results/savio/<rest> [retries]`.
    Rerun the routes it lists under `rerun` as a new array, never re-roll a
    driving outcome. The bar is official DS ≥ 75 (`PRD.md` §10.1).
