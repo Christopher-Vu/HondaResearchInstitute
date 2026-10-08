@@ -6,15 +6,17 @@
 #SBATCH --array=0-30%4
 #SBATCH --output=route-sample-%A_%a.out
 #
-# One route per array task from configs/rollout/savio-mac-paired.yaml, each with
-# its own CARLA server. The array range must cover that file's route list
-# (tests/test_savio_runtime.py checks it). Submit once Step 1 has passed:
+# One route per array task from a rollout config's route list, each with its own
+# CARLA server. The config defaults to configs/rollout/savio-mac-paired.yaml, whose
+# route list the array range below covers (tests/test_savio_runtime.py checks it).
+# Another config needs its own --array and --time on the command line:
 #   bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch
+#   bash scripts/submit.sh gpu --time=0-03:00:00 --array=0-219%4 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
 PY=.runtime/policy-venv/bin/python
-CONFIG=configs/rollout/savio-mac-paired.yaml
+CONFIG=${1:-configs/rollout/savio-mac-paired.yaml}
 ROUTE=$("$PY" -c 'import sys, yaml; print(yaml.safe_load(open(sys.argv[1]))["routes"][int(sys.argv[2])])' \
   "$CONFIG" "$SLURM_ARRAY_TASK_ID")
 OUT=results/savio/$SLURM_ARRAY_JOB_ID/route-$ROUTE
