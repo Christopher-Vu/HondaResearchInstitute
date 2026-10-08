@@ -40,6 +40,11 @@ Step 1 had not used. Another user's array tasks failed on the same node in 7–9
 each over the next two minutes (`sacct -a -N n0214.savio3`), so that GPU is
 faulty, and because jobs fail on it at once, the scheduler keeps handing it out.
 Resubmitted with `--exclude=n0214.savio3`. Worth reporting to Savio support.
+Twenty minutes into the main array the same thing happened on `n0215`: tasks
+5–7 (six routes) failed in under a minute with CARLA exit code 1. Both nodes'
+bad GPUs had just been freed by preempting the same other user's jobs. The
+pending tasks now exclude both nodes (`scontrol update ... ExcNodeList=`), and
+the agent's watcher adds any node where a task fails within 90 s.
 
 In the resubmitted pilot (39732614), two routes share each A40. In task 0 the
 second CARLA server segfaulted (signal 11) during startup while the first one,

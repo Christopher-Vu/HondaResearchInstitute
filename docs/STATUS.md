@@ -30,8 +30,9 @@ routes per A40 (`scripts/route_sample.sbatch <config> 2`) after a pilot of the
 first four routes, array job **39732614**, then the main array **39732818**. Score with
 `adapters/simlingo/score_routes.py`, which reports Bench2Drive's own merge and a
 clean number without skipped scenarios, and lists crashed routes for rerun. The
-first pilot (39732585) died on a faulty A40 in `n0214`; always pass
-`--exclude=n0214.savio3` until Savio fixes it (`docs/WHAT_BROKE.md`).
+first pilot (39732585) died on a faulty A40 in `n0214`, and three main-array
+tasks on one in `n0215`; always pass `--exclude=n0214.savio3,n0215.savio3`
+until Savio fixes them (`docs/WHAT_BROKE.md`).
 
 Track A (paper facts) is complete: six papers read, findings in
 `docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B: the allowance
