@@ -3,36 +3,41 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-08 04:25 (Step 2 running, 53 of 220 routes scored at 04:00; overnight agent session in progress)
+Last updated: 2026-10-08 07:50 (Step 2 passed on Savio: DS 88.60, SR 72.7%)
 
 ---
 
 ## Current position
 
-**Step 1 passed on Savio, 2026-10-08. Step 2 (Bench2Drive-220) is starting.**
+**Steps 1 and 2 passed on Savio, 2026-10-08.** Step 2's last open item is a
+rerun by whichever of us did not set it up.
 
-Step 1, job 39732394 on one A40 (`gpu_a40` profile): off-screen rendering gave
-a real camera image, the checkpoint strict-loaded (hidden size 896, 24 layers),
-and route 26956 completed with score 100 in 299 model steps. Measured: **0.071×
-real time** (Mac 0.060×), **9.4 GB** whole-stack peak VRAM, 4.75 SU for the
-9.7-minute job. Numbers are in `configs/rollout/step1-single-route.yaml` and
-`PRD.md` §17.3; evidence in `results/savio/39732394/` (laptop copy). Done
-condition items still open: "in the container" is replaced by the pinned
-tarball (`CONFLICTS.md` C20, pending review), §16.2 has its inputs but is a
-design call for Chris and Jerry, and a person who did not set it up has not yet
-rerun it.
+**Step 2: Bench2Drive-220, one seed, CoT off, bfloat16, v0.0.3 — official DS
+88.60, SR 72.7%** (Bench2Drive's own merge over all 220; bar DS ≥ 75; paper
+84.41 / 64.84 over three seeds). Without the 7 routes whose scenario Bench2Drive
+skipped (all Interurban(Advanced)ActorFlow): 88.63 / 73.7% over 213. Config
+`configs/rollout/step2-bench2drive220.yaml`; evidence `results/savio/step2-bench2drive220/`
+(summary, per-route rows, merged JSON; laptop copy) and, on Savio, the per-route
+directories under `results/savio/<job>/` with Step 3 capture every 10th step.
+Cost 31.0 GPU-hours, 910 SU (4.1 SU per route), two routes per A40.
 
-**Step 2 in progress (overnight session, 2026-10-08).** Config
-`configs/rollout/step2-bench2drive220.yaml`: all 220 routes, one seed, CoT off,
-bfloat16, with Step 3 capture every 10th step. It also covers the 31 Mac-paired
-routes, so `savio-mac-paired.yaml` (old item 4a) is not run separately. Runs two
-routes per A40 (`scripts/route_sample.sbatch <config> 2`) after a pilot of the
-first four routes, array job **39732614**, then the main array **39732818**. Score with
-`adapters/simlingo/score_routes.py`, which reports Bench2Drive's own merge and a
-clean number without skipped scenarios, and lists crashed routes for rerun. The
-first pilot (39732585) died on a faulty A40 in `n0214`, and three main-array
-tasks on one in `n0215`; always pass `--exclude=n0214.savio3,n0215.savio3`
-until Savio fixes them (`docs/WHAT_BROKE.md`).
+What it answered: the Mac's 93% success was mostly its easy route sample (those
+routes succeed 82.5% on Savio, the Mac 92.5%; the paired difference is p = 0.29),
+and SimLingo's 40-second stalls recur across platforms (`docs/WHAT_BROKE.md`).
+48 of 213 routes stood still for 38+ simulated seconds.
+
+Step 1, job 39732394 on one A40: real off-screen camera image, strict checkpoint
+load (hidden size 896, 24 layers), route 26956 completed with score 100 at
+**0.071× real time** and **9.4 GB** peak VRAM for 4.75 SU
+(`configs/rollout/step1-single-route.yaml`, `PRD.md` §17.3). Open items: the
+container became the pinned tarball (`CONFLICTS.md` C20, pending review), and
+§16.2 has its inputs but is a design call for Chris and Jerry.
+
+Savio lessons from the night, all in `docs/WHAT_BROKE.md`: use the `gpu_a40`
+profile when the A5000 queue is long; always pass
+`--exclude=n0214.savio3,n0215.savio3` (faulty A40s); two routes share an A40
+safely now that their CARLA servers start one after the other; an evaluator
+silent for 15 minutes is stopped (`f111121`).
 
 Track A (paper facts) is complete: six papers read, findings in
 `docs/step0-trackA-findings.md`, applied to `PRD.md`. Track B: the allowance
@@ -133,30 +138,29 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-Steps 0–1 on Savio are done (setup, push access, GPU check, Step 1 route,
-measurements into the config and `PRD.md` §17.3). The 2026-10-07 `import carla`
-failure was a passing scratch fault; nothing was rebuilt (`docs/WHAT_BROKE.md`).
+Steps 0–2 on Savio are done except Step 2's independent rerun. Do not reopen the
+2026-10-07 `import carla` failure: it was a passing scratch fault.
 
-1. Finish Step 2. Running since 2026-10-08 02:20: pilot **39732614** (routes
-   1711, 1790, 1792 scored; 1773's CARLA crashed at startup), main array
-   **39732818** (tasks 2–109, two routes per A40, at most 4 A40s), and 1773's
-   rerun **39732819**. Do not change runtime code on Savio (`run_savio.py`,
-   the agents, `route_run.py`) until these finish, since every task runs the
-   checkout it starts with. One deliberate exception: `6763534` stopped the
-   black-frame check from crashing dark night routes (`docs/WHAT_BROKE.md`).
-   It only decides which frames abort a route, so completed routes are
-   unaffected. Reruns needed so far: 1773 (done), tasks 5–7 (39732860),
-   2802 (setup timeout), 3561 (night check), 3436 (CARLA segfault), 3904 (CARLA
-   hang, task cancelled by hand; `f111121` now stops silent evaluators).
-2. Score: `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/<pilot> results/savio/<rest> [retries]`.
-   Rerun the routes it lists under `rerun` as a new array, never re-roll a
-   driving outcome. The bar is official DS ≥ 75 (`PRD.md` §10.1).
-3. Per-ability scores: `Bench2Drive/tools/ability_benchmark.py` on the merged
-   JSON. It starts its own CARLA, so it needs one short GPU job.
-4. Compare with the Mac sample on the 31 shared routes (outcome only). If Savio
-   lands near the paper's 64.8% success while the Mac got 93%, an fp32 arm on
-   Savio separates precision from platform (`docs/WHAT_BROKE.md`, 2026-10-06).
-5. Close `PRD.md` §16.2 (gap portfolio size) as a design decision, using §17.3.
+1. Per-ability success rates: job **39735148** (`scripts/ability_benchmark.sbatch`)
+   was running at 07:50 and writes `results/savio/step2-bench2drive220/res/merged_ability.json`
+   on Savio. Compare with the paper's Table 8 (Merging 54.01, Overtaking 57.04,
+   Give Way 53.33, Emergency Brake 88.33, Traffic Sign 82.45; `PRD.md` §10.1).
+2. Step 2's done condition wants the run reproduced by whichever of Chris and
+   Jerry did not set it up. A full rerun costs about 910 SU; decide whether that
+   or a handful of routes plus a rescore is enough. To rescore:
+   `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
+3. Design calls for the two of you: close `PRD.md` §16.2 (gap portfolio size;
+   §17.3 now has measured cost) and review `CONFLICTS.md` C20 (tarball instead
+   of container). Three seeds of Bench2Drive-220 (§10.1) would cost about
+   2,700 SU at Step 2's rate.
+4. Step 3 on Savio: the Step 2 routes captured model inputs in bfloat16 every
+   10th step. Replaying a few of them with `adapters/simlingo/replay_capture.py`
+   on a CUDA node checks Step 3's 1e-3 m done condition in Savio's dtype (one
+   short GPU job). Write B7's definition (`docs/steps/gpu-free-queue.md`) before
+   anyone opens the captured activations.
+5. Before the next campaign, raise `timeout_seconds` from 60 to Bench2Drive's
+   default 600 in the rollout configs (one route lost its setup to the 60 s
+   limit; `docs/WHAT_BROKE.md`).
 
 **An agent can reach the cluster only through a shared SSH connection that a
 person opened.** Login requires a PIN plus a rotating 6-digit code and `ic_`
@@ -166,7 +170,7 @@ agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
 
 ## Built so far
 
-60 CPU tests pass; local CARLA and model bring-up use the Mac GPU.
+84 CPU tests pass. Route runs use Savio A40s; the Mac runs single routes locally.
 
 | Piece | Where |
 |---|---|
@@ -178,6 +182,9 @@ agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
 | Cluster indirection | `configs/cluster/savio.yaml`, `scripts/submit.sh` |
 | Savio runtime setup and Step 1 job | `adapters/simlingo/setup_savio.py`, `run_savio.py`, `scripts/step1.sbatch` |
 | Route runner shared by Mac and Savio | `adapters/simlingo/route_run.py` |
+| Route arrays, two routes per GPU | `scripts/route_sample.sbatch` |
+| Step 2 scoring (Bench2Drive merge plus validity columns) | `adapters/simlingo/score_routes.py` |
+| Per-ability scores | `scripts/ability_benchmark.sbatch` |
 
 Building the scoring layer before any rollout exists is deliberate, not
 opportunistic: `PRD.md` §9.1 wants it frozen and hash-committed before the test
