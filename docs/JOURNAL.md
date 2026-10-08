@@ -53,8 +53,8 @@ sometimes crashed one, so they now start in turn. Our own black-frame check,
 written for compute-box, crashed a valid night route, because 53 of the 220
 routes are at night with a camera averaging about 1/255; it now fails only flat
 frames. One route's CARLA hung and held a GPU idle for an hour, so a route that
-prints nothing for 15 minutes is now stopped. Eight routes without a driving
-outcome were rerun; no driving outcome was re-rolled.
+prints nothing for 15 minutes is now stopped. Eleven routes without a driving
+outcome were rerun, six of them lost on `n0215`; no driving outcome was re-rolled.
 
 Still open: the per-ability job (39735148), the independent rerun the Step 2
 done condition asks for, and the design calls in `docs/STATUS.md`.
