@@ -44,10 +44,15 @@ route:
   seed: 0
 
 measure:
-  wall_clock_seconds: TBD-STEP1
-  simulated_seconds: TBD-STEP1
-  real_time_factor: TBD-STEP1    # simulated / wall-clock; expect ~0.045-0.065
-  peak_vram_gb: TBD-STEP1        # whole stack, including the CARLA server
+  # Measured 2026-10-08, Savio job 39732394 on one A40 (savio3_gpu, n0214, 8 CPUs), bfloat16.
+  # Evidence: results/savio/39732394/route/readiness.json. Route completed, score 100,
+  # 299 model steps, only the unpenalized minimum-speed checks.
+  wall_clock_seconds: 210.4      # Bench2Drive duration_system; whole job 9 min 43 s
+  simulated_seconds: 15.0
+  real_time_factor: 0.0713       # Mac M5 Pro: 0.0601 on the same route
+  peak_vram_gb: 9.41             # whole stack, including the CARLA server
+  mean_gpu_utilization_percent: 15.6  # whole route stage; about 42% while driving
+  service_units: 4.75            # check_usage.sh before and after; 3.67 SU per CPU-hour
 
 outputs:
   results_dir: results/savio/
