@@ -1,0 +1,115 @@
+# Done-condition progress for every step in PRD.md section 13, read by the status
+# dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
+# Measured numbers are not copied here: `source` points at the config that holds them.
+
+updated: 2026-10-08
+# The step the team is working toward now. Earlier steps can still have open checks.
+current: 3
+
+steps:
+  - id: 0
+    title: Ground the facts
+    checks:
+      - {text: Paper facts read and settled, done: true}
+      - {text: A GPU job runs on Savio, done: true}
+      - {text: Both of us have run one, done: false}
+  - id: 1
+    title: One SimLingo route on Savio
+    source: configs/rollout/step1-single-route.yaml
+    checks:
+      - {text: Route completes on a Savio GPU, done: true}
+      - {text: Speed and GPU memory measured, done: true}
+      - {text: Model architecture written into the PRD, done: true}
+      - {text: Compute budget measured, done: true}
+      - {text: Gap portfolio size decided, done: false}
+      - {text: Rerun by whoever did not set it up, done: false}
+  - id: 2
+    title: Reproduce Bench2Drive-220
+    source: configs/rollout/step2-bench2drive220.yaml
+    checks:
+      - {text: Driving score at least 75, done: true}
+      - {text: Benchmark version and checkpoint hash recorded, done: true}
+      - {text: Rerun by whoever did not set it up, done: false}
+  - id: 3
+    title: Hooks and the activation store
+    checks:
+      - {text: Replay matches logged waypoints on the Mac, done: true}
+      - {text: Replay matches on Savio in bfloat16, done: false}
+      - {text: Rollouts write activations the reader loads, done: true}
+  - id: 4
+    title: Dev pool and layer sweep
+    checks:
+      - {text: B7 defined before activations are opened, done: false}
+      - {text: Layer sweep run on the dev pool, done: false}
+      - {text: Layers and sites chosen, done: false}
+  - id: 5
+    title: Gap candidates and efficacy
+    checks:
+      - {text: Efficacy pilots run, done: false}
+      - {text: 4 to 6 gaps and 2 decoys pass, done: false}
+      - {text: No single-factor confound, done: false}
+  - id: 6
+    title: Cheap baselines
+    checks:
+      - {text: B1 random baseline, done: true}
+      - {text: Human taxonomy baseline, done: false}
+      - {text: Behavioral stratification baseline, done: false}
+      - {text: B7 activation statistics baseline, done: false}
+  - id: 7
+    title: Discovery on dev
+    started: true  # contrastive prototype on catherine-contrastive-discovery
+    checks:
+      - {text: Contrastive method emits directives, done: false}
+      - {text: SAE method emits directives, done: false}
+      - {text: Probe-residual method emits directives, done: false}
+      - {text: Gate run with its shuffle control, done: false}
+  - id: 8
+    title: Seal, generate, score
+    checks:
+      - {text: Answer key sealed and hashed, done: false}
+      - {text: Test pool generated, done: false}
+      - {text: Scored once, done: false}
+  - id: 9
+    title: Causal checks and go or no-go
+    checks:
+      - {text: Causal verdict for every top axis, done: false}
+      - {text: Go or no-go decided, done: false}
+  - id: 10
+    title: Closed loop
+    checks:
+      - {text: One full generate and fine-tune cycle, done: false}
+      - {text: No-degradation check reported, done: false}
+  - id: 11
+    title: Adapter refactor
+    checks:
+      - {text: Stub adapter runs end to end, done: false}
+  - id: 12
+    title: Write
+    checks:
+      - {text: Paper draft, done: false}
+
+benchmark:
+  # PRD.md 10.1: SimLingo paper, Bench2Drive v0.0.3, CoT off, three seeds.
+  bar_driving_score: 75
+  paper:
+    driving_score: {mean: 84.41, sd: 1.76}
+    success_rate: {mean: 0.6484, sd: 0.0242}
+    ability_success_rate:  # paper Table 8
+      overtaking: 0.5704
+      merging: 0.5401
+      emergency_brake: 0.8833
+      give_way: 0.5333
+      traffic_signs: 0.8245
+
+compute:
+  allowance_su: 200000
+  window: [2026-09-18, 2026-12-18]
+  # check_usage.sh -a ic_cdss170fall; the whole program, not just this project.
+  program_used_su: 2828.78
+  program_used_as_of: 2026-10-08
+  # PRD.md 17.3 estimates at the measured 4.1 SU per rollout, low and high.
+  planned:
+    - {item: Bench2Drive-220 three seeds, su: [2700, 2700]}
+    - {item: Dev pool, su: [2780, 4630]}
+    - {item: Gap efficacy pilots, su: [3000, 3000]}
+    - {item: Test pool, su: [6950, 11580]}

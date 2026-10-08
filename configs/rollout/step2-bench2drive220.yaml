@@ -50,6 +50,7 @@ measure:
     mean: 0.711              # 0.670
   gpu_hours: 31.0                  # every task, failures and reruns included
   service_units: 910
+  ability_job_service_units: 9.8   # job 39735148, 20 min on 8 CPUs
 
 routes: ["1711", "1773", "1790", "1792", "1825", "1833", "1852", "1956", "2050", "2082",
          "2084", "2086", "2091", "2115", "2127", "2129", "2143", "2144", "2164", "2201",
