@@ -134,8 +134,11 @@ python scripts/check_configs.py            # config hashes, unresolved TBDs
 ## Cluster
 
 Compute is Savio, allowance `ic_cdss170fall`. **Login needs a PIN plus a rotating
-6-digit code, so an agent cannot reach the cluster** — cluster work means handing
-Chris a script to paste and reading back the output.
+6-digit code, so an agent cannot log in itself.** `~/.ssh/config` has a `savio`
+host with SSH connection sharing (12h `ControlPersist`): a person runs `ssh savio`,
+types PIN+code, then **exits that shell**. Savio allows one session per
+connection, so an open shell blocks the agent. After that, `ssh savio '<cmd>'`
+works until the shared connection dies; check with `ssh -O check savio`.
 
 **Never hardcode a partition, QoS or GPU type.** All of it lives in
 `configs/cluster/savio.yaml`. `scripts/submit.sh` reads that file and refuses GPU

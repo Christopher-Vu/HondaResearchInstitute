@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-08 — agent can now run commands on Savio
+
+Until now an agent could not touch Savio, because every login needs a PIN plus a
+rotating 6-digit code. This session added a `savio` entry to `~/.ssh/config` that
+uses SSH connection sharing: one login opens a connection that stays alive in the
+background for up to 12 idle hours, and later `ssh savio '<cmd>'` calls go through
+it without asking for the code. The person still types the PIN and code. The agent
+never sees them.
+
+One surprise: while the person's own shell was open, Savio refused the agent's
+command ("Session open refused by peer"). Savio apparently allows one session per
+connection. After the person typed `exit`, the background connection stayed up and
+the agent's command ran (measured: `hostname` returned `ln003.brc`). The steps are
+in `CLAUDE.md` under "Cluster" and in `docs/STATUS.md`.
+
+---
+
 ## 2026-10-07 (afternoon) — CARLA runs moved from the laptop to compute-box
 
 The local sweep made the laptop too laggy to work on, so the CARLA setup was

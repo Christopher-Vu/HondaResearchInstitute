@@ -149,9 +149,11 @@ The exact commands are in `docs/steps/01-smallest-rollout.md`.
    route (`results/local-sweep/20261006-overnight/`) ÷ Savio's real-time factor.
    Stalls make simulated time per route vary from 10 to over 100 seconds.
 
-**An agent can never reach the cluster.** Login requires a PIN plus a rotating
-6-digit code and `ic_` allowances forbid unattended keys. A person logs in in a
-terminal; an agent can read that terminal's output but not type into it.
+**An agent can reach the cluster only through a shared SSH connection that a
+person opened.** Login requires a PIN plus a rotating 6-digit code and `ic_`
+allowances forbid unattended keys. Run `ssh savio`, log in, then `exit`; the
+agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
+2026-10-08). See `CLAUDE.md` § Cluster.
 
 ## Built so far
 
