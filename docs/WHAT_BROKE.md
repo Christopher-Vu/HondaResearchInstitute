@@ -8,6 +8,30 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-08 — Why the Mac beat the paper: mostly the route sample
+
+**Expected (2026-10-06 entry below):** Savio in bfloat16 would show whether the
+Mac's 93% success rate came from float32 precision, the Mac's renderer, or chance.
+
+**Actual:** Savio's full Bench2Drive-220 run scored success 72.7% (DS 88.6), above
+the paper's 64.8% but far below the Mac's sample. On the 40 routes both
+platforms scored, the Mac succeeded on 37 and Savio on 33 (mean DS 96.7 against
+90.8). They disagree on 8 routes, 6 in the Mac's favour; a sign test gives
+p = 0.29, so a platform difference is not shown. The larger effect is the sample:
+the one-route-per-scenario-type routes the Mac drove succeed 82.5% of the time
+on Savio, against 73.7% across all 213 routes whose scenario ran.
+
+The stalls are platform-independent. Of the 11 routes where the Mac stood still
+for 38+ simulated seconds, 7 did so on Savio too, five at the same 40–41 s that
+ends in SimLingo's scripted creep (1956 stood still 41.0 s on both). Across all
+220, 48 of 213 scored routes stood still for 38+ s and 44 of them were moved by
+the creep.
+
+**Did:** nothing more on the cluster. An fp32 arm on Savio was the planned
+follow-up if Savio landed near the paper while the Mac stayed at 93%. It did
+not, and the paired difference is within chance, so the run would not be worth
+its GPU time now.
+
 ## 2026-10-08 — The Savio "lost file" was a passing scratch fault, and the A5000 queue was jammed
 
 **Expected (2026-10-07 entry below):** the CARLA client library that Step 1
