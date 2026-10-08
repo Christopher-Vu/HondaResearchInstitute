@@ -106,35 +106,50 @@ def load_in_dtype(dtype: torch.dtype) -> Any:
     return model
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("run", type=Path)
-    parser.add_argument("--device", default="cpu")
-    parser.add_argument("--limit", type=int, default=0, help="replay only the first N saved frames")
-    args = parser.parse_args()
-    capture = args.run / "capture"
-    steps = torch.load(capture / "steps.pt", weights_only=False)
-    by_step = {record["step"]: record for record in steps["records"]}
-    frames = sorted((capture / "inputs").glob("*.pt"))[: args.limit or None]
-    sys.path.insert(0, str(ROOT / ".runtime/simlingo"))
-    torch.set_num_threads(8)
-    device = torch.device(args.device)
-    model = load_in_dtype(getattr(torch, steps["dtype"].removeprefix("torch.")))
-    model.to(device)
-    probe = Probe(model)
-    rows = [replay_frame(model, probe, torch.load(path, weights_only=False), by_step[int(path.stem)], device)
-            for path in frames if int(path.stem) in by_step]
+def summarize(header: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
     worst = max(max(row["speed_wps_max_abs_m"], row["route_max_abs_m"]) for row in rows)
-    report = {
-        "run": str(args.run), "logged_device": steps["device"], "logged_dtype": steps["dtype"],
-        "replay_device": args.device, "frames": len(rows), "worst_waypoint_abs_m": worst,
+    return {
+        **header, "frames": len(rows), "worst_waypoint_abs_m": worst,
         "within_1e-3_m": worst <= TOLERANCE_METRES,
         "worst_layer_mean_abs": max(row["layer_mean_max_abs"] for row in rows),
         "driving_slot_matches_head": all(row["driving_slot_matches_head"] for row in rows),
         "sequence_lengths": sorted({row["sequence_length"] for row in rows}), "rows": rows,
     }
-    output = capture / f"replay-{args.device}.json"
-    output.write_text(json.dumps(report, indent=2) + "\n")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("run", type=Path)
+    parser.add_argument("--device", default="cpu")
+    parser.add_argument("--limit", type=int, default=0, help="replay only the first N saved frames")
+    parser.add_argument("--dtype", choices=["float32", "float16", "bfloat16"],
+                        help="rebuild the model in this dtype instead of the logged one, to measure dtype drift")
+    args = parser.parse_args()
+    capture = args.run / "capture"
+    steps = torch.load(capture / "steps.pt", weights_only=False)
+    by_step = {record["step"]: record for record in steps["records"]}
+    frames = [path for path in sorted((capture / "inputs").glob("*.pt"))[: args.limit or None]
+              if int(path.stem) in by_step]
+    sys.path.insert(0, str(ROOT / ".runtime/simlingo"))
+    torch.set_num_threads(8)
+    device = torch.device(args.device)
+    logged_dtype = steps["dtype"].removeprefix("torch.")
+    dtype = args.dtype or logged_dtype
+    model = load_in_dtype(getattr(torch, dtype))
+    model.to(device)
+    probe = Probe(model)
+    header = {"run": str(args.run), "logged_device": steps["device"], "logged_dtype": steps["dtype"],
+              "replay_device": args.device, "replay_dtype": dtype}
+    suffix = "" if dtype == logged_dtype else f"-{dtype}"
+    output = capture / f"replay-{args.device}{suffix}.json"
+    rows: list[dict[str, Any]] = []
+    for path in frames:
+        frame = torch.load(path, weights_only=False)
+        # The agent casts only the camera images to the model dtype; every other input stays float32.
+        frame = frame._replace(camera_images=frame.camera_images.to(getattr(torch, dtype)))
+        rows.append(replay_frame(model, probe, frame, by_step[int(path.stem)], device))
+        output.write_text(json.dumps(summarize(header, rows), indent=2) + "\n")
+    report = summarize(header, rows)
     print(json.dumps({key: value for key, value in report.items() if key != "rows"}, indent=2))
 
 
