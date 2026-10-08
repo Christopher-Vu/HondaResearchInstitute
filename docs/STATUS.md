@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-08 02:25 (Step 1 passed on Savio; Step 2 running; overnight agent session in progress)
+Last updated: 2026-10-08 04:25 (Step 2 running, 53 of 220 routes scored at 04:00; overnight agent session in progress)
 
 ---
 
@@ -142,7 +142,11 @@ failure was a passing scratch fault; nothing was rebuilt (`docs/WHAT_BROKE.md`).
    **39732818** (tasks 2–109, two routes per A40, at most 4 A40s), and 1773's
    rerun **39732819**. Do not change runtime code on Savio (`run_savio.py`,
    the agents, `route_run.py`) until these finish, since every task runs the
-   checkout it starts with (`cd8ac06` behaviour).
+   checkout it starts with. One deliberate exception: `6763534` stopped the
+   black-frame check from crashing dark night routes (`docs/WHAT_BROKE.md`).
+   It only decides which frames abort a route, so completed routes are
+   unaffected. Reruns needed so far: 1773 (done), tasks 5–7 (39732860),
+   2802 (setup timeout), 3561 (night check).
 2. Score: `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/<pilot> results/savio/<rest> [retries]`.
    Rerun the routes it lists under `rerun` as a new array, never re-roll a
    driving outcome. The bar is official DS ≥ 75 (`PRD.md` §10.1).
