@@ -10,6 +10,7 @@ from typing import Any
 
 import carla
 import numpy as np
+import numpy.typing as npt
 from PIL import Image
 
 
@@ -25,7 +26,7 @@ def camera_frame(images: queue.Queue[Any], expected: int) -> Any:
 
 
 def save_image(image: Any, path: Path) -> dict[str, float]:
-    rgba = np.frombuffer(image.raw_data, dtype=np.uint8).reshape(image.height, image.width, 4)
+    rgba: npt.NDArray[np.uint8] = np.frombuffer(image.raw_data, dtype=np.uint8).reshape(image.height, image.width, 4)
     rgb = rgba[:, :, :3][:, :, ::-1].copy()
     statistics = {"mean": float(rgb.mean()), "std": float(rgb.std())}
     if statistics["mean"] < 1 or statistics["std"] < 1:
