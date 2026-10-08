@@ -36,6 +36,9 @@ for SLOT in "${!ROUTES[@]}"; do
   "$PY" adapters/simlingo/run_savio.py route --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
     --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 &
   PIDS+=($!)
+  # Two CARLA servers starting together crashed one with a segfault (2026-10-08),
+  # so the next slot starts only once this server accepts clients or the route ends.
+  while kill -0 "$!" 2>/dev/null && [ ! -f "$OUT/server-ready" ]; do sleep 5; done
 done
 STATUS=0
 for INDEX in "${!PIDS[@]}"; do

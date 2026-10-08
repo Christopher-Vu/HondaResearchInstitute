@@ -145,7 +145,9 @@ def carla_server(output: Path, quality: str, container: str | None,
         server = subprocess.Popen(server_command(quality, ports.rpc, container), stdout=log,
                                   stderr=subprocess.STDOUT, start_new_session=True)
         try:
-            yield ports, wait_for_server(ports.rpc, SERVER_STARTUP_SECONDS, server)
+            versions = wait_for_server(ports.rpc, SERVER_STARTUP_SECONDS, server)
+            (output / "server-ready").touch()
+            yield ports, versions
         finally:
             stop_process_group(server, grace_seconds=30)
 
