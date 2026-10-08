@@ -5,7 +5,7 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
-## 2026-10-08 (overnight) — Step 1 passed on Savio; Step 2 started
+## 2026-10-08 (overnight) — Steps 1 and 2 passed on Savio
 
 An agent ran this session unattended through the shared SSH connection, with the
 instruction to spend Savio compute only where the result is certainly useful.
@@ -21,27 +21,43 @@ screen, the checkpoint strict-loaded on the node, and SimLingo drove route
 0.060×), 9.4 GB peak GPU memory for CARLA plus the policy, and 4.75 service
 units (SU, Savio's billing unit) for the 9.7-minute job. These went into
 `configs/rollout/step1-single-route.yaml` and the compute budget in `PRD.md`
-§17.3, which now estimates about 4.6 SU per rollout.
+§17.3.
 
-**Two cluster surprises.** The A5000 queue was days long, with 13 nodes down
-or drained, so the session added an A40 profile (`submit.sh gpu_a40`); A40 jobs
-started within minutes. And one A40 in node `n0214` is broken: every job given
-it fails in seconds, ours and another user's alike, so jobs now pass
-`--exclude=n0214.savio3`.
+**Step 2 passed: driving score (DS) 88.60, success rate (SR) 72.7%** over all
+220 Bench2Drive routes, one seed, as Bench2Drive's own merge script computes
+them. The bar was DS 75; the paper reports 84.41 and 64.8% over three seeds, so
+one seed above it is not yet evidence of anything. Seven routes had their
+scenario skipped by a Bench2Drive setup error; without them it is 88.63 and
+73.7%. The run cost 31.0 GPU-hours and 910 SU, about 0.5% of the program's
+allowance, and the per-ability breakdown was still computing at the time of
+writing. Numbers are in `configs/rollout/step2-bench2drive220.yaml` and `PRD.md`
+§10.1 and §17.3.
 
-**Step 2 setup.** Instead of running the 31-route Mac comparison and then the
-220-route benchmark separately, the 220 routes (which contain the 31) run once.
-Each route also records the Step 3 capture the Mac sweep recorded, so later
-steps can use these rollouts without driving them again. A pilot of four routes
-showed that two routes can share one A40: together they ran about 1.4 times as
-many simulated seconds per hour as one route alone, cutting cost per route by
-roughly 30%. In one of the two pilot pairs, the second CARLA server crashed while
-both were starting, so servers now start one after the other. The scorer
-(`adapters/simlingo/score_routes.py`) runs Bench2Drive's own merge script for the
-headline numbers.
+**What it answered.** The Mac's 93% success rate came mostly from its route
+sample: the same routes succeed 82.5% of the time on Savio, against 73.7%
+across all routes, and the remaining Mac-versus-Savio gap is within chance
+(p = 0.29). So the planned float32 run on Savio was not worth its GPU time. And
+SimLingo's 40-second stalls are a property of the scenes: four stood still for
+the same 40–41 s on both platforms, and 48 of 213 Savio routes stood still for
+38 seconds or more (`docs/WHAT_BROKE.md`).
 
-Left running at the time of writing: main array 39732818 and a rerun of route
-1773 (39732819). `docs/STATUS.md` has the commands to score and finish.
+**How the run was kept cheap.** Instead of running the 31-route Mac comparison
+and then the benchmark separately, the 220 routes (which contain those 31) ran
+once, each also recording the Step 3 capture so later steps need not drive them
+again. Two routes shared each A40, which cut cost per route by roughly 30%.
+
+**What went wrong, and the fixes.** The A5000 queue was days long, so jobs moved
+to A40s (`submit.sh gpu_a40`). Two A40s, in `n0214` and `n0215`, fail every job
+within seconds and are now excluded. Two CARLA servers starting together
+sometimes crashed one, so they now start in turn. Our own black-frame check,
+written for compute-box, crashed a valid night route, because 53 of the 220
+routes are at night with a camera averaging about 1/255; it now fails only flat
+frames. One route's CARLA hung and held a GPU idle for an hour, so a route that
+prints nothing for 15 minutes is now stopped. Eight routes without a driving
+outcome were rerun; no driving outcome was re-rolled.
+
+Still open: the per-ability job (39735148), the independent rerun the Step 2
+done condition asks for, and the design calls in `docs/STATUS.md`.
 
 ---
 
