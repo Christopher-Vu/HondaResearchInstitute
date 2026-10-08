@@ -109,12 +109,9 @@ def creep_events(evaluator_log: Path) -> int:
     return sum(value == 14 and (index == 0 or values[index - 1] != 14) for index, value in enumerate(values))
 
 
-def route_record(route: dict[str, str], output: Path, exit_code: int | None, wall: float,
-                 attempts: int) -> dict[str, Any]:
-    record: dict[str, Any] = {**route, "attempts": attempts, "launcher_wall_seconds": round(wall, 1),
-                              "wall_capped": exit_code is None, "exit_code": exit_code,
-                              "readiness": (output / "readiness.json").is_file(),
-                              "longest_stationary_sim_seconds": longest_stationary_seconds(output / "controls.jsonl"),
+def route_outcome(output: Path) -> dict[str, Any]:
+    """Status, stall columns and, only for a valid driving outcome with its scenario played, the scores."""
+    record: dict[str, Any] = {"longest_stationary_sim_seconds": longest_stationary_seconds(output / "controls.jsonl"),
                               "creep_events": creep_events(output / "evaluator.log")}
     result_path = output / "result.json"
     evaluator_log = output / "evaluator.log"
@@ -131,6 +128,14 @@ def route_record(route: dict[str, str], output: Path, exit_code: int | None, wal
             "infractions": {name: count for name, count in counts.items() if count},
             "success": entry["status"] in {"Completed", "Perfect"} and not any(counts.values()),
         })
+    return record
+
+
+def route_record(route: dict[str, str], output: Path, exit_code: int | None, wall: float,
+                 attempts: int) -> dict[str, Any]:
+    record: dict[str, Any] = {**route, "attempts": attempts, "launcher_wall_seconds": round(wall, 1),
+                              "wall_capped": exit_code is None, "exit_code": exit_code,
+                              "readiness": (output / "readiness.json").is_file(), **route_outcome(output)}
     if "score_composed" not in record:
         log = output.parent / f"{output.name}.launcher.log"
         record["error_tail"] = log.read_text().strip().splitlines()[-3:] if log.is_file() else []
@@ -142,7 +147,7 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     mean = (lambda key: round(sum(row[key] for row in scored) / len(scored), 2)) if scored else (lambda key: None)
     return {
         "routes_attempted": len(rows), "routes_scored": len(scored),
-        "unscored": [{"id": row["id"], "scenario": row["scenario"], "wall_capped": row["wall_capped"],
+        "unscored": [{"id": row["id"], "scenario": row["scenario"], "wall_capped": row.get("wall_capped"),
                       "longest_stationary_sim_seconds": row.get("longest_stationary_sim_seconds")}
                      for row in rows if "score_composed" not in row],
         "mean_driving_score_over_scored": mean("score_composed"),
