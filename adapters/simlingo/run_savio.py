@@ -4,7 +4,9 @@
     .runtime/policy-venv/bin/python adapters/simlingo/run_savio.py route
 
 `scripts/step1.sbatch` runs both, in order, inside one GPU allocation. `--route` replaces the
-config's route, which is how `scripts/route_sample.sbatch` runs one route per array task.
+config's route, which is how `scripts/route_sample.sbatch` runs routes in an array. `--slot` and
+`--slots` let several routes share one GPU: each slot gets its own CARLA ports and an equal share
+of the job's CPUs for torch.
 """
 from __future__ import annotations
 
@@ -32,6 +34,7 @@ STEP1_CONFIG = ROOT / "configs/rollout/step1-single-route.yaml"
 CLUSTER_CONFIG = ROOT / "configs/cluster/savio.yaml"
 SERVER_STARTUP_SECONDS = 300
 CARLA_PORTS_PER_SERVER = 3
+PORTS_PER_SLOT = 5  # the server's block plus the traffic manager, with one spare
 
 
 def port_block_is_free(first: int, count: int) -> bool:
@@ -52,10 +55,16 @@ def free_port_block(count: int, start: int) -> int:
     raise RuntimeError("No free port block for CARLA on this node")
 
 
-def job_ports() -> Ports:
+def job_ports(slot: int = 0) -> Ports:
+    """Each job owns a 10-port window, and its slots start 5 apart in it, so two servers starting
+    together cannot pick the same block. The bind check covers any overlap with other jobs."""
     job = int(os.environ.get("SLURM_JOB_ID", "0"))
-    rpc = free_port_block(CARLA_PORTS_PER_SERVER, 20000 + (job % 1000) * 10)
+    rpc = free_port_block(CARLA_PORTS_PER_SERVER, 20000 + (job % 1000) * 10 + slot * PORTS_PER_SLOT)
     return Ports(rpc=rpc, traffic_manager=free_port_block(1, rpc + CARLA_PORTS_PER_SERVER))
+
+
+def torch_threads(slots: int) -> int:
+    return max(1, int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count() or 1)) // slots)
 
 
 def server_command(quality: str, rpc_port: int, container: str | None) -> list[str]:
@@ -129,8 +138,9 @@ class GpuMonitor:
 
 
 @contextmanager
-def carla_server(output: Path, quality: str, container: str | None) -> Iterator[tuple[Ports, dict[str, str]]]:
-    ports = job_ports()
+def carla_server(output: Path, quality: str, container: str | None,
+                 slot: int = 0) -> Iterator[tuple[Ports, dict[str, str]]]:
+    ports = job_ports(slot)
     with (output / "server.log").open("w") as log:
         server = subprocess.Popen(server_command(quality, ports.rpc, container), stdout=log,
                                   stderr=subprocess.STDOUT, start_new_session=True)
@@ -159,20 +169,22 @@ def render(output: Path, config: dict[str, Any], container: str | None) -> dict[
     return report
 
 
-def route(output: Path, config: dict[str, Any], container: str | None) -> dict[str, Any]:
+def route(output: Path, config: dict[str, Any], container: str | None, slot: int = 0,
+          slots: int = 1) -> dict[str, Any]:
     manifest = verify_artifacts(SOURCE, CHECKPOINT)
     check_external_server_patch()
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    threads = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count() or 1))
     agent, capture = agent_and_capture_environment(config.get("capture_every"))
     with GpuMonitor() as gpu:
-        with carla_server(output, config["simulator"]["quality"], container) as (ports, versions):
+        with carla_server(output, config["simulator"]["quality"], container, slot) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
                                              CARLA_ROOT / "PythonAPI/carla", False, capture)
-            run_evaluator(output, evaluator_command(output, config, ports, threads, agent), environment)
-    return summarize(output, config, versions,
-                     {**job_facts(), **gpu.report(), "container": container, "savio_verified": True})
+            command = evaluator_command(output, config, ports, torch_threads(slots), agent)
+            run_evaluator(output, command, environment)
+    # With several slots the GPU figures cover every route sharing the GPU, not this one alone.
+    return summarize(output, config, versions, {**job_facts(), **gpu.report(), "routes_sharing_gpu": slots,
+                                                "container": container, "savio_verified": True})
 
 
 def main() -> None:
@@ -181,6 +193,8 @@ def main() -> None:
     parser.add_argument("--config", type=Path, default=STEP1_CONFIG)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--route", help="Bench2Drive route id; town and scenario come from the routes file")
+    parser.add_argument("--slot", type=int, default=0, help="this route's place among those sharing the GPU")
+    parser.add_argument("--slots", type=int, default=1, help="routes sharing the GPU")
     args = parser.parse_args()
     run_id = os.environ.get("SLURM_JOB_ID") or datetime.now().strftime("%Y%m%d-%H%M%S")
     output = args.output or ROOT / "results/savio" / run_id / args.mode
@@ -189,7 +203,8 @@ def main() -> None:
     if args.route:
         config["route"].update(route_from_xml(args.route))
     container = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"]["container"]
-    report = (render if args.mode == "render" else route)(output, config, container)
+    report = (render(output, config, container) if args.mode == "render"
+              else route(output, config, container, args.slot, args.slots))
     print(json.dumps(report, indent=2))
 
 

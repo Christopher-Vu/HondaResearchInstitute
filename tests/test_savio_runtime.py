@@ -6,7 +6,7 @@ import subprocess
 import pytest
 
 import run_savio
-from run_savio import CARLA_ROOT, GpuMonitor, free_port_block, server_command
+from run_savio import CARLA_ROOT, GpuMonitor, free_port_block, job_ports, server_command, torch_threads
 from setup_savio import download
 
 
@@ -126,3 +126,16 @@ def test_capture_setting_selects_the_capture_agent():
     assert agent_and_capture_environment(None) == (AGENT, {})
     agent, environment = agent_and_capture_environment(10)
     assert agent.name == "capture_agent.py" and environment == {"SIMLINGO_CAPTURE_EVERY": "10"}
+
+
+def test_two_slots_of_one_job_get_disjoint_ports(monkeypatch):
+    monkeypatch.setenv("SLURM_JOB_ID", "39732999")
+    first, second = job_ports(0), job_ports(1)
+    used = [set(range(ports.rpc, ports.rpc + 3)) | {ports.traffic_manager} for ports in (first, second)]
+    assert not used[0] & used[1]
+    assert max(ports.traffic_manager for ports in (first, second)) < 60000
+
+
+def test_slots_split_the_job_cpus_for_torch(monkeypatch):
+    monkeypatch.setenv("SLURM_CPUS_PER_TASK", "8")
+    assert torch_threads(1) == 8 and torch_threads(2) == 4 and torch_threads(16) == 1
