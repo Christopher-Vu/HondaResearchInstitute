@@ -55,6 +55,13 @@ starts a slot's server only after the previous one accepts clients
 (`server-ready` marker, `cd8ac06`). The crashed route (1773) gets no result and
 lands on `score_routes.py`'s rerun list.
 
+At 03:40, route 2802 ended "Failed - Agent couldn't be set up": loading SimLingo
+took longer than the 60 s client timeout while the second slot's CARLA was
+starting on the same node. Our configs inherited `timeout_seconds: 60` from the
+Mac; Bench2Drive's own default is 600 s. Left at 60 for the rest of this
+campaign so one config describes every route, and the route goes on the rerun
+list. Raise it to 600 for later campaigns.
+
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
 **Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro
