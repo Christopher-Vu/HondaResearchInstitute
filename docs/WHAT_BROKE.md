@@ -22,10 +22,10 @@ the one-route-per-scenario-type routes the Mac drove succeed 82.5% of the time
 on Savio, against 73.7% across all 213 routes whose scenario ran.
 
 The stalls are platform-independent. Of the 11 routes where the Mac stood still
-for 38+ simulated seconds, 7 did so on Savio too, five at the same 40–41 s that
-ends in SimLingo's scripted creep (1956 stood still 41.0 s on both). Across all
-220, 48 of 213 scored routes stood still for 38+ s and 44 of them were moved by
-the creep.
+for 38+ simulated seconds, 7 did so on Savio too, and four (1956, 2204, 2373,
+25845) stood still for the same 40–41 s on both, the time after which SimLingo's
+scripted creep fires. Across all 220, 48 of 213 scored routes stood still for
+38+ s, and the creep fired on 44 of them.
 
 **Did:** nothing more on the cluster. An fp32 arm on Savio was the planned
 follow-up if Savio landed near the paper while the Mac stayed at 93%. It did
