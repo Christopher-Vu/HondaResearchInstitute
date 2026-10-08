@@ -72,6 +72,18 @@ Step 2 against them. It now fails only flat frames (standard deviation under 1),
 from `6763534`; tasks started before that keep the old check, and any night
 route it crashes goes on the rerun list.
 
+Two more kinds of route failure turned up by 05:30. Route 3904's CARLA stopped
+answering at step 107; Bench2Drive's watchdog fired after 61 s, but the
+evaluator then sat in cleanup (each actor destroy waits 60 s on the dead
+server) and held an idle A40 for an hour until the task was cancelled by hand.
+`run_evaluator` now stops an evaluator that has printed nothing for 15 minutes
+(`f111121`); it prints every simulation step, even during a stall. Route 3436's
+CARLA segfaulted while loading its map. And two Town12
+`InterurbanAdvancedActorFlow` routes (23700, 24078) skipped their scenario with
+"'NoneType' object has no attribute 'road_id'", the same failure class as the
+Mac's route 23918: scored as driven by Bench2Drive's merge, left out of the
+clean number, not rerun.
+
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
 **Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro

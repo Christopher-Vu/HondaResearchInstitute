@@ -146,7 +146,8 @@ failure was a passing scratch fault; nothing was rebuilt (`docs/WHAT_BROKE.md`).
    black-frame check from crashing dark night routes (`docs/WHAT_BROKE.md`).
    It only decides which frames abort a route, so completed routes are
    unaffected. Reruns needed so far: 1773 (done), tasks 5–7 (39732860),
-   2802 (setup timeout), 3561 (night check).
+   2802 (setup timeout), 3561 (night check), 3436 (CARLA segfault), 3904 (CARLA
+   hang, task cancelled by hand; `f111121` now stops silent evaluators).
 2. Score: `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/<pilot> results/savio/<rest> [retries]`.
    Rerun the routes it lists under `rerun` as a new array, never re-roll a
    driving outcome. The bar is official DS ≥ 75 (`PRD.md` §10.1).
