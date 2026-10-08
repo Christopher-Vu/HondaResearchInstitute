@@ -60,7 +60,7 @@ camera frame within the first 2 simulated seconds (`docs/WHAT_BROKE.md`). Freein
 memory did not help, so the cause is not memory. No
 compute-box route has produced a result. **The two stall repeats 17635 and 24841
 are still undone.** Next: rerun them on the laptop (about 50 minutes, plugged in):
-`.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --routes 17635,24841 --until 23:59 --capture-every 10 --output results/local-sweep/20261006-repeats`. To retry there:
+`.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --routes 3457,2144,14909,2204,17635,24841 --until 23:59 --capture-every 10 --output results/local-sweep/20261006-repeats`. To retry there:
 `open -a Terminal ~/run_routes.command` on compute-box (sweep with a 120-minute
 cap and a swap/disk guard; it runs at 0.009–0.021× real time).
 
