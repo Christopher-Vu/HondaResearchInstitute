@@ -25,3 +25,14 @@ def test_plain_submission_is_unchanged(tmp_path):
     argv = submit(tmp_path, "gpu", "scripts/step1.sbatch")[1:]
     assert argv[-1] == "scripts/step1.sbatch"
     assert not any(arg.startswith("--dependency") for arg in argv)
+
+
+def test_a40_profile_reads_its_own_partition_and_cpus(tmp_path):
+    argv = submit(tmp_path, "gpu_a40", "scripts/step1.sbatch")[1:]
+    assert "--partition=savio3_gpu" in argv and "--gres=gpu:A40:1" in argv
+    assert "--qos=a40_gpu3_ica" in argv and "--cpus-per-task=8" in argv
+
+
+def test_cpu_profile_requests_no_gpu(tmp_path):
+    argv = submit(tmp_path, "cpu", "scripts/step1.sbatch")[1:]
+    assert not any(arg.startswith("--gres") for arg in argv)
