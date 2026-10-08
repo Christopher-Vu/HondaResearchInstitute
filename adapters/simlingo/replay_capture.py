@@ -91,6 +91,8 @@ def replay_frame(model: Any, probe: Probe, frame: Any, record: dict[str, Any],
         "layer_mean_max_abs": float((stacked.mean(dim=1) - record["layer_mean"]).abs().max()),
         "layer_driving_mean_max_abs": float((stacked[:, -n:].mean(dim=1) - record["layer_driving_mean"]).abs().max()),
         "driving_slot_matches_head": bool(torch.allclose(normed_last, probe.driving_features.float(), atol=1e-5)),
+        "replayed_speed_wps": speed_wps.float().cpu().reshape(-1, 2).tolist(),
+        "replayed_route": route.float().cpu().reshape(-1, 2).tolist(),
     }
 
 
