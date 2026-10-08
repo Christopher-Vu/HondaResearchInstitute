@@ -5,6 +5,46 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-08 (overnight) — Step 1 passed on Savio; Step 2 started
+
+An agent ran this session unattended through the shared SSH connection, with the
+instruction to spend Savio compute only where the result is certainly useful.
+
+**Why the 2026-10-07 attempt failed.** The CARLA library that would not load
+was readable again from a login node, and the checkpoint matched its pinned hash.
+The two compute nodes involved had each lost contact with the scratch
+filesystem for a while, so nothing needed rebuilding (`docs/WHAT_BROKE.md`).
+
+**Step 1 passed** (job 39732394, one A40). CARLA rendered a real street off
+screen, the checkpoint strict-loaded on the node, and SimLingo drove route
+26956 to completion with score 100. Measured: 0.071× real time (the Mac does
+0.060×), 9.4 GB peak GPU memory for CARLA plus the policy, and 4.75 service
+units (SU, Savio's billing unit) for the 9.7-minute job. These went into
+`configs/rollout/step1-single-route.yaml` and the compute budget in `PRD.md`
+§17.3, which now estimates about 4.6 SU per rollout.
+
+**Two cluster surprises.** The A5000 queue was days long, with 13 nodes down
+or drained, so the session added an A40 profile (`submit.sh gpu_a40`); A40 jobs
+started within minutes. And one A40 in node `n0214` is broken: every job given
+it fails in seconds, ours and another user's alike, so jobs now pass
+`--exclude=n0214.savio3`.
+
+**Step 2 setup.** Instead of running the 31-route Mac comparison and then the
+220-route benchmark separately, the 220 routes (which contain the 31) run once.
+Each route also records the Step 3 capture the Mac sweep recorded, so later
+steps can use these rollouts without driving them again. A pilot of four routes
+showed that two routes can share one A40: together they ran about 1.4 times as
+many simulated seconds per hour as one route alone, cutting cost per route by
+roughly 30%. In one of the two pilot pairs, the second CARLA server crashed while
+both were starting, so servers now start one after the other. The scorer
+(`adapters/simlingo/score_routes.py`) runs Bench2Drive's own merge script for the
+headline numbers.
+
+Left running at the time of writing: main array 39732818 and a rerun of route
+1773 (39732819). `docs/STATUS.md` has the commands to score and finish.
+
+---
+
 ## 2026-10-08 — agent can now run commands on Savio
 
 Until now an agent could not touch Savio, because every login needs a PIN plus a
