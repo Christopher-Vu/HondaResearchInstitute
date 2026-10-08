@@ -18,9 +18,9 @@ from typing import Any
 
 import yaml
 from artifacts import sha256, verify_artifacts
-from route_run import (AGENT, CHECKPOINT, ROOT, SOURCE, Ports, check_external_server_patch, check_route,
-                       evaluator_command, policy_environment, route_from_xml, run_evaluator, summarize,
-                       wait_for_server)
+from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment,
+                       check_external_server_patch, check_route, evaluator_command, policy_environment,
+                       route_from_xml, run_evaluator, summarize, wait_for_server)
 
 APP = Path.home() / "Applications/Sikarugir/CARLA.app"
 CAMERA_APP = ROOT / ".runtime/CARLA Camera.app"
@@ -114,11 +114,8 @@ def main() -> None:
                 subprocess.run([str(APP / "Contents/MacOS/launcher")], stdout=log, stderr=subprocess.STDOUT,
                                timeout=30, check=True)
             versions = wait_for_server(PORTS.rpc)
-            extra = {"PYTORCH_ENABLE_MPS_FALLBACK": "1", "__PYVENV_LAUNCHER__": sys.executable}
-            agent = AGENT
-            if args.capture_every:
-                extra["SIMLINGO_CAPTURE_EVERY"] = str(args.capture_every)
-                agent = AGENT.with_name("capture_agent.py")
+            agent, extra = agent_and_capture_environment(args.capture_every)
+            extra |= {"PYTORCH_ENABLE_MPS_FALLBACK": "1", "__PYVENV_LAUNCHER__": sys.executable}
             environment = policy_environment(
                 output, config["policy"]["device"], ROOT / ".runtime/carla-native/PythonAPI/carla",
                 not args.no_view, extra)

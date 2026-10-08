@@ -95,6 +95,13 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
     return values
 
 
+def agent_and_capture_environment(capture_every: int | None) -> tuple[Path, dict[str, str]]:
+    """The capture agent records Step 3 activations each step and replay inputs every Nth step."""
+    if not capture_every:
+        return AGENT, {}
+    return AGENT.with_name("capture_agent.py"), {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
+
+
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
                       agent: Path = AGENT) -> list[str]:
     evaluator = SOURCE / "Bench2Drive/leaderboard/leaderboard/leaderboard_evaluator.py"

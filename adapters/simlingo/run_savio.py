@@ -23,9 +23,9 @@ from typing import Any
 
 import yaml
 from artifacts import verify_artifacts
-from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, check_external_server_patch, check_route,
-                       evaluator_command, policy_environment, route_from_xml, run_evaluator,
-                       stop_process_group, summarize, wait_for_server)
+from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment,
+                       check_external_server_patch, check_route, evaluator_command, policy_environment,
+                       route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
 STEP1_CONFIG = ROOT / "configs/rollout/step1-single-route.yaml"
@@ -165,11 +165,12 @@ def route(output: Path, config: dict[str, Any], container: str | None) -> dict[s
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
     threads = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count() or 1))
+    agent, capture = agent_and_capture_environment(config.get("capture_every"))
     with GpuMonitor() as gpu:
         with carla_server(output, config["simulator"]["quality"], container) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
-                                             CARLA_ROOT / "PythonAPI/carla", False, {})
-            run_evaluator(output, evaluator_command(output, config, ports, threads), environment)
+                                             CARLA_ROOT / "PythonAPI/carla", False, capture)
+            run_evaluator(output, evaluator_command(output, config, ports, threads, agent), environment)
     return summarize(output, config, versions,
                      {**job_facts(), **gpu.report(), "container": container, "savio_verified": True})
 

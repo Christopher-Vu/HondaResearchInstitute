@@ -105,3 +105,24 @@ def test_route_sample_ids_exist_in_the_pinned_routes_file():
     root = Path(__file__).resolve().parents[1]
     for route_id in yaml.safe_load((root / "configs/rollout/savio-mac-paired.yaml").read_text())["routes"]:
         assert route_from_xml(route_id)["id"] == route_id
+
+
+def test_step2_config_runs_every_pinned_route_once_in_file_order():
+    import xml.etree.ElementTree as ET
+    from pathlib import Path
+
+    import yaml
+    from route_run import ROUTES
+    if not ROUTES.is_file():
+        pytest.skip("pinned routes file not installed")
+    root = Path(__file__).resolve().parents[1]
+    routes = yaml.safe_load((root / "configs/rollout/step2-bench2drive220.yaml").read_text())["routes"]
+    assert routes == [route.get("id") for route in ET.parse(ROUTES).getroot().iter("route")]
+    assert len(routes) == 220
+
+
+def test_capture_setting_selects_the_capture_agent():
+    from route_run import AGENT, agent_and_capture_environment
+    assert agent_and_capture_environment(None) == (AGENT, {})
+    agent, environment = agent_and_capture_environment(10)
+    assert agent.name == "capture_agent.py" and environment == {"SIMLINGO_CAPTURE_EVERY": "10"}
