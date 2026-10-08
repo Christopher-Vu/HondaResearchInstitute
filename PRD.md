@@ -1372,7 +1372,7 @@ queue, not the SU pool, set the pace on 2026-10-08 (`docs/WHAT_BROKE.md`).
 rollout against the 4.6 estimated above, although routes averaged 42.5 simulated
 seconds rather than 33.4. Sharing a GPU runs about 1.4 times as many simulated
 seconds per hour as one route alone. At up to 6 A40s at once the 220 routes took
-5 hours of wall time.
+5.5 hours of wall time, from the pilot's start at 02:04 to 07:34.
 
 **Storage.** Roughly 150 GB for activations and images at three layers, plus the
 training dataset if Mode A ever runs. Confirm the quota.
