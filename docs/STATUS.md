@@ -71,12 +71,14 @@ replay de-risk from 02:20 to 09:20. Report with screenshots:
 https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 - **Sweep:** `adapters/simlingo/sweep_local.py`, one seeded route per scenario
-  type; all 44 done by 2026-10-07 13:00 (figures below are from the first 37)
-  (`results/local-sweep/20261006-overnight/`). 31 of 34 scored routes succeeded
-  (91.2%, mean DS 96.1), far above the paper's 64.8% (`docs/WHAT_BROKE.md`).
-  Failures: collisions on 28330 and 24781, a lane departure on 3800. Two
-  stalled routes were capped unscored (2144, 3457), and 23918 is unscored
-  because Bench2Drive skipped its scenario. Real-time factor 0.059.
+  type; all 44 done (`results/local-sweep/20261006-overnight/`, measured).
+  38 of 41 scored routes succeeded (92.7%, mean DS 96.8), far above the
+  paper's 64.8% (`docs/WHAT_BROKE.md`). The 7 routes added after the 37-route
+  count all succeeded. Failures: collisions on 28330 and 24781, a lane departure
+  on 3800. Two stalled routes were capped unscored (2144, 3457), and 23918 is
+  unscored because Bench2Drive skipped its scenario. Real-time factor 0.058.
+  Across all 41 scored routes, 9 stood still for 38+ simulated seconds (all
+  completed; 8 freed by the creep). The stall list below is from the first 31.
 - **SimLingo stalls, and the benchmark hides it.** 10 of 31 routes stood still
   or crawled for 38+ simulated seconds. Nine were stalls: at debris, behind a
   cyclist, leaving a parking space, before two overtakes (an accident and a
