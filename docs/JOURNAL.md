@@ -30,6 +30,9 @@ little GPU memory on the 16 GB box, but that is unconfirmed. The two routes are
 still undone, so the stall-repeat set is 4 of 6. One real fix came out of it:
 the sweep had been keeping Bench2Drive's score for a crashed agent, and now
 leaves such routes unscored (`034fe3f`). No laptop route was affected.
+A retry after freeing memory on compute-box (Docker Desktop and idle apps
+stopped by the user) failed identically, so memory is not the cause and the
+routes go back to the laptop.
 
 ## 2026-10-07 (morning) — Finishing the Mac sweep after the battery died
 

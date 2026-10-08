@@ -55,12 +55,12 @@ idle sleep with a temporary assertion and releases it on exit.
 
 CARLA runs were moved off the laptop to compute-box (`ssh compute-box`, M1 Pro,
 16 GB; it also serves production's Blender offload). Setup is complete and
-matches the laptop's install, but 4 of 5 route attempts crashed on a black
-camera frame within the first 2 simulated seconds (`docs/WHAT_BROKE.md`). No
+matches the laptop's install, but 6 of 7 route attempts crashed on a black
+camera frame within the first 2 simulated seconds (`docs/WHAT_BROKE.md`). Freeing
+memory did not help, so the cause is not memory. No
 compute-box route has produced a result. **The two stall repeats 17635 and 24841
-are still undone.** Options: rerun them on the laptop (about 50 minutes,
-plugged in), free memory on compute-box (Docker Desktop, old standardphysics
-processes) and retry, or wait for Savio. To retry there:
+are still undone.** Next: rerun them on the laptop (about 50 minutes, plugged in):
+`.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --routes 17635,24841 --until 23:59 --capture-every 10 --output results/local-sweep/20261006-repeats`. To retry there:
 `open -a Terminal ~/run_routes.command` on compute-box (sweep with a 120-minute
 cap and a swap/disk guard; it runs at 0.009–0.021× real time).
 

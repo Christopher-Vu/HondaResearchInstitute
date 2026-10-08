@@ -35,12 +35,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
   2 simulated seconds and 24841 twice at its first step, each with SimLingo's
   "CARLA supplied a black or uniform policy camera frame" check. These runs ran
   at 0.009–0.010×, half the speed of the clean test. This never happened in any
-  laptop run. Most likely the 16 GB box runs short of GPU memory at Epic and
-  D3DMetal stops rendering; not confirmed. Bench2Drive scored the crashes (5.31)
+  laptop run. Memory is ruled out: on 2026-10-08, after Docker Desktop and idle
+  apps were stopped (85% memory free, swap 2.7 GB), both routes failed the same
+  way again. 17635 fails at steps 38–42 every time (about 2 simulated seconds),
+  24841 at step 0, which points at something compute-box's D3DMetal cannot draw
+  rather than at load. Cause unknown; 6 of 7 attempts failed. Bench2Drive scored the crashes (5.31)
   and the sweep kept that score, so `route_record` now leaves any status outside
   `VALID_OUTCOMES` unscored (`034fe3f`), the same rule `run_local.py` already
-  applied. Evidence: `results/local-sweep/20261007-computebox-blackframes/` and
-  `20261007-computebox-repeats/`.
+  applied. Evidence: `results/local-sweep/20261007-computebox-*`.
 
 **Did:** ran the remaining repeat routes there with the sweep's wall cap raised
 from 35 to 120 minutes (at 0.021× a 35-minute cap ends a route after about 45
