@@ -62,6 +62,16 @@ Mac; Bench2Drive's own default is 600 s. Left at 60 for the rest of this
 campaign so one config describes every route, and the route goes on the rerun
 list. Raise it to 600 for later campaigns.
 
+At 04:20, route 3561 (Town13, ControlLoss, sun 90° below the horizon, rain)
+ended "Failed - Agent crashed" from our own black-frame check, written for
+compute-box's D3DMetal black frames: it failed any frame whose mean was under
+1/255. The night camera averaged 1.0–3.5 all route with a standard deviation of
+5.3 or more, and the car was driving normally at 7–8 m/s. 53 of the 220 routes
+are night routes (sun at or below −30°), so the check would have quietly biased
+Step 2 against them. It now fails only flat frames (standard deviation under 1),
+from `6763534`; tasks started before that keep the old check, and any night
+route it crashes goes on the rerun list.
+
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
 **Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro
