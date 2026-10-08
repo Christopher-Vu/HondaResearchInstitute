@@ -139,7 +139,14 @@ clean number, not rerun.
   apps were stopped (85% memory free, swap 2.7 GB), both routes failed the same
   way again. 17635 fails at steps 38–42 every time (about 2 simulated seconds),
   24841 at step 0, which points at something compute-box's D3DMetal cannot draw
-  rather than at load. Cause unknown; 6 of 7 attempts failed. Bench2Drive scored the crashes (5.31)
+  rather than at load. 6 of 7 attempts failed. **The frames are dark from the
+  start, not suddenly black:** saved model inputs of 17635 (a daytime route, sun
+  15° up) average 3.6/255 per pixel at step 10 and 1.0/255 at step 40 on
+  compute-box, against 138/255 on the laptop, so compute-box's renderer fails
+  from the first frame and even the one "clean" test drove almost blind. Since
+  `6763534` the check fails only flat frames (spread under 1), and these frames
+  have a spread of 9–18, so a compute-box run would now pass the check and drive
+  blind: do not use compute-box for CARLA. Bench2Drive scored the crashes (5.31)
   and the sweep kept that score, so `route_record` now leaves any status outside
   `VALID_OUTCOMES` unscored (`034fe3f`), the same rule `run_local.py` already
   applied. Evidence: `results/local-sweep/20261007-computebox-*`.

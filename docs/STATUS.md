@@ -3,7 +3,7 @@
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
 
-Last updated: 2026-10-08 07:50 (Step 2 passed on Savio: DS 88.60, SR 72.7%)
+Last updated: 2026-10-08 08:45 (Step 2 passed on Savio: DS 88.60, SR 72.7%; bfloat16 replay measured on compute-box)
 
 ---
 
@@ -77,18 +77,27 @@ frames after installation. Evidence is in
 policy routes. Keep the lid open during runs; the launcher prevents ordinary
 idle sleep with a temporary assertion and releases it on exit.
 
-## compute-box, 2026-10-07: set up, but cannot run routes yet
+## compute-box, 2026-10-07/08: no CARLA; used for the bfloat16 replay
 
-CARLA runs were moved off the laptop to compute-box (`ssh compute-box`, M1 Pro,
-16 GB; it also serves production's Blender offload). Setup is complete and
-matches the laptop's install, but 6 of 7 route attempts crashed on a black
-camera frame within the first 2 simulated seconds (`docs/WHAT_BROKE.md`). Freeing
-memory did not help, so the cause is not memory. No
-compute-box route has produced a result. **The two stall repeats 17635 and 24841
-are still undone.** Next: rerun them on the laptop (about 50 minutes, plugged in):
-`.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --routes 3457,2144,14909,2204,17635,24841 --until 23:59 --capture-every 10 --output results/local-sweep/20261006-repeats`. To retry there:
-`open -a Terminal ~/run_routes.command` on compute-box (sweep with a 120-minute
-cap and a swap/disk guard; it runs at 0.009–0.021× real time).
+compute-box (`ssh compute-box`, M1 Pro, 16 GB; also serves production's Blender
+offload) has the CARLA setup but **must not run routes**: its D3DMetal renders
+the policy camera nearly black from the first frame (mean pixel 3.6/255 on a
+daytime route where the laptop sees 138/255), fading to flat. The relaxed check
+from `6763534` no longer rejects such frames, so a compute-box run would now
+drive blind without crashing (`docs/WHAT_BROKE.md`). **The two stall repeats
+17635 and 24841 are still undone**; to finish them on the laptop (about 50
+minutes, plugged in):
+`.runtime/policy-venv/bin/python adapters/simlingo/sweep_local.py --routes 3457,2144,14909,2204,17635,24841 --until 23:59 --capture-every 10 --output results/local-sweep/20261006-repeats`.
+
+**bfloat16 replay, 2026-10-08 (measured).** compute-box replayed 60 saved Mac
+frames (5 per route, 12 routes) in CPU bfloat16 against the fp32 log
+(`results/replay-bf16*/`). Route waypoints moved by a median 4.0 cm (worst
+13.4 cm); speed waypoints by a median 8.0 cm, and 58 of 60 frames stayed within
+57 cm. Two frames flipped: late in routes 26956 and 25424, at about 11 m/s, fp32
+plans to keep going and bfloat16 to slow sharply (8.7 m and 6.7 m apart). Savio's
+bfloat16 drive of 26956 did brake there while the Mac accelerated. During a
+stall both dtypes agree on standing still. So Mac and Savio runs agree on what
+SimLingo does except near such decision points; details in the adapter README.
 
 ## Overnight local work, 2026-10-06
 

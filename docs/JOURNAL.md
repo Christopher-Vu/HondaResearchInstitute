@@ -5,6 +5,33 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-08 (overnight, compute-box) — How far bfloat16 moves SimLingo's plans
+
+Savio runs SimLingo in bfloat16 (a 16-bit number format) and the Mac in 32-bit
+fp32, and until now only four frames had been compared. compute-box, unable to
+run CARLA, spent 01:25–08:37 replaying 60 frames saved during the Mac sweep in
+bfloat16 on its CPU, 5 per route across 12 routes, including the failures and
+the stall routes. `replay_capture.py` gained `--dtype` and now saves after every
+frame and records the waypoints it predicted (`bcba62e`, `9dcf5f0`).
+
+Measured: path waypoints moved by a median 4.0 cm (worst 13.4 cm) and speed
+waypoints by a median 8.0 cm, with 58 of 60 frames within 57 cm. Two frames
+flipped the decision: near the end of routes 26956 and 25424, at about 11 m/s,
+the fp32 plan keeps going and the bfloat16 plan slows sharply. Savio's own
+bfloat16 drive of 26956 did brake at that point while the Mac's accelerated,
+which supports the replay, though the two drives did not see identical images.
+On stall frames both formats plan to stand still, and the stall routes that the
+Mac and Savio both drove mostly stall on both, so stalls are a property of the
+policy, not of the Mac. Numbers and caveats are in the adapter README.
+
+Also found: compute-box's CARLA failures were never a sudden black frame. Its
+renderer produces near-black images from the first frame (about 4/255 against
+the laptop's 138/255), and the relaxed camera check from the Savio session
+would no longer catch that, so compute-box must not be used for CARLA
+(`docs/WHAT_BROKE.md`). The sweep summary files were regenerated so they no
+longer count route 23918, and `docs/STATUS.md` now quotes all 44 Mac routes.
+The two Mac stall repeats 17635 and 24841 remain undone.
+
 ## 2026-10-08 (overnight) — Steps 1 and 2 passed on Savio
 
 An agent ran this session unattended through the shared SSH connection, with the

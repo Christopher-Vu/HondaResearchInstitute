@@ -143,6 +143,24 @@ frame level. MPS in this torch build has no bfloat16 and CPU bfloat16 took
 about 10 minutes a frame, hence four frames. On Savio, check CUDA bfloat16
 replay against itself first.
 
+On 2026-10-08 compute-box (M1 Pro, about 7 minutes a frame) replayed 60 frames
+from the Mac sweep in CPU bfloat16: 5 evenly spaced frames, including each
+route's last saved frame, from 12 routes (`results/replay-bf16*/`):
+
+| Waypoints | Median frame | 90th percentile | Worst |
+|---|---|---|---|
+| Route (path) | 4.0 cm | 7.0 cm | 13.4 cm |
+| Speed | 8.0 cm | 27.2 cm | 8.7 m |
+
+58 of 60 frames stay within 57 cm on every waypoint. The two exceptions are each
+route's final frame on 26956 (step 290) and 25424 (step 1680): at about 11 m/s the
+fp32 plan keeps going (first speed waypoint 2.9 m and 2.8 m ahead) while bfloat16
+slows sharply (0.5 m and 0.7 m). The other 10 final frames do not flip, and
+distance to the route end does not separate them, so the cause is open. Savio's
+bfloat16 drive of 26956 (job 39732394) braked in that last half second where the
+Mac's fp32 drive accelerated. On stall frames of 2204 (stopped, braking) both
+dtypes plan to stay put. The driving-slot check passes in bfloat16 too.
+
 The replay also confirms that the last 30 positions of the final block, after the
 final norm, are exactly what the driving head decodes. Capture cost no measurable
 speed (0.0595× against 0.0558–0.0601× without it). This meets Step 3's replay
