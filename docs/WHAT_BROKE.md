@@ -30,6 +30,16 @@ A5000 job three days out. The same Step 1 submitted as an A40 job
 `scripts/submit.sh`, queued Step 1 on both, and cancelled the A5000 copy when
 the A40 one started. `--test-only` estimates assume every running job uses its
 full time limit, so they overstate the wait; try both GPU types before waiting.
+The A40 job also started early because the `ic_` QoS preempted another user's
+low-priority job on that node.
+
+Then the first Step 2 pilot (job 39732585) failed in 7–30 s: all four CARLA
+servers exited with code 1 before accepting a client, with nothing in their
+console output. Both array tasks had landed on `n0214`'s second A40, the GPU
+Step 1 had not used. Another user's array tasks failed on the same node in 7–9 s
+each over the next two minutes (`sacct -a -N n0214.savio3`), so that GPU is
+faulty, and because jobs fail on it at once, the scheduler keeps handing it out.
+Resubmitted with `--exclude=n0214.savio3`. Worth reporting to Savio support.
 
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
