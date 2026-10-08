@@ -39,8 +39,9 @@ class VisibleAgent(LingoAgent):
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
         frame, bgra = input_data["rgb_0"]
         rgb = np.ascontiguousarray(bgra[:, :, :3][:, :, ::-1])
-        if rgb.mean() < 1 or rgb.std() < 1:
-            raise RuntimeError("CARLA supplied a black or uniform policy camera frame")
+        # A failed render is flat. Night routes can average under 1/255 yet still vary (std above 5).
+        if rgb.std() < 1:
+            raise RuntimeError("CARLA supplied a uniform policy camera frame")
         if self.view is not None and self.view.poll() is not None:
             if self.view.returncode == 0:
                 raise KeyboardInterrupt
