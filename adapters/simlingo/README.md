@@ -135,7 +135,9 @@ On 2026-10-06 (route 26956, 29 saved frames, `results/local-step3/`):
 
 Half precision alone moves waypoints by centimetres, and bfloat16, which Savio
 runs, by up to 18 cm on these frames. So a replay must use the dtype the run
-logged with (`replay_capture.py` rebuilds the model in it), and Mac fp32
+logged with (`replay_capture.py` rebuilds the model in it; `--dtype bfloat16`
+overrides that to measure the drift, casting only the camera images as the
+agent does, and writes `replay-<device>-<dtype>.json`), and Mac fp32
 rollouts are a measurably different policy from Savio's bfloat16 ones at the
 frame level. MPS in this torch build has no bfloat16 and CPU bfloat16 took
 about 10 minutes a frame, hence four frames. On Savio, check CUDA bfloat16
