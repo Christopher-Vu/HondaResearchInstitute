@@ -30,6 +30,19 @@ capture_every: 10
 route:
   seed: 0
 
+measure:
+  # Measured 2026-10-08 on A40s (savio3_gpu, gpu_a40 profile), two routes per GPU, bfloat16.
+  # Jobs 39732614 (pilot), 39732818 (main), 39732819, 39732860, 39734524 (reruns of routes with
+  # no driving outcome). Scored by adapters/simlingo/score_routes.py; evidence in
+  # results/savio/step2-bench2drive220/ (summary.json, routes.jsonl, res/merged.json).
+  official_driving_score: 88.60    # Bench2Drive merge_route_json.py over all 220; paper CoT off 84.41 +- 1.76
+  official_success_rate: 0.727     # paper CoT off 0.648 +- 0.024
+  routes_scenario_skipped: 7       # all Interurban(Advanced)ActorFlow; counted by the official merge
+  clean_driving_score: 88.63       # the 213 routes whose scenario ran
+  clean_success_rate: 0.737
+  gpu_hours: 31.0                  # every task, failures and reruns included
+  service_units: 910
+
 routes: ["1711", "1773", "1790", "1792", "1825", "1833", "1852", "1956", "2050", "2082",
          "2084", "2086", "2091", "2115", "2127", "2129", "2143", "2144", "2164", "2201",
          "2204", "2215", "2273", "2283", "2286", "2373", "2390", "2397", "2403", "2416",
