@@ -139,3 +139,24 @@ def test_two_slots_of_one_job_get_disjoint_ports(monkeypatch):
 def test_slots_split_the_job_cpus_for_torch(monkeypatch):
     monkeypatch.setenv("SLURM_CPUS_PER_TASK", "8")
     assert torch_threads(1) == 8 and torch_threads(2) == 4 and torch_threads(16) == 1
+
+
+def test_silent_evaluator_is_stopped_and_reported(tmp_path):
+    import sys
+    import time
+
+    from route_run import run_evaluator
+    command = [sys.executable, "-c", "print('loading', flush=True); import time; time.sleep(60)"]
+    started = time.monotonic()
+    with pytest.raises(RuntimeError, match="printed nothing"):
+        run_evaluator(tmp_path, command, {}, silence_limit_seconds=1)
+    assert time.monotonic() - started < 20
+    assert (tmp_path / "evaluator.log").read_text() == "loading\n"
+
+
+def test_chatty_evaluator_finishes_normally(tmp_path):
+    import sys
+
+    from route_run import run_evaluator
+    command = [sys.executable, "-c", "import time\nfor i in range(4):\n    print(i, flush=True); time.sleep(0.4)"]
+    assert run_evaluator(tmp_path, command, {}, silence_limit_seconds=1) is True

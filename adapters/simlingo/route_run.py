@@ -10,6 +10,7 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
@@ -130,14 +131,47 @@ def stop_process_group(process: subprocess.Popen[Any], grace_seconds: float = 10
         process.wait()
 
 
-def run_evaluator(output: Path, command: list[str], environment: dict[str, str]) -> bool:
-    """Return False when the user stopped the run; raise when the evaluator failed."""
+class SilenceGuard:
+    """Stops a process that has printed nothing for `limit` seconds.
+
+    The evaluator prints every simulation step, even while the car stands still, so long silence
+    means CARLA hung. On Savio one such route held its GPU idle for an hour (2026-10-08).
+    """
+
+    def __init__(self, process: subprocess.Popen[Any], limit: float) -> None:
+        self.process, self.limit = process, limit
+        self.last_output = time.monotonic()
+        self.tripped = False
+        self._done = threading.Event()
+        self._thread = threading.Thread(target=self._watch, daemon=True)
+        self._thread.start()
+
+    def heard(self) -> None:
+        self.last_output = time.monotonic()
+
+    def _watch(self) -> None:
+        while not self._done.wait(min(30.0, self.limit / 4)):
+            if time.monotonic() - self.last_output > self.limit:
+                self.tripped = True
+                stop_process_group(self.process)
+                return
+
+    def close(self) -> None:
+        self._done.set()
+        self._thread.join(timeout=5)
+
+
+def run_evaluator(output: Path, command: list[str], environment: dict[str, str],
+                  silence_limit_seconds: float = 900) -> bool:
+    """Return False when the user stopped the run; raise when the evaluator failed or went silent."""
     process = subprocess.Popen(command, cwd=ROOT, env=environment, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, text=True, start_new_session=True)
+    guard = SilenceGuard(process, silence_limit_seconds)
     try:
         assert process.stdout is not None
         with (output / "evaluator.log").open("w") as log:
             for line in process.stdout:
+                guard.heard()
                 print(line, end="", flush=True)
                 log.write(line)
                 log.flush()
@@ -146,10 +180,14 @@ def run_evaluator(output: Path, command: list[str], environment: dict[str, str])
         exit_code = process.wait()
         if (output / "user-stop.json").is_file():
             return False
+        if guard.tripped:
+            raise RuntimeError(f"The evaluator printed nothing for {silence_limit_seconds:.0f} s and was stopped; "
+                               "inspect evaluator.log")
         if exit_code != 0:
             raise RuntimeError("The evaluator exited unsuccessfully; inspect evaluator.log")
         return True
     finally:
+        guard.close()
         stop_process_group(process)
 
 
