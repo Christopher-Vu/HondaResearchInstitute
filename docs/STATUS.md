@@ -24,7 +24,9 @@ Cost 31.0 GPU-hours, 910 SU (4.1 SU per route), two routes per A40.
 What it answered: the Mac's 93% success was mostly its easy route sample (those
 routes succeed 82.5% on Savio, the Mac 92.5%; the paired difference is p = 0.29),
 and SimLingo's 40-second stalls recur across platforms (`docs/WHAT_BROKE.md`).
-48 of 213 routes stood still for 38+ simulated seconds.
+48 of 213 routes stood still for 38+ simulated seconds. Per-ability success
+matches the paper's shape (Give Way 50.0 and Merging 62.5 weakest, Emergency
+Brake 85.0 and Traffic Sign 86.8 strongest; `PRD.md` §10.1).
 
 Step 1, job 39732394 on one A40: real off-screen camera image, strict checkpoint
 load (hidden size 896, 24 layers), route 26956 completed with score 100 at
@@ -141,24 +143,20 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 Steps 0–2 on Savio are done except Step 2's independent rerun. Do not reopen the
 2026-10-07 `import carla` failure: it was a passing scratch fault.
 
-1. Per-ability success rates: job **39735148** (`scripts/ability_benchmark.sbatch`)
-   was running at 07:50 and writes `results/savio/step2-bench2drive220/res/merged_ability.json`
-   on Savio. Compare with the paper's Table 8 (Merging 54.01, Overtaking 57.04,
-   Give Way 53.33, Emergency Brake 88.33, Traffic Sign 82.45; `PRD.md` §10.1).
-2. Step 2's done condition wants the run reproduced by whichever of Chris and
+1. Step 2's done condition wants the run reproduced by whichever of Chris and
    Jerry did not set it up. A full rerun costs about 910 SU; decide whether that
    or a handful of routes plus a rescore is enough. To rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
-3. Design calls for the two of you: close `PRD.md` §16.2 (gap portfolio size;
+2. Design calls for the two of you: close `PRD.md` §16.2 (gap portfolio size;
    §17.3 now has measured cost) and review `CONFLICTS.md` C20 (tarball instead
    of container). Three seeds of Bench2Drive-220 (§10.1) would cost about
    2,700 SU at Step 2's rate.
-4. Step 3 on Savio: the Step 2 routes captured model inputs in bfloat16 every
+3. Step 3 on Savio: the Step 2 routes captured model inputs in bfloat16 every
    10th step. Replaying a few of them with `adapters/simlingo/replay_capture.py`
    on a CUDA node checks Step 3's 1e-3 m done condition in Savio's dtype (one
    short GPU job). Write B7's definition (`docs/steps/gpu-free-queue.md`) before
    anyone opens the captured activations.
-5. Before the next campaign, raise `timeout_seconds` from 60 to Bench2Drive's
+4. Before the next campaign, raise `timeout_seconds` from 60 to Bench2Drive's
    default 600 in the rollout configs (one route lost its setup to the 60 s
    limit; `docs/WHAT_BROKE.md`).
 

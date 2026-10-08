@@ -40,6 +40,14 @@ measure:
   routes_scenario_skipped: 7       # all Interurban(Advanced)ActorFlow; counted by the official merge
   clean_driving_score: 88.63       # the 213 routes whose scenario ran
   clean_success_rate: 0.737
+  # Bench2Drive ability_benchmark.py (job 39735148); paper Table 8 in brackets.
+  ability_success_rate:
+    overtaking: 0.711        # 0.570
+    merging: 0.625           # 0.540
+    emergency_brake: 0.850   # 0.883
+    give_way: 0.500          # 0.533
+    traffic_signs: 0.868     # 0.825
+    mean: 0.711              # 0.670
   gpu_hours: 31.0                  # every task, failures and reruns included
   service_units: 910
 

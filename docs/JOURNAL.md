@@ -29,8 +29,8 @@ them. The bar was DS 75; the paper reports 84.41 and 64.8% over three seeds, so
 one seed above it is not yet evidence of anything. Seven routes had their
 scenario skipped by a Bench2Drive setup error; without them it is 88.63 and
 73.7%. The run cost 31.0 GPU-hours and 910 SU, about 0.5% of the program's
-allowance, and the per-ability breakdown was still computing at the time of
-writing. Numbers are in `configs/rollout/step2-bench2drive220.yaml` and `PRD.md`
+allowance. Success by ability has the paper's shape: Give Way (50%) and Merging
+(62.5%) weakest, Emergency Brake (85%) and Traffic Sign (86.8%) strongest. Numbers are in `configs/rollout/step2-bench2drive220.yaml` and `PRD.md`
 §10.1 and §17.3.
 
 **What it answered.** The Mac's 93% success rate came mostly from its route
@@ -56,8 +56,8 @@ frames. One route's CARLA hung and held a GPU idle for an hour, so a route that
 prints nothing for 15 minutes is now stopped. Eleven routes without a driving
 outcome were rerun, six of them lost on `n0215`; no driving outcome was re-rolled.
 
-Still open: the per-ability job (39735148), the independent rerun the Step 2
-done condition asks for, and the design calls in `docs/STATUS.md`.
+Still open: the independent rerun the Step 2 done condition asks for, and the
+design calls in `docs/STATUS.md`.
 
 ---
 

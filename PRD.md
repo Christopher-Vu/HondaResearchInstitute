@@ -822,7 +822,11 @@ One full cycle minimum, two if the infrastructure holds. One policy only.
 DS 88.60, SR 72.7%** over all 220 routes by Bench2Drive's own merge script;
 88.63 / 73.7% over the 213 routes whose scenario ran (`configs/rollout/step2-bench2drive220.yaml`).
 One seed against the paper's three, so the gap above 84.41 / 64.84 is not yet
-evidence of anything; per-ability scores in `results/savio/step2-bench2drive220/`.
+evidence of anything. Per-ability success (Bench2Drive's own script, Table 8 in
+brackets): Overtaking 71.1 (57.04), Merging 62.5 (54.01), Emergency Brake 85.0
+(88.33), Give Way 50.0 (53.33), Traffic Sign 86.8 (82.45), mean 71.1 (67.03).
+The shape matches: Give Way and Merging weakest, Emergency Brake and Traffic
+Sign strongest.
 
 Two facts that change how we read these. **First, record the Bench2Drive
 version** — v0.0.3 and v0.0.4 numbers are not comparable, and under v0.0.4
