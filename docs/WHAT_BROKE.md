@@ -41,6 +41,15 @@ each over the next two minutes (`sacct -a -N n0214.savio3`), so that GPU is
 faulty, and because jobs fail on it at once, the scheduler keeps handing it out.
 Resubmitted with `--exclude=n0214.savio3`. Worth reporting to Savio support.
 
+In the resubmitted pilot (39732614), two routes share each A40. In task 0 the
+second CARLA server segfaulted (signal 11) during startup while the first one,
+started the same instant, came up; in task 1 both servers started together
+without trouble. So it is an occasional startup race, possibly over the
+`~/.config/Epic` directory every server writes to. `route_sample.sbatch` now
+starts a slot's server only after the previous one accepts clients
+(`server-ready` marker, `cd8ac06`). The crashed route (1773) gets no result and
+lands on `score_routes.py`'s rerun list.
+
 ## 2026-10-07 — Moving the Mac CARLA runs to compute-box
 
 **Expected:** copy the laptop's CARLA install (30 GB) to compute-box, the M1 Pro
