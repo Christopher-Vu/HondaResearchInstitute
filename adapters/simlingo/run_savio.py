@@ -66,26 +66,30 @@ def server_command(quality: str, rpc_port: int, container: str | None) -> list[s
     return ["apptainer", "exec", "--nv", "--bind", str(CARLA_ROOT), container, *command]
 
 
-def parse_gpu_memory(output: str) -> list[tuple[str, str, int]]:
+def parse_gpu_samples(output: str) -> list[tuple[str, str, int, int]]:
     rows = []
     for line in output.strip().splitlines():
-        uuid, name, used = (part.strip() for part in line.split(","))
-        rows.append((uuid, name, int(used)))
+        uuid, name, used, utilization = (part.strip() for part in line.split(","))
+        rows.append((uuid, name, int(used), int(utilization)))
     return rows
 
 
-class GpuMemoryMonitor:
-    """Samples nvidia-smi so the peak covers the CARLA server and the policy together."""
+class GpuMonitor:
+    """Samples nvidia-smi so peak memory and mean utilization cover the CARLA server and the policy together.
+
+    Mean utilization says whether one route leaves room to share the GPU with a second one.
+    """
 
     def __init__(self, interval_seconds: float = 1.0) -> None:
         self.interval_seconds = interval_seconds
         self.peaks_mib: dict[str, int] = {}
+        self.utilization: dict[str, list[int]] = {}
         self.names: dict[str, str] = {}
         self.error: str | None = None
         self._stop = threading.Event()
         self._thread = threading.Thread(target=self._run, daemon=True)
 
-    def __enter__(self) -> GpuMemoryMonitor:
+    def __enter__(self) -> GpuMonitor:
         self._thread.start()
         return self
 
@@ -96,11 +100,12 @@ class GpuMemoryMonitor:
 
     def sample(self) -> None:
         output = subprocess.run(
-            ["nvidia-smi", "--query-gpu=uuid,name,memory.used", "--format=csv,noheader,nounits"],
+            ["nvidia-smi", "--query-gpu=uuid,name,memory.used,utilization.gpu", "--format=csv,noheader,nounits"],
             capture_output=True, text=True, check=True, timeout=30).stdout
-        for uuid, name, used in parse_gpu_memory(output):
+        for uuid, name, used, utilization in parse_gpu_samples(output):
             self.names[uuid] = name
             self.peaks_mib[uuid] = max(self.peaks_mib.get(uuid, 0), used)
+            self.utilization.setdefault(uuid, []).append(utilization)
 
     def _run(self) -> None:
         while not self._stop.is_set():
@@ -115,7 +120,9 @@ class GpuMemoryMonitor:
         peak = max(self.peaks_mib.values(), default=None)
         return {
             "whole_stack_peak_vram": None if peak is None else round(peak / 1024, 2),
-            "gpus": [{"uuid": uuid, "name": self.names[uuid], "peak_mib": mib}
+            "gpus": [{"uuid": uuid, "name": self.names[uuid], "peak_mib": mib,
+                      "mean_utilization_percent": round(sum(self.utilization[uuid]) / len(self.utilization[uuid]), 1),
+                      "samples": len(self.utilization[uuid])}
                      for uuid, mib in self.peaks_mib.items()],
             "gpu_monitor_error": self.error,
         }
@@ -142,7 +149,7 @@ def render(output: Path, config: dict[str, Any], container: str | None) -> dict[
     import carla
     from verify_carla import verify
 
-    with GpuMemoryMonitor() as gpu:
+    with GpuMonitor() as gpu:
         with carla_server(output, config["simulator"]["quality"], container) as (ports, _versions):
             client = carla.Client("localhost", ports.rpc)
             client.set_timeout(30)
@@ -158,7 +165,7 @@ def route(output: Path, config: dict[str, Any], container: str | None) -> dict[s
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
     threads = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count() or 1))
-    with GpuMemoryMonitor() as gpu:
+    with GpuMonitor() as gpu:
         with carla_server(output, config["simulator"]["quality"], container) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
                                              CARLA_ROOT / "PythonAPI/carla", False, {})

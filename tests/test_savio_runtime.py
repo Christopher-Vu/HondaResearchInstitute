@@ -6,7 +6,7 @@ import subprocess
 import pytest
 
 import run_savio
-from run_savio import CARLA_ROOT, GpuMemoryMonitor, free_port_block, server_command
+from run_savio import CARLA_ROOT, GpuMonitor, free_port_block, server_command
 from setup_savio import download
 
 
@@ -41,21 +41,22 @@ def test_container_fallback_binds_the_scratch_carla_tree():
     assert command[6] == str(CARLA_ROOT / "CarlaUE4.sh")
 
 
-def test_peak_vram_is_the_maximum_over_samples(monkeypatch):
-    samples = iter(["GPU-a, NVIDIA RTX A5000, 6000\n", "GPU-a, NVIDIA RTX A5000, 11776\n",
-                    "GPU-a, NVIDIA RTX A5000, 3000\n"])
+def test_peak_vram_is_the_maximum_and_utilization_the_mean_over_samples(monkeypatch):
+    samples = iter(["GPU-a, NVIDIA RTX A5000, 6000, 20\n", "GPU-a, NVIDIA RTX A5000, 11776, 70\n",
+                    "GPU-a, NVIDIA RTX A5000, 3000, 30\n"])
     monkeypatch.setattr(run_savio.subprocess, "run",
                         lambda *args, **kwargs: subprocess.CompletedProcess(args, 0, next(samples)))
-    monitor = GpuMemoryMonitor()
+    monitor = GpuMonitor()
     for _ in range(3):
         monitor.sample()
     report = monitor.report()
     assert report["whole_stack_peak_vram"] == 11.5
-    assert report["gpus"] == [{"uuid": "GPU-a", "name": "NVIDIA RTX A5000", "peak_mib": 11776}]
+    assert report["gpus"] == [{"uuid": "GPU-a", "name": "NVIDIA RTX A5000", "peak_mib": 11776,
+                               "mean_utilization_percent": 40.0, "samples": 3}]
 
 
 def test_unsampled_monitor_reports_no_peak():
-    assert GpuMemoryMonitor().report()["whole_stack_peak_vram"] is None
+    assert GpuMonitor().report()["whole_stack_peak_vram"] is None
 
 
 def test_corrupt_download_is_deleted_and_a_verified_one_is_not_refetched(tmp_path):
