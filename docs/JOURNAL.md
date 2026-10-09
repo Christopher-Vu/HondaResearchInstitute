@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-09 (afternoon) — The dashboard says who does what next week
+
+The live dashboard had fallen behind: 13 commits, including Step 4's launch, had
+never been pushed, and the dashboard reads everything except its fixed route grid
+from GitHub. Pushing the branch caught it up. The Friday week block in
+`docs/steps/progress.yaml` was rewritten, and the layer-sweep panel now says the
+sweep is running against the frozen B7 rather than waiting for a draft.
+
+The "Next week" column is now grouped by person: each item in `week.next` carries
+a GitHub login in `who`, and the page shows that person's avatar and their items
+together. Avatars now come straight from the login (`avatars.githubusercontent.com/<login>`)
+instead of the commit feed, which had no avatar for anyone without a recent
+commit. The split is Imhaohao (Jerry) on the layer sweep and the gap portfolio
+size, Christopher-Vu on the B7 and C22 decisions, the Step 2 rerun and the
+tarball review, and cattayw on shortlisting Step 5 gap candidates. Deployed to
+production with `vercel deploy --prod` from `dashboard/`. The sweep's own result
+is not on the page yet: the Savio connection was closed, so it could not be read.
+
+---
+
 ## 2026-10-09 (night) — Step 4 unblocked and its dev pool launched
 
 The question was what it would cost to reach Step 4 by morning. Money was never
