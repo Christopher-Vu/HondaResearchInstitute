@@ -14,3 +14,4 @@ pyyaml>=6.0          # config loading (harness/config.py)
 pytest>=7.0          # tests
 scipy>=1.10          # Hungarian assignment; scoring falls back to brute force
                      # without it, so this is a speed dependency not a hard one
+scikit-learn>=1.3    # layer sweep: probes and k-means (discovery/layer_sweep.py)
