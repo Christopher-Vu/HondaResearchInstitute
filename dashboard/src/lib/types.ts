@@ -47,6 +47,7 @@ export type Step2Measure = {
   official_driving_score: number;
   official_success_rate: number;
   ability_success_rate: Record<Ability | "mean", number>;
+  simulated_seconds: number;
   gpu_hours: number;
   service_units: number;
   ability_job_service_units: number;

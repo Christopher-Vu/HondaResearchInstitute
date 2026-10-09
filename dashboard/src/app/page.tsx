@@ -1,6 +1,7 @@
 import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import { Suspense } from "react";
+import { LayerSweep, ModelDiagram, ReplayStrip, type ReplayFrame } from "@/components/Activations";
 import { AbilityChart, BulletRow } from "@/components/Benchmark";
 import { ComputeSummary } from "@/components/Compute";
 import { RouteWaffle } from "@/components/RouteWaffle";
@@ -8,6 +9,7 @@ import { Failure, Section } from "@/components/Section";
 import { CheckList, doneCount, StepLadder } from "@/components/StepLadder";
 import { TimeAgo } from "@/components/TimeAgo";
 import { UpdatesFeed } from "@/components/UpdatesFeed";
+import replayBf16 from "@/data/replay-bf16.json";
 import step2Routes from "@/data/step2-routes.json";
 import { DATA_REF, getProgress, getStep1, getStep2, getUpdates, REPO, REPO_URL } from "@/lib/source";
 import type { Route } from "@/lib/types";
@@ -23,6 +25,8 @@ async function settle<T>(promise: Promise<T>): Promise<Settled<T>> {
 }
 
 const routes = step2Routes.routes as Route[];
+const replayFrames = replayBf16.frames as ReplayFrame[];
+const whole = new Intl.NumberFormat("en-US");
 
 function Placeholder({ height }: { height: string }) {
   return <div className={`${height} animate-pulse rounded-xl bg-track motion-reduce:animate-none`} />;
@@ -81,6 +85,17 @@ async function Benchmark() {
   );
 }
 
+async function RecordedCounts() {
+  const step2 = await settle(getStep2());
+  if (!step2.ok) return null;
+  return (
+    <div className="flex flex-wrap gap-x-10 gap-y-4">
+      <p><span className="t-figure block">{routes.length}</span><span className="t-label">Savio routes recorded</span></p>
+      <p><span className="t-figure block">{whole.format(Math.round(step2.value.simulated_seconds / 0.05))}</span><span className="t-label">steps recorded, 24 layers each</span></p>
+    </div>
+  );
+}
+
 async function Compute() {
   const [progress, step1, step2] = await Promise.all([settle(getProgress()), settle(getStep1()), settle(getStep2())]);
   if (!progress.ok || !step1.ok || !step2.ok) return <Failure what="compute" />;
@@ -126,6 +141,14 @@ export default function Page() {
           </Section>
           <Section id="routes" title="Every route">
             <RouteWaffle routes={routes} />
+          </Section>
+          <Section id="activations" title="Activations">
+            <div className="space-y-10">
+              <Suspense fallback={<Placeholder height="h-14" />}><RecordedCounts /></Suspense>
+              <ModelDiagram />
+              <LayerSweep draftUrl={`${REPO_URL}/blob/${DATA_REF}/docs/steps/b7-gap-signal.md`} />
+              <ReplayStrip frames={replayFrames} />
+            </div>
           </Section>
           <Section id="compute" title="Compute">
             <Suspense fallback={<Placeholder height="h-56" />}><Compute /></Suspense>
