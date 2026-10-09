@@ -29,7 +29,9 @@ routes; it had not run on Savio before this array, so check the first routes'
   night (30 routes, one per scenario family); P2, a pedestrian stepping out from
   behind a container at night (30 routes, with the same grid at noon as its
   neighbourhood). Each is checked against the §9.1 efficacy thresholds before
-  the sweep scores recovery of it.
+  the sweep scores recovery of it. **On Savio the dust is invisible at night,
+  so P1 tests a very dark night** (`docs/WHAT_BROKE.md`); the first 12 routes
+  captured state and activations with no errors.
 - **Step 3 on Savio is exact against itself, not against the live log**
   (jobs 39784216 and 39784287, 5 SU). Replays of 331 Step 2 frames in CUDA
   bfloat16 sit 1–3 rounding steps (median 1–3 cm) from the logged waypoints,

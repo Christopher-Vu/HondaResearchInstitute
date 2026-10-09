@@ -8,6 +8,25 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-09 — On Savio, a dust storm at night renders as darkness
+
+**Expected:** practice gap P1 (dust storm parameters with the sun below the
+horizon) would put visible dust into the camera image. On the Mac, the dust
+made night frames slightly brighter than clear night.
+
+**Actual (measured, first 12 P1 routes of array job 39784630):** on Savio's
+renderer the dust adds nothing visible. Routes whose Step 2 run was already at
+night look the same (route 1825: mean camera pixel 38 in Step 2, 35 now; 3099:
+60 and 76). Routes that were daytime in Step 2 are now near black (3575: 141
+then 0; 28229: 155 then 2). The camera check still passes (no route has
+crashed), and every capture field is filled.
+
+**What we did:** kept the run. P1 is still a perceptual, control-tier gap, but
+on Savio it tests "very dark night" rather than "dust". Its efficacy check
+decides whether it counts, and any write-up must describe it as darkness. If
+it fails efficacy, its replacement should be a perceptual condition checked on
+Savio's renderer first, not the Mac's.
+
 ## 2026-10-09 — Savio replay is exact against itself but not against the live log
 
 **Expected:** Step 3's done-condition, replaying a logged frame offline to within
