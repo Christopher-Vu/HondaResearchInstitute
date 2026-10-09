@@ -7,7 +7,7 @@ updated: 2026-10-09
 current: 4
 
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
-# `who` is a GitHub login, used for the avatar.
+# `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
   start: 2026-10-05
   end: 2026-10-09
@@ -21,11 +21,12 @@ week:
     - {text: "Replayed 331 Step 2 frames on Savio: exact against other replays, 1 to 3 cm off the live log", who: Imhaohao}
     - {text: "Launched Step 4's 190-route dev pool and layer sweep on Savio, with two practice gaps", who: Imhaohao}
   next:
-    - {text: "Read the layer sweep and choose Step 4's layers and sites"}
-    - {text: "Sign off B7, and decide whether replay-against-replay closes Step 3"}
-    - {text: "Decide the gap portfolio size and review running CARLA without a container"}
-    - {text: "Rerun Step 2 by whoever did not set it up"}
-    - {text: "Shortlist gap candidates for the Step 5 efficacy pilots"}
+    - {text: "Read the layer sweep on Savio and choose Step 4's layers and sites", who: Imhaohao}
+    - {text: "Decide the gap portfolio size", who: Imhaohao}
+    - {text: "Sign off B7, and decide whether replay-against-replay closes Step 3", who: Christopher-Vu}
+    - {text: "Rerun Step 2, which Imhaohao set up", who: Christopher-Vu}
+    - {text: "Review running CARLA from a tarball instead of a container", who: Christopher-Vu}
+    - {text: "Shortlist gap candidates for the Step 5 efficacy pilots", who: cattayw}
 
 steps:
   - id: 0
