@@ -8,6 +8,30 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-09 — Savio replay is exact against itself but not against the live log
+
+**Expected:** Step 3's done-condition, replaying a logged frame offline to within
+1e-3 m of the logged waypoints, would hold on Savio as it did on the Mac (0.0 m,
+MPS fp32), as long as the replay used the logged dtype.
+
+**Actual (measured, jobs 39784216 and 39784287, A40, CUDA bfloat16):** 331
+frames saved by Step 2 routes 26956, 25424, 2204 and 1773 all miss. No frame
+matches bit for bit; the median frame is off by 1–3 cm on the route waypoints
+and 6 cm on the speed waypoints, the worst by 0.25–0.375 m. Those are one to
+three bfloat16 rounding steps at waypoint distances of 16–64 m. Every layer
+mean differs too. But three independent replays of route 26956's 30 frames, in
+two separate jobs, agree exactly (0.0 m). CUDA bfloat16 inference is
+deterministic; something in the live agent's process differs from the offline
+rebuild. Not yet found: the model is built the same way (bfloat16 parameters,
+the same checkpoint load), so candidates are the default dtype while the live
+agent runs, or GPU sharing with CARLA changing which matrix-multiply kernels
+are picked.
+
+**What we did:** recorded it rather than chase it overnight. Replay is exact
+against replay, which is what the causal checks need: an intervened replay is
+compared with an un-intervened replay, never with the live log. Whether that
+replaces the done-condition is for Chris and Jerry (`CONFLICTS.md` C22).
+
 ## 2026-10-09 — A dust storm written into a route would have vanished after a few steps
 
 **Expected:** writing `dust_storm="100"` into both of a route's `<weather>`

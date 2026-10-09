@@ -439,6 +439,16 @@ storm at night) happens to be a Mode B region anyway; P2 (an occluded pedestrian
 at night) is a conjunction of two factors that each leave SimLingo unharmed, and
 is not claimed to be absent from training.
 
+### C22 · Step 3's replay condition in bfloat16 · new, 2026-10-09, pending review
+`PRD.md` §13 Step 3 is done when a replayed frame reproduces the logged
+waypoints to within 1e-3 m. On Savio's CUDA bfloat16 the replay is bit-exact
+against itself across jobs but 1–3 rounding steps away from the live log
+(`docs/WHAT_BROKE.md`, 2026-10-09). **Proposed:** the condition becomes "replay
+is bit-exact against replay, in the logged dtype", because the causal checks
+(§9.2) compare an intervened replay with an un-intervened one and never with the
+live log. Step 4 proceeds on this proposal; if it is rejected, Step 4's data is
+unaffected, since the sweep reads logged activations and never replays.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
