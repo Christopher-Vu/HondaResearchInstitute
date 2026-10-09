@@ -203,7 +203,7 @@ def main() -> None:
     output.mkdir(parents=True, exist_ok=True)
     config = yaml.safe_load(args.config.read_text())
     if args.route:
-        config["route"].update(route_from_xml(args.route))
+        config["route"].update(route_from_xml(args.route, config))
     container = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"]["container"]
     report = (render(output, config, container) if args.mode == "render"
               else route(output, config, container, args.slot, args.slots))

@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from route_run import SOURCE, VALID_OUTCOMES, route_from_xml
+from route_run import SOURCE, VALID_OUTCOMES, configured_route_ids, route_from_xml
 from sweep_local import route_outcome, summarize
 
 MERGE_SCRIPT = SOURCE / "Bench2Drive/tools/merge_route_json.py"
@@ -82,8 +82,9 @@ def official_merge(chosen: dict[str, Path], folder: Path) -> dict[str, Any]:
 def score(config_path: Path, job_dirs: list[Path], output: Path) -> dict[str, Any]:
     config = yaml.safe_load(config_path.read_text())
     attempts = attempts_by_route(job_dirs)
+    route_ids = configured_route_ids(config)
     rows, rerun, not_run, chosen = [], [], [], {}
-    for route_id in config["routes"]:
+    for route_id in route_ids:
         tried = attempts.get(route_id, [])
         attempt = chosen_attempt(tried)
         if not tried:
@@ -93,13 +94,13 @@ def score(config_path: Path, job_dirs: list[Path], output: Path) -> dict[str, An
             rerun.append({"id": route_id, "attempts": len(tried), "last_status": status_of(tried[-1])})
             continue
         chosen[route_id] = attempt
-        rows.append({**route_from_xml(route_id), "job": attempt.parent.name, "attempts": len(tried),
+        rows.append({**route_from_xml(route_id, config), "job": attempt.parent.name, "attempts": len(tried),
                      **route_outcome(attempt), **gpu_columns(attempt)})
     output.mkdir(parents=True, exist_ok=True)
     (output / "routes.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
     report = {
         "config": str(config_path), "jobs": [path.name for path in job_dirs],
-        "routes_configured": len(config["routes"]), "routes_with_outcome": len(rows),
+        "routes_configured": len(route_ids), "routes_with_outcome": len(rows),
         "official": official_merge(chosen, output / "res") if chosen else None,
         "clean": summarize(rows),
         "scenario_skipped": [row["id"] for row in rows if row["scenario_skipped"]],

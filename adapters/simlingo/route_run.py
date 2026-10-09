@@ -34,10 +34,25 @@ class Ports:
     traffic_manager: int
 
 
-def route_from_xml(route_id: str) -> dict[str, str]:
-    selected = ET.parse(ROUTES).find(f".//route[@id='{route_id}']")
+def routes_file(config: dict[str, Any] | None = None) -> Path:
+    """The routes file the config's `route.routes_file` names, else the pinned Bench2Drive-220 file."""
+    configured = ((config or {}).get("route") or {}).get("routes_file")
+    return ROOT / configured if configured else ROUTES
+
+
+def configured_route_ids(config: dict[str, Any]) -> list[str]:
+    """The config's `routes`, else every id in the manifest its `route.manifest` names."""
+    if "routes" in config:
+        return list(config["routes"])
+    manifest = json.loads((ROOT / config["route"]["manifest"]).read_text())
+    return [entry["id"] for entry in manifest]
+
+
+def route_from_xml(route_id: str, config: dict[str, Any] | None = None) -> dict[str, str]:
+    path = routes_file(config)
+    selected = ET.parse(path).find(f".//route[@id='{route_id}']")
     if selected is None:
-        raise ValueError(f"Route {route_id} is not in the pinned routes file")
+        raise ValueError(f"Route {route_id} is not in {'the pinned routes file' if path == ROUTES else path}")
     scenario = selected.find("scenarios/scenario")
     if scenario is None:
         raise ValueError(f"Route {route_id} has no authored scenario")
@@ -45,9 +60,9 @@ def route_from_xml(route_id: str) -> dict[str, str]:
 
 
 def check_route(config: dict[str, Any]) -> None:
-    selected = ET.parse(ROUTES).find(f".//route[@id='{config['route']['id']}']")
+    selected = ET.parse(routes_file(config)).find(f".//route[@id='{config['route']['id']}']")
     if selected is None or selected.get("town") != config["route"]["town"]:
-        raise ValueError("The configured route is missing or its town differs from the pinned routes file")
+        raise ValueError("The configured route is missing or its town differs from the routes file")
     scenario = selected.find("scenarios/scenario")
     if scenario is None or scenario.get("type") != config["route"]["scenario"]:
         raise ValueError("The authored scenario does not match the config")
@@ -114,7 +129,7 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--traffic-manager-port", str(ports.traffic_manager),
             "--traffic-manager-seed", str(config["route"]["seed"]),
             "--timeout", str(config["simulator"]["timeout_seconds"]), "--debug", "2",
-            "--routes", str(ROUTES), "--routes-subset", config["route"]["id"],
+            "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
             "--agent", str(agent), "--agent-config", str(CHECKPOINT) + "+agent",
             "--checkpoint", str(output / "result.json"),
             "--debug-checkpoint", str(output / "live.txt")]

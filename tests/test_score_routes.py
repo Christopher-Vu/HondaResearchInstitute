@@ -55,3 +55,18 @@ def test_routes_never_attempted_are_not_reruns(campaign):
     attempt(root / "100", "1", "Completed", 100.0)
     report = score_routes.score(config, [root / "100"], root / "out")
     assert report["rerun"] == [] and report["not_run"] == ["2", "3"]
+
+
+def test_manifest_routes_are_scored_against_the_configs_own_routes_file(campaign):
+    root, _config = campaign
+    dev_routes = root / "dev.xml"
+    dev_routes.write_text('<routes><route id="900" town="Town04"><waypoints/>'
+                          '<scenarios><scenario type="Accident"/></scenarios></route></routes>')
+    manifest = root / "manifest.json"
+    manifest.write_text(json.dumps([{"id": "900"}]))
+    dev_config = root / "dev-config.yaml"
+    dev_config.write_text(f"name: dev\nroute:\n  routes_file: {dev_routes}\n  manifest: {manifest}\n")
+    attempt(root / "100", "900", "Completed", 100.0)
+    report = score_routes.score(dev_config, [root / "100"], root / "out")
+    assert report["routes_configured"] == 1 and report["routes_with_outcome"] == 1
+    assert report["official"]["eval num"] == 1

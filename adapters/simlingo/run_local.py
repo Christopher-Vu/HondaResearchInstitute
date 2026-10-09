@@ -100,7 +100,7 @@ def main() -> None:
     args = parser.parse_args()
     config = yaml.safe_load(args.config.read_text())
     if args.route:
-        config["route"].update(route_from_xml(args.route))
+        config["route"].update(route_from_xml(args.route, config))
     manifest = preflight(config)
     output = args.output or ROOT / "results/local-mac" / datetime.now().strftime("%Y%m%d-%H%M%S")
     output.mkdir(parents=True)

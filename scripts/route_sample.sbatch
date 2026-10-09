@@ -6,7 +6,8 @@
 #SBATCH --array=0-30%4
 #SBATCH --output=route-sample-%A_%a.out
 #
-# Routes from a rollout config's route list, each with its own CARLA server.
+# Routes from a rollout config's route list (`routes`, else the ids in the manifest
+# named by `route.manifest`), each with its own CARLA server.
 # Arguments: config (default configs/rollout/savio-mac-paired.yaml, whose route
 # list the array range above covers; tests/test_savio_runtime.py checks it) and
 # routes per GPU (default 1). With K routes per GPU, array task i runs routes
@@ -21,9 +22,10 @@ cd "$SLURM_SUBMIT_DIR"
 PY=.runtime/policy-venv/bin/python
 CONFIG=${1:-configs/rollout/savio-mac-paired.yaml}
 PER_GPU=${2:-1}
-mapfile -t ROUTES < <("$PY" -c '
+mapfile -t ROUTES < <(PYTHONPATH=adapters/simlingo "$PY" -c '
 import sys, yaml
-routes = yaml.safe_load(open(sys.argv[1]))["routes"]
+from route_run import configured_route_ids
+routes = configured_route_ids(yaml.safe_load(open(sys.argv[1])))
 first = int(sys.argv[2]) * int(sys.argv[3])
 print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_GPU")
 
