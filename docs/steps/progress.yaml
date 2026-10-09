@@ -6,6 +6,25 @@ updated: 2026-10-08
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 3
 
+# The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
+# `who` is a GitHub login, used for the avatar.
+week:
+  start: 2026-10-05
+  end: 2026-10-09
+  done:
+    - {text: "Unlocked Savio GPUs with the right QoS names, then gave the agent access through a shared SSH login", who: Imhaohao}
+    - {text: "Step 1 passed: one SimLingo route on a Savio A40 at 0.071 times real time", who: Imhaohao}
+    - {text: "Step 2 passed: Bench2Drive-220 driving score 88.6 and success rate 72.7%, above the paper", who: Imhaohao}
+    - {text: "Found SimLingo standing still for 38 seconds or more on 48 of 213 routes, on the Mac and Savio alike", who: Imhaohao}
+    - {text: "Built a prototype of the contrastive failure-axis discovery method", who: cattayw}
+    - {text: "Drafted B7's definition and launched this dashboard", who: Imhaohao}
+  next:
+    - {text: "Approve B7's definition, then run the layer sweep on the 220 recorded routes"}
+    - {text: "Replay recorded frames on a Savio GPU in bfloat16 to close Step 3"}
+    - {text: "Decide the gap portfolio size and review running CARLA without a container"}
+    - {text: "Rerun Step 2 by whoever did not set it up"}
+    - {text: "Shortlist gap candidates for the Step 5 efficacy pilots"}
+
 steps:
   - id: 0
     title: Ground the facts
