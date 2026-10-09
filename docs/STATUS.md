@@ -6,11 +6,36 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-09 (B7 definition drafted for approval; dashboard shows the activations)
+Last updated: 2026-10-09 02:40 (Step 4 dev pool running on Savio; B7 frozen; Step 3 replay exact against itself, not the live log)
 
 ---
 
 ## Current position
+
+**Night of 2026-10-09: Step 4's dev pool is running on Savio.** Array job
+39784630 drives 190 routes (95 tasks, two routes per A40, at most 6 at once;
+about 780 SU and 5 hours at Step 2's rate), and job 39784631 starts when it
+ends: it scores the routes, exports each capture to a shard, checks the two
+practice gaps' efficacy and runs the layer sweep, writing
+`results/savio/step4-dev-pool/{routes.jsonl,shards/,sweep.json}` on Savio.
+Spec: `docs/steps/04-dev-pool-and-layer-sweep.md`. Every route now also logs
+ground-truth state, collision events and the vision bridge, verified on two Mac
+routes; it had not run on Savio before this array, so check the first routes'
+`run.log` if anything looks wrong.
+
+- **B7 is frozen** (`docs/steps/b7-gap-signal.md`), before any activation was
+  opened; Chris and Jerry's sign-off pending.
+- **Practice gaps** (`gaps/practice/practice_v1.yaml`): P1, a dust storm at
+  night (30 routes, one per scenario family); P2, a pedestrian stepping out from
+  behind a container at night (30 routes, with the same grid at noon as its
+  neighbourhood). Each is checked against the §9.1 efficacy thresholds before
+  the sweep scores recovery of it.
+- **Step 3 on Savio is exact against itself, not against the live log**
+  (jobs 39784216 and 39784287, 5 SU). Replays of 331 Step 2 frames in CUDA
+  bfloat16 sit 1–3 rounding steps (median 1–3 cm) from the logged waypoints,
+  while three replays of the same frames agree to 0.0 m. `CONFLICTS.md` C22
+  proposes replay-against-replay as the done-condition; `docs/WHAT_BROKE.md` has
+  the candidates for the difference.
 
 **Steps 1 and 2 passed on Savio, 2026-10-08.** Step 2's last open item is a
 rerun by whichever of us did not set it up.
@@ -152,27 +177,24 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-Steps 0–2 on Savio are done except Step 2's independent rerun. Do not reopen the
-2026-10-07 `import carla` failure: it was a passing scratch fault.
-
-1. Step 2's done condition wants the run reproduced by whichever of Chris and
-   Jerry did not set it up. A full rerun costs about 910 SU; decide whether that
-   or a handful of routes plus a rescore is enough. To rescore:
+1. In the morning: read `results/savio/step4-dev-pool/sweep.json` on Savio
+   (`chosen`, `practice_gap_efficacy`, `skipped`). If a practice gap failed its
+   efficacy check, that is reported, not hidden; its replacement costs about
+   250 SU. Write the 2–3 chosen layer-site pairs into the rollout config, copy
+   the sweep JSON into the repo, and run the resampling stability check from the
+   spec (not yet coded). Routes with no outcome are listed by `score_routes.py`
+   as reruns.
+2. Decisions for Chris and Jerry: sign off B7; C21 (dev pool size, practice
+   gaps held to efficacy but not novelty); C22 (Step 3's replay condition in
+   bfloat16); C20 (tarball instead of container); §16.2 (gap portfolio size).
+3. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
+   rerun is about 910 SU, or a handful of routes plus a rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
-2. Design calls for the two of you: close `PRD.md` §16.2 (gap portfolio size;
-   §17.3 now has measured cost) and review `CONFLICTS.md` C20 (tarball instead
-   of container). Three seeds of Bench2Drive-220 (§10.1) would cost about
-   2,700 SU at Step 2's rate.
-3. Step 3 on Savio: the Step 2 routes captured model inputs in bfloat16 every
-   10th step. Replaying a few of them with `adapters/simlingo/replay_capture.py`
-   on a CUDA node checks Step 3's 1e-3 m done condition in Savio's dtype (one
-   short GPU job). Nobody opens the captured activations until B7's definition
-   is approved: a draft is in `docs/steps/b7-gap-signal.md` (2026-10-09). Its
-   first open question is whether B7 runs over the training data or the test
-   pool; once approved, Step 4's layer sweep can run on the 220 Step 2 routes.
-4. Before the next campaign, raise `timeout_seconds` from 60 to Bench2Drive's
-   default 600 in the rollout configs (one route lost its setup to the 60 s
-   limit; `docs/WHAT_BROKE.md`).
+4. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
+   copy it over, then on Savio `git fetch ../x.bundle codex/carla-bringup:refs/remotes/bundle/carla-bringup`
+   and `git merge --ff-only bundle/carla-bringup`. Savio's checkout was at
+   `05d7bf5` when the dev pool started. Savio refuses a second SSH session while
+   one is busy, so run cluster commands one at a time.
 
 **An agent can reach the cluster only through a shared SSH connection that a
 person opened.** Login requires a PIN plus a rotating 6-digit code and `ic_`
@@ -182,7 +204,7 @@ agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
 
 ## Built so far
 
-84 CPU tests pass. Route runs use Savio A40s; the Mac runs single routes locally.
+177 CPU tests pass (one more needs the CARLA client). Route runs use Savio A40s; the Mac runs single routes locally.
 
 | Piece | Where |
 |---|---|
@@ -197,6 +219,10 @@ agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
 | Route arrays, two routes per GPU | `scripts/route_sample.sbatch` |
 | Step 2 scoring (Bench2Drive merge plus validity columns) | `adapters/simlingo/score_routes.py` |
 | Per-ability scores | `scripts/ability_benchmark.sbatch` |
+| Practice-gap predicates, dev-pool routes | `src/harness/predicates.py`, `adapters/simlingo/dev_routes.py` |
+| State, collision and vision-bridge capture | `adapters/simlingo/capture_agent.py`, `world_state.py`, `state_geometry.py` |
+| Shards and the layer sweep, with the efficacy gate | `adapters/simlingo/export_activations.py`, `src/discovery/layer_sweep.py`, `scripts/step4_sweep.sbatch` |
+| Savio replay check | `scripts/step3_replay.sbatch` |
 
 Building the scoring layer before any rollout exists is deliberate, not
 opportunistic: `PRD.md` §9.1 wants it frozen and hash-committed before the test

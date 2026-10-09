@@ -5,6 +5,43 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-09 (night) — Step 4 unblocked and its dev pool launched
+
+The question was what it would cost to reach Step 4 by morning. Money was never
+the constraint (the whole program had used about 2,800 of 200,000 SU); three
+undone pieces were. Step 4 needed practice gaps to measure recovery against, a
+frozen definition of baseline B7 before anyone opened an activation, and code
+for the layer sweep. This session supplied all three and started the overnight
+run.
+
+- **B7 frozen** (`docs/steps/b7-gap-signal.md`, commits `1381167`, `ceece00`).
+  The earlier draft's four open questions were settled: B7 runs over a sample of
+  SimLingo's training data, "B7-pool" runs the same statistics over the test
+  pool without outcome labels, and either can trigger Step 6's stop condition.
+  Axis members were restricted to failing rollouts, as every method's are.
+  Dr. VLA's paper fixed the onset threshold to the raw activation.
+- **Practice gaps chosen from Step 2's numbers.** Stock weather barely moves
+  SimLingo's failure rate (night 24%, clear day 29%), so a weather gap would
+  fail its efficacy check. P1 is a dust storm at night, a combination none of
+  the collection presets contains. P2 is a pedestrian stepping out from behind
+  a container at night, a conjunction of two factors that each leave SimLingo
+  unharmed (`docs/steps/04-dev-pool-and-layer-sweep.md`, `CONFLICTS.md` C21).
+- **Built, by three parallel agents and reviewed here:** a dev-route generator
+  (190 routes), per-step ground-truth state and collision logging plus the
+  vision bridge as a third activation site (verified on two Mac routes), an
+  exporter and the layer sweep, and an efficacy gate so a practice gap is only
+  scored if the policy really fails more inside it. Generating the routes found
+  that a route with two weather entries silently drops a dust storm after a few
+  steps (`docs/WHAT_BROKE.md`).
+- **Step 3 on Savio, measured:** replay is bit-exact against itself in CUDA
+  bfloat16 but 1–3 rounding steps off the live log. `CONFLICTS.md` C22 proposes
+  replay-against-replay as the condition, since that is what the causal checks
+  use.
+- **Running:** array job 39784630 (190 routes, about 780 SU) with job 39784631
+  chained to score, export and sweep. Unfinished: reading the sweep, writing
+  the chosen layers into the config, the resampling stability check, and every
+  sign-off listed in `docs/STATUS.md`.
+
 ## 2026-10-09 — B7 drafted, and the activations on the dashboard
 
 The team asked to see "the activation layer analysis" on the dashboard. No such
