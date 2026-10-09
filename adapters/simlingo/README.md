@@ -152,7 +152,7 @@ route's last saved frame, from 12 routes (`results/replay-bf16*/`):
 | Route (path) | 4.0 cm | 7.0 cm | 13.4 cm |
 | Speed | 8.0 cm | 27.2 cm | 8.7 m |
 
-58 of 60 frames stay within 57 cm on every waypoint. The two exceptions are each
+58 of 60 frames stay within 58 cm on every waypoint (the third largest is 57.4 cm, on 2204). The two exceptions are each
 route's final frame on 26956 (step 290) and 25424 (step 1680): at about 11 m/s the
 fp32 plan keeps going (first speed waypoint 2.9 m and 2.8 m ahead) while bfloat16
 slows sharply (0.5 m and 0.7 m). The other 10 final frames do not flip, and

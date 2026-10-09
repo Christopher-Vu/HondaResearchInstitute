@@ -33,7 +33,7 @@ the stall routes. `replay_capture.py` gained `--dtype` and now saves after every
 frame and records the waypoints it predicted (`bcba62e`, `9dcf5f0`).
 
 Measured: path waypoints moved by a median 4.0 cm (worst 13.4 cm) and speed
-waypoints by a median 8.0 cm, with 58 of 60 frames within 57 cm. Two frames
+waypoints by a median 8.0 cm, with 58 of 60 frames within 58 cm. Two frames
 flipped the decision: near the end of routes 26956 and 25424, at about 11 m/s,
 the fp32 plan keeps going and the bfloat16 plan slows sharply. Savio's own
 bfloat16 drive of 26956 did brake at that point while the Mac's accelerated,
