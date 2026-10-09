@@ -2,6 +2,8 @@
 
 One page. Where the project is, what is blocked, what is next. **Update this at
 the end of any session that changes the answer**, before the context is lost.
+Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time;
+the status dashboard (https://failure-axis-status.vercel.app) reads it from GitHub.
 
 Last updated: 2026-10-08 08:45 (Step 2 passed on Savio: DS 88.60, SR 72.7%; bfloat16 replay measured on compute-box)
 

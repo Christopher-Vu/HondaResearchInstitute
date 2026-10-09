@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-08 (evening) — a status dashboard for the team
+
+The team asked for one page that shows how the project is going in graphs
+rather than prose, plus recent changes from each teammate in 20 words or fewer.
+It is live at https://failure-axis-status.vercel.app, built as a small Next.js
+app in `dashboard/` and deployed to Vercel from the laptop.
+
+It shows the 13 steps of `PRD.md` §13 as a progress bar filled by each step's
+done-conditions, Step 2's Bench2Drive scores against the paper, all 220 routes
+as a grid of outcomes grouped by ability (stalls marked), and Savio spending
+against the 200,000 SU allowance. Live parts are read from GitHub every 10
+minutes with no token: commits from every branch, the measured blocks of the
+step configs, and a new file, `docs/steps/progress.yaml`, which says which
+done-conditions are met. Keep that file current alongside `docs/STATUS.md`, or
+the dashboard goes stale. The route grid is a fixed copy of last night's result.
+
+---
+
 ## 2026-10-08 (overnight, compute-box) — How far bfloat16 moves SimLingo's plans
 
 Savio runs SimLingo in bfloat16 (a 16-bit number format) and the Mac in 32-bit
