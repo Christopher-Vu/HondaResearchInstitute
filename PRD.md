@@ -732,7 +732,10 @@ each one closes a specific reviewer objection, named below.
   as a gap signal; they use them to separate general from memorized features.
   So B7 needs a written definition — how concentration is measured, over what
   partition, and how it ranks into axes — committed **before Step 6**, or it is
-  not a fair baseline.
+  not a fair baseline. **Frozen 2026-10-09 in `docs/steps/b7-gap-signal.md`**,
+  before any captured activation was opened: B7 runs over a sample of the
+  training data as written here, and "B7-pool" runs the same statistics over the
+  test pool without outcome labels (C18).
 
   **And note the irony, which cuts against us.** A planted gap looks memorized by
   construction (§9.2): it fires about once per episode across a small coherent
@@ -1262,9 +1265,9 @@ Items 1 and 2 close before Step 5 writes code.
    DS 55.85, SR 30.0% for Drive-π0 (DriveMoE 74.22, 48.64%), paper Table 2.
 8. **Describability model** — a pinned open model, with the exact ID logged, and
    a closed API only as an optional comparison. *Step 7.*
-9. **B7's gap signal.** Memorized-feature concentration as a gap signal is our
-   construction, not Dr. VLA's, so it needs a written definition before it can be
-   a fair baseline (§9.3). *Before Step 6.*
+9. ~~**B7's gap signal.**~~ **Closed 2026-10-09:** `docs/steps/b7-gap-signal.md`,
+   frozen before any activation was opened; Chris and Jerry's sign-off pending
+   (§9.3, C18).
 10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
     before vendoring anything from it; reimplement from the paper if they decline.
     *Step 7, but email now.*

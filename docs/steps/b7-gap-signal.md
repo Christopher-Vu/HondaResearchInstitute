@@ -1,12 +1,12 @@
 # B7: rollout-free activation statistics, definition
 
-**Status: DRAFT, not approved.** Written 2026-10-09, before anyone has opened the
-activations recorded on the Mac or on Savio. `PRD.md` §16.9 and `CONFLICTS.md`
-C18 require this definition to exist before that, so B7 cannot be tuned to win
-or lose after the fact. Approval means Chris and Jerry edit or accept it and mark
-it approved here. It is then hash-committed with the other baseline configs
-(`PRD.md` §9.3, fairness rules) and not changed again; any later change is
-labelled post hoc wherever B7 is reported.
+**Status: frozen 2026-10-09, before anyone opened the activations recorded on
+the Mac or on Savio; Chris and Jerry's sign-off pending.** `PRD.md` §16.9 and
+`CONFLICTS.md` C18 require this definition to exist before that, so B7 cannot be
+tuned to win or lose after the fact. Every parameter below is fixed. Sign-off may
+still change a choice, but any change made after the activations are opened is
+labelled post hoc wherever B7 is reported. It is hash-committed with the other
+baseline configs (`PRD.md` §9.3, fairness rules) at Step 6.
 
 ## What B7 is for
 
@@ -30,10 +30,12 @@ construction. The two readings give two variants:
 | **A, training data** | Route directories of SimLingo's released training set | None | Activations of training data alone point at the gaps; the rollout corpus is not needed |
 | **B, test pool** | Every test-pool rollout, outcome labels never read | Only the pool every method is scored on | Label-free statistics find the gaps; the failure labels add nothing |
 
-**Recommendation:** report A as B7, since it is the claim the Step 6 stop
-condition is about, and B as the ablation "B7-pool", since the §9.3 warning
-predicts B is the stronger one and a reviewer will ask for it. Both run the
-procedure below unchanged; only the episode set differs.
+**Decided:** A is B7, since it is the claim the Step 6 stop condition is about,
+and B is reported beside it as "B7-pool", since the §9.3 warning predicts B is
+the stronger one and a reviewer will ask for it. The Step 6 stop condition fires
+if **either** variant recovers the practice gaps as well as our methods do, so
+the cheaper-looking variant cannot hide the stronger one. Both run the procedure
+below unchanged; only the episode set differs.
 
 ## Procedure
 
@@ -41,13 +43,17 @@ procedure below unchanged; only the episode set differs.
    site, non-residualized preprocessing, `k` and seed (`PRD.md` §9.2, §12.2).
    B7 never trains its own dictionary, so B7 and the SAE method differ only in
    signal, not in feature basis.
-2. **Episodes and frames.** Variant A: a seeded random sample (seed 0) of N
-   training route directories with every frame they store, the list committed
-   before any activation is computed. Variant B: every recorded step of every
-   test-pool rollout.
+2. **Episodes and frames.** Variant A: a seeded random sample (seed 0) of
+   N = 1,000 training route directories, or all of them if the released set has
+   fewer, with every frame they store; the list is committed before any
+   activation is computed. At roughly 200 stored frames a directory that is
+   about 200,000 forward passes, a few GPU-hours, with no simulator. Variant B:
+   every recorded step of every test-pool rollout.
 3. **Firing.** Latent f is on at frame t when its activation exceeds
    τ_on = 0.1 of its maximum over the episode set (τ_on from Dr. VLA §3.2–3.3,
-   C.1–C.3; confirm their normalisation reference before approval).
+   C.1–C.3). If their paper normalises against a different reference, theirs
+   replaces this one; that change is fixed by the paper, not by our data, so it
+   is not post hoc.
 4. **Statistics**, over the episodes in which f is on at least once:
    - coverage `c`: share of all episodes with any on frame;
    - onset count `ō`: mean number of off-to-on transitions;
@@ -70,15 +76,20 @@ procedure below unchanged; only the episode set differs.
    existing axis when the Jaccard index of their sets of test rollouts in which
    they fire is at least 0.5; otherwise start a new axis. Stop at the axis
    budget M that every method gets.
-8. **Membership and schema.** An axis's members are the test-pool rollouts in
-   which any of its latents is on for at least one frame. Names and descriptions
-   come from the shared describability pipeline (§9.2), as for every method.
+8. **Membership and schema.** An axis's members are the **failing** test-pool
+   rollouts in which any of its latents is on for at least one frame. Scoring
+   compares an axis with a gap's failing rollouts (`src/harness/scoring.py`),
+   and every other method's axes and B1's random subsets hold failing rollouts
+   only, so leaving successes in would penalise B7 for a reason unrelated to its
+   signal. Outcomes enter here and nowhere else: steps 1–7 never read them.
+   Names and descriptions come from the shared describability pipeline (§9.2),
+   as for every method.
 
 ## What B7 may never use
 
-Outcome labels (success, failure, infractions), scenario type or parameters,
-weather presets, the sealed key, the dev practice-gap labels, and any threshold
-chosen after the activations are opened.
+In steps 1–7: outcome labels (success, failure, infractions). Anywhere: scenario
+type or parameters, weather presets, the sealed key, the dev practice-gap
+labels, and any threshold chosen after the activations are opened.
 
 ## Parameters
 
@@ -88,13 +99,21 @@ chosen after the activations are opened.
 | Coverage floor and ceiling | 3 episodes; 50% of episodes |
 | Merge threshold | Jaccard ≥ 0.5 |
 | Axis budget | M, shared with every method |
-| Variant A sample | N route directories, seed 0 |
+| Variant A sample | N = 1,000 route directories (or all, if fewer), seed 0 |
+| κ weights | Equal, 1 each |
 
-## Open before approval
+## Settled 2026-10-09
 
-1. A as B7 and B as the ablation, or the reverse.
-2. N for variant A. It depends on the size of the released training set, which
-   has not been checked; variant A costs one forward pass per sampled frame,
-   with no simulator.
-3. Dr. VLA's exact normalisation for τ_on.
-4. Equal weights in κ, or a different pre-registered weighting.
+The draft left four questions open. All four are now fixed:
+
+1. A is B7 and B is the reported ablation "B7-pool"; either one can trigger the
+   Step 6 stop condition.
+2. N = 1,000 training route directories, or the whole released set if smaller.
+   This does not need the set's size to be known first.
+3. τ_on normalises against the latent's maximum over the episode set, unless
+   Dr. VLA's paper states a different reference, in which case theirs is used.
+4. κ keeps equal weights. Any other weighting would have to be fitted on data
+   we have agreed not to look at.
+
+One change from the draft: membership (step 8) is restricted to failing
+rollouts, as every other method's is.

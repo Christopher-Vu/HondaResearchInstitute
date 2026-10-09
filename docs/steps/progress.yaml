@@ -58,7 +58,7 @@ steps:
   - id: 4
     title: Dev pool and layer sweep
     checks:
-      - {text: B7 defined before activations are opened, done: false}
+      - {text: B7 defined before activations are opened, done: true}
       - {text: Layer sweep run on the dev pool, done: false}
       - {text: Layers and sites chosen, done: false}
   - id: 5

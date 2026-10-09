@@ -382,6 +382,17 @@ statistic built to find memorized features may be *unusually* good at finding ou
 gaps. **B7 may be stronger than we want**, at zero rollout cost. That raises the
 stakes on running it at Step 6 rather than later. `PRD.md` §9.3.
 
+**Update 2026-10-09: defined and frozen** in `docs/steps/b7-gap-signal.md`
+before any activation was opened. Writing it exposed a contradiction: §9.3 says
+"over the training data", but the warning above holds only over the test pool,
+because Mode B gaps are absent from the training data. Both are kept: B7 is the
+training-data version, "B7-pool" runs the same statistics over the test pool
+with no outcome labels, and either one can trigger Step 6's stop condition. The
+concentration score is a fixed equal-weight formula rather than Dr. VLA's fitted
+classifier (C17 explains why that classifier is not trusted here). Axis members
+are restricted to failing rollouts, as every method's are, because scoring
+compares axes with a gap's failing rollouts.
+
 ### C19 · Vision encoder freezing is our deviation, not SimLingo's recipe · new
 `PRD.md` §9.4 and §12.3 described "vision encoder frozen" as SimLingo's own
 recipe. **It is not.** Paper §4.2: *"We fully finetune all components besides the
