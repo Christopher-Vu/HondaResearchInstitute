@@ -67,7 +67,7 @@ export function ModelDiagram() {
   );
 }
 
-export function LayerSweep({ draftUrl }: { draftUrl: string }) {
+export function LayerSweep({ definitionUrl }: { definitionUrl: string }) {
   return (
     <div>
       <p className="t-title mb-3">Which layer best predicts a failure</p>
@@ -78,8 +78,8 @@ export function LayerSweep({ draftUrl }: { draftUrl: string }) {
       </div>
       <div aria-hidden className="t-label t-data mt-1.5 flex justify-between"><span>Layer 1</span><span>12</span><span>24</span></div>
       <p className="t-body mt-3">
-        Not measured yet. Step 4&apos;s layer sweep fills this in once B7&apos;s definition is approved.{" "}
-        <a href={draftUrl} className="text-ink underline underline-offset-2">Read the B7 draft</a>
+        Not measured yet. Step 4&apos;s layer sweep is running on Savio over 190 dev-pool routes, scored against B7, which was frozen before any activation was opened.{" "}
+        <a href={definitionUrl} className="text-ink underline underline-offset-2">Read B7&apos;s definition</a>
       </p>
     </div>
   );

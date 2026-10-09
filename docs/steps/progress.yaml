@@ -17,10 +17,12 @@ week:
     - {text: "Step 2 passed: Bench2Drive-220 driving score 88.6 and success rate 72.7%, above the paper", who: Imhaohao}
     - {text: "Found SimLingo standing still for 38 seconds or more on 48 of 213 routes, on the Mac and Savio alike", who: Imhaohao}
     - {text: "Built a prototype of the contrastive failure-axis discovery method", who: cattayw}
-    - {text: "Drafted B7's definition and launched this dashboard", who: Imhaohao}
+    - {text: "Launched this dashboard, then froze B7's definition before opening any activation", who: Imhaohao}
+    - {text: "Replayed 331 Step 2 frames on Savio: exact against other replays, 1 to 3 cm off the live log", who: Imhaohao}
+    - {text: "Launched Step 4's 190-route dev pool and layer sweep on Savio, with two practice gaps", who: Imhaohao}
   next:
-    - {text: "Approve B7's definition, then run the layer sweep on the 220 recorded routes"}
-    - {text: "Replay recorded frames on a Savio GPU in bfloat16 to close Step 3"}
+    - {text: "Read the layer sweep and choose Step 4's layers and sites"}
+    - {text: "Sign off B7, and decide whether replay-against-replay closes Step 3"}
     - {text: "Decide the gap portfolio size and review running CARLA without a container"}
     - {text: "Rerun Step 2 by whoever did not set it up"}
     - {text: "Shortlist gap candidates for the Step 5 efficacy pilots"}

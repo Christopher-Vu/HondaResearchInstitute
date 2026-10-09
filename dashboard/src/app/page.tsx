@@ -160,7 +160,7 @@ export default function Page() {
             <div className="space-y-10">
               <Suspense fallback={<Placeholder height="h-14" />}><RecordedCounts /></Suspense>
               <ModelDiagram />
-              <LayerSweep draftUrl={`${REPO_URL}/blob/${DATA_REF}/docs/steps/b7-gap-signal.md`} />
+              <LayerSweep definitionUrl={`${REPO_URL}/blob/${DATA_REF}/docs/steps/b7-gap-signal.md`} />
               <ReplayStrip frames={replayFrames} />
             </div>
           </Section>
