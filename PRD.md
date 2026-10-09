@@ -1119,7 +1119,9 @@ rollout writes a shard the reader can load.*
 **Step 4 — Dev pool and the layer sweep.** A couple hundred rollouts logging all
 layers, then the sweep: probe AUROC for failure versus success, probe R² for the
 state list, practice-gap recovery. *Done when: 2–3 layers and sites are chosen
-and written into the config, with the sweep results committed.*
+and written into the config, with the sweep results committed.* First wave 190
+rollouts, practice gaps and selection rule in
+`docs/steps/04-dev-pool-and-layer-sweep.md` (C21).
 
 **Step 5 — Gap candidates and efficacy.** Build candidate regions, run the
 efficacy pilots, keep what survives. *Done when: 4–6 gaps plus 2 decoys pass the

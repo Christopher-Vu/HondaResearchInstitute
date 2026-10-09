@@ -64,6 +64,8 @@ Deliverable: `src/baselines/random_baseline.py` plus tests, emitting a valid
 `Directive`. Closes a real line item from `PRD.md` §9.3.
 
 ### 2 · B7's gap-signal definition · `PRD.md` §16.9, `CONFLICTS.md` C18
+**Done 2026-10-09:** frozen in `docs/steps/b7-gap-signal.md` before any activation was opened.
+
 **Must exist before Step 6 or B7 is not a fair baseline.** Dr. VLA never proposes
 memorized-feature concentration as a gap signal — that construction is ours, so
 we owe it a written definition: how concentration is measured, over what
@@ -90,6 +92,8 @@ right. Fill the thresholds now; leave only the primary-method choice open, since
 that legitimately depends on the Step 4 sweep.
 
 ### 5 · Gap predicate schema and the public practice gaps
+**Done 2026-10-09:** `gaps/practice/practice_v1.yaml`, matched by `src/harness/predicates.py`; reasoning in `docs/steps/04-dev-pool-and-layer-sweep.md`.
+
 The predicate DSL from `PRD.md` §9.1, plus the two public practice gaps that live
 in the dev pool. Needs no rollouts — only a schema and a matcher that can be
 tested against synthetic metadata.

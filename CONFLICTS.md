@@ -422,6 +422,23 @@ changes; reproducibility comes from the pinned tarball checksum instead.
 Related finding: `savio_lowprio` is not associated with `ic_cdss170fall`, so
 `PRD.md` §17.2's lowprio fan-out does not apply. Fan-out uses the `*_ica` QoS.
 
+### C21 · Dev pool size and practice-gap construction · new, 2026-10-09, pending review
+`PRD.md` §13 sizes the Step 4 dev pool at "a couple hundred rollouts" and the
+§17.3 table at 600–1,000. **We run 190 first** and add about 200 more only if
+the layer choice is unstable under resampling (`docs/steps/04-dev-pool-and-layer-sweep.md`).
+Ranking 49 layer-site pairs does not need a thousand episodes, and the methods
+of Step 7 can grow the pool later.
+
+Practice gaps are held to the efficacy check but **not** to Mode B absence from
+the training data. Their job is to give methods a known answer on dev, so they
+must actually fail; the novelty claim is the sealed gaps' job. Step 2's results
+removed the easy candidates: stock weather presets barely move SimLingo's
+failure rate (night 24%, fog or heavy rain 31%, clear day 29%), and every
+preset, including the daytime dust storm, is in its collection data. P1 (dust
+storm at night) happens to be a Mode B region anyway; P2 (an occluded pedestrian
+at night) is a conjunction of two factors that each leave SimLingo unharmed, and
+is not claimed to be absent from training.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
