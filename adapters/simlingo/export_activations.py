@@ -136,6 +136,7 @@ def sidecar(route_dir: Path, route_id: str, capture: dict[str, Any], entry: dict
         "status": outcome.get("status"), "success": outcome.get("success"),
         "infractions": outcome.get("infractions", {}),
         "practice_gaps": identity.get("practice_gaps", []), "role": identity.get("role"),
+        "neighbourhood_of": identity.get("neighbourhood_of", []),
         "first_collision_step": first_collision_step(capture.get("collisions")),
         "n_steps": len(capture["records"]), "stride": stride, "capture_every": capture["capture_every"],
         "dtype": capture["dtype"], "source": source_label(route_dir),

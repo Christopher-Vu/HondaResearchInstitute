@@ -14,6 +14,9 @@ never sit on both sides of a split, and uses the same folds for every pair.
                    alpha from RidgeCV over [1, 10, 100, 1000] inside each training fold, out-of-fold R2 for
                    the continuous states; logistic regression, out-of-fold AUROC for red_light and occluded.
                    A state is skipped when too few frames have a value (see the MIN_ constants).
+    efficacy       Each practice gap's slice against its matched neighbourhood (sidecar `neighbourhood_of`),
+                   two-sided Fisher exact, with harness.schema.Gap.passes_efficacy's PRD 9.1 thresholds.
+                   Gap recovery is computed only for gaps that pass; every gap's statistics are reported.
     gap recovery   For each practice gap id listed by any shard, failing episodes only: standardised
                    episode means, PCA to min(20, n-1) dimensions, KMeans for k in 2..8. The score is the
                    best Jaccard between a cluster and the gap's failing episodes (harness.scoring.jaccard),
@@ -43,7 +46,7 @@ from statistics import mean
 from typing import Any, Callable, Iterable
 
 import numpy as np
-from scipy.stats import rankdata
+from scipy.stats import fisher_exact, rankdata
 from sklearn.base import clone
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -53,6 +56,7 @@ from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from src.harness.schema import Gap
 from src.harness.scoring import jaccard
 
 FRAME_SITES = ("all_tokens", "driving_queries")
@@ -133,6 +137,7 @@ class Plans:
     failure: FailurePlan | None = None
     states: list[StatePlan] = field(default_factory=list)
     gaps: list[GapPlan] = field(default_factory=list)
+    efficacy: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
 def frame_rows(frame_count: int) -> np.ndarray:
@@ -233,7 +238,24 @@ def plan_gap(gap_id: str, shards: Shards) -> GapPlan:
     return GapPlan(gap_id, failing, ids, members)
 
 
-def build_plans(shards: Shards, min_class_episodes: int) -> tuple[Plans, list[dict[str, str]]]:
+def gap_efficacy(gap_id: str, shards: Shards) -> dict[str, Any]:
+    inside = np.array([gap_id in meta["practice_gaps"] for meta in shards.meta], dtype=bool)
+    nearby = np.array([gap_id in meta.get("neighbourhood_of", []) for meta in shards.meta], dtype=bool)
+    failed = ~shards.success
+    counts = {"n_in": int(inside.sum()), "failures_in": int((failed & inside).sum()),
+              "n_neighbourhood": int(nearby.sum()), "failures_neighbourhood": int((failed & nearby).sum())}
+    if not counts["n_in"] or not counts["n_neighbourhood"]:
+        return {**counts, "passes": False}
+    table = [[counts["failures_in"], counts["n_in"] - counts["failures_in"]],
+             [counts["failures_neighbourhood"], counts["n_neighbourhood"] - counts["failures_neighbourhood"]]]
+    stats = {**counts, "fail_rate_in": counts["failures_in"] / counts["n_in"],
+             "fail_rate_neighbourhood": counts["failures_neighbourhood"] / counts["n_neighbourhood"],
+             "fisher_p": float(fisher_exact(table)[1])}
+    return {**stats, "passes": Gap(gap_id, "T0_control", set(), efficacy=stats).passes_efficacy()}
+
+
+def build_plans(shards: Shards, min_class_episodes: int,
+                efficacy_gate: bool = True) -> tuple[Plans, list[dict[str, str]]]:
     skipped: list[dict[str, str]] = []
 
     def attempt(metric: str, build: Callable[[], Any]) -> Any:
@@ -251,6 +273,10 @@ def build_plans(shards: Shards, min_class_episodes: int) -> tuple[Plans, list[di
     if not gap_ids:
         skipped.append({"metric": "gap_jaccard", "reason": "no shard lists a practice gap"})
     for gap_id in gap_ids:
+        plans.efficacy[gap_id] = gap_efficacy(gap_id, shards)
+        if efficacy_gate and not plans.efficacy[gap_id]["passes"]:
+            skipped.append({"metric": f"gap:{gap_id}", "reason": "fails the PRD 9.1 efficacy check"})
+            continue
         plan = attempt(f"gap:{gap_id}", lambda gap_id=gap_id: plan_gap(gap_id, shards))
         plans.gaps += [plan] if plan else []
     return plans, skipped
@@ -357,9 +383,11 @@ def choose(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return chosen
 
 
-def run_sweep(shard_dir: Path, min_class_episodes: int = MIN_CLASS_EPISODES) -> dict[str, Any]:
+def run_sweep(shard_dir: Path, min_class_episodes: int = MIN_CLASS_EPISODES,
+              efficacy_gate: bool = True) -> dict[str, Any]:
+    """`efficacy_gate=False` scores recovery for every listed gap; the CLI always gates."""
     shards = load_shards(shard_dir)
-    plans, skipped = build_plans(shards, min_class_episodes)
+    plans, skipped = build_plans(shards, min_class_episodes, efficacy_gate)
     rows = [evaluate_pair(site, layer, shards, plans) for site, layer in pairs_of(shards)]
     add_ranks(rows)
     failures = int((~shards.success).sum())
@@ -372,7 +400,7 @@ def run_sweep(shard_dir: Path, min_class_episodes: int = MIN_CLASS_EPISODES) -> 
         "layers": layers, "hidden": hidden, "sites": list(shards.means),
         "frames_used": {plan.name: int(len(plan.rows)) for plan in plans.states},
         "families_used": sorted({family_of(name) for name in rows[0]["metrics"]}) if rows else [],
-        "skipped": skipped, "chosen": choose(rows), "pairs": rows,
+        "practice_gap_efficacy": plans.efficacy, "skipped": skipped, "chosen": choose(rows), "pairs": rows,
     }
 
 

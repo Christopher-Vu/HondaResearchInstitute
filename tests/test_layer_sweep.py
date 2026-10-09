@@ -76,7 +76,7 @@ def best_pair(report, metric):
 def planted_report(tmp_path_factory):
     directory = tmp_path_factory.mktemp("planted")
     build_pool(directory)
-    return layer_sweep.run_sweep(directory)
+    return layer_sweep.run_sweep(directory, efficacy_gate=False)
 
 
 def test_each_planted_signal_ranks_its_layer_first(planted_report):
@@ -156,7 +156,7 @@ def test_a_lowered_class_minimum_runs_the_failure_probe(tmp_path):
 
 def test_a_gap_with_two_failures_is_skipped(tmp_path):
     build_pool(tmp_path, gap_size=2)
-    report = layer_sweep.run_sweep(tmp_path)
+    report = layer_sweep.run_sweep(tmp_path, efficacy_gate=False)
     reasons = {entry["metric"]: entry["reason"] for entry in report["skipped"]}
     assert "need 3" in reasons["gap:P1"]
 
@@ -168,6 +168,31 @@ def test_episodes_without_an_outcome_are_left_out(tmp_path):
     report = layer_sweep.run_sweep(tmp_path)
     assert report["episodes"]["excluded_no_outcome"] == 1
     assert report["episodes"]["success"] + report["episodes"]["failure"] == 47
+
+
+def test_gap_recovery_waits_for_the_gap_to_pass_its_efficacy_check(tmp_path):
+    build_pool(tmp_path)
+    report = layer_sweep.run_sweep(tmp_path)
+    assert report["practice_gap_efficacy"]["P1"]["passes"] is False
+    assert {entry["metric"]: entry["reason"] for entry in report["skipped"]}["gap:P1"].endswith("efficacy check")
+    assert not any("gap_jaccard:P1" in pair["metrics"] for pair in report["pairs"])
+
+
+def test_a_gap_that_fails_more_than_its_neighbourhood_passes_and_is_scored(tmp_path):
+    rng = np.random.default_rng(1)
+    for index in range(70):
+        in_slice = index < 30
+        success = index % 2 == 1 if in_slice else index % 10 != 0
+        write_shard(tmp_path, index, f"base{index}", success, rng, gaps=["P1"] if in_slice else ())
+        sidecar = tmp_path / f"r{index:03d}.json"
+        sidecar.write_text(json.dumps({**json.loads(sidecar.read_text()),
+                                       "neighbourhood_of": [] if in_slice else ["P1"]}))
+    report = layer_sweep.run_sweep(tmp_path)
+    efficacy = report["practice_gap_efficacy"]["P1"]
+    assert all("gap_jaccard:P1" in pair["metrics"] for pair in report["pairs"])
+    assert (efficacy["n_in"], efficacy["failures_in"]) == (30, 15)
+    assert (efficacy["n_neighbourhood"], efficacy["failures_neighbourhood"]) == (40, 4)
+    assert efficacy["fisher_p"] < 0.01 and efficacy["passes"] is True
 
 
 def row(site, layer, **metrics):
