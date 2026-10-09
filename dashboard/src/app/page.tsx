@@ -9,6 +9,7 @@ import { Failure, Section } from "@/components/Section";
 import { CheckList, doneCount, StepLadder } from "@/components/StepLadder";
 import { TimeAgo } from "@/components/TimeAgo";
 import { UpdatesFeed } from "@/components/UpdatesFeed";
+import { WeekSummary } from "@/components/WeekSummary";
 import replayBf16 from "@/data/replay-bf16.json";
 import step2Routes from "@/data/step2-routes.json";
 import { DATA_REF, getProgress, getStep1, getStep2, getUpdates, REPO, REPO_URL } from "@/lib/source";
@@ -30,6 +31,15 @@ const whole = new Intl.NumberFormat("en-US");
 
 function Placeholder({ height }: { height: string }) {
   return <div className={`${height} animate-pulse rounded-xl bg-track motion-reduce:animate-none`} />;
+}
+
+async function ThisWeek() {
+  const [progress, feed] = await Promise.all([settle(getProgress()), settle(getUpdates())]);
+  if (!progress.ok || !progress.value.week) return null;
+  const avatars = new Map(
+    (feed.ok ? feed.value.updates : []).map((update) => [update.authorUrl.split("/").pop() ?? "", update.avatar]),
+  );
+  return <WeekSummary week={progress.value.week} avatars={avatars} />;
 }
 
 async function Plan() {
@@ -129,6 +139,10 @@ export default function Page() {
           <GithubLogo size={22} />
         </a>
       </header>
+
+      <Suspense fallback={<div className="py-8"><Placeholder height="h-40" /></div>}>
+        <ThisWeek />
+      </Suspense>
 
       <Suspense fallback={<div className="py-14"><Placeholder height="h-80" /></div>}>
         <Plan />

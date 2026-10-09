@@ -18,10 +18,19 @@ async function getText(url: string): Promise<string> {
   return response.text();
 }
 
+// Branch heads from git's own ref listing: branch name to commit id.
+async function branchHeads(): Promise<Map<string, string>> {
+  const refs = await getText(`${REPO_URL}.git/info/refs?service=git-upload-pack`);
+  return new Map([...refs.matchAll(/([0-9a-f]{40}) refs\/heads\/([^\s\0]+)/g)].map((match) => [match[2], match[1]]));
+}
+
+// Read at the branch's current commit, not the branch name: raw.githubusercontent.com caches
+// branch URLs for up to 5 minutes, but a commit URL never changes.
 async function readRepoYaml<T>(path: string): Promise<T> {
   "use cache";
   cacheLife("repo");
-  return parse(await getText(`https://raw.githubusercontent.com/${REPO}/${DATA_REF}/${path}`)) as T;
+  const commit = (await branchHeads()).get(DATA_REF) ?? DATA_REF;
+  return parse(await getText(`https://raw.githubusercontent.com/${REPO}/${commit}/${path}`)) as T;
 }
 
 export async function getProgress(): Promise<Progress> {
@@ -36,10 +45,6 @@ export async function getStep2(): Promise<Step2Measure> {
   return (await readRepoYaml<{ measure: Step2Measure }>("configs/rollout/step2-bench2drive220.yaml")).measure;
 }
 
-async function listBranches(): Promise<string[]> {
-  const refs = await getText(`${REPO_URL}.git/info/refs?service=git-upload-pack`);
-  return [...refs.matchAll(/refs\/heads\/([^\s\0]+)/g)].map((match) => match[1]);
-}
 
 const ENTITIES: Record<string, string> = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'" };
 
@@ -78,7 +83,7 @@ function isMerge(update: Update): boolean {
 export async function getUpdates(): Promise<{ updates: Update[]; fetchedAt: string }> {
   "use cache";
   cacheLife("repo");
-  const branches = await listBranches();
+  const branches = [...(await branchHeads()).keys()];
   const feeds = await Promise.all(
     branches.map(async (branch) => parseFeed(await getText(`${REPO_URL}/commits/${branch}.atom`), branch)),
   );

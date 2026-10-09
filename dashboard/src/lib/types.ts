@@ -14,9 +14,14 @@ export type Spread = { mean: number; sd: number };
 
 export type Ability = "overtaking" | "merging" | "emergency_brake" | "give_way" | "traffic_signs";
 
+export type WeekItem = { text: string; who?: string };
+
+export type Week = { start: string; end: string; done: WeekItem[]; next: WeekItem[] };
+
 export type Progress = {
   updated: string;
   current: number;
+  week: Week;
   steps: Step[];
   benchmark: {
     bar_driving_score: number;
