@@ -50,15 +50,18 @@ below unchanged; only the episode set differs.
    about 200,000 forward passes, a few GPU-hours, with no simulator. Variant B:
    every recorded step of every test-pool rollout.
 3. **Firing.** Latent f is on at frame t when its activation exceeds
-   τ_on = 0.1 of its maximum over the episode set (τ_on from Dr. VLA §3.2–3.3,
-   C.1–C.3). If their paper normalises against a different reference, theirs
-   replaces this one; that change is fixed by the paper, not by our data, so it
-   is not post hoc.
+   τ_on = 0.1, compared with the raw latent activation, as Dr. VLA does
+   (App. C.1, Eq. 7; the SAE's per-sample normalisation of its inputs, §12.2,
+   keeps that scale comparable across frames). The draft had normalised by the
+   latent's maximum; the paper's reference replaced it on 2026-10-09, a change
+   fixed by the paper rather than by our data.
 4. **Statistics**, over the episodes in which f is on at least once:
    - coverage `c`: share of all episodes with any on frame;
    - onset count `ō`: mean number of off-to-on transitions;
    - peak `ā`: mean of the per-episode maximum activation;
-   - relative run length `ℓ̄_r`: mean length of an on-run divided by episode length.
+   - relative run length `ℓ̄_r`: mean number of consecutive on frames per onset,
+     divided by episode length, averaged over the episodes where f is on
+     (App. C.1, Eqs. 11–12).
 5. **Exclusions.** Drop latents on in fewer than 3 episodes (noise) or in more
    than 50% of episodes (general features, which cannot be a gap).
 6. **Concentration score**, the gap signal. A fixed formula, not a fitted
@@ -95,7 +98,7 @@ labels, and any threshold chosen after the activations are opened.
 
 | Parameter | Value |
 |---|---|
-| τ_on | 0.1 of the latent's maximum over the episode set |
+| τ_on | 0.1, on the raw latent activation (Dr. VLA App. C.1) |
 | Coverage floor and ceiling | 3 episodes; 50% of episodes |
 | Merge threshold | Jaccard ≥ 0.5 |
 | Axis budget | M, shared with every method |
@@ -110,8 +113,9 @@ The draft left four questions open. All four are now fixed:
    Step 6 stop condition.
 2. N = 1,000 training route directories, or the whole released set if smaller.
    This does not need the set's size to be known first.
-3. τ_on normalises against the latent's maximum over the episode set, unless
-   Dr. VLA's paper states a different reference, in which case theirs is used.
+3. τ_on applies to the raw latent activation, as in Dr. VLA App. C.1, Eq. 7.
+   This was read through a summarising web extraction of the v2 HTML, not the
+   PDF; recheck the equation against the PDF at sign-off.
 4. κ keeps equal weights. Any other weighting would have to be fitted on data
    we have agreed not to look at.
 
