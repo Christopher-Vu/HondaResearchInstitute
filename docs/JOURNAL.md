@@ -5,6 +5,30 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-09 — B7 drafted, and the activations on the dashboard
+
+The team asked to see "the activation layer analysis" on the dashboard. No such
+analysis exists yet: the activations recorded on the Mac and on Savio have never
+been opened, because `PRD.md` §16.9 requires baseline B7's definition to be
+written first, so B7 cannot be tuned after seeing the data. The team chose to
+add what does exist to the dashboard and to have B7 drafted for approval.
+
+The dashboard's new Activations section shows where SimLingo's activations are
+recorded (every layer of its 24-layer language model, on every step of all 220
+Savio routes, 181,240 steps), an empty 24-layer strip that Step 4's layer sweep
+will fill in, and the bfloat16 replay from compute-box: 60 frames whose plans
+moved by centimetres, except two where the decision flipped.
+
+The B7 draft is `docs/steps/b7-gap-signal.md`. Writing it exposed a
+contradiction in `PRD.md` §9.3: it says B7 runs over the training data, but its
+warning that B7 may be dangerously strong only holds over the test pool, since
+Mode B gaps are absent from the training data. The draft recommends the
+training-data version as B7 and the test-pool version as an ablation, and lists
+four open questions. Also corrected: the replay summary said 58 of 60 frames
+stayed within 57 cm; one of those was 57.4 cm, so it is 58 within 58 cm.
+
+---
+
 ## 2026-10-08 (evening) — a status dashboard for the team
 
 The team asked for one page that shows how the project is going in graphs

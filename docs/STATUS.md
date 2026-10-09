@@ -5,7 +5,7 @@ the end of any session that changes the answer**, before the context is lost.
 Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time;
 the status dashboard (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-08 08:45 (Step 2 passed on Savio: DS 88.60, SR 72.7%; bfloat16 replay measured on compute-box)
+Last updated: 2026-10-09 (B7 definition drafted for approval; dashboard shows the activations)
 
 ---
 
@@ -165,8 +165,10 @@ Steps 0–2 on Savio are done except Step 2's independent rerun. Do not reopen t
 3. Step 3 on Savio: the Step 2 routes captured model inputs in bfloat16 every
    10th step. Replaying a few of them with `adapters/simlingo/replay_capture.py`
    on a CUDA node checks Step 3's 1e-3 m done condition in Savio's dtype (one
-   short GPU job). Write B7's definition (`docs/steps/gpu-free-queue.md`) before
-   anyone opens the captured activations.
+   short GPU job). Nobody opens the captured activations until B7's definition
+   is approved: a draft is in `docs/steps/b7-gap-signal.md` (2026-10-09). Its
+   first open question is whether B7 runs over the training data or the test
+   pool; once approved, Step 4's layer sweep can run on the 220 Step 2 routes.
 4. Before the next campaign, raise `timeout_seconds` from 60 to Bench2Drive's
    default 600 in the rollout configs (one route lost its setup to the 60 s
    limit; `docs/WHAT_BROKE.md`).
