@@ -149,7 +149,8 @@ def export_route(route_dir: Path, output: Path, manifest: dict[str, dict[str, An
     records = capture["records"]
     steps = np.asarray([record["step"] for record in records], dtype=np.int64)
     strided = steps % stride == 0
-    arrays = activation_arrays(records, strided)
+    # Typed loosely so numpy's stubs accept the ** spread beside savez's own allow_pickle flag.
+    arrays: dict[str, Any] = activation_arrays(records, strided)
     arrays["step"] = steps[strided].astype(np.int32)
     arrays |= {name: values[strided] for name, values in state_arrays(records).items()}
     np.savez(output / f"{route_id}.npz", **arrays)
