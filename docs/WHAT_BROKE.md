@@ -8,6 +8,25 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-09 — A dust storm written into a route would have vanished after a few steps
+
+**Expected:** writing `dust_storm="100"` into both of a route's `<weather>`
+entries, as Bench2Drive's own routes write their weather, would hold the dust
+storm for the whole route.
+
+**Actual (read from source, not yet run):** with two or more weather entries the
+leaderboard adds `RouteWeatherBehavior` (`route_scenario.py` line 442), which
+re-sets the weather as the car advances by interpolating 13 parameters.
+`dust_storm` is not one of them, so each new weather object carries its default
+of 0 and the storm disappears early in the route. With one entry the weather is
+set once, with every parameter.
+
+**What we did:** `adapters/simlingo/dev_routes.py` writes one weather entry per
+route, and a test asserts it. Also found while generating the dev pool: the 7
+routes whose scenario Bench2Drive skipped in Step 2 are all 5 InterurbanActorFlow
+routes and 2 of the 5 InterurbanAdvancedActorFlow routes, not 7
+InterurbanAdvancedActorFlow; the dev pool leaves both families out.
+
 ## 2026-10-08 — Why the Mac beat the paper: mostly the route sample
 
 **Expected (2026-10-06 entry below):** Savio in bfloat16 would show whether the
