@@ -124,6 +124,38 @@ it saves the exact model input. `replay_capture.py` reruns those inputs offline.
 The per-step log is flushed every 200 steps and when the route ends, so a route
 stopped at the wall cap loses its last partial block (route 2144 kept 2,000 of
 2,168 steps).
+
+Each record also carries what Step 4's layer sweep fits and slices by:
+
+- `vision_bridge_mean`: the InternVL projector (`mlp1`, 4096 in, 896 out) output
+  averaged over both image tiles and their 256 tokens each, float32, shape (896,).
+  SimLingo embeds the image in both `forward` and `forward_model`, so the projector
+  runs twice per model step; the two outputs are identical (largest difference 0.0 on
+  3 frames), and the hook averages whatever calls it sees.
+- `state`: the hero's ground truth, read from CARLA just before the model runs
+  (PRD §9.2). A step whose read raises stores `{"error": ...}` and the route goes on.
+  It cost 0.5 ms a step on average and 3 ms at worst (measured, route 24224).
+- `collisions`, at the top level of `steps.pt`: one `{step, frame, other,
+  intensity}` per collision event from a sensor on the hero. `step` is the last
+  policy step before the event, `frame` the simulation frame it happened in,
+  `intensity` the norm of `normal_impulse`. Contact over several ticks gives several events.
+
+| `state` field | Meaning |
+|---|---|
+| `ego_speed` | Speed in m/s |
+| `lead_distance`, `lead_relative_speed` | Nearest vehicle ahead in the ego lane (0 < x <= 50 m, abs(y) <= 1.75 m in the ego frame), centre to centre. Relative speed is ego speed minus the lead's velocity along the ego heading. None with no lead |
+| `pedestrian_distance` | Nearest walker within 50 m, None if none |
+| `traffic_light` | `red`, `yellow` or `green` while the ego is inside a light's trigger volume, else `none` |
+| `junction_distance`, `time_to_junction` | 0 inside a junction, else metres along the lane (first `next` branch) to the first junction waypoint within 50 m, None beyond. Time is distance over max(speed, 0.5), capped at 30 s |
+| `occluded` | Whether a labelled ray hit lies nearer than the nearest relevant actor's near surface minus 0.5 m. The actor is the lead or the nearest walker ahead within 40 m, whichever is closer; the ray runs from just past the ego bumper at camera height to the actor's centre. None with no such actor |
+
+Actors more than 20 m above or below the ego are ignored. Scenarios park walkers and
+vehicles 50 to 200 m under the map until they trigger, and the first smoke run read one
+under the ego as a pedestrian at distance 0.
+
+`cast_ray` returned unlabelled (`NONE`) hits about two metres in front of both
+walkers tried, which would mark every walker occluded, so only labelled hits count.
+
 On 2026-10-06 (route 26956, 29 saved frames, `results/local-step3/`):
 
 | Logged on | Replayed on | Worst waypoint difference | Within 1e-3 m |
