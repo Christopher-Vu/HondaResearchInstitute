@@ -34,12 +34,9 @@ function Placeholder({ height }: { height: string }) {
 }
 
 async function ThisWeek() {
-  const [progress, feed] = await Promise.all([settle(getProgress()), settle(getUpdates())]);
+  const progress = await settle(getProgress());
   if (!progress.ok || !progress.value.week) return null;
-  const avatars = new Map(
-    (feed.ok ? feed.value.updates : []).map((update) => [update.authorUrl.split("/").pop() ?? "", update.avatar]),
-  );
-  return <WeekSummary week={progress.value.week} avatars={avatars} />;
+  return <WeekSummary week={progress.value.week} />;
 }
 
 async function Plan() {
