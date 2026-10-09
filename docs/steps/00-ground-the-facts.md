@@ -41,14 +41,15 @@ RoboART 2502.06575v1, SAFE 2506.09937v2, RESample 2510.17640v4.
 
 **Still open from Track A:**
 
-- [ ] **A5 · Event-grounded SAEs (2605.17204).** PDF not yet supplied. Needed for
-      the related-work paragraph and as the causal-check template (`PRD.md` §9.2).
-      **Does not block Step 1.** Due before Step 9.
+- [x] **A5 · Event-grounded SAEs (2605.17204).** Read 2026-10-06 from the arXiv
+      HTML; findings and four design consequences in `docs/step0-trackA-findings.md`.
+      Spot-check the quotes against the PDF before citing them.
 - [ ] Email the Dr. VLA authors about licensing (`PRD.md` §16.10).
 - [ ] Items needing a loaded model or repo rather than a paper, now folded into
-      Steps 1–2 (`PRD.md` §16.11): Qwen2-0.5B layer count and hidden size, bucket
-      weights, the route-directory withholding claim, the Bench2Drive version,
-      PDMLite-F2D standalone use, the Fail2Drive toolbox API.
+      Steps 1–2 (`PRD.md` §16.11). Closed: Qwen2-0.5B layer count and hidden size
+      (2026-10-02), the Bench2Drive version (0.0.3), bucket weights, route-directory
+      withholding and the Fail2Drive toolbox API (2026-10-06). Still open:
+      PDMLite-F2D on a route XML we authored.
 
 ## Track B — Savio access (Jerry primary, Chris confirms)
 

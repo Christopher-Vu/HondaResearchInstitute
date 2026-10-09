@@ -1,50 +1,73 @@
 # Cluster settings. The single place any partition, QoS or GPU type is named.
 # Scripts read this; no script hardcodes a partition.
 #
-# STATUS 2026-10-01: GPU access is BLOCKED. Login works (user christophervu),
-# but ic_cdss170fall has only savio2_gpu, which is retired, and savio3_gpu /
-# savio4_gpu are rejected. A support request is open. Until it is answered,
-# nothing GPU-bound can run and no GPU type should be assumed anywhere.
+# STATUS 2026-10-05: GPU access EXISTS. `sacctmgr show assoc` for imhaohao lists
+# ic_cdss170fall on savio3_gpu (a40_gpu3_ica, v100_gpu3_ica, gtx2080_gpu3_ica)
+# and savio4_gpu (a5k_gpu4_ica). The 2026-10-01 "rejected" result came from
+# submitting with savio_normal, which these partitions do not accept for ic_
+# accounts. No GPU job has run yet: scripts/check_gpu.sbatch is the first one.
 
 account: ic_cdss170fall
 login_host: hpc.brc.berkeley.edu
-user: christophervu
+users: [christophervu, imhaohao]
 
 gpu:
-  # Fill all three from the support reply. Do not guess: a wrong partition
-  # produces a confusing rejection rather than a clear error.
-  available: false
-  partition: null          # e.g. savio3_gpu / savio4_gpu — pending
-  qos: null                # savio_normal | savio_debug | savio_lowprio
-  gres: null               # e.g. "gpu:1"; the TYPE is deliberately unspecified
-  cpus_per_task: 8
+  # A5000 (24 GB): 26 nodes, 4 CPUs per GPU required. PRD 17.3 expects ~11.4 GB
+  # for policy plus server, so 24 GB has headroom.
+  # Larger alternative (48 GB, more SU per hour): the gpu_a40 profile below.
+  available: true
+  partition: savio4_gpu
+  qos: a5k_gpu4_ica
+  gres: "gpu:A5000:1"
+  cpus_per_task: 4
   # Known-retired, kept so nobody retries it:
   retired: [savio2_gpu]
-  rejected: [savio3_gpu, savio4_gpu]   # as of the 2026-10-01 attempt
+
+gpu_a40:
+  # The A40 alternative as its own profile: `bash scripts/submit.sh gpu_a40 ...`.
+  # Use it when the A5000 queue is long. On 2026-10-08, 9 A5000 nodes were down and
+  # 4 drained, and sbatch --test-only put an A5000 start three days out against
+  # 20 hours for an A40. Twice the CPUs per GPU, so more SU per hour.
+  available: true
+  partition: savio3_gpu
+  qos: a40_gpu3_ica
+  gres: "gpu:A40:1"
+  cpus_per_task: 8
 
 cpu:
-  # CPU partitions for GPU-free work: config validation, schema checks,
-  # scoring dry-runs on synthetic data. Confirm names from savio_recon.sh §2.
-  partition: null
+  # CPU partitions for GPU-free work. savio3_htc allocates per core.
+  partition: savio3_htc
   qos: savio_normal
   cpus_per_task: 4
 
+carla:
+  # null runs CarlaUE4.sh on the GPU node directly, as upstream SimLingo does.
+  # If the render stage fails on host Vulkan, pull the official image once on a
+  # login node and point this at it; run_savio.py then wraps the server in
+  # `apptainer exec --nv`:
+  #   APPTAINER_CACHEDIR=$PWD/.runtime/apptainer apptainer pull .runtime/carla-0.9.15.sif docker://carlasim/carla:0.9.15
+  container: null
+
 storage:
-  # From savio_recon.sh §5 / the support reply.
-  scratch: null
-  home_quota_gb: null
+  # Berkeley Research IT system overview: scratch is not backed up; home is 50 GB.
+  # Clone this repository under scratch: its .runtime/ holds ~40 GB of CARLA,
+  # weights and the policy venv.
+  scratch: /global/scratch/users
+  home_quota_gb: 50
   scratch_quota_gb: null
   # PRD §12.1: ~150 GB of activations at the selected layers, recomputed once
   # the hidden size is confirmed.
   activations_estimate_gb: 150
 
 limits:
-  max_wall_time: null       # per the allowance, not the general Savio docs
+  # sacctmgr show qos a5k_gpu4_ica, 2026-10-07: MaxJobsPU 4, MaxWall 08:00:00.
+  max_wall_time: "08:00:00"
+  max_running_jobs_per_user: 4
   job_array_width_cap: null
-  lowprio_available: null   # whether an ic_ allowance may use savio_lowprio
+  lowprio_available: false  # not in the sacctmgr association list for ic_cdss170fall
 
 notes: |
   ic_ is an Instructional Computing Allowance: usage is tracked and deducted
   from a pool shared across the program, so experiments are sized deliberately.
   See PRD §17. Savio is approved for unclassified, non-proprietary fundamental
-  research only.
+  research only. Login nodes allow at most 2 CPUs and 16 GB per user.

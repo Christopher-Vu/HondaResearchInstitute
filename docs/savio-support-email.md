@@ -1,5 +1,10 @@
 # Savio support email — send today
 
+> **2026-10-05: question 1 is answered without support.** `sacctmgr show assoc`
+> lists `savio4_gpu` (`a5k_gpu4_ica`) and `savio3_gpu` (`a40_gpu3_ica` and
+> others); see `configs/cluster/savio.yaml`. If this is not sent yet, drop question 1.
+> The SU rate, wall-time, storage, job-array and rendering questions still stand.
+
 To: the Data Discovery program's Savio contact via
 <https://datadisco.cdss.berkeley.edu/support>
 

@@ -1,0 +1,51 @@
+# The two public practice gaps of the dev pool (PRD 9.2, Step 4).
+# Public by design: every predicate here is excluded from the sealed candidate
+# pool (PRD 9.1). Reasoning in docs/steps/04-dev-pool-and-layer-sweep.md.
+#
+# A predicate is a list of conditions that must all hold for a rollout's route
+# metadata: {field, op, value}, where field is a dotted path into the metadata
+# the dev-route generator records (scenario, param.<name>, weather.<name>) and op
+# is one of ==, in, <, <=, >, >=. src/harness/predicates.py evaluates them.
+
+version: 1
+
+gaps:
+  - gap_id: P1_dust_storm_night
+    tier: T0_control
+    summary: >-
+      CARLA's dust storm at night. SimLingo's data collection drew whole weather
+      presets (team_code/data_agent.py shuffle_weather), and the only preset with
+      dust is daytime, so dust at night lies outside its collection distribution.
+      A perceptual gap that every competent method should find.
+    predicate:
+      - {field: weather.dust_storm, op: ">=", value: 50}
+      - {field: weather.sun_altitude_angle, op: "<", value: 0}
+    plant:
+      # One base route per scenario family, families drawn with the generator
+      # seed, excluding P2's family.
+      base_routes: 30
+      weather: {preset: DustStorm, sun_altitude_angle: -90.0}
+    # The same base routes under their background weather.
+    neighbourhood: same_base_routes
+
+  - gap_id: P2_occluded_pedestrian_night
+    tier: T2_interactional
+    summary: >-
+      A pedestrian stepping out from behind a shipping container at night.
+      Neither factor alone hurts SimLingo on Bench2Drive-220 (Step 2:
+      DynamicObjectCrossing failed 0 of 5; night routes failed 24% against 29%
+      in clear daylight), so a failure here belongs to the conjunction.
+    predicate:
+      - {field: scenario, op: "==", value: DynamicObjectCrossing}
+      - {field: param.blocker_model, op: "==", value: static.prop.container}
+      - {field: weather.sun_altitude_angle, op: "<", value: 0}
+    plant:
+      base_routes: all  # the five DynamicObjectCrossing routes
+      grid:
+        distance: [30, 40, 50]
+        crossing_angle: [0, 10]
+      param: {blocker_model: static.prop.container}
+      weather: {preset: ClearNight}
+    # The same routes and grid in daylight.
+    neighbourhood:
+      weather: {preset: ClearNoon}

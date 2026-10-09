@@ -1,0 +1,39 @@
+# Step 4 dev pool, first wave: 190 rollouts with capture on, for the layer sweep and the two practice gaps
+# (docs/steps/04-dev-pool-and-layer-sweep.md, CONFLICTS.md C21). Routes and manifest are generated, not written:
+#   python adapters/simlingo/dev_routes.py configs/rollout/step4-dev-pool.yaml
+# Run by scripts/route_sample.sbatch, two routes per A40, taking route ids from the manifest:
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 --exclude=n0214.savio3,n0215.savio3 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2
+
+name: step4-dev-pool
+step: 4
+scope: savio_step4_dev_pool
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1 and 2
+  timeout_seconds: 600           # Bench2Drive's default; one Step 2 route lost its setup to 60 s
+
+# Per-layer residual means every step and exact model inputs every 10th step (capture_agent.py).
+capture_every: 10
+
+route:
+  seed: 1                        # traffic manager seed; Step 2 used 0, so no rollout repeats a Step 2 run
+  routes_file: configs/rollout/step4-dev-pool.xml
+  manifest: configs/rollout/step4-dev-pool.manifest.json   # the route list; this config has no `routes` key
+
+dev_pool:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v1.yaml
+  generator_seed: 0
+  background: 100                # routes under stock presets, including the 30 base routes of P1
+  # Step 2's Bench2Drive skipped these scenarios' authored scenario in 7 routes, which summarize() rejects:
+  # all 5 InterurbanActorFlow routes and 2 of the 5 InterurbanAdvancedActorFlow routes (23700, 24078).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

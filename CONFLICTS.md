@@ -382,6 +382,17 @@ statistic built to find memorized features may be *unusually* good at finding ou
 gaps. **B7 may be stronger than we want**, at zero rollout cost. That raises the
 stakes on running it at Step 6 rather than later. `PRD.md` §9.3.
 
+**Update 2026-10-09: defined and frozen** in `docs/steps/b7-gap-signal.md`
+before any activation was opened. Writing it exposed a contradiction: §9.3 says
+"over the training data", but the warning above holds only over the test pool,
+because Mode B gaps are absent from the training data. Both are kept: B7 is the
+training-data version, "B7-pool" runs the same statistics over the test pool
+with no outcome labels, and either one can trigger Step 6's stop condition. The
+concentration score is a fixed equal-weight formula rather than Dr. VLA's fitted
+classifier (C17 explains why that classifier is not trusted here). Axis members
+are restricted to failing rollouts, as every method's are, because scoring
+compares axes with a gap's failing rollouts.
+
 ### C19 · Vision encoder freezing is our deviation, not SimLingo's recipe · new
 `PRD.md` §9.4 and §12.3 described "vision encoder frozen" as SimLingo's own
 recipe. **It is not.** Paper §4.2: *"We fully finetune all components besides the
@@ -392,6 +403,51 @@ a repair that retrains the encoder can fix a failure by shifting perception, whi
 costs more and muddies the claim that we repaired the *decision* the axis names —
 but it is now labeled a deviation. Run an unfrozen arm if the frozen one underfits.
 `PRD.md` §9.4, §12.3.
+
+### C20 · Step 1 runs CARLA from the release tarball, not a container · new, 2026-10-05, pending review
+`docs/steps/01-smallest-rollout.md` stage 1.1 plans a CARLA 0.9.15 container, with
+"build from the CARLA release tarball directly" as its fallback. **We start with
+the fallback.** No published Apptainer recipe for 0.9.15 was found; the closest
+attempt (carla-simulator/carla#4256, 0.9.11 on a Compute Canada cluster) failed on
+a read-only image, and the official image has open Vulkan failures on newer hosts
+(#8079). Upstream SimLingo's own `setup_carla.sh` runs the tarball on the host.
+
+**Resolution (proposed):** `adapters/simlingo/setup_savio.py` unpacks the pinned,
+checksummed tarball and maps under `.runtime/carla-linux`, and `run_savio.py`
+runs `CarlaUE4.sh -RenderOffScreen` on the GPU node. If host Vulkan fails, set
+`carla.container` in `configs/cluster/savio.yaml` and the same tree runs inside
+the official image. The done-condition's "in the container" is the part this
+changes; reproducibility comes from the pinned tarball checksum instead.
+
+Related finding: `savio_lowprio` is not associated with `ic_cdss170fall`, so
+`PRD.md` §17.2's lowprio fan-out does not apply. Fan-out uses the `*_ica` QoS.
+
+### C21 · Dev pool size and practice-gap construction · new, 2026-10-09, pending review
+`PRD.md` §13 sizes the Step 4 dev pool at "a couple hundred rollouts" and the
+§17.3 table at 600–1,000. **We run 190 first** and add about 200 more only if
+the layer choice is unstable under resampling (`docs/steps/04-dev-pool-and-layer-sweep.md`).
+Ranking 49 layer-site pairs does not need a thousand episodes, and the methods
+of Step 7 can grow the pool later.
+
+Practice gaps are held to the efficacy check but **not** to Mode B absence from
+the training data. Their job is to give methods a known answer on dev, so they
+must actually fail; the novelty claim is the sealed gaps' job. Step 2's results
+removed the easy candidates: stock weather presets barely move SimLingo's
+failure rate (night 24%, fog or heavy rain 31%, clear day 29%), and every
+preset, including the daytime dust storm, is in its collection data. P1 (dust
+storm at night) happens to be a Mode B region anyway; P2 (an occluded pedestrian
+at night) is a conjunction of two factors that each leave SimLingo unharmed, and
+is not claimed to be absent from training.
+
+### C22 · Step 3's replay condition in bfloat16 · new, 2026-10-09, pending review
+`PRD.md` §13 Step 3 is done when a replayed frame reproduces the logged
+waypoints to within 1e-3 m. On Savio's CUDA bfloat16 the replay is bit-exact
+against itself across jobs but 1–3 rounding steps away from the live log
+(`docs/WHAT_BROKE.md`, 2026-10-09). **Proposed:** the condition becomes "replay
+is bit-exact against replay, in the logged dtype", because the causal checks
+(§9.2) compare an intervened replay with an un-intervened one and never with the
+live log. Step 4 proceeds on this proposal; if it is rejected, Step 4's data is
+unaffected, since the sweep reads logged activations and never replays.
 
 ## D. Open contradictions
 
@@ -409,7 +465,7 @@ Both documents say sweep rather than guess. But one method must be *named primar
 before the test pool is generated, because the random baseline's set sizes and the
 closed-loop target rule both key off it. Closes at **Step 7**. `PRD.md` §16.5.
 
-### D4 · Savio operational unknowns · open, now more important
-Partition names, SU charging rate for GPU jobs, max wall time, storage quota. The
+### D4 · Savio operational unknowns · open, partly closed 2026-10-05
+Partition names are now known (`configs/cluster/savio.yaml`, from `sacctmgr`). SU charging rate for GPU jobs, max wall time, storage quota. The
 brief flagged all four; the handoff's cost estimates were sized for NRP hardware
 and do not transfer. Ask the program contact. `PRD.md` §17.4.

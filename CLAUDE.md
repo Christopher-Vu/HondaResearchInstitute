@@ -15,6 +15,8 @@ Read in this order. It takes ten minutes and prevents re-deriving settled things
    already have been had and settled.
 4. **`docs/WHAT_BROKE.md`** — what has already gone wrong. Read before debugging
    anything that smells familiar.
+5. **`docs/JOURNAL.md`** — what recent sessions did and why, in plain language.
+   Skim the top few entries.
 
 `docs/source/project-brief-original.md` is the original brief and
 `upstream-99p/` is a vendored read-only copy of the 99p repo. Both are
@@ -78,6 +80,35 @@ reasoning in `CONFLICTS.md`, specs in `docs/steps/`, surprises in
 If a session ends mid-task, say so in `STATUS.md` explicitly. An unfinished thing
 that nobody wrote down is indistinguishable from a thing nobody started.
 
+## Journal
+
+`docs/JOURNAL.md` is the human-readable record of what each agent session did,
+written for a person who was not there. **Add an entry before stopping any
+session that changed something** — code, docs, cluster state, or a decision.
+
+It is not another status file:
+
+- `STATUS.md` is the present, rewritten each time. The journal is history:
+  append-only, newest entry at the top.
+- git says *what* changed. The journal says *why*, and what it means for the
+  project.
+- `WHAT_BROKE.md` holds surprises. The journal links to them, not repeats them.
+
+Each entry:
+
+- Headed with the date and a one-line title naming what the session was about.
+- Readable cold: full sentences, plain words, no unexplained acronyms; define a
+  term the first time it appears. Someone who skipped the session should finish
+  the entry knowing what happened.
+- Covers what was done and why, what was found (measured numbers, marked as
+  measured), what was decided, and what was left unfinished.
+- Links to commits, files and result folders instead of pasting them.
+- A few short paragraphs or a short list. Longer detail belongs in a doc the
+  entry links to.
+
+Do not rewrite old entries except to fix a factual error. If later work reverses
+something, say so in the new entry.
+
 ## Standing rules
 
 - **Never state a target as a result.** The inherited documents are full of
@@ -103,8 +134,11 @@ python scripts/check_configs.py            # config hashes, unresolved TBDs
 ## Cluster
 
 Compute is Savio, allowance `ic_cdss170fall`. **Login needs a PIN plus a rotating
-6-digit code, so an agent cannot reach the cluster** — cluster work means handing
-Chris a script to paste and reading back the output.
+6-digit code, so an agent cannot log in itself.** `~/.ssh/config` has a `savio`
+host with SSH connection sharing (12h `ControlPersist`): a person runs `ssh savio`,
+types PIN+code, then **exits that shell**. Savio allows one session per
+connection, so an open shell blocks the agent. After that, `ssh savio '<cmd>'`
+works until the shared connection dies; check with `ssh -O check savio`.
 
 **Never hardcode a partition, QoS or GPU type.** All of it lives in
 `configs/cluster/savio.yaml`. `scripts/submit.sh` reads that file and refuses GPU

@@ -238,7 +238,12 @@ training-time proxy for generalization (§6) — which is our thesis, unclaimed.
 
 *Jin, Chatterjee, Kumar, Paleja (Purdue). arXiv 2605.17204.* SAE features ranked
 against behavioural events clustered from rollouts, with VLM labels and
-residual-preserving zero-out checks, on OpenVLA and π0.5.
+residual-preserving zero-out checks, on OpenVLA and π0.5. Read 2026-10-06
+(`docs/step0-trackA-findings.md`, A5): per-token BatchTopK SAEs on LIBERO; the
+edit is `x′ = x + Dec(z′) − Dec(z)`; event-aligned features cut OpenVLA's success
+rate by 21.2 pp against 1.3 pp for random features, while on π0.5's action expert
+random features did comparable damage. VLM labels are visualization only. Code is
+MIT-licensed (github.com/xc-j/Event-SAE).
 
 **The closest method precedent, and the brief missed it entirely.** Differentiate
 on four axes: we are failure-conditioned, scored against planted gaps, in
@@ -646,7 +651,8 @@ expected to miss control gaps and that does not count against them.
   which separates "right perception, wrong decision" from "wrong perception."
 
 **Hook point.** Open (§16). SimLingo's LLM is Qwen2-0.5B — 24 decoder layers,
-hidden size 896, to be confirmed from the loaded config. Two candidate sites: the
+hidden size 896, confirmed by strict-loaded checkpoint inference on 2026-10-02.
+Two candidate sites: the
 LLM residual stream, and the learnable waypoint query tokens before the MLP head.
 The query tokens are the action bottleneck, since the waypoint MLPs read only
 those. Also include the vision bridge, because at least one paper reports the
@@ -726,7 +732,10 @@ each one closes a specific reviewer objection, named below.
   as a gap signal; they use them to separate general from memorized features.
   So B7 needs a written definition — how concentration is measured, over what
   partition, and how it ranks into axes — committed **before Step 6**, or it is
-  not a fair baseline.
+  not a fair baseline. **Frozen 2026-10-09 in `docs/steps/b7-gap-signal.md`**,
+  before any captured activation was opened: B7 runs over a sample of the
+  training data as written here, and "B7-pool" runs the same statistics over the
+  test pool without outcome labels (C18).
 
   **And note the irony, which cuts against us.** A planted gap looks memorized by
   construction (§9.2): it fires about once per episode across a small coherent
@@ -812,11 +821,22 @@ One full cycle minimum, two if the infrastructure holds. One policy only.
 | Fail2Drive in-distribution | HM | 80.9 |
 | Fail2Drive generalization | HM | 62.2 |
 
+**Measured, Step 2 (2026-10-08, Savio, one seed, CoT off, bfloat16, v0.0.3):
+DS 88.60, SR 72.7%** over all 220 routes by Bench2Drive's own merge script;
+88.63 / 73.7% over the 213 routes whose scenario ran (`configs/rollout/step2-bench2drive220.yaml`).
+One seed against the paper's three, so the gap above 84.41 / 64.84 is not yet
+evidence of anything. Per-ability success (Bench2Drive's own script, Table 8 in
+brackets): Overtaking 71.1 (57.04), Merging 62.5 (54.01), Emergency Brake 85.0
+(88.33), Give Way 50.0 (53.33), Traffic Sign 86.8 (82.45), mean 71.1 (67.03).
+The shape matches: Give Way and Merging weakest, Emergency Brake and Traffic
+Sign strongest.
+
 Two facts that change how we read these. **First, record the Bench2Drive
 version** — v0.0.3 and v0.0.4 numbers are not comparable, and under v0.0.4
 SimLingo is 86.55 DS. Second, **the only public reproduction attempt we know of
 got DS 75.5**, on 219 routes, configuration unconfirmed, with no maintainer
-reply. So the practical bring-up bar is **DS ≥ 75**, not 85, and anything below
+reply (RenzKa/simlingo issue #43; rechecked 2026-10-06, now closed with no reply
+or explanation visible). So the practical bring-up bar is **DS ≥ 75**, not 85, and anything below
 that means debugging rather than proceeding. Three evaluation seeds.
 
 Category-wise generalization, useful for checking that our setup reproduces the
@@ -963,6 +983,30 @@ frame; three layers is about 190 KB per frame, so a few thousand rollouts is
 roughly 70 GB. Log all layers on the small dev pilot only, then three layers at
 scale. Per-rollout Zarr or Parquet shards plus a SQL index.
 
+**Measured 2026-10-06** on the Mac capture run of route 26956
+(`adapters/simlingo/capture_agent.py`). Each forward pass is 573–574 tokens:
+512 image tokens (two 448×448 tiles of 256), about 31 prompt tokens, then the 30
+driving queries (20 route, 10 speed), which are always the last 30 positions.
+The policy runs at 20 Hz. Per frame, in fp16:
+
+| What is logged | Per frame | Per simulated second |
+|---|---|---|
+| Mean over all tokens, 24 layers | 42 KB | 0.84 MB |
+| Mean over the 30 driving queries, 24 layers | 42 KB | 0.84 MB |
+| The 30 driving-query tokens kept individually, 24 layers (the "~35 token-vectors" above) | 1.29 MB | 26 MB |
+| Every token, 24 layers | 24.7 MB | 490 MB |
+| Exact preprocessed model input for replay (fp32 image tiles dominate) | 4.8 MB | 97 MB |
+| The agent's own JPEG of the camera frame, which regenerates that input | ~150 KB | 3 MB |
+
+Mean-pooled activations are cheap; the replay inputs are what cost storage.
+SimLingo JPEG-encodes every camera frame at test time (to match its JPEG
+training data) and the model only ever sees the decoded JPEG. Rerunning the
+agent's own preprocessing on the saved camera frame reproduced the logged fp32
+image input exactly (difference 0.0 on 14 of 14 frames), so storing those JPEG
+bytes plus the small speed, target-point and prompt tensors is lossless for
+replay and 32× smaller. That holds only with the same OpenCV and Pillow builds;
+pin them and re-verify on Savio before relying on it there.
+
 Store the **exact preprocessed model input losslessly** for every frame that may
 be replayed — all failure-window frames at minimum. JPEG thumbnails are for the
 gate only. Without this, the causal checks are not reproducible.
@@ -973,10 +1017,10 @@ Verified against Dr. VLA App. B.1 and Table 6 (Step 0, Track A).
 
 - TopK architecture with an AuxK auxiliary loss, `k_aux` 512, aux coefficient
   1/32. JumpReLU as an ablation.
-- **Expansion ratio 1.** At d = 896 that is a 896-latent dictionary — but
-  **d = 896 is itself unconfirmed** (§16.11) and comes from the handoff rather
-  than the SimLingo paper, which does not state it. Read it off the loaded config
-  at Step 1; every storage estimate and dictionary size here scales with it.
+- **Expansion ratio 1.** At d = 896 that is a 896-latent dictionary.
+  **d = 896 is confirmed** by strict-loaded checkpoint inference on 2026-10-02;
+  the SimLingo paper itself does not state it. Every storage estimate and
+  dictionary size here scales with it.
   Dr. VLA:
   *"larger expansion ratios lead to substantially more dead features while
   providing similar interpretability in our setting… likely due to the much
@@ -1075,7 +1119,9 @@ rollout writes a shard the reader can load.*
 **Step 4 — Dev pool and the layer sweep.** A couple hundred rollouts logging all
 layers, then the sweep: probe AUROC for failure versus success, probe R² for the
 state list, practice-gap recovery. *Done when: 2–3 layers and sites are chosen
-and written into the config, with the sweep results committed.*
+and written into the config, with the sweep results committed.* First wave 190
+rollouts, practice gaps and selection rule in
+`docs/steps/04-dev-pool-and-layer-sweep.md` (C21).
 
 **Step 5 — Gap candidates and efficacy.** Build candidate regions, run the
 efficacy pilots, keep what survives. *Done when: 4–6 gaps plus 2 decoys pass the
@@ -1169,19 +1215,24 @@ upstream-99p/      the 99p repo as pulled, read-only reference
 No single deadline. We submit at whatever rung the results have reached, and
 having targets at several time scales means a result is never stranded.
 **Recheck every date before acting on it** — several in the brief had already
-passed when it was written.
+passed when it was written. IEEE IV, RSS, CVPR and IROS dates below were checked
+on 2026-10-06 (IROS against the IEEE RAS listing, the others against each venue's
+own page); the workshop dates were not.
 
-- **Nearest archival, ~6 pages:** IEEE IV 2027, mid-November. Best fit for a
-  discovery-only or comparative result.
-- **Archival extended abstract:** RSS 2027 Stage 1, early December, with an
-  invited full paper the following April — which means a discovery result can go
+- **Nearest archival, 6 pages including references:** IEEE IV 2027, papers
+  due **15 November 2026** (call for papers; no timezone stated), Perth,
+  15–18 June 2027. Best fit for a discovery-only or comparative result.
+- **Archival extended abstract:** RSS 2027 Stage 1, due **4 December 2026 AoE**,
+  with the full paper due 16 April 2027 — which means a discovery result can go
   in while the closed loop finishes.
-- **High bar:** CVPR 2027, mid-November.
+- **High bar:** CVPR 2027, registration **10 November 2026 AoE**, paper
+  **16 November 2026 AoE**.
 - **Non-archival, in person:** AAAI-27 and ICLR 2027 workshops, roughly late
   November and February.
 - **Rolling:** IEEE RA-L, which transfers to IROS presentation; IEEE T-IV for the
   journal version with full closed-loop results.
-- **Fallback archival conference:** IROS 2027, early March.
+- **Fallback archival conference:** IROS 2027, papers due **1 March 2027**
+  (IEEE RAS event listing), Florence, 26 September–1 October 2027.
 
 Do not submit substantially the same work to two venues whose review periods
 overlap. The course poster symposium happens regardless.
@@ -1195,7 +1246,10 @@ Items 1 and 2 close before Step 5 writes code.
    Successor question: **k at d = 896**, which has no stated scaling rule —
    sweep {32, 48, 64}. *Step 7.*
 2. **Gap portfolio size** — bounded by measured rollout throughput from Step 1
-   and Savio's actual SU rate, not by the brief's guess. *Step 1.*
+   and Savio's actual SU rate, not by the brief's guess. *Step 1.* Both inputs
+   now exist (§17.3, 2026-10-08): about 4.6 SU per rollout on an A40 against a
+   200,000 SU shared pool. Not yet closed, because it is a design choice for the
+   two of us; the binding constraint looks like A40 queue time, not SU.
 3. **Hook point** — residual stream versus waypoint query tokens versus vision
    bridge. Sweep (§9.2). *Step 4.*
 4. **Layer and aggregation.** Sweep. A legitimate compute use. *Step 4.*
@@ -1207,18 +1261,27 @@ Items 1 and 2 close before Step 5 writes code.
 7. **Second policy for the cross-model check**, and whether it survives at all.
    Candidate: Drive-π0 from the DriveMoE repo, PaliGemma-3B based, trained on
    Bench2Drive data organized so a slice is a folder filter. *Step 11 or cut.*
+   Checked 2026-10-06 (`docs/step0-trackA-findings.md`): CVPR 2026; checkpoints
+   are released on Hugging Face (`rethinklab/DriveMoE`, Drive-π0 at 11.8 GB in
+   bfloat16) under **CC BY-NC 4.0**, so clear any 99P/Honda use first; Bench2Drive
+   DS 55.85, SR 30.0% for Drive-π0 (DriveMoE 74.22, 48.64%), paper Table 2.
 8. **Describability model** — a pinned open model, with the exact ID logged, and
    a closed API only as an optional comparison. *Step 7.*
-9. **B7's gap signal.** Memorized-feature concentration as a gap signal is our
-   construction, not Dr. VLA's, so it needs a written definition before it can be
-   a fair baseline (§9.3). *Before Step 6.*
+9. ~~**B7's gap signal.**~~ **Closed 2026-10-09:** `docs/steps/b7-gap-signal.md`,
+   frozen before any activation was opened; Chris and Jerry's sign-off pending
+   (§9.3, C18).
 10. **Dr. VLA code licensing.** The repo has no LICENSE file. Ask the authors
     before vendoring anything from it; reimplement from the paper if they decline.
     *Step 7, but email now.*
-11. **Qwen2-0.5B layer count and hidden size**, bucket weights, the Bench2Drive
-    version, PDMLite-F2D standalone usability, and the Fail2Drive toolbox API
-    surface. None are answerable from the papers — they need the loaded model or
-    the repos. *Steps 1–2.*
+11. PDMLite-F2D on our own route XML remains open. *Steps 1–2.* Bucket weights are
+    read from the released checkpoint's config (`docs/step0-trackA-findings.md`).
+    The Fail2Drive toolbox is a GUI route builder over leaderboard route XML, with
+    no Python API, and Fail2Drive runs on its own simulator build
+    (`docs/step0-trackA-findings.md`, repo check 2026-10-06). The strict-loaded released
+    SimLingo model confirms Qwen2 hidden size 896 and 24 decoder layers as of
+    2026-10-02. Query parameters live at `adaptors.driving.query_embeds_wps` and
+    `adaptors.driving.query_embeds_speed`; their readouts are `route_head` and
+    `speed_wps_head`. The pinned SimLingo source includes Bench2Drive 0.0.3.
 
 **Closed, versus the brief:** fine-tune cost is no longer blocking, because Mode B
 needs no fine-tune for planting. Delete-versus-regenerate is deferred with Mode A.
@@ -1287,6 +1350,38 @@ third-party fork reports roughly 60 minutes per 300 simulated seconds on an A600
 expect worse with per-frame inference. A thousand-plus-rollout campaign plus
 efficacy pilots and baseline rollouts is on the order of **300–1,000
 GPU-hours.** Fix the real budget from the Step 1 measurement.
+
+**Measured, Step 1 (2026-10-08, Savio job 39732394).** One A40 (`savio3_gpu`,
+8 CPUs), per-frame inference, bfloat16, route 26956: 15.0 simulated seconds in
+210.4 s, so **0.071× real time** (the Mac gets 0.060× on the same route). Whole
+stack peak VRAM was **9.4 GB**, and while driving the GPU was about 42% busy
+with CARLA and the policy using about one CPU core each. Starting the server and
+loading the model add roughly 100 s per route. The job cost **4.75 SU** for
+9.7 minutes: Savio charges 3.67 SU per CPU-hour here, so an A40 job with its
+required 8 CPUs costs about **29 SU per hour**. The allowance holds 200,000 SU,
+shared across the program, with 1,894 used by 2026-10-08.
+
+Extrapolated for one route per GPU, at the Mac sweep's mean of 33.4 simulated
+seconds per route: about 9.5 minutes, 0.16 GPU-hours and **4.6 SU per
+rollout**. Step 2's two-routes-per-GPU pilot measures how far sharing cuts this.
+
+| Item | Rollouts | GPU-hours | SU |
+|---|---|---|---|
+| Bench2Drive-220, one seed (Step 2) | 220 | 35 | 1,020 |
+| Bench2Drive-220, three seeds | 660 | 104 | 3,060 |
+| Dev pool (Step 4) | 600–1,000 | 95–158 | 2,780–4,630 |
+| Test pool (Step 8) | 1,500–2,500 | 237–395 | 6,950–11,580 |
+| Efficacy pilots, per candidate (Step 5) | 60 | 9 | 280 |
+
+These are lower bounds: stalled routes run several times the mean, and the A40
+queue, not the SU pool, set the pace on 2026-10-08 (`docs/WHAT_BROKE.md`).
+
+**Measured, Step 2 (2026-10-08).** Bench2Drive-220 with two routes per A40 took
+**31.0 GPU-hours and 910 SU**, failed tasks and reruns included: 4.1 SU per
+rollout against the 4.6 estimated above, although routes averaged 42.5 simulated
+seconds rather than 33.4. Sharing a GPU runs about 1.4 times as many simulated
+seconds per hour as one route alone. At up to 6 A40s at once the 220 routes took
+5.5 hours of wall time, from the pilot's start at 02:04 to 07:34.
 
 **Storage.** Roughly 150 GB for activations and images at three layers, plus the
 training dataset if Mode A ever runs. Confirm the quota.

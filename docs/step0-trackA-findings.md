@@ -2,7 +2,7 @@
 
 Verified 2026-10-01 against the PDFs: Dr. VLA arXiv 2603.19183v2, Fail2Drive 2604.08535v1,
 SimLingo 2503.09594v1, RoboART 2502.06575v1, SAFE 2506.09937v2, RESample 2510.17640v4.
-**Not yet read: Event-grounded SAEs (2605.17204). A5 stays open.**
+**Event-grounded SAEs (2605.17204) read 2026-10-06 from the arXiv HTML; see its section below.**
 
 **For the agent applying this:** treat every ✅ line as ground truth. Strike the matching
 **Unverified** block in `PRD.md` and add the cited reference. Make each ⚠️ correction exactly as
@@ -76,6 +76,60 @@ features. B7 may therefore be stronger than we would like.
 | PDM-Lite | ✅ PDMLite-F2D is offered as a solvability check for new scenarios (gen HM 94.6). ❓ Whether it runs standalone is a repo question. | §5 |
 | Toolbox | ✅ Scenario, asset, and behavior authoring; 17 animal assets; customizable obstacles. ❓ API surface is a repo question. | §5, Supp. A |
 
+**SimLingo bucket weights, 2026-10-06**: ✅ read from the released checkpoint's own
+`checkpoints/simlingo/.hydra/config.yaml` (`data_module.train_partitions`, bucket path
+`database/bucketsv2_simlingo_v2_2025_01_10`). Sampling shares, summing to 1.0: all 0.082;
+acceleration buckets 0.03 each (four); lateral_control_1_2 0.12; lateral_control_higher_5 0.12;
+start_from_stop 0.07; vehicle_front 0.04; vehicle_side 0.08; leading_object_vehicle 0.09;
+leading_object_traffic.stop 0.07; leading_object_traffic.traffic_light 0.07;
+leading_object_walker 0.05; changed_route 0.08; parkinglane 0.008. The same file records
+`precision: 16-mixed`, 8 GPUs and `max_epochs: 15` (the checkpoint is `epoch=013`).
+🔶 Parking-lane samples get 0.8% of the draw, and the overnight sweep's ParkingExit route stalled
+from its first frame in a parking lane. One route proves nothing, but it is a cheap first
+hypothesis for the dev pool.
+
+**Route-directory withholding, 2026-10-06**: ✅ the handoff's claim holds in the pinned source.
+`simlingo_training/dataloader/dataset_base.py` builds one dataset per bucket from the same
+`data/simlingo/*/*/*/Town*` route-directory glob, and the `all` bucket (weight 0.082) draws from
+every route directory. Zeroing one bucket's weight therefore leaves its frames reachable through
+`all` and any overlapping bucket, so Mode A must filter route directories. `datamodule.py` also
+splits each batch 0.5/0.5 between driving and dreamer datasets (line 96). Whether the commentary
+and VQA labels leak a withheld concept is not checked here.
+
+**Drive-π0 / DriveMoE, 2026-10-06** (arXiv 2505.16278v2, HTML; GitHub `Thinklab-SJTU/DriveMoE`;
+Hugging Face `rethinklab/DriveMoE`; read through a fetch tool):
+
+- ✅ CVPR 2026. Checkpoints released: `DrivePi0_Base_bf16.pt` 11.8 GB, `DrivePi0_Base_fp32.pt` and
+  `DrivePi0_Full_fp32.pt` 18.2 GB each, `DriveMoE_base_bf16.pt` 13.5 GB, plus scenario labels.
+- ✅ Model-card licence **CC BY-NC 4.0**; no licence seen on the GitHub page. Non-commercial terms
+  matter if the sponsor ever uses results from it.
+- ✅ Bench2Drive closed loop, Table 2: Drive-π0 DS 55.85, SR 30.00%; DriveMoE DS 74.22, SR 48.64%.
+  Parameters 2606M (Drive-π0) and 3008M (DriveMoE); 260 ms inference latency reported for DriveMoE.
+- 🔶 Drive-π0 is a π0-style model, a VLM backbone plus an action expert. Event-grounded SAEs found
+  that π0.5's action expert responds to random-feature edits almost as much as to ranked ones, so a
+  Drive-π0 cross-model check would also test whether our causal checks survive that architecture.
+  Its 30% success rate also means far more failures per rollout than SimLingo.
+
+**Repo check, 2026-10-06** (`github.com/autonomousvision/fail2drive`, README, `toolbox/README.md`,
+`slurm_evaluate.py`; read through a fetch tool):
+
+- ✅ MIT licence. Routes and scenarios are leaderboard route XML files (`fail2drive_split/`), run with
+  `leaderboard/leaderboard/leaderboard_evaluator_local.py --routes … --agent …`.
+- ✅ **Custom simulator**: `fail2drive_simulator.tar.gz` from the Hugging Face dataset
+  `SimonGer/fail2drive`, with a cp310 Linux client wheel. The README says stock `carla==0.9.15`
+  "should work, but may cause warnings". So Fail2Drive runs need a second CARLA install beside the
+  stock one Step 1 uses (CONFLICTS C20).
+- ✅ **The toolbox is a GUI, not a Python API**: a graphical route builder (`start_window.sh`) with
+  60+ scenario types and a Custom Obstacle Designer, reading and writing route XML, singly or by
+  folder. Generating many scenario variants for Step 10 therefore means writing route XML directly.
+- 🔶 PDMLite-F2D is an ordinary leaderboard agent (`team_code/visu_agent.py`, `--track MAP`), so it
+  should run on any route XML we author; the README does not say so outright. Test it on one
+  authored route before relying on it as the solvability check.
+- ✅ `slurm_evaluate.py` is their cluster launcher: one route per job, free port blocks per job,
+  `-RenderOffScreen`, a 60 s start-up wait, and resubmission up to 3 times only for crash statuses
+  such as "Failed - Agent crashed". It is a working reference for Step 2's fan-out now that
+  `savio_lowprio` is unavailable (PRD §17.2's job-array fallback).
+
 🔶 **Framing caution for §3.2.** PedestriansOnRoad is an authored scenario class, and any factor
 list could name "pedestrians walking in the ego lane". Use it as evidence that SimLingo's behavior
 rests on cue-specific priors. Do **not** present it as an unlistable conjunction. The paper's own
@@ -116,12 +170,54 @@ summary supports that reading: *"vehicle-following cues do not generalize to non
 
 ✅ arXiv 2510.17640v4 lists no venue. This matches PRD §4.5.
 
+## Event-grounded SAEs (arXiv 2605.17204): A5, read 2026-10-06
+
+Read from the arXiv HTML rendering (submitted 2026-05-17) through a fetch tool,
+not from the PDF. Lines in quotes were requested verbatim; spot-check them
+against the PDF before quoting them in the paper.
+
+| Item | Finding | Ref |
+|---|---|---|
+| Authors | ✅ Jin, Chatterjee, Kumar, Paleja, Department of Computer Science, Purdue. Matches PRD §4.4. | title page |
+| Policies | ✅ OpenVLA and π0.5 (PaliGemma backbone plus action expert), four LIBERO suites, one Mobile ALOHA real-robot task. Manipulation only. | §4.1 |
+| SAE | ✅ BatchTopK, k = 64, on post-block residual activations. "activations are not mean-pooled across tokens before training". 50 rollouts per task. Widths: OpenVLA 4096 to 32768 (8×); π0.5 PaliGemma 2048 to 2048 and action expert 1024 to 1024 (1×). | §3.1, §4.1 |
+| Events | ✅ Keyframes by Automatic Waypoint Extraction on end-effector position, described by a visual embedding, robot state with gripper, and temporal progress. Agglomerative clustering at cosine distance 0.18; a cluster is kept if it recurs in at least half the task's episodes. 36–61 clusters per suite. | §3.2, §3.3, §4.2 |
+| Ranking | ✅ Features scored against pulse and step templates around each event, with the window mean subtracted first. | §3.4 |
+| Labels | ✅ A VLM (gemini-3.1-pro-preview) labels clusters, but the labels are visualization only and play no part in ranking or intervention scoring. Their limitation (ii). | §3.3, §5 |
+| Causal edit | ✅ "x′=x+Dec(z′)−Dec(z)", with z′ scaling the selected latents by α (α = 0 is zero-out). Only the SAE-explained part changes and the reconstruction error is kept. Outcome is ΔSR in percentage points. The control is random alive features excluding the top-ranked ones. The text does not say which token positions the edit is applied at. | §3.5, §4.3 |
+| Results | ✅ OpenVLA layer 31: event-aligned ΔSR −21.2 pp against −1.3 pp for random alive features. π0.5 PaliGemma: single-feature edits stay close to baseline. π0.5 action expert: "window-mean, task-mean, and even random-alive features all produce comparable disruption" (random −0.7 to −23.4 pp). | Table 3, §4.3 |
+| Failure focus | ✅ Not failure-conditioned, no planted or known ground truth, no repair. Our four differentiators in PRD §4.4 hold. | whole paper |
+| Code | ✅ github.com/xc-j/Event-SAE, **MIT licence** (checked in the repository's LICENSE file), with collection and intervention hooks for OpenVLA and openpi. Unlike Dr. VLA, it can be vendored. | README, LICENSE |
+
+🔶 **Design consequences for the PRD owners. Not applied.**
+
+1. **Their causal template assumes a per-token SAE.** The edit decodes and
+   re-encodes the residual at token level. PRD §12.1 mean-pools per frame before
+   training. An SAE fit to frame means has no defined per-token edit, so the
+   §9.2 causal check either needs a per-token SAE at the intervention layer or a
+   different operator, such as Dr. VLA's `y' = y − (yᵀv)v` applied at every token.
+   Decide before Step 7.
+2. **Random-feature controls are not optional.** On π0.5's action expert,
+   random features did as much damage as top-ranked ones. Every causal verdict
+   needs the random-alive arm, which PRD §13 Step 9's "matched controls" covers.
+3. **Intervention site matters, and SimLingo's resembles OpenVLA's.** The
+   effects were real only where actions are decoded directly from the edited
+   stream (OpenVLA), not where they pass through a KV-cache to a separate action
+   expert (π0.5). SimLingo decodes waypoints from the final block's outputs at
+   its 30 driving-query positions (confirmed 2026-10-06, adapter README), with no
+   separate action expert, so those positions are the first site to try.
+4. **Their event clustering is a cheap baseline we do not have.** Clustering
+   behavioural keyframes and ranking features against them, with no failure
+   labels, sits between B3 (behavioural stratification) and our methods.
+   Consider it as an optional baseline or ablation.
+
 ---
 
 ## Still open after Track A
 
-- **A5 Event-grounded SAEs (2605.17204):** PDF not yet supplied.
-- ❓ Items that need a repo or a loaded model, not a paper: Qwen layer count and hidden size, bucket weights,
-  the route-directory withholding claim, the B2D version, PDMLite-F2D standalone use, and the Fail2Drive toolbox API.
+- ~~A5 Event-grounded SAEs (2605.17204)~~: read 2026-10-06 from the arXiv HTML, section above.
+- ❓ Items that need a repo or a loaded model, not a paper. Closed since: Qwen layer count and hidden size,
+  the B2D version, bucket weights, route-directory withholding and the Fail2Drive toolbox API
+  (sections above). Still open: PDMLite-F2D on a route XML we authored, and the commentary/VQA leak.
 - Dr. VLA license: ask the authors.
 - Unrelated typo: CONFLICTS.md calls the brief `prod.md`, but the PRD calls it `prd.md`.

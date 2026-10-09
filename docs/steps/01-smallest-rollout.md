@@ -5,18 +5,24 @@ and config.
 **Depends on:** a usable GPU partition on Savio.
 **Blocks:** Step 2 (reproduction) and, through the throughput number, §16.2.
 
-> **BLOCKED as of 2026-10-01.** Login works (user `christophervu`), but
-> `ic_cdss170fall` has only `savio2_gpu`, which is **retired**, and `savio3_gpu`
-> and `savio4_gpu` are **rejected**. There is no usable GPU partition and a
-> support request is open. Nothing in this step can run until it is answered.
+> **Unblocked 2026-10-05; not yet run.** The allowance has GPU partitions; the
+> earlier rejection was the wrong QoS (`docs/WHAT_BROKE.md`). Partition, QoS,
+> gres and CPUs live in `configs/cluster/savio.yaml`; never hardcode them.
 >
-> **Do not hardcode a partition or GPU type anywhere.** All of it lives in
-> `configs/cluster/savio.yaml`; `scripts/submit.sh` reads that file and refuses
-> GPU submission while `gpu.available: false`. When the reply arrives, set
-> `gpu.available`, `gpu.partition`, `gpu.qos` and `gpu.gres` there and nothing
-> else needs editing.
+> How to run it, from a clone of this repository under
+> `/global/scratch/users/$USER` on a login node:
 >
-> Meanwhile the GPU-free queue in `docs/steps/gpu-free-queue.md` is the work.
+> 1. `curl -LsSf https://astral.sh/uv/install.sh | sh` (once, if `uv` is missing)
+> 2. `uv run --no-project --python 3.10 --with pyyaml adapters/simlingo/setup_savio.py`
+>    (stage 1.1 and the 1.3 downloads; ~20 GB, rerun after any interruption)
+> 3. `bash scripts/submit.sh gpu scripts/check_gpu.sbatch` (Step 0's done-condition)
+> 4. `bash scripts/submit.sh gpu scripts/step1.sbatch` (stages 1.2-1.4 in order)
+>
+> Stage 1.1 deviates from the container plan below: CARLA runs from the official
+> Linux tarball on the GPU node, as upstream SimLingo does, because no published
+> Apptainer recipe for 0.9.15 was found and the official image has open Vulkan
+> issues on newer hosts. The container stays as the fallback in
+> `configs/cluster/savio.yaml` (`carla.container`).
 
 **The goal is one route. Not the benchmark.** One route, one seed, commentary and
 chain-of-thought off, in a container, from a versioned config, with wall-clock

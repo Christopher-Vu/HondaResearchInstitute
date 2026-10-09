@@ -5,6 +5,7 @@ gaps/sealed/
 __pycache__/
 *.py[cod]
 .venv/
+.runtime/
 venv/
 *.egg-info/
 .ipynb_checkpoints/
@@ -22,6 +23,8 @@ mlruns/
 
 # Data, rollouts, activations (keep manifests, not blobs)
 data/
+# The dashboard's route outcomes are a 35 KB source file it imports, not a dataset.
+!dashboard/src/data/
 rollouts/
 activations/
 *.h5
