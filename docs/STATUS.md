@@ -12,6 +12,13 @@ Last updated: 2026-10-13 (literature sweep: SPHINX, driving SAEs and log-based f
 
 ## Current position
 
+**Overnight 2026-10-13, in progress (agent, Jerry asleep, 2000 SU cap from 14,491 used).**
+P3 pilot (dense fog by day, 60 paired base routes, sized by C23) is running as
+Savio array 39866909; the first attempt, 39866822, was cancelled after n0262 killed
+CARLA (`docs/WHAT_BROKE.md`). Step 4's stability check is running on compute-box
+(`~/hri-cpu`). B7 steps 3–8 and B2 are coded and tested, not yet run on real
+data. If this paragraph is still here, the session ended before writing up.
+
 **2026-10-13: a literature sweep narrowed the novelty claim.** Three papers the
 PRD had missed are now in §4.10–4.12. SPHINX closes the loop from a driving
 policy's internals, Motzkus & Bernhard put SAEs on an end-to-end driving model
