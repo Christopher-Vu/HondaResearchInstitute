@@ -5,6 +5,90 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-13 — Has anyone already done this? A literature sweep
+
+The question was whether someone has already published our design, and if not,
+why not. Gemini searched from seven angles, run through Google's Antigravity
+command line (`agy`) because the old `gemini` command no longer logs in. Three
+separate Gemini fact-checkers then tried to disprove each key claim. Every arXiv
+ID it cited (41 of 41) was checked against arXiv, and the three closest papers
+were read in full. Facts and sources are in `docs/step0-trackA-findings.md`
+under "Literature sweep".
+
+Nobody has published the whole design, but three papers the PRD had missed come
+close and are now in `PRD.md` §4.10–4.12. SPHINX (June 2026) explains a driving
+policy's decisions from its activations, has a vision-language model turn that
+into adversarial scenarios, and retrains on them, in BeamNG rather than CARLA.
+Motzkus and Bernhard (July 2026) train sparse autoencoders on an end-to-end
+driving model, open-loop only. Gupta, Ciftci and Bansal find failure modes by
+clustering a vision-language model's explanations of failure logs, never looking
+inside the policy, and their targeted data cut navigation failures from 46% to
+18%, against 34% for the same amount of uniform data (all as reported by those
+papers). No paper was found that scores failure discovery for a closed-loop
+policy against planted gaps. That part is still ours, and it is hard, which
+Step 4's failed practice gaps show first-hand.
+
+Nothing about the method was changed. Three proposals await Chris and Jerry in
+`CONFLICTS.md`: C25 makes the log-based taxonomy a required baseline, C26 leads
+the paper with the planted-gap harness, and C27 adds three cheap checks on dev
+(a shared "trouble ahead" direction, route memorization in the SAE, and
+retrospective-only separability). Three workshop papers, RiskLens among them,
+were reported only by Gemini and are marked unconfirmed.
+
+---
+
+## 2026-10-12 — Step 4's sweep read, and a design review of the efficacy check
+
+The Oct 9 dev pool finished long ago; this session opened the Savio connection
+and read the result for the first time. The sweep (job 39784631) chose the
+driving-query site at decoder layers 10 and 11. Both practice gaps failed the
+efficacy check, the test that a planted gap really makes SimLingo fail more
+than its matched neighbourhood: P1, the dust storm at night that Savio renders
+as plain darkness, failed 7 of 30 against 5 of 29; P2, the pedestrian behind a
+container, failed 2 of 30 against 0 of 30 (measured). With no passing gap, the
+sweep skipped its gap-recovery metric. Step 4's done-condition only needs the
+chosen layers, so it can close without new routes; Steps 6 and 7 still need a
+passing practice gap.
+
+A review of the experimental design, using the newly installed
+`experimental-design` skill, then asked whether the check could have passed
+anything. An exact power calculation says barely: at 30 rollouts per arm and a
+15% background failure rate, a gap that truly fails 40% passes less than a
+quarter of the time. The check also treats paired data (the same routes under
+two conditions) as unrelated groups, and P2's 30 rollouts come from only 5 base
+routes. These are proposed as `CONFLICTS.md` C23, pending Chris and Jerry. C24
+proposes a check that a perceptual gap actually changes the camera image before
+its efficacy is tested, which would have caught P1's invisible dust.
+
+One finding was mechanical and is fixed: the dev pool array ran each slice in a
+separate block of tasks, and so at other times and on other nodes, from its
+neighbourhood. Every future array now runs routes in a seeded shuffle
+(`05979cb`). Details in `docs/WHAT_BROKE.md`. Left unfinished: copying
+`sweep.json` into the repo, writing the layers into the config, and the
+resampling stability check.
+
+---
+
+## 2026-10-09 (afternoon) — The dashboard says who does what next week
+
+The live dashboard had fallen behind: 13 commits, including Step 4's launch, had
+never been pushed, and the dashboard reads everything except its fixed route grid
+from GitHub. Pushing the branch caught it up. The Friday week block in
+`docs/steps/progress.yaml` was rewritten, and the layer-sweep panel now says the
+sweep is running against the frozen B7 rather than waiting for a draft.
+
+The "Next week" column is now grouped by person: each item in `week.next` carries
+a GitHub login in `who`, and the page shows that person's avatar and their items
+together. Avatars now come straight from the login (`avatars.githubusercontent.com/<login>`)
+instead of the commit feed, which had no avatar for anyone without a recent
+commit. The split is Imhaohao (Jerry) on the layer sweep and the gap portfolio
+size, Christopher-Vu on the B7 and C22 decisions, the Step 2 rerun and the
+tarball review, and cattayw on shortlisting Step 5 gap candidates. Deployed to
+production with `vercel deploy --prod` from `dashboard/`. The sweep's own result
+is not on the page yet: the Savio connection was closed, so it could not be read.
+
+---
+
 ## 2026-10-09 (night) — Step 4 unblocked and its dev pool launched
 
 The question was what it would cost to reach Step 4 by morning. Money was never

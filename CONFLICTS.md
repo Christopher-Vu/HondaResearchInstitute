@@ -449,6 +449,113 @@ is bit-exact against replay, in the logged dtype", because the causal checks
 live log. Step 4 proceeds on this proposal; if it is rejected, Step 4's data is
 unaffected, since the sweep reads logged activations and never replays.
 
+### C23 · The efficacy check's sample size and unit of analysis · new, 2026-10-12, pending review
+`PRD.md` §9.1 passes a gap on uplift ≥ 20 points, ratio ≥ 2, Fisher p < 0.01
+and at least 30 rollouts in the slice. Both Step 4 practice gaps failed it
+(`docs/WHAT_BROKE.md`, 2026-10-12), and a review of the design found three
+problems with the check itself:
+
+- **Underpowered.** Exact power, assuming independent rollouts, 30 per arm:
+  against a 15% neighbourhood (the dev pool's measured failure rate), a gap that
+  truly fails 40% passes 23% of the time and one that fails 50% passes 54%.
+  At 60 per arm the same gaps pass 64% and 93%. Against a 5% neighbourhood,
+  30 per arm gives 69% and 91%.
+- **Pairing ignored.** P1's slice and neighbourhood are the same 30 routes under
+  different weather, P2's the same 30 setups at night and noon. Fisher treats
+  the arms as unrelated, so route-to-route difficulty stays in the noise.
+- **Pseudoreplication.** P2's 30 rollouts come from 5 base routes. Variants of
+  one route are not independent, so Fisher overstates the evidence and one hard
+  route can pass a gap.
+
+**Proposed:** keep the uplift and ratio thresholds; require about 60 rollouts per
+arm, drawn from at least 30 distinct base routes; pair each slice rollout with a
+neighbourhood rollout on the same base route and test with McNemar's exact test
+on the pairs (p < 0.01), so the base route is the unit. Prefer neighbourhoods
+with a low background failure rate, since that is where the check has power.
+Multiplicity across candidates stays handled as §9.1 already says: report the
+count tried and re-confirm on the scoring pool. Until this is accepted, §9.1's
+rule stands and Step 5 pilots are sized under it.
+
+### C24 · Gap pilots check the treatment and shuffle run order · new, 2026-10-12, pending review
+Two additions to the §9.1 procedure, neither of which changes its thresholds:
+
+- **Manipulation check before efficacy.** P1's dust storm rendered as plain
+  darkness on Savio, which was noticed by eye, not by any check
+  (`docs/WHAT_BROKE.md`, 2026-10-09). Every perceptual gap pilot first confirms,
+  on the first frames of a few slice routes on Savio's renderer, that the camera
+  image differs from the neighbourhood in the intended way. The measure and its
+  threshold are per gap and written into the gap's spec before the pilot runs;
+  not coded until Step 5's pilot generator exists.
+- **Shuffled run order.** The Step 4 array ran its roles in blocks (P1 slice,
+  background, P2 slice, P2 neighbourhood), so each slice ran at other times and
+  on other nodes than its neighbourhood. `scripts/route_sample.sbatch` now runs
+  routes in `route_run.run_order`'s seeded shuffle (`05979cb`). Arrays submitted
+  before that commit map task indices to config order; rerun those by route id.
+
+### C25 · The VLM failure-taxonomy baseline becomes required · new, 2026-10-12, pending review
+`PRD.md` §9.3 lists a VLM-captioning baseline (cluster captions of failure clips)
+as optional. Gupta, Ciftci and Bansal (`PRD.md` §4.12) published it, ran it on
+dashcam crashes, and showed it closes the loop: taxonomy-targeted data cut
+failures from 46% to 18% against 34% for uniform data. It needs no access to the
+policy's internals, so it is now the first answer a reviewer gives to "did you
+need the internals?", ahead of Domino (B5).
+
+**Proposed:**
+
+- **B8, failure taxonomy from logs.** A pinned VLM writes one structured
+  explanation per failure window (front camera clip plus the logged-observation
+  summary the describability gate already builds, never scenario labels); the
+  explanations are embedded and clustered; clusters rank by size into axes
+  under the same budget as every method. VLM calls only, no extra rollouts.
+- **A B8-targeted arm in the §9.4 controls**, at matched frames and GPU-hours,
+  so the closed loop answers whether internals target data better than logs do.
+- **B8 and the describability gate use different vision models.** B8's axes are
+  made of VLM descriptions, so the gate's model would pass them by construction
+  if it were the same model.
+
+### C26 · Narrow the novelty claim to what is still unclaimed · new, 2026-10-12, pending review
+The sweep of 2026-10-12 (`docs/step0-trackA-findings.md`) found that two parts of
+the `PRD.md` §5 claim have been published separately. SPHINX closes the loop from
+a driving policy's internals (BeamNG, per-decision concepts, named critical
+scenes). Gupta et al. discover failure modes without supervision and show that
+targeted data beats uniform data. Motzkus & Bernhard are the first SAEs on an
+end-to-end driving model, open-loop. No paper was found that scores failure
+discovery for a sequential policy against planted training-data gaps.
+
+**Proposed:**
+
+- Add log-based VLM taxonomies (C25) to the list of things §5 says our axes beat.
+- Lead the pitch with the harness, meaning planted gaps with a sealed key and an
+  efficacy check for closed-loop policies, and put the method comparison second.
+  The harness is the unclaimed part, and building it is hard: both Step 4
+  practice gaps failed efficacy (C23), which is plausibly why nobody has
+  published one. If the harness works, it is a contribution whichever method wins.
+- In the paper, describe our method as a corpus-level, failure-conditioned
+  contrast with no factor list or scene set. Never describe it as "the first to
+  close the loop from internals" or "the first SAEs in driving".
+
+### C27 · Three discovery checks borrowed from 2026 papers · new, 2026-10-12, pending review
+Each paper names a way §9.2's discovery could fool itself. All three checks run
+on dev and cost no rollouts.
+
+- **A shared "trouble ahead" direction.** COAST finds failure representations
+  share structure across tasks. Failure-versus-success diffing may rank one
+  generic pre-failure direction (hard braking, a close hazard) first for every
+  gap, matching none and spending the axis budget. Report each top axis's
+  cosine with the pooled failure-minus-success direction, and run a variant
+  that projects that direction out before ranking.
+- **Route memorization.** Motzkus & Bernhard found that larger dictionaries
+  memorize scenarios. A latent that encodes which base route a frame came from
+  would look like a gap, because a gap is a set of routes. For every SAE, report
+  how well base-route identity decodes from its latents on held-out frames, and
+  treat high decodability as a reason to shrink the dictionary. This is
+  consistent with expansion ratio 1 (C16).
+- **Retrospective separability.** An OpenVLA probe separated failures at AUROC
+  0.972 but raised 3.32 warnings per clean episode, with fitting and evaluation
+  sharing resets. In the describability gate, "held-out rollouts" must come from
+  base routes not used to find the axis, and each axis reports its firing rate
+  on clean routes.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
