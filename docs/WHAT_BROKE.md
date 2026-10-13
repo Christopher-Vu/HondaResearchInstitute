@@ -8,6 +8,31 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-13 — P3's manipulation check failed on a bad measure, and was overridden
+
+**Expected:** C24's check, written into `gaps/practice/practice_v2.yaml` before
+the pilot ran, would pass if fog reached the camera: the fog route's median
+pixel standard deviation over its first 20 steps below 0.7 times its clear
+twin's, in at least 4 of the first 5 completed pairs.
+
+**Actual (measured):** 3 of 5 passed. Ratios in completion order: 0.48, 0.84,
+0.46, 1.00, 0.52. The array (39866909) was cancelled at that point, as the rule
+says, before any outcome was looked at. The frames of the two failing pairs
+show the fog plainly (`docs/p3-fog-check.jpg`: rows are base routes 3666 and
+25424, which failed the measure, then 1792, which passed; fog on the left).
+Pixel standard deviation does not track haze in low-contrast scenes: in a flat
+desert under an open sky the clear frame is already nearly uniform, so fog
+barely changes its spread while erasing the horizon.
+
+**What we did:** resumed the same gap, unchanged, as array 39867344 over the
+46 unfinished tasks, reusing the 31 routes already completed; no driving
+outcome had been read. This is a deviation from a pre-set rule and is reported
+as one. For the next pilot, measure haze directly, for example contrast in the
+upper half of the frame or a dark-channel haze estimate, and check the measure
+on a few stock frames before fixing its threshold.
+
+---
+
 ## 2026-10-13 — The layer sweep's second pick depends on the scikit-learn version
 
 **Expected:** rerunning the Step 4 sweep on compute-box, on the same 190 shards
