@@ -27,9 +27,12 @@ barely changes its spread while erasing the horizon.
 **What we did:** resumed the same gap, unchanged, as array 39867344 over the
 46 unfinished tasks, reusing the 31 routes already completed; no driving
 outcome had been read. This is a deviation from a pre-set rule and is reported
-as one. For the next pilot, measure haze directly, for example contrast in the
-upper half of the frame or a dark-channel haze estimate, and check the measure
-on a few stock frames before fixing its threshold.
+as one. Candidate measures checked afterwards on frame 20 of the same five
+pairs (fog over clear): whole-frame spread 0.46 to 1.00, as above; spread of
+the upper half 0.34 to 0.69; mean colour saturation of the upper half 0.24 to
+0.43, which separates every pair. Upper-half saturation is the proposed measure
+for the next perceptual pilot. Fix its threshold before that pilot runs, since
+these five pairs chose it.
 
 ---
 
