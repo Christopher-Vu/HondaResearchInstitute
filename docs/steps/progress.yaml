@@ -2,7 +2,7 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-10-09
+updated: 2026-10-13
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 4
 
@@ -62,19 +62,19 @@ steps:
     title: Dev pool and layer sweep
     checks:
       - {text: B7 defined before activations are opened, done: true}
-      - {text: Layer sweep run on the dev pool, done: false}
+      - {text: Layer sweep run on the dev pool, done: true}
       - {text: Layers and sites chosen, done: false}
   - id: 5
     title: Gap candidates and efficacy
     checks:
-      - {text: Efficacy pilots run, done: false}
+      - {text: Efficacy pilots run, done: true}
       - {text: 4 to 6 gaps and 2 decoys pass, done: false}
       - {text: No single-factor confound, done: false}
   - id: 6
     title: Cheap baselines
     checks:
       - {text: B1 random baseline, done: true}
-      - {text: Human taxonomy baseline, done: false}
+      - {text: Human taxonomy baseline, done: true}
       - {text: Behavioral stratification baseline, done: false}
       - {text: B7 activation statistics baseline, done: false}
   - id: 7

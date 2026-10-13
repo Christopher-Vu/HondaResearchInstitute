@@ -8,6 +8,34 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-13 — Dense daytime fog does not make SimLingo fail either
+
+**Expected:** P3, fog density 90 at noon, a region no collection preset
+reaches, would raise failures far enough to pass as a perceptual control gap.
+
+**Actual (measured, `results/savio/step5-pilot-p3/efficacy.json`, arrays
+39866909 and 39867344, scored by job 39867345):** fog routes failed 15 of 59
+(25%), their clear-noon twins 18 of 60 (30%). Fisher p = 0.68; paired by base
+route, 6 failed only in fog and 8 only in clear, McNemar p = 0.79. Neither rule
+passes. Fog changed how the car drove, not whether it failed: driving score
+88.8 against 88.4, but routes took 53 simulated seconds against 42, and 17 fog
+routes stood still for 38 seconds or more against 13. One route (1171530) has
+no outcome. About 500 SU.
+
+This is the third perceptual condition that SimLingo shrugs off, after night
+and stock fog or rain (Step 2) and P1's night dust (Step 4). Two consequences.
+`PRD.md` §9.1's harness validity needs a T0 control gap that every method
+recovers, and weather is not producing one. And pairing helps less than C23
+assumed: 9 base routes failed in both arms, 14 in one only, so a route's
+outcome is only loosely tied to the route.
+
+**What we did:** recorded P3 as failed; launched no further pilot. A control
+gap now needs a different kind of perception failure, for example a camera
+fault or an unseen object class (Fail2Drive's animal assets) rather than
+weather. That choice is for Chris and Jerry.
+
+---
+
 ## 2026-10-13 — P3's manipulation check failed on a bad measure, and was overridden
 
 **Expected:** C24's check, written into `gaps/practice/practice_v2.yaml` before
