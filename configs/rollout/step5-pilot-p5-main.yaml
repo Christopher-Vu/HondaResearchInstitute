@@ -4,7 +4,7 @@
 #   python adapters/simlingo/pilot_routes.py configs/rollout/step5-pilot-p5-main.yaml
 # Two routes per A40, in route_run.run_order's shuffle:
 #   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch configs/rollout/step5-pilot-p5-main.yaml 2
-# Captures every layer's frame means plus layer 10's driving-query tokens (the per-token SAE input).
+# Captures every layer's frame means plus layers 10 and 14's driving-query tokens (the per-token SAE input).
 
 name: step5-pilot-p5-main
 step: 5
@@ -24,7 +24,7 @@ simulator:
   timeout_seconds: 600           # Bench2Drive's default, as in Step 4
 
 capture_every: 10
-capture_token_layers: [10]
+capture_token_layers: [10, 14]   # 10 chosen first; 14 led the two-wave re-sweep (2026-10-13)
 
 route:
   seed: 5                        # traffic manager seed; Step 2 used 0, Step 4 1 and 3, P3 2
