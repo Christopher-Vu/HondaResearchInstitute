@@ -126,3 +126,19 @@ def test_export_all_finds_routes_under_a_parent_and_the_sweep_loads_the_shards(t
     assert shards.means["all_tokens"].shape == (2, LAYERS, HIDDEN)
     assert shards.frames["driving_queries"].shape == (8, LAYERS, HIDDEN)
     assert shards.frame_episode.tolist() == [0] * 4 + [1] * 4
+
+
+def test_driving_query_tokens_are_exported_when_the_capture_recorded_them(tmp_path):
+    tokens = [record(step, driving_query_tokens=torch.full((1, 30, HIDDEN), float(step), dtype=torch.float16))
+              for step in range(1, 11)]
+    _meta, archive = exported(tmp_path, tokens, token_layers=[10])
+    assert archive["driving_query_tokens"].shape == (2, 1, 30, HIDDEN)
+    assert archive["driving_query_tokens"].dtype == np.float16
+    assert archive["driving_query_tokens"][:, 0, 0, 0].tolist() == [5.0, 10.0]
+    assert archive["driving_query_token_layers"].tolist() == [10]
+
+
+def test_captures_without_tokens_export_no_token_array(tmp_path):
+    _meta, archive = exported(tmp_path, [record(step) for step in range(1, 11)])
+    assert "driving_query_tokens" not in archive.files
+

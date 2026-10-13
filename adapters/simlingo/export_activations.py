@@ -8,7 +8,9 @@ Each argument is a route directory (holding capture/steps.pt) or a parent of `ro
 A route writes `<route id>.npz` and `<route id>.json` to the output directory.
 
 The npz holds every `--stride`-th policy step (steps divisible by the stride) in float16: `all_tokens` and
-`driving_queries` as (T, layers, hidden), `vision_bridge` as (T, hidden) when the capture has it, `step` as
+`driving_queries` as (T, layers, hidden), `vision_bridge` as (T, hidden) when the capture has it,
+`driving_query_tokens` as (T, token layers, driving queries, hidden) with `driving_query_token_layers` naming
+those layers when the capture recorded tokens (no episode mean, so the layer sweep ignores it), `step` as
 (T,), and the state list as (T,) float32 arrays with NaN where a record has no value. The three
 `*_episode_mean` arrays are float32 means over all steps, not only the strided ones.
 
@@ -153,6 +155,10 @@ def export_route(route_dir: Path, output: Path, manifest: dict[str, dict[str, An
     arrays: dict[str, Any] = activation_arrays(records, strided)
     arrays["step"] = steps[strided].astype(np.int32)
     arrays |= {name: values[strided] for name, values in state_arrays(records).items()}
+    if capture.get("token_layers"):
+        arrays["driving_query_tokens"] = float16_checked(stacked(records, "driving_query_tokens")[strided],
+                                                         "driving_query_tokens")
+        arrays["driving_query_token_layers"] = np.asarray(capture["token_layers"], dtype=np.int32)
     np.savez(output / f"{route_id}.npz", **arrays)
     meta = sidecar(route_dir, route_id, capture, manifest.get(route_id, {}), stride)
     (output / f"{route_id}.json").write_text(json.dumps(meta, indent=2) + "\n")

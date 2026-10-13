@@ -143,6 +143,21 @@ def test_capture_setting_selects_the_capture_agent():
     assert agent_and_capture_environment(None) == (AGENT, {})
     agent, environment = agent_and_capture_environment(10)
     assert agent.name == "capture_agent.py" and environment == {"SIMLINGO_CAPTURE_EVERY": "10"}
+    _agent, environment = agent_and_capture_environment(10, [10])
+    assert environment == {"SIMLINGO_CAPTURE_EVERY": "10", "SIMLINGO_TOKEN_LAYERS": "10"}
+
+
+def test_a_route_with_a_camera_fault_passes_it_to_the_agent(tmp_path, monkeypatch):
+    import json
+    import route_run
+    fault = {"kind": "occlusion", "box": [0.3, 0.2, 0.6, 0.6]}
+    (tmp_path / "manifest.json").write_text(json.dumps([{"id": "101", "sensor": {"camera_fault": fault}},
+                                                        {"id": "102"}]))
+    monkeypatch.setattr(route_run, "ROOT", tmp_path)
+    config = {"route": {"manifest": "manifest.json", "id": "101"}}
+    assert json.loads(route_run.route_environment(config)["SIMLINGO_CAMERA_FAULT"]) == fault
+    assert route_run.route_environment({"route": {"manifest": "manifest.json", "id": "102"}}) == {}
+    assert route_run.route_environment({"route": {"id": "101"}}) == {}
 
 
 def test_two_slots_of_one_job_get_disjoint_ports(monkeypatch):

@@ -12,10 +12,12 @@ from typing import Any, TextIO
 import numpy as np
 from PIL import Image
 from agent_simlingo import LingoAgent
+from camera_fault import apply_camera_fault
 
 
 def get_entry_point() -> str:
     return "VisibleAgent"
+
 
 
 class VisibleAgent(LingoAgent):
@@ -24,6 +26,7 @@ class VisibleAgent(LingoAgent):
         self.trace: TextIO | None = None
         super().setup(path_to_conf_file, route_index)
         self.evidence = Path(os.environ["SIMLINGO_EVIDENCE"])
+        self.camera_fault = json.loads(os.environ.get("SIMLINGO_CAMERA_FAULT", "null"))
         (self.evidence / "frames").mkdir(parents=True, exist_ok=True)
         self.trace = (self.evidence / "controls.jsonl").open("w")
         if os.environ.get("SIMLINGO_VISIBLE", "1") == "1":
@@ -38,6 +41,8 @@ class VisibleAgent(LingoAgent):
 
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
         frame, bgra = input_data["rgb_0"]
+        bgra = apply_camera_fault(bgra, self.camera_fault)
+        input_data["rgb_0"] = (frame, bgra)
         rgb = np.ascontiguousarray(bgra[:, :, :3][:, :, ::-1])
         # A failed render is flat. Night routes can average under 1/255 yet still vary (std above 5).
         if rgb.std() < 1:

@@ -25,7 +25,7 @@ from typing import Any
 
 import yaml
 from artifacts import verify_artifacts
-from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment,
+from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment, route_environment,
                        check_external_server_patch, check_route, evaluator_command, policy_environment,
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
@@ -177,7 +177,8 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
     check_external_server_patch()
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    agent, capture = agent_and_capture_environment(config.get("capture_every"))
+    agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"))
+    capture |= route_environment(config)
     with GpuMonitor() as gpu:
         with carla_server(output, config["simulator"]["quality"], container, slot) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],

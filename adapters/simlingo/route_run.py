@@ -120,11 +120,27 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
     return values
 
 
-def agent_and_capture_environment(capture_every: int | None) -> tuple[Path, dict[str, str]]:
-    """The capture agent records Step 3 activations each step and replay inputs every Nth step."""
+def agent_and_capture_environment(capture_every: int | None,
+                                  token_layers: list[int] | None = None) -> tuple[Path, dict[str, str]]:
+    """The capture agent records Step 3 activations each step and replay inputs every Nth step, plus every
+    driving-query token at `token_layers` (PRD 12.2's per-token SAE input)."""
     if not capture_every:
         return AGENT, {}
-    return AGENT.with_name("capture_agent.py"), {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
+    environment = {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
+    if token_layers:
+        environment["SIMLINGO_TOKEN_LAYERS"] = ",".join(map(str, token_layers))
+    return AGENT.with_name("capture_agent.py"), environment
+
+
+def route_environment(config: dict[str, Any]) -> dict[str, str]:
+    """The configured route's own agent settings from its manifest entry: a camera fault, if it has one."""
+    manifest = (config.get("route") or {}).get("manifest")
+    if not manifest:
+        return {}
+    route_id = str(config["route"]["id"])
+    entry = next((entry for entry in json.loads((ROOT / manifest).read_text()) if str(entry["id"]) == route_id), {})
+    fault = (entry.get("sensor") or {}).get("camera_fault")
+    return {"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {}
 
 
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
