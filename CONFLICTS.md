@@ -476,6 +476,17 @@ Multiplicity across candidates stays handled as §9.1 already says: report the
 count tried and re-confirm on the scoring pool. Until this is accepted, §9.1's
 rule stands and Step 5 pilots are sized under it.
 
+**2026-10-13, sizing adopted for pilots, rule still pending.** Jerry approved
+sizing pilots by C23 while Chris reviews; the verdict of record stays §9.1's
+Fisher rule, and `src/harness/efficacy.py` reports both. One consequence found
+in doing so: **no single-family interactional gap can meet "at least 30 distinct
+base routes" on Bench2Drive-220,** which has 5 routes per scenario family (P2's
+family has 5). Such a gap needs either routes cut from SimLingo's long training
+or validation routes (114 DynamicObjectCrossing scenarios in
+`routes_validation.xml`), a gap defined across several families that share a
+mechanism, or a relaxed base-route floor. The first pilot under C23, P3 dense
+fog by day, is perceptual and applies to any route, so it avoids the problem.
+
 ### C24 · Gap pilots check the treatment and shuffle run order · new, 2026-10-12, pending review
 Two additions to the §9.1 procedure, neither of which changes its thresholds:
 
