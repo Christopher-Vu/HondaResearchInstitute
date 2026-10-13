@@ -122,6 +122,13 @@ concludes by proposing that episode-specific features could diagnose fine-tuning
 brittleness and that feature metrics could serve as a training-time proxy for
 generalization — our thesis, unclaimed and untested.
 
+Since then, parts of the step have been taken (sweep of 2026-10-12, §4.10–4.12).
+SPHINX closes the loop from a driving policy's internals, though per decision,
+in BeamNG and on named critical scenes. Gupta et al. discover failure modes
+without supervision and show that targeted data beats uniform data, though from
+logs rather than internals. What remains unclaimed is a failure-conditioned
+contrast over a closed-loop corpus, scored against planted gaps.
+
 ## 4. Related work: what exists and where we sit
 
 Read this section before proposing anything. Every citation below is as corrected
@@ -313,6 +320,68 @@ our harness; also Spotlight (FAccT 2022), George (NeurIPS 2020), SliceLine
 (SIGMOD 2021). Domino appears as a baseline (§9.3, B5) because it finds slices in
 *input embedding* space, which is the natural "did you need the policy's
 internals at all?" control.
+
+### 4.10 SPHINX
+
+*Do, Cao, Van Do, Hajdu. arXiv 2606.17482, June 2026. No code link.* Title:
+*First Explain, Then Explore*. Read 2026-10-12 from the arXiv HTML
+(`docs/step0-trackA-findings.md`).
+
+**The closest driving paper, and it closes the loop.** CRAFT decomposes the
+policy's activations into concepts with attribution maps, which are combined with
+predictive uncertainty; a VLM turns that evidence into named weaknesses and
+scenario scripts, and the policy is retrained on the result. BeamNG.tech, with
+DAVE-2, TransFuser, TCP and RAP-ResNet, scored by post-retraining success rate
+on named critical scenes against ChatScene and LLM-Attacker.
+
+Differentiate on three axes. It explains one decision at a time rather than
+contrasting failures with successes across a corpus, it starts from a fixed set
+of critical scene types, and nothing it finds is checked against known ground
+truth. **Do not claim that closing the loop from internals in driving is new.**
+
+### 4.11 SAEs on driving models
+
+*Motzkus & Bernhard (Bamberg). arXiv 2607.06328, July 2026.* Title: *Driving
+the Wrong Way*. TopK, Matryoshka and archetypal SAEs on the latent features of
+GTRS and iPad, evaluated open-loop on NAVSIM. Suppressing SAE concepts tied to
+erroneous behaviour improves EPDMS sub-metrics. Two engineering facts transfer:
+small dictionaries suffice (TopK, 256 latents, k = 64: no dead latents,
+explained variance 0.995), and a large expansion lets the SAE memorize
+scenarios, which their probe score penalizes by subtracting scenario-ID
+decodability.
+
+**The first SAE paper on an end-to-end driving model**, so "first SAEs in
+driving" is not available to us. It is open-loop, repairs by steering rather
+than data, and is not failure-conditioned. No closed-loop driving SAE was found
+in the 2026-10-12 sweep.
+
+### 4.12 Failure taxonomies from logs
+
+*Gupta, Ciftci, Bansal. arXiv 2506.06570, v4 July 2026.* An MLLM writes a
+structured explanation of each failure log, and the explanations are clustered
+into a taxonomy with no factor list and no access to the policy's internals.
+Evaluated on RoboFail against expert-defined failure modes, on 1,500 Nexar
+dashcam crashes, and on indoor navigation, where data targeted by the taxonomy
+cut the failure rate from **46% to 18%, against 34% for the same number of
+uniformly collected samples**.
+
+**This is the published form of the optional VLM-captioning baseline in §9.3**,
+already shown to close the loop. A reviewer asking whether the policy's
+internals were needed will cite it before Domino. Proposed as a required
+baseline in `CONFLICTS.md` C25.
+
+### 4.13 Activation signals of failure, 2025–2026
+
+A wave of manipulation papers reads failure from VLA activations: FIPER
+(arXiv 2510.09459, an alarm from out-of-distribution scores in the policy's
+embedding space, with no failure data), COAST (arXiv 2605.17144, which steers
+toward success subspaces and finds that failure representations share structure
+across tasks), and an OpenVLA probe (arXiv 2606.29699) that separates failures at
+AUROC 0.972 retrospectively but raises 3.32 warnings per clean episode. In
+driving, probes on ORION (arXiv 2608.07361) and on IL and RL planners (arXiv
+2606.31106) use supervised targets. Each outputs an alarm, a steering direction
+or a probe, never named axes. They bear on our method through C27, not as
+competitors.
 
 ---
 
@@ -1495,6 +1564,7 @@ and causal checks are committed. If we edit a method after the freeze tag, it is
 new version and gets reported as one.
 
 **Prior-art scoop.** The field is moving fast and the closest papers are months
-old. Event-grounded SAEs and Dr. VLA are the nearest; RoboART is the most likely
-to be cited against us. One of us owns a monthly re-check, by name, and a full
+old. As of the 2026-10-12 sweep, SPHINX (§4.10) and Gupta et al. (§4.12) are
+the nearest, and SPHINX and the first driving SAE paper (§4.11) appeared only
+in June and July 2026; RoboART is still the most likely to be cited against us. One of us owns a monthly re-check, by name, and a full
 sweep with web access before any submission.
