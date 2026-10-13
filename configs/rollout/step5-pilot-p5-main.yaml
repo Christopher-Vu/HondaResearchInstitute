@@ -1,0 +1,43 @@
+# Step 5 efficacy pilot for practice gap P5, three pedestrians walking along the ego lane (Fail2Drive PedestriansOnRoad), gaps/practice/practice_v2.yaml.
+# Full pilot: 60 pairs on base routes disjoint from the screen, sized by CONFLICTS.md C23.
+# Routes and manifest are generated, not written:
+#   python adapters/simlingo/pilot_routes.py configs/rollout/step5-pilot-p5-main.yaml
+# Two routes per A40, in route_run.run_order's shuffle:
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch configs/rollout/step5-pilot-p5-main.yaml 2
+# Captures every layer's frame means plus layer 10's driving-query tokens (the per-token SAE input).
+
+name: step5-pilot-p5-main
+step: 5
+scope: savio_step5_pilot_p5_main
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+capture_every: 10
+capture_token_layers: [10]
+
+route:
+  seed: 5                        # traffic manager seed; Step 2 used 0, Step 4 1 and 3, P3 2
+  routes_file: configs/rollout/step5-pilot-p5-main.xml
+  manifest: configs/rollout/step5-pilot-p5-main.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v2.yaml
+  gap_id: P5_pedestrians_in_lane
+  generator_seed: 2
+  stage: main
+  screen_base_routes: 10
+  id_offset: 4                   # route ids end in 34 and 44; P3 uses 30 and 40
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

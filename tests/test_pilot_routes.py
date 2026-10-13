@@ -64,3 +64,55 @@ def test_committed_files_are_what_the_generator_writes(config, pilot):
     document, entries = pilot
     assert (ROOT / config["route"]["routes_file"]).read_text() == document
     assert json.loads((ROOT / config["route"]["manifest"]).read_text()) == entries
+
+
+def load(name):
+    loaded = yaml.safe_load((ROOT / f"configs/rollout/{name}.yaml").read_text())
+    if not (ROOT / loaded["pilot"]["base_routes_file"]).is_file():
+        pytest.skip("pinned routes file not installed")
+    return loaded, pilot_routes.generate(loaded)
+
+
+def test_camera_fault_pairs_differ_only_in_the_sensor_setting():
+    _config, (_document, entries) = load("step5-pilot-p4-screen")
+    for entry in entries:
+        assert ("sensor" in entry) == (entry["role"] == "pilot_slice")
+        assert entry["weather"] == entries[0]["weather"]
+
+
+def test_pedestrians_are_appended_after_the_authored_scenario_at_the_route_start():
+    import xml.etree.ElementTree as ET
+    _config, (document, entries) = load("step5-pilot-p5-screen")
+    routes = {route.get("id"): route for route in ET.fromstring(document).iter("route")}
+    for entry in entries:
+        scenarios = routes[entry["id"]].findall("scenarios/scenario")
+        injected = entry["role"] == "pilot_slice"
+        assert len(scenarios) == 1 + injected and scenarios[0].get("type") == entry["scenario"]
+        if injected:
+            first = routes[entry["id"]].find("waypoints/position")
+            trigger = scenarios[1].find("trigger_point")
+            assert scenarios[1].get("type") == "PedestriansOnRoad"
+            assert (trigger.get("x"), trigger.get("y")) == (str(float(first.get("x"))), str(float(first.get("y"))))
+            assert set(scenarios[1].find("pedestrians").attrib) == {"a", "b", "c"}
+        assert pilot_routes.route_length(routes[entry["id"]]) >= 70
+
+
+def test_screen_and_full_pilot_never_share_a_base_route():
+    for gap in ("p4", "p5"):
+        screen = {entry["base_id"] for entry in load(f"step5-pilot-{gap}-screen")[1][1]}
+        main = {entry["base_id"] for entry in load(f"step5-pilot-{gap}-main")[1][1]}
+        assert len(screen) == 10 and len(main) == 60 and not screen & main
+
+
+def test_no_two_committed_manifests_share_a_route_id():
+    ids = [entry["id"] for path in (ROOT / "configs/rollout").glob("*.manifest.json")
+           for entry in json.loads(path.read_text())]
+    assert len(ids) == len(set(ids))
+
+
+@pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main",
+                                  "step5-pilot-p5-screen", "step5-pilot-p5-main"])
+def test_committed_pilot_files_are_what_the_generator_writes(name):
+    config, (document, entries) = load(name)
+    assert (ROOT / config["route"]["routes_file"]).read_text() == document
+    assert json.loads((ROOT / config["route"]["manifest"]).read_text()) == entries

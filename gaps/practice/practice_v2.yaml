@@ -33,3 +33,56 @@ gaps:
     # least 4 of the first 5 base routes with both routes scored. If not, the
     # array is cancelled before efficacy is read.
     manipulation_check: {measure: camera_std, steps: 20, max_ratio: 0.7, min_pairs_passing: 4, of_pairs: 5}
+
+  - gap_id: P4_camera_occlusion
+    tier: T0_control
+    summary: >-
+      A black patch over the middle of the policy camera: the middle third of
+      the width, from 25% to 65% of the height, above the 30% strip SimLingo
+      crops off. Applied by the agent before the model sees the frame
+      (adapters/simlingo/camera_fault.py), so the world is unchanged and only
+      perception fails. Absent from training by construction. A control gap
+      every method should find.
+    predicate:
+      - {field: sensor.camera_fault.kind, op: "==", value: occlusion}
+    plant:
+      base_routes: 60
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.333, 0.25, 0.667, 0.65]}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: in the saved frames of the first 5
+    # scored slice routes, at least 99% of the box's pixels are black.
+    manipulation_check: {measure: black_fraction_in_box, min_fraction: 0.99, of_routes: 5}
+    # Continue from the 10-pair screen to the 60-pair pilot only if, among
+    # pairs, slice-only failures exceed neighbourhood-only failures by 3 or more.
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P5_pedestrians_in_lane
+    tier: T2_interactional
+    summary: >-
+      Three pedestrians walking along the ego lane 30 m ahead, Fail2Drive's
+      PedestriansOnRoad scenario (vendored, MIT), appended to an ordinary
+      Bench2Drive route and triggered at its start. Fail2Drive reports
+      SimLingo colliding in 87% of its own PedestriansOnRoad routes. SimLingo's
+      training has a walker-ahead bucket (5% of samples), so this gap is held to
+      efficacy only (C21). Fail2Drive scenarios are never fine-tuning targets.
+    predicate:
+      - {field: injected, op: "==", value: PedestriansOnRoad}
+    plant:
+      base_routes: 60
+      min_route_length_m: 70
+      weather: {preset: ClearNoon}
+      scenario:
+        type: PedestriansOnRoad
+        parameters: {distance: 30, walker_duration: 20, walker_speed: 2}
+        attributes:
+          pedestrians: {a: walker.pedestrian.0034, b: walker.pedestrian.0007, c: walker.pedestrian.0015}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: the logged nearest-pedestrian distance
+    # falls below 40 m within the first 30 simulated seconds in at least 4 of
+    # the first 5 scored slice routes.
+    manipulation_check: {measure: min_pedestrian_distance_m, max_value: 40, within_s: 30, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
