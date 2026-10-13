@@ -16,7 +16,10 @@ Last updated: 2026-10-13 (literature sweep: SPHINX, driving SAEs and log-based f
 P3 pilot (dense fog by day, 60 paired base routes, sized by C23): 31 routes ran in
 array 39866909, the rest run in 39867344, scored by job 39867345 when it ends.
 The first attempt, 39866822, died on node n0262, and C24's check was overridden on
-visual evidence (both in `docs/WHAT_BROKE.md`). Step 4's stability check runs on Savio (CPU job 39867065). B7 steps 3–8 and B2 are coded and tested, not yet run on real
+visual evidence (both in `docs/WHAT_BROKE.md`). Step 4's stability check failed its rule (4 of 5 resamples changed the chosen
+layers; layer 10 held in 4), so the second wave of 200 background routes is queued
+after the pilot (array 39868383, re-sweep 39868384); cancel it before it starts to
+decide the layer tie another way. About 512 SU spent by 05:15. B7 steps 3–8 and B2 are coded and tested, not yet run on real
 data. If this paragraph is still here, the session ended before writing up.
 
 **2026-10-13: a literature sweep narrowed the novelty claim.** Three papers the
