@@ -15,8 +15,8 @@ Last updated: 2026-10-13 06:40 (overnight: Step 4 stability failed, second wave 
 **2026-10-13 overnight: Step 4 is not closed, and the third weather gap failed.**
 The stability check changed the chosen layers in 4 of 5 resamples (layer 10 held
 in 4; `results/savio/step4-dev-pool/stability.json`), so the spec's second wave of
-200 background routes is queued on Savio as array 39868383, starting after the
-pilot below, then job 39868384 re-sweeps both waves into
+200 background routes is running on Savio as array 39868383 (started about 06:10,
+after the pilot below), then job 39868384 re-sweeps both waves into
 `results/savio/step4-dev-pool-both/`. **P3, dense fog at noon, failed efficacy**:
 25% failures in fog against 30% at clear noon over 59 paired base routes
 (Fisher p = 0.68, McNemar p = 0.79; `results/savio/step5-pilot-p3/`). No practice
@@ -213,7 +213,7 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 1. Read the second wave when job 39868384 ends: `results/savio/step4-dev-pool-both/sweep.json`
    on Savio. If it is still unstable, decide the layer tie (layer 10 alone, or a
    band such as 9–12); copy the result into the repo and write the layers into
-   the next capture config. Cancel 39868383 before it starts to skip the wave.
+   the next capture config. Cancelling 39868383 stops the wave's remaining tasks.
 2. A control gap that is not weather. Three weather conditions failed; Fail2Drive
    reports SimLingo loses 5.9% on its robustness shifts but 64.2% on behaviour
    shifts. Candidates: pedestrians walking in the ego lane, unseen obstacle or

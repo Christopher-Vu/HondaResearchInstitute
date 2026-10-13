@@ -19,9 +19,9 @@ second pick wandered among layers 7, 9, 11 and 12. A rerun on compute-box also
 showed that a different scikit-learn version alone flips the second pick
 (`docs/WHAT_BROKE.md`). So, as the spec's pre-set rule says, a second wave of
 200 background routes was generated and queued to start after the pilot below,
-with a job that re-sweeps both waves. It can be cancelled before it starts if
-the team would rather settle the tie another way, such as logging a band of
-layers.
+with a job that re-sweeps both waves. It started at about 06:10; cancelling
+it stops the remaining tasks if the team would rather settle the tie another
+way, such as logging a band of layers.
 
 **A replacement practice gap.** P3, dense fog at noon, was chosen because no
 daytime stock preset has fog above density 7 and, unlike P1's night dust, fog
