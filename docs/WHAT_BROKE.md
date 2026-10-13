@@ -8,6 +8,26 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-12 — Both practice gaps failed efficacy, and the check could barely have passed them
+
+**Expected:** at least one of P1 (dust storm at night) and P2 (pedestrian behind
+a container at night) would pass the §9.1 efficacy check, so the layer sweep
+could score practice-gap recovery.
+
+**Actual (measured, `sweep.json` of job 39784631, read on Savio):** P1 failed
+7 of 30 against 5 of 29 in its neighbourhood (Fisher p = 0.75); P2 failed 2 of
+30 against 0 of 30 (p = 0.49). The sweep skipped gap recovery and chose two
+pairs on the other metrics: driving queries at layers 10 and 11. 189 of 190
+routes have an outcome; route 2535800 (array task 25) failed and is on the
+rerun list. A design review then found the check itself underpowered at 30 per
+arm, analysed unpaired on paired data, and blind to P2's 5-base-route
+clustering, and found that the array ran each slice in a separate block of
+tasks from its neighbourhood.
+
+**What we did:** proposed a powered, paired check (`CONFLICTS.md` C23) and a
+manipulation check (C24); shuffled run order for every future array
+(`05979cb`). The replacement practice gaps wait on C23.
+
 ## 2026-10-09 — On Savio, a dust storm at night renders as darkness
 
 **Expected:** practice gap P1 (dust storm parameters with the sun below the

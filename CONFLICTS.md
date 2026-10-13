@@ -449,6 +449,49 @@ is bit-exact against replay, in the logged dtype", because the causal checks
 live log. Step 4 proceeds on this proposal; if it is rejected, Step 4's data is
 unaffected, since the sweep reads logged activations and never replays.
 
+### C23 · The efficacy check's sample size and unit of analysis · new, 2026-10-12, pending review
+`PRD.md` §9.1 passes a gap on uplift ≥ 20 points, ratio ≥ 2, Fisher p < 0.01
+and at least 30 rollouts in the slice. Both Step 4 practice gaps failed it
+(`docs/WHAT_BROKE.md`, 2026-10-12), and a review of the design found three
+problems with the check itself:
+
+- **Underpowered.** Exact power, assuming independent rollouts, 30 per arm:
+  against a 15% neighbourhood (the dev pool's measured failure rate), a gap that
+  truly fails 40% passes 23% of the time and one that fails 50% passes 54%.
+  At 60 per arm the same gaps pass 64% and 93%. Against a 5% neighbourhood,
+  30 per arm gives 69% and 91%.
+- **Pairing ignored.** P1's slice and neighbourhood are the same 30 routes under
+  different weather, P2's the same 30 setups at night and noon. Fisher treats
+  the arms as unrelated, so route-to-route difficulty stays in the noise.
+- **Pseudoreplication.** P2's 30 rollouts come from 5 base routes. Variants of
+  one route are not independent, so Fisher overstates the evidence and one hard
+  route can pass a gap.
+
+**Proposed:** keep the uplift and ratio thresholds; require about 60 rollouts per
+arm, drawn from at least 30 distinct base routes; pair each slice rollout with a
+neighbourhood rollout on the same base route and test with McNemar's exact test
+on the pairs (p < 0.01), so the base route is the unit. Prefer neighbourhoods
+with a low background failure rate, since that is where the check has power.
+Multiplicity across candidates stays handled as §9.1 already says: report the
+count tried and re-confirm on the scoring pool. Until this is accepted, §9.1's
+rule stands and Step 5 pilots are sized under it.
+
+### C24 · Gap pilots check the treatment and shuffle run order · new, 2026-10-12, pending review
+Two additions to the §9.1 procedure, neither of which changes its thresholds:
+
+- **Manipulation check before efficacy.** P1's dust storm rendered as plain
+  darkness on Savio, which was noticed by eye, not by any check
+  (`docs/WHAT_BROKE.md`, 2026-10-09). Every perceptual gap pilot first confirms,
+  on the first frames of a few slice routes on Savio's renderer, that the camera
+  image differs from the neighbourhood in the intended way. The measure and its
+  threshold are per gap and written into the gap's spec before the pilot runs;
+  not coded until Step 5's pilot generator exists.
+- **Shuffled run order.** The Step 4 array ran its roles in blocks (P1 slice,
+  background, P2 slice, P2 neighbourhood), so each slice ran at other times and
+  on other nodes than its neighbourhood. `scripts/route_sample.sbatch` now runs
+  routes in `route_run.run_order`'s seeded shuffle (`05979cb`). Arrays submitted
+  before that commit map task indices to config order; rerun those by route id.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

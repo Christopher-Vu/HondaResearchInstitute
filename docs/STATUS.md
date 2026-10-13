@@ -6,13 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-09 02:40 (Step 4 dev pool running on Savio; B7 frozen; Step 3 replay exact against itself, not the live log)
+Last updated: 2026-10-12 23:00 (Step 4 sweep read: layers 10 and 11 chosen, both practice gaps failed efficacy; C23/C24 proposed)
 
 ---
 
 ## Current position
 
-**Night of 2026-10-09: Step 4's dev pool is running on Savio.** Array job
+**2026-10-12: Step 4's sweep is done and read, on Savio only.** It chose the
+driving-query site at decoder layers 10 and 11 (combined ranks 7.9 and 9.5).
+**Both practice gaps failed efficacy**: P1 7/30 vs 5/29 (p = 0.75), P2 2/30 vs
+0/30 (p = 0.49), so gap recovery was skipped and no third pair was added. 189 of
+190 routes have an outcome (DS 93.8, SR 84.7%); route 2535800 is on the rerun
+list. A design review found the efficacy check underpowered and unpaired
+(`CONFLICTS.md` C23) and proposed a manipulation check (C24); future arrays now
+run in a shuffled order (`05979cb`). Not yet done: layers written into the
+config, `sweep.json` copied into the repo, the resampling stability check.
+
+**Night of 2026-10-09: Step 4's dev pool ran on Savio.** Array job
 39784630 drives 190 routes (95 tasks, two routes per A40, at most 6 at once;
 about 780 SU and 5 hours at Step 2's rate), and job 39784631 starts when it
 ends: it scores the routes, exports each capture to a shard, checks the two
@@ -179,20 +189,22 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-1. In the morning: read `results/savio/step4-dev-pool/sweep.json` on Savio
-   (`chosen`, `practice_gap_efficacy`, `skipped`). If a practice gap failed its
-   efficacy check, that is reported, not hidden; its replacement costs about
-   250 SU. Write the 2–3 chosen layer-site pairs into the rollout config, copy
-   the sweep JSON into the repo, and run the resampling stability check from the
-   spec (not yet coded). Routes with no outcome are listed by `score_routes.py`
-   as reruns.
-2. Decisions for Chris and Jerry: sign off B7; C21 (dev pool size, practice
+1. Close Step 4 with no new routes: copy `sweep.json` from
+   `/global/scratch/users/imhaohao/HondaResearchInstitute/results/savio/step4-dev-pool/`
+   into the repo, write driving queries at layers 10 and 11 into the rollout
+   config, and code and run the resampling stability check from the spec (CPU).
+2. Replacement practice gaps (about 250 SU each) wait on C23, since its sample
+   size decides how many rollouts each needs. Before then, mine Step 2 and the
+   dev pool for slices that already fail far above their neighbours (0 SU);
+   anything found still needs fresh rollouts. Steps 6 and 7 need a passing gap.
+3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check); C24
+   (manipulation check); sign off B7; C21 (dev pool size, practice
    gaps held to efficacy but not novelty); C22 (Step 3's replay condition in
    bfloat16); C20 (tarball instead of container); §16.2 (gap portfolio size).
-3. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
+4. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
    rerun is about 910 SU, or a handful of routes plus a rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
-4. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
+5. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
    copy it over, then on Savio `git fetch ../x.bundle codex/carla-bringup:refs/remotes/bundle/carla-bringup`
    and `git merge --ff-only bundle/carla-bringup`. Savio's checkout was at
    `05d7bf5` when the dev pool started. Savio refuses a second SSH session while
