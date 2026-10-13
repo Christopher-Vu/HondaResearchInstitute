@@ -5,6 +5,57 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-13 (overnight) — Step 4's stability check failed, and dense fog did not hurt SimLingo
+
+Jerry handed the night to the agent with a 2,000 SU cap on Savio, compute-box for
+CPU work, and approval to size gap pilots by `CONFLICTS.md` C23 while Chris
+reviews it.
+
+**Step 4.** The resampling stability check (drop a random fifth of the base
+routes, re-run the sweep, five times) was coded into `src/discovery/layer_sweep.py`
+and run on Savio. It changed the chosen layers in 4 of 5 resamples, where the
+spec allows 1 (measured). Driving queries at layer 10 survived in 4 of 5; the
+second pick wandered among layers 7, 9, 11 and 12. A rerun on compute-box also
+showed that a different scikit-learn version alone flips the second pick
+(`docs/WHAT_BROKE.md`). So, as the spec's pre-set rule says, a second wave of
+200 background routes was generated and queued to start after the pilot below,
+with a job that re-sweeps both waves. It can be cancelled before it starts if
+the team would rather settle the tie another way, such as logging a band of
+layers.
+
+**A replacement practice gap.** P3, dense fog at noon, was chosen because no
+daytime stock preset has fog above density 7 and, unlike P1's night dust, fog
+is lit and reaches the camera on Savio. It was piloted as 60 pairs on 60
+distinct base routes, each route run in fog and at clear noon
+(`configs/rollout/step5-pilot-p3.yaml`, new generator `adapters/simlingo/pilot_routes.py`,
+new scorer `src/harness/efficacy.py` reporting both PRD §9.1's rule and C23's
+paired test). **It failed both** (measured): 25% failures in fog against 30% in
+clear. Fog made SimLingo slower, not worse. This is the third weather
+condition SimLingo shrugs off, which matches Fail2Drive's own numbers (its
+"Robustness" shifts cost SimLingo 5.9%, "Behavior" shifts 64.2%). A control gap
+probably has to come from behaviour or novel objects, not weather.
+
+Two things went wrong along the way, both in `docs/WHAT_BROKE.md`: a third
+faulty A40 node, n0262 (now excluded for every A40 submission through
+`configs/cluster/savio.yaml`), and the pre-set image check for P3, whose
+measure (pixel spread) failed on low-contrast scenes although the fog was
+plainly visible. The pilot was paused by that rule and then resumed on visual
+evidence, which is recorded as a deviation.
+
+**Baselines.** B7's statistics, score and axis construction (steps 3–8 of
+`docs/steps/b7-gap-signal.md`) and B2, the human-taxonomy baseline, are coded
+and tested (`src/baselines/`). Both list the choices the specs left open, for
+sign-off. B2 run on the dev pool ranks P1's dust slice third, as "custom"
+weather. The SAE itself was not started: whether it should be per-token or on
+frame means is still open (`docs/step0-trackA-findings.md`, A5 consequence 1).
+
+**Also measured:** of 99 base routes run twice (Step 2 and the dev pool), 29
+failed at least once but only 10 failed both times, so one run says little about
+a route. HighwayExit and YieldToEmergencyVehicle fail almost always (7 of 7 and
+6 of 7), natural axes any method will find.
+
+---
+
 ## 2026-10-13 — Has anyone already done this? A literature sweep
 
 The question was whether someone has already published our design, and if not,

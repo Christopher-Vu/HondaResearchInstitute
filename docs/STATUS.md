@@ -6,21 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-13 (literature sweep: SPHINX, driving SAEs and log-based failure taxonomies added to PRD §4; C25–C27 proposed)
+Last updated: 2026-10-13 06:40 (overnight: Step 4 stability failed, second wave queued; P3 dense fog failed efficacy; B2 and B7 core coded)
 
 ---
 
 ## Current position
 
-**Overnight 2026-10-13, in progress (agent, Jerry asleep, 2000 SU cap from 14,491 used).**
-P3 pilot (dense fog by day, 60 paired base routes, sized by C23): 31 routes ran in
-array 39866909, the rest run in 39867344, scored by job 39867345 when it ends.
-The first attempt, 39866822, died on node n0262, and C24's check was overridden on
-visual evidence (both in `docs/WHAT_BROKE.md`). Step 4's stability check failed its rule (4 of 5 resamples changed the chosen
-layers; layer 10 held in 4), so the second wave of 200 background routes is queued
-after the pilot (array 39868383, re-sweep 39868384); cancel it before it starts to
-decide the layer tie another way. About 512 SU spent by 05:15. B7 steps 3–8 and B2 are coded and tested, not yet run on real
-data. If this paragraph is still here, the session ended before writing up.
+**2026-10-13 overnight: Step 4 is not closed, and the third weather gap failed.**
+The stability check changed the chosen layers in 4 of 5 resamples (layer 10 held
+in 4; `results/savio/step4-dev-pool/stability.json`), so the spec's second wave of
+200 background routes is queued on Savio as array 39868383, starting after the
+pilot below, then job 39868384 re-sweeps both waves into
+`results/savio/step4-dev-pool-both/`. **P3, dense fog at noon, failed efficacy**:
+25% failures in fog against 30% at clear noon over 59 paired base routes
+(Fisher p = 0.68, McNemar p = 0.79; `results/savio/step5-pilot-p3/`). No practice
+gap passes yet, and weather does not seem able to make one. B2 (human taxonomy)
+and B7's statistics (steps 3–8) are coded and tested. Spend: about 510 SU by
+05:15, 1,350 projected with the second wave, under Jerry's 2,000 cap.
 
 **2026-10-13: a literature sweep narrowed the novelty claim.** Three papers the
 PRD had missed are now in §4.10–4.12. SPHINX closes the loop from a driving
@@ -208,25 +210,28 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-1. Close Step 4 with no new routes: copy `sweep.json` from
-   `/global/scratch/users/imhaohao/HondaResearchInstitute/results/savio/step4-dev-pool/`
-   into the repo, write driving queries at layers 10 and 11 into the rollout
-   config, and code and run the resampling stability check from the spec (CPU).
-2. Replacement practice gaps (about 250 SU each) wait on C23, since its sample
-   size decides how many rollouts each needs. Before then, mine Step 2 and the
-   dev pool for slices that already fail far above their neighbours (0 SU);
-   anything found still needs fresh rollouts. Steps 6 and 7 need a passing gap.
-3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check); C24
-   (manipulation check); sign off B7; C21 (dev pool size, practice
-   gaps held to efficacy but not novelty); C22 (Step 3's replay condition in
-   bfloat16); C20 (tarball instead of container); §16.2 (gap portfolio size).
+1. Read the second wave when job 39868384 ends: `results/savio/step4-dev-pool-both/sweep.json`
+   on Savio. If it is still unstable, decide the layer tie (layer 10 alone, or a
+   band such as 9–12); copy the result into the repo and write the layers into
+   the next capture config. Cancel 39868383 before it starts to skip the wave.
+2. A control gap that is not weather. Three weather conditions failed; Fail2Drive
+   reports SimLingo loses 5.9% on its robustness shifts but 64.2% on behaviour
+   shifts. Candidates: pedestrians walking in the ego lane, unseen obstacle or
+   animal classes, a camera fault. Interactional gaps meet C23's 30-base-route
+   floor only across several scenario families or with routes cut from
+   `routes_validation.xml` (C23 note).
+3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check; pilots
+   are already sized by it); C24 (manipulation check: use upper-half saturation,
+   `docs/WHAT_BROKE.md`); C25–C27 (literature sweep); sign off B7 and its eight
+   pinned readings, and B2's (`src/baselines/`); per-token or frame-mean SAE
+   before Step 7; C21, C22, C20, §16.2.
 4. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
    rerun is about 910 SU, or a handful of routes plus a rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
 5. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
    copy it over, then on Savio `git fetch ../x.bundle codex/carla-bringup:refs/remotes/bundle/carla-bringup`
    and `git merge --ff-only bundle/carla-bringup`. Savio's checkout was at
-   `05d7bf5` when the dev pool started. Savio refuses a second SSH session while
+   `ccc4534` on 2026-10-13. Savio refuses a second SSH session while
    one is busy, so run cluster commands one at a time.
 
 **An agent can reach the cluster only through a shared SSH connection that a
