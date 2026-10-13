@@ -8,6 +8,29 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-13 — The layer sweep's second pick depends on the scikit-learn version
+
+**Expected:** rerunning the Step 4 sweep on compute-box, on the same 190 shards
+with the same seeds, would reproduce Savio's choice of driving queries at
+layers 10 and 11.
+
+**Actual (measured):** compute-box chose layers 10 and **9**. It runs
+scikit-learn 1.6.1 (Python 3.9); Savio's analysis venv runs 1.9.1. Shuffled
+`StratifiedGroupKFold` assigns base routes to folds differently across these
+versions, which moved individual metrics by up to 0.089 (junction-distance R²,
+occlusion AUROC) and failure AUROC by 0.058. Layer 10 was first in both runs.
+The runners-up are a near-tie: on Savio, combined ranks were 9.5 (layer 11),
+10.4 (13) and 10.7 (9); on compute-box 8.6 (9), 9.9 (13) and 11.1 (11).
+
+**What we did:** stopped the compute-box stability check, which compared
+against Savio's choice and would have counted the version change as
+instability, and ran it on Savio in the original venv (CPU job 39867065,
+`scripts/step4_stability.sbatch`). Any rerun of a sweep must use the venv that
+produced the result it is compared with. Whatever the resamples say, only the
+first pick is well separated.
+
+---
+
 ## 2026-10-13 — A third A40 node, n0262, kills CARLA on start
 
 **Expected:** the P3 pilot array (job 39866822) would run like Step 4's, with
