@@ -213,6 +213,47 @@ against the PDF before quoting them in the paper.
 
 ---
 
+## Literature sweep, 2026-10-12: is the full design already published?
+
+Search fan-out by Gemini 3.8 Flash (Antigravity `agy` CLI) over seven angles,
+then three independent Gemini fact-checkers per claim. Every arXiv ID cited was
+checked against the arXiv API (41 of 41 exist with matching titles). The three
+closest papers were read from the arXiv HTML; the rest from abstracts only.
+"No one has done X" rows mean no counterexample was found by that search, not
+proof of absence.
+
+| Paper | Finding | Source read |
+|---|---|---|
+| **SPHINX**, Do, Cao, Van Do, Hajdu, arXiv 2606.17482 (Jun 2026) | ✅ Closed-loop adversarial scenario generation guided by a diagnosis of the policy: CRAFT decomposes the policy's activations into concepts (top-K per decision, with attribution maps) plus predictive uncertainty; a VLM turns that evidence into named weaknesses, scenario plans and simulator scripts; the policy is retrained on them. BeamNG.tech, not CARLA. Policies DAVE-2, TransFuser, TCP, RAP-ResNet. Scored by post-retraining success rate on named critical scenes (cut-in left and others) against ChatScene and LLM-Attacker. Per-decision explanation, not a failure-versus-success contrast over a corpus. No planted or known ground truth. No code link in the paper. | arXiv HTML |
+| **Motzkus & Bernhard**, Bamberg, arXiv 2607.06328 (Jul 2026) | ✅ SAEs (TopK, Matryoshka, archetypal) on the latent features of GTRS and iPad, open-loop NAVSIM only. Small dictionaries suffice (TopK, 256 latents, k = 64: 0% dead, explained variance 0.995, Table I), and they warn that a large expansion lets the SAE memorize scenarios; their probe score subtracts scenario-ID decodability for that reason. SAE neurons ranked by relevance propagation to the trajectory score; suppressing concepts tied to erroneous behaviour improves EPDMS sub-metrics. Fixes by steering, not data. No failure-conditioned discovery, no planted truth. | arXiv HTML |
+| **Gupta, Ciftci, Bansal**, arXiv 2506.06570v4 (Jul 2026 revision) | ✅ Unsupervised failure taxonomies: an MLLM writes a structured explanation per failure log, and explanations are clustered. Never reads the policy's internals. Recovery scored against RoboFail's expert-defined failure modes (similarity heatmaps against BERTopic baselines); also 1,500 Nexar dashcam crash videos (human drivers) and indoor navigation. **Closes the loop:** targeted navigation data (40K samples) cut the failure rate from 46% to 18%, against 34% for the same number of uniformly collected samples. Website mllm-failure-clustering.github.io. | arXiv HTML |
+| COAST, arXiv 2605.17144 | ✅ Conceptor subspaces fit from success and failure rollouts steer VLA activations at inference. Reports that failure representations share structure across tasks while success representations are task-specific. Manipulation. | abstract |
+| FIPER, arXiv 2510.09459 (NeurIPS 2025) | ✅ Runtime failure alarm with no failure data: OOD in the policy embedding space plus action-chunk entropy, conformal thresholds. An alarm, not named modes. | abstract |
+| Early Warning Signals for OpenVLA, arXiv 2606.29699 | ✅ Layer-16 linear probe: AUROC 0.972 retrospectively on failed trajectories, but 3.32 warning onsets per clean episode; the authors say fitting and evaluation shared tasks, resets and seed. | abstract |
+| Probing ORION's planning token, arXiv 2608.07361 | ✅ ORION on Bench2Drive: the navigation command is 97.7% linearly decodable after the first of 32 decoder layers, while compatibility with the planner improves only gradually with depth. | abstract |
+| What Probing Reveals about AD, arXiv 2606.31106 | ✅ Linear probes on IL and RL driving policies; policies often fail to form timely predictions of nearby vehicles in near-collision events. Supervised probes on chosen quantities. | abstract |
+| FailSAE, arXiv 2609.04276 | ✅ Failure-aware SAE training for failure prediction in CLIP. Static classification. | abstract |
+| Peng, Movva, Kleinberg, Pierson, arXiv 2506.23845 | ✅ Position: SAEs are weak for acting on known concepts and strong for discovering unknown ones. | abstract |
+| RiskLens (IJCAI 2026 SPAI workshop) | ❓ Gemini reports "risk amnesia": risk decodable mid-network but causally decoupled from actions. Three fact-checkers gave three different OpenReview links. Unconfirmed. | Gemini only |
+| SafeSAE-VLA (ECCV 2026); "Interpretable Signals for VLA Model Failure" (ICML 2026 MI workshop) | ❓ Reported to exist by Gemini; not read. | Gemini only |
+| Closed-loop CARLA cost and model availability | ✅ Bench2Drive reports tens of GPU-hours per 220-route evaluation (three checkers). AutoVLA's public code is open-loop only; EMMA is closed. | Gemini, 3 of 3 |
+| Absence claims | Gemini found no paper that trains SAEs on a **closed-loop** driving policy, and none that scores failure discovery for a sequential policy against planted training-data gaps (3 of 3 each). | Gemini, 3 of 3 |
+
+🔶 **Design consequences, proposed in `CONFLICTS.md` C25–C27. Not applied.**
+
+1. The "did you need internals at all?" control now has a published answer that
+   closes the loop. Gupta et al. is the optional VLM-captioning baseline of PRD
+   §9.3, done and measured. Promote it (C25).
+2. Closing the loop from a driving policy's internals is no longer ours alone
+   (SPHINX), nor is unsupervised failure discovery with targeted data (Gupta et
+   al.). What remains unclaimed is a corpus-level failure-conditioned contrast in
+   closed-loop CARLA, scored against planted gaps (C26).
+3. COAST, Motzkus & Bernhard, and the OpenVLA early-warning paper each name a
+   way our discovery could fool itself: a shared "failure is coming" direction,
+   route memorization, and retrospective separability (C27).
+
+---
+
 ## Still open after Track A
 
 - ~~A5 Event-grounded SAEs (2605.17204)~~: read 2026-10-06 from the arXiv HTML, section above.
