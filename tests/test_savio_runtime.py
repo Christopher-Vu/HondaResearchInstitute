@@ -95,6 +95,23 @@ def test_route_sample_array_covers_exactly_the_configured_routes():
     assert len(set(routes)) == len(routes)
 
 
+def test_run_order_spreads_every_role_across_the_array():
+    import json
+    from collections import Counter
+    from pathlib import Path
+
+    import yaml
+    from route_run import configured_route_ids, run_order
+    root = Path(__file__).resolve().parents[1]
+    config = yaml.safe_load((root / "configs/rollout/step4-dev-pool.yaml").read_text())
+    role = {entry["id"]: entry["role"] for entry in json.loads((root / config["route"]["manifest"]).read_text())}
+    ordered = run_order(configured_route_ids(config))
+    assert sorted(ordered) == sorted(role) and run_order(list(role)) == run_order(list(role))
+    quarter = len(ordered) // 4
+    for start in range(0, 4 * quarter, quarter):
+        assert set(Counter(role[route] for route in ordered[start:start + quarter])) == set(role.values())
+
+
 def test_route_sample_ids_exist_in_the_pinned_routes_file():
     from pathlib import Path
 

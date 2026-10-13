@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import signal
 import subprocess
 import sys
@@ -26,6 +27,7 @@ ROUTES = SOURCE / "leaderboard/data/bench2drive220.xml"
 AGENT = ROOT / "adapters/simlingo/visible_agent.py"
 VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
                   "Failed - Agent deviated from the route", "Failed - Agent got blocked"}
+RUN_ORDER_SEED = 0
 
 
 @dataclass(frozen=True)
@@ -46,6 +48,13 @@ def configured_route_ids(config: dict[str, Any]) -> list[str]:
         return list(config["routes"])
     manifest = json.loads((ROOT / config["route"]["manifest"]).read_text())
     return [entry["id"] for entry in manifest]
+
+
+def run_order(route_ids: list[str]) -> list[str]:
+    """Route ids in a fixed shuffled order, so a route's role never lines up with array task, start time or node."""
+    shuffled = list(route_ids)
+    random.Random(RUN_ORDER_SEED).shuffle(shuffled)
+    return shuffled
 
 
 def route_from_xml(route_id: str, config: dict[str, Any] | None = None) -> dict[str, str]:
