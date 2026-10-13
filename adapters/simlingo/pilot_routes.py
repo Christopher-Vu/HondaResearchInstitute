@@ -11,7 +11,8 @@ the unit of analysis (CONFLICTS.md C23). An arm may set:
     weather   a preset with overrides (default ClearNoon)
     sensor    agent-side settings recorded in the manifest, e.g. `camera_fault`, which run_savio.py hands the agent
     scenario  a scenario appended to the route, triggered at its first waypoint: `type`, `parameters` (each written
-              as <name value=...>) and `attributes` (child elements written with attributes, e.g. `pedestrians`)
+              as <name value=...>; a list rotates across base routes in draw order) and `attributes` (child
+              elements written with attributes, e.g. `pedestrians`); the manifest records the values used
 
 With `pilot.stage`, the generator draws `screen_base_routes` + `plant.base_routes` bases in one order: the first
 `screen_base_routes` are the screen, the rest the full pilot, so the full pilot never reuses a screened base.
@@ -71,10 +72,15 @@ def plan_pairs(bases: list[ET.Element], gap: dict[str, Any],
         (PlannedRoute(base, NEIGHBOURHOOD, neighbourhood_weather, {}, id_offset, (gap["gap_id"],)), nearby))]
 
 
-def injected_scenario(route: ET.Element, spec: dict[str, Any]) -> ET.Element:
+def resolved_parameters(spec: dict[str, Any], base_index: int) -> dict[str, Any]:
+    return {name: value[base_index % len(value)] if isinstance(value, list) else value
+            for name, value in spec.get("parameters", {}).items()}
+
+
+def injected_scenario(route: ET.Element, spec: dict[str, Any], base_index: int) -> ET.Element:
     (x0, y0, z0), (x1, y1, _z1) = waypoints(route)[:2]
     scenario = ET.Element("scenario", {"name": f"{spec['type']}_injected", "type": spec["type"]})
-    for name, value in spec.get("parameters", {}).items():
+    for name, value in resolved_parameters(spec, base_index).items():
         ET.SubElement(scenario, name, {"value": str(value)})
     yaw = math.degrees(math.atan2(y1 - y0, x1 - x0))
     ET.SubElement(scenario, "trigger_point", {"x": str(x0), "y": str(y0), "z": str(z0), "yaw": f"{yaw:.1f}"})
@@ -83,21 +89,23 @@ def injected_scenario(route: ET.Element, spec: dict[str, Any]) -> ET.Element:
     return scenario
 
 
-def build_arm(planned: PlannedRoute, arm: dict[str, Any]) -> ET.Element:
+def build_arm(planned: PlannedRoute, arm: dict[str, Any], base_index: int) -> ET.Element:
     route = build_route(planned)
     if "scenario" in arm:
         scenarios = route.find("scenarios")
         assert scenarios is not None
-        scenarios.append(injected_scenario(route, arm["scenario"]))
+        scenarios.append(injected_scenario(route, arm["scenario"], base_index))
     return route
 
 
-def arm_entry(planned: PlannedRoute, route: ET.Element, arm: dict[str, Any], gap: dict[str, Any]) -> dict[str, Any]:
+def arm_entry(planned: PlannedRoute, route: ET.Element, arm: dict[str, Any], gap: dict[str, Any],
+              base_index: int) -> dict[str, Any]:
     entry = manifest_entry(planned, route, [])
     if "sensor" in arm:
         entry["sensor"] = arm["sensor"]
     if "scenario" in arm:
         entry["injected"] = arm["scenario"]["type"]
+        entry["injected_parameters"] = resolved_parameters(arm["scenario"], base_index)
     entry["practice_gaps"] = [gap["gap_id"]] if matches(gap["predicate"], entry) else []
     return entry
 
@@ -120,10 +128,10 @@ def generate(config: dict[str, Any]) -> tuple[str, list[dict[str, Any]]]:
     gap = gaps[pilot["gap_id"]]
     bases = draw_bases(routes, gap, pilot)
     pairs = plan_pairs(bases, gap, pilot.get("id_offset", 0))
-    built = [(planned, build_arm(planned, arm), arm) for planned, arm in pairs]
-    entries = [arm_entry(planned, route, arm, gap) for planned, route, arm in built]
+    built = [(planned, build_arm(planned, arm, index // 2), arm, index // 2) for index, (planned, arm) in enumerate(pairs)]
+    entries = [arm_entry(planned, route, arm, gap, base) for planned, route, arm, base in built]
     validate(entries, len(bases), gap)
-    return routes_document([route for _planned, route, _arm in built]), entries
+    return routes_document([route for _planned, route, _arm, _base in built]), entries
 
 
 def main() -> None:

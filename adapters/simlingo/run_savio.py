@@ -67,12 +67,19 @@ def torch_threads(slots: int) -> int:
     return max(1, int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count() or 1)) // slots)
 
 
-def server_command(quality: str, rpc_port: int, container: str | None) -> list[str]:
-    command = [str(CARLA_ROOT / "CarlaUE4.sh"), "-RenderOffScreen", "-nosound",
+def server_root(build: str | None) -> Path:
+    """The CARLA server a config's `simulator.carla_build` names (configs/cluster/savio.yaml `carla.builds`);
+    the stock release when it names none. The client is always the stock 0.9.15 PythonAPI."""
+    builds = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"].get("builds") or {}
+    return ROOT / builds[build] if build in builds else CARLA_ROOT
+
+
+def server_command(quality: str, rpc_port: int, container: str | None, root: Path = CARLA_ROOT) -> list[str]:
+    command = [str(root / "CarlaUE4.sh"), "-RenderOffScreen", "-nosound",
                f"-quality-level={quality}", f"-carla-rpc-port={rpc_port}"]
     if container is None:
         return command
-    return ["apptainer", "exec", "--nv", "--bind", str(CARLA_ROOT), container, *command]
+    return ["apptainer", "exec", "--nv", "--bind", str(root), container, *command]
 
 
 def parse_gpu_samples(output: str) -> list[tuple[str, str, int, int]]:
@@ -138,11 +145,11 @@ class GpuMonitor:
 
 
 @contextmanager
-def carla_server(output: Path, quality: str, container: str | None,
-                 slot: int = 0) -> Iterator[tuple[Ports, dict[str, str]]]:
+def carla_server(output: Path, quality: str, container: str | None, slot: int = 0,
+                 root: Path = CARLA_ROOT) -> Iterator[tuple[Ports, dict[str, str]]]:
     ports = job_ports(slot)
     with (output / "server.log").open("w") as log:
-        server = subprocess.Popen(server_command(quality, ports.rpc, container), stdout=log,
+        server = subprocess.Popen(server_command(quality, ports.rpc, container, root), stdout=log,
                                   stderr=subprocess.STDOUT, start_new_session=True)
         try:
             versions = wait_for_server(ports.rpc, SERVER_STARTUP_SECONDS, server)
@@ -180,7 +187,8 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
     agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"))
     capture |= route_environment(config)
     with GpuMonitor() as gpu:
-        with carla_server(output, config["simulator"]["quality"], container, slot) as (ports, versions):
+        root = server_root(config["simulator"].get("carla_build"))
+        with carla_server(output, config["simulator"]["quality"], container, slot, root) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
                                              CARLA_ROOT / "PythonAPI/carla", False, capture)
             command = evaluator_command(output, config, ports, torch_threads(slots), agent)

@@ -151,3 +151,25 @@ index 0000000..1a1d78a
 +            criteria.append(CollisionTest(self.ego_vehicles[0]))
 +        return criteria
 \ No newline at end of file
+diff --git a/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py b/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
+index 485705a..0eaee13 100644
+--- a/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
++++ b/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
+@@ -177,6 +177,8 @@ class DynamicObjectCrossing(BasicScenario):
+ 
+         self._distance = get_value_parameter(config, 'distance', float, 12)
+         self._blocker_model = get_value_parameter(config, 'blocker_model', str, 'static.prop.vendingmachine')
++        # Crossing actor's blueprint, as in Fail2Drive (MIT): an animal on its simulator (practice gap P6).
++        self._walker = get_value_parameter(config, 'walker', str, 'walker.pedestrian.*')
+         if abs(self._crossing_angle) > 90:
+             raise ValueError("'crossing_angle' must be between -90 and 90º for the pedestrian to cross the road")
+         self._direction = get_value_parameter(config, 'direction', str, 'right')
+@@ -264,7 +266,7 @@ class DynamicObjectCrossing(BasicScenario):
+ 
+             offset = {"yaw": 270 - self._crossing_angle, "z": 1.2, "k": 1.2}
+             self._adversary_transform = self._get_sidewalk_transform(walker_wp, offset)
+-            adversary = CarlaDataProvider.request_new_actor('walker.*', self._adversary_transform)
++            adversary = CarlaDataProvider.request_new_actor(self._walker, self._adversary_transform)
+             if adversary is None:
+                 blocker.destroy()
+                 self._number_of_attempts -= 1

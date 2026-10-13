@@ -86,3 +86,34 @@ gaps:
     # the first 5 scored slice routes.
     manipulation_check: {measure: min_pedestrian_distance_m, max_value: 40, within_s: 30, min_routes_passing: 4, of_routes: 5}
     screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P6_animal_crossing
+    tier: T1_enumerable
+    summary: >-
+      An animal crossing from behind a parked blocker, where SimLingo has only
+      ever seen people cross: Bench2Drive's DynamicObjectCrossing appended to an
+      ordinary route, its walker one of three animals from Fail2Drive's
+      simulator (walker.animal.1006, 1009, 1017, the ones Fail2Drive pairs with
+      this scenario), rotating across base routes. Its neighbourhood is the same
+      crossing by a person, so the pair differs only in what crosses. Both arms
+      run on Fail2Drive's server build, the only one with the animals. Absent
+      from training by construction; evaluation and discovery only (PRD 4.7).
+    predicate:
+      - {field: injected_parameters.walker, op: in, value: [walker.animal.1006, walker.animal.1009, walker.animal.1017]}
+    plant:
+      base_routes: 60
+      min_route_length_m: 70
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        parameters: {distance: 20, direction: right, walker: [walker.animal.1006, walker.animal.1009, walker.animal.1017]}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        parameters: {distance: 20, direction: right, walker: [walker.pedestrian.0001, walker.pedestrian.0005, walker.pedestrian.0010]}
+    # C24, fixed before the pilot runs: the animal is visible in a saved frame
+    # of at least 4 of the first 5 scored slice routes (checked by eye; the
+    # state logger counts only walker.pedestrian.*).
+    manipulation_check: {measure: animal_visible_in_frames, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}

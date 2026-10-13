@@ -192,3 +192,11 @@ def test_chatty_evaluator_finishes_normally(tmp_path):
     from route_run import run_evaluator
     command = [sys.executable, "-c", "import time\nfor i in range(4):\n    print(i, flush=True); time.sleep(0.4)"]
     assert run_evaluator(tmp_path, command, {}, silence_limit_seconds=1) is True
+
+
+def test_a_config_can_name_the_fail2drive_server_and_otherwise_gets_stock():
+    from run_savio import ROOT, server_root
+    assert server_root(None) == CARLA_ROOT and server_root("stock-linux-release") == CARLA_ROOT
+    assert server_root("fail2drive") == ROOT / ".runtime/fail2drive-carla"
+    assert server_command("Epic", 20000, None, server_root("fail2drive"))[0].endswith("fail2drive-carla/CarlaUE4.sh")
+

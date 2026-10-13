@@ -50,6 +50,11 @@ carla:
   # `apptainer exec --nv`:
   #   APPTAINER_CACHEDIR=$PWD/.runtime/apptainer apptainer pull .runtime/carla-0.9.15.sif docker://carlasim/carla:0.9.15
   container: null
+  # Server builds a rollout config can name in simulator.carla_build; any other name runs the stock release
+  # at .runtime/carla-linux. Fail2Drive's adds its animal and obstacle assets (practice gap P6); unpack
+  # fail2drive_simulator.tar.gz from huggingface.co/datasets/SimonGer/fail2drive and link it here.
+  builds:
+    fail2drive: .runtime/fail2drive-carla
 
 storage:
   # Berkeley Research IT system overview: scratch is not backed up; home is 50 GB.

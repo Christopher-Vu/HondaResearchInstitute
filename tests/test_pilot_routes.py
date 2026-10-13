@@ -98,7 +98,7 @@ def test_pedestrians_are_appended_after_the_authored_scenario_at_the_route_start
 
 
 def test_screen_and_full_pilot_never_share_a_base_route():
-    for gap in ("p4", "p5"):
+    for gap in ("p4", "p5", "p6"):
         screen = {entry["base_id"] for entry in load(f"step5-pilot-{gap}-screen")[1][1]}
         main = {entry["base_id"] for entry in load(f"step5-pilot-{gap}-main")[1][1]}
         assert len(screen) == 10 and len(main) == 60 and not screen & main
@@ -110,9 +110,25 @@ def test_no_two_committed_manifests_share_a_route_id():
     assert len(ids) == len(set(ids))
 
 
-@pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main",
-                                  "step5-pilot-p5-screen", "step5-pilot-p5-main"])
+@pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main", "step5-pilot-p5-screen",
+                                  "step5-pilot-p5-main", "step5-pilot-p6-screen", "step5-pilot-p6-main"])
 def test_committed_pilot_files_are_what_the_generator_writes(name):
     config, (document, entries) = load(name)
     assert (ROOT / config["route"]["routes_file"]).read_text() == document
     assert json.loads((ROOT / config["route"]["manifest"]).read_text()) == entries
+
+
+def test_animal_pairs_differ_only_in_what_crosses_and_animals_rotate():
+    config, (_document, entries) = load("step5-pilot-p6-main")
+    assert config["simulator"]["carla_build"] == "fail2drive"
+    by_base = {}
+    for entry in entries:
+        by_base.setdefault(entry["base_id"], {})[entry["role"]] = entry
+    animals = set()
+    for pair in by_base.values():
+        animal, person = pair["pilot_slice"]["injected_parameters"], pair["pilot_neighbourhood"]["injected_parameters"]
+        assert animal["walker"].startswith("walker.animal.") and person["walker"].startswith("walker.pedestrian.")
+        assert {**animal, "walker": None} == {**person, "walker": None}
+        animals.add(animal["walker"])
+    assert len(animals) == 3
+
