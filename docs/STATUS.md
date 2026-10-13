@@ -6,11 +6,20 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-12 23:00 (Step 4 sweep read: layers 10 and 11 chosen, both practice gaps failed efficacy; C23/C24 proposed)
+Last updated: 2026-10-13 (literature sweep: SPHINX, driving SAEs and log-based failure taxonomies added to PRD §4; C25–C27 proposed)
 
 ---
 
 ## Current position
+
+**2026-10-13: a literature sweep narrowed the novelty claim.** Three papers the
+PRD had missed are now in §4.10–4.12. SPHINX closes the loop from a driving
+policy's internals, Motzkus & Bernhard put SAEs on an end-to-end driving model
+(open-loop), and Gupta et al. close the loop from logs with no internals at all.
+Planted-gap scoring for closed-loop policies is still unclaimed. Proposed for
+Chris and Jerry: a required log-based VLM baseline (C25), leading with the
+harness (C26), and three cheap discovery checks on dev (C27). Evidence:
+`docs/step0-trackA-findings.md`.
 
 **2026-10-12: Step 4's sweep is done and read, on Savio only.** It chose the
 driving-query site at decoder layers 10 and 11 (combined ranks 7.9 and 9.5).

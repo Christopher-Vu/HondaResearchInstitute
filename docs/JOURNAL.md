@@ -5,6 +5,38 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-13 — Has anyone already done this? A literature sweep
+
+The question was whether someone has already published our design, and if not,
+why not. Gemini searched from seven angles, run through Google's Antigravity
+command line (`agy`) because the old `gemini` command no longer logs in. Three
+separate Gemini fact-checkers then tried to disprove each key claim. Every arXiv
+ID it cited (41 of 41) was checked against arXiv, and the three closest papers
+were read in full. Facts and sources are in `docs/step0-trackA-findings.md`
+under "Literature sweep".
+
+Nobody has published the whole design, but three papers the PRD had missed come
+close and are now in `PRD.md` §4.10–4.12. SPHINX (June 2026) explains a driving
+policy's decisions from its activations, has a vision-language model turn that
+into adversarial scenarios, and retrains on them, in BeamNG rather than CARLA.
+Motzkus and Bernhard (July 2026) train sparse autoencoders on an end-to-end
+driving model, open-loop only. Gupta, Ciftci and Bansal find failure modes by
+clustering a vision-language model's explanations of failure logs, never looking
+inside the policy, and their targeted data cut navigation failures from 46% to
+18%, against 34% for the same amount of uniform data (all as reported by those
+papers). No paper was found that scores failure discovery for a closed-loop
+policy against planted gaps. That part is still ours, and it is hard, which
+Step 4's failed practice gaps show first-hand.
+
+Nothing about the method was changed. Three proposals await Chris and Jerry in
+`CONFLICTS.md`: C25 makes the log-based taxonomy a required baseline, C26 leads
+the paper with the planted-gap harness, and C27 adds three cheap checks on dev
+(a shared "trouble ahead" direction, route memorization in the SAE, and
+retrospective-only separability). Three workshop papers, RiskLens among them,
+were reported only by Gemini and are marked unconfirmed.
+
+---
+
 ## 2026-10-12 — Step 4's sweep read, and a design review of the efficacy check
 
 The Oct 9 dev pool finished long ago; this session opened the Savio connection
