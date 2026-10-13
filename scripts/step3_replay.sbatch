@@ -8,7 +8,7 @@
 # Step 3 on Savio (PRD 13): replay frames that Step 2 rollouts saved, in the
 # dtype and device they were logged with (CUDA bfloat16), and check the
 # waypoints match the logs to within 1e-3 m. Arguments: route directories.
-#   bash scripts/submit.sh gpu_a40 --exclude=n0214.savio3,n0215.savio3 scripts/step3_replay.sbatch \
+#   bash scripts/submit.sh gpu_a40 scripts/step3_replay.sbatch \
 #     results/savio/39732818/route-26956 results/savio/39732818/route-25424 \
 #     results/savio/39732818/route-2204 results/savio/39732819/route-1773
 # Each writes <route>/capture/replay-cuda.json.

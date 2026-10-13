@@ -113,6 +113,6 @@ base routes changes the chosen set in more than one of five resamples.
 2. A local smoke route on the Mac with the new capture fields, and the dust-at-night
    camera check, since the agent rejects a uniform camera frame.
 3. Generate and submit the dev pool:
-   `bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 --exclude=n0214.savio3,n0215.savio3 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2`
+   `bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2`
 4. Score the practice gaps' efficacy, export, sweep, write the chosen layers into
    the config.

@@ -86,7 +86,7 @@ container became the pinned tarball (`CONFLICTS.md` C20, pending review), and
 
 Savio lessons from the night, all in `docs/WHAT_BROKE.md`: use the `gpu_a40`
 profile when the A5000 queue is long; always pass
-`--exclude=n0214.savio3,n0215.savio3` (faulty A40s); two routes share an A40
+the faulty A40 nodes, which `configs/cluster/savio.yaml` now excludes on every `gpu_a40` submission; two routes share an A40
 safely now that their CARLA servers start one after the other; an evaluator
 silent for 15 minutes is stopped (`f111121`).
 

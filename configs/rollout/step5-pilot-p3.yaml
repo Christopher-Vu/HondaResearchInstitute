@@ -4,7 +4,7 @@
 # generated, not written:
 #   python adapters/simlingo/pilot_routes.py configs/rollout/step5-pilot-p3.yaml
 # Run two routes per A40, taking route ids from the manifest in route_run.run_order's shuffle:
-#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 --exclude=n0214.savio3,n0215.savio3 scripts/route_sample.sbatch configs/rollout/step5-pilot-p3.yaml 2
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch configs/rollout/step5-pilot-p3.yaml 2
 # Step 4 chose driving queries at decoder layers 10 and 11; this is still dev data, so every layer is captured.
 
 name: step5-pilot-p3

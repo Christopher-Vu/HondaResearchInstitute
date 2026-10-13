@@ -36,3 +36,15 @@ def test_a40_profile_reads_its_own_partition_and_cpus(tmp_path):
 def test_cpu_profile_requests_no_gpu(tmp_path):
     argv = submit(tmp_path, "cpu", "scripts/step1.sbatch")[1:]
     assert not any(arg.startswith("--gres") for arg in argv)
+
+
+def test_a40_profile_excludes_its_bad_nodes_and_merges_a_passed_exclude(tmp_path):
+    argv = submit(tmp_path, "gpu_a40", "--exclude=n9999.savio3", "--time=0-01:00:00", "scripts/step1.sbatch")[1:]
+    excludes = [arg for arg in argv if arg.startswith("--exclude=")]
+    assert excludes == ["--exclude=n0214.savio3,n0215.savio3,n0262.savio3,n9999.savio3"]
+    assert "--time=0-01:00:00" in argv
+
+
+def test_a5000_profile_excludes_nothing_unless_asked(tmp_path):
+    argv = submit(tmp_path, "gpu", "scripts/step1.sbatch")[1:]
+    assert not any(arg.startswith("--exclude") for arg in argv)

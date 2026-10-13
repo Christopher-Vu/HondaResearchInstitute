@@ -33,6 +33,9 @@ gpu_a40:
   qos: a40_gpu3_ica
   gres: "gpu:A40:1"
   cpus_per_task: 8
+  # Nodes whose A40 kills CARLA within seconds (docs/WHAT_BROKE.md). submit.sh
+  # adds them to every submission on this profile, merged with any --exclude.
+  exclude_nodes: [n0214.savio3, n0215.savio3, n0262.savio3]
 
 cpu:
   # CPU partitions for GPU-free work. savio3_htc allocates per core.

@@ -8,6 +8,26 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-13 — A third A40 node, n0262, kills CARLA on start
+
+**Expected:** the P3 pilot array (job 39866822) would run like Step 4's, with
+n0214 and n0215 excluded.
+
+**Actual:** within two minutes, seven of ten started tasks failed with "CARLA
+exited with code 1 before accepting clients"; the server log ends at "Disabling
+core dumps." Every failed task ran on n0262.savio3, each failing in 10 to 25
+seconds, so the node kept taking the next task. Tasks on n0264 and n0280 were
+driving normally. One task on n0262 had started a route, so the node probably
+has one bad GPU rather than none working.
+
+**What we did:** cancelled the array at about 2 SU spent, resubmitted as job
+39866909 with `--exclude=n0214.savio3,n0215.savio3,n0262.savio3`, and made the
+overnight watcher stop on three tasks failing in under 90 seconds. The list
+now lives in `configs/cluster/savio.yaml` (`gpu_a40.exclude_nodes`), and
+`scripts/submit.sh` applies it to every A40 submission.
+
+---
+
 ## 2026-10-12 — Both practice gaps failed efficacy, and the check could barely have passed them
 
 **Expected:** at least one of P1 (dust storm at night) and P2 (pedestrian behind
