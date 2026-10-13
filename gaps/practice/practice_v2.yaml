@@ -1,0 +1,35 @@
+# Replacement practice gaps for the dev pool (PRD 9.2, Step 5 pilots). Both
+# version-1 gaps failed their efficacy check (docs/WHAT_BROKE.md, 2026-10-12).
+# Public, like version 1: every predicate here is excluded from the sealed pool.
+# Predicates use the same fields and operators as practice_v1.yaml. Each gap is
+# piloted as pairs, a slice route and its neighbourhood on one base route, and
+# judged by CONFLICTS.md C23's paired test alongside PRD 9.1's rule.
+
+version: 2
+
+gaps:
+  - gap_id: P3_dense_fog_day
+    tier: T0_control
+    summary: >-
+      Dense fog in daylight. SimLingo's data collection drew whole CARLA
+      presets, and every daytime preset has fog density 7 or less; density 60
+      and above occurs only at night. Dense daytime fog is therefore outside
+      the collection distribution, and unlike P1's night dust it is lit, so it
+      reaches the camera on Savio's renderer. A perceptual gap every method
+      should find.
+    predicate:
+      - {field: weather.fog_density, op: ">=", value: 50}
+      - {field: weather.sun_altitude_angle, op: ">", value: 0}
+    plant:
+      # Distinct base routes, one slice route and one neighbourhood route each.
+      base_routes: 60
+      weather: {preset: ClearNoon, fog_density: 90}
+    # The same base routes at clear noon, so fog is the only difference.
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # CONFLICTS.md C24, fixed before the pilot runs: over the first 20 policy
+    # steps, the slice route's median camera_std (pixel standard deviation,
+    # logged per step) is below 0.7 times its neighbourhood route's, in at
+    # least 4 of the first 5 base routes with both routes scored. If not, the
+    # array is cancelled before efficacy is read.
+    manipulation_check: {measure: camera_std, steps: 20, max_ratio: 0.7, min_pairs_passing: 4, of_pairs: 5}

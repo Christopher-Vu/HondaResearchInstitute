@@ -42,7 +42,8 @@ P1_GAP = "P1_dust_storm_night"
 P2_GAP = "P2_occluded_pedestrian_night"
 P2_FAMILY = "DynamicObjectCrossing"
 SLICE_ROLE = {P1_GAP: "P1_slice", P2_GAP: "P2_slice"}
-ROLE_ID_OFFSET = {"background": 0, "P1_slice": 1, "P2_slice": 10, "P2_neighbourhood": 20}
+ROLE_ID_OFFSET = {"background": 0, "P1_slice": 1, "P2_slice": 10, "P2_neighbourhood": 20,
+                  "pilot_slice": 30, "pilot_neighbourhood": 40}
 
 # Read from CARLA 0.9.15 (carla.WeatherParameters.<preset>) with float32 noise rounded to 6 digits;
 # tests/test_dev_routes.py compares them with CARLA when it is installed. These are the presets of
