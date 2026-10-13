@@ -6,11 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-13 06:40 (overnight: Step 4 stability failed, second wave queued; P3 dense fog failed efficacy; B2 and B7 core coded)
+Last updated: 2026-10-13 16:30 (afternoon: P4 camera occlusion and P5 pedestrians-in-lane screens running; Fail2Drive simulator unpacking for P6; per-token capture at layers 10 and 14)
 
 ---
 
 ## Current position
+
+**2026-10-13 afternoon, in progress.** Jerry chose per-token capture of the 30
+driving-query tokens (now layers 10 and 14, after the two-wave re-sweep put 14 and 13
+first and 10 fourth, all within two rank points; `results/savio/step4-dev-pool-both/sweep.json`)
+and three new practice gaps (`gaps/practice/practice_v2.yaml`): P4 camera occlusion,
+P5 pedestrians walking in the ego lane (Fail2Drive's scenario, vendored), P6 an animal
+crossing on Fail2Drive's server build. Each runs a 10-pair screen first and the 60-pair
+pilot only if its screen rule holds. Running: P4 screen array 39890434 (scored by
+39890437), P5 screen 39890439 (scored by 39890440). Fail2Drive's simulator
+(12.78 GB, checksum verified) is unpacking in `/global/scratch/users/imhaohao/fail2drive`;
+link it as `.runtime/fail2drive-carla` before the P6 screen. Budget 2,000 SU from a
+baseline of 1,601 (CPU-time measure).
 
 **2026-10-13 overnight: Step 4 is not closed, and the third weather gap failed.**
 The stability check changed the chosen layers in 4 of 5 resamples (layer 10 held
