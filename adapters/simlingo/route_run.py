@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import random
+import re
 import signal
 import subprocess
 import sys
@@ -24,6 +25,8 @@ SOURCE = ROOT / ".runtime/simlingo"
 BASE_MODEL = ROOT / ".runtime/InternVL2-1B"
 CHECKPOINT = ROOT / "checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt"
 ROUTES = SOURCE / "leaderboard/data/bench2drive220.xml"
+# 0.9.15 and its patch builds, such as Fail2Drive's "0.9.15.2-dirty"; the version is recorded with each run.
+CARLA_0915 = re.compile(r"^0\.9\.15(\.\d+)?(-[\w.]+)?$")
 AGENT = ROOT / "adapters/simlingo/visible_agent.py"
 VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
                   "Failed - Agent deviated from the route", "Failed - Agent got blocked"}
@@ -96,7 +99,7 @@ def wait_for_server(port: int, seconds: float = 90,
             client.set_timeout(2)
             version = client.get_server_version()
             client.get_world().get_map()
-            if version != "0.9.15":
+            if not CARLA_0915.match(version):
                 raise ValueError(f"Expected CARLA 0.9.15; server reports {version}")
             return {"server": version, "client": client.get_client_version()}
         except RuntimeError:

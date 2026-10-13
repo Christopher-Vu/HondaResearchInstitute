@@ -200,3 +200,9 @@ def test_a_config_can_name_the_fail2drive_server_and_otherwise_gets_stock():
     assert server_root("fail2drive") == ROOT / ".runtime/fail2drive-carla"
     assert server_command("Epic", 20000, None, server_root("fail2drive"))[0].endswith("fail2drive-carla/CarlaUE4.sh")
 
+
+
+def test_carla_0915_and_its_patch_builds_are_accepted_and_others_refused():
+    from route_run import CARLA_0915
+    assert all(CARLA_0915.match(v) for v in ("0.9.15", "0.9.15.2", "0.9.15.2-dirty"))
+    assert not any(CARLA_0915.match(v) for v in ("0.9.14", "0.9.16", "0.9.150", "1.0"))
