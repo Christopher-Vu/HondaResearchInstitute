@@ -189,3 +189,14 @@ def test_manifest_is_a_json_list_with_one_route_per_line(pool):
     _document, entries = pool
     text = dev_routes.manifest_document(entries)
     assert json.loads(text) == entries and len(text.splitlines()) == len(entries) + 2
+
+
+def test_second_wave_is_background_only_and_never_reuses_a_wave_one_id(config, pool):
+    wave2 = yaml.safe_load((ROOT / "configs/rollout/step4-dev-pool-wave2.yaml").read_text())
+    document, entries = dev_routes.generate(wave2)
+    assert Counter(entry["role"] for entry in entries) == {"background_wave2": 200}
+    assert len({entry["base_id"] for entry in entries}) == 200
+    assert not {entry["id"] for entry in entries} & {entry["id"] for entry in pool[1]}
+    assert not any(entry["practice_gaps"] or entry["neighbourhood_of"] for entry in entries)
+    assert (ROOT / wave2["route"]["routes_file"]).read_text() == document
+    assert (ROOT / wave2["route"]["manifest"]).read_text() == dev_routes.manifest_document(entries)

@@ -116,3 +116,18 @@ base routes changes the chosen set in more than one of five resamples.
    `bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2`
 4. Score the practice gaps' efficacy, export, sweep, write the chosen layers into
    the config.
+
+## Result, 2026-10-13
+
+The sweep chose driving queries at layers 10 and 11 (combined ranks 7.9 and
+9.5; `results/savio/step4-dev-pool/sweep.json`). Both practice gaps failed
+efficacy, so gap recovery was not scored. The stability check
+(`scripts/step4_stability.sbatch`, job 39867065, `stability.json`) changed the
+chosen set in **4 of 5** resamples, so the rule above calls for the second wave:
+200 background routes, `configs/rollout/step4-dev-pool-wave2.yaml`, queued to
+start after the P3 pilot, then `scripts/step4_wave2.sbatch` re-sweeps both waves.
+Driving queries at layer 10 were chosen in 4 of 5 resamples; the second pick
+varied among layers 7, 9, 11 and 12. The choice also flips with the
+scikit-learn version (`docs/WHAT_BROKE.md`), so only layer 10 is well separated
+so far.
+

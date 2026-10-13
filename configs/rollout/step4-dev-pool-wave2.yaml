@@ -1,0 +1,42 @@
+# Step 4 dev pool, second wave: 200 background rollouts, run because the resampling stability check changed the
+# chosen layers in 4 of 5 resamples (results/savio/step4-dev-pool/stability.json; the spec's pre-registered rule
+# allows at most 1). Routes and manifest are generated, not written:
+#   python adapters/simlingo/dev_routes.py configs/rollout/step4-dev-pool-wave2.yaml
+# Run two routes per A40 after the P3 pilot, so the two arrays do not split the four GPU slots:
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-99%6 --dependency=afterany:<pilot array> scripts/route_sample.sbatch configs/rollout/step4-dev-pool-wave2.yaml 2
+# Every route is a Bench2Drive-220 base route under one stock preset, ids offset by 50 so none collides with wave 1.
+
+name: step4-dev-pool-wave2
+step: 4
+scope: savio_step4_dev_pool_wave2
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1 and 2
+  timeout_seconds: 600           # Bench2Drive's default; one Step 2 route lost its setup to 60 s
+
+# Per-layer residual means every step and exact model inputs every 10th step (capture_agent.py).
+capture_every: 10
+
+route:
+  seed: 3                        # traffic manager seed; Step 2 used 0, wave 1 used 1, the P3 pilot 2
+  routes_file: configs/rollout/step4-dev-pool-wave2.xml
+  manifest: configs/rollout/step4-dev-pool-wave2.manifest.json   # the route list; this config has no `routes` key
+
+dev_pool:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v1.yaml
+  generator_seed: 1
+  background_only: true          # no practice-gap slices or neighbourhoods
+  background: 200                # of the 205 eligible base routes, each under one stock preset
+  # Step 2's Bench2Drive skipped these scenarios' authored scenario in 7 routes, which summarize() rejects:
+  # all 5 InterurbanActorFlow routes and 2 of the 5 InterurbanAdvancedActorFlow routes (23700, 24078).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]
