@@ -6,11 +6,32 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 03:15 (overnight done: P6 failed; SAE healthy but seed-unstable; dev evaluation blocked by a P4-dominated corpus)
+Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; Step 2 rerun with token capture queued; two slow A40 nodes excluded)
 
 ---
 
 ## Current position
+
+**2026-10-15 overnight, Chris's session (account christophervu).** Running.
+
+- **Independent Savio bring-up passed.** Setup from scratch in
+  `/global/scratch/users/christophervu/hri`; GPU job 39967188 ran (Step 0's
+  "both of us"). **Step 1 rerun passed** (job 39967189, n0280): route 26956
+  completed, 299 model steps, 0.078x real time, 9.42 GB peak VRAM, strict
+  checkpoint load (measured; Jerry's run 0.071x, 9.4 GB).
+- **Step 2 rerun queued** as array 39967810 with `configs/rollout/step2-rerun.yaml`:
+  Jerry's Step 2 config plus layer 10 and 14 token capture, so the 220 nominal
+  routes double as the dev corpus where P4 is a minority (Next, item 1). Runs
+  after Chris's sealed-gap screens (Chris holds the key; nothing about them is
+  in the repo).
+- **Two A40 nodes, n0278 and n0281, ran CARLA at 0.001x real time** for three
+  hours; both are now excluded (`docs/WHAT_BROKE.md`, `configs/cluster/savio.yaml`).
+- **New code on main:** B3 behavioral baseline, probe-residual (M3a), the
+  §13.1 bootstrap, key sealing, per-step logging of nearby vehicles,
+  two-wheelers, animals and obstacles, camera freeze and latency faults. Specs
+  for B3, probe-residual, the describability gate and B8, Step 8 and Step 10.
+  B4's factor list is committed and tagged `b4-factors-v1` (C30). C18 now notes
+  that Dr. VLA's firing rule is a hysteresis, which B7 does not follow yet.
 
 **2026-10-15 overnight, finished (agent; Jerry asleep).** Nothing is queued.
 Spend this round 991 of 2,000 SU (2,592 since 2026-10-13 02:30, measured).
@@ -269,9 +290,9 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 3. **Sign-offs:** C23 to C28 (C27 now carries a correction), and the pinned
    readings in `src/discovery/contrastive.py`, `src/baselines/activation_stats.py`
    and `taxonomy.py`; per-token SAE at layer 10 or 14 (k 48 to 64 look best).
-4. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
-   rerun is about 910 SU, or a handful of routes plus a rescore:
-   `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
+4. Step 2's rerun: running as array 39967810 (Chris). Score with
+   `adapters/simlingo/score_routes.py configs/rollout/step2-rerun.yaml results/savio/39967810`
+   on Chris's Savio scratch; the shards need read access granted to Jerry.
 5. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
    copy it over, then on Savio `git fetch ../x.bundle codex/carla-bringup:refs/remotes/bundle/carla-bringup`
    and `git merge --ff-only bundle/carla-bringup`. Savio's checkout was at
@@ -305,6 +326,10 @@ agent's `ssh savio '<cmd>'` reuses that connection for up to 12h idle (verified
 | State, collision and vision-bridge capture | `adapters/simlingo/capture_agent.py`, `world_state.py`, `state_geometry.py` |
 | Shards and the layer sweep, with the efficacy gate | `adapters/simlingo/export_activations.py`, `src/discovery/layer_sweep.py`, `scripts/step4_sweep.sbatch` |
 | Savio replay check | `scripts/step3_replay.sbatch` |
+| B3 behavioral stratification | `src/baselines/behavioral.py` |
+| Probe-residual discovery (M3a) | `src/discovery/probe_residual.py` |
+| §13.1 condition 2 bootstrap | `src/harness/bootstrap.py` |
+| Answer-key commitment and gap loading | `src/harness/seal.py` |
 
 Building the scoring layer before any rollout exists is deliberate, not
 opportunistic: `PRD.md` §9.1 wants it frozen and hash-committed before the test
