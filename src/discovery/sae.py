@@ -175,7 +175,7 @@ def train(x: torch.Tensor, config: SaeConfig, device: torch.device) -> tuple[Top
             optimiser.step()
             model.normalise_decoder()
             step += 1
-        curve.append({"epoch": epoch, "loss": float(loss), "dead_fraction": float(dead.float().mean())})
+        curve.append({"epoch": epoch, "loss": float(loss.detach()), "dead_fraction": float(dead.float().mean())})
     return model, curve
 
 
