@@ -132,3 +132,14 @@ def test_animal_pairs_differ_only_in_what_crosses_and_animals_rotate():
         animals.add(animal["walker"])
     assert len(animals) == 3
 
+
+
+def test_trigger_after_m_moves_the_trigger_along_the_route():
+    import xml.etree.ElementTree as ET
+    route = ET.fromstring('<route><waypoints>' + "".join(
+        '<position x="%d" y="0" z="0"/>' % x for x in (0, 30, 60, 90, 120)) + '</waypoints></route>')
+    at_start = pilot_routes.injected_scenario(route, {"type": "HardBreakRoute"}, 0).find("trigger_point")
+    later = pilot_routes.injected_scenario(route, {"type": "HardBreakRoute", "trigger_after_m": 50}, 0)
+    assert at_start.get("x") == "0.0" and later.find("trigger_point").get("x") == "60.0"
+    far = pilot_routes.injected_scenario(route, {"type": "HardBreakRoute", "trigger_after_m": 500}, 0)
+    assert far.find("trigger_point").get("x") == "90.0" and far.find("trigger_point").get("yaw") == "0.0"

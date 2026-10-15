@@ -12,7 +12,8 @@ the unit of analysis (CONFLICTS.md C23). An arm may set:
     sensor    agent-side settings recorded in the manifest, e.g. `camera_fault`, which run_savio.py hands the agent
     scenario  a scenario appended to the route, triggered at its first waypoint: `type`, `parameters` (each written
               as <name value=...>; a list rotates across base routes in draw order) and `attributes` (child
-              elements written with attributes, e.g. `pedestrians`); the manifest records the values used
+              elements written with attributes, e.g. `pedestrians`); the manifest records the values used.
+              `trigger_after_m` moves the trigger to the first waypoint that far along the route (default 0)
 
 With `pilot.stage`, the generator draws `screen_base_routes` + `plant.base_routes` bases in one order: the first
 `screen_base_routes` are the screen, the rest the full pilot, so the full pilot never reuses a screened base.
@@ -77,8 +78,20 @@ def resolved_parameters(spec: dict[str, Any], base_index: int) -> dict[str, Any]
             for name, value in spec.get("parameters", {}).items()}
 
 
+def trigger_index(points: list[tuple[float, float, float]], after_m: float) -> int:
+    """The first waypoint at least `after_m` metres along the route, keeping one after it for the heading."""
+    travelled = 0.0
+    for index in range(len(points) - 1):
+        if travelled >= after_m:
+            return index
+        travelled += math.dist(points[index][:2], points[index + 1][:2])
+    return max(len(points) - 2, 0)
+
+
 def injected_scenario(route: ET.Element, spec: dict[str, Any], base_index: int) -> ET.Element:
-    (x0, y0, z0), (x1, y1, _z1) = waypoints(route)[:2]
+    points = waypoints(route)
+    at = trigger_index(points, spec.get("trigger_after_m", 0))
+    (x0, y0, z0), (x1, y1, _z1) = points[at], points[at + 1]
     scenario = ET.Element("scenario", {"name": f"{spec['type']}_injected", "type": spec["type"]})
     for name, value in resolved_parameters(spec, base_index).items():
         ET.SubElement(scenario, name, {"value": str(value)})
