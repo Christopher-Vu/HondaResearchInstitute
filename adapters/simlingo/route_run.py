@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import json
 import os
+import random
+import re
 import signal
 import subprocess
 import sys
@@ -23,9 +25,12 @@ SOURCE = ROOT / ".runtime/simlingo"
 BASE_MODEL = ROOT / ".runtime/InternVL2-1B"
 CHECKPOINT = ROOT / "checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt"
 ROUTES = SOURCE / "leaderboard/data/bench2drive220.xml"
+# 0.9.15 and its patch builds, such as Fail2Drive's "0.9.15.2-dirty"; the version is recorded with each run.
+CARLA_0915 = re.compile(r"^0\.9\.15(\.\d+)?(-[\w.]+)?$")
 AGENT = ROOT / "adapters/simlingo/visible_agent.py"
 VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
                   "Failed - Agent deviated from the route", "Failed - Agent got blocked"}
+RUN_ORDER_SEED = 0
 
 
 @dataclass(frozen=True)
@@ -46,6 +51,13 @@ def configured_route_ids(config: dict[str, Any]) -> list[str]:
         return list(config["routes"])
     manifest = json.loads((ROOT / config["route"]["manifest"]).read_text())
     return [entry["id"] for entry in manifest]
+
+
+def run_order(route_ids: list[str]) -> list[str]:
+    """Route ids in a fixed shuffled order, so a route's role never lines up with array task, start time or node."""
+    shuffled = list(route_ids)
+    random.Random(RUN_ORDER_SEED).shuffle(shuffled)
+    return shuffled
 
 
 def route_from_xml(route_id: str, config: dict[str, Any] | None = None) -> dict[str, str]:
@@ -87,7 +99,7 @@ def wait_for_server(port: int, seconds: float = 90,
             client.set_timeout(2)
             version = client.get_server_version()
             client.get_world().get_map()
-            if version != "0.9.15":
+            if not CARLA_0915.match(version):
                 raise ValueError(f"Expected CARLA 0.9.15; server reports {version}")
             return {"server": version, "client": client.get_client_version()}
         except RuntimeError:
@@ -111,11 +123,27 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
     return values
 
 
-def agent_and_capture_environment(capture_every: int | None) -> tuple[Path, dict[str, str]]:
-    """The capture agent records Step 3 activations each step and replay inputs every Nth step."""
+def agent_and_capture_environment(capture_every: int | None,
+                                  token_layers: list[int] | None = None) -> tuple[Path, dict[str, str]]:
+    """The capture agent records Step 3 activations each step and replay inputs every Nth step, plus every
+    driving-query token at `token_layers` (PRD 12.2's per-token SAE input)."""
     if not capture_every:
         return AGENT, {}
-    return AGENT.with_name("capture_agent.py"), {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
+    environment = {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
+    if token_layers:
+        environment["SIMLINGO_TOKEN_LAYERS"] = ",".join(map(str, token_layers))
+    return AGENT.with_name("capture_agent.py"), environment
+
+
+def route_environment(config: dict[str, Any]) -> dict[str, str]:
+    """The configured route's own agent settings from its manifest entry: a camera fault, if it has one."""
+    manifest = (config.get("route") or {}).get("manifest")
+    if not manifest:
+        return {}
+    route_id = str(config["route"]["id"])
+    entry = next((entry for entry in json.loads((ROOT / manifest).read_text()) if str(entry["id"]) == route_id), {})
+    fault = (entry.get("sensor") or {}).get("camera_fault")
+    return {"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {}
 
 
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,

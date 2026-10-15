@@ -95,6 +95,23 @@ def test_route_sample_array_covers_exactly_the_configured_routes():
     assert len(set(routes)) == len(routes)
 
 
+def test_run_order_spreads_every_role_across_the_array():
+    import json
+    from collections import Counter
+    from pathlib import Path
+
+    import yaml
+    from route_run import configured_route_ids, run_order
+    root = Path(__file__).resolve().parents[1]
+    config = yaml.safe_load((root / "configs/rollout/step4-dev-pool.yaml").read_text())
+    role = {entry["id"]: entry["role"] for entry in json.loads((root / config["route"]["manifest"]).read_text())}
+    ordered = run_order(configured_route_ids(config))
+    assert sorted(ordered) == sorted(role) and run_order(list(role)) == run_order(list(role))
+    quarter = len(ordered) // 4
+    for start in range(0, 4 * quarter, quarter):
+        assert set(Counter(role[route] for route in ordered[start:start + quarter])) == set(role.values())
+
+
 def test_route_sample_ids_exist_in_the_pinned_routes_file():
     from pathlib import Path
 
@@ -126,6 +143,21 @@ def test_capture_setting_selects_the_capture_agent():
     assert agent_and_capture_environment(None) == (AGENT, {})
     agent, environment = agent_and_capture_environment(10)
     assert agent.name == "capture_agent.py" and environment == {"SIMLINGO_CAPTURE_EVERY": "10"}
+    _agent, environment = agent_and_capture_environment(10, [10])
+    assert environment == {"SIMLINGO_CAPTURE_EVERY": "10", "SIMLINGO_TOKEN_LAYERS": "10"}
+
+
+def test_a_route_with_a_camera_fault_passes_it_to_the_agent(tmp_path, monkeypatch):
+    import json
+    import route_run
+    fault = {"kind": "occlusion", "box": [0.3, 0.2, 0.6, 0.6]}
+    (tmp_path / "manifest.json").write_text(json.dumps([{"id": "101", "sensor": {"camera_fault": fault}},
+                                                        {"id": "102"}]))
+    monkeypatch.setattr(route_run, "ROOT", tmp_path)
+    config = {"route": {"manifest": "manifest.json", "id": "101"}}
+    assert json.loads(route_run.route_environment(config)["SIMLINGO_CAMERA_FAULT"]) == fault
+    assert route_run.route_environment({"route": {"manifest": "manifest.json", "id": "102"}}) == {}
+    assert route_run.route_environment({"route": {"id": "101"}}) == {}
 
 
 def test_two_slots_of_one_job_get_disjoint_ports(monkeypatch):
@@ -160,3 +192,17 @@ def test_chatty_evaluator_finishes_normally(tmp_path):
     from route_run import run_evaluator
     command = [sys.executable, "-c", "import time\nfor i in range(4):\n    print(i, flush=True); time.sleep(0.4)"]
     assert run_evaluator(tmp_path, command, {}, silence_limit_seconds=1) is True
+
+
+def test_a_config_can_name_the_fail2drive_server_and_otherwise_gets_stock():
+    from run_savio import ROOT, server_root
+    assert server_root(None) == CARLA_ROOT and server_root("stock-linux-release") == CARLA_ROOT
+    assert server_root("fail2drive") == ROOT / ".runtime/fail2drive-carla"
+    assert server_command("Epic", 20000, None, server_root("fail2drive"))[0].endswith("fail2drive-carla/CarlaUE4.sh")
+
+
+
+def test_carla_0915_and_its_patch_builds_are_accepted_and_others_refused():
+    from route_run import CARLA_0915
+    assert all(CARLA_0915.match(v) for v in ("0.9.15", "0.9.15.2", "0.9.15.2-dirty"))
+    assert not any(CARLA_0915.match(v) for v in ("0.9.14", "0.9.16", "0.9.150", "1.0"))

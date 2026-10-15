@@ -32,6 +32,14 @@ Selection rule (pre-registered, fixed before any sweep is run):
      (all_tokens, driving_queries, vision_bridge), then on lower layer.
   4. Choose the two pairs with the best combined rank, then add the pair with the best practice_gap_recovery
      rank if it is not already chosen: two or three pairs.
+
+Stability check (pre-registered in the Step 4 spec):
+
+    python -m src.discovery.layer_sweep SHARD_DIR --output STABILITY.json --stability-of SWEEP.json
+
+Five resamples, each dropping a random fifth of the base routes (seeds SEED..SEED+4) and rerunning the whole
+sweep. A second wave of dev rollouts is needed when the chosen set differs from SWEEP.json's in more than one
+of the five.
 """
 from __future__ import annotations
 
@@ -79,6 +87,9 @@ PCA_DIMENSIONS = 20
 MAX_CLUSTERS = 8
 RIDGE_ALPHAS = (1.0, 10.0, 100.0, 1000.0)
 SEED = 0
+STABILITY_RESAMPLES = 5
+STABILITY_DROP_FRACTION = 0.2
+STABILITY_MAX_CHANGED = 1
 
 Folds = list[tuple[np.ndarray, np.ndarray]]
 
@@ -151,7 +162,7 @@ def site_names(archive: Any) -> list[str]:
             if site in archive.files and f"{site}_episode_mean" in archive.files]
 
 
-def load_shards(shard_dir: Path) -> Shards:
+def load_shards(shard_dir: Path, exclude_bases: frozenset[str] = frozenset()) -> Shards:
     metas, excluded = [], 0
     means: dict[str, list[np.ndarray]] = defaultdict(list)
     frames: dict[str, list[np.ndarray]] = defaultdict(list)
@@ -159,6 +170,8 @@ def load_shards(shard_dir: Path) -> Shards:
     frame_episode: list[np.ndarray] = []
     for sidecar in sorted(shard_dir.glob("*.json")):
         meta = json.loads(sidecar.read_text())
+        if meta["base_id"] in exclude_bases:
+            continue
         if meta["success"] is None:
             excluded += 1
             continue
@@ -384,9 +397,9 @@ def choose(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def run_sweep(shard_dir: Path, min_class_episodes: int = MIN_CLASS_EPISODES,
-              efficacy_gate: bool = True) -> dict[str, Any]:
+              efficacy_gate: bool = True, exclude_bases: frozenset[str] = frozenset()) -> dict[str, Any]:
     """`efficacy_gate=False` scores recovery for every listed gap; the CLI always gates."""
-    shards = load_shards(shard_dir)
+    shards = load_shards(shard_dir, exclude_bases)
     plans, skipped = build_plans(shards, min_class_episodes, efficacy_gate)
     rows = [evaluate_pair(site, layer, shards, plans) for site, layer in pairs_of(shards)]
     add_ranks(rows)
@@ -404,14 +417,47 @@ def run_sweep(shard_dir: Path, min_class_episodes: int = MIN_CLASS_EPISODES,
     }
 
 
+def chosen_pairs(report: dict[str, Any]) -> list[list[Any]]:
+    return sorted([pick["site"], pick["layer"]] for pick in report["chosen"])
+
+
+def base_routes(shard_dir: Path) -> list[str]:
+    return sorted({json.loads(sidecar.read_text())["base_id"] for sidecar in shard_dir.glob("*.json")})
+
+
+def stability_check(shard_dir: Path, reference: dict[str, Any], min_class_episodes: int = MIN_CLASS_EPISODES,
+                    resamples: int = STABILITY_RESAMPLES) -> dict[str, Any]:
+    bases = base_routes(shard_dir)
+    dropped_count = round(STABILITY_DROP_FRACTION * len(bases))
+    expected = chosen_pairs(reference)
+    runs = []
+    for index in range(resamples):
+        rng = np.random.default_rng(SEED + index)
+        dropped = sorted(str(base) for base in rng.choice(bases, size=dropped_count, replace=False))
+        picks = chosen_pairs(run_sweep(shard_dir, min_class_episodes, exclude_bases=frozenset(dropped)))
+        runs.append({"seed": SEED + index, "dropped_bases": dropped, "chosen": picks, "changed": picks != expected})
+    changed = sum(run["changed"] for run in runs)
+    return {"base_routes": len(bases), "dropped_per_resample": dropped_count, "reference": expected,
+            "resamples": runs, "changed": changed, "second_wave_needed": changed > STABILITY_MAX_CHANGED}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("shards", type=Path, help="directory written by export_activations.py")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--min-class-episodes", type=int, default=MIN_CLASS_EPISODES,
                         help="fewest episodes per outcome class for failure_auroc (pre-registered: 5)")
+    parser.add_argument("--stability-of", type=Path,
+                        help="a sweep report; run the resampling stability check against its chosen set instead")
     args = parser.parse_args()
     started = time.monotonic()
+    if args.stability_of:
+        stability = stability_check(args.shards, json.loads(args.stability_of.read_text()), args.min_class_episodes)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(stability, indent=2) + "\n")
+        print(f"{stability['changed']} of {len(stability['resamples'])} resamples changed the chosen set "
+              f"in {time.monotonic() - started:.1f}s; second wave needed: {stability['second_wave_needed']}")
+        return
     report = run_sweep(args.shards, args.min_class_episodes)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")

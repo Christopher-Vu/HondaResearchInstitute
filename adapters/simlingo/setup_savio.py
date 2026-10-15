@@ -89,7 +89,7 @@ def prepare_source(manifest: dict[str, Any]) -> None:
     if not SOURCE.is_dir():
         run(["git", "clone", source["repository"], str(SOURCE)])
     run(["git", "-C", str(SOURCE), "checkout", "--detach", source["revision"]])
-    for patch in (source["patch"], source["benchmark_patch"]):
+    for patch in (source["patch"], source["benchmark_patch"], source["scenario_patch"]):
         apply_once(ROOT / patch)
 
 

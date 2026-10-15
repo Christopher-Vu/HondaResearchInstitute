@@ -1,0 +1,40 @@
+# Step 5 efficacy pilot for practice gap P3, dense fog in daylight (gaps/practice/practice_v2.yaml), sized by
+# CONFLICTS.md C23: 60 distinct base routes, each run once in fog and once at clear noon, 120 rollouts. Capture is
+# on, as in the dev pool, so a passing gap joins the dev pool's shards for Steps 6 and 7. Routes and manifest are
+# generated, not written:
+#   python adapters/simlingo/pilot_routes.py configs/rollout/step5-pilot-p3.yaml
+# Run two routes per A40, taking route ids from the manifest in route_run.run_order's shuffle:
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch configs/rollout/step5-pilot-p3.yaml 2
+# Step 4 chose driving queries at decoder layers 10 and 11; this is still dev data, so every layer is captured.
+
+name: step5-pilot-p3
+step: 5
+scope: savio_step5_pilot_p3
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+capture_every: 10
+
+route:
+  seed: 2                        # traffic manager seed; Step 2 used 0 and Step 4 used 1
+  routes_file: configs/rollout/step5-pilot-p3.xml
+  manifest: configs/rollout/step5-pilot-p3.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v2.yaml
+  gap_id: P3_dense_fog_day
+  generator_seed: 0
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

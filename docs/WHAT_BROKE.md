@@ -8,6 +8,171 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
+
+**Expected:** P6, an animal from Fail2Drive's simulator crossing from behind a
+blocker where SimLingo has only seen people cross, would raise failures, since
+the animal class is absent from its training.
+
+**Actual (measured, screen arrays 39893176 and 39921553, scored by 39921554):**
+the animals spawned and crossed (`docs/p6-animal-check.jpg`), but 1 of 9 animal
+routes failed against 2 of 10 with a person in the same crossing; no base route
+failed only with the animal. Route 2694436 has no outcome. The screen rule
+fails, and `scripts/step5_continue.sbatch` declined the 60-pair pilot on its
+own, as designed.
+
+Across Step 5, every gap that changes what the camera sees (night, fog, dust,
+pedestrians in lane, animals) left SimLingo's failure rate where it was, and
+the one gap that removes what the camera sees (P4) passed. Planted gaps need to
+take information away, or to change the interaction itself, not its look.
+
+---
+
+## 2026-10-14 — Pedestrians walking in the ego lane barely trouble SimLingo here
+
+**Expected:** P5, Fail2Drive's PedestriansOnRoad appended to ordinary routes,
+would reproduce Fail2Drive's report of SimLingo colliding in 87% of its own
+PedestriansOnRoad routes.
+
+**Actual (measured, screen arrays 39890439, scored by 39890440):** the walkers
+were there: on every slice route the logged nearest-pedestrian distance fell
+to 0.5 to 17 m within 30 simulated seconds, and never appeared on the
+neighbourhood routes. But SimLingo failed 2 of 8 slice routes against 1 of 9,
+with one pedestrian collision; paired, 1 base route failed only with walkers
+and none only without. The screen rule (an excess of 3) fails, so the 60-pair
+pilot was not run. Three tasks lost their routes: two because CARLA would not
+start on n0273 and n0278, one to an evaluator crash.
+
+Our version differs from Fail2Drive's: walkers start 30 m ahead of a car that
+is starting from rest (theirs 60 m, on dedicated routes), so SimLingo meets
+them slowly. Whether that explains 87% against 12% is untested.
+
+**Also:** P4's screen scoring job crashed writing its report: McNemar's
+p-value is a numpy float, so the pass verdict was a numpy bool, which `json`
+cannot write. It is reached only when uplift and ratio both pass, which is why
+P3 and P5 never hit it. Fixed in `660b859` and P4 rescored.
+
+---
+
+## 2026-10-13 — Dense daytime fog does not make SimLingo fail either
+
+**Expected:** P3, fog density 90 at noon, a region no collection preset
+reaches, would raise failures far enough to pass as a perceptual control gap.
+
+**Actual (measured, `results/savio/step5-pilot-p3/efficacy.json`, arrays
+39866909 and 39867344, scored by job 39867345):** fog routes failed 15 of 59
+(25%), their clear-noon twins 18 of 60 (30%). Fisher p = 0.68; paired by base
+route, 6 failed only in fog and 8 only in clear, McNemar p = 0.79. Neither rule
+passes. Fog changed how the car drove, not whether it failed: driving score
+88.8 against 88.4, but routes took 53 simulated seconds against 42, and 17 fog
+routes stood still for 38 seconds or more against 13. One route (1171530) has
+no outcome. About 500 SU.
+
+This is the third perceptual condition that SimLingo shrugs off, after night
+and stock fog or rain (Step 2) and P1's night dust (Step 4). Two consequences.
+`PRD.md` §9.1's harness validity needs a T0 control gap that every method
+recovers, and weather is not producing one. And pairing helps less than C23
+assumed: 9 base routes failed in both arms, 14 in one only, so a route's
+outcome is only loosely tied to the route.
+
+**What we did:** recorded P3 as failed; launched no further pilot. A control
+gap now needs a different kind of perception failure, for example a camera
+fault or an unseen object class (Fail2Drive's animal assets) rather than
+weather. That choice is for Chris and Jerry.
+
+---
+
+## 2026-10-13 — P3's manipulation check failed on a bad measure, and was overridden
+
+**Expected:** C24's check, written into `gaps/practice/practice_v2.yaml` before
+the pilot ran, would pass if fog reached the camera: the fog route's median
+pixel standard deviation over its first 20 steps below 0.7 times its clear
+twin's, in at least 4 of the first 5 completed pairs.
+
+**Actual (measured):** 3 of 5 passed. Ratios in completion order: 0.48, 0.84,
+0.46, 1.00, 0.52. The array (39866909) was cancelled at that point, as the rule
+says, before any outcome was looked at. The frames of the two failing pairs
+show the fog plainly (`docs/p3-fog-check.jpg`: rows are base routes 3666 and
+25424, which failed the measure, then 1792, which passed; fog on the left).
+Pixel standard deviation does not track haze in low-contrast scenes: in a flat
+desert under an open sky the clear frame is already nearly uniform, so fog
+barely changes its spread while erasing the horizon.
+
+**What we did:** resumed the same gap, unchanged, as array 39867344 over the
+46 unfinished tasks, reusing the 31 routes already completed; no driving
+outcome had been read. This is a deviation from a pre-set rule and is reported
+as one. Candidate measures checked afterwards on frame 20 of the same five
+pairs (fog over clear): whole-frame spread 0.46 to 1.00, as above; spread of
+the upper half 0.34 to 0.69; mean colour saturation of the upper half 0.24 to
+0.43, which separates every pair. Upper-half saturation is the proposed measure
+for the next perceptual pilot. Fix its threshold before that pilot runs, since
+these five pairs chose it.
+
+---
+
+## 2026-10-13 — The layer sweep's second pick depends on the scikit-learn version
+
+**Expected:** rerunning the Step 4 sweep on compute-box, on the same 190 shards
+with the same seeds, would reproduce Savio's choice of driving queries at
+layers 10 and 11.
+
+**Actual (measured):** compute-box chose layers 10 and **9**. It runs
+scikit-learn 1.6.1 (Python 3.9); Savio's analysis venv runs 1.9.1. Shuffled
+`StratifiedGroupKFold` assigns base routes to folds differently across these
+versions, which moved individual metrics by up to 0.089 (junction-distance R²,
+occlusion AUROC) and failure AUROC by 0.058. Layer 10 was first in both runs.
+The runners-up are a near-tie: on Savio, combined ranks were 9.5 (layer 11),
+10.4 (13) and 10.7 (9); on compute-box 8.6 (9), 9.9 (13) and 11.1 (11).
+
+**What we did:** stopped the compute-box stability check, which compared
+against Savio's choice and would have counted the version change as
+instability, and ran it on Savio in the original venv (CPU job 39867065,
+`scripts/step4_stability.sbatch`). Any rerun of a sweep must use the venv that
+produced the result it is compared with. Whatever the resamples say, only the
+first pick is well separated.
+
+---
+
+## 2026-10-13 — A third A40 node, n0262, kills CARLA on start
+
+**Expected:** the P3 pilot array (job 39866822) would run like Step 4's, with
+n0214 and n0215 excluded.
+
+**Actual:** within two minutes, seven of ten started tasks failed with "CARLA
+exited with code 1 before accepting clients"; the server log ends at "Disabling
+core dumps." Every failed task ran on n0262.savio3, each failing in 10 to 25
+seconds, so the node kept taking the next task. Tasks on n0264 and n0280 were
+driving normally. One task on n0262 had started a route, so the node probably
+has one bad GPU rather than none working.
+
+**What we did:** cancelled the array at about 2 SU spent, resubmitted as job
+39866909 with `--exclude=n0214.savio3,n0215.savio3,n0262.savio3`, and made the
+overnight watcher stop on three tasks failing in under 90 seconds. The list
+now lives in `configs/cluster/savio.yaml` (`gpu_a40.exclude_nodes`), and
+`scripts/submit.sh` applies it to every A40 submission.
+
+---
+
+## 2026-10-12 — Both practice gaps failed efficacy, and the check could barely have passed them
+
+**Expected:** at least one of P1 (dust storm at night) and P2 (pedestrian behind
+a container at night) would pass the §9.1 efficacy check, so the layer sweep
+could score practice-gap recovery.
+
+**Actual (measured, `sweep.json` of job 39784631, read on Savio):** P1 failed
+7 of 30 against 5 of 29 in its neighbourhood (Fisher p = 0.75); P2 failed 2 of
+30 against 0 of 30 (p = 0.49). The sweep skipped gap recovery and chose two
+pairs on the other metrics: driving queries at layers 10 and 11. 189 of 190
+routes have an outcome; route 2535800 (array task 25) failed and is on the
+rerun list. A design review then found the check itself underpowered at 30 per
+arm, analysed unpaired on paired data, and blind to P2's 5-base-route
+clustering, and found that the array ran each slice in a separate block of
+tasks from its neighbourhood.
+
+**What we did:** proposed a powered, paired check (`CONFLICTS.md` C23) and a
+manipulation check (C24); shuffled run order for every future array
+(`05979cb`). The replacement practice gaps wait on C23.
+
 ## 2026-10-09 — On Savio, a dust storm at night renders as darkness
 
 **Expected:** practice gap P1 (dust storm parameters with the sun below the

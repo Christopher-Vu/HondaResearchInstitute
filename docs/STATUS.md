@@ -6,11 +6,62 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-13 (literature sweep: SPHINX, driving SAEs and log-based failure taxonomies added to PRD §4; C25–C27 proposed)
+Last updated: 2026-10-15 01:15 (overnight chain queued: P6 screen and auto-continue, SAE sweep, contrastive dev evaluation)
 
 ---
 
 ## Current position
+
+**2026-10-15 overnight, queued on Savio (agent working, Jerry asleep).**
+
+| Job | What | Then |
+|---|---|---|
+| 39921553 → 39921554 | P6 animal screen, scoring | **failed**: 1 of 9 with an animal against 2 of 10 with a person; 39949654 declined the full pilot |
+| 39948497 | Layer sweep over both dev waves plus P4 | **done**: driving queries L10 first again; all-tokens L18 recovers P4 best (Jaccard 0.77 against 0.36 at driving-query L10) |
+| 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | running; seed 0 done: held-out explained variance 0.92 to 0.93, no dead latents, 1.05M training tokens |
+| 39951153 | Dev evaluation: contrastive diffing, B7-pool, B1 and B2 against P4's failing rollouts, every seed-0 SAE | `results/savio/dev-eval/p4.json` |
+
+Worst-case round spend about 1,630 of 2,000 SU. New code: `src/discovery/sae.py`,
+`contrastive.py`, `dev_eval.py`; each lists its interpretations pending sign-off.
+
+**2026-10-15: P4, camera occlusion, passed efficacy, the first practice gap
+that does.** 60 paired base routes (array 39921545, scored by job 39921546):
+43 of 60 failed with the patch against 12 of 60 without (uplift 52 points,
+ratio 3.6, Fisher p = 1.9e-8); paired, 31 bases failed only with it and none
+only without (McNemar p = 9e-10). Driving score 63.4 against 91.9; vehicle
+collisions 30 against 6, red lights 8 against 0, pedestrian collisions 5
+against 0. Evidence: `results/savio/step5-pilot-p4-main/`, shards with layer
+10 and 14 tokens on Savio. Steps 6 and 7 now have a passing practice gap to
+develop against. Spend this round: 828 SU of 2,000 at 23:50.
+
+**2026-10-14: screens.** Screens
+of 10 paired base routes, each judged by a rule fixed beforehand
+(`gaps/practice/practice_v2.yaml`):
+
+- **P4, camera occlusion:** passed. 8 of 10 failed with the patch, 4 of 10
+  without; 5 bases failed only with it, 1 only without. Full pilot passed (above).
+- **P5, pedestrians walking in the ego lane:** walkers present on every slice
+  route, but SimLingo failed 2 of 8 against 1 of 9. Screen failed; stopped
+  (`docs/WHAT_BROKE.md`).
+- **P6, an animal crossing:** Fail2Drive's server runs our routes and its
+  animals appear (`docs/p6-animal-check.jpg`); both smoke routes passed. Screen
+  runs as array 39921553, scored by job 39921554.
+
+Per-token capture (layers 10 and 14, 30 driving-query tokens, float16) is
+verified: the tokens average exactly to the logged means. Spend this round:
+189 SU of 2,000 at 17:20 (measured), about 760 once these jobs finish.
+
+**2026-10-13 overnight: Step 4 is not closed, and the third weather gap failed.**
+The stability check changed the chosen layers in 4 of 5 resamples (layer 10 held
+in 4; `results/savio/step4-dev-pool/stability.json`), so the spec's second wave of
+200 background routes is running on Savio as array 39868383 (started about 06:10,
+after the pilot below), then job 39868384 re-sweeps both waves into
+`results/savio/step4-dev-pool-both/`. **P3, dense fog at noon, failed efficacy**:
+25% failures in fog against 30% at clear noon over 59 paired base routes
+(Fisher p = 0.68, McNemar p = 0.79; `results/savio/step5-pilot-p3/`). No practice
+gap passes yet, and weather does not seem able to make one. B2 (human taxonomy)
+and B7's statistics (steps 3–8) are coded and tested. Spend: about 510 SU by
+05:15, 1,350 projected with the second wave, under Jerry's 2,000 cap.
 
 **2026-10-13: a literature sweep narrowed the novelty claim.** Three papers the
 PRD had missed are now in §4.10–4.12. SPHINX closes the loop from a driving
@@ -86,7 +137,7 @@ container became the pinned tarball (`CONFLICTS.md` C20, pending review), and
 
 Savio lessons from the night, all in `docs/WHAT_BROKE.md`: use the `gpu_a40`
 profile when the A5000 queue is long; always pass
-`--exclude=n0214.savio3,n0215.savio3` (faulty A40s); two routes share an A40
+the faulty A40 nodes, which `configs/cluster/savio.yaml` now excludes on every `gpu_a40` submission; two routes share an A40
 safely now that their CARLA servers start one after the other; an evaluator
 silent for 15 minutes is stopped (`f111121`).
 
@@ -198,25 +249,28 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-1. Close Step 4 with no new routes: copy `sweep.json` from
-   `/global/scratch/users/imhaohao/HondaResearchInstitute/results/savio/step4-dev-pool/`
-   into the repo, write driving queries at layers 10 and 11 into the rollout
-   config, and code and run the resampling stability check from the spec (CPU).
-2. Replacement practice gaps (about 250 SU each) wait on C23, since its sample
-   size decides how many rollouts each needs. Before then, mine Step 2 and the
-   dev pool for slices that already fail far above their neighbours (0 SU);
-   anything found still needs fresh rollouts. Steps 6 and 7 need a passing gap.
-3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check); C24
-   (manipulation check); sign off B7; C21 (dev pool size, practice
-   gaps held to efficacy but not novelty); C22 (Step 3's replay condition in
-   bfloat16); C20 (tarball instead of container); §16.2 (gap portfolio size).
+1. Read the second wave when job 39868384 ends: `results/savio/step4-dev-pool-both/sweep.json`
+   on Savio. If it is still unstable, decide the layer tie (layer 10 alone, or a
+   band such as 9–12); copy the result into the repo and write the layers into
+   the next capture config. Cancelling 39868383 stops the wave's remaining tasks.
+2. A control gap that is not weather. Three weather conditions failed; Fail2Drive
+   reports SimLingo loses 5.9% on its robustness shifts but 64.2% on behaviour
+   shifts. Candidates: pedestrians walking in the ego lane, unseen obstacle or
+   animal classes, a camera fault. Interactional gaps meet C23's 30-base-route
+   floor only across several scenario families or with routes cut from
+   `routes_validation.xml` (C23 note).
+3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check; pilots
+   are already sized by it); C24 (manipulation check: use upper-half saturation,
+   `docs/WHAT_BROKE.md`); C25–C27 (literature sweep); sign off B7 and its eight
+   pinned readings, and B2's (`src/baselines/`); per-token or frame-mean SAE
+   before Step 7; C21, C22, C20, §16.2.
 4. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
    rerun is about 910 SU, or a handful of routes plus a rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`
 5. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
    copy it over, then on Savio `git fetch ../x.bundle codex/carla-bringup:refs/remotes/bundle/carla-bringup`
    and `git merge --ff-only bundle/carla-bringup`. Savio's checkout was at
-   `05d7bf5` when the dev pool started. Savio refuses a second SSH session while
+   `ccc4534` on 2026-10-13. Savio refuses a second SSH session while
    one is busy, so run cluster commands one at a time.
 
 **An agent can reach the cluster only through a shared SSH connection that a

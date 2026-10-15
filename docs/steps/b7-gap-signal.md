@@ -121,3 +121,12 @@ The draft left four questions open. All four are now fixed:
 
 One change from the draft: membership (step 8) is restricted to failing
 rollouts, as every other method's is.
+
+## Implementation, 2026-10-13
+
+Steps 3–8 are in `src/baselines/activation_stats.py`, tested on synthetic
+latents in `tests/test_activation_stats.py`; steps 1–2 wait for the SAE (Step 7).
+Where this file is silent the code pins eight readings, listed in its docstring
+for sign-off: strict `>` firing, frame 0 counting as an onset, per-episode run
+length, merging against the axis's union fire set, and tie-breaks. None was
+chosen with data in view; no activation has been run through it.

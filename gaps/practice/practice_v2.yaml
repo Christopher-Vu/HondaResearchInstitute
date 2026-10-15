@@ -1,0 +1,119 @@
+# Replacement practice gaps for the dev pool (PRD 9.2, Step 5 pilots). Both
+# version-1 gaps failed their efficacy check (docs/WHAT_BROKE.md, 2026-10-12).
+# Public, like version 1: every predicate here is excluded from the sealed pool.
+# Predicates use the same fields and operators as practice_v1.yaml. Each gap is
+# piloted as pairs, a slice route and its neighbourhood on one base route, and
+# judged by CONFLICTS.md C23's paired test alongside PRD 9.1's rule.
+
+version: 2
+
+gaps:
+  - gap_id: P3_dense_fog_day
+    tier: T0_control
+    summary: >-
+      Dense fog in daylight. SimLingo's data collection drew whole CARLA
+      presets, and every daytime preset has fog density 7 or less; density 60
+      and above occurs only at night. Dense daytime fog is therefore outside
+      the collection distribution, and unlike P1's night dust it is lit, so it
+      reaches the camera on Savio's renderer. A perceptual gap every method
+      should find.
+    predicate:
+      - {field: weather.fog_density, op: ">=", value: 50}
+      - {field: weather.sun_altitude_angle, op: ">", value: 0}
+    plant:
+      # Distinct base routes, one slice route and one neighbourhood route each.
+      base_routes: 60
+      weather: {preset: ClearNoon, fog_density: 90}
+    # The same base routes at clear noon, so fog is the only difference.
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # CONFLICTS.md C24, fixed before the pilot runs: over the first 20 policy
+    # steps, the slice route's median camera_std (pixel standard deviation,
+    # logged per step) is below 0.7 times its neighbourhood route's, in at
+    # least 4 of the first 5 base routes with both routes scored. If not, the
+    # array is cancelled before efficacy is read.
+    manipulation_check: {measure: camera_std, steps: 20, max_ratio: 0.7, min_pairs_passing: 4, of_pairs: 5}
+
+  - gap_id: P4_camera_occlusion
+    tier: T0_control
+    summary: >-
+      A black patch over the middle of the policy camera: the middle third of
+      the width, from 25% to 65% of the height, above the 30% strip SimLingo
+      crops off. Applied by the agent before the model sees the frame
+      (adapters/simlingo/camera_fault.py), so the world is unchanged and only
+      perception fails. Absent from training by construction. A control gap
+      every method should find.
+    predicate:
+      - {field: sensor.camera_fault.kind, op: "==", value: occlusion}
+    plant:
+      base_routes: 60
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.333, 0.25, 0.667, 0.65]}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: in the saved frames of the first 5
+    # scored slice routes, at least 99% of the box's pixels are black.
+    manipulation_check: {measure: black_fraction_in_box, min_fraction: 0.99, of_routes: 5}
+    # Continue from the 10-pair screen to the 60-pair pilot only if, among
+    # pairs, slice-only failures exceed neighbourhood-only failures by 3 or more.
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P5_pedestrians_in_lane
+    tier: T2_interactional
+    summary: >-
+      Three pedestrians walking along the ego lane 30 m ahead, Fail2Drive's
+      PedestriansOnRoad scenario (vendored, MIT), appended to an ordinary
+      Bench2Drive route and triggered at its start. Fail2Drive reports
+      SimLingo colliding in 87% of its own PedestriansOnRoad routes. SimLingo's
+      training has a walker-ahead bucket (5% of samples), so this gap is held to
+      efficacy only (C21). Fail2Drive scenarios are never fine-tuning targets.
+    predicate:
+      - {field: injected, op: "==", value: PedestriansOnRoad}
+    plant:
+      base_routes: 60
+      min_route_length_m: 70
+      weather: {preset: ClearNoon}
+      scenario:
+        type: PedestriansOnRoad
+        parameters: {distance: 30, walker_duration: 20, walker_speed: 2}
+        attributes:
+          pedestrians: {a: walker.pedestrian.0034, b: walker.pedestrian.0007, c: walker.pedestrian.0015}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: the logged nearest-pedestrian distance
+    # falls below 40 m within the first 30 simulated seconds in at least 4 of
+    # the first 5 scored slice routes.
+    manipulation_check: {measure: min_pedestrian_distance_m, max_value: 40, within_s: 30, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P6_animal_crossing
+    tier: T1_enumerable
+    summary: >-
+      An animal crossing from behind a parked blocker, where SimLingo has only
+      ever seen people cross: Bench2Drive's DynamicObjectCrossing appended to an
+      ordinary route, its walker one of three animals from Fail2Drive's
+      simulator (walker.animal.1006, 1009, 1017, the ones Fail2Drive pairs with
+      this scenario), rotating across base routes. Its neighbourhood is the same
+      crossing by a person, so the pair differs only in what crosses. Both arms
+      run on Fail2Drive's server build, the only one with the animals. Absent
+      from training by construction; evaluation and discovery only (PRD 4.7).
+    predicate:
+      - {field: injected_parameters.walker, op: in, value: [walker.animal.1006, walker.animal.1009, walker.animal.1017]}
+    plant:
+      base_routes: 60
+      min_route_length_m: 70
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        parameters: {distance: 20, direction: right, walker: [walker.animal.1006, walker.animal.1009, walker.animal.1017]}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        parameters: {distance: 20, direction: right, walker: [walker.pedestrian.0001, walker.pedestrian.0005, walker.pedestrian.0010]}
+    # C24, fixed before the pilot runs: the animal is visible in a saved frame
+    # of at least 4 of the first 5 scored slice routes (checked by eye; the
+    # state logger counts only walker.pedestrian.*).
+    manipulation_check: {measure: animal_visible_in_frames, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}

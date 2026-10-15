@@ -33,6 +33,9 @@ gpu_a40:
   qos: a40_gpu3_ica
   gres: "gpu:A40:1"
   cpus_per_task: 8
+  # Nodes whose A40 kills CARLA within seconds (docs/WHAT_BROKE.md). submit.sh
+  # adds them to every submission on this profile, merged with any --exclude.
+  exclude_nodes: [n0214.savio3, n0215.savio3, n0262.savio3]
 
 cpu:
   # CPU partitions for GPU-free work. savio3_htc allocates per core.
@@ -47,6 +50,11 @@ carla:
   # `apptainer exec --nv`:
   #   APPTAINER_CACHEDIR=$PWD/.runtime/apptainer apptainer pull .runtime/carla-0.9.15.sif docker://carlasim/carla:0.9.15
   container: null
+  # Server builds a rollout config can name in simulator.carla_build; any other name runs the stock release
+  # at .runtime/carla-linux. Fail2Drive's adds its animal and obstacle assets (practice gap P6); unpack
+  # fail2drive_simulator.tar.gz from huggingface.co/datasets/SimonGer/fail2drive and link it here.
+  builds:
+    fail2drive: .runtime/fail2drive-carla
 
 storage:
   # Berkeley Research IT system overview: scratch is not backed up; home is 50 GB.

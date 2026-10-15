@@ -113,6 +113,32 @@ base routes changes the chosen set in more than one of five resamples.
 2. A local smoke route on the Mac with the new capture fields, and the dust-at-night
    camera check, since the agent rejects a uniform camera frame.
 3. Generate and submit the dev pool:
-   `bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 --exclude=n0214.savio3,n0215.savio3 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2`
+   `bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-94%6 scripts/route_sample.sbatch configs/rollout/step4-dev-pool.yaml 2`
 4. Score the practice gaps' efficacy, export, sweep, write the chosen layers into
    the config.
+
+## Result, 2026-10-13
+
+The sweep chose driving queries at layers 10 and 11 (combined ranks 7.9 and
+9.5; `results/savio/step4-dev-pool/sweep.json`). Both practice gaps failed
+efficacy, so gap recovery was not scored. The stability check
+(`scripts/step4_stability.sbatch`, job 39867065, `stability.json`) changed the
+chosen set in **4 of 5** resamples, so the rule above calls for the second wave:
+200 background routes, `configs/rollout/step4-dev-pool-wave2.yaml`, queued to
+start after the P3 pilot, then `scripts/step4_wave2.sbatch` re-sweeps both waves.
+Driving queries at layer 10 were chosen in 4 of 5 resamples; the second pick
+varied among layers 7, 9, 11 and 12. The choice also flips with the
+scikit-learn version (`docs/WHAT_BROKE.md`), so only layer 10 is well separated
+so far.
+
+**2026-10-15, with a passing practice gap.** Rerun over both waves plus the P4
+pilot (504 rollouts, 140 failures; job 39948497,
+`results/savio/step4-sweep-with-p4/sweep.json`), so practice-gap recovery is
+scored for the first time. Chosen: driving queries at layer 10 (combined rank
+16.75) and, for best gap recovery, all-tokens at layer 18 (17.25). The sites
+split on P4: clustering episode means recovers P4's failing rollouts with
+Jaccard 0.77 at all-tokens layer 18 against 0.36 at driving-query layer 10. P4
+is perceptual, so the site that includes image tokens finds it; the driving
+queries, the decision bottleneck the per-token SAE reads, are a step removed.
+Layer 10 is first again, and per-token capture at 10 and 14 stands.
+

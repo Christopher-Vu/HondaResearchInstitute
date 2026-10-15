@@ -5,7 +5,8 @@ over all tokens and over the driving-query tokens, the vision bridge (InternVL's
 output mean-pooled over tiles and tokens, and the hero's ground-truth `state` (PRD 9.2 probe targets,
 read from CARLA just before the model runs). Collisions are logged with the step they happened
 after. Every Nth step (SIMLINGO_CAPTURE_EVERY) also saves the exact preprocessed model input, so
-`replay_capture.py` can rerun the frame offline.
+`replay_capture.py` can rerun the frame offline. SIMLINGO_TOKEN_LAYERS (comma-separated decoder layers) adds
+every driving-query token at those layers, unpooled, in float16: the per-token SAE's input (PRD 12.2).
 """
 from __future__ import annotations
 
@@ -44,6 +45,7 @@ class CaptureAgent(VisibleAgent):
         self.pending_state: dict[str, Any] = {}
         super().setup(path_to_conf_file, route_index)
         self.capture_every = int(os.environ.get("SIMLINGO_CAPTURE_EVERY", "10"))
+        self.token_layers = [int(layer) for layer in os.environ.get("SIMLINGO_TOKEN_LAYERS", "").split(",") if layer]
         self.capture_dir = self.evidence / "capture"
         (self.capture_dir / "inputs").mkdir(parents=True, exist_ok=True)
         self.layer_outputs: dict[int, torch.Tensor] = {}
@@ -109,11 +111,15 @@ class CaptureAgent(VisibleAgent):
             "vision_bridge_mean": move(torch.stack(self.bridge_outputs).mean(dim=0), CPU),
             "state": self.pending_state,
         })
+        if self.token_layers:
+            self.records[-1]["driving_query_tokens"] = move(
+                stacked[self.token_layers, -self.driving_tokens:].to(torch.float16), CPU)
         if len(self.records) % 200 == 0:
             self._flush()
 
     def _flush(self) -> None:
-        torch.save({"capture_every": self.capture_every, "dtype": str(self.dtype), "device": str(self.device),
+        torch.save({"capture_every": self.capture_every, "token_layers": self.token_layers,
+                    "dtype": str(self.dtype), "device": str(self.device),
                     "records": self.records, "collisions": list(self.collisions)}, self.capture_dir / "steps.pt")
 
     def destroy(self, results: Any = None) -> None:

@@ -10,8 +10,11 @@
 # named by `route.manifest`), each with its own CARLA server.
 # Arguments: config (default configs/rollout/savio-mac-paired.yaml, whose route
 # list the array range above covers; tests/test_savio_runtime.py checks it) and
-# routes per GPU (default 1). With K routes per GPU, array task i runs routes
-# i*K .. i*K+K-1 side by side, so the array needs ceil(routes / K) tasks. Another
+# routes per GPU (default 1). Routes run in route_run.run_order's seeded shuffle,
+# so a slice and its neighbourhood never sit in separate blocks of array tasks.
+# With K routes per GPU, array task i runs shuffled routes i*K .. i*K+K-1 side by
+# side, so the array needs ceil(routes / K) tasks. Arrays submitted before
+# 2026-10-12 ran in config order: rerun those by route id, not task index. Another
 # config needs its own --array and --time on the command line:
 #   bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch
 #   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-109%4 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml 2
@@ -24,8 +27,8 @@ CONFIG=${1:-configs/rollout/savio-mac-paired.yaml}
 PER_GPU=${2:-1}
 mapfile -t ROUTES < <(PYTHONPATH=adapters/simlingo "$PY" -c '
 import sys, yaml
-from route_run import configured_route_ids
-routes = configured_route_ids(yaml.safe_load(open(sys.argv[1])))
+from route_run import configured_route_ids, run_order
+routes = run_order(configured_route_ids(yaml.safe_load(open(sys.argv[1]))))
 first = int(sys.argv[2]) * int(sys.argv[3])
 print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_GPU")
 

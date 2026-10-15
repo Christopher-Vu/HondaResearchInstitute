@@ -59,11 +59,23 @@ GRES=$(get "$KIND.gres");      CPUS=$(get "$KIND.cpus_per_task")
 
 [ -n "$PART" ] || { echo "$KIND partition is null in $CFG; fill it from sacctmgr show assoc" >&2; exit 2; }
 
+# A profile's exclude_nodes are always excluded; an --exclude on the command line adds to them.
+EXCLUDE=$("$PY" -c "
+import yaml,sys
+print(','.join((yaml.safe_load(open('$CFG')).get(sys.argv[1]) or {}).get('exclude_nodes') or []))
+" "$KIND")
+PASSED=()
+for OPTION in ${EXTRA[@]+"${EXTRA[@]}"}; do
+  if [[ "$OPTION" == --exclude=* ]]; then EXCLUDE="${EXCLUDE:+$EXCLUDE,}${OPTION#--exclude=}"
+  else PASSED+=("$OPTION"); fi
+done
+
 ARGS=(--account="$ACCOUNT" --partition="$PART")
 [ -n "$QOS" ]  && ARGS+=(--qos="$QOS")
 [ -n "$GRES" ] && ARGS+=(--gres="$GRES")
 [ -n "$CPUS" ] && ARGS+=(--cpus-per-task="$CPUS")
-ARGS+=(${EXTRA[@]+"${EXTRA[@]}"})
+[ -n "$EXCLUDE" ] && ARGS+=(--exclude="$EXCLUDE")
+ARGS+=(${PASSED[@]+"${PASSED[@]}"})
 
 echo "sbatch ${ARGS[*]} $SCRIPT $*"
 exec sbatch "${ARGS[@]}" "$SCRIPT" "$@"

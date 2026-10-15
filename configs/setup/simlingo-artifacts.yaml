@@ -3,6 +3,8 @@ source:
   revision: 743b243afd6cf5ff51b9fa1f8cac86f22d569684
   patch: adapters/simlingo/patches/runtime-compatibility.patch
   benchmark_patch: adapters/simlingo/patches/external-server.patch
+  # From Fail2Drive (MIT): PedestriansOnRoad for P5, a walker parameter on DynamicObjectCrossing for P6.
+  scenario_patch: adapters/simlingo/patches/fail2drive-scenarios.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454

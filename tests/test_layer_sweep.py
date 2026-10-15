@@ -230,3 +230,26 @@ def test_choose_adds_the_best_gap_pair_when_it_is_not_in_the_top_two():
     assert [(pick["site"], pick["layer"]) for pick in chosen] == [
         ("all_tokens", 0), ("all_tokens", 1), ("driving_queries", 0)]
     assert chosen[-1]["reason"] == "best practice-gap recovery"
+
+
+def test_excluded_base_routes_leave_the_sweep(tmp_path):
+    build_pool(tmp_path)
+    report = layer_sweep.run_sweep(tmp_path, efficacy_gate=False, exclude_bases=frozenset({"base0", "base1"}))
+    assert report["shards"] == 44
+
+
+def test_stability_drops_a_fifth_of_base_routes_and_keeps_the_planted_layer(tmp_path):
+    build_pool(tmp_path)
+    stability = layer_sweep.stability_check(tmp_path, layer_sweep.run_sweep(tmp_path), resamples=2)
+    assert stability["dropped_per_resample"] == 5
+    assert all(len(run["dropped_bases"]) == 5 for run in stability["resamples"])
+    assert stability["resamples"][0]["dropped_bases"] != stability["resamples"][1]["dropped_bases"]
+    assert all(list(FAILURE_PAIR) in run["chosen"] for run in stability["resamples"])
+    assert stability["changed"] == sum(run["chosen"] != stability["reference"] for run in stability["resamples"])
+
+
+def test_stability_counts_resamples_that_differ_from_the_reference(tmp_path):
+    build_pool(tmp_path)
+    reference = {"chosen": [{"site": "vision_bridge", "layer": 0}]}
+    stability = layer_sweep.stability_check(tmp_path, reference, resamples=2)
+    assert stability["changed"] == 2 and stability["second_wave_needed"]

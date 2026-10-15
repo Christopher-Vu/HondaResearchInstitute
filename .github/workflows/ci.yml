@@ -9,7 +9,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pytest pyyaml scipy ruff mypy
+      - run: pip install pytest pyyaml scipy scikit-learn ruff mypy
 
       - name: complexity limit
         run: ruff check src scripts adapters tests
