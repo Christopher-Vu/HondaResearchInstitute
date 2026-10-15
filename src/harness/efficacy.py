@@ -1,12 +1,16 @@
 """Efficacy of a practice gap from a pilot's manifest and scored routes, by PRD 9.1's rule and by CONFLICTS.md C23's.
 
     python -m src.harness.efficacy MANIFEST.json ROUTES.jsonl --gap GAP_ID [--output OUT.json]
+    python -m src.harness.efficacy --screen REPORT.json --gaps gaps/practice/practice_v2.yaml   # exit 0 if it passes
 
 PRD 9.1, the rule in force: slice against neighbourhood as unrelated groups, two-sided Fisher exact, through
 harness.schema.Gap.passes_efficacy. C23, proposed: the base route is the unit. Each base route with an outcome on
 both its slice and its neighbourhood route is a pair; McNemar's exact test (two-sided binomial on the discordant
 pairs) replaces Fisher, with the same uplift and ratio thresholds, at least 60 pairs from at least 30 base routes.
 Routes without an outcome are left out of both and counted.
+
+A screen (Step 5's 10-pair first stage) passes its gap's `screen_rule` when, among pairs, slice-only failures exceed
+neighbourhood-only failures by at least `min_excess_slice_only_failures`; `--screen` exits 0 then and 3 otherwise.
 """
 from __future__ import annotations
 
@@ -88,13 +92,36 @@ def efficacy(manifest: list[dict[str, Any]], rows: list[dict[str, Any]], gap_id:
             "prd_9_1": unpaired(manifest, failed, gap_id), "c23_paired": paired(outcome_pairs(manifest, failed, gap_id))}
 
 
+def screen_passes(report: dict[str, Any], rule: dict[str, Any]) -> bool:
+    paired_report = report["c23_paired"]
+    excess = paired_report["slice_only_failed"] - paired_report["neighbourhood_only_failed"]
+    return excess >= rule["min_excess_slice_only_failures"]
+
+
+def screen_verdict(report_path: Path, gaps_path: Path) -> int:
+    import yaml
+    report = json.loads(report_path.read_text())
+    gaps = {gap["gap_id"]: gap for gap in yaml.safe_load(gaps_path.read_text())["gaps"]}
+    passed = screen_passes(report, gaps[report["gap_id"]]["screen_rule"])
+    paired_report = report["c23_paired"]
+    print(f"{report['gap_id']} screen: {paired_report['slice_only_failed']} slice-only against "
+          f"{paired_report['neighbourhood_only_failed']} neighbourhood-only failures; passes: {passed}")
+    return 0 if passed else 3
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("manifest", type=Path)
-    parser.add_argument("routes", type=Path, help="routes.jsonl written by score_routes.py")
-    parser.add_argument("--gap", required=True)
+    parser.add_argument("manifest", type=Path, nargs="?")
+    parser.add_argument("routes", type=Path, nargs="?", help="routes.jsonl written by score_routes.py")
+    parser.add_argument("--gap")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--screen", type=Path, help="a screen's efficacy report: judge it by its gap's screen_rule")
+    parser.add_argument("--gaps", type=Path, help="the practice-gap file holding that screen_rule")
     args = parser.parse_args()
+    if args.screen:
+        raise SystemExit(screen_verdict(args.screen, args.gaps))
+    if not (args.manifest and args.routes and args.gap):
+        parser.error("manifest, routes and --gap are required unless --screen is given")
     rows = [json.loads(line) for line in args.routes.read_text().splitlines() if line.strip()]
     report = efficacy(json.loads(args.manifest.read_text()), rows, args.gap)
     text = json.dumps(report, indent=2) + "\n"

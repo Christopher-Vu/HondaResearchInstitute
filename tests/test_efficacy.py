@@ -49,3 +49,10 @@ def test_the_report_serializes_to_json_when_every_threshold_but_size_is_met():
     manifest, rows = pilot([(True, False)] * 9 + [(False, False)])
     json.dumps(efficacy.efficacy(manifest, rows, GAP))
 
+
+
+def test_a_screen_passes_on_an_excess_of_slice_only_failures():
+    manifest, rows = pilot([(True, False)] * 4 + [(False, True)] + [(False, False)] * 5)
+    report = efficacy.efficacy(manifest, rows, GAP)
+    assert efficacy.screen_passes(report, {"min_excess_slice_only_failures": 3})
+    assert not efficacy.screen_passes(report, {"min_excess_slice_only_failures": 4})
