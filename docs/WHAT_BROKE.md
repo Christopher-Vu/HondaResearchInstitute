@@ -32,6 +32,14 @@ treatment of the shared failure direction before its top axes mean anything.
 The SAE itself trained well: 36 runs, held-out explained variance 0.92 to 0.93
 (about 0.01 across seeds), no dead latents.
 
+**Follow-up, same night (job 39966163, `p4-capped.json`):** capping a latent's
+and an axis's share of failures at 0.8 (C27's dev variant) removes the
+catch-all. Best Jaccard with P4 then rises at layer 14 to 0.76 (k 32), 0.79
+(k 48) and 0.73 (k 64), with 79 to 83% of the top axis being P4, against 0.68
+to 0.73 at layer 10. A random 58-rollout axis would score about 0.59 here. The
+top axes sit at the cap, so generic signal is still mixed in; the cap of 0.8
+was set for this P4-heavy corpus and is not a method default.
+
 ---
 
 ## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
