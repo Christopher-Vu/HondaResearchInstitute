@@ -83,15 +83,20 @@ def evaluate_run(run: Path, shard_dirs: list[Path], gaps: list[Gap], manifests: 
     rollouts = encode_rollouts(shard_dirs, model, layer, device)
     failing = {rollout.rollout_id for rollout in rollouts if rollout.failed}
     contrastive, _effects = contrastive_directive(rollouts, ContrastiveConfig(), layer=f"driving_queries_L{layer}")
+    # C27 variant: 0.8 because P4 alone is 70% of this corpus's failures; a realistic pool needs a lower cap.
+    projected, _ = contrastive_directive(rollouts, ContrastiveConfig(max_failure_share=0.8),
+                                         layer=f"driving_queries_L{layer}")
     episodes = {rollout.rollout_id: rollout.latents for rollout in rollouts}
     b7_pool = activation_stats_directive(episodes, episodes, failing, ActivationStatsConfig(variant="B"))
     sizes = [len(axis.rollouts) for axis in contrastive.axes] or [max(1, len(failing) // 10)]
     random_summary, _draws = score_averaged(sorted(failing), gaps, RandomBaselineConfig(axis_sizes=sizes, n_draws=200))
     taxonomy = taxonomy_directive(records(manifests, rollouts), TaxonomyConfig())
     return {"run": str(run), "layer": layer, "rollouts": len(rollouts), "failing": len(failing),
-            "contrastive": summary(score(contrastive, gaps)), "B7_pool": summary(score(b7_pool, gaps)),
+            "contrastive": summary(score(contrastive, gaps)),
+            "contrastive_capped": summary(score(projected, gaps)), "B7_pool": summary(score(b7_pool, gaps)),
             "B2_taxonomy": summary(score(taxonomy, gaps)), "B1_random": random_summary,
-            "contrastive_axes": [axis_overlap(axis, gaps, failing) for axis in contrastive.axes]}
+            "contrastive_axes": [axis_overlap(axis, gaps, failing) for axis in contrastive.axes],
+            "contrastive_capped_axes": [axis_overlap(axis, gaps, failing) for axis in projected.axes]}
 
 
 def axis_overlap(axis: Any, gaps: list[Gap], failing: set[str]) -> dict[str, Any]:
@@ -120,7 +125,8 @@ def main() -> None:
                                        "runs": reports}, indent=2, default=str) + "\n")
     for report in reports:
         print(report["run"], {method: report[method].get("mean_best_jaccard")
-                              for method in ("contrastive", "B7_pool", "B2_taxonomy", "B1_random")})
+                              for method in ("contrastive", "contrastive_capped", "B7_pool", "B2_taxonomy",
+                                             "B1_random")})
 
 
 if __name__ == "__main__":
