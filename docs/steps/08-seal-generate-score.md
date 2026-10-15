@@ -1,6 +1,6 @@
 # Step 8 — Seal, freeze, generate, score
 
-**Status: drafted 2026-10-16 (Chris's lane, sign-off pending).** `PRD.md` §13
+**Status: drafted 2026-10-15 (Chris's lane, sign-off pending).** `PRD.md` §13
 Step 8; §9.1 (sealing protocol), §9.2 (pools), §13.1 (go/no-go).
 
 **Done when** the scoring report exists and every tag below is in git, in this

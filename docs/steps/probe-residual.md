@@ -1,6 +1,6 @@
 # Probe-residual discovery (M3a), definition
 
-**Status: drafted 2026-10-16; Chris's sign-off pending.** `PRD.md` §9.2 and the
+**Status: drafted 2026-10-15; Chris's sign-off pending.** `PRD.md` §9.2 and the
 handoff's M3a (`upstream-99p/docs/MASTER_HANDOFF.md`, following Buurmeijer et
 al.'s linear observers) define it: decode a pre-registered generic state list
 from activations, fitted on success frames, and cluster the residual vectors

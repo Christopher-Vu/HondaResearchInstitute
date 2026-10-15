@@ -589,7 +589,7 @@ steps; each is reversible and none touches the sealed key.
 - **The dev evaluation scores every method against P4**, the one practice gap
   that passed. The numbers guide method development and are not results.
 
-### C29 · B3 runs without expert action error · new, 2026-10-16, pending review
+### C29 · B3 runs without expert action error · new, 2026-10-15, pending review
 `PRD.md` §9.3 defines B3 as clustering on action error versus the expert,
 kinematics and infraction type. **The rollouts log no expert action**, so the
 first block cannot be computed without running PDM-Lite alongside every rollout.
@@ -602,7 +602,7 @@ more feature block, decided before scoring. Without it B3 is weaker on failures
 where the car's motion looks normal but its plan is wrong, which is a reason to
 add the block before the go/no-go read, not a reason to wait for it now.
 
-### C30 · B4's factor list committed before sealed-gap design · new, 2026-10-16
+### C30 · B4's factor list committed before sealed-gap design · new, 2026-10-15
 `PRD.md` §9.3 requires B4's factor list to be written from public sources and
 hash-committed before gap candidates are chosen. **Committed as
 `configs/baselines/b4_factors_v1.yaml` (commit `dc84f8b`, tag `b4-factors-v1`),
@@ -616,6 +616,8 @@ after sealed candidates exist must be reported as such): native renders on 30
 paired base routes per level, reusing dev measurements of already-measured levels
 (full C23 sizing for 18 levels would cost about 9,000 SU); the ODD standards
 (ISO 34503, BSI PAS 1883) were not read, so they are not cited.
+The yaml's header comment says 2026-10-16; the date was 2026-10-15 (commit time
+is the record, and the file is not edited after hashing).
 
 ## D. Open contradictions
 

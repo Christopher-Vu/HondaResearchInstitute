@@ -1,6 +1,6 @@
 # B3: behavioral stratification, definition
 
-**Status: drafted 2026-10-16 before B3 has seen any rollout; Chris's sign-off
+**Status: drafted 2026-10-15 before B3 has seen any rollout; Chris's sign-off
 pending.** `PRD.md` §9.3 gives B3 one line: clustering on action error versus
 the expert, kinematics and infraction type, given the same per-frame state
 features the probe-residual method gets. This file fixes everything that line

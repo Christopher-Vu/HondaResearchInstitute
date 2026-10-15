@@ -1,12 +1,12 @@
 # Step 10 — Closed loop
 
-**Status: drafted 2026-10-16 (Chris's lane, sign-off pending). Runs only on a
+**Status: drafted 2026-10-15 (Chris's lane, sign-off pending). Runs only on a
 "go" at Step 9.** `PRD.md` §9.4, §12.3, C10, C11, C14, C19.
 
 **Done when** one full cycle has run with the no-degradation check reported,
 every authored scenario passes solvability, and no Fail2Drive asset was trained on.
 
-## SimLingo's own recipe (read from the repo, 2026-10-16)
+## SimLingo's own recipe (read from the repo, 2026-10-15)
 
 `simlingo_training/config/experiment/simlingo_seed1.yaml` at
 `github.com/RenzKa/simlingo` (main): InternVL2-1B for vision and language;
@@ -14,7 +14,7 @@ every authored scenario passes solvability, and no Fail2Drive asset was trained 
 §9.4); lr 3e-5; batch 6 per GPU on 8 GPUs; 15 epochs; Hydra configs; Weights &
 Biases logging on by default (`train_simlingo_seed1.sh`, 8 GPUs, 3-day limit).
 The released data is `datasets/RenzKa/simlingo` on Hugging Face: 1,158 GB of
-driving data plus language labels (checked via the HF API, 2026-10-16).
+driving data plus language labels (checked via the HF API, 2026-10-15).
 
 ## Cycle, per targeted axis
 

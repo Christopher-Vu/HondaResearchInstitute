@@ -1,6 +1,6 @@
 # Describability gate and B8, design
 
-**Status: drafted 2026-10-16; model pins and sign-off pending (Chris).** `PRD.md`
+**Status: drafted 2026-10-15; model pins and sign-off pending (Chris).** `PRD.md`
 §9.2 defines the gate; C25 (pending) makes B8, a log-based VLM failure taxonomy,
 a required baseline and requires the two to use **different** vision models. Both
 read the same keyframes and the same logged-observation summaries, so they are
