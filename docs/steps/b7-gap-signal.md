@@ -130,3 +130,13 @@ Where this file is silent the code pins eight readings, listed in its docstring
 for sign-off: strict `>` firing, frame 0 counting as an onset, per-episode run
 length, merging against the axis's union fire set, and tie-breaks. None was
 chosen with data in view; no activation has been run through it.
+
+## Variant A sample drawn, 2026-10-15
+
+The full released set (1,158 GB, 65 chunks) was not downloaded, so the sample is
+drawn in two seeded stages: 6 of the 37 training chunks (seed 0), then 1,000 of
+the 1,080 route directories in them (seed 0). The list and both draws are in
+`configs/baselines/b7_training_routes_v1.txt`, committed before any activation
+was computed. This is a deviation from "a sample of the released set": routes
+cluster in the drawn chunks, so 180 of the 1,080 (17%) come from one scenario,
+OppositeVehicleRunningRedLight. Pending sign-off with the rest of B7.
