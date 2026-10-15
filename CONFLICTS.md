@@ -602,6 +602,21 @@ more feature block, decided before scoring. Without it B3 is weaker on failures
 where the car's motion looks normal but its plan is wrong, which is a reason to
 add the block before the go/no-go read, not a reason to wait for it now.
 
+### C30 · B4's factor list committed before sealed-gap design · new, 2026-10-16
+`PRD.md` §9.3 requires B4's factor list to be written from public sources and
+hash-committed before gap candidates are chosen. **Committed as
+`configs/baselines/b4_factors_v1.yaml` (commit `dc84f8b`, tag `b4-factors-v1`),
+sha256 `4bca7f8538659172fb773b59762900e2d7643a615bc7d26ede356495a1349ef2`**,
+before any sealed candidate existed. 12 factors, 18 non-nominal levels, each with
+a log-decidable membership predicate. Practice gaps P1–P6 are public dev data, so
+a list naming their factors is fair: a practitioner would name them too.
+
+Choices made in writing it, open to Chris's review only as a **v2** (a v2 written
+after sealed candidates exist must be reported as such): native renders on 30
+paired base routes per level, reusing dev measurements of already-measured levels
+(full C23 sizing for 18 levels would cost about 9,000 SU); the ODD standards
+(ISO 34503, BSI PAS 1883) were not read, so they are not cited.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
