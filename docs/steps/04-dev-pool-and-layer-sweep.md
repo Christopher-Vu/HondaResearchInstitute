@@ -131,3 +131,14 @@ varied among layers 7, 9, 11 and 12. The choice also flips with the
 scikit-learn version (`docs/WHAT_BROKE.md`), so only layer 10 is well separated
 so far.
 
+**2026-10-15, with a passing practice gap.** Rerun over both waves plus the P4
+pilot (504 rollouts, 140 failures; job 39948497,
+`results/savio/step4-sweep-with-p4/sweep.json`), so practice-gap recovery is
+scored for the first time. Chosen: driving queries at layer 10 (combined rank
+16.75) and, for best gap recovery, all-tokens at layer 18 (17.25). The sites
+split on P4: clustering episode means recovers P4's failing rollouts with
+Jaccard 0.77 at all-tokens layer 18 against 0.36 at driving-query layer 10. P4
+is perceptual, so the site that includes image tokens finds it; the driving
+queries, the decision bottleneck the per-token SAE reads, are a step removed.
+Layer 10 is first again, and per-token capture at 10 and 14 stands.
+
