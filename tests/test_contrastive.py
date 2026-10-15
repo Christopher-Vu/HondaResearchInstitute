@@ -72,3 +72,22 @@ def test_dev_eval_runs_end_to_end_on_synthetic_shards(tmp_path):
     report = dev_eval.evaluate_run(tmp_path / "run", [shards], gaps, [], torch.device("cpu"))
     assert report["failing"] == 6 and gaps[0].failing_rollouts == {"r0", "r1", "r2", "r3"}
     assert set(report) >= {"contrastive", "B7_pool", "B2_taxonomy", "B1_random"}
+
+
+def test_capping_the_failure_share_lets_a_specific_latent_lead():
+    rng = np.random.default_rng(3)
+    rollouts = []
+    for index in range(80):
+        failed, specific = index < 50, index < 25
+        latents = rng.uniform(0, 0.05, size=(FRAMES, LATENTS))
+        window = (STEPS >= 100) & (STEPS < 150)
+        if failed:
+            latents[window, 5] = 3.0
+        if specific:
+            latents[window, 3] = 1.0
+        rollouts.append(Rollout(f"r{index}", latents, STEPS, failed, 150 if failed else None))
+    plain, _ = contrastive_directive(rollouts, ContrastiveConfig())
+    projected, _ = contrastive_directive(rollouts, ContrastiveConfig(max_failure_share=0.8))
+    assert "latents [5" in plain.axes[0].description
+    assert projected.axes[0].rollouts == {f"r{i}" for i in range(25)}
+

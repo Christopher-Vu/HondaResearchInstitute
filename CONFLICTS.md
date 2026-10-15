@@ -567,7 +567,13 @@ on dev and cost no rollouts.
   generic pre-failure direction (hard braking, a close hazard) first for every
   gap, matching none and spending the axis budget. Report each top axis's
   cosine with the pooled failure-minus-success direction, and run a variant
-  that projects that direction out before ranking.
+  that projects that direction out before ranking. **Correction, 2026-10-15:**
+  projecting out the failure-minus-success direction zeroes every latent's
+  mean difference between the same two groups, so that variant can find
+  nothing. The dev variant implemented instead caps a latent's and an axis's
+  share of failing rollouts (`max_failure_share` in
+  `src/discovery/contrastive.py`); the catch-all axis it targets was measured
+  on 2026-10-15 (`docs/WHAT_BROKE.md`).
 - **Route memorization.** Motzkus & Bernhard found that larger dictionaries
   memorize scenarios. A latent that encodes which base route a frame came from
   would look like a gap, because a gap is a set of routes. For every SAE, report

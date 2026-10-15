@@ -15,6 +15,11 @@ Interpretations, pending sign-off (PRD 9.2 is silent on these):
 5. Merging: walk kept latents by effect x support and join the axis whose failing firing set has the highest
    Jaccard >= 0.5 with the latent's, else start an axis, up to the budget M. Members are the failing rollouts in the
    axis's firing set (union of its latents').
+
+Variant (CONFLICTS.md C27, dev only): `max_failure_share` drops latents that fire in more than that share of the
+failing rollouts' windows, and refuses merges that would carry an axis past it, so a generic "a failure is coming"
+latent cannot found or swallow an axis. (Projecting out the failure-minus-success direction, C27's first wording, is
+degenerate: it zeroes every latent's mean difference.)
 """
 from __future__ import annotations
 
@@ -39,6 +44,7 @@ class ContrastiveConfig:
     merge_jaccard: float = 0.5
     budget_m: int = 10
     seed: int = 0
+    max_failure_share: float | None = None
 
 
 @dataclass
@@ -100,6 +106,9 @@ class _Axis:
 
 def merge(found: Windows, effects: dict[str, np.ndarray], config: ContrastiveConfig) -> list[_Axis]:
     keep = ((effects["q"] < config.max_q) & (effects["smd"] > 0) & (effects["support"] >= config.min_support))
+    cap = None if config.max_failure_share is None else config.max_failure_share * found.failed.sum()
+    if cap is not None:
+        keep &= effects["support"] <= cap
     score = effects["smd"] * effects["support"]
     failing_ids = np.array(found.ids)[found.failed]
     axes: list[_Axis] = []
@@ -108,6 +117,8 @@ def merge(found: Windows, effects: dict[str, np.ndarray], config: ContrastiveCon
         overlaps = [(jaccard(axis.members, members), position) for position, axis in enumerate(axes)]
         best = max(overlaps, default=(0.0, -1))
         if best[0] >= config.merge_jaccard:
+            if cap is not None and len(axes[best[1]].members | members) > cap:
+                continue
             axes[best[1]].latents.append(int(latent))
             axes[best[1]].members |= members
         elif len(axes) < config.budget_m:

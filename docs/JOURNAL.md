@@ -5,6 +5,38 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-15 (overnight) — The SAE and the first dev evaluation, and why it could not decide
+
+With P4 passing, the night went to Steps 6 and 7. The animal gap P6 failed its
+screen and a new job declined its full pilot on its own, so no SU went there.
+The layer sweep, rerun with P4, scored practice-gap recovery for the first time
+and showed that the image-heavy all-tokens site finds a perceptual gap far more
+easily than the driving queries do.
+
+The per-token sparse autoencoder from `PRD.md` §12.2 was written
+(`src/discovery/sae.py`) and swept on Savio: 36 runs over layers 10 and 14,
+three values of k and six seeds. Every run reconstructed held-out tokens well
+(explained variance about 0.93) with no dead features, but different seeds
+learned largely different dictionaries (measured).
+
+Contrastive diffing (`src/discovery/contrastive.py`) and a runner that scores
+it, B7-pool, B1 and B2 against P4 (`src/discovery/dev_eval.py`) then ran on the
+only rollouts with per-token data, the Step 5 pilots. The comparison could not
+decide anything: P4 makes up 70% of those rollouts' failures, so an axis that
+simply holds every failure scores 0.70, and that is what contrastive diffing's
+top axis turned out to be, the generic "trouble ahead" direction C27 warned
+about. A cap on a latent's share of failures removes the catch-all; averaged
+over six seeds the capped method still only reaches 0.70 to 0.74. C27's own
+first proposal, projecting out the shared direction, turned out to be
+degenerate and is corrected in `CONFLICTS.md`.
+
+The next step is a decision, not code: a dev corpus with per-token capture in
+which P4 is a minority of failures (about 1,600 SU), and more practice gaps that
+take information away. Both are in `docs/STATUS.md`. Spend this round: 991 of
+2,000 SU.
+
+---
+
 ## 2026-10-13 to 15 — Per-token capture, three new gaps, and the first one that works
 
 Jerry chose per-token capture for the SAE and three practice-gap ideas from the

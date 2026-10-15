@@ -179,6 +179,17 @@ def train(x: torch.Tensor, config: SaeConfig, device: torch.device) -> tuple[Top
     return model, curve
 
 
+def seed_agreement(decoders: list[torch.Tensor]) -> float:
+    """Mean over seed pairs and latents of each latent's best |cosine| with any latent of the other seed: 1 when two
+    seeds learn the same dictionary up to order and sign (PRD 12.2's consistency check)."""
+    scores = []
+    for first in range(len(decoders)):
+        for second in range(first + 1, len(decoders)):
+            cosine = (decoders[first].T @ decoders[second]).abs()
+            scores.append(float(cosine.max(dim=1).values.mean()))
+    return sum(scores) / len(scores) if scores else float("nan")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("shards", type=Path, nargs="+")

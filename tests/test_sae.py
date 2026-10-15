@@ -74,3 +74,10 @@ def test_one_base_route_cannot_be_split_and_two_keep_one_for_training():
     held = sae.held_out_mask(np.array(["b0", "b1"]), seed=0)
     assert held.sum() == 1
 
+
+def test_seed_agreement_is_one_for_a_permuted_dictionary_and_low_for_random_ones():
+    columns = torch.nn.functional.normalize(torch.randn(HIDDEN, 16), dim=0)
+    assert sae.seed_agreement([columns, -columns[:, torch.randperm(16)]]) == pytest.approx(1.0)
+    random_pair = [torch.nn.functional.normalize(torch.randn(HIDDEN, 16), dim=0) for _ in range(2)]
+    assert sae.seed_agreement(random_pair) < 0.8
+
