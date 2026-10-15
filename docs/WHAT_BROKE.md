@@ -8,6 +8,27 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-15 — Two A40 nodes, n0278 and n0281, run CARLA about 500 times too slowly
+
+**Expected:** a route of about 100 m takes 5 to 10 minutes, as Step 1's did on
+n0280 (real-time factor 0.078) and as the same array's later tasks did on n0263.
+
+**Actual (measured, array 39967285 tasks 0 and 1, started 03:52):** after 2 h 50 m
+each of the four routes on those two nodes had simulated only 11 to 14 seconds:
+real-time factor 0.001, one simulator step every 35 to 45 seconds, slow from the
+first step. On n0281 the GPU showed 3% utilisation at normal clocks with no
+throttling; CARLA and the policy process each sat at 100% of one CPU. The node
+was shared with another user's jobs. n0278 had already failed to start CARLA once
+on 2026-10-14 (entry below). Both tasks reached the 3-hour limit with their routes
+unfinished.
+
+**What we did:** added both nodes to `gpu_a40.exclude_nodes` and to every pending
+array with `scontrol update ExcNodeList`, and reran the two lost tasks. The cause
+is not known; a watcher that flags a route below a real-time factor of 0.01 after
+ten minutes would have caught this within the first quarter hour.
+
+---
+
 ## 2026-10-15 — The first dev evaluation could not separate methods, and found the catch-all axis
 
 **Expected:** scoring contrastive diffing, B7-pool, B1 and B2 against P4 on the
