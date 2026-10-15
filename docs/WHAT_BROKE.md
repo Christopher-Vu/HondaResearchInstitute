@@ -40,6 +40,15 @@ to 0.73 at layer 10. A random 58-rollout axis would score about 0.59 here. The
 top axes sit at the cap, so generic signal is still mixed in; the cap of 0.8
 was set for this P4-heavy corpus and is not a method default.
 
+**SAE seed agreement** (PRD 12.2's six-seed check, on the decoders;
+`results/savio/sae-sweep/seed_agreement.json`): averaged over latents and seed
+pairs, a latent's best absolute cosine with any latent of another seed is 0.41,
+0.33 and 0.28 at layer 10 for k 32, 48 and 64, and 0.43, 0.35 and 0.30 at layer
+14, against 0.11 for random dictionaries. Seeds share some structure but learn
+largely different dictionaries, more so at larger k. Each seed also holds out
+different base routes, so part of this is data, not initialisation. Whether the
+features that matter (the P4-rich axes) recur is checked behaviourally next.
+
 ---
 
 ## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
