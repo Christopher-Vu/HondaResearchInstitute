@@ -9,7 +9,8 @@ Interpretations, pending sign-off (the spec is silent on these):
 1. Window rows are the logged (strided) steps with end - 60 <= step < end; a window with no logged step uses the
    last logged step alone, as the contrastive method does.
 2. "Fraction occluded" and "fraction at a red light" are NaN-ignoring means over window frames; a frame with no
-   value counts as missing, not as 0.
+   value counts as missing, not as 0. Captures from before the actor-class fields (349d7ef) have them all missing:
+   distances become the far cap and the vehicle count 0, constant columns that z-score to 0.
 3. lead_relative_speed with no lead is missing, then 0 after step 4 (no lead: no closing speed), not a far cap.
 4. Rollouts are sorted by id before clustering, so the result does not depend on input order.
 5. Ranking ties (equal size) go to the cluster whose smallest member id sorts first.
@@ -37,10 +38,12 @@ STEPS_PER_SECOND = 20
 PENALIZED = ("collisions_layout", "collisions_pedestrian", "collisions_vehicle", "red_light",
              "stop_infraction", "outside_route_lanes", "yield_emergency_vehicle_infractions",
              "scenario_timeouts", "route_dev", "vehicle_blocked", "route_timeout")
-DISTANCES = ("lead_distance", "pedestrian_distance", "junction_distance")
+DISTANCES = ("lead_distance", "pedestrian_distance", "junction_distance", "two_wheeler_distance",
+             "animal_distance", "obstacle_distance")
 WINDOW_FEATURES = ("ego_speed_mean", "ego_speed_min", "ego_speed_max", "lead_distance_min",
                    "lead_relative_speed_mean", "pedestrian_distance_min", "junction_distance_min",
-                   "time_to_junction_min", "red_light_frac", "occluded_frac")
+                   "time_to_junction_min", "red_light_frac", "occluded_frac", "vehicles_50m_mean",
+                   "two_wheeler_distance_min", "animal_distance_min", "obstacle_distance_min")
 FEATURES = WINDOW_FEATURES + ("stationary_frac",) + tuple("infraction_" + name for name in PENALIZED)
 
 
@@ -81,7 +84,8 @@ def load_shard(sidecar: Path) -> Rollout | None:
     if meta.get("success") is None:
         return None
     names = ("ego_speed", "lead_distance", "lead_relative_speed", "pedestrian_distance", "junction_distance",
-             "time_to_junction", "red_light", "occluded")
+             "time_to_junction", "red_light", "occluded", "vehicles_50m", "two_wheeler_distance", "animal_distance",
+             "obstacle_distance")
     with np.load(Path(sidecar).with_suffix(".npz")) as archive:
         steps = archive["step"].astype(np.int64)
         states = {name: archive[name].astype(np.float64) for name in names if name in archive.files}
@@ -121,6 +125,10 @@ def features(rollout: Rollout, config: BehavioralConfig) -> np.ndarray:
         "time_to_junction_min": _reduce(_state(rollout, "time_to_junction", rows), "min"),
         "red_light_frac": _reduce(_state(rollout, "red_light", rows), "mean"),
         "occluded_frac": _reduce(_state(rollout, "occluded", rows), "mean"),
+        "vehicles_50m_mean": _reduce(_state(rollout, "vehicles_50m", rows), "mean"),
+        "two_wheeler_distance_min": _reduce(_state(rollout, "two_wheeler_distance", rows), "min"),
+        "animal_distance_min": _reduce(_state(rollout, "animal_distance", rows), "min"),
+        "obstacle_distance_min": _reduce(_state(rollout, "obstacle_distance", rows), "min"),
     }
     for name in window:
         if np.isnan(window[name]):

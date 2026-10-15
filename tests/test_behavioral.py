@@ -136,3 +136,12 @@ def test_penalized_copy_matches_the_adapter():
             assert ast.literal_eval(node.value) == behavioral.PENALIZED
             return
     raise AssertionError("PENALIZED not found in sweep_local.py")
+
+
+def test_actor_class_fields_are_features_and_missing_ones_read_as_far():
+    r = rollout("r", failure_step=200)
+    r.states["animal_distance"] = np.full(len(STEPS), 12.0)
+    r.states["vehicles_50m"] = np.full(len(STEPS), 4.0)
+    row = dict(zip(behavioral.FEATURES, features(r, BehavioralConfig())))
+    assert row["animal_distance_min"] == 12.0 and row["vehicles_50m_mean"] == 4.0
+    assert row["two_wheeler_distance_min"] == 100.0 and row["obstacle_distance_min"] == 100.0

@@ -33,11 +33,13 @@ set as one more block, decided before the test pool is scored. Proposed in
    at the end of the rollout. This is the contrastive method's window, so B3
    and the activation methods look at the same moments.
 3. **Features**, per rollout, from the logged state list (`CONTINUOUS_STATES`,
-   `red_light`, `occluded` in `export_activations.py`):
+   `red_light`, `occluded` in `export_activations.py`), i.e. everything the
+   per-step log records:
    - in the window: mean, minimum and maximum ego speed; minimum lead distance;
      mean lead relative speed; minimum pedestrian distance; minimum junction
      distance; minimum time to junction; fraction of frames at a red light;
-     fraction of frames occluded;
+     fraction of frames occluded; mean vehicles within 50 m; minimum distance to
+     a two-wheeler, an animal and a spawned obstacle (logged since `349d7ef`);
    - over the whole rollout: fraction of frames with ego speed below 0.1 m/s
      (the stalls of `docs/WHAT_BROKE.md`);
    - infraction type: one 0/1 column per penalized infraction
