@@ -567,6 +567,28 @@ on dev and cost no rollouts.
   base routes not used to find the axis, and each axis reports its firing rate
   on clean routes.
 
+### C28 · Overnight choices for Steps 6 and 7 on dev · new, 2026-10-15, pending review
+Made by the agent while Jerry slept, under his instruction to work through the
+steps; each is reversible and none touches the sealed key.
+
+- **The SAE trains on the Step 5 pilots' per-token data only** (P4 screen and
+  pilot, P5 and P6 screens), since the two dev waves predate per-token capture.
+  That is dev data, so `PRD.md` §9.2's "unlabeled dev and test activations"
+  holds in spirit; the test pool does not exist yet. Outcome labels are never
+  used to train it. It runs at layers 10 and 14 with §12.2's full k sweep and
+  six seeds.
+- **Contrastive diffing works on SAE latents**, a frame's latent being its
+  maximum over the 30 driving-query tokens. Its other open readings (failure
+  window when there is no collision, success-window placement, firing at 0.1,
+  merging) are listed in `src/discovery/contrastive.py` for sign-off, as B2's
+  and B7's are.
+- **A passing screen launches its full pilot automatically**
+  (`scripts/step5_continue.sbatch`), within Jerry's SU budget, so Savio login
+  drops do not stall the runs. The screen rule itself was fixed before each
+  screen ran.
+- **The dev evaluation scores every method against P4**, the one practice gap
+  that passed. The numbers guide method development and are not results.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
