@@ -136,3 +136,19 @@ def test_time_to_junction_divides_by_speed_with_a_floor_and_a_cap():
     assert time_to_junction(5.0, 0.0) == pytest.approx(10.0)
     assert time_to_junction(0.0, 8.0) == 0.0
     assert time_to_junction(None, 8.0) is None
+
+
+def test_actor_class_names_the_road_users_b4_and_the_gate_need():
+    from state_geometry import actor_class
+    assert actor_class("vehicle.tesla.model3", "4") == "vehicle"
+    assert actor_class("vehicle.bh.crossbike", "2") == "two_wheeler"
+    assert actor_class("walker.pedestrian.0001") == "pedestrian"
+    assert actor_class("walker.animal.1006") == "animal"
+    assert actor_class("static.prop.constructioncone") == "obstacle"
+    assert actor_class("sensor.camera.rgb") is None and actor_class("traffic.traffic_light") is None
+
+
+def test_within_class_range_counts_and_finds_the_nearest_inside_fifty_metres():
+    from state_geometry import within_class_range
+    assert within_class_range([neighbour(10.0), neighbour(30.0, right=5.0), neighbour(55.0)]) == (2, 10.0)
+    assert within_class_range([]) == (0, None)

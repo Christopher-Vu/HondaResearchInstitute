@@ -34,7 +34,8 @@ from route_run import route_from_xml
 from sweep_local import route_outcome
 
 CONTINUOUS_STATES = ("ego_speed", "lead_distance", "lead_relative_speed", "pedestrian_distance",
-                     "junction_distance", "time_to_junction")
+                     "junction_distance", "time_to_junction", "vehicles_50m", "two_wheeler_distance",
+                     "animal_distance", "obstacle_distance")
 ACTIVATION_DTYPE = np.float16
 FLOAT16_LIMIT = float(np.finfo(ACTIVATION_DTYPE).max)
 RESULT_ROUTE_ID = re.compile(r"^RouteScenario_(.+?)(?:_rep\d+)?$")

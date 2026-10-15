@@ -5,8 +5,9 @@ import math
 from typing import Any
 
 import carla
-from state_geometry import (EgoFrame, Neighbour, blocked_before_target, find_lead, is_nearby, junction_distance,
-                            lead_relative_speed, nearest_pedestrian, occlusion_target, time_to_junction)
+from state_geometry import (EgoFrame, Neighbour, actor_class, blocked_before_target, find_lead, is_nearby,
+                            junction_distance, lead_relative_speed, nearest_pedestrian, occlusion_target,
+                            time_to_junction, within_class_range)
 
 BUMPER_CLEARANCE = 0.3
 
@@ -47,6 +48,8 @@ class WorldStateReader:
         lead = find_lead(vehicles)
         pedestrian = nearest_pedestrian(walkers)
         junction = junction_distance(self.carla_map.get_waypoint(transform.location))
+        classes = self._by_class(frame, actors)
+        vehicles_close, _ = within_class_range(classes["vehicle"] + classes["two_wheeler"])
         return {
             "ego_speed": ego_speed,
             "lead_distance": distance_or_none(lead),
@@ -56,7 +59,26 @@ class WorldStateReader:
             "junction_distance": junction,
             "time_to_junction": time_to_junction(junction, ego_speed),
             "occluded": self._occluded(transform, occlusion_target(lead, walkers)),
+            "vehicles_50m": vehicles_close,
+            "two_wheeler_distance": within_class_range(classes["two_wheeler"])[1],
+            "animal_distance": within_class_range(classes["animal"])[1],
+            "obstacle_distance": within_class_range(classes["obstacle"])[1],
         }
+
+    def _by_class(self, frame: EgoFrame, actors: Any) -> dict[str, list[Neighbour]]:
+        """Nearby actors grouped by actor_class; classes with no actor map to an empty list."""
+        grouped: dict[str, list[Neighbour]] = {"vehicle": [], "two_wheeler": [], "pedestrian": [], "animal": [],
+                                               "obstacle": []}
+        for actor in actors:
+            if actor.id == self.ego.id:
+                continue
+            kind = actor_class(actor.type_id, actor.attributes.get("number_of_wheels"))
+            if kind is None:
+                continue
+            neighbour = neighbour_of(frame, actor)
+            if neighbour is not None:
+                grouped[kind].append(neighbour)
+        return grouped
 
     def _neighbours(self, frame: EgoFrame, actors: Any) -> list[Neighbour]:
         nearby = (neighbour_of(frame, actor) for actor in actors if actor.id != self.ego.id)

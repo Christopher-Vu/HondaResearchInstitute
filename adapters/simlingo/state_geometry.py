@@ -17,6 +17,7 @@ LANE_HALF_WIDTH = 1.75
 LEAD_RANGE = 50.0
 PEDESTRIAN_RANGE = 50.0
 OCCLUSION_WALKER_RANGE = 40.0
+CLASS_RANGE = 50.0
 OCCLUSION_MARGIN = 0.5
 JUNCTION_RANGE = 50.0
 JUNCTION_STEP = 1.0
@@ -111,3 +112,23 @@ def time_to_junction(distance: float | None, ego_speed: float) -> float | None:
     if distance is None:
         return None
     return min(distance / max(ego_speed, SLOWEST_DIVISOR_SPEED), LONGEST_TIME_TO_JUNCTION)
+
+
+def actor_class(type_id: str, wheels: str | None = None) -> str | None:
+    """The road-user class B4 and the describability summaries name: vehicle, two_wheeler, pedestrian, animal,
+    obstacle (a spawned static prop), or None for anything else."""
+    if type_id.startswith("vehicle."):
+        return "two_wheeler" if wheels == "2" else "vehicle"
+    if type_id.startswith("walker.animal."):
+        return "animal"
+    if type_id.startswith("walker."):
+        return "pedestrian"
+    if type_id.startswith("static.prop."):
+        return "obstacle"
+    return None
+
+
+def within_class_range(neighbours: Iterable[Neighbour]) -> tuple[int, float | None]:
+    """How many neighbours lie within CLASS_RANGE, and the nearest one's distance."""
+    distances = [neighbour.distance for neighbour in neighbours if neighbour.distance <= CLASS_RANGE]
+    return len(distances), min(distances, default=None)
