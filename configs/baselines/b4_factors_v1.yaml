@@ -1,0 +1,78 @@
+# B4 enumerated factor list, v1 (PRD 9.3). Written from public sources and committed
+# BEFORE any sealed gap candidate exists (2026-10-16); its sha256 is recorded in
+# CONFLICTS.md C30 so later edits are visible. Do not edit: a change is b4_factors_v2.
+#
+# Sources: RoboART factor types (lighting, background, distractors, a person nearby,
+# geometry; PRD 4.1), Fail2Drive shift categories (novel assets incl. animals, visual
+# noise, adversarial obstacles; PRD 4.7), CARLA 0.9.15 weather parameters, Bench2Drive
+# scenario families and abilities (PRD 10.1), standard ODD speed bands.
+#
+# Each level carries the log-decidable predicate B4 uses to assign test-pool rollouts
+# (membership never reads the sealed key or scenario labels). `weather.*` is the
+# route's CARLA weather; `fault.*` the per-route camera fault in the run manifest;
+# `state.*` the per-step world_state log; "any" = at least one logged step.
+version: 1
+budget_m: 10
+pairwise_variant: true          # B4p: all 2-factor conjunctions of the top-ranked levels
+native_render:
+  base_routes_per_level: 30     # paired against the nominal level on the same base routes
+  reuse_measured_levels: true   # dev measurements of night, fog, rain, dust, camera patch,
+                                # pedestrians, animals (P1-P6, Step 2) count as renders
+factors:
+  illumination:
+    nominal: {day: "weather.sun_altitude_angle >= 15"}
+    levels:
+      dusk: "0 <= weather.sun_altitude_angle < 15"
+      night: "weather.sun_altitude_angle < 0"
+  precipitation:
+    nominal: {none: "weather.precipitation < 10"}
+    levels:
+      moderate: "10 <= weather.precipitation <= 60"
+      heavy: "weather.precipitation > 60"
+  fog:
+    nominal: {none: "weather.fog_density < 10"}
+    levels:
+      moderate: "10 <= weather.fog_density <= 50"
+      dense: "weather.fog_density > 50"
+  airborne_particulate:
+    nominal: {none: "weather.dust_storm == 0"}
+    levels:
+      dust_storm: "weather.dust_storm > 0"
+  camera_degradation:
+    nominal: {clean: "no fault"}
+    levels:
+      partial_occlusion: "fault.type == occlusion"
+      blur_or_noise: "fault.type in {blur, noise}"
+  traffic_density:
+    nominal: {medium: "3 <= mean vehicles within 50 m <= 8"}
+    levels:
+      low: "mean vehicles within 50 m < 3"
+      high: "mean vehicles within 50 m > 8"
+  vulnerable_road_users:
+    nominal: {none: "no pedestrian or cyclist within 20 m at any step"}
+    levels:
+      pedestrian_near: "any state.pedestrian_distance < 20"
+      cyclist_near: "any cyclist actor within 20 m"
+  novel_object_class:
+    nominal: {none: "no animal or static obstacle actor within 50 m"}
+    levels:
+      animal: "any animal actor within 50 m"
+      unusual_obstacle: "any static obstacle actor (debris, construction) within 50 m"
+  lead_vehicle_behaviour:
+    nominal: {normal: "lead deceleration <= 4 m/s^2 and no cut-in"}
+    levels:
+      hard_brake: "any lead deceleration > 4 m/s^2 (from state.lead_relative_speed)"
+      cut_in: "a new lead appears at state.lead_distance < 10 m"
+  hazard_visibility:
+    nominal: {visible: "no occluded hazard"}
+    levels:
+      occluded: "any state.occluded with state.pedestrian_distance < 30 or state.lead_distance < 30"
+  road_geometry:
+    nominal: {non_junction: "no state.junction_distance < 10"}
+    levels:
+      junction: "any state.junction_distance < 10"
+  ego_speed_regime:
+    nominal: {mid: "20 <= max ego speed (km/h) <= 60"}
+    levels:
+      low: "max ego speed < 20 km/h"
+      high: "max ego speed > 60 km/h"
