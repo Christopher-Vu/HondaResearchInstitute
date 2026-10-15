@@ -42,3 +42,10 @@ def test_a_base_route_missing_either_outcome_is_not_a_pair():
     assert report["c23_paired"]["pairs"] == 1
     assert report["routes_without_outcome"] == ["0nbhd", "1slice"]
     assert report["prd_9_1"]["n_in"] == 2 and report["prd_9_1"]["n_neighbourhood"] == 2
+
+
+def test_the_report_serializes_to_json_when_every_threshold_but_size_is_met():
+    import json
+    manifest, rows = pilot([(True, False)] * 9 + [(False, False)])
+    json.dumps(efficacy.efficacy(manifest, rows, GAP))
+

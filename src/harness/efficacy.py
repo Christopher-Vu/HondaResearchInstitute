@@ -52,7 +52,7 @@ def unpaired(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: st
     table = [[sum(inside), len(inside) - sum(inside)], [sum(nearby), len(nearby) - sum(nearby)]]
     stats = {**counts, **rates(sum(inside), len(inside), sum(nearby), len(nearby)),
              "fisher_p": float(fisher_exact(table)[1])}
-    return {**stats, "passes": Gap(gap_id, "T0_control", set(), efficacy=stats).passes_efficacy()}
+    return {**stats, "passes": bool(Gap(gap_id, "T0_control", set(), efficacy=stats).passes_efficacy())}
 
 
 def outcome_pairs(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: str) -> dict[str, tuple[bool, bool]]:
@@ -73,9 +73,10 @@ def paired(pairs: dict[str, tuple[bool, bool]]) -> dict[str, Any]:
     if not n:
         return {**counts, "passes": False}
     stats = {**counts, **rates(sum(pair[0] for pair in pairs.values()), n, sum(pair[1] for pair in pairs.values()), n),
-             "mcnemar_p": binomtest(slice_only, slice_only + nbhd_only, 0.5).pvalue if slice_only + nbhd_only else 1.0}
-    passes = (stats["uplift_pp"] >= MIN_UPLIFT_PP and stats["ratio"] >= MIN_RATIO and stats["mcnemar_p"] < MAX_P
-              and n >= MIN_PAIRS and n >= MIN_BASE_ROUTES)
+             "mcnemar_p": float(binomtest(slice_only, slice_only + nbhd_only, 0.5).pvalue) if slice_only + nbhd_only
+             else 1.0}
+    passes = bool(stats["uplift_pp"] >= MIN_UPLIFT_PP and stats["ratio"] >= MIN_RATIO and stats["mcnemar_p"] < MAX_P
+                  and n >= MIN_PAIRS and n >= MIN_BASE_ROUTES)
     return {**stats, "passes": passes}
 
 
