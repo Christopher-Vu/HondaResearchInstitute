@@ -8,6 +8,26 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
+
+**Expected:** P6, an animal from Fail2Drive's simulator crossing from behind a
+blocker where SimLingo has only seen people cross, would raise failures, since
+the animal class is absent from its training.
+
+**Actual (measured, screen arrays 39893176 and 39921553, scored by 39921554):**
+the animals spawned and crossed (`docs/p6-animal-check.jpg`), but 1 of 9 animal
+routes failed against 2 of 10 with a person in the same crossing; no base route
+failed only with the animal. Route 2694436 has no outcome. The screen rule
+fails, and `scripts/step5_continue.sbatch` declined the 60-pair pilot on its
+own, as designed.
+
+Across Step 5, every gap that changes what the camera sees (night, fog, dust,
+pedestrians in lane, animals) left SimLingo's failure rate where it was, and
+the one gap that removes what the camera sees (P4) passed. Planted gaps need to
+take information away, or to change the interaction itself, not its look.
+
+---
+
 ## 2026-10-14 — Pedestrians walking in the ego lane barely trouble SimLingo here
 
 **Expected:** P5, Fail2Drive's PedestriansOnRoad appended to ordinary routes,

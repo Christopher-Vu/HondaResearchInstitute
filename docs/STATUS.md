@@ -16,7 +16,7 @@ Last updated: 2026-10-15 01:15 (overnight chain queued: P6 screen and auto-conti
 
 | Job | What | Then |
 |---|---|---|
-| 39921553 → 39921554 | P6 animal screen, scoring | 39949654 submits P6's 60-pair pilot only if the screen rule passes (`scripts/step5_continue.sbatch`) |
+| 39921553 → 39921554 | P6 animal screen, scoring | **failed**: 1 of 9 with an animal against 2 of 10 with a person; 39949654 declined the full pilot |
 | 39948497 | Layer sweep over both dev waves plus P4, so practice-gap recovery is finally scored | writes `results/savio/step4-sweep-with-p4/sweep.json` |
 | 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | `results/savio/sae-sweep/L*_k*_s*` |
 | 39951153 | Dev evaluation: contrastive diffing, B7-pool, B1 and B2 against P4's failing rollouts, every seed-0 SAE | `results/savio/dev-eval/p4.json` |
