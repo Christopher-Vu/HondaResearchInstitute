@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def submit(tmp_path, *args):
     fake = tmp_path / "sbatch"
-    fake.write_text('#!/usr/bin/env bash\nprintf "%s\\n" "$@"\n')
+    fake.write_text('#!/usr/bin/env bash\nprintf "%s\\n" "$@"\n', newline="\n")
     fake.chmod(0o755)
     environment = os.environ | {"PATH": f"{tmp_path}:{os.environ['PATH']}"}
     return subprocess.run(["bash", "scripts/submit.sh", *args], cwd=ROOT, env=environment,
