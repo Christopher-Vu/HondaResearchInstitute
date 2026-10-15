@@ -8,6 +8,32 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-15 — The first dev evaluation could not separate methods, and found the catch-all axis
+
+**Expected:** scoring contrastive diffing, B7-pool, B1 and B2 against P4 on the
+rollouts with per-token data would show which recovers P4 best.
+
+**Actual (measured, jobs 39951153 and 39966109,
+`results/savio/dev-eval/p4.json` and `p4-axes.json`):** almost every method at
+every SAE setting scored best Jaccard 0.699, random included. The corpus
+(176 rollouts, 73 failures) is the Step 5 pilots, and 51 of its 73 failures are
+P4's, so an axis holding every failure scores 51/73 = 0.699. Contrastive
+diffing's top axis did exactly that in all six seed-0 runs: dozens of merged
+latents covering all 73 failures, the shared "trouble ahead" direction C27
+predicted. Below it, a few single-latent axes at layer 14 are richer in P4 than
+the 70% base rate: latent 405 at k = 64 holds 35 failing rollouts, 32 of them
+P4's (Jaccard 0.59); latents 786 and 615 reach 92% on smaller axes. At layer 10
+the best is 82%. With about 40 axes examined this is suggestive, not shown.
+B7-pool scored 0.20 to 0.47.
+
+**What it means:** the evaluation needs a corpus where a gap is a minority of
+failures, as PRD 9.1's 4 to 8% assumes, and the contrastive method needs C27's
+treatment of the shared failure direction before its top axes mean anything.
+The SAE itself trained well: 36 runs, held-out explained variance 0.92 to 0.93
+(about 0.01 across seeds), no dead latents.
+
+---
+
 ## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
 
 **Expected:** P6, an animal from Fail2Drive's simulator crossing from behind a

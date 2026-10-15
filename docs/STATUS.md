@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 01:15 (overnight chain queued: P6 screen and auto-continue, SAE sweep, contrastive dev evaluation)
+Last updated: 2026-10-15 02:45 (overnight: P6 failed; SAE sweep healthy; first dev evaluation inconclusive, catch-all axis found)
 
 ---
 
@@ -18,8 +18,8 @@ Last updated: 2026-10-15 01:15 (overnight chain queued: P6 screen and auto-conti
 |---|---|---|
 | 39921553 → 39921554 | P6 animal screen, scoring | **failed**: 1 of 9 with an animal against 2 of 10 with a person; 39949654 declined the full pilot |
 | 39948497 | Layer sweep over both dev waves plus P4 | **done**: driving queries L10 first again; all-tokens L18 recovers P4 best (Jaccard 0.77 against 0.36 at driving-query L10) |
-| 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | running; seed 0 done: held-out explained variance 0.92 to 0.93, no dead latents, 1.05M training tokens |
-| 39951153 | Dev evaluation: contrastive diffing, B7-pool, B1 and B2 against P4's failing rollouts, every seed-0 SAE | `results/savio/dev-eval/p4.json` |
+| 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | **done**: all 36 runs held-out explained variance 0.92 to 0.93, no dead latents; k = 64 slightly best |
+| 39951153, 39966109 | Dev evaluation against P4 | **inconclusive**: P4 is 70% of the corpus's failures, so an all-failures axis scores 0.70 and every method, random included, sits there; contrastive's top axis is that catch-all (C27's shared direction). A few layer-14 latents are 91 to 92% P4 (`docs/WHAT_BROKE.md`) |
 
 Worst-case round spend about 1,630 of 2,000 SU. New code: `src/discovery/sae.py`,
 `contrastive.py`, `dev_eval.py`; each lists its interpretations pending sign-off.
