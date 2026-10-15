@@ -6,11 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 00:15 (P4 camera occlusion passed efficacy under PRD 9.1 and C23: the first passing practice gap)
+Last updated: 2026-10-15 01:15 (overnight chain queued: P6 screen and auto-continue, SAE sweep, contrastive dev evaluation)
 
 ---
 
 ## Current position
+
+**2026-10-15 overnight, queued on Savio (agent working, Jerry asleep).**
+
+| Job | What | Then |
+|---|---|---|
+| 39921553 → 39921554 | P6 animal screen, scoring | 39949654 submits P6's 60-pair pilot only if the screen rule passes (`scripts/step5_continue.sbatch`) |
+| 39948497 | Layer sweep over both dev waves plus P4, so practice-gap recovery is finally scored | writes `results/savio/step4-sweep-with-p4/sweep.json` |
+| 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | `results/savio/sae-sweep/L*_k*_s*` |
+| 39951153 | Dev evaluation: contrastive diffing, B7-pool, B1 and B2 against P4's failing rollouts, every seed-0 SAE | `results/savio/dev-eval/p4.json` |
+
+Worst-case round spend about 1,630 of 2,000 SU. New code: `src/discovery/sae.py`,
+`contrastive.py`, `dev_eval.py`; each lists its interpretations pending sign-off.
 
 **2026-10-15: P4, camera occlusion, passed efficacy, the first practice gap
 that does.** 60 paired base routes (array 39921545, scored by job 39921546):
