@@ -9,24 +9,22 @@ current: 4
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
-  start: 2026-10-05
-  end: 2026-10-09
+  start: 2026-10-12
+  end: 2026-10-16
   done:
-    - {text: "Unlocked Savio GPUs with the right QoS names, then gave the agent access through a shared SSH login", who: Imhaohao}
-    - {text: "Step 1 passed: one SimLingo route on a Savio A40 at 0.071 times real time", who: Imhaohao}
-    - {text: "Step 2 passed: Bench2Drive-220 driving score 88.6 and success rate 72.7%, above the paper", who: Imhaohao}
-    - {text: "Found SimLingo standing still for 38 seconds or more on 48 of 213 routes, on the Mac and Savio alike", who: Imhaohao}
-    - {text: "Built a prototype of the contrastive failure-axis discovery method", who: cattayw}
-    - {text: "Launched this dashboard, then froze B7's definition before opening any activation", who: Imhaohao}
-    - {text: "Replayed 331 Step 2 frames on Savio: exact against other replays, 1 to 3 cm off the live log", who: Imhaohao}
-    - {text: "Launched Step 4's 190-route dev pool and layer sweep on Savio, with two practice gaps", who: Imhaohao}
+    - {text: "P4 camera occlusion passed efficacy: 43 of 60 failed with it against 12 of 60, the first gap that works", who: Imhaohao}
+    - {text: "Dense fog, pedestrians in lane and an animal crossing all failed to make SimLingo fail", who: Imhaohao}
+    - {text: "Per-token capture at layers 10 and 14; layer sweep rerun over both dev waves plus P4", who: Imhaohao}
+    - {text: "SAE sweep healthy but seed-unstable; first dev evaluation inconclusive, P4 dominates the corpus", who: Imhaohao}
+    - {text: "Independent Savio bring-up; GPU job and Step 1 rerun passed at 0.078 times real time, 9.42 GB", who: Christopher-Vu}
+    - {text: "Added B3 behavioral baseline, probe-residual method, the go/no-go bootstrap and key sealing", who: Christopher-Vu}
+    - {text: "Committed and tagged the B4 factor list; specs for Step 8, Step 10 and the describability gate", who: Christopher-Vu}
+    - {text: "Step 2 rerun with layer 10 and 14 tokens queued: a dev corpus where P4 is a minority", who: Christopher-Vu}
   next:
-    - {text: "Read the layer sweep on Savio and choose Step 4's layers and sites", who: Imhaohao}
-    - {text: "Decide the gap portfolio size", who: Imhaohao}
-    - {text: "Sign off B7, and decide whether replay-against-replay closes Step 3", who: Christopher-Vu}
-    - {text: "Rerun Step 2, which Imhaohao set up", who: Christopher-Vu}
-    - {text: "Review running CARLA from a tarball instead of a container", who: Christopher-Vu}
-    - {text: "Shortlist gap candidates for the Step 5 efficacy pilots", who: cattayw}
+    - {text: "Score the Step 2 rerun and run B3 and probe-residual on it", who: Christopher-Vu}
+    - {text: "Clear C20 to C30, sign off B2, B3 and B7, commit the preregistration", who: Christopher-Vu}
+    - {text: "Read the sealed-gap screens and run full pilots for those that pass", who: Christopher-Vu}
+    - {text: "Close Step 4's layers and sites; rerun the dev evaluation on the new corpus", who: Imhaohao}
 
 steps:
   - id: 0
@@ -34,7 +32,7 @@ steps:
     checks:
       - {text: Paper facts read and settled, done: true}
       - {text: A GPU job runs on Savio, done: true}
-      - {text: Both of us have run one, done: false}
+      - {text: Both of us have run one, done: true}
   - id: 1
     title: One SimLingo route on Savio
     source: configs/rollout/step1-single-route.yaml
@@ -44,7 +42,7 @@ steps:
       - {text: Model architecture written into the PRD, done: true}
       - {text: Compute budget measured, done: true}
       - {text: Gap portfolio size decided, done: false}
-      - {text: Rerun by whoever did not set it up, done: false}
+      - {text: Rerun by whoever did not set it up, done: true}  # job 39967189, christophervu
   - id: 2
     title: Reproduce Bench2Drive-220
     source: configs/rollout/step2-bench2drive220.yaml
@@ -127,8 +125,8 @@ compute:
   allowance_su: 200000
   window: [2026-09-18, 2026-12-18]
   # check_usage.sh -a ic_cdss170fall; the whole program, not just this project.
-  program_used_su: 2828.78
-  program_used_as_of: 2026-10-08
+  program_used_su: 18581.68
+  program_used_as_of: 2026-10-15
   # PRD.md 17.3 estimates at the measured 4.1 SU per rollout, low and high.
   planned:
     - {item: Bench2Drive-220 three seeds, su: [2700, 2700]}
