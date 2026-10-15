@@ -129,7 +129,10 @@ def load_tokens(shard_dirs: list[Path], layer: int) -> tuple[torch.Tensor, np.nd
 
 def held_out_mask(bases: np.ndarray, seed: int) -> np.ndarray:
     unique = sorted(set(bases.tolist()))
-    held = set(random.Random(seed).sample(unique, max(1, round(HELD_OUT_FRACTION * len(unique)))))
+    if len(unique) < 2:
+        raise ValueError("holding out base routes for evaluation needs at least two of them")
+    count = min(len(unique) - 1, max(1, round(HELD_OUT_FRACTION * len(unique))))
+    held = set(random.Random(seed).sample(unique, count))
     return np.array([base in held for base in bases.tolist()])
 
 

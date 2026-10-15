@@ -66,3 +66,11 @@ def test_tokens_load_at_the_requested_layer_and_held_out_bases_stay_out(tmp_path
     assert tokens.shape == (20 * 4 * 30, HIDDEN) and float(tokens[0, 0]) == 14.0
     held = sae.held_out_mask(bases, seed=0)
     assert set(bases[held]).isdisjoint(bases[~held]) and len(set(bases[held])) == 1
+
+
+def test_one_base_route_cannot_be_split_and_two_keep_one_for_training():
+    with pytest.raises(ValueError):
+        sae.held_out_mask(np.array(["b0", "b0"]), seed=0)
+    held = sae.held_out_mask(np.array(["b0", "b1"]), seed=0)
+    assert held.sum() == 1
+
