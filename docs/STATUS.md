@@ -6,23 +6,29 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 02:45 (overnight: P6 failed; SAE sweep healthy; first dev evaluation inconclusive, catch-all axis found)
+Last updated: 2026-10-15 03:15 (overnight done: P6 failed; SAE healthy but seed-unstable; dev evaluation blocked by a P4-dominated corpus)
 
 ---
 
 ## Current position
 
-**2026-10-15 overnight, queued on Savio (agent working, Jerry asleep).**
+**2026-10-15 overnight, finished (agent; Jerry asleep).** Nothing is queued.
+Spend this round 991 of 2,000 SU (2,592 since 2026-10-13 02:30, measured).
 
-| Job | What | Then |
-|---|---|---|
-| 39921553 → 39921554 | P6 animal screen, scoring | **failed**: 1 of 9 with an animal against 2 of 10 with a person; 39949654 declined the full pilot |
-| 39948497 | Layer sweep over both dev waves plus P4 | **done**: driving queries L10 first again; all-tokens L18 recovers P4 best (Jaccard 0.77 against 0.36 at driving-query L10) |
-| 39950490 | SAE sweep (PRD 12.2): layers 10 and 14, k in {32, 48, 64}, six seeds, on the pilots' per-token data | **done**: all 36 runs held-out explained variance 0.92 to 0.93, no dead latents; k = 64 slightly best |
-| 39951153, 39966109 | Dev evaluation against P4 | **inconclusive**: P4 is 70% of the corpus's failures, so an all-failures axis scores 0.70 and every method, random included, sits there; contrastive's top axis is that catch-all (C27's shared direction). A few layer-14 latents are 91 to 92% P4 (`docs/WHAT_BROKE.md`) |
-
-Worst-case round spend about 1,630 of 2,000 SU. New code: `src/discovery/sae.py`,
-`contrastive.py`, `dev_eval.py`; each lists its interpretations pending sign-off.
+- **P6, animal crossing: failed its screen** (1 of 9 against 2 of 10 with a
+  person); the auto-continue job declined the full pilot. P4 is still the only
+  passing practice gap, and every gap that only changes appearance has failed.
+- **Layer sweep with P4 scored for the first time:** driving queries layer 10
+  first again; the all-tokens site recovers P4 far better (Jaccard 0.77 at layer
+  18 against 0.36), since P4 is perceptual.
+- **SAE (PRD 12.2), 36 runs:** held-out explained variance 0.92 to 0.93, no dead
+  latents, but seeds learn largely different dictionaries (mean best cosine 0.28
+  to 0.43 against 0.11 for random).
+- **First dev evaluation: inconclusive.** P4 is 70% of the token corpus's
+  failures, so an all-failures axis scores 0.70 and every method sits there;
+  contrastive diffing's top axis is that catch-all (C27's shared direction,
+  measured). Capping a latent's failure share removes it, but across six seeds
+  the capped method averages 0.70 to 0.74. Details in `docs/WHAT_BROKE.md`.
 
 **2026-10-15: P4, camera occlusion, passed efficacy, the first practice gap
 that does.** 60 paired base routes (array 39921545, scored by job 39921546):
@@ -249,21 +255,20 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 
 ## Next, in order
 
-1. Read the second wave when job 39868384 ends: `results/savio/step4-dev-pool-both/sweep.json`
-   on Savio. If it is still unstable, decide the layer tie (layer 10 alone, or a
-   band such as 9–12); copy the result into the repo and write the layers into
-   the next capture config. Cancelling 39868383 stops the wave's remaining tasks.
-2. A control gap that is not weather. Three weather conditions failed; Fail2Drive
-   reports SimLingo loses 5.9% on its robustness shifts but 64.2% on behaviour
-   shifts. Candidates: pedestrians walking in the ego lane, unseen obstacle or
-   animal classes, a camera fault. Interactional gaps meet C23's 30-base-route
-   floor only across several scenario families or with routes cut from
-   `routes_validation.xml` (C23 note).
-3. Decisions for Chris and Jerry: C23 (powered, paired efficacy check; pilots
-   are already sized by it); C24 (manipulation check: use upper-half saturation,
-   `docs/WHAT_BROKE.md`); C25–C27 (literature sweep); sign off B7 and its eight
-   pinned readings, and B2's (`src/baselines/`); per-token or frame-mean SAE
-   before Step 7; C21, C22, C20, §16.2.
+1. **A dev corpus where P4 is a minority of failures** (decision for Chris and
+   Jerry, C21). The SAE methods need per-token data, which only the Step 5
+   pilots have. A background wave of about 400 routes with token capture
+   (roughly 1,600 SU at 4.1 SU per route) would bring P4 to about 15% of
+   failures with 30 of its slice routes; until then the dev evaluation cannot
+   separate methods.
+2. **More practice gaps that remove information.** Appearance changes (night,
+   fog, dust, pedestrians in lane, animals) all failed; blinding the camera
+   passed. Candidates: hazards hidden until late, a camera fault on one side
+   only, a lead vehicle invisible to the camera. Interactional ones still need
+   C23's 30-base-route floor.
+3. **Sign-offs:** C23 to C28 (C27 now carries a correction), and the pinned
+   readings in `src/discovery/contrastive.py`, `src/baselines/activation_stats.py`
+   and `taxonomy.py`; per-token SAE at layer 10 or 14 (k 48 to 64 look best).
 4. Step 2's rerun by whichever of Chris and Jerry did not set it up: a full
    rerun is about 910 SU, or a handful of routes plus a rescore:
    `.runtime/policy-venv/bin/python adapters/simlingo/score_routes.py configs/rollout/step2-bench2drive220.yaml results/savio/39732614 results/savio/39732818 results/savio/39732819 results/savio/39732860 results/savio/39734524`

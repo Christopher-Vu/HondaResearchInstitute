@@ -49,6 +49,14 @@ largely different dictionaries, more so at larger k. Each seed also holds out
 different base routes, so part of this is data, not initialisation. Whether the
 features that matter (the P4-rich axes) recur is checked behaviourally next.
 
+**Across all six seeds (job 39966271, `p4-seeds.json`), the layer-14 edge
+mostly goes.** Capped best Jaccard with P4 averages 0.70 to 0.74 for every
+layer and k (range 0.63 to 0.83), against the 0.70 any all-failures axis gets;
+L14 k48 is best at 0.74. The best axes are 72 to 87% P4 against a 70% base.
+Seed 0's 0.76 to 0.79 at layer 14 was partly luck. B7-pool averages 0.26 to
+0.44. On this corpus the methods cannot be told apart: the corpus, where P4 is
+70% of failures, is the binding problem, not the methods.
+
 ---
 
 ## 2026-10-15 — An animal crossing troubles SimLingo no more than a person
