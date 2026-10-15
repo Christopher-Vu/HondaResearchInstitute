@@ -32,8 +32,10 @@ factor list was committed and tagged before any sealed gap was chosen
 hysteresis, which our B7 does not follow (C18). Capture now logs nearby
 vehicles, two-wheelers, animals and obstacles each step.
 
-Two A40 nodes, n0278 and n0281, ran CARLA about 500 times too slowly for three
-hours before the jobs timed out; they are excluded now (`docs/WHAT_BROKE.md`).
+Some routes ran about 50 times too slowly for hours. It looked like two bad
+nodes, which were excluded, but the same split appeared on a third node with a
+fast route beside each slow one, so the exclusion was reverted; the likely cause
+is a scenario's actor-placement loop (`docs/WHAT_BROKE.md`).
 Unfinished: the Step 2 rerun and Chris's sealed-gap screens are still queued,
 and the new logging fields have not yet been checked on a real Savio route.
 

@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; Step 2 rerun with token capture queued; two slow A40 nodes excluded)
+Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; Step 2 rerun with token capture queued; a slow-route scenario logged)
 
 ---
 
@@ -24,8 +24,9 @@ Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; 
   routes double as the dev corpus where P4 is a minority (Next, item 1). Runs
   after Chris's sealed-gap screens (Chris holds the key; nothing about them is
   in the repo).
-- **Two A40 nodes, n0278 and n0281, ran CARLA at 0.001x real time** for three
-  hours; both are now excluded (`docs/WHAT_BROKE.md`, `configs/cluster/savio.yaml`).
+- **Some routes ran ~50x too slowly** (real-time factor 0.002) because of a
+  scenario, not the nodes; an exclusion of n0278 and n0281 was reverted
+  (`docs/WHAT_BROKE.md`).
 - **New code on main:** B3 behavioral baseline, probe-residual (M3a), the
   §13.1 bootstrap, key sealing, per-step logging of nearby vehicles,
   two-wheelers, animals and obstacles, camera freeze and latency faults. Specs
