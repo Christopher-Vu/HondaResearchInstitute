@@ -5,6 +5,40 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-15 (overnight, Chris) — An independent Savio bring-up, new baselines, and a Step 2 rerun that doubles as a dev corpus
+
+Chris's agent set up the whole SimLingo runtime from scratch under his own Savio
+account, to check that the bring-up is reproducible by someone who did not do
+it. It is: the GPU check ran, and the Step 1 route completed at 0.078 times real
+time with 9.42 GB of GPU memory, against 0.071 and 9.4 GB the first time
+(measured, job 39967189). That closes the "rerun by whoever did not set it up"
+check for Steps 0 and 1 in `docs/steps/progress.yaml`.
+
+The Step 2 rerun (all 220 Bench2Drive routes) is queued as array 39967810, with
+one change from the original config: it also saves layer 10 and 14 tokens
+(`configs/rollout/step2-rerun.yaml`). Jerry's dev evaluation stalled because the
+practice gap P4 made up 70% of the only per-token corpus; 220 nominal routes
+make P4 a minority without a separate 1,600 SU background wave.
+
+On the code side: B3, the behavioral baseline that clusters failures by what
+the car visibly did before failing (`src/baselines/behavioral.py`); the
+probe-residual method, which clusters failures by where a linear probe of the
+world state goes wrong (`src/discovery/probe_residual.py`); the bootstrap that
+decides §13.1's go/no-go comparison (`src/harness/bootstrap.py`); and the hash
+commitment for the sealed answer key (`src/harness/seal.py`). Each has a spec
+in `docs/steps/` listing the interpretations that still need sign-off. The B4
+factor list was committed and tagged before any sealed gap was chosen
+(`CONFLICTS.md` C30). Rereading the Dr. VLA paper showed its firing rule is a
+hysteresis, which our B7 does not follow (C18). Capture now logs nearby
+vehicles, two-wheelers, animals and obstacles each step.
+
+Two A40 nodes, n0278 and n0281, ran CARLA about 500 times too slowly for three
+hours before the jobs timed out; they are excluded now (`docs/WHAT_BROKE.md`).
+Unfinished: the Step 2 rerun and Chris's sealed-gap screens are still queued,
+and the new logging fields have not yet been checked on a real Savio route.
+
+---
+
 ## 2026-10-15 (overnight) — The SAE and the first dev evaluation, and why it could not decide
 
 With P4 passing, the night went to Steps 6 and 7. The animal gap P6 failed its
