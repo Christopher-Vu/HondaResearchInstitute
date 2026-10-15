@@ -7,15 +7,16 @@
 #
 # After a Step 5 screen is scored: if it passes its gap's screen_rule, submit the
 # 60-pair pilot and its scoring job; otherwise stop. Arguments: screen config,
-# full-pilot config, gap id.
+# full-pilot config, gap id, and optionally the gaps file (default gaps/practice/practice_v2.yaml).
 #   bash scripts/submit.sh cpu --dependency=afterok:<screen scoring job> scripts/step5_continue.sbatch configs/rollout/step5-pilot-p6-screen.yaml configs/rollout/step5-pilot-p6-main.yaml P6_animal_crossing
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 SCREEN=${1:?screen config}
 MAIN=${2:?full-pilot config}
 GAP=${3:?gap id}
+GAPS=${4:-gaps/practice/practice_v2.yaml}
 REPORT=results/savio/$(basename "$SCREEN" .yaml)/efficacy.json
-if ! .runtime/analysis-venv/bin/python -m src.harness.efficacy --screen "$REPORT" --gaps gaps/practice/practice_v2.yaml; then
+if ! .runtime/analysis-venv/bin/python -m src.harness.efficacy --screen "$REPORT" --gaps "$GAPS"; then
   echo "screen did not pass; the full pilot is not submitted"
   exit 0
 fi
