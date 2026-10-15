@@ -5,6 +5,38 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-13 to 15 — Per-token capture, three new gaps, and the first one that works
+
+Jerry chose per-token capture for the SAE and three practice-gap ideas from the
+previous review. Capture now stores all 30 driving-query tokens at decoder
+layers 10 and 14 for every step, beside the frame means of all 24 layers. The
+second layer was added after the two-wave re-sweep ranked 14 and 13 first and
+10 fourth, all within two rank points, so only the site, not the layer, is
+settled. Averaging the stored tokens reproduces the logged means exactly.
+
+Each gap ran a 10-pair screen with a continuation rule fixed beforehand
+(`gaps/practice/practice_v2.yaml`). **P4**, a black patch over the middle of the
+camera image, passed its screen and then its 60-pair pilot: 72% of routes
+failed with the patch against 20% without, and on 31 base routes only the
+patched run failed while the reverse never happened (measured). It is the
+first practice gap to pass PRD §9.1's rule, and it also passes C23's paired
+test. **P5**, Fail2Drive's pedestrians walking in the ego lane injected into
+ordinary routes, put walkers within metres of the car on every route but
+SimLingo failed only 2 of 8, so the screen stopped it. **P6**, an animal
+crossing on Fail2Drive's own simulator (installed on Savio, 12.78 GB, checksum
+checked), runs: a zebra and a deer appear in the smoke test. Its screen was
+still running at the time of writing.
+
+Weather and pedestrians both failed to make SimLingo fail, and blinding its
+camera did. That fits Fail2Drive's finding that SimLingo is robust to
+appearance changes it can see through, and suggests planted gaps need to remove
+information, not just change how it looks. Along the way: Savio's login dropped
+several times (about every three hours), an efficacy scorer bug hid P4's first
+result until fixed, and the launcher now accepts Fail2Drive's 0.9.15 patch
+build. Spend this round: 828 SU of the 2,000 Jerry set.
+
+---
+
 ## 2026-10-13 (overnight) — Step 4's stability check failed, and dense fog did not hurt SimLingo
 
 Jerry handed the night to the agent with a 2,000 SU cap on Savio, compute-box for

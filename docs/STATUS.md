@@ -6,19 +6,28 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-14 17:40 (P4 camera occlusion passed its screen, full pilot running; P5 pedestrians failed its screen; P6 animals screen running)
+Last updated: 2026-10-15 00:15 (P4 camera occlusion passed efficacy under PRD 9.1 and C23: the first passing practice gap)
 
 ---
 
 ## Current position
 
-**2026-10-14: the first practice gap that may pass is a camera fault.** Screens
+**2026-10-15: P4, camera occlusion, passed efficacy, the first practice gap
+that does.** 60 paired base routes (array 39921545, scored by job 39921546):
+43 of 60 failed with the patch against 12 of 60 without (uplift 52 points,
+ratio 3.6, Fisher p = 1.9e-8); paired, 31 bases failed only with it and none
+only without (McNemar p = 9e-10). Driving score 63.4 against 91.9; vehicle
+collisions 30 against 6, red lights 8 against 0, pedestrian collisions 5
+against 0. Evidence: `results/savio/step5-pilot-p4-main/`, shards with layer
+10 and 14 tokens on Savio. Steps 6 and 7 now have a passing practice gap to
+develop against. Spend this round: 828 SU of 2,000 at 23:50.
+
+**2026-10-14: screens.** Screens
 of 10 paired base routes, each judged by a rule fixed beforehand
 (`gaps/practice/practice_v2.yaml`):
 
 - **P4, camera occlusion:** passed. 8 of 10 failed with the patch, 4 of 10
-  without; 5 bases failed only with it, 1 only without. Its 60-pair pilot runs
-  as array 39921545, scored by job 39921546 into `results/savio/step5-pilot-p4-main/`.
+  without; 5 bases failed only with it, 1 only without. Full pilot passed (above).
 - **P5, pedestrians walking in the ego lane:** walkers present on every slice
   route, but SimLingo failed 2 of 8 against 1 of 9. Screen failed; stopped
   (`docs/WHAT_BROKE.md`).
