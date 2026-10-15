@@ -8,6 +8,32 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-14 — Pedestrians walking in the ego lane barely trouble SimLingo here
+
+**Expected:** P5, Fail2Drive's PedestriansOnRoad appended to ordinary routes,
+would reproduce Fail2Drive's report of SimLingo colliding in 87% of its own
+PedestriansOnRoad routes.
+
+**Actual (measured, screen arrays 39890439, scored by 39890440):** the walkers
+were there: on every slice route the logged nearest-pedestrian distance fell
+to 0.5 to 17 m within 30 simulated seconds, and never appeared on the
+neighbourhood routes. But SimLingo failed 2 of 8 slice routes against 1 of 9,
+with one pedestrian collision; paired, 1 base route failed only with walkers
+and none only without. The screen rule (an excess of 3) fails, so the 60-pair
+pilot was not run. Three tasks lost their routes: two because CARLA would not
+start on n0273 and n0278, one to an evaluator crash.
+
+Our version differs from Fail2Drive's: walkers start 30 m ahead of a car that
+is starting from rest (theirs 60 m, on dedicated routes), so SimLingo meets
+them slowly. Whether that explains 87% against 12% is untested.
+
+**Also:** P4's screen scoring job crashed writing its report: McNemar's
+p-value is a numpy float, so the pass verdict was a numpy bool, which `json`
+cannot write. It is reached only when uplift and ratio both pass, which is why
+P3 and P5 never hit it. Fixed in `660b859` and P4 rescored.
+
+---
+
 ## 2026-10-13 — Dense daytime fog does not make SimLingo fail either
 
 **Expected:** P3, fog density 90 at noon, a region no collection preset
