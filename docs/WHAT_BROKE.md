@@ -8,26 +8,31 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
-## 2026-10-15 — Two A40 nodes, n0278 and n0281, run CARLA about 500 times too slowly
+## 2026-10-15 — A pedestrian crossing from the left stalls the simulator, not the node
 
-**Expected:** a route of about 100 m takes 5 to 10 minutes, as Step 1's did on
-n0280 (real-time factor 0.078) and as the same array's later tasks did on n0263.
+**Expected:** a route of about 100 m takes 5 to 10 minutes, as Step 1's did
+(real-time factor 0.078).
 
-**Actual (measured, array 39967285 tasks 0 and 1, started 03:52):** after 2 h 50 m
-each of the four routes on those two nodes had simulated only 11 to 14 seconds:
-real-time factor 0.001, one simulator step every 35 to 45 seconds, slow from the
-first step. On n0281 the GPU showed 3% utilisation at normal clocks with no
-throttling; CARLA and the policy process each sat at 100% of one CPU. The node
-was shared with another user's jobs. n0278 had already failed to start CARLA once
-on 2026-10-14 (entry below). Both tasks reached the 3-hour limit with their routes
-unfinished.
+**Actual (measured, array 39967285, a sealed-gap screen):** every route that
+injects Bench2Drive's `DynamicObjectCrossing` with `direction: left` crawled at
+a real-time factor of 0.001 to 0.002, one simulator step every 5 to 45 seconds
+from the second step on; its paired route, identical except `direction: right`,
+finished at 0.10 on the same GPU at the same time. Seven left routes, four nodes
+(n0263, n0278, n0281 and one more), all slow; every right route fast. The GPU
+sat at 3% with the policy process at 100% of one CPU.
 
-**What we did:** added both nodes to `gpu_a40.exclude_nodes` and to every pending
-array with `scontrol update ExcNodeList`, and reran the two lost tasks. The cause
-is not known; a watcher that flags a route below a real-time factor of 0.01 after
-ten minutes would have caught this within the first quarter hour.
+The likely cause is in the scenario, not the cluster. To place its walker,
+`_initialize_actors` (`scenario_runner/srunner/scenarios/object_crash_vehicle.py`)
+steps sideways with `get_left_lane()` until it reaches a sidewalk. On a two-way
+road the left lane of the ego lane is the oncoming lane, and that lane's left is
+back toward the ego lane, so the loop never ends; running in the leaderboard's
+scenario-building thread, it starves the main loop rather than freezing it.
+Unconfirmed: the loop was read, not traced. No practice gap had used `left`.
 
----
+**What we did:** cancelled the array and its scoring. A first reading blamed the
+nodes and excluded n0278 and n0281 (51aed77); that was wrong, since the same
+split showed up on n0263, and was reverted. A route stuck below a real-time
+factor of 0.01 after ten minutes is the signature.
 
 ## 2026-10-15 — The first dev evaluation could not separate methods, and found the catch-all axis
 
