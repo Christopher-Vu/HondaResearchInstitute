@@ -28,7 +28,7 @@ from baselines.taxonomy import TaxonomyConfig, taxonomy_directive
 from discovery import sae
 from discovery.contrastive import ContrastiveConfig, Rollout, contrastive_directive, frame_latents
 from harness.schema import Gap
-from harness.scoring import score
+from harness.scoring import jaccard, score
 
 
 def load_sae(run: Path, device: torch.device) -> tuple[sae.TopKSae, int]:
@@ -91,8 +91,16 @@ def evaluate_run(run: Path, shard_dirs: list[Path], gaps: list[Gap], manifests: 
     return {"run": str(run), "layer": layer, "rollouts": len(rollouts), "failing": len(failing),
             "contrastive": summary(score(contrastive, gaps)), "B7_pool": summary(score(b7_pool, gaps)),
             "B2_taxonomy": summary(score(taxonomy, gaps)), "B1_random": random_summary,
-            "contrastive_axes": [{"axis_id": axis.axis_id, "size": len(axis.rollouts), "description": axis.description}
-                                 for axis in contrastive.axes]}
+            "contrastive_axes": [axis_overlap(axis, gaps, failing) for axis in contrastive.axes]}
+
+
+def axis_overlap(axis: Any, gaps: list[Gap], failing: set[str]) -> dict[str, Any]:
+    """An axis's size, its Jaccard with each gap's failing rollouts, and the share of all failures it holds."""
+    return {"axis_id": axis.axis_id, "size": len(axis.rollouts), "description": axis.description,
+            "share_of_failures": len(axis.rollouts & failing) / max(1, len(failing)),
+            "jaccard": {gap.gap_id: jaccard(axis.rollouts, gap.failing_rollouts) for gap in gaps},
+            "precision": {gap.gap_id: len(axis.rollouts & gap.failing_rollouts) / max(1, len(axis.rollouts))
+                          for gap in gaps}}
 
 
 def main() -> None:
