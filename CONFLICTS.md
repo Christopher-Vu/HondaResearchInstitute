@@ -393,6 +393,19 @@ classifier (C17 explains why that classifier is not trusted here). Axis members
 are restricted to failing rollouts, as every method's are, because scoring
 compares axes with a gap's failing rollouts.
 
+**Update 2026-10-15: τ_on rechecked against the PDF** (arXiv 2603.19183v2,
+App. C.1, Eqs. 6–12, p. 15), as `docs/steps/b7-gap-signal.md` asked at sign-off.
+Two differences from the frozen spec and `src/baselines/activation_stats.py`:
+(1) Eq. 7 is a **hysteresis**: a feature switches on when its activation exceeds
+τ_on = 0.1 but switches off only when it is exactly 0, otherwise keeping its
+previous state; the spec and code use plain `activation > τ_on` per frame.
+(2) The active-episode set E⁺ (coverage, and the averages in Eqs. 9–12) is the
+episodes where the feature is ever **> 0**, not > τ_on. With a TopK SAE inactive
+latents are exactly 0, so the two readings differ in onset count and run length.
+Eqs. 8 and 10–12 otherwise match the code's readings 2, 3 and 5. Correcting B7 to
+the paper is a sign-off decision; B7-pool numbers produced before it are labelled
+pre-correction.
+
 ### C19 · Vision encoder freezing is our deviation, not SimLingo's recipe · new
 `PRD.md` §9.4 and §12.3 described "vision encoder frozen" as SimLingo's own
 recipe. **It is not.** Paper §4.2: *"We fully finetune all components besides the
