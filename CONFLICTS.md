@@ -589,6 +589,19 @@ steps; each is reversible and none touches the sealed key.
 - **The dev evaluation scores every method against P4**, the one practice gap
   that passed. The numbers guide method development and are not results.
 
+### C29 · B3 runs without expert action error · new, 2026-10-16, pending review
+`PRD.md` §9.3 defines B3 as clustering on action error versus the expert,
+kinematics and infraction type. **The rollouts log no expert action**, so the
+first block cannot be computed without running PDM-Lite alongside every rollout.
+
+**Proposed:** B3 v1 clusters failing rollouts on the 3 s before failure
+(kinematics and the logged state list, the same features the probe-residual
+method gets) plus infraction type (`docs/steps/b3-behavioral.md`). If PDM-Lite
+is run alongside the test pool, waypoint error versus the expert joins B3 as one
+more feature block, decided before scoring. Without it B3 is weaker on failures
+where the car's motion looks normal but its plan is wrong, which is a reason to
+add the block before the go/no-go read, not a reason to wait for it now.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
