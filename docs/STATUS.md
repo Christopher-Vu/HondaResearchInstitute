@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
+Last updated: 2026-10-15 22:55 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
 
 ---
 
@@ -26,6 +26,15 @@ Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0, 1 and 2 reruns passe
   Real-time factor 0.092. Route 26456 lost to a CARLA start crash and is rerunning
   (40008751). The run also saved layer 10 and 14 tokens on every route: the dev
   corpus where P4 is a minority (Next, item 1), in Chris's Savio scratch.
+- **Left-crossing stall diagnosed** (Chris, evening): Bench2Drive's
+  `DynamicObjectCrossing` with `direction: left` loops forever on two-way roads
+  (166 of 220 Bench2Drive trigger points). Patch verified on public routes,
+  not yet applied to the shared runtime (needs Chris and Jerry):
+  `docs/infra/left-crossing-stall.md`.
+- **Step 4 ablation over layers and sites** (`docs/steps/04-layer-site-ablation.md`):
+  on the Step 2 rerun, the sweep again picks driving queries at layer 10 first.
+  Open-loop knock-out shows the plan is set in layers 20–23, with middle layers
+  each adding 2–7 cm. Closed-loop check and resampling still running.
 - **Some routes ran ~50x too slowly** (real-time factor 0.002) because of a
   scenario, not the nodes; an exclusion of n0278 and n0281 was reverted
   (`docs/WHAT_BROKE.md`).

@@ -5,6 +5,37 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-15 (evening, Chris) — Why left crossings hang the simulator, and which layers the policy uses
+
+Two pieces of work, with a budget of 1,000 SU.
+
+**The stall.** A pedestrian crossing set to come from the left made routes hang
+or crawl at about 1/50 of normal speed. Bench2Drive places that pedestrian by
+stepping one lane left at a time until it finds a sidewalk. On a two-way road,
+the lane to the left of the oncoming lane is the car's own lane again, so the
+walk never ends. A probe that replays the walk without a policy found it loops
+at 166 of the 220 Bench2Drive trigger points. Bench2Drive's own routes never ask
+for a left crossing, which is why nobody had seen it. A 10-line patch was tested
+on two public routes: they now drive normally and the pedestrian crosses. It is
+not applied to the runtime everyone uses yet. Write-up:
+`docs/infra/left-crossing-stall.md`.
+
+**Which layer to log.** The Step 4 sweep picks a layer by what can be read from
+it. This session asked two more questions (`docs/steps/04-layer-site-ablation.md`).
+Does the pick hold on a different corpus? Yes: on the 212 nominal Step 2 rerun
+routes, driving queries at layer 10 come first again (measured). Does the policy
+*use* that layer? Removing each layer's own contribution, one at a time, on 848
+saved frames shows the plan is set in the last four layers. Any single middle
+layer, layer 10 included, moves it only a few centimetres (measured). A
+closed-loop version on 40 routes per condition, and 50 resamples of the sweep,
+were still running at the end of the session.
+
+Unfinished: Part C's closed-loop scores, Part A's resamples and the final
+recommendation, all chained on Savio. Probe-residual's empty result on nominal
+data was traced to there being no structure to find, not a bug.
+
+---
+
 ## 2026-10-15 (overnight, Chris) — An independent Savio bring-up, new baselines, and a Step 2 rerun that doubles as a dev corpus
 
 Chris's agent set up the whole SimLingo runtime from scratch under his own Savio
