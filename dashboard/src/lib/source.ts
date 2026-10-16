@@ -4,9 +4,8 @@ import type { Progress, Step1Measure, Step2Measure, Update } from "./types";
 
 export const REPO = "Christopher-Vu/HondaResearchInstitute";
 export const REPO_URL = `https://github.com/${REPO}`;
-// The branch the progress file and step configs are read from. Set DATA_REF to main once
-// codex/carla-bringup has merged.
-export const DATA_REF = process.env.DATA_REF ?? "codex/carla-bringup";
+// The branch the progress file and step configs are read from; DATA_REF overrides it.
+export const DATA_REF = process.env.DATA_REF ?? "main";
 
 const UPDATE_WORD_LIMIT = 20;
 
