@@ -103,3 +103,44 @@ for Chris and Jerry; it does not change the config by itself.
 Practice-gap recovery on a new corpus (needs a passing gap's rollouts in this
 account), per-token pooling beyond layers 10 and 14, and any rerun of the
 dev pool.
+
+## Results so far (2026-10-15, 22:50; measured)
+
+**Part A1, the sweep on the Step 2 rerun** (212 nominal rollouts, 61 failing;
+`04-ablation/partA1-sweep.json`). It chose **driving queries at layer 10**
+(combined rank 6.3; failure AUROC 0.764, best of all 49 pairs) and layer 9
+(8.6). The top six pairs are all driving-query layers 7 to 13. So the dev
+pool's first pick replicates on a corpus it never saw. All-tokens layer 18,
+picked in the dev pool for P4 recovery, ranks 27th of 49 here, where there is
+no gap to recover.
+
+**Part B, open-loop knock-out** (848 frames × 74 conditions, job 40012263;
+`04-ablation/partB-summary.json`). Rerunning the intact model gives exactly 0 m
+shift, so every non-zero effect is real. As a check, removing the last layer's
+update at context tokens has no effect, because nothing downstream reads them.
+Median route-waypoint shift:
+
+| Knock-out | Effect |
+|---|---|
+| Any single middle layer (3–19), any site | 2–7 cm |
+| Driving queries, layers 20–23 | route 5–34 cm; **speed 2.5–3.8 m** (the speed plan is set here) |
+| Driving queries, layer 2 | speed 3.3 m |
+| Context or all tokens, layer 0 | 93 cm (the first pass over image tokens) |
+| Vision bridge (all image tokens to their mean) | 21 cm; 20% of frames over 1 m |
+
+Under the pre-registered rule, live driving-query layers are 2, 9, 11, 14, 15,
+16, 17, 18 and 20–23. **Layer 10 misses by 2.5 mm** (2.54 cm against a site
+median of 2.79 cm). All-tokens layer 18 is not live (3.8 cm against 6.2 cm).
+
+**How to read this.** Knocking out one layer's update measures that layer's own
+computation, not whether information present at that layer is used later. The
+middle layers each add little, and the plan is set late. That fits layer 10
+being where failure-relevant state is most *readable* (Part A) while not itself
+deciding much. The 2.5 mm miss is far inside run-to-run differences between
+frames; "live" is a coarse filter here, not a verdict.
+
+**Part C (closed loop) and Part A2 (50 resamples) are running.** Part C's
+picks under its rule: largest effect = all tokens at layer 0 (array 40023867);
+control = driving queries at layer 1, the smallest effect (array 40023871); the
+recommended-layer condition launches automatically once A2 finishes (job
+40026404).
