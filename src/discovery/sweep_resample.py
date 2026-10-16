@@ -67,13 +67,16 @@ def main() -> None:
     parser.add_argument("--count", type=int, default=10)
     parser.add_argument("--merge", type=Path, nargs="+", help="resample files to combine instead of running")
     args = parser.parse_args()
-    if args.merge:
-        result = merge(args.merge)
-    else:
-        result = {"shards": str(args.shards),
-                  "resamples": [resample(args.shards, i) for i in range(args.start, args.start + args.count)]}
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=1) + "\n")
+    if args.merge:
+        args.output.write_text(json.dumps(merge(args.merge), indent=1) + "\n")
+        return
+    # Written after every resample: one sweep takes about an hour, and a task that hits its time limit
+    # keeps what it finished.
+    result: dict[str, Any] = {"shards": str(args.shards), "resamples": []}
+    for i in range(args.start, args.start + args.count):
+        result["resamples"].append(resample(args.shards, i))
+        args.output.write_text(json.dumps(result, indent=1) + "\n")
 
 
 if __name__ == "__main__":
