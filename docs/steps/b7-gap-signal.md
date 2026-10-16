@@ -140,3 +140,11 @@ the 1,080 route directories in them (seed 0). The list and both draws are in
 was computed. This is a deviation from "a sample of the released set": routes
 cluster in the drawn chunks, so 180 of the 1,080 (17%) come from one scenario,
 OppositeVehicleRunningRedLight. Pending sign-off with the rest of B7.
+
+## Signed off, 2026-10-16 (Chris)
+
+B7 is signed off with one correction to match the paper (`CONFLICTS.md` C18): firing
+is Dr. VLA's Eq. 7 hysteresis, which switches on above τ_on = 0.1 and off only at
+exactly 0, and coverage and the per-episode averages use the episodes where a latent
+is ever above 0. Implemented in `src/baselines/activation_stats.py`. Any B7-pool
+number produced before this change is labelled pre-correction.

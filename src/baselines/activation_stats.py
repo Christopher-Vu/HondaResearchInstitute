@@ -9,16 +9,22 @@ SAE that produces them is a Step 7 deliverable.
 Outcome labels enter only in build_axes (step 8). latent_scores and the merge in
 step 7 never see them.
 
+Firing follows Dr. VLA (App. C.1, Eqs. 7-12; CONFLICTS.md C18, signed off by Chris
+2026-10-16): a hysteresis, and an active-episode set E+ of episodes where the latent
+is ever > 0. Numbers produced before this change are labelled pre-correction.
+
 Interpretations, pending sign-off (the spec is frozen and silent on these):
-1. Firing is strict: on[t, f] = activation > tau_on.
+1. Firing is a hysteresis (Eq. 7): on[t, f] is true when activation > tau_on, false
+   when activation is exactly 0, and otherwise keeps on[t-1, f]; before frame 0 the
+   state is off.
 2. An onset is an off-to-on transition; the frame before frame 0 counts as off,
    so a latent on at frame 0 has an onset there.
-3. Relative run length for one episode = (on frames / onsets) / episode length,
-   averaged over the episodes where the latent is on at least once. Onset count
-   and peak are averaged over those episodes only. Coverage = episodes with any
-   on frame / all stat episodes.
-4. Exclusion drops a latent on in fewer than min_episodes episodes or with
-   coverage strictly greater than max_coverage.
+3. E+ for a latent is the episodes where its activation is ever > 0. Coverage = |E+| /
+   all stat episodes. Onset count, peak and relative run length ((on frames / onsets)
+   / episode length, 0 in an episode with no onset) are averaged over E+.
+4. Exclusion drops a latent with |E+| below min_episodes, coverage strictly greater
+   than max_coverage, or no onset in any stat episode (it never switches on, so its
+   onset term is undefined).
 5. kappa = z(-log c) + z(-|log o|) + z(a) + z(-l_r); z-scores across surviving
    latents with population std; a term with std 0 contributes 0.
 6. Latents are ranked by kappa descending (ties: lower latent index first). A
@@ -99,6 +105,16 @@ def _check_episodes(episodes: Episodes, name: str) -> int:
     return widths.pop()
 
 
+def _on_state(acts: np.ndarray, tau_on: float) -> np.ndarray:
+    """Eq. 7's hysteresis: on above tau_on, off at exactly 0, otherwise unchanged."""
+    on = np.zeros(acts.shape, dtype=bool)
+    previous = np.zeros(acts.shape[1], dtype=bool)
+    for t in range(acts.shape[0]):
+        previous = (acts[t] > tau_on) | (previous & (acts[t] != 0))
+        on[t] = previous
+    return on
+
+
 def _onset_counts(on: np.ndarray) -> np.ndarray:
     rising = on[1:] & ~on[:-1]
     return on[0].astype(int) + rising.sum(axis=0)
@@ -109,15 +125,15 @@ def _per_episode_totals(episodes: Episodes, tau_on: float, n_latents: int
     totals = {k: np.zeros(n_latents) for k in
               ("episodes_on", "onsets", "peak", "run")}
     for acts in episodes.values():
-        on = acts > tau_on
+        on = _on_state(acts, tau_on)
         onsets = _onset_counts(on)
-        fires = onsets > 0
-        safe_onsets = np.where(fires, onsets, 1)
-        run = on.sum(axis=0) / safe_onsets / acts.shape[0]
-        totals["episodes_on"] += fires
-        totals["onsets"] += np.where(fires, onsets, 0)
-        totals["peak"] += np.where(fires, acts.max(axis=0), 0.0)
-        totals["run"] += np.where(fires, run, 0.0)
+        active = (acts > 0).any(axis=0)                     # E+ membership
+        safe_onsets = np.where(onsets > 0, onsets, 1)
+        run = np.where(onsets > 0, on.sum(axis=0) / safe_onsets / acts.shape[0], 0.0)
+        totals["episodes_on"] += active
+        totals["onsets"] += np.where(active, onsets, 0)
+        totals["peak"] += np.where(active, acts.max(axis=0), 0.0)
+        totals["run"] += np.where(active, run, 0.0)
     return totals
 
 
@@ -136,7 +152,7 @@ def latent_scores(stat_episodes: Episodes, cfg: ActivationStatsConfig
     totals = _per_episode_totals(stat_episodes, cfg.tau_on, n_latents)
     n_on = totals["episodes_on"]
     coverage = n_on / len(stat_episodes)
-    keep = (n_on >= cfg.min_episodes) & (coverage <= cfg.max_coverage)
+    keep = (n_on >= cfg.min_episodes) & (coverage <= cfg.max_coverage) & (totals["onsets"] > 0)
     ids = np.flatnonzero(keep)
     if ids.size == 0:
         return LatentScores(ids, np.zeros(0))
@@ -161,7 +177,7 @@ class _Axis:
 def _fire_sets(test_episodes: Episodes, tau_on: float) -> dict[int, set[str]]:
     fired: dict[int, set[str]] = {}
     for ep_id, acts in test_episodes.items():
-        for latent in np.flatnonzero((acts > tau_on).any(axis=0)):
+        for latent in np.flatnonzero(_on_state(acts, tau_on).any(axis=0)):
             fired.setdefault(int(latent), set()).add(ep_id)
     return fired
 
@@ -199,7 +215,7 @@ def merge_latents(scores: LatentScores, test_episodes: Episodes,
 def _supporting_episode(ep_id: str, acts: np.ndarray, latents: list[int],
                         tau_on: float) -> SupportingEpisode:
     member = acts[:, latents]
-    frames = np.flatnonzero((member > tau_on).any(axis=1))
+    frames = np.flatnonzero(_on_state(member, tau_on).any(axis=1))
     return SupportingEpisode(ep_id, float(member.max()),
                              (int(frames[0]), int(frames[-1])))
 

@@ -404,7 +404,8 @@ episodes where the feature is ever **> 0**, not > τ_on. With a TopK SAE inactiv
 latents are exactly 0, so the two readings differ in onset count and run length.
 Eqs. 8 and 10–12 otherwise match the code's readings 2, 3 and 5. Correcting B7 to
 the paper is a sign-off decision; B7-pool numbers produced before it are labelled
-pre-correction.
+pre-correction. **Resolved 2026-10-16:** Chris signed off on correcting to the paper;
+`activation_stats.py` now implements the hysteresis and E⁺ > 0.
 
 ### C19 · Vision encoder freezing is our deviation, not SimLingo's recipe · new
 `PRD.md` §9.4 and §12.3 described "vision encoder frozen" as SimLingo's own

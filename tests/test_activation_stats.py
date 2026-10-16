@@ -20,11 +20,11 @@ N_LATENTS = 8
 
 def episodes(n, fires: dict[int, list[int]], *, prefix="e", strength=0.9,
              frames=FRAMES):
-    """n episodes of quiet noise; fires maps latent -> episode indices where it
+    """n episodes of quiet latents (exactly 0, as a TopK SAE leaves inactive latents); fires maps latent -> episode indices where it
     spikes for 2 frames (or for `frames` frames if given as a long run)."""
     out = {}
     for i in range(n):
-        acts = np.full((frames, N_LATENTS), 0.01)
+        acts = np.zeros((frames, N_LATENTS))
         for latent, eps in fires.items():
             if i in eps:
                 acts[5:7, latent] = strength
@@ -188,3 +188,25 @@ def test_directive_validates_and_scores_against_a_gap():
                         "fisher_p": 0.0004, "n_in": 41})
     report = score(d, [gap])
     assert report.mean_best_jaccard == pytest.approx(1.0)
+
+
+def test_hysteresis_keeps_a_latent_on_until_it_reaches_exactly_zero():
+    from baselines.activation_stats import _on_state
+    acts = np.array([[0.0], [0.5], [0.05], [0.02], [0.0], [0.05], [0.3]])
+    # on above tau_on; a dip into (0, tau_on] keeps the previous state; exactly 0 turns it off
+    assert _on_state(acts, 0.1)[:, 0].tolist() == [False, True, True, True, False, False, True]
+
+
+def test_active_but_never_on_latent_is_excluded():
+    stat = episodes(10, {0: [0, 1, 2]})
+    for i in range(5):
+        stat["e%02d" % i][3:6, 1] = 0.05      # > 0 in five episodes, never above tau_on
+    assert 1 not in latent_scores(stat, cfg()).latent_ids
+    assert 0 in latent_scores(stat, cfg()).latent_ids
+
+
+def test_coverage_counts_episodes_ever_above_zero():
+    stat = episodes(10, {0: [0, 1, 2]})
+    for i in range(3, 9):
+        stat["e%02d" % i][3, 0] = 0.01        # never on, but > 0: in E+, so coverage is 9/10
+    assert 0 not in latent_scores(stat, cfg()).latent_ids
