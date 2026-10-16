@@ -10,7 +10,9 @@ every driving-query token at those layers, unpooled, in float16: the per-token S
 """
 from __future__ import annotations
 
+import json
 import os
+from pathlib import Path
 from typing import Any
 
 import carla
@@ -56,6 +58,11 @@ class CaptureAgent(VisibleAgent):
         vision_bridge(self.model).register_forward_hook(self._bridge_hook)
         self.model.register_forward_pre_hook(self._input_hook)
         self.model.register_forward_hook(self._output_hook)
+        knockout = os.environ.get("SIMLINGO_ABLATE")
+        if knockout:  # docs/steps/04-layer-site-ablation.md, Part C
+            from ablate_replay import install
+            spec = json.loads(knockout)
+            install(self.model, spec["site"], int(spec["layer"]), Path(spec["means"]))
 
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
         if self.world_state is None:

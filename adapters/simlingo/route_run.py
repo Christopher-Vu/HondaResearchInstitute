@@ -136,14 +136,16 @@ def agent_and_capture_environment(capture_every: int | None,
 
 
 def route_environment(config: dict[str, Any]) -> dict[str, str]:
-    """The configured route's own agent settings from its manifest entry: a camera fault, if it has one."""
+    """The configured route's own agent settings: a layer knock-out from the config, if it names one, and a
+    camera fault from its manifest entry, if it has one."""
+    knockout = {"SIMLINGO_ABLATE": json.dumps(config["ablate"])} if config.get("ablate") else {}
     manifest = (config.get("route") or {}).get("manifest")
     if not manifest:
-        return {}
+        return knockout
     route_id = str(config["route"]["id"])
     entry = next((entry for entry in json.loads((ROOT / manifest).read_text()) if str(entry["id"]) == route_id), {})
     fault = (entry.get("sensor") or {}).get("camera_fault")
-    return {"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {}
+    return knockout | ({"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {})
 
 
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
