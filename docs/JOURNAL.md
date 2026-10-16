@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-15 — The dashboard and Jerry's checkout move to main
+
+Chris merged `codex/carla-bringup` into `main` overnight and kept working
+there, so the dashboard, which still read the old branch, missed his week
+block. It now reads `main` by default (`dashboard/src/lib/source.ts`; Vercel
+sets no `DATA_REF`), redeployed to production and checked live. Jerry's local
+checkout moved to `main` by fast-forward; the old branch stays on GitHub,
+merged, and nothing new goes to it.
+
+---
+
 ## 2026-10-15 (evening, Chris) — Why left crossings hang the simulator, and which layers the policy uses
 
 Two pieces of work, with a budget of 1,000 SU.
