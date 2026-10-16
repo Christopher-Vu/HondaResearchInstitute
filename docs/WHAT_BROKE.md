@@ -8,6 +8,25 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-16 — CARLA segfaults mid-route on long routes
+
+**Expected:** a route that starts runs to its end or its time limit.
+
+**Actual (measured, overnight arrays under christophervu):** 8 tasks of about 150 lost a route
+because the CARLA server crashed partway: `Signal 11 caught ... Segmentation fault (core dumped)`
+in `server.log`, after 35 to 250 simulated seconds at a normal real-time factor (0.08 to 0.11). The
+evaluator then either timed out waiting for the simulator (600 s) or went silent until our 900 s
+watchdog stopped it. Five nodes (n0209, n0210, n0212, n0213, n0274), so not a node fault. The lost
+routes were the long-running ones, often where the car stood still for minutes; the other route
+sharing each GPU finished. One more crash happened at start-up (exit 139 before accepting clients).
+
+**What we did:** reran the affected tasks on new jobs and rescored over both result folders (the
+scorer takes the first attempt with an outcome). A full pilot needs all 60 pairs to pass, so one
+crash can flip a verdict; budget about 1 rerun per 20 tasks on long routes. Cause unknown; the
+message (`Malloc Size=65538 LargeMemoryPoolOffset=65554`) points inside Unreal's allocator.
+
+---
+
 ## 2026-10-15 — Some routes ran about 50 times too slowly; not the nodes
 
 **Expected:** a route of about 100 m takes 5 to 10 minutes, as Step 1's did
