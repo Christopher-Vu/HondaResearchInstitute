@@ -136,8 +136,9 @@ median of 2.79 cm). All-tokens layer 18 is not live (3.8 cm against 6.2 cm).
 computation, not whether information present at that layer is used later. The
 middle layers each add little, and the plan is set late. That fits layer 10
 being where failure-relevant state is most *readable* (Part A) while not itself
-deciding much. The 2.5 mm miss is far inside run-to-run differences between
-frames; "live" is a coarse filter here, not a verdict.
+deciding much. The 2.5 mm miss is small next to the spread across
+driving-query layers (1.1 to 34 cm), and no interval was put on these medians,
+so "live" is a coarse filter here, not a verdict.
 
 **Part C (closed loop) and Part A2 (50 resamples) are running.** Part C's
 picks under its rule: largest effect = all tokens at layer 0 (array 40023867);
