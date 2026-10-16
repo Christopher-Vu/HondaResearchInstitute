@@ -104,7 +104,7 @@ Practice-gap recovery on a new corpus (needs a passing gap's rollouts in this
 account), per-token pooling beyond layers 10 and 14, and any rerun of the
 dev pool.
 
-## Results so far (2026-10-15, 22:50; measured)
+## Results (measured; interim section written 2026-10-15 22:50, final below)
 
 **Part A1, the sweep on the Step 2 rerun** (212 nominal rollouts, 61 failing;
 `04-ablation/partA1-sweep.json`). It chose **driving queries at layer 10**
@@ -140,8 +140,59 @@ deciding much. The 2.5 mm miss is small next to the spread across
 driving-query layers (1.1 to 34 cm), and no interval was put on these medians,
 so "live" is a coarse filter here, not a verdict.
 
-**Part C (closed loop) and Part A2 (50 resamples) are running.** Part C's
-picks under its rule: largest effect = all tokens at layer 0 (array 40023867);
-control = driving queries at layer 1, the smallest effect (array 40023871); the
-recommended-layer condition launches automatically once A2 finishes (job
-40026404).
+**Part A2, 50 resamples** (each dropping a fifth of the base routes;
+`04-ablation/partA2-resamples.json`). Only two pairs are stable: driving queries
+at **layer 11** (top 3 in 72% of resamples, median position 2.0) and **layer
+10** (70%, 2.5). Next are layers 12 (38%) and 9 (36%). Layer 14, the second
+per-token capture layer since Step 5, is top 3 in 16%.
+
+**The rule's recommendation** (`04-ablation/recommendation.json`): driving
+queries at layer 11, which passes all three criteria. Layer 10 is labelled
+"readable but not used" because it misses the live line by 2.5 mm. In
+practice 10 and 11 are tied.
+
+**Part C, closed loop** (40 routes drawn with seed 0 from the Step 2 rerun, each
+knock-out applied live; paired against the intact rerun on the same routes).
+For scale, Jerry's intact Step 2 run against the rerun is the run-to-run
+reference: same 9 failures, but 3 routes failed only in one run and 3 only in
+the other.
+
+| Knock-out (array) | Failures, of 40 | Only here / only intact | McNemar p | Mean DS |
+|---|---|---|---|---|
+| Intact, Jerry's Step 2 run (reference) | 9 | 3 / 3 | 1.0 | 91.3 |
+| Intact, the rerun (baseline) | 9 | — | — | 91.7 |
+| All tokens, layer 0, largest open-loop effect (40023867) | **31** | 24 / 2 | < 0.001 | **53.6** |
+| Driving queries, layer 1, smallest open-loop effect (40023871) | 14 | 6 / 1 | 0.125 | 83.4 |
+| Driving queries, layer 11, recommended (40027190 + 40028509) | 11 | 6 / 4 | 0.754 | 90.2 |
+
+Five layer-11 routes first failed on infrastructure (agent set-up and
+simulator timeouts, mostly on node n0217). They were rerun on other nodes;
+the other two arrays lost none.
+
+## What this means for the layer choice
+
+1. **The readable layer is robust.** Driving queries at layers 10 and 11 come
+   first on two unrelated corpora (the dev pool, and 212 nominal Step 2 routes)
+   and under resampling. Nothing else is close. Recommendation: **keep driving
+   queries at layer 10 as the logged site, and capture layer 11 per token
+   instead of layer 14.** Layer 14 is rarely in the top three, and 10 and 11 are
+   interchangeable on every measure here.
+2. **No single middle layer is needed to drive.** Removing layer 11's own update
+   changes nothing measurable in closed loop (11 against 9 failures, within the
+   run-to-run reference). Removing the first layer's pass over all tokens
+   collapses driving (31 of 40 fail), so the open-loop measure does find what
+   matters when the effect is large. At 40 routes it cannot order small effects:
+   the layer-1 control, the smallest open-loop effect, did slightly worse than
+   layer 11.
+3. **For Step 7's causal checks.** An axis read at layer 10 or 11 sits where
+   failure-relevant state is most readable, but its single layer is not
+   necessary, and the plan is set in layers 20 to 23. So a causal test that
+   removes one mid-layer update will look null. Interventions should edit the
+   residual stream along the discovered direction (steering), and closed-loop
+   checks need more than 40 routes per arm to see effects of this size.
+4. **All-tokens layer 18** was chosen in the dev pool only for recovering P4,
+   and ranks 27th of 49 without a gap. Keep it only as the perceptual-gap site.
+
+Cost: about 800 SU for the whole ablation plus the left-crossing work (per-job
+accounting; closed-loop routes 658 of it), within the 1,000 cap.
+
