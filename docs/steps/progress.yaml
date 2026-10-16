@@ -49,7 +49,7 @@ steps:
     checks:
       - {text: Driving score at least 75, done: true}
       - {text: Benchmark version and checkpoint hash recorded, done: true}
-      - {text: Rerun by whoever did not set it up, done: false}
+      - {text: Rerun by whoever did not set it up, done: true}  # array 39967810, christophervu
   - id: 3
     title: Hooks and the activation store
     checks:

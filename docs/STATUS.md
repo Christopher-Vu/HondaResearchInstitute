@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; Step 2 rerun with token capture queued; a slow-route scenario logged)
+Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
 
 ---
 
@@ -19,11 +19,13 @@ Last updated: 2026-10-15 07:10 (Chris's overnight: Steps 0 and 1 reruns passed; 
   "both of us"). **Step 1 rerun passed** (job 39967189, n0280): route 26956
   completed, 299 model steps, 0.078x real time, 9.42 GB peak VRAM, strict
   checkpoint load (measured; Jerry's run 0.071x, 9.4 GB).
-- **Step 2 rerun queued** as array 39967810 with `configs/rollout/step2-rerun.yaml`:
-  Jerry's Step 2 config plus layer 10 and 14 token capture, so the 220 nominal
-  routes double as the dev corpus where P4 is a minority (Next, item 1). Runs
-  after Chris's sealed-gap screens (Chris holds the key; nothing about them is
-  in the repo).
+- **Step 2 rerun passed** (array 39967810, `configs/rollout/step2-rerun.yaml`,
+  measured): official driving score **88.34**, success rate 70.3% over 219 of 220
+  routes (Jerry's run 88.60 / 72.7% over 220). Without the same 7 skipped
+  Interurban scenarios: 88.22 / 71.2% over 212 (Jerry 88.63 / 73.7% over 213).
+  Real-time factor 0.092. Route 26456 lost to a CARLA start crash and is rerunning
+  (40008751). The run also saved layer 10 and 14 tokens on every route: the dev
+  corpus where P4 is a minority (Next, item 1), in Chris's Savio scratch.
 - **Some routes ran ~50x too slowly** (real-time factor 0.002) because of a
   scenario, not the nodes; an exclusion of n0278 and n0281 was reverted
   (`docs/WHAT_BROKE.md`).
@@ -291,7 +293,7 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
 3. **Sign-offs:** C23 to C28 (C27 now carries a correction), and the pinned
    readings in `src/discovery/contrastive.py`, `src/baselines/activation_stats.py`
    and `taxonomy.py`; per-token SAE at layer 10 or 14 (k 48 to 64 look best).
-4. Step 2's rerun: running as array 39967810 (Chris). Score with
+4. Step 2's rerun: passed (DS 88.34, array 39967810, Chris). Score with
    `adapters/simlingo/score_routes.py configs/rollout/step2-rerun.yaml results/savio/39967810`
    on Chris's Savio scratch; the shards need read access granted to Jerry.
 5. Code reaches Savio without GitHub: `git bundle create x.bundle <savio head>..codex/carla-bringup`,
