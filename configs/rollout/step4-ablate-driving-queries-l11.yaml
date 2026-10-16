@@ -1,0 +1,28 @@
+# Step 4 ablation Part C (recommended): driving_queries layer 11 knocked out live (mean update from Part B's calibration),
+# on 40 Step 2 rerun routes. docs/steps/04-layer-site-ablation.md. Otherwise identical to step2-rerun.yaml.
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-19%6 scripts/route_sample.sbatch configs/rollout/step4-ablate-driving-queries-l11.yaml 2
+
+name: step4-ablate-driving-queries-l11
+step: 4
+scope: savio_step4_ablation
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic
+  timeout_seconds: 60
+
+capture_every: 10
+ablate: {site: driving_queries, layer: 11, means: /global/scratch/users/christophervu/hri-dev/results/ablate-partB/means.pt}
+
+route:
+  seed: 0
+
+routes: ["2084", "2164", "2286", "2373", "2606", "2664", "3074", "3090", "3255", "3364", "3457", "3514", "3540", "3561", "3666", "3717", "3731", "3869", "3936", "4683", "11715", "17635", "17752", "18305", "23659", "23670", "24071", "24258", "24757", "24795", "24841", "25318", "25424", "25975", "26405", "26435", "27506", "27515", "27532", "28087"]
