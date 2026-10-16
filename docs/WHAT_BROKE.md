@@ -12,7 +12,7 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 **Expected:** a route that starts runs to its end or its time limit.
 
-**Actual (measured, overnight arrays under christophervu):** 8 tasks of about 150 lost a route
+**Actual (measured, overnight arrays under christophervu):** 8 of about 90 tasks lost a route
 because the CARLA server crashed partway: `Signal 11 caught ... Segmentation fault (core dumped)`
 in `server.log`, after 35 to 250 simulated seconds at a normal real-time factor (0.08 to 0.11). The
 evaluator then either timed out waiting for the simulator (600 s) or went silent until our 900 s
