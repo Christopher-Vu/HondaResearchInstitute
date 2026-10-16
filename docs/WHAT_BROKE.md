@@ -19,11 +19,12 @@ sharing their GPU finished at 0.10. The GPU sat at 3% with the policy process at
 100% of one CPU. The slow routes ran on n0263, n0278 and n0281, so the node is
 not the cause. A three-hour task limit cut most of them off.
 
-The likely cause is a scenario whose actor placement loops: Bench2Drive's
-`_initialize_actors` methods step sideways lane by lane looking for a sidewalk,
-and on some road layouts that walk can bounce between two lanes. Running in the
-leaderboard's scenario-building thread, such a loop starves the main loop rather
-than freezing it. Unconfirmed: read, not traced.
+**Cause, confirmed later the same day:** `DynamicObjectCrossing` with
+`direction: left` walks lane by lane toward a sidewalk with `get_left_lane()`;
+on a two-way road that walk crosses the centre line and bounces between the two
+centre lanes forever, inside the leaderboard's scenario-builder thread. Full
+write-up, measurements across Bench2Drive-220 and the training routes, a patch
+and its verification: `docs/infra/left-crossing-stall.md`.
 
 **What we did:** cancelled the affected work. A first reading blamed the nodes
 and excluded n0278 and n0281 (51aed77); that was wrong and is reverted. A route

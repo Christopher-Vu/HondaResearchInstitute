@@ -1,0 +1,47 @@
+--- a/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
++++ b/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
+@@ -223,9 +223,11 @@
+         # Get the waypoint in front of the ego.
+         move_dist = self._distance
+         waypoint = self._reference_waypoint
++        requested_direction = self._direction
+ 
+         while self._number_of_attempts > 0:
+             parking_location = None
++            self._direction = requested_direction
+             self._collision_dist = 0
+ 
+             # Move to the front
+@@ -235,6 +237,8 @@
+ 
+             # Move to the right
+             sidewalk_waypoint = waypoint
++            ego_side = waypoint.lane_id > 0
++            crossed = False
+             while sidewalk_waypoint.lane_type != carla.LaneType.Sidewalk:
+                 if self._direction == "right":
+                     side_wp = sidewalk_waypoint.get_right_lane()
+@@ -242,6 +246,12 @@
+                     side_wp = sidewalk_waypoint.get_left_lane()
+                 if side_wp is None:
+                     break  # No more side lanes
++                if (side_wp.lane_id > 0) != ego_side and (sidewalk_waypoint.lane_id > 0) == ego_side:
++                    # Crossed the centre line: lane ids change sign and the oncoming lanes face the other way, so
++                    # their left points back at the ego lane and the stock walk loops forever. Keep moving away
++                    # from the ego: the far side is, in these lanes' own frame, the opposite side.
++                    self._direction = "right" if self._direction == "left" else "left"
++                    crossed = True
+                 sidewalk_waypoint = side_wp
+                 if side_wp.lane_type == carla.LaneType.Parking:
+                     parking_location = side_wp.transform.location
+@@ -259,7 +269,9 @@
+ 
+             # Get the adversary transform and spawn it
+             walker_dist = blocker.bounding_box.extent.x + 0.5
+-            wps = sidewalk_waypoint.next(walker_dist)
++            # Past the centre line the sidewalk runs against the ego's direction: step back along it so the
++            # adversary still stands beyond the blocker as the ego approaches.
++            wps = sidewalk_waypoint.previous(walker_dist) if crossed else sidewalk_waypoint.next(walker_dist)
+             if not wps:
+                 raise ValueError("Couldn't find a location to spawn the adversary")
+             walker_wp = wps[0]
