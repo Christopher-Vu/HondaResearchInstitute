@@ -14,7 +14,7 @@
 # Refuses to submit a GPU job while gpu.available is false.
 set -euo pipefail
 
-USAGE="usage: submit.sh <profile: gpu|gpu_a40|cpu> [--sbatch-option ...] <script.sbatch> [args...]"
+USAGE="usage: submit.sh <profile: gpu|gpu_a40|cpu|cpu_node> [--sbatch-option ...] <script.sbatch> [args...]"
 KIND="${1:?$USAGE}"
 shift
 EXTRA=()

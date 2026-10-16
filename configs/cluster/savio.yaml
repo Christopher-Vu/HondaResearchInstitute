@@ -43,6 +43,13 @@ cpu:
   qos: savio_normal
   cpus_per_task: 4
 
+cpu_node:
+  # Whole savio2 nodes (24 cores, 64 GB), for CPU work that runs several processes at once. On 2026-10-15
+  # savio3_htc's queue estimated a start the next afternoon while savio2 started at once.
+  partition: savio2
+  qos: savio_normal
+  cpus_per_task: null
+
 carla:
   # null runs CarlaUE4.sh on the GPU node directly, as upstream SimLingo does.
   # If the render stage fails on host Vulkan, pull the official image once on a

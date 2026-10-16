@@ -27,11 +27,14 @@ plus the vision bridge). No practice gap is in it, so gap recovery does not
 apply; failure AUROC and state probes do. Sealed-pilot outputs are never used.
 
 1. The sweep, unchanged (`src/discovery/layer_sweep.py`), on the rerun's shards.
-2. **Resampling over base routes:** 100 resamples, each dropping a random fifth
-   of the base routes (seeds 1000–1099), sweep rerun on each; report each pair's
+2. **Resampling over base routes:** 50 resamples, each dropping a random fifth
+   of the base routes (seeds 1000–1049), sweep rerun on each; report each pair's
    median position, its 5–95% range, and how often it is in the top 2 and top 3.
    (Amended before any result: drawing with replacement would duplicate shards,
-   which the sweep's loader cannot do; this is its stability check, repeated.)
+   which the sweep's loader cannot do; this is its stability check, repeated.
+   Cut from 100 to 50, also before any result: one sweep takes about 25 minutes
+   and the shared CPU queue was a day long, so 100 would have cost about 42
+   single-stream hours; 50 still resolves top-k shares to 2%.)
 3. **Per family:** the same resamples ranked on failure AUROC alone and on state
    probes alone, since the combined rank averages families that can disagree.
 
