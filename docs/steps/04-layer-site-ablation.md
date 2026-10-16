@@ -17,7 +17,7 @@ AUROC, state probes, practice-gap recovery. Two questions it leaves open:
 2. **Does the policy use what is read there?** A layer can encode a state that
    the driving head never consults. Discovery methods (SAE, contrastive,
    probe-residual) emit axes from the chosen site; an axis read from a site the
-   policy ignores cannot pass the Step 7 causal check.
+   policy ignores cannot pass the Step 9 causal check.
 
 ## Part A — Robustness of the selection (no GPU)
 
@@ -184,7 +184,7 @@ the other two arrays lost none.
    matters when the effect is large. At 40 routes it cannot order small effects:
    the layer-1 control, the smallest open-loop effect, did slightly worse than
    layer 11.
-3. **For Step 7's causal checks.** An axis read at layer 10 or 11 sits where
+3. **For Step 9's causal checks.** An axis read at layer 10 or 11 sits where
    failure-relevant state is most readable, but its single layer is not
    necessary, and the plan is set in layers 20 to 23. So a causal test that
    removes one mid-layer update will look null. Interventions should edit the

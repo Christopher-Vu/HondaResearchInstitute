@@ -31,7 +31,7 @@ routes. With 50 resamples of the layer sweep, driving queries at layers 10 and
 
 So the logged site is right for reading failure-relevant state, but no single
 middle layer is where SimLingo decides; that happens in its last four layers.
-This matters for Step 7: removing one middle-layer update will look null even
+This matters for Step 9's causal checks: removing one middle-layer update will look null even
 for a real axis, so causal checks should steer along the axis direction instead.
 Suggestion for Jerry: capture layer 11 per token instead of 14. All numbers and
 the reasoning: `docs/steps/04-layer-site-ablation.md`. About 813 SU for this
