@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-15 22:55 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
+Last updated: 2026-10-16 02:30 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
 
 ---
 
@@ -31,10 +31,12 @@ Last updated: 2026-10-15 22:55 (Chris's overnight: Steps 0, 1 and 2 reruns passe
   (166 of 220 Bench2Drive trigger points). Patch verified on public routes,
   not yet applied to the shared runtime (needs Chris and Jerry):
   `docs/infra/left-crossing-stall.md`.
-- **Step 4 ablation over layers and sites** (`docs/steps/04-layer-site-ablation.md`):
-  on the Step 2 rerun, the sweep again picks driving queries at layer 10 first.
-  Open-loop knock-out shows the plan is set in layers 20–23, with middle layers
-  each adding 2–7 cm. Closed-loop check and resampling still running.
+- **Step 4 ablation over layers and sites, done** (`docs/steps/04-layer-site-ablation.md`,
+  measured): driving queries at layers 10 and 11 are the only stable picks, on a
+  second corpus and under 50 resamples. Knocking out layer 11 live on 40 routes
+  changes nothing measurable (11 against 9 failures). Knocking out the first
+  layer's pass over all tokens collapses driving (31 of 40 fail). Suggestion for
+  Jerry: keep layer 10, capture layer 11 per token instead of 14.
 - **Some routes ran ~50x too slowly** (real-time factor 0.002) because of a
   scenario, not the nodes; an exclusion of n0278 and n0281 was reverted
   (`docs/WHAT_BROKE.md`).

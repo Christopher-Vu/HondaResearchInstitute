@@ -16,6 +16,29 @@ merged, and nothing new goes to it.
 
 ---
 
+## 2026-10-16 (early morning, Chris) — The layer ablation finishes: layer 10 is where failures are readable, not where driving is decided
+
+The closed-loop part of the Step 4 ablation finished overnight. Each condition
+removed one layer's contribution live while SimLingo drove 40 Bench2Drive
+routes, compared route by route with an intact run.
+
+Removing the very first layer's pass over all tokens broke driving: 31 of 40
+routes failed against 9 intact. Removing layer 11's update at the driving
+queries, the layer the rules recommend logging, changed nothing that 40 routes
+can detect: 11 failures against 9, while two intact runs already disagree on 6
+routes. With 50 resamples of the layer sweep, driving queries at layers 10 and
+11 are the only stable choices.
+
+So the logged site is right for reading failure-relevant state, but no single
+middle layer is where SimLingo decides; that happens in its last four layers.
+This matters for Step 7: removing one middle-layer update will look null even
+for a real axis, so causal checks should steer along the axis direction instead.
+Suggestion for Jerry: capture layer 11 per token instead of 14. All numbers and
+the reasoning: `docs/steps/04-layer-site-ablation.md`. About 813 SU for this
+work and the left-crossing fix together, under the 1,000 set for it.
+
+---
+
 ## 2026-10-15 (evening, Chris) — Why left crossings hang the simulator, and which layers the policy uses
 
 Two pieces of work, with a budget of 1,000 SU.
