@@ -196,3 +196,10 @@ the other two arrays lost none.
 Cost: about 800 SU for the whole ablation plus the left-crossing work (per-job
 accounting; closed-loop routes 658 of it), within the 1,000 cap.
 
+
+## Decision, 2026-10-16 (Chris and Jerry)
+
+Agreed: **driving queries at layer 10** are the logged site, and per-token capture
+moves from layers 10 and 14 to **layers 10 and 11**. New rollout configs set
+`capture_token_layers: [10, 11]`. Existing configs and results are unchanged.
+This closes Step 4's "layers and sites chosen".

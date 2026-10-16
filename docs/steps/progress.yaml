@@ -4,7 +4,7 @@
 
 updated: 2026-10-15
 # The step the team is working toward now. Earlier steps can still have open checks.
-current: 4
+current: 5
 
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
@@ -61,7 +61,7 @@ steps:
     checks:
       - {text: B7 defined before activations are opened, done: true}
       - {text: Layer sweep run on the dev pool, done: true}
-      - {text: Layers and sites chosen, done: false}
+      - {text: Layers and sites chosen, done: true}  # driving queries L10; per-token L10+L11 (04-layer-site-ablation.md)
   - id: 5
     title: Gap candidates and efficacy
     checks:
