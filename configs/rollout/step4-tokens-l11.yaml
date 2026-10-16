@@ -1,0 +1,31 @@
+# Step 4 ablation, layer-11 per-token arm (docs/steps/04-layer-site-ablation.md): 60 Step 2 rerun routes
+# (random.Random(1).sample of its 212 scored routes) rerun with driving-query tokens at layers 10, 11 and 14, so
+# per-token analyses can compare 11 with 10 and 14 on the same rollouts. Otherwise identical to step2-rerun.yaml.
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-29%6 scripts/route_sample.sbatch configs/rollout/step4-tokens-l11.yaml 2
+
+name: step4-tokens-l11
+step: 4
+scope: savio_step4_tokens_l11
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Step 1 and the Mac runs
+  timeout_seconds: 60
+
+# Per-layer residual means every step and exact model inputs every 10th step (capture_agent.py),
+# as the Mac sweep recorded, so Steps 3-4 can use these rollouts without rerunning them.
+capture_every: 10
+capture_token_layers: [10, 11, 14]   # layer 11 added: the Step 4 ablation's recommended arm
+
+route:
+  seed: 0
+
+routes: ["1711", "1790", "1833", "1852", "1956", "2143", "2286", "2373", "2390", "2509", "2554", "2913", "3080", "3090", "3093", "3100", "3144", "3307", "3378", "3472", "3476", "3564", "3670", "3708", "3865", "3876", "4669", "4937", "11381", "11755", "14842", "14862", "17563", "17635", "18305", "18356", "23658", "24041", "24206", "24240", "24252", "24330", "24781", "24816", "25854", "25896", "25975", "26396", "26401", "26406", "26408", "26435", "27515", "27529", "28048", "28087", "28154", "28198", "28229", "28241"]
