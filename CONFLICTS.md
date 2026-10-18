@@ -639,6 +639,19 @@ paired base routes per level, reusing dev measurements of already-measured level
 The yaml's header comment says 2026-10-16; the date was 2026-10-15 (commit time
 is the record, and the file is not edited after hashing).
 
+### C31 · Decoy acceptance: a tolerance with a test, not a hard 5-point band · new, 2026-10-18 (Chris)
+PRD §9.1 asks each decoy for "a failure rate within 5 percentage points of its neighbourhood". On a
+60-pair pilot that rule rejects a truly harmless decoy surprisingly often. With about 11 discordant pairs
+(a typical count at SimLingo's 20-30% base failure rate), staying within 3 pairs of an even split has
+probability about 0.77 under no effect. So roughly one harmless decoy in four fails by chance alone.
+
+New rule, for every decoy pilot started after 2026-10-18: a decoy passes if |uplift| <= 10 points
+**and** McNemar p > 0.2 on its paired 60-pair pilot. Uplift is the slice failure rate minus the
+neighbourhood failure rate. A decoy judged before this date keeps the verdict it got under the old rule,
+so no result is rescued after the fact. Cost: the rule admits a decoy with a true effect of up to
+about 10 points. Decoys are scored on hit rate, not as gaps, so that is acceptable.
+`PRD.md` §9.1; the arithmetic is the binomial with n = 11 and p = 1/2.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
