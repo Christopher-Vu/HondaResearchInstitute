@@ -6,11 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-16 02:30 (Chris's overnight: Steps 0, 1 and 2 reruns passed; a slow-route scenario logged)
+Last updated: 2026-10-18 (Step 4 closed, B7 signed off; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-16, decisions (Chris and Jerry).**
+
+- **Step 4 closed.** Driving queries at layer 10 are the logged site; per-token
+  capture moves from layers 10 and 14 to 10 and 11. New rollout configs set
+  `capture_token_layers: [10, 11]` (`docs/steps/04-layer-site-ablation.md`).
+- **B7 signed off** with the correction to Dr. VLA's Eq. 7 hysteresis (C18,
+  `src/baselines/activation_stats.py`). Earlier B7 numbers are pre-correction.
+- **CARLA segfaults** lost 8 of about 90 long-route tasks overnight; reran.
+  Budget about one rerun per 20 long-route tasks (`docs/WHAT_BROKE.md`).
+- **Still blocking Step 5:** P4 is the only practice gap that passes; the spec
+  needs 4 to 6 gaps and 2 decoys. Every appearance-only gap (fog, P5, P6) failed.
 
 **2026-10-15 overnight, Chris's session (account christophervu).** Running.
 

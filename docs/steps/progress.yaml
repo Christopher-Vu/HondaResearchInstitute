@@ -2,7 +2,7 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-10-15
+updated: 2026-10-18
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
@@ -20,11 +20,14 @@ week:
     - {text: "Added B3 behavioral baseline, probe-residual method, the go/no-go bootstrap and key sealing", who: Christopher-Vu}
     - {text: "Committed and tagged the B4 factor list; specs for Step 8, Step 10 and the describability gate", who: Christopher-Vu}
     - {text: "Step 2 rerun with layer 10 and 14 tokens queued: a dev corpus where P4 is a minority", who: Christopher-Vu}
+    - {text: "Step 4 closed: driving queries at layer 10, per-token capture moves to layers 10 and 11", who: Christopher-Vu}
+    - {text: "B7 signed off and corrected to Dr. VLA's hysteresis; earlier B7 numbers are pre-correction", who: Christopher-Vu}
+    - {text: "CARLA segfaults lost 8 of about 90 long routes; reran them, budget one rerun per 20", who: Christopher-Vu}
   next:
     - {text: "Score the Step 2 rerun and run B3 and probe-residual on it", who: Christopher-Vu}
-    - {text: "Clear C20 to C30, sign off B2, B3 and B7, commit the preregistration", who: Christopher-Vu}
+    - {text: "Clear C20 to C30, sign off B2 and B3, commit the preregistration", who: Christopher-Vu}
     - {text: "Read the sealed-gap screens and run full pilots for those that pass", who: Christopher-Vu}
-    - {text: "Close Step 4's layers and sites; rerun the dev evaluation on the new corpus", who: Imhaohao}
+    - {text: "Rerun the dev evaluation on the Step 2 corpus, with B7 post-correction", who: Imhaohao}
 
 steps:
   - id: 0
