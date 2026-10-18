@@ -136,9 +136,11 @@ def agent_and_capture_environment(capture_every: int | None,
 
 
 def route_environment(config: dict[str, Any]) -> dict[str, str]:
-    """The configured route's own agent settings: a layer knock-out from the config, if it names one, and a
-    camera fault from its manifest entry, if it has one."""
+    """The configured route's own agent settings: a layer knock-out and a chase camera from the config, if it
+    names them, and a camera fault from its manifest entry, if it has one."""
     knockout = {"SIMLINGO_ABLATE": json.dumps(config["ablate"])} if config.get("ablate") else {}
+    if config.get("chase_every"):
+        knockout["SIMLINGO_CHASE_EVERY"] = str(config["chase_every"])
     manifest = (config.get("route") or {}).get("manifest")
     if not manifest:
         return knockout

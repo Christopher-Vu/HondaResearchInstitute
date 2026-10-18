@@ -1,0 +1,31 @@
+# Poster figures (2026-10-18): two P4 practice-gap pairs re-run with a third-person chase camera
+# (chase_every), same seed as the P4 main pilot. Public routes only; outcomes are not used for anything.
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-1 scripts/route_sample.sbatch configs/rollout/poster-frames.yaml 2
+
+name: poster-frames
+step: 12
+scope: savio_poster_frames
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+routes: ["2420632", "2420642", "2752932", "2752942"]   # ParkingCrossingPedestrian (Town03), PedestrianCrossing (Town04)
+
+capture_every: 10
+chase_every: 10                  # one 1080p chase frame per half simulated second
+capture_token_layers: [10, 14]   # 10 chosen first; 14 led the two-wave re-sweep (2026-10-13)
+
+route:
+  seed: 4                        # traffic manager seed; Step 2 used 0, Step 4 1 and 3, P3 2
+  routes_file: configs/rollout/step5-pilot-p4-main.xml
+  manifest: configs/rollout/step5-pilot-p4-main.manifest.json   # camera faults per route

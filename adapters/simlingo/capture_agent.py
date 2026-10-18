@@ -7,6 +7,8 @@ read from CARLA just before the model runs). Collisions are logged with the step
 after. Every Nth step (SIMLINGO_CAPTURE_EVERY) also saves the exact preprocessed model input, so
 `replay_capture.py` can rerun the frame offline. SIMLINGO_TOKEN_LAYERS (comma-separated decoder layers) adds
 every driving-query token at those layers, unpooled, in float16: the per-token SAE's input (PRD 12.2).
+SIMLINGO_CHASE_EVERY=N saves every Nth simulator frame from a third-person camera behind the car, for
+figures; the policy never sees it.
 """
 from __future__ import annotations
 
@@ -43,6 +45,7 @@ class CaptureAgent(VisibleAgent):
         self.records: list[dict[str, Any]] = []
         self.collisions: list[dict[str, Any]] = []
         self.collision_sensor: Any = None
+        self.chase_camera: Any = None
         self.world_state: WorldStateReader | None = None
         self.pending_state: dict[str, Any] = {}
         super().setup(path_to_conf_file, route_index)
@@ -79,6 +82,17 @@ class CaptureAgent(VisibleAgent):
         blueprint = world.get_blueprint_library().find("sensor.other.collision")
         self.collision_sensor = world.spawn_actor(blueprint, carla.Transform(), attach_to=hero)
         self.collision_sensor.listen(self._collision_hook)
+        chase_every = int(os.environ.get("SIMLINGO_CHASE_EVERY", "0"))
+        if chase_every:
+            camera = world.get_blueprint_library().find("sensor.camera.rgb")
+            for name, value in {"image_size_x": "1920", "image_size_y": "1080", "fov": "90"}.items():
+                camera.set_attribute(name, value)
+            behind = carla.Transform(carla.Location(x=-8.0, z=4.0), carla.Rotation(pitch=-15.0))
+            self.chase_camera = world.spawn_actor(camera, behind, attach_to=hero)
+            chase_dir = self.evidence / "chase"
+            chase_dir.mkdir(exist_ok=True)
+            self.chase_camera.listen(lambda image: image.frame % chase_every == 0
+                                     and image.save_to_disk(str(chase_dir / f"{image.frame:08d}.png")))
 
     def _read_state(self) -> dict[str, Any]:
         assert self.world_state is not None
@@ -133,6 +147,9 @@ class CaptureAgent(VisibleAgent):
         if self.collision_sensor is not None and self.collision_sensor.is_alive:
             self.collision_sensor.stop()
             self.collision_sensor.destroy()
+        if self.chase_camera is not None and self.chase_camera.is_alive:
+            self.chase_camera.stop()
+            self.chase_camera.destroy()
         if self.records:
             self._flush()
         super().destroy(results)
