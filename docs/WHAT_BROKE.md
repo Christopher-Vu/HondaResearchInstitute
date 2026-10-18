@@ -25,6 +25,16 @@ scorer takes the first attempt with an outcome). A full pilot needs all 60 pairs
 crash can flip a verdict; budget about 1 rerun per 20 tasks on long routes. Cause unknown; the
 message (`Malloc Size=65538 LargeMemoryPoolOffset=65554`) points inside Unreal's allocator.
 
+**Update 2026-10-18 (measured):** reruns don't always help. Some routes crash again at the same point:
+one route died at simulation step 1384 on both attempts. The pattern is the same each time:
+- the large maps (Town12 and Town13);
+- the car stalled in one place;
+- a traceback in Bench2Drive's `build_scenarios_loop` → `spawn_parked_vehicles`, the background thread
+  that keeps spawning parked cars around the ego, just before the server dies.
+
+Of the 30 crashed routes across our arrays whose map is known, 24 were on Town12/13. A route that crashes twice at the same
+point should be replaced by a seeded new base route, not rerun again.
+
 ---
 
 ## 2026-10-15 — Some routes ran about 50 times too slowly; not the nodes
