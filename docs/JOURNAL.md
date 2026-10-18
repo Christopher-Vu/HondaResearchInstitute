@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-18 (Chris) — Repeat simulator crashes, and a chase camera for figures
+
+Some routes that crashed the CARLA server crash again at exactly the same point on a rerun. One route
+died at simulation step 1384 on both attempts. The pattern: the large maps (Town12 and Town13), the car
+stalled in one place, and Bench2Drive's background thread spawning parked cars just before the server
+segfaults. Of the 30 crashed routes whose map is known, 24 were on those two maps (measured). Rerunning
+such a route only repeats the crash, so a pilot now replaces a route that crashes twice with a seeded new
+base route instead of dropping it. Dropping would bias results, because the routes that crash are mostly
+ones where the car is struggling. Details are in `docs/WHAT_BROKE.md` (4d4c871).
+
+Separately, the capture agent can now save third-person frames from a camera behind the car
+(`chase_every` in a rollout config). The policy never sees this camera. The first use is
+`configs/rollout/poster-frames.yaml`: two public P4 route pairs re-driven for the course poster
+(e6823d9).
+
+---
+
 ## 2026-10-15 — The dashboard and Jerry's checkout move to main
 
 Chris merged `codex/carla-bringup` into `main` overnight and kept working
