@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import sweep from "@/data/layer-sweep.json";
 import { Legend, MARK } from "./Legend";
 
 export type ReplayFrame = { route: string; step: number; pathMetres: number; speedMetres: number; lastFrame: boolean };
@@ -67,18 +68,30 @@ export function ModelDiagram() {
   );
 }
 
+// Failure AUROC of 0.5 is chance, so bars start there.
+const AUROC_FLOOR = 0.5;
+const tallest = Math.max(...sweep.layers.map((row) => row.failure_auroc));
+const barHeight = (auroc: number) => `${((auroc - AUROC_FLOOR) / (tallest - AUROC_FLOOR)) * 100}%`;
+const logged = sweep.layers.find((row) => row.layer === sweep.logged_layer)!;
+
 export function LayerSweep({ definitionUrl }: { definitionUrl: string }) {
   return (
     <div>
-      <p className="t-title mb-3">Which layer best predicts a failure</p>
-      <div aria-hidden className="grid grid-cols-[repeat(24,minmax(0,1fr))] gap-[3px]">
-        {Array.from({ length: LAYERS }, (_, index) => (
-          <div key={index} className="h-10 rounded-[3px] bg-track" />
+      <p className="t-title mb-1">Which layer best predicts a failure</p>
+      <p className="t-label mb-3">
+        <span className="t-figure t-data text-ink">{logged.failure_auroc.toFixed(2)}</span> failure AUROC at layer {logged.layer}, the best of every layer and site
+      </p>
+      <div role="img" className="grid h-16 grid-cols-[repeat(24,minmax(0,1fr))] items-end gap-[3px]"
+        aria-label={`Failure AUROC of the driving-query tokens per layer: ${sweep.layers.map((row) => `layer ${row.layer} ${row.failure_auroc.toFixed(2)}`).join(", ")}.`}>
+        {sweep.layers.map((row) => (
+          <div key={row.layer} title={`Layer ${row.layer}: ${row.failure_auroc.toFixed(3)}`}
+            className={`rounded-[3px] ${sweep.per_token_layers.includes(row.layer) ? "bg-accent" : "bg-quiet"}`}
+            style={{ height: barHeight(row.failure_auroc) }} />
         ))}
       </div>
-      <div aria-hidden className="t-label t-data mt-1.5 flex justify-between"><span>Layer 1</span><span>12</span><span>24</span></div>
+      <div aria-hidden className="t-label t-data mt-1.5 flex justify-between"><span>Layer 0</span><span>12</span><span>23</span></div>
       <p className="t-body mt-3">
-        Not measured yet. Step 4&apos;s layer sweep is running on Savio over 190 dev-pool routes, scored against B7, which was frozen before any activation was opened.{" "}
+        Read from the 30 driving tokens over {sweep.routes} Step 2 routes, {sweep.failing} of them failing, and scored against B7. Layer {sweep.logged_layer} is logged; layers {sweep.per_token_layers.join(" and ")} keep every token.{" "}
         <a href={definitionUrl} className="text-ink underline underline-offset-2">Read B7&apos;s definition</a>
       </p>
     </div>

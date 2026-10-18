@@ -1,0 +1,108 @@
+{
+  "source": "docs/steps/04-ablation/partA1-sweep.json: driving-query site on the Step 2 rerun, 212 routes, 61 failing; decision in docs/steps/04-layer-site-ablation.md",
+  "routes": 212,
+  "failing": 61,
+  "logged_layer": 10,
+  "per_token_layers": [
+    10,
+    11
+  ],
+  "layers": [
+    {
+      "layer": 0,
+      "failure_auroc": 0.572
+    },
+    {
+      "layer": 1,
+      "failure_auroc": 0.629
+    },
+    {
+      "layer": 2,
+      "failure_auroc": 0.636
+    },
+    {
+      "layer": 3,
+      "failure_auroc": 0.629
+    },
+    {
+      "layer": 4,
+      "failure_auroc": 0.674
+    },
+    {
+      "layer": 5,
+      "failure_auroc": 0.695
+    },
+    {
+      "layer": 6,
+      "failure_auroc": 0.677
+    },
+    {
+      "layer": 7,
+      "failure_auroc": 0.731
+    },
+    {
+      "layer": 8,
+      "failure_auroc": 0.722
+    },
+    {
+      "layer": 9,
+      "failure_auroc": 0.745
+    },
+    {
+      "layer": 10,
+      "failure_auroc": 0.764
+    },
+    {
+      "layer": 11,
+      "failure_auroc": 0.734
+    },
+    {
+      "layer": 12,
+      "failure_auroc": 0.737
+    },
+    {
+      "layer": 13,
+      "failure_auroc": 0.722
+    },
+    {
+      "layer": 14,
+      "failure_auroc": 0.697
+    },
+    {
+      "layer": 15,
+      "failure_auroc": 0.672
+    },
+    {
+      "layer": 16,
+      "failure_auroc": 0.671
+    },
+    {
+      "layer": 17,
+      "failure_auroc": 0.674
+    },
+    {
+      "layer": 18,
+      "failure_auroc": 0.668
+    },
+    {
+      "layer": 19,
+      "failure_auroc": 0.672
+    },
+    {
+      "layer": 20,
+      "failure_auroc": 0.692
+    },
+    {
+      "layer": 21,
+      "failure_auroc": 0.735
+    },
+    {
+      "layer": 22,
+      "failure_auroc": 0.747
+    },
+    {
+      "layer": 23,
+      "failure_auroc": 0.729
+    }
+  ]
+}
