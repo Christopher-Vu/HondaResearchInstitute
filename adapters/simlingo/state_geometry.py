@@ -122,7 +122,12 @@ def actor_class(type_id: str, wheels: str | None = None) -> str | None:
 
     Other static props are not obstacles: DynamicObjectCrossing's blocker (a vending machine, advertisement or
     container) stands on the sidewalk on every crossing route, so counting it would make "obstacle" mean
-    "crossing scenario"."""
+    "crossing scenario".
+
+    Checked 2026-10-19 against every prop id the runtime's scenario code and route files spawn: the debris,
+    warning, barrier and cone ids are obstacles; container, advertisement, foodcart, haybalelb, busstoplb and
+    vendingmachine are not. The animal prefix is the one P6 spawned (`walker.animal.1006`) on Fail2Drive's
+    server; no shard yet records a non-null animal distance."""
     if type_id.startswith("vehicle."):
         return "two_wheeler" if wheels == "2" else "vehicle"
     if type_id.startswith("walker.animal."):
