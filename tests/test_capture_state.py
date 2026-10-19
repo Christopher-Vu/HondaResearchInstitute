@@ -145,6 +145,13 @@ def test_actor_class_names_the_road_users_b4_and_the_gate_need():
     assert actor_class("walker.pedestrian.0001") == "pedestrian"
     assert actor_class("walker.animal.1006") == "animal"
     assert actor_class("static.prop.constructioncone") == "obstacle"
+    assert actor_class("static.prop.trafficwarning") == "obstacle" and actor_class("static.prop.dirtdebris01") == "obstacle"
+
+
+@pytest.mark.parametrize("blocker", ["static.prop.vendingmachine", "static.prop.advertisement", "static.prop.container"])
+def test_a_crossing_scenario_s_blocker_is_not_an_obstacle(blocker):
+    from state_geometry import actor_class
+    assert actor_class(blocker) is None
     assert actor_class("sensor.camera.rgb") is None and actor_class("traffic.traffic_light") is None
 
 

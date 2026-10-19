@@ -23,6 +23,8 @@ JUNCTION_RANGE = 50.0
 JUNCTION_STEP = 1.0
 SLOWEST_DIVISOR_SPEED = 0.5
 LONGEST_TIME_TO_JUNCTION = 30.0
+# CARLA 0.9.15 debris and construction props: cones, warning signs, debris, barriers, barrels, planks.
+OBSTACLE_PROP_WORDS = ("cone", "warning", "debris", "barrier", "barrel", "plank")
 
 
 @dataclass(frozen=True)
@@ -116,14 +118,18 @@ def time_to_junction(distance: float | None, ego_speed: float) -> float | None:
 
 def actor_class(type_id: str, wheels: str | None = None) -> str | None:
     """The road-user class B4 and the describability summaries name: vehicle, two_wheeler, pedestrian, animal,
-    obstacle (a spawned static prop), or None for anything else."""
+    obstacle (a debris or construction prop, B4's wording), or None for anything else.
+
+    Other static props are not obstacles: DynamicObjectCrossing's blocker (a vending machine, advertisement or
+    container) stands on the sidewalk on every crossing route, so counting it would make "obstacle" mean
+    "crossing scenario"."""
     if type_id.startswith("vehicle."):
         return "two_wheeler" if wheels == "2" else "vehicle"
     if type_id.startswith("walker.animal."):
         return "animal"
     if type_id.startswith("walker."):
         return "pedestrian"
-    if type_id.startswith("static.prop."):
+    if type_id.startswith("static.prop.") and any(word in type_id for word in OBSTACLE_PROP_WORDS):
         return "obstacle"
     return None
 
