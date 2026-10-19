@@ -7,8 +7,9 @@ rollouts. Merge latents whose failing-rollout firing sets overlap into axes, and
 
 Interpretations, pending sign-off (PRD 9.2 is silent on these):
 1. Frames come from the shards' strided steps; a frame's latent is the maximum over its 30 driving-query tokens.
-2. A failing rollout's window is the 3 s (60 steps at 20 Hz) before its first collision, else its last 3 s. A
-   successful rollout's window is 3 s at a position drawn with the seed. Rollouts without an outcome are left out.
+2. A failing rollout's window is the 3 s (60 steps at 20 Hz) before its first infraction of any kind
+   (harness/failure_time.py), else its last 3 s, which is right for a pure timeout. A successful rollout's window
+   is 3 s at a position drawn with the seed. Rollouts without an outcome are left out.
 3. Firing is activation > 0.1, as B7's tau_on. Support counts failing rollouts whose window has the latent firing.
 4. Effect is the standardised mean difference (pooled standard deviation); an axis is ranked by its founding latent's
    effect x support.

@@ -27,6 +27,7 @@ from baselines.random_baseline import RandomBaselineConfig, score_averaged
 from baselines.taxonomy import TaxonomyConfig, taxonomy_directive
 from discovery import sae
 from discovery.contrastive import ContrastiveConfig, Rollout, contrastive_directive, frame_latents
+from harness.failure_time import failure_step
 from harness.schema import Gap
 from harness.scoring import jaccard, score
 
@@ -50,9 +51,10 @@ def encode_rollouts(shard_dirs: list[Path], model: sae.TopKSae, layer: int, devi
             position = list(archive["driving_query_token_layers"]).index(layer)
             tokens = torch.from_numpy(archive["driving_query_tokens"][:, position].astype(np.float32)).to(device)
             steps = archive["step"].astype(np.int64)
+            failed_at = failure_step(meta, archive)
         _reconstruction, latents, _pre = model(sae.normalise(tokens))
         rollouts.append(Rollout(meta["route_id"], frame_latents(latents.cpu().numpy()), steps,
-                                not meta["success"], meta.get("first_collision_step")))
+                                not meta["success"], failed_at))
     return rollouts
 
 

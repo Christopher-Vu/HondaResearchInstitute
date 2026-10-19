@@ -29,6 +29,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.cluster import KMeans
 
+from harness.failure_time import failure_step
 from harness.schema import AxisCard, Directive, SupportingEpisode
 
 METHOD = "B3_behavioral"
@@ -89,8 +90,9 @@ def load_shard(sidecar: Path) -> Rollout | None:
     with np.load(Path(sidecar).with_suffix(".npz")) as archive:
         steps = archive["step"].astype(np.int64)
         states = {name: archive[name].astype(np.float64) for name in names if name in archive.files}
+        failed_at = failure_step(meta, archive)
     return Rollout(str(meta["route_id"]), steps, states, not meta["success"],
-                   dict(meta.get("infractions") or {}), meta.get("first_collision_step"))
+                   dict(meta.get("infractions") or {}), failed_at)
 
 
 def window_rows(rollout: Rollout, config: BehavioralConfig) -> np.ndarray:

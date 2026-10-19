@@ -31,6 +31,7 @@ from sklearn.linear_model import RidgeCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from harness.failure_time import failure_step
 from harness.schema import AxisCard, Directive, SupportingEpisode
 
 METHOD = "probe_residual"
@@ -73,8 +74,8 @@ def load_shard(sidecar: Path, site: str, layer: int) -> Rollout | None:
         steps = archive["step"].astype(np.int64)
         activations = archive[site][:, layer].astype(np.float64)
         states = {name: archive[name].astype(np.float64) for name in STATES if name in archive.files}
-    return Rollout(str(meta["route_id"]), steps, activations, states, not meta["success"],
-                   meta.get("first_collision_step"))
+        failed_at = failure_step(meta, archive)
+    return Rollout(str(meta["route_id"]), steps, activations, states, not meta["success"], failed_at)
 
 
 def window_rows(rollout: Rollout, config: ProbeResidualConfig) -> np.ndarray:
