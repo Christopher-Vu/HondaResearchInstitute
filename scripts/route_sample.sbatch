@@ -32,6 +32,14 @@ routes = run_order(configured_route_ids(yaml.safe_load(open(sys.argv[1]))))
 first = int(sys.argv[2]) * int(sys.argv[3])
 print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_GPU")
 
+# GPU_LOG=1 samples the GPU's utilisation and memory every 2 s next to the routes (rollout profiling).
+if [ -n "${GPU_LOG:-}" ]; then
+  mkdir -p "results/savio/$SLURM_ARRAY_JOB_ID"
+  nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used --format=csv -l 2 \
+    > "results/savio/$SLURM_ARRAY_JOB_ID/gpu-$SLURM_ARRAY_TASK_ID.csv" &
+  GPU_LOGGER=$!
+fi
+
 PIDS=()
 for SLOT in "${!ROUTES[@]}"; do
   ROUTE=${ROUTES[$SLOT]}
@@ -50,4 +58,5 @@ for INDEX in "${!PIDS[@]}"; do
   if wait "${PIDS[$INDEX]}"; then echo "route ${ROUTES[$INDEX]}: readiness written"
   else echo "route ${ROUTES[$INDEX]}: failed, see its run.log"; STATUS=1; fi
 done
+[ -n "${GPU_LOGGER:-}" ] && kill "$GPU_LOGGER"
 exit $STATUS

@@ -141,6 +141,8 @@ def route_environment(config: dict[str, Any]) -> dict[str, str]:
     knockout = {"SIMLINGO_ABLATE": json.dumps(config["ablate"])} if config.get("ablate") else {}
     if config.get("chase_every"):
         knockout["SIMLINGO_CHASE_EVERY"] = str(config["chase_every"])
+    if config.get("profile"):
+        knockout["SIMLINGO_PROFILE"] = "1"
     manifest = (config.get("route") or {}).get("manifest")
     if not manifest:
         return knockout

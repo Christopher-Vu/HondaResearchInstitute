@@ -8,12 +8,15 @@ after. Every Nth step (SIMLINGO_CAPTURE_EVERY) also saves the exact preprocessed
 `replay_capture.py` can rerun the frame offline. SIMLINGO_TOKEN_LAYERS (comma-separated decoder layers) adds
 every driving-query token at those layers, unpooled, in float16: the per-token SAE's input (PRD 12.2).
 SIMLINGO_CHASE_EVERY=N saves every Nth simulator frame from a third-person camera behind the car, for
-figures; the policy never sees it.
+figures; the policy never sees it. SIMLINGO_PROFILE=1 writes capture/profile.jsonl: per step, the wall seconds
+spent outside the agent (simulator tick and evaluator), reading world state, preparing the model input, in the
+forward pass (GPU synchronised), in the capture hook, and after the model.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -48,12 +51,16 @@ class CaptureAgent(VisibleAgent):
         self.chase_camera: Any = None
         self.world_state: WorldStateReader | None = None
         self.pending_state: dict[str, Any] = {}
+        self.profile: Any = None
+        self.marks: dict[str, float] = {}
         super().setup(path_to_conf_file, route_index)
         self.capture_every = int(os.environ.get("SIMLINGO_CAPTURE_EVERY", "10"))
         self.token_layers = [int(layer) for layer in os.environ.get("SIMLINGO_TOKEN_LAYERS", "").split(",") if layer]
         self.capture_dir = self.evidence / "capture"
         (self.capture_dir / "inputs").mkdir(parents=True, exist_ok=True)
         self.layer_outputs: dict[int, torch.Tensor] = {}
+        if os.environ.get("SIMLINGO_PROFILE"):
+            self.profile = (self.capture_dir / "profile.jsonl").open("w")
         self.bridge_outputs: list[torch.Tensor] = []
         self.driving_tokens = driving_query_count(self.model)
         for index, layer in enumerate(decoder(self.model).layers):
@@ -68,10 +75,36 @@ class CaptureAgent(VisibleAgent):
             install(self.model, spec["site"], int(spec["layer"]), Path(spec["means"]))
 
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
+        self._mark("entered")
         if self.world_state is None:
             self._attach_to_hero()
         self.pending_state = self._read_state()
-        return super().run_step(input_data, timestamp, sensors)
+        self._mark("state_read")
+        control = super().run_step(input_data, timestamp, sensors)
+        self._mark("left")
+        self._write_profile()
+        return control
+
+    def _mark(self, name: str, synchronise: bool = False) -> None:
+        if self.profile is None:
+            return
+        if synchronise and torch.cuda.is_available():
+            torch.cuda.synchronize()
+        self.marks[name] = time.monotonic()
+
+    def _write_profile(self) -> None:
+        if self.profile is None:
+            return
+        marks = self.marks
+        spans = {"world_state": ("entered", "state_read"), "model_input": ("state_read", "forward_started"),
+                 "forward": ("forward_started", "forward_done"), "capture_hook": ("forward_done", "hook_done"),
+                 "after_model": ("hook_done", "left")}
+        row = {"step": self.step, **{name: round(marks[end] - marks[start], 5)
+                                     for name, (start, end) in spans.items() if start in marks and end in marks}}
+        if "previous_left" in marks:
+            row["outside_agent"] = round(marks["entered"] - marks["previous_left"], 5)
+        self.profile.write(json.dumps(row) + "\n")
+        self.marks = {"previous_left": marks["left"]}
 
     def _attach_to_hero(self) -> None:
         hero = CarlaDataProvider.get_hero_actor()
@@ -120,8 +153,10 @@ class CaptureAgent(VisibleAgent):
         self.bridge_outputs.clear()
         if self.step % self.capture_every == 0:
             torch.save(move(inputs[0], CPU), self.capture_dir / "inputs" / f"{self.step:06d}.pt")
+        self._mark("forward_started", synchronise=True)
 
     def _output_hook(self, _module: nn.Module, _inputs: Any, output: Any) -> None:
+        self._mark("forward_done", synchronise=True)
         speed_wps, route, _language = output
         stacked = torch.stack([self.layer_outputs[index][0] for index in sorted(self.layer_outputs)])
         self.records.append({
@@ -137,6 +172,7 @@ class CaptureAgent(VisibleAgent):
                 stacked[self.token_layers, -self.driving_tokens:].to(torch.float16), CPU)
         if len(self.records) % 200 == 0:
             self._flush()
+        self._mark("hook_done")
 
     def _flush(self) -> None:
         torch.save({"capture_every": self.capture_every, "token_layers": self.token_layers,
@@ -152,4 +188,6 @@ class CaptureAgent(VisibleAgent):
             self.chase_camera.destroy()
         if self.records:
             self._flush()
+        if self.profile is not None:
+            self.profile.close()
         super().destroy(results)

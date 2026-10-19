@@ -1,0 +1,32 @@
+# Rollout profiling (2026-10-19): where a policy step's wall time goes, and whether an A40 holds more than two
+# routes. Public P4 routes from the poster run; outcomes are not used for anything. Three arrays, one task each:
+#   GPU_LOG=1 bash scripts/submit.sh gpu_a40 --time=0-00:40:00 --array=0 scripts/route_sample.sbatch configs/rollout/profile-rollouts.yaml 1
+#   (and the same with 2 and 3 routes per GPU)
+
+name: profile-rollouts
+step: 12
+scope: savio_profile_rollouts
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches every pilot
+  timeout_seconds: 600
+
+routes: ["2420632", "2420642", "2752932", "2752942"]   # ParkingCrossingPedestrian (Town03), PedestrianCrossing (Town04)
+
+capture_every: 10
+capture_token_layers: [10, 11]   # as every rollout from Step 4's close on
+profile: true                    # capture/profile.jsonl (capture_agent.py)
+
+route:
+  seed: 4
+  routes_file: configs/rollout/step5-pilot-p4-main.xml
+  manifest: configs/rollout/step5-pilot-p4-main.manifest.json
