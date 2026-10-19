@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-19 (Chris) — Failure windows end at the first infraction; the obstacle fix
+
+These items came out of Jerry's reply to the 10-18 split. Contrastive, probe-residual and B3 each look at
+a "failure window": the 3 seconds before a failing rollout went wrong. That window used to end at the
+first collision, or else at the end of the route. For a red light, a stall or a lane departure, the end of
+the route can be minutes after the actual failure. Now one shared rule, `src/harness/failure_time.py`,
+ends the window at the first infraction of any kind (dc82169). Bench2Drive records most non-collision
+infractions with a place but no time, so captures now log the car's world position each step, and
+exports carry each infraction's location (00e8058). An infraction is timed at the moment the car came
+closest to where it happened. Shards captured before today use stand-ins: a red light is timed when the
+car drives out of the light's zone while it is red, and a stall at the start of the final standstill. A
+pure timeout still uses the last 3 seconds.
+
+Jerry's agent also found that every crossing route logged an "obstacle". The crossing scenario's blocker,
+a vending machine or similar, counted as one. Only debris and construction props count now (2046f52).
+Older shards can't be corrected, so their obstacle distance on crossing routes is unusable
+(`docs/WHAT_BROKE.md`).
+
+---
+
 ## 2026-10-18 (Chris) — Repeat simulator crashes, and a chase camera for figures
 
 Some routes that crashed the CARLA server crash again at exactly the same point on a rerun. One route
