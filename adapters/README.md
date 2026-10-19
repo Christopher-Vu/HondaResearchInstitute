@@ -31,9 +31,13 @@ stub's job is to show a policy nobody here wrote can meet the same contract.
 
 - `simlingo/` — **in progress.** See `docs/steps/adapter-simlingo-brief.md` for
   what is in scope right now and what is deliberately not.
-- `stub/` — not started. Step 11. A deliberately minimal adapter proving the
-  interface is implementable by someone who has not read our code; this is what
-  makes the generality claim credible.
+- `stub/` — **working** (`stub_adapter.py`). A two-layer numpy policy on a toy
+  road, fitted to an expert, with one planted gap (fog makes pedestrians look
+  15 m further away). It imports nothing from this repository and writes shards
+  that meet the contract. `tests/test_stub_adapter.py` runs probe-residual and B3
+  on it end to end on CPU, and checks that probe-residual recovers the planted gap
+  (measured: best Jaccard 0.82 at layer 1). This is what makes the generality claim
+  credible. The cross-model check on a second real policy is still Step 11.
 
 ## Hard constraint
 
