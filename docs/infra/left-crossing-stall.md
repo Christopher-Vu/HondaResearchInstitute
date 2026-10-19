@@ -95,10 +95,15 @@ From the far side the walker has further to go, so on both routes the car had
 passed before the walker reached its lane. Whether a far-side crossing is
 dangerous is a separate question from whether it runs.
 
-**Not applied to the shared runtime.** The test used a private copy
-(`hri-dev/.runtime-dev` on Chris's Savio scratch). Applying it to the runtime
-every run uses is a decision for Chris and Jerry: it changes no existing route
-(none sets `left` on a two-way road), but it is a change to pinned benchmark code.
+**Applied 2026-10-19 to Chris's runtime** (`christophervu/hri/.runtime`, which
+his clones share), with Jerry's agreement in the 10-18 split. The test before
+that used a private copy (`hri-dev/.runtime-dev`). It changes no existing route
+(none sets `left` on a two-way road), but it is a change to pinned benchmark
+code, so any other runtime needs it applied too:
+
+```bash
+git -C .runtime/simlingo apply ../../adapters/simlingo/patches/left-crossing-walk.patch
+```
 
 ## The same flaw elsewhere
 
