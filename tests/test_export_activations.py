@@ -114,6 +114,13 @@ def test_infraction_locations_and_ego_position_are_exported_for_timing(tmp_path)
     assert arrays["ego_x"][0] == 1250.5 and arrays["ego_y"][0] == -3.25
 
 
+def test_the_export_meets_the_shard_contract(tmp_path):
+    from harness.shards import shard_problems
+    exported(tmp_path, [record(step, state=STATE, driving_query_tokens=torch.zeros(2, 30, HIDDEN))
+                        for step in range(1, 11)], token_layers=[10, 11])
+    assert shard_problems(tmp_path / "shards" / "77.json") == []
+
+
 def test_a_route_without_a_valid_outcome_has_null_success_and_no_manifest_defaults(tmp_path):
     meta, _ = exported(tmp_path, [record(step) for step in range(1, 11)], status="Failed - Simulation crashed")
     assert meta["success"] is None

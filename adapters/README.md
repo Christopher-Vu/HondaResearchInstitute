@@ -20,6 +20,13 @@ you cannot see until one real policy runs end to end.
 So: `adapters/simlingo/` should be concrete, specific, and slightly ugly. The
 generalisation is Step 11, and it is a refactor, not a design.
 
+## The contract, as it stands
+
+What an adapter hands the rest of the system is already concrete: one shard per
+rollout, specified and checked in `src/harness/shards.py`. SimLingo's export
+(`simlingo/export_activations.py`) conforms, and a test holds it to that. The
+stub's job is to show a policy nobody here wrote can meet the same contract.
+
 ## Current state
 
 - `simlingo/` — **in progress.** See `docs/steps/adapter-simlingo-brief.md` for

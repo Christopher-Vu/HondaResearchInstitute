@@ -13,6 +13,11 @@ that reads them.
 - `KEY_COMMITMENT.txt` — `sha256(key || salt)`, committed before the test pool
   exists. This is what makes the blind claim checkable (`PRD.md` §9.1).
 
+- `shards.py` — the shard contract: the files a policy adapter writes per rollout,
+  which every method, baseline and the scoring read (`PRD.md` §8.2). `python -m
+  harness.shards <dir>` checks a directory of shards against it.
+- `failure_time.py` — when a failing rollout failed, for the methods' failure windows.
+
 ## Rules
 
 - Every experiment is a YAML config under `configs/`. Results are keyed by
