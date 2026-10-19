@@ -51,6 +51,9 @@ class WorldStateReader:
         classes = self._by_class(frame, actors)
         vehicles_close, _ = within_class_range(classes["vehicle"] + classes["two_wheeler"])
         return {
+            # World position, so infractions Bench2Drive logs with a location but no time can be timed.
+            "ego_x": transform.location.x,
+            "ego_y": transform.location.y,
             "ego_speed": ego_speed,
             "lead_distance": distance_or_none(lead),
             "lead_relative_speed": lead_relative_speed(ego_speed, lead),

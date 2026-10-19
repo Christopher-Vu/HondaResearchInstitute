@@ -35,10 +35,11 @@ from sweep_local import route_outcome
 
 CONTINUOUS_STATES = ("ego_speed", "lead_distance", "lead_relative_speed", "pedestrian_distance",
                      "junction_distance", "time_to_junction", "vehicles_50m", "two_wheeler_distance",
-                     "animal_distance", "obstacle_distance")
+                     "animal_distance", "obstacle_distance", "ego_x", "ego_y")
 ACTIVATION_DTYPE = np.float16
 FLOAT16_LIMIT = float(np.finfo(ACTIVATION_DTYPE).max)
 RESULT_ROUTE_ID = re.compile(r"^RouteScenario_(.+?)(?:_rep\d+)?$")
+EVENT_LOCATION = re.compile(r"x=(-?[\d.]+), y=(-?[\d.]+)")
 
 
 def route_dirs_under(paths: list[Path]) -> list[Path]:
@@ -125,6 +126,19 @@ def first_collision_step(collisions: list[dict[str, Any]] | None) -> int | None:
     return min((int(collision["step"]) for collision in collisions or []), default=None)
 
 
+def infraction_locations(route_dir: Path) -> dict[str, list[list[float]]]:
+    """Each logged infraction's (x, y) from result.json; Bench2Drive gives most of them a place but no time."""
+    result = route_dir / "result.json"
+    records = json.loads(result.read_text()).get("_checkpoint", {}).get("records", []) if result.is_file() else []
+    located: dict[str, list[list[float]]] = {}
+    for name, events in (records[0].get("infractions") or {}).items() if records else ():
+        found = (EVENT_LOCATION.search(str(event)) for event in events)
+        points = [[float(match.group(1)), float(match.group(2))] for match in found if match]
+        if points:
+            located[name] = points
+    return located
+
+
 def source_label(route_dir: Path) -> str:
     return str(route_dir.relative_to(ROOT) if route_dir.is_relative_to(ROOT) else route_dir)
 
@@ -141,6 +155,7 @@ def sidecar(route_dir: Path, route_id: str, capture: dict[str, Any], entry: dict
         "practice_gaps": identity.get("practice_gaps", []), "role": identity.get("role"),
         "neighbourhood_of": identity.get("neighbourhood_of", []),
         "first_collision_step": first_collision_step(capture.get("collisions")),
+        "infraction_locations": infraction_locations(route_dir),
         "n_steps": len(capture["records"]), "stride": stride, "capture_every": capture["capture_every"],
         "dtype": capture["dtype"], "source": source_label(route_dir),
     }

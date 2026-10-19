@@ -105,6 +105,15 @@ def test_outcome_manifest_and_first_collision_land_in_the_sidecar(tmp_path):
     assert meta["first_collision_step"] == 7
 
 
+def test_infraction_locations_and_ego_position_are_exported_for_timing(tmp_path):
+    state = {**STATE, "ego_x": 1250.5, "ego_y": -3.25}
+    infractions = {"red_light": ["Agent ran a red light 4210 at (x=12.5, y=-3.0, z=0.1)"],
+                   "outside_route_lanes": ["Agent went outside its route lanes for about 9.1 meters"]}
+    meta, arrays = exported(tmp_path, [record(step, state=state) for step in range(1, 11)], infractions=infractions)
+    assert meta["infraction_locations"] == {"red_light": [[12.5, -3.0]]}
+    assert arrays["ego_x"][0] == 1250.5 and arrays["ego_y"][0] == -3.25
+
+
 def test_a_route_without_a_valid_outcome_has_null_success_and_no_manifest_defaults(tmp_path):
     meta, _ = exported(tmp_path, [record(step) for step in range(1, 11)], status="Failed - Simulation crashed")
     assert meta["success"] is None
