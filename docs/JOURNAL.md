@@ -5,6 +5,39 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-19 (Chris) — The adapter contract, a stub policy, and rollout profiling
+
+The paper claims the method works for any driving policy, not just SimLingo (`PRD.md` §8.2). That claim
+needs two things: a written contract for what a policy's adapter must hand over, and a second adapter that
+meets it. Both exist now.
+
+- **The contract** is `src/harness/shards.py` (9512f9c). One rollout is two files: a JSON sidecar
+  (outcome, infractions, base route) and a numpy archive (per-step activations at one or more named sites,
+  plus optional state). Every method already reads these files. The module spells out which keys are
+  required, and `python -m harness.shards <dir>` checks a directory against it. SimLingo's export is held
+  to it by a test.
+- **The stub adapter** is `adapters/stub/stub_adapter.py` (6d79656). It is a toy road with a small numpy
+  policy fitted to an expert, and it imports nothing from the rest of the repository. One gap is planted
+  on purpose: fog makes pedestrians look 15 m further away, so the policy brakes late only when fog and a
+  pedestrian occur together. A CPU test runs probe-residual and B3 on it end to end. Probe-residual
+  recovers the planted gap at the second hidden layer (best Jaccard 0.82, measured); B3 gets 0.30. The
+  result depends on the clustering setting (`min_cluster_size` 20 and 60 found nothing useful), which is
+  worth knowing about the method. Testing on a second *real* policy is still Step 11.
+
+Separately, rollouts are slow and partly idle (measured on round-3 and weekend arrays):
+- the simulator runs at 0.09 of real time;
+- the policy takes about 0.2 s per step, at every 20 Hz step, which is half of a route's wall time;
+- tasks that run two routes side by side use only 48–68% of the GPU-slot time they pay for.
+
+`SIMLINGO_PROFILE` (config key `profile: true`, 158859d) now splits each step's time into world-state
+reading, input preparation, the forward pass, the capture hook and the simulator. `GPU_LOG=1` on
+`scripts/route_sample.sbatch` samples GPU use. Three profiling jobs (one, two and three routes per GPU,
+`configs/rollout/profile-rollouts.yaml`) were submitted. Their results go in the next entry.
+
+The left-crossing patch is now applied to Chris's runtime (eb7077d).
+
+---
+
 ## 2026-10-19 (Chris) — Failure windows end at the first infraction; the obstacle fix
 
 These items came out of Jerry's reply to the 10-18 split. Contrastive, probe-residual and B3 each look at
