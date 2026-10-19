@@ -8,6 +8,23 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-19 — Every crossing route logged an "obstacle": the scenario's blocker
+
+**Expected:** `obstacle_distance` in the per-step state (349d7ef) marks debris and construction props,
+as B4's `unusual_obstacle` level says.
+
+**Actual (found in review by Jerry's agent):** `actor_class` called every `static.prop.*` an obstacle.
+DynamicObjectCrossing hides its pedestrian behind a vending machine, advertisement or container, so every
+crossing route reported an obstacle nearby. B3's obstacle feature and B4's novel-object factor would both
+have mostly meant "this is a crossing route". The captures log only the distance per class, not the
+actor's type, so shards captured before the fix can't be reclassified.
+
+**What we did:** only props named like debris or construction (cone, warning, debris, barrier, barrel,
+plank) count now (2046f52). For older shards, `obstacle_distance` on crossing routes is unusable: B3 on dev
+should drop it. The test pool is captured after the fix.
+
+---
+
 ## 2026-10-16 — CARLA segfaults mid-route on long routes
 
 **Expected:** a route that starts runs to its end or its time limit.
