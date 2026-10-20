@@ -22,6 +22,8 @@ them.
 
 Nothing ran on Savio: no shared SSH connection was open this session.
 
+---
+
 ## 2026-10-19 evening (Chris) — Checking which simulator objects count as obstacles and animals
 
 Jerry flagged that the per-step actor logging might mislabel objects (`349d7ef`). Two checks were done
