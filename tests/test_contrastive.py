@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from discovery.contrastive import ContrastiveConfig, Rollout, contrastive_directive, window_rows
+from discovery.contrastive import ContrastiveConfig, Rollout, contrastive_directive, window_rows, windows
 
 LATENTS, FRAMES = 12, 40
 STEPS = np.arange(0, FRAMES * 5, 5)
@@ -91,3 +91,14 @@ def test_capping_the_failure_share_lets_a_specific_latent_lead():
     assert "latents [5" in plain.axes[0].description
     assert projected.axes[0].rollouts == {f"r{i}" for i in range(25)}
 
+
+
+def test_firing_follows_b7s_hysteresis_so_a_latent_switched_on_before_the_window_stays_on():
+    latents = np.zeros((FRAMES, LATENTS))
+    latents[(STEPS >= 50) & (STEPS < 55), 3] = 1.0
+    latents[STEPS >= 55, 3] = 0.05
+    found = windows([Rollout("r0", latents, STEPS, True, 150)], ContrastiveConfig())
+    assert found.fired[0, 3]
+    latents[STEPS == 90, 3] = 0.0
+    found = windows([Rollout("r0", latents, STEPS, True, 150)], ContrastiveConfig())
+    assert not found.fired[0, 3]

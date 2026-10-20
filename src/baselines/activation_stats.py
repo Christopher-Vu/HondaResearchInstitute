@@ -105,7 +105,7 @@ def _check_episodes(episodes: Episodes, name: str) -> int:
     return widths.pop()
 
 
-def _on_state(acts: np.ndarray, tau_on: float) -> np.ndarray:
+def on_state(acts: np.ndarray, tau_on: float) -> np.ndarray:
     """Eq. 7's hysteresis: on above tau_on, off at exactly 0, otherwise unchanged."""
     on = np.zeros(acts.shape, dtype=bool)
     previous = np.zeros(acts.shape[1], dtype=bool)
@@ -125,7 +125,7 @@ def _per_episode_totals(episodes: Episodes, tau_on: float, n_latents: int
     totals = {k: np.zeros(n_latents) for k in
               ("episodes_on", "onsets", "peak", "run")}
     for acts in episodes.values():
-        on = _on_state(acts, tau_on)
+        on = on_state(acts, tau_on)
         onsets = _onset_counts(on)
         active = (acts > 0).any(axis=0)                     # E+ membership
         safe_onsets = np.where(onsets > 0, onsets, 1)
@@ -177,7 +177,7 @@ class _Axis:
 def _fire_sets(test_episodes: Episodes, tau_on: float) -> dict[int, set[str]]:
     fired: dict[int, set[str]] = {}
     for ep_id, acts in test_episodes.items():
-        for latent in np.flatnonzero(_on_state(acts, tau_on).any(axis=0)):
+        for latent in np.flatnonzero(on_state(acts, tau_on).any(axis=0)):
             fired.setdefault(int(latent), set()).add(ep_id)
     return fired
 
@@ -215,7 +215,7 @@ def merge_latents(scores: LatentScores, test_episodes: Episodes,
 def _supporting_episode(ep_id: str, acts: np.ndarray, latents: list[int],
                         tau_on: float) -> SupportingEpisode:
     member = acts[:, latents]
-    frames = np.flatnonzero(_on_state(member, tau_on).any(axis=1))
+    frames = np.flatnonzero(on_state(member, tau_on).any(axis=1))
     return SupportingEpisode(ep_id, float(member.max()),
                              (int(frames[0]), int(frames[-1])))
 

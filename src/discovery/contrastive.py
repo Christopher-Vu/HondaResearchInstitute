@@ -10,7 +10,9 @@ Interpretations, pending sign-off (PRD 9.2 is silent on these):
 2. A failing rollout's window is the 3 s (60 steps at 20 Hz) before its first infraction of any kind
    (harness/failure_time.py), else its last 3 s, which is right for a pure timeout. A successful rollout's window
    is 3 s at a position drawn with the seed. Rollouts without an outcome are left out.
-3. Firing is activation > 0.1, as B7's tau_on. Support counts failing rollouts whose window has the latent firing.
+3. Firing is B7's hysteresis (Dr. VLA Eq. 7, `on_state`): on above tau_on = 0.1, off at exactly 0, run over the
+   whole rollout so a latent switched on before the window stays on. Support counts failing rollouts whose window
+   has the latent on.
 4. Effect is the standardised mean difference (pooled standard deviation); an axis is ranked by its founding latent's
    effect x support.
 5. Merging: walk kept latents by effect x support and join the axis whose failing firing set has the highest
@@ -29,6 +31,7 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.stats import false_discovery_control, ttest_ind
 
+from baselines.activation_stats import on_state
 from harness.schema import AxisCard, Directive, SupportingEpisode
 from harness.scoring import jaccard
 
@@ -79,9 +82,10 @@ class Windows:
 
 def windows(rollouts: list[Rollout], config: ContrastiveConfig) -> Windows:
     rng = random.Random(config.seed)
-    picked = [rollout.latents[window_rows(rollout, config, rng)] for rollout in rollouts]
-    return Windows(np.stack([frames.mean(axis=0) for frames in picked]),
-                   np.stack([(frames > config.tau_on).any(axis=0) for frames in picked]),
+    rows = [window_rows(rollout, config, rng) for rollout in rollouts]
+    return Windows(np.stack([rollout.latents[picked].mean(axis=0) for rollout, picked in zip(rollouts, rows)]),
+                   np.stack([on_state(rollout.latents, config.tau_on)[picked].any(axis=0)
+                             for rollout, picked in zip(rollouts, rows)]),
                    np.array([rollout.failed for rollout in rollouts]), [rollout.rollout_id for rollout in rollouts])
 
 

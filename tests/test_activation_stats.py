@@ -191,10 +191,10 @@ def test_directive_validates_and_scores_against_a_gap():
 
 
 def test_hysteresis_keeps_a_latent_on_until_it_reaches_exactly_zero():
-    from baselines.activation_stats import _on_state
+    from baselines.activation_stats import on_state
     acts = np.array([[0.0], [0.5], [0.05], [0.02], [0.0], [0.05], [0.3]])
     # on above tau_on; a dip into (0, tau_on] keeps the previous state; exactly 0 turns it off
-    assert _on_state(acts, 0.1)[:, 0].tolist() == [False, True, True, True, False, False, True]
+    assert on_state(acts, 0.1)[:, 0].tolist() == [False, True, True, True, False, False, True]
 
 
 def test_active_but_never_on_latent_is_excluded():
