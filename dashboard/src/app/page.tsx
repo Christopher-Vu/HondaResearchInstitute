@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { LayerSweep, ModelDiagram, ReplayStrip, type ReplayFrame } from "@/components/Activations";
 import { AbilityChart, BulletRow } from "@/components/Benchmark";
 import { ComputeSummary } from "@/components/Compute";
+import { GapEvidence } from "@/components/GapEvidence";
 import { RouteWaffle } from "@/components/RouteWaffle";
 import { Failure, Section } from "@/components/Section";
 import { CheckList, doneCount, StepLadder } from "@/components/StepLadder";
@@ -144,6 +145,10 @@ export default function Page() {
       <Suspense fallback={<div className="py-14"><Placeholder height="h-80" /></div>}>
         <Plan />
       </Suspense>
+
+      <Section id="gaps" title="Planted gaps" className="mb-14" aside={<span className="t-label">Public, not the sealed set</span>}>
+        <GapEvidence />
+      </Section>
 
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
         <div className="space-y-14">

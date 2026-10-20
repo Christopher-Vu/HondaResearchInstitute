@@ -1,0 +1,89 @@
+{
+  "source": "Step 5 efficacy pilots on Savio: results/savio/step5-pilot-*/efficacy.json; gaps/practice/practice_v2.yaml",
+  "gaps": [
+    {
+      "id": "P4",
+      "name": "Camera occlusion",
+      "change": "A black patch over the middle of the camera image",
+      "passed": true,
+      "stage": "60 paired routes",
+      "with": {
+        "label": "With the patch",
+        "failed": 43,
+        "routes": 60
+      },
+      "without": {
+        "label": "Without",
+        "failed": 12,
+        "routes": 60
+      },
+      "photos": []
+    },
+    {
+      "id": "P3",
+      "name": "Dense fog by day",
+      "change": "Fog density 90 at noon, beyond any daytime weather SimLingo trained on",
+      "passed": false,
+      "stage": "60 paired routes",
+      "with": {
+        "label": "In fog",
+        "failed": 15,
+        "routes": 59
+      },
+      "without": {
+        "label": "Clear noon",
+        "failed": 18,
+        "routes": 60
+      },
+      "photos": [
+        {
+          "src": "/gaps/p3-fog.jpg",
+          "alt": "A farm road with corn on both sides, faded into grey fog beyond a car ahead",
+          "caption": "Slowed SimLingo down: routes took 53 s against 42 s"
+        }
+      ]
+    },
+    {
+      "id": "P5",
+      "name": "Pedestrians in the lane",
+      "change": "Three people walking along the ego lane 30 m ahead",
+      "passed": false,
+      "stage": "10-pair screen",
+      "with": {
+        "label": "With walkers",
+        "failed": 2,
+        "routes": 8
+      },
+      "without": {
+        "label": "Without",
+        "failed": 1,
+        "routes": 9
+      },
+      "photos": []
+    },
+    {
+      "id": "P6",
+      "name": "Animal crossing",
+      "change": "An animal crosses from behind a parked object where training only had people",
+      "passed": false,
+      "stage": "10-pair screen",
+      "with": {
+        "label": "Animal crossing",
+        "failed": 1,
+        "routes": 9
+      },
+      "without": {
+        "label": "Person crossing",
+        "failed": 2,
+        "routes": 10
+      },
+      "photos": [
+        {
+          "src": "/gaps/p6-zebra.jpg",
+          "alt": "A zebra standing on the verge at the right of a suburban road",
+          "caption": "Fail2Drive's animals, on its simulator"
+        }
+      ]
+    }
+  ]
+}
