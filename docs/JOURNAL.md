@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-19 evening (Chris) — Checking which simulator objects count as obstacles and animals
+
+Jerry flagged that the per-step actor logging might mislabel objects (`349d7ef`). Two checks were done
+without a live simulator:
+
+- **Obstacles.** Every prop name the runtime's scenario code and route files can spawn now gets the intended
+  label. Debris, warning signs, barriers and cones count as obstacles. The objects that hide a crossing
+  pedestrian (vending machine, container, advertisement, food cart, hay bale, bus stop) do not.
+- **Animals.** The `walker.animal.` prefix matches the animal the P6 pilot spawned on Fail2Drive's
+  simulator, so the prefix is right. But none of the 510 shards in Jerry's shared folders records an animal
+  at any distance. None records an obstacle either, and it was not checked whether those shards were
+  written before the logging was added.
+
+The finding is written into `actor_class`'s docstring (366f36f). The rollout profiling jobs from the
+previous entry were still waiting for GPUs when the session ended, so they have not been read.
+
+---
+
 ## 2026-10-19 (Chris) — The adapter contract, a stub policy, and rollout profiling
 
 The paper claims the method works for any driving policy, not just SimLingo (`PRD.md` §8.2). That claim
