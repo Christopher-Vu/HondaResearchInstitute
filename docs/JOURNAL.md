@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-20 (Jerry) — Contrastive now fires the way B7 does, and the gap panel ships
+
+Contrastive diffing used to call a latent "firing" whenever it went above 0.1 inside the window. B7 was corrected on
+2026-10-16 to Dr. VLA's hysteresis: a latent switches on above 0.1 and stays on until it drops to exactly 0. The two
+methods are compared head to head, so they now share one rule. Contrastive runs the hysteresis over the whole
+rollout, so a latent that switched on before the 3 s window and stays faintly active counts as firing inside it.
+The helper is `on_state` in `src/baselines/activation_stats.py`, made public for this. Any contrastive numbers from
+before this change, including the inconclusive first dev evaluation, are pre-correction. A test pins the new
+behaviour. 336 CPU tests pass.
+
+The dashboard has a planted-gap panel: P4's failure rates with and without the patch, then P3, P5 and P6, which
+failed. The figures match `docs/STATUS.md`. The P4 and P5 camera frames it was drawn for were never copied off
+Savio, so for now those two gaps show numbers only. Chris's `poster-frames.yaml` run is the natural source for
+them.
+
+Nothing ran on Savio: no shared SSH connection was open this session.
+
 ## 2026-10-19 evening (Chris) — Checking which simulator objects count as obstacles and animals
 
 Jerry flagged that the per-step actor logging might mislabel objects (`349d7ef`). Two checks were done
