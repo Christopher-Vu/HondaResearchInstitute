@@ -55,3 +55,32 @@ def test_no_fault_passes_frames_through_and_bad_settings_are_refused():
         CameraFault({"kind": "freeze", "period_steps": 4, "duration_steps": 4})
     with pytest.raises(ValueError):
         CameraFault({"kind": "smear"})
+
+
+def test_age_steps_counts_how_old_the_returned_frame_is():
+    freeze = CameraFault({"kind": "freeze", "period_steps": 4, "duration_steps": 2, "offset_steps": 1})
+    ages = []
+    for f in frames(9):
+        freeze(f)
+        ages.append(freeze.age_steps)
+    assert ages == [0, 1, 2, 0, 0, 1, 2, 0, 0]
+    latency = CameraFault({"kind": "latency", "delay_steps": 2})
+    ages = []
+    for f in frames(5):
+        latency(f)
+        ages.append(latency.age_steps)
+    assert ages == [0, 1, 2, 2, 2]
+
+
+def test_glare_paints_the_given_rectangles_white_and_counts_them():
+    original = frame()
+    fault = CameraFault({"kind": "traffic_light_glare"}, light_rects=lambda: [(2, 1, 6, 3), (10, 5, 12, 6)])
+    glared = fault(original)
+    assert (glared[1:3, 2:6, :3] == 255).all() and (glared[5:6, 10:12, :3] == 255).all()
+    assert glared[0, 0, 0] == 200 and (glared[:, :, 3] == 200).all() and (original == 200).all()
+    assert fault.glare_boxes == 2 and fault.age_steps == 0
+
+
+def test_glare_without_a_rectangle_provider_is_refused():
+    with pytest.raises(ValueError):
+        CameraFault({"kind": "traffic_light_glare"})

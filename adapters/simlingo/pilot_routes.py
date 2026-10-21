@@ -4,7 +4,8 @@
 
 The config's `pilot` section names one gap in a practice-gap file. Base routes are drawn from the pinned
 Bench2Drive-220 routes with the generator seed, one route per base, skipping excluded scenario families and routes
-shorter than the gap's `plant.min_route_length_m`. Each base yields a slice route under the gap's `plant` and a
+shorter than the gap's `plant.min_route_length_m`, and, when the gap sets `plant.include_scenarios`, keeping only
+routes of those scenario families. Each base yields a slice route under the gap's `plant` and a
 neighbourhood route under its `neighbourhood`, so the pair differs only in the planted factor and the base route is
 the unit of analysis (CONFLICTS.md C23). An arm may set:
 
@@ -18,7 +19,8 @@ the unit of analysis (CONFLICTS.md C23). An arm may set:
 With `pilot.stage`, the generator draws `screen_base_routes` + `plant.base_routes` bases in one order: the first
 `screen_base_routes` are the screen, the rest the full pilot, so the full pilot never reuses a screened base.
 Routes reuse dev_routes.py's construction: one <weather> element, ids of base id times 100 plus the role offset
-plus `pilot.id_offset` (even, 0 to 8), so pilots of different gaps never share a route id.
+plus `pilot.id_offset` (0 to 9, so slice ids stay in 30-39 and neighbourhood ids in 40-49), so pilots of different gaps
+never share a route id.
 """
 from __future__ import annotations
 
@@ -52,7 +54,9 @@ def route_length(route: ET.Element) -> float:
 def eligible(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any]) -> list[ET.Element]:
     excluded = set(pilot["exclude_scenarios"])
     shortest = gap["plant"].get("min_route_length_m", 0)
-    return [route for route in routes if family_of(route) not in excluded and route_length(route) >= shortest]
+    included = gap["plant"].get("include_scenarios")
+    return [route for route in routes if family_of(route) not in excluded and route_length(route) >= shortest
+            and (included is None or family_of(route) in included)]
 
 
 def draw_bases(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any]) -> list[ET.Element]:

@@ -13,11 +13,14 @@ import numpy as np
 from PIL import Image
 from agent_simlingo import LingoAgent
 from camera_fault import CameraFault
+from light_glare import camera_to_world, glare_rects
+
+
+GLARE_RANGE_M = 80.0
 
 
 def get_entry_point() -> str:
     return "VisibleAgent"
-
 
 
 class VisibleAgent(LingoAgent):
@@ -26,7 +29,10 @@ class VisibleAgent(LingoAgent):
         self.trace: TextIO | None = None
         super().setup(path_to_conf_file, route_index)
         self.evidence = Path(os.environ["SIMLINGO_EVIDENCE"])
-        self.camera_fault = CameraFault(json.loads(os.environ.get("SIMLINGO_CAMERA_FAULT", "null")))
+        fault = json.loads(os.environ.get("SIMLINGO_CAMERA_FAULT", "null"))
+        self.light_boxes: list[np.ndarray] | None = None
+        self.camera_fault = CameraFault(fault, self._light_rects if (fault or {}).get("kind") == "traffic_light_glare"
+                                        else None)
         (self.evidence / "frames").mkdir(parents=True, exist_ok=True)
         self.trace = (self.evidence / "controls.jsonl").open("w")
         if os.environ.get("SIMLINGO_VISIBLE", "1") == "1":
@@ -38,6 +44,23 @@ class VisibleAgent(LingoAgent):
                 str(root / ".runtime/CARLA Camera.app/Contents/MacOS/Python"),
                 str(Path(__file__).with_name("camera_view.py")), str(self.evidence), str(self.device),
             ], env=viewer_environment)
+
+    def _light_rects(self) -> list[tuple[int, int, int, int]]:
+        """Pixel rectangles of the traffic lights within GLARE_RANGE_M of the ego, as the policy camera sees them."""
+        import carla
+        from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
+        ego = CarlaDataProvider.get_hero_actor()
+        if self.light_boxes is None:
+            lights = CarlaDataProvider.get_world().get_actors().filter("traffic.traffic_light")
+            self.light_boxes = [np.array([[v.x, v.y, v.z] for v in box.get_world_vertices(carla.Transform())])
+                                for light in lights for box in light.get_light_boxes()]
+        location = ego.get_location()
+        here = np.array([location.x, location.y])
+        nearby = [corners for corners in self.light_boxes
+                  if np.linalg.norm(corners.mean(axis=0)[:2] - here) < GLARE_RANGE_M]
+        camera = camera_to_world(np.array(ego.get_transform().get_matrix()), tuple(self.config.camera_pos_0))
+        return glare_rects(np.linalg.inv(camera), nearby, self.config.camera_width_0, self.config.camera_height_0,
+                           self.config.camera_fov_0)
 
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
         frame, bgra = input_data["rgb_0"]
@@ -60,7 +83,10 @@ class VisibleAgent(LingoAgent):
             "throttle": float(control.throttle), "steer": float(control.steer),
             "brake": float(control.brake), "model_inference": self.step > 0,
             "camera_mean": float(rgb.mean()), "camera_std": float(rgb.std()),
+            "camera_frame_age_steps": self.camera_fault.age_steps,
         }
+        if self.camera_fault.light_rects is not None:
+            record["glare_boxes"] = self.camera_fault.glare_boxes
         if not all(np.isfinite(record[key]) for key in ("throttle", "steer", "brake")):
             raise RuntimeError("SimLingo returned non-finite vehicle controls")
         assert self.trace is not None

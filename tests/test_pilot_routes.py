@@ -111,7 +111,8 @@ def test_no_two_committed_manifests_share_a_route_id():
 
 
 @pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main", "step5-pilot-p5-screen",
-                                  "step5-pilot-p5-main", "step5-pilot-p6-screen", "step5-pilot-p6-main"])
+                                  "step5-pilot-p5-main", "step5-pilot-p6-screen", "step5-pilot-p6-main",
+                                  "step5-pilot-p7-screen", "step5-pilot-p8-screen", "step5-pilot-p9-screen"])
 def test_committed_pilot_files_are_what_the_generator_writes(name):
     config, (document, entries) = load(name)
     assert (ROOT / config["route"]["routes_file"]).read_text() == document
@@ -143,3 +144,12 @@ def test_trigger_after_m_moves_the_trigger_along_the_route():
     assert at_start.get("x") == "0.0" and later.find("trigger_point").get("x") == "60.0"
     far = pilot_routes.injected_scenario(route, {"type": "HardBreakRoute", "trigger_after_m": 500}, 0)
     assert far.find("trigger_point").get("x") == "90.0" and far.find("trigger_point").get("yaw") == "0.0"
+
+
+def test_include_scenarios_restricts_the_base_routes_to_those_families():
+    config, (_document, entries) = load("step5-pilot-p9-screen")
+    gap = {g["gap_id"]: g for g in yaml.safe_load((ROOT / config["pilot"]["practice_gaps"]).read_text())["gaps"]}[
+        config["pilot"]["gap_id"]]
+    assert len(entries) == 20
+    assert {entry["scenario"] for entry in entries} <= set(gap["plant"]["include_scenarios"])
+    assert all("Signalized" in entry["scenario"] or "RedLight" in entry["scenario"] for entry in entries)
