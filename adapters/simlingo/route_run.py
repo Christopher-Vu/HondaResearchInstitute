@@ -210,12 +210,95 @@ class SilenceGuard:
         self._thread.join(timeout=5)
 
 
+SLOW_CHECK_AFTER_SECONDS = 600
+SLOW_CHECK_EVERY_SECONDS = 60
+MIN_REAL_TIME_FACTOR = 0.01
+SLOW_STOP_REASON = "slow simulation"
+STOP_REASON_FILE = "stop-reason.json"
+TAIL_BYTES = 4096
+
+
+def latest_simulation_seconds(controls: Path) -> float | None:
+    """Simulated time of the newest complete line of `controls.jsonl`, or None when there is none yet."""
+    try:
+        with controls.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            handle.seek(max(0, handle.tell() - TAIL_BYTES))
+            tail = handle.read().decode(errors="replace")
+    except OSError:
+        return None
+    for line in reversed(tail.splitlines()):
+        try:
+            return float(json.loads(line)["simulation_seconds"])
+        except (ValueError, KeyError, TypeError):
+            continue
+    return None
+
+
+def too_slow(simulation_seconds: float | None, wall_seconds: float,
+             check_after: float = SLOW_CHECK_AFTER_SECONDS, minimum: float = MIN_REAL_TIME_FACTOR) -> bool:
+    """True when the route has run long enough to judge and simulates slower than `minimum` times real time.
+
+    No `controls.jsonl` yet means the route is still loading, which the silence guard covers.
+    """
+    if simulation_seconds is None or wall_seconds < check_after:
+        return False
+    return simulation_seconds / wall_seconds < minimum
+
+
+class SlowGuard:
+    """Stops an evaluator whose simulation crawls: a route below `minimum` real-time factor after `check_after`.
+
+    A crawling route is not silent, so the silence guard never fires; on Savio such routes held a GPU for the
+    whole 3 h limit (`docs/infra/left-crossing-stall.md`). `clock` is injectable so tests need no real minutes.
+    """
+
+    def __init__(self, process: subprocess.Popen[Any], controls: Path, check_after: float = SLOW_CHECK_AFTER_SECONDS,
+                 every: float = SLOW_CHECK_EVERY_SECONDS, minimum: float = MIN_REAL_TIME_FACTOR,
+                 clock: Any = time.monotonic) -> None:
+        self.process, self.controls = process, controls
+        self.check_after, self.minimum, self.clock = check_after, minimum, clock
+        self.started = clock()
+        self.tripped = False
+        self._done = threading.Event()
+        self._thread = threading.Thread(target=self._watch, args=(every,), daemon=True)
+        self._thread.start()
+
+    def check(self) -> bool:
+        wall = self.clock() - self.started
+        return too_slow(latest_simulation_seconds(self.controls), wall, self.check_after, self.minimum)
+
+    def _watch(self, every: float) -> None:
+        while not self._done.wait(every):
+            if self.check():
+                self.tripped = True
+                stop_process_group(self.process)
+                return
+
+    def close(self) -> None:
+        self._done.set()
+        self._thread.join(timeout=5)
+
+
+def record_slow_stop(output: Path, check_after: float, minimum: float) -> str:
+    """Write the stop reason where the scorer and a reader can see it, and return the error message."""
+    simulated = latest_simulation_seconds(output / "controls.jsonl")
+    message = (f"Stopped for {SLOW_STOP_REASON}: under {minimum} real-time factor after {check_after:.0f} s "
+               f"({simulated} simulated seconds); the route is listed for rerun, not scored")
+    (output / STOP_REASON_FILE).write_text(json.dumps(
+        {"reason": SLOW_STOP_REASON, "simulated_seconds": simulated, "minimum_real_time_factor": minimum,
+         "checked_after_wall_seconds": check_after}, indent=2) + "\n")
+    return message
+
+
 def run_evaluator(output: Path, command: list[str], environment: dict[str, str],
-                  silence_limit_seconds: float = 900) -> bool:
-    """Return False when the user stopped the run; raise when the evaluator failed or went silent."""
+                  silence_limit_seconds: float = 900, slow_check_after_seconds: float = SLOW_CHECK_AFTER_SECONDS,
+                  slow_check_every_seconds: float = SLOW_CHECK_EVERY_SECONDS) -> bool:
+    """Return False when the user stopped the run; raise when the evaluator failed, went silent or crawled."""
     process = subprocess.Popen(command, cwd=ROOT, env=environment, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, text=True, start_new_session=True)
     guard = SilenceGuard(process, silence_limit_seconds)
+    slow_guard = SlowGuard(process, output / "controls.jsonl", slow_check_after_seconds, slow_check_every_seconds)
     try:
         assert process.stdout is not None
         with (output / "evaluator.log").open("w") as log:
@@ -229,6 +312,8 @@ def run_evaluator(output: Path, command: list[str], environment: dict[str, str],
         exit_code = process.wait()
         if (output / "user-stop.json").is_file():
             return False
+        if slow_guard.tripped:
+            raise RuntimeError(record_slow_stop(output, slow_check_after_seconds, MIN_REAL_TIME_FACTOR))
         if guard.tripped:
             raise RuntimeError(f"The evaluator printed nothing for {silence_limit_seconds:.0f} s and was stopped; "
                                "inspect evaluator.log")
@@ -237,6 +322,7 @@ def run_evaluator(output: Path, command: list[str], environment: dict[str, str],
         return True
     finally:
         guard.close()
+        slow_guard.close()
         stop_process_group(process)
 
 

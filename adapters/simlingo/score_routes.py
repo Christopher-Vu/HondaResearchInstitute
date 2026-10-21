@@ -6,7 +6,8 @@
 Each configured route takes its first attempt, in job order, with a driving outcome (`VALID_OUTCOMES`),
 so a driving result is never re-rolled. Routes attempted without one, because the agent or simulator
 crashed or the job ended first, are listed under `rerun` and never scored; routes with no attempt
-yet are listed under `not_run`.
+yet are listed under `not_run`. A route the launcher stopped on purpose (for example for slow simulation)
+keeps its reason in `stop-reason.json`, which the `rerun` entry repeats as `stop_reason`.
 
 Two numbers come out. `official` is `Bench2Drive/tools/merge_route_json.py` run over the chosen
 results, which is how published scores are made and so the one compared with PRD 10.1; it counts
@@ -25,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from route_run import SOURCE, VALID_OUTCOMES, configured_route_ids, route_from_xml
+from route_run import SOURCE, STOP_REASON_FILE, VALID_OUTCOMES, configured_route_ids, route_from_xml
 from sweep_local import route_outcome, summarize
 
 MERGE_SCRIPT = SOURCE / "Bench2Drive/tools/merge_route_json.py"
@@ -45,6 +46,11 @@ def status_of(route_dir: Path) -> str | None:
         return None
     records = json.loads(result.read_text()).get("_checkpoint", {}).get("records", [])
     return records[0]["status"] if records else None
+
+
+def stop_reason_of(route_dir: Path) -> str | None:
+    marker = route_dir / STOP_REASON_FILE
+    return json.loads(marker.read_text())["reason"] if marker.is_file() else None
 
 
 def chosen_attempt(attempts: list[Path]) -> Path | None:
@@ -91,7 +97,8 @@ def score(config_path: Path, job_dirs: list[Path], output: Path) -> dict[str, An
             not_run.append(route_id)
             continue
         if attempt is None:
-            rerun.append({"id": route_id, "attempts": len(tried), "last_status": status_of(tried[-1])})
+            rerun.append({"id": route_id, "attempts": len(tried), "last_status": status_of(tried[-1]),
+                          "stop_reason": stop_reason_of(tried[-1])})
             continue
         chosen[route_id] = attempt
         rows.append({**route_from_xml(route_id, config), "job": attempt.parent.name, "attempts": len(tried),
