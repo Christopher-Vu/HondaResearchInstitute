@@ -5,6 +5,27 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 (Jerry) — Two prevention fixes for slow and hanging routes
+
+Two fixes from Chris's write-up of the left-crossing stall
+(`docs/infra/left-crossing-stall.md`, "Prevention"), both built by subagents and
+reviewed. First, runtime setup now applies `left-crossing-walk.patch` after the
+other three source patches, so a newly built runtime no longer hangs on a
+left crossing; the four patches were checked to apply cleanly in order to an
+unpatched SimLingo (89f3b65). A runtime built earlier, Jerry's included, still
+needs the one-line command in that write-up, run on Savio. Second, the launcher
+now stops a route that is still below 0.01 times real time after 10 minutes,
+writes the reason to `stop-reason.json`, and the scorer lists it for rerun
+instead of scoring it (cd04531). Normal routes run at 0.07 to 0.10, so the
+margin is wide; the watchdog has not yet run on a live CARLA route.
+
+Not fixable from here and left open: Savio's scratch disk (Berkeley fixes it in
+the 2026-10-26 outage), CARLA's crashes on Town12 and Town13 (inside Bench2Drive's
+parked-vehicle spawning), the stale dev evaluation (needs Savio and Chris's Step 2
+shards), and the Step 5 gap shortage. 311 CPU tests pass.
+
+---
+
 ## 2026-10-20 (Chris) — Where a rollout step's time goes, and a fix for the largest part
 
 Rollouts are the project's main cost, so four short profiling jobs timed every part of a policy step

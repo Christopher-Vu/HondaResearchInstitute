@@ -119,9 +119,10 @@ git -C .runtime/simlingo apply ../../adapters/simlingo/patches/left-crossing-wal
 
 - **A watchdog on simulation speed.** A route below a real-time factor of 0.01
   after 10 minutes is this failure, or something like it. Stopping it then
-  saves about 2 h 50 m per route at a 3-hour limit. Our launcher already stops
-  an evaluator that is *silent* for 15 minutes, which catches the first form
-  but not the second.
+  saves about 2 h 50 m per route at a 3-hour limit. **Done 2026-10-21**
+  (`SlowGuard` in `adapters/simlingo/route_run.py`): the launcher stops such a
+  route, writes `stop-reason.json`, and the scorer lists it for rerun. The
+  15-minute silence guard still covers a route that prints nothing.
 - **Probe new scenario parameters before a pilot.** Running the probe over a
   generated routes file costs minutes of CPU and would have flagged every
   affected route before any GPU time was spent.

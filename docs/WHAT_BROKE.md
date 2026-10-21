@@ -102,7 +102,9 @@ and its verification: `docs/infra/left-crossing-stall.md`.
 **What we did:** cancelled the affected work. A first reading blamed the nodes
 and excluded n0278 and n0281 (51aed77); that was wrong and is reverted. A route
 below a real-time factor of 0.01 after ten minutes is the signature; stop it
-rather than let it run to the task limit.
+rather than let it run to the task limit. Since 2026-10-21 the launcher does
+this itself and the scorer lists such a route for rerun (`route_run.SlowGuard`);
+setup also applies the left-crossing patch to every new runtime.
 
 ## 2026-10-15 — The first dev evaluation could not separate methods, and found the catch-all axis
 
