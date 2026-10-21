@@ -117,3 +117,89 @@ gaps:
     # state logger counts only walker.pedestrian.*).
     manipulation_check: {measure: animal_visible_in_frames, min_routes_passing: 4, of_routes: 5}
     screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P7_camera_freeze
+    tier: T0_control
+    summary: >-
+      The policy camera stalls: from 2 s in, for 2 s of every 3 s (at the
+      policy's 20 Hz, 40 steps of every 60) the policy keeps seeing the last
+      frame from before the stall. Applied by the agent before the model sees
+      the frame (adapters/simlingo/camera_fault.py), so the world is unchanged
+      and only perception fails. SimLingo's training frames are always fresh,
+      so a stale frame is outside it by construction. Like P4 it removes
+      information, the only kind of gap that has passed a screen so far.
+    predicate:
+      - {field: sensor.camera_fault.kind, op: "==", value: freeze}
+    plant:
+      base_routes: 60
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: freeze, period_steps: 60, duration_steps: 40, offset_steps: 40}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: camera_frame_age_steps (steps since the
+    # returned frame was captured, logged per step) is above 0 on at least 50%
+    # of steps in at least 4 of the first 5 scored slice routes.
+    manipulation_check: {measure: camera_frame_age_steps, min_fraction_stale: 0.5, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P8_camera_latency
+    tier: T0_control
+    summary: >-
+      Every frame the policy sees is 1 s old (20 steps at 20 Hz). Applied by
+      the agent before the model sees the frame
+      (adapters/simlingo/camera_fault.py), so the world is unchanged and only
+      perception lags. SimLingo's training frames are never delayed relative to
+      the controls they are paired with, so a one-second lag is outside it by
+      construction. Like P4 it removes information, the only kind of gap that
+      has passed a screen so far.
+    predicate:
+      - {field: sensor.camera_fault.kind, op: "==", value: latency}
+    plant:
+      base_routes: 60
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: latency, delay_steps: 20}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: camera_frame_age_steps is 20 on every
+    # step from step 20 on, in at least 4 of the first 5 scored slice routes.
+    manipulation_check: {measure: camera_frame_age_steps, from_step: 20, equals: 20, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P9_traffic_light_glare
+    tier: T1_enumerable
+    summary: >-
+      Every traffic light in view is painted over with saturated white, in a
+      rectangle twice the light's own width and height, so the light's colour is
+      gone and the rest of the image is untouched. Applied by the agent before
+      the model sees the frame (adapters/simlingo/camera_fault.py,
+      light_glare.py), so the world is unchanged and only perception fails.
+      SimLingo's expert data never hides a light on purpose, though distant or
+      backlit lights may be hard to read in it (not checked). Like P4 it removes information, the only kind of gap
+      that has passed a screen so far. Motivated by Kurse et al. 2025
+      (Multimodal Transportation 4:100186, Table 5), which lists
+      misinterpretation of traffic signals due to glare, dirt, or occlusion as a
+      failure condition. Base routes are restricted to signalized-junction
+      families, and Bench2Drive counts running a red light as an infraction.
+    predicate:
+      - {field: sensor.camera_fault.kind, op: "==", value: traffic_light_glare}
+    plant:
+      # The six signalized families have 5 routes each in Bench2Drive-220: 30 in
+      # all. A 10-pair screen plus a 20-pair full pilot uses every one. That
+      # cannot meet C23's 60 pairs, so if the screen passes, the full-pilot
+      # design is an open decision.
+      base_routes: 20
+      include_scenarios: [SignalizedJunctionRightTurn, SignalizedJunctionLeftTurn, SignalizedJunctionLeftTurnEnterFlow,
+                          OppositeVehicleRunningRedLight, VanillaSignalizedTurnEncounterRedLight,
+                          VanillaSignalizedTurnEncounterGreenLight]
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: traffic_light_glare}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the pilot runs: glare_boxes (rectangles painted, logged
+    # per step) is at least 1 on some step in at least 4 of the first 5 scored
+    # slice routes, and a saved frame shows glare over a light (checked by eye).
+    manipulation_check: {measure: glare_boxes, min_boxes_on_some_step: 1, saved_frame_shows_glare: true, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
