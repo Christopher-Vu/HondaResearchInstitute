@@ -5,6 +5,8 @@ source:
   benchmark_patch: adapters/simlingo/patches/external-server.patch
   # From Fail2Drive (MIT): PedestriansOnRoad for P5, a walker parameter on DynamicObjectCrossing for P6.
   scenario_patch: adapters/simlingo/patches/fail2drive-scenarios.patch
+  # Stops direction: left crossings looping forever on two-way roads; see docs/infra/left-crossing-stall.md.
+  crossing_patch: adapters/simlingo/patches/left-crossing-walk.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454

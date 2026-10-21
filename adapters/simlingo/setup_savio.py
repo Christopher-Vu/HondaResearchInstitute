@@ -27,6 +27,7 @@ DOWNLOADS = ROOT / ".runtime/downloads"
 VENV = ROOT / ".runtime/policy-venv"
 MAPS_DIRECTORY = CARLA_ROOT / "CarlaUE4/Content/Carla/Maps"
 HUGGING_FACE = "https://huggingface.co"
+SOURCE_PATCH_KEYS = ("patch", "benchmark_patch", "scenario_patch", "crossing_patch")
 BASE_MODEL_SKIPPED = ("examples/", "README.md", ".gitattributes")
 
 
@@ -89,8 +90,8 @@ def prepare_source(manifest: dict[str, Any]) -> None:
     if not SOURCE.is_dir():
         run(["git", "clone", source["repository"], str(SOURCE)])
     run(["git", "-C", str(SOURCE), "checkout", "--detach", source["revision"]])
-    for patch in (source["patch"], source["benchmark_patch"], source["scenario_patch"]):
-        apply_once(ROOT / patch)
+    for key in SOURCE_PATCH_KEYS:
+        apply_once(ROOT / source[key])
 
 
 def prepare_weights(manifest: dict[str, Any]) -> None:

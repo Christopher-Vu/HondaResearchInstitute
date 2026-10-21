@@ -99,7 +99,8 @@ dangerous is a separate question from whether it runs.
 his clones share), with Jerry's agreement in the 10-18 split. The test before
 that used a private copy (`hri-dev/.runtime-dev`). It changes no existing route
 (none sets `left` on a two-way road), but it is a change to pinned benchmark
-code, so any other runtime needs it applied too:
+code. Setup now applies it to every new runtime. A runtime set up earlier still
+needs this one-line command:
 
 ```bash
 git -C .runtime/simlingo apply ../../adapters/simlingo/patches/left-crossing-walk.patch
