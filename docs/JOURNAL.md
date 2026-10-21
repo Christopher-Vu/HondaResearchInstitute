@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-20 (Chris) — Where a rollout step's time goes, and a fix for the largest part
+
+Rollouts are the project's main cost, so four short profiling jobs timed every part of a policy step
+(`SIMLINGO_PROFILE`, 158859d and 1ef00c5; about 30 SU in all). Measured:
+
+- At two routes per A40, a step takes about 0.5 s. The forward pass is 0.13 s; about 0.26 s is SimLingo's
+  agent rewriting its whole `metric_info.json` debug file every step. `capture_agent.py` now writes that file
+  once per route instead (ca63c56). The change cannot alter driving, but it has not yet run on a live route.
+- The GPU is mostly idle: 18%, 27% and 37% average use at one, two and three routes per card. At four
+  routes the forward pass jumps to 0.85 s, so three per card is the packing to use.
+- Our own capture code costs under 1% of a step, so it needs no work.
+
+Savio's scratch disk began failing reads during the session (`docs/WHAT_BROKE.md`), so the confirming run
+waits until it recovers. Details of each measurement are in `docs/WHAT_BROKE.md`'s 2026-10-20 entry.
+
+---
+
 ## 2026-10-20 (Jerry) — Contrastive now fires the way B7 does, and the gap panel ships
 
 Contrastive diffing used to call a latent "firing" whenever it went above 0.1 inside the window. B7 was corrected on
