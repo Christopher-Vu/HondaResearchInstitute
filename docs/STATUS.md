@@ -6,11 +6,22 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-18 (Step 4 closed, B7 signed off; current step is 5)
+Last updated: 2026-10-21 (three camera gaps ready to screen; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-21, three new practice gaps ready; nothing run.** Every gap that only
+changed appearance failed, and P4, which removes information, passed. So the next
+candidates all remove information: P7 camera freeze (stale for 2 s of every 3 s),
+P8 camera latency (every frame 1 s old) and P9 traffic-light glare (each light in
+view painted white, on the 30 signalized-junction routes only). Screen configs:
+`configs/rollout/step5-pilot-p{7,8,9}-screen.yaml`; submit commands in their
+headers. **Needs a Savio login**, and after the 2026-10-26 disk fix is safer. If
+P9's screen passes, its full pilot cannot reach C23's 60 pairs (open decision).
+A rear-end-while-stopped "blind-spot control" is proposed in CONFLICTS.md C32 for
+Chris's review; not built.
 
 **2026-10-16, decisions (Chris and Jerry).**
 

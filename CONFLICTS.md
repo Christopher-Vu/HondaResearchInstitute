@@ -652,6 +652,36 @@ so no result is rescued after the fact. Cost: the rule admits a decoy with a tru
 about 10 points. Decoys are scored on hit rate, not as gaps, so that is acceptable.
 `PRD.md` §9.1; the arithmetic is the binomial with n = 11 and p = 1/2.
 
+### C32 · A blind-spot control: rear-ended while stopped · new, 2026-10-21 (Jerry), pending review (Chris)
+Proposal, not built. Some failures have a cause the policy cannot perceive. SimLingo has one forward camera
+(mounted at x = -1.5 m, fov 110), so a vehicle driving into the stopped ego from behind is invisible to it
+until contact. No training data fixes that, so a method that names it as a data gap is wrong. Motivation:
+Kurse et al. 2025 (*Multimodal Transportation* 4:100186, read 2026-10-21) report that 50% of 628 California
+DMV crashes involving automated vehicles were rear-end impacts and 39% happened while the AV was stopped.
+Their data has no exposure denominator, so these are shares, not risks.
+
+It is not a PRD §9.1 decoy: a decoy is handled fine (C31), and this fails by construction. Proposed as a
+third category, a **blind-spot control**: an axis whose members are mostly blind-spot rollouts counts as a
+false attribution, reported as a blind-spot hit rate beside the decoy hit rate.
+
+It traps activation methods too. A failing window ends at the first infraction
+(`src/discovery/contrastive.py`), so every blind-spot window shows the ego stopped at a red light, while
+success windows sit at random positions. A "stopped at a red light" latent then looks failure-linked to
+contrastive diffing, as "stationary" will to B3. A method passes only by comparing each failure with
+non-failing rollouts in the same situation, which the neighbourhood routes supply.
+
+Mechanics, if accepted: a scenario `RearEndWhileStopped`, appended to the route as P5's is
+(`pilot_routes.py`). Once the ego has stood still for 2 s (scenario_runner's `StandStill`), place a vehicle
+25 m behind it in its lane (`Waypoint.previous`) and drive it at 8 m/s along the lane with collision
+avoidance off (`ConstantVelocityAgentBehavior` with `ignore_vehicles`) until contact or 10 s. Base routes:
+`VanillaSignalizedTurnEncounterRedLight`, where the ego stops at a red by design. Neighbourhood: the same
+route without the vehicle. Bench2Drive scores the contact as `collisions_vehicle`, so the route fails.
+Manipulation check: contact at ego speed below 0.1 m/s in at least 4 of the first 5 slice routes. Efficacy
+is near certain, so a 10-pair screen checks only the mechanics.
+
+Open: whether Chris accepts the category, and whether to score it before any method uses
+situation-matched controls.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

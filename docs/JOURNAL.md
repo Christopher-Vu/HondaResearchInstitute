@@ -5,6 +5,29 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 (Jerry) — Three camera gaps that remove information, and a blind-spot proposal
+
+Jerry read Kurse et al. 2025, a study of 628 California crash reports involving
+self-driving cars, and asked which of its crash types would make useful gaps. Of
+six practice gaps so far only P4 (a black box over the camera) passed, and it is
+the only one that hides information from the policy; fog, people in the lane and
+animals only changed what the scene looks like. So three new gaps all hide
+information: P7 freezes the camera for 2 s of every 3 s, P8 delays every frame
+by 1 s, and P9 paints each traffic light in view white so its colour is lost.
+P9 is drawn from the paper's "misread signals due to glare, dirt or occlusion".
+A subagent built them; they are ready to screen but have not run. Each slice
+route now logs how stale its frame is (`camera_frame_age_steps`) and P9 logs
+how many lights it covered, which the pre-registered manipulation checks read.
+
+P9 only runs on the 30 Bench2Drive routes with signalized junctions, so it can
+be screened but cannot reach the 60-pair full pilot without a design change.
+
+The paper's largest crash type, being rear-ended while stopped, is not a data
+gap for SimLingo: its one forward camera cannot see the car coming. It is not a
+PRD decoy either, since it fails by construction. CONFLICTS.md C32 proposes it
+as a third category, a blind-spot control, and notes that it would trap
+contrastive diffing as well as B3. Not built; waiting on Chris.
+
 ## 2026-10-21 (Jerry) — Two prevention fixes for slow and hanging routes
 
 Two fixes from Chris's write-up of the left-crossing stall
