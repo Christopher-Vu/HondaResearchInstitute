@@ -8,6 +8,33 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-20 — A third of each policy step was a debug file write
+
+**Expected:** the policy's forward pass would dominate a step's wall time.
+
+**What happened (measured, `capture/profile.jsonl`):** at two routes per A40, a step took about 0.5 s:
+forward 0.13 s, preparing the model input 0.065 s, and about 0.3 s *after* the model. Splitting that last
+part (1ef00c5, job 40265241) put 0.26 s of it in one line of SimLingo's agent: it rewrites the whole
+`metric_info.json`, indented, on every step. The cost is flat over a route rather than growing with the file,
+which first misled us into ruling it out; on Savio's networked scratch the per-step open and write is what
+costs. Only Bench2Drive's efficiency and smoothness tools read the file, and we use neither.
+
+The same job put four routes on one A40: the forward pass rose from 0.13–0.17 s to 0.85 s, so four is past
+the GPU's useful packing. At three routes the GPU still averaged only 37% busy.
+
+**What we did:** `capture_agent.py` now writes the file once, when the route ends. Not yet checked on a live
+route. Sealed pilots run from the frozen clone and are unaffected.
+
+## 2026-10-20 — Savio's scratch disk dropped files mid-session
+
+**What happened:** reads under `/global/scratch` began failing with `Cannot send after transport endpoint
+shutdown`: most of the shared runtime, and a finished job's `result.json`. Savio's 2026-10-19 announcement
+names this fault (Lustre storage targets going inactive) and schedules a fix for the 2026-10-26 outage.
+
+**What we did:** submitted nothing while reads were failing; a job started then would crash at startup and
+look like a simulator failure. Before blaming a route for a startup crash this week, check whether the disk
+was failing at the time.
+
 ## 2026-10-19 — Every crossing route logged an "obstacle": the scenario's blocker
 
 **Expected:** `obstacle_distance` in the per-step state (349d7ef) marks debris and construction props,
