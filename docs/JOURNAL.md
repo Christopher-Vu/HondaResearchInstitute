@@ -5,6 +5,27 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 (Jerry) — A sweep of IEEE IV 2026 for faster, more varied failure discovery
+
+Jerry worried that planting one gap and checking that discovery finds it again is too narrow to show
+the tool can cover a VLA's failure modes, and asked whether this year's Intelligent Vehicles Symposium
+had anything that would help. All 296 abstracts were screened by four subagents; the 13 strongest were
+downloaded through Berkeley's IEEE access and read in full. Findings, per-paper verdicts and proposals
+are in [`docs/iv2026-literature-findings.md`](iv2026-literature-findings.md).
+
+No paper finds failures from a policy's internals or tests a camera-only driving model closed loop, so
+the method and the novelty claim stand. Every paper was weaker in full than in its abstract: the
+boundary-tracing paper still needs about 300 to 550 simulations per two-parameter slice and assumes a
+repeatable simulator; the "closed-loop" patch attack scores recorded frames; one headline number
+(DTCCL's 48.6%) cannot be reproduced from its own table. What survives helps the Step 5 blocker, the
+supply of gaps that actually make SimLingo fail: four gap families that remove or corrupt information,
+and an open-loop pre-screen that replays logged frames with a candidate perturbation and only sends it
+to a closed-loop pilot if SimLingo's plan moves. The pre-screen first has to separate fog (failed) from
+occlusion (passed) on routes we already have. On "cover all failure modes", no paper claims that; the
+ones that measure coverage do so against a declared operating domain. Nothing was built and nothing ran.
+
+---
+
 ## 2026-10-21 (Jerry) — Three camera gaps that remove information, and a blind-spot proposal
 
 Jerry read Kurse et al. 2025, a study of 628 California crash reports involving

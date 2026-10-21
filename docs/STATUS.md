@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-21 (three camera gaps ready to screen; current step is 5)
+Last updated: 2026-10-21 (three camera gaps ready to screen, IV 2026 sweep read; current step is 5)
 
 ---
 
@@ -22,6 +22,12 @@ headers. **Needs a Savio login**, and after the 2026-10-26 disk fix is safer. If
 P9's screen passes, its full pilot cannot reach C23's 60 pairs (open decision).
 A rear-end-while-stopped "blind-spot control" is proposed in CONFLICTS.md C32 for
 Chris's review; not built.
+
+**2026-10-21, IEEE IV 2026 sweep (296 papers, 13 read in full).** Nothing changes
+the method or the novelty claim. Four more gap families that remove information
+(optimised billboard, semantic-rule scenarios, misleading commands, scene edits
+around a failure) and an open-loop replay pre-screen to try before closed-loop
+pilots: `docs/iv2026-literature-findings.md`. All unverified; needs sign-off.
 
 **2026-10-16, decisions (Chris and Jerry).**
 
@@ -323,7 +329,9 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
    fog, dust, pedestrians in lane, animals) all failed; blinding the camera
    passed. Candidates: hazards hidden until late, a camera fault on one side
    only, a lead vehicle invisible to the camera. Interactional ones still need
-   C23's 30-base-route floor.
+   C23's 30-base-route floor. More candidates, and a replay pre-screen to
+   reject no-effect gaps before they cost a pilot, in
+   `docs/iv2026-literature-findings.md`.
 3. **Sign-offs:** C23 to C28 (C27 now carries a correction), and the pinned
    readings in `src/discovery/contrastive.py`, `src/baselines/activation_stats.py`
    and `taxonomy.py`; per-token SAE at layer 10 or 14 (k 48 to 64 look best).
