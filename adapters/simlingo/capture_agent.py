@@ -61,6 +61,8 @@ class CaptureAgent(VisibleAgent):
         self.layer_outputs: dict[int, torch.Tensor] = {}
         if os.environ.get("SIMLINGO_PROFILE"):
             self.profile = (self.capture_dir / "profile.jsonl").open("w")
+            self._time_method("control_pid")
+            self._time_method("get_metric_info")
         self.bridge_outputs: list[torch.Tensor] = []
         self.driving_tokens = driving_query_count(self.model)
         for index, layer in enumerate(decoder(self.model).layers):
@@ -92,13 +94,26 @@ class CaptureAgent(VisibleAgent):
             torch.cuda.synchronize()
         self.marks[name] = time.monotonic()
 
+    def _time_method(self, name: str) -> None:
+        """Time an upstream method inside after_model; its remainder is mostly the per-step metric_info.json dump."""
+        method = getattr(self, name)
+
+        def timed(*args: Any, **kwargs: Any) -> Any:
+            self._mark(f"{name}_started")
+            result = method(*args, **kwargs)
+            self._mark(f"{name}_done")
+            return result
+        setattr(self, name, timed)
+
     def _write_profile(self) -> None:
         if self.profile is None:
             return
         marks = self.marks
         spans = {"world_state": ("entered", "state_read"), "model_input": ("state_read", "forward_started"),
                  "forward": ("forward_started", "forward_done"), "capture_hook": ("forward_done", "hook_done"),
-                 "after_model": ("hook_done", "left")}
+                 "after_model": ("hook_done", "left"), "control_pid": ("control_pid_started", "control_pid_done"),
+                 "get_metric_info": ("get_metric_info_started", "get_metric_info_done"),
+                 "metric_dump": ("get_metric_info_done", "left")}
         row = {"step": self.step, **{name: round(marks[end] - marks[start], 5)
                                      for name, (start, end) in spans.items() if start in marks and end in marks}}
         if "previous_left" in marks:
