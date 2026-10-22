@@ -20,6 +20,11 @@ frames over four rounds was asphalt in all of them. The poster's phone picture
 (`dashboard/public/poster/drive-phone.png`) still shows the old chase view until it is retaken with
 `scripts/render_poster.py --phone`.
 
+Deployed to production at 23:11 from a clean checkout of `main` at fe64b71 (Vercel deployment
+`failure-axis-status-22232iz6t`), together with the poster's PowerPoint and Canva exports. Pushing `main` does
+not deploy this project; each production deploy is `vercel deploy --prod` from `dashboard/`. Checked live: both
+pages and both export files load, and a headless round on `/drive` drives in first person.
+
 ---
 
 ## 2026-10-21 night (Jerry) — The poster page downloads as PowerPoint and goes to Canva
