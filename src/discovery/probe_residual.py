@@ -143,7 +143,7 @@ def probe_residual_directive(rollouts: list[Rollout], config: ProbeResidualConfi
     if sum(len(b) for b in blocks) < config.min_cluster_size:
         return empty
     vectors = np.concatenate(blocks)
-    labels = HDBSCAN(min_cluster_size=config.min_cluster_size).fit_predict(vectors)
+    labels = HDBSCAN(min_cluster_size=config.min_cluster_size, copy=False).fit_predict(vectors)
     owner = np.concatenate([np.full(len(b), i) for i, b in enumerate(blocks)])
 
     members: dict[int, list[tuple[int, float]]] = {}
