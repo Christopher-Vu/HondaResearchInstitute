@@ -38,8 +38,9 @@ async def phone_shot(b):
 
 AUDIT = """() => {
   let minPt = 1e9, smallest = [];
-  for (const el of document.querySelectorAll('main p, main h1, main h2, main text, main span, main figcaption')) {
-    if (!el.textContent.trim()) continue;
+  for (const el of document.querySelectorAll('main p, main h1, main h2, main h3, main text, main tspan, main span, main figcaption, main sup')) {
+    const ownText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+    if (!ownText) continue;
     const fs = parseFloat(getComputedStyle(el).fontSize);
     let scale = 1;
     const svg = el.closest('svg');

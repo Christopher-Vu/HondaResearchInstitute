@@ -181,5 +181,24 @@ body {
   .p-label-strong { font-size: 44px; line-height: 1.15; font-weight: 600; color: var(--b-ink); }
   .p-note { font-size: 32px; line-height: 1.3; font-weight: 400; color: var(--b-ink-3); }
   .p-figure { font-size: 96px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .p-wordmark { font-size: 60px; line-height: 1; font-weight: 700; color: var(--b-ink); }
   .p-stat { font-size: 230px; line-height: 0.9; font-weight: 700; color: var(--b-blue); font-variant-numeric: tabular-nums; }
+}
+
+/* Unlayered so it outranks Tailwind's preflight 75% superscript, which would print exponents under 24 pt. */
+.p-label sup, .p-body sup { font-size: 0.8em; }
+
+/* The poster page is fixed at 4608 x 3456 px (48 x 36 in); on screen it is scaled to fit the window. */
+.poster-fit {
+  width: calc(4608px * var(--poster-scale, 1));
+  height: calc(3456px * var(--poster-scale, 1));
+  margin-inline: auto;
+}
+.poster-fit > main {
+  transform: scale(var(--poster-scale, 1));
+  transform-origin: top left;
+}
+@media print {
+  .poster-fit { width: auto; height: auto; }
+  .poster-fit > main { transform: none; }
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FitToScreen } from "@/components/poster/FitToScreen";
 import { Poster } from "@/components/poster/Poster";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function PosterPage() {
-  return <Poster />;
+  return (
+    <FitToScreen>
+      <Poster />
+    </FitToScreen>
+  );
 }

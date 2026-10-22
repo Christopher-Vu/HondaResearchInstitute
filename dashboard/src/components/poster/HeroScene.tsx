@@ -168,7 +168,7 @@ function Ruler() {
       {ticks.map((m) => (
         <g key={m}>
           <line x1={atMetres(m)} x2={atMetres(m)} y1={baseY} y2={baseY + 18} stroke="var(--b-ink-3)" strokeWidth={4} />
-          <text x={atMetres(m)} y={baseY + 56} textAnchor="middle" className="p-note" fill="var(--b-ink-3)">
+          <text x={atMetres(m)} y={baseY + 56} textAnchor="middle" className="p-label" fill="var(--b-ink-3)">
             {m === 0 ? "0 m" : m}
           </text>
         </g>
@@ -177,7 +177,7 @@ function Ruler() {
       <text x={atMetres(PERSON_M) + 16} y={672} className="p-label" fill="var(--b-ink)">
         Person, {PERSON_M} m ahead
       </text>
-      <text x={atMetres(40) + 40} y={baseY + 12} className="p-note" fill="var(--b-ink-3)">
+      <text x={atMetres(40) + 40} y={baseY + 12} className="p-label" fill="var(--b-ink-3)">
         Illustration at 60 km/h
       </text>
     </g>
@@ -188,10 +188,10 @@ function Legend() {
   return (
     <g transform={`translate(${atMetres(40) + 40} 700)`}>
       <rect x={0} y={0} width={56} height={40} fill="url(#hatch-ink)" />
-      <text x={76} y={34} className="p-note" fill="var(--b-ink-2)">Not braking yet</text>
+      <text x={76} y={34} className="p-label" fill="var(--b-ink-2)">Not braking yet</text>
       <rect x={0} y={64} width={28} height={40} fill="var(--b-blue-mid)" />
       <rect x={28} y={64} width={28} height={40} fill="var(--b-gold)" />
-      <text x={76} y={98} className="p-note" fill="var(--b-ink-2)">Braking</text>
+      <text x={76} y={98} className="p-label" fill="var(--b-ink-2)">Braking</text>
     </g>
   );
 }

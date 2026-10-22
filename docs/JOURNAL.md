@@ -5,6 +5,21 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 late — Poster gets a results panel, a network-style pipeline and tool logos
+
+Jerry asked for a results section, a smaller demo box, logos of the tools we used and more technical
+diagrams. The top right is now "Results": the blocked-camera waffles, the paired 31-to-0 count, the layer
+chart and the control check, with a line saying the repair is not measured yet. The demo moved to the
+bottom left. The pipeline now draws SimLingo as a network with layer 10 lit, and the contrast step as a
+plane cutting the activation cloud. A strip of the tools we used (SimLingo, Bench2Drive, CARLA, PyTorch,
+Hugging Face, Savio) sits along the bottom; the three logos are the projects' own files. The `/poster` page
+now scales to fit the screen, while the PDF stays full size.
+
+One correction: the paired 31-to-0 count had been printed with the unpaired Fisher p-value (2 × 10⁻⁸). It
+now carries the paired McNemar p-value from the same `efficacy.json` (9 × 10⁻¹⁰).
+
+---
+
 ## 2026-10-21 late — The stop-in-time demo gets a 3D street
 
 `/drive` now opens on a 3D view built with three.js through react-three-fiber

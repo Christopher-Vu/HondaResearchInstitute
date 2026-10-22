@@ -1,19 +1,18 @@
 /* eslint-disable @next/next/no-img-element -- print export needs raw files, no image optimizer */
 import qr from "@/data/qr-drive.json";
-import { ControlBars, DecoyRow, LayerChart, OcclusionWaffles, PipelineFigure } from "./Figures";
+import { ControlBars, GapGallery, LayerChart, OcclusionWaffles, PipelineFigure } from "./Figures";
 import { HeroScene } from "./HeroScene";
-import { layers, occlusion } from "./facts";
+import { layers, occlusion, reproduction } from "./facts";
 
 // One place for the 48 x 36 in grid (96 px = 1 in): 1 in margins, 0.67 in gutters.
 const LAYOUT = {
   header: { left: 0, top: 0, width: 4608, height: 600 },
-  hero: { left: 96, top: 672, width: 2880, height: 1360 },
-  demo: { left: 3040, top: 672, width: 1472, height: 1360 },
-  method: { left: 96, top: 2096, width: 1180, height: 1150 },
-  proof: { left: 1340, top: 2096, width: 1400, height: 1150 },
-  layers: { left: 2804, top: 2096, width: 820, height: 1150 },
-  control: { left: 3688, top: 2096, width: 824, height: 1150 },
-  footer: { left: 96, top: 3296, width: 4416, height: 96 },
+  hero: { left: 96, top: 672, width: 2560, height: 1360 },
+  results: { left: 2720, top: 672, width: 1792, height: 1360 },
+  demo: { left: 96, top: 2096, width: 1040, height: 1104 },
+  method: { left: 1200, top: 2096, width: 1680, height: 1104 },
+  gaps: { left: 2944, top: 2096, width: 1568, height: 1104 },
+  footer: { left: 96, top: 3248, width: 4416, height: 144 },
 } as const;
 
 type Area = keyof typeof LAYOUT;
@@ -55,28 +54,72 @@ function Header() {
 
 function Hero() {
   return (
-    <Region area="hero" className="flex flex-col gap-[32px]">
-      <div className="flex items-end gap-[96px]">
-        <div className="flex flex-1 flex-col gap-[32px]">
+    <Region area="hero" className="flex flex-col gap-[40px]">
+      <div className="flex items-start gap-[80px]">
+        <div className="flex flex-1 flex-col gap-[28px]">
           <h2 className="p-head">Test lists only catch the crashes someone imagined</h2>
           <p className="p-body">
-            Driving models such as SimLingo are checked against failures people already thought of. We find new ones by
-            reading the model&rsquo;s own internal signals, with no list. To prove it works we plant a failure on purpose:
+            Driving models are checked against failures people already thought of. We find new ones by reading the
+            model&rsquo;s own internal signals, with no list. To prove it works, we plant a failure on purpose: we
             block the centre of the camera.
           </p>
         </div>
-        <div className="flex w-[1060px] shrink-0 flex-col gap-[20px]">
-          <p className="p-stat">{occlusion.ratio.toFixed(1)}&times;</p>
-          <p className="p-label-strong">more failures with the camera centre blocked</p>
-          <p className="p-label">
-            {occlusion.blocked.failed} of {occlusion.blocked.routes} routes against {occlusion.clear.failed} of {occlusion.clear.routes} clear, in CARLA
-          </p>
-        </div>
+        <figure className="flex w-[820px] shrink-0 flex-col gap-[14px]">
+          <img
+            src="/poster/p4-blocked-city.jpg"
+            alt="A SimLingo camera frame from a city route with the middle third of the image blacked out"
+            className="aspect-[2/1] w-full object-cover"
+          />
+          <figcaption className="p-label">What the model sees with the planted patch</figcaption>
+        </figure>
       </div>
-      <div className="shrink-0">
+      <div className="mt-auto shrink-0">
         <HeroScene />
       </div>
     </Region>
+  );
+}
+
+function ResultBlock({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-[20px]">
+      <h3 className="p-label-strong">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function Results() {
+  return (
+    <Panel area="results" title="Results">
+      <ResultBlock title="Blocking the camera centre is a real failure">
+        <div className="flex items-start gap-[64px]">
+          <div className="w-[800px] shrink-0">
+            <OcclusionWaffles />
+          </div>
+          <div className="flex flex-col gap-[16px]">
+            <p className="p-stat">
+              {occlusion.blockedOnly}:{occlusion.clearOnly}
+            </p>
+            <p className="p-label">
+              paired routes that failed only blocked, against only clear (p&nbsp;=&nbsp;{occlusion.pairedP}
+              <sup>{occlusion.pairedExponent}</sup>)
+            </p>
+          </div>
+        </div>
+      </ResultBlock>
+      <div className="grid grid-cols-2 gap-[64px]">
+        <ResultBlock title={`Layer ${layers.chosen} flags failures best`}>
+          <LayerChart />
+        </ResultBlock>
+        <ResultBlock title="Every method finds the easy control">
+          <ControlBars />
+        </ResultBlock>
+      </div>
+      <p className="p-note mt-auto">
+        Measured in CARLA simulation on Bench2Drive routes. Repair by targeted training is next and not measured yet.
+      </p>
+    </Panel>
   );
 }
 
@@ -94,23 +137,22 @@ function QrCode({ size }: { size: number }) {
 
 function Demo() {
   return (
-    <Region area="demo" className="flex flex-col gap-[48px] bg-b-blue p-[72px]">
+    <Region area="demo" className="flex flex-col gap-[36px] bg-b-blue p-[64px]">
       <h2 className="p-head text-b-gold">Can you stop in time?</h2>
       <p className="p-body text-b-paper">
-        Scan and drive: a person steps out from behind a van, and you hold Brake. Then see the same moment for the model
-        alone and for the model trained on what we found.
+        Scan, then hold Brake when someone steps out. Compare yourself with the model alone and with our SDK.
       </p>
-      <div className="flex flex-1 items-end gap-[56px]">
-        <div className="flex flex-col gap-[28px]">
-          <div className="rounded-[36px] bg-b-paper p-[48px]">
-            <QrCode size={560} />
+      <div className="mt-auto flex items-end justify-between gap-[36px]">
+        <div className="flex flex-col gap-[20px]">
+          <div className="rounded-[32px] bg-b-paper p-[36px]">
+            <QrCode size={420} />
           </div>
-          <p className="p-label text-b-paper">failure-axis-status.vercel.app/drive</p>
+          <p className="p-note text-b-paper">failure-axis-status.vercel.app/drive</p>
         </div>
         <img
           src="/poster/drive-phone.png"
           alt="The demo on a phone: a 3D street with three lanes, you, the model alone, and the model with our SDK, after a pedestrian steps out"
-          className="h-[900px] w-auto rounded-[56px] shadow-[0_24px_60px_rgb(0_0_0/0.35)]"
+          className="h-[600px] w-auto rounded-[40px] shadow-[0_24px_60px_rgb(0_0_0/0.35)]"
         />
       </div>
     </Region>
@@ -122,66 +164,59 @@ function Method() {
     <Panel area="method" title="How discovery works">
       <PipelineFigure />
       <p className="p-body mt-auto">
-        We record layer 10 of SimLingo on every drive and contrast failing drives with clean ones. Each direction that
-        separates them is a failure axis, and it names the scenarios to train on next.
+        We run SimLingo on Bench2Drive routes and record layer 10 on every drive; our two reproductions scored{" "}
+        {reproduction.scores[0]} and {reproduction.scores[1]} of 100 over {reproduction.routes} routes. A plane that
+        separates failing drives from clean ones in those signals is a failure axis, and it names the scenarios to
+        train on next.
       </p>
     </Panel>
   );
 }
 
-function Proof() {
+function Gaps() {
   return (
-    <Panel area="proof" title="Planted failures must really fail">
-      <div className="flex gap-[64px]">
-        <div className="w-[480px] shrink-0">
-          <OcclusionWaffles />
-        </div>
-        <div className="flex flex-col gap-[40px]">
-          <p className="p-body">
-            <strong>
-              {occlusion.blockedOnly} routes failed only when blocked, {occlusion.clearOnly} only when clear
-            </strong>{" "}
-            (p&nbsp;=&nbsp;{occlusion.fisherP}<sup>{occlusion.fisherExponent}</sup>). Fog and animals look unusual but did not raise failures, so they are decoys.
-          </p>
-          <DecoyRow />
-        </div>
+    <Panel area="gaps" title="Planted failures must really fail">
+      <p className="p-body">
+        We plant failures whose identity is sealed in an answer key, and keep only those that raise failures. Fog and
+        animals look unusual but did not, so they are decoys that discovery must not flag.
+      </p>
+      <div className="mt-auto">
+        <GapGallery />
       </div>
     </Panel>
   );
 }
 
-function Layers() {
-  return (
-    <Panel area="layers" title="Where to listen">
-      <LayerChart />
-      <p className="p-body mt-auto">
-        We scored all 24 layers on {layers.routes} drives for how well each flags the {layers.failing} failures. Layer{" "}
-        {layers.chosen} is best, where 0.5 is chance.
-      </p>
-    </Panel>
-  );
-}
+const WORDMARKS = ["SimLingo", "Bench2Drive"];
 
-function Control() {
+function BuiltWith() {
   return (
-    <Panel area="control" title="Control check">
-      <ControlBars />
-      <p className="p-body mt-auto">
-        Every method finds this easy planted failure: the bench works, but ours has not won yet. Next: harder failures
-        and a second VLA.
-      </p>
-    </Panel>
+    <div className="flex items-center gap-[56px]">
+      <p className="p-label">Built with</p>
+      {WORDMARKS.map((name) => (
+        <p key={name} className="p-wordmark">
+          {name}
+        </p>
+      ))}
+      <img src="/poster/logos/carla.png" alt="CARLA simulator" className="h-[120px] w-auto" />
+      <img src="/poster/logos/pytorch.svg" alt="PyTorch" className="h-[72px] w-auto" />
+      <div className="flex items-center gap-[16px]">
+        <img src="/poster/logos/hf.svg" alt="" className="h-[88px] w-auto" />
+        <p className="p-wordmark">Hugging Face</p>
+      </div>
+      <p className="p-label-strong">Savio cluster, UC Berkeley</p>
+    </div>
   );
 }
 
 function Footer() {
   return (
     <Region area="footer" className="flex items-center justify-between gap-[64px]">
-      <p className="p-note">
+      <BuiltWith />
+      <p className="p-note max-w-[1300px] text-right">
         SimLingo: Renz et al., CVPR 2025. Bench2Drive: Jia et al., NeurIPS 2024. CARLA: Dosovitskiy et al., CoRL 2017.
-        Overlap is Jaccard similarity, shared failures over combined failures.
+        Overlap is Jaccard similarity: shared failures over combined failures.
       </p>
-      <p className="p-note shrink-0">UC Berkeley, College of Computing, Data Science, and Society, with Honda Research Institute</p>
     </Region>
   );
 }
@@ -191,11 +226,10 @@ export function Poster() {
     <main className="relative h-[3456px] w-[4608px] overflow-hidden bg-b-paper" aria-label="Research poster">
       <Header />
       <Hero />
+      <Results />
       <Demo />
       <Method />
-      <Proof />
-      <Layers />
-      <Control />
+      <Gaps />
       <Footer />
     </main>
   );

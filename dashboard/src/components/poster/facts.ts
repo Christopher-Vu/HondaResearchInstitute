@@ -21,14 +21,18 @@ export const occlusion = {
   pairs: 60,
   blockedOnly: 31,
   clearOnly: 0,
-  fisherP: "2\u00a0×\u00a010",
-  fisherExponent: "−8",
+  // McNemar's test on the 60 pairs, which is the test that matches the paired 31-to-0 count.
+  pairedP: "9\u00a0×\u00a010",
+  pairedExponent: "−10",
 };
 
 export const appearanceGaps = {
   fog: pilot("P3"),
   animals: pilot("P6"),
 };
+
+// Step 2 reproductions on Bench2Drive (docs/STATUS.md): Chris 88.34 over 219 routes, Jerry 88.60 over 220.
+export const reproduction = { scores: ["88.3", "88.6"], routes: 220 };
 
 export const layers = {
   routes: layerSweep.routes,
