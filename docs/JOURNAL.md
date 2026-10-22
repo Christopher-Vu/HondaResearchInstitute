@@ -21,8 +21,9 @@ with "model alone" and "model + SDK" lanes. Those two lanes are illustrations wi
 that the SDK lane could itself crash at the nearest spawn distance, so spawns now start at 23 m.
 
 `scripts/render_poster.py` renders `poster/poster.pdf` (for print and for Canva import) and a preview,
-and reports the smallest text size (24 pt) and any overflowing panel. The QR code only works once the
-dashboard is redeployed; that was left for a person to approve. Canva import of the PDF was not tested,
+and reports the smallest text size (24 pt) and any overflowing panel. Jerry approved a production deploy the same
+evening, from a clean checkout of branch `poster-drive-demo` (not yet merged to `main`), and a scripted round
+on the live `/drive` page played through. Canva import of the PDF was not tested,
 because the Canva connector was not signed in. Font embedding is in `docs/WHAT_BROKE.md`.
 
 ---
