@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { ExportBar } from "@/components/poster/ExportBar";
 import { FitToScreen } from "@/components/poster/FitToScreen";
 import { Poster } from "@/components/poster/Poster";
+import { canvaConfigured } from "@/lib/canva";
 
 export const metadata: Metadata = {
   title: "Research poster",
@@ -9,8 +11,11 @@ export const metadata: Metadata = {
 
 export default function PosterPage() {
   return (
-    <FitToScreen>
-      <Poster />
-    </FitToScreen>
+    <>
+      <ExportBar canvaOneClick={canvaConfigured()} />
+      <FitToScreen>
+        <Poster />
+      </FitToScreen>
+    </>
   );
 }

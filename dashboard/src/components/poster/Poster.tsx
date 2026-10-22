@@ -204,7 +204,10 @@ function BuiltWith() {
         <img src="/poster/logos/hf.svg" alt="" className="h-[88px] w-auto" />
         <p className="p-wordmark">Hugging Face</p>
       </div>
-      <p className="p-label-strong">Savio cluster, UC Berkeley</p>
+      <div className="flex items-center gap-[16px]">
+        <img src="/poster/logos/brc.png" alt="Berkeley Research Computing" className="size-[120px]" />
+        <p className="p-wordmark">Savio</p>
+      </div>
     </div>
   );
 }

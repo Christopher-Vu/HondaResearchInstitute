@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 night (Jerry) — The poster page downloads as PowerPoint and goes to Canva
+
+The `/poster` page now has three buttons, shown on screen only. "Download PowerPoint" gives one 48 by 36 inch
+slide. Its background is the poster captured at 144 dpi with the page's own text made invisible, and every
+heading, paragraph and caption sits on top as an editable text box in the same place; labels drawn inside
+charts stay part of the picture. 2x capture failed in Chromium, so the PDF stays the file to print. The text
+boxes name IBM Plex Sans, which PowerPoint swaps for another font where it is not installed. "Download PDF for
+Canva" saves the print PDF and opens Canva, where Create a design, then Import file brings it in with editable
+text. "Import into Canva" does that in one step through Canva's own API. It appears only once a Canva developer
+app's `CANVA_CLIENT_ID` and `CANVA_CLIENT_SECRET` are set on Vercel and the site is redeployed, with
+`https://failure-axis-status.vercel.app/api/canva/callback` registered as its redirect URL and the
+`design:content:write` scope; until then nothing calls Canva. The sign-in step was checked against a local
+production build with placeholder keys; the import itself has not run, because there is no Canva app yet.
+
+`scripts/render_poster.py` writes all three files into `dashboard/public/poster/exports/`; rerun it after any
+poster change, since the downloads are fixed files. The "Built with" row now shows the Berkeley Research
+Computing logo beside "Savio" instead of a text credit.
+
+---
+
 ## 2026-10-21 late — Poster gets a results panel, a network-style pipeline and tool logos
 
 Jerry asked for a results section, a smaller demo box, logos of the tools we used and more technical
