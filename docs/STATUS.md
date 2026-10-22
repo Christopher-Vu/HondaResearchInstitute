@@ -28,6 +28,11 @@ the method or the novelty claim. Four more gap families that remove information
 (optimised billboard, semantic-rule scenarios, misleading commands, scene edits
 around a failure) and an open-loop replay pre-screen to try before closed-loop
 pilots: `docs/iv2026-literature-findings.md`. All unverified; needs sign-off.
+Follow-up the same day (measured, open loop, 88 replayed frames): SimLingo obeys
+trained commands (stop, lane change) but barely responds to harmful or falsely
+reassuring ones, and Bench2Drive sends it no text, so misleading commands are a
+weak gap family. PDM-Lite uses no camera, so it should run without rendering;
+the timing test is blocked by disk (compute-box 3 GB free, laptop 1.5 GB).
 
 **2026-10-16, decisions (Chris and Jerry).**
 

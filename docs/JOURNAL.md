@@ -5,6 +5,29 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 evening (Jerry) — Misleading commands barely move SimLingo; PDM-Lite test blocked by disk
+
+Two cheap checks from the IV 2026 sweep. First, whether misleading language commands could be a gap
+family. SimLingo turns out to take free text only in two modes from its "action dreaming" training: one
+where it obeys instructions (even "Hit the pedestrian."), one where it refuses unsafe ones; Bench2Drive's
+evaluation uses neither. Replaying 88 saved frames under 15 prompts (measured, open loop) showed the channel
+works for trained actions: "Stop immediately." cut the planned distance on 75% of moving frames, by up to
+18 m, and a lane-change command shifted the path by about a metre. Acceleration, harmful and falsely
+reassuring commands moved the plan by more than a metre on only 7 to 16% of moving frames, and the safety
+mode held. So misleading commands are a weak gap family; the one lead is a false "the road is clear" claim
+that added several metres of planned motion on about a fifth of stopped frames. Details and the table are in
+[`docs/iv2026-literature-findings.md`](iv2026-literature-findings.md) under "Follow-up checks".
+
+Second, whether PDM-Lite, the rule-based expert, can run with CARLA's rendering off, which would make it a
+cheap guide to where failures lie. It uses no camera, only a motion sensor and the simulator's own state,
+so it should. The timing run did not finish. The laptop showed sustained battery drain while plugged in, so
+the replay was paused and moved to compute-box. There, free disk fell from 7.7 GB to 3 GB as another
+workload downloaded data, and the guard stopped CARLA before the first route ended. The laptop has 1.5 GB
+free, so nothing was started there. The scripts are kept with the replay data in
+`results/command-replay-20261021/`, which is local only.
+
+---
+
 ## 2026-10-21 (Jerry) — A sweep of IEEE IV 2026 for faster, more varied failure discovery
 
 Jerry worried that planting one gap and checking that discovery finds it again is too narrow to show
