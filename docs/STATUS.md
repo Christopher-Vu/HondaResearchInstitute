@@ -6,13 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-21 (three camera gaps ready to screen, IV 2026 sweep read; current step is 5)
+Last updated: 2026-10-21 (P7–P9 screens submitted, IV 2026 sweep read; current step is 5)
 
 ---
 
 ## Current position
 
-**2026-10-21, three new practice gaps ready; nothing run.** Every gap that only
+**2026-10-21 18:00, P7–P9 screens submitted (Jerry's account).** Savio's checkout was
+fast-forwarded to `main` (b11ad6a) by git bundle and the left-crossing patch applied
+to its runtime; a test read of 2,000 runtime files found no scratch-disk failures.
+Arrays 40341122 (P7), 40341124 (P8), 40341126 (P9), 10 pairs each at two routes per
+A40; scoring jobs 40341123, 40341125, 40341127 run after them and write
+`results/savio/step5-pilot-p{7,8,9}-screen/efficacy.json`. The automatic follow-on
+to a full pilot was not chained: P7–P9 have no full-pilot configs yet. About 250 SU
+expected. If a route crashes at startup, check the scratch disk first
+(`docs/WHAT_BROKE.md` 2026-10-20).
+
+**2026-10-21, three new practice gaps ready.** Every gap that only
 changed appearance failed, and P4, which removes information, passed. So the next
 candidates all remove information: P7 camera freeze (stale for 2 s of every 3 s),
 P8 camera latency (every frame 1 s old) and P9 traffic-light glare (each light in

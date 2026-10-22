@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 evening (Jerry) — P7, P8 and P9 screens submitted
+
+The three camera gaps that remove information (a freezing camera, a one-second delay, white-painted
+traffic lights) went to Savio, ten paired routes each, under Jerry's account. Savio's copy of the code was
+92 commits behind and lacked all three gaps, so it was brought up to `main` with a git bundle, a pure
+fast-forward with no jobs running. The fix for routes that hang on a left-side pedestrian crossing
+(`docs/infra/left-crossing-stall.md`) was applied to the shared runtime. Savio's scratch disk has been
+dropping files until its 2026-10-26 repair, so a test read of 2,000 runtime files came first; none failed.
+Each screen's scoring job writes its verdict to `efficacy.json` when its routes finish. The step that
+would launch a 60-pair full pilot on a pass was left out, because P7–P9 have no full-pilot configs and the
+spend should be a decision. Job numbers are in `docs/STATUS.md`.
+
+---
+
 ## 2026-10-21 evening (Jerry) — Misleading commands barely move SimLingo; PDM-Lite test blocked by disk
 
 Two cheap checks from the IV 2026 sweep. First, whether misleading language commands could be a gap
