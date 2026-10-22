@@ -12,18 +12,25 @@ import { usePalette, type Palette, type Token } from "./palette";
 import { World } from "./World";
 
 const PAINT: Record<LaneId, Token> = { you: "gold", vla: "blue-mid", sdk: "blue" };
-const CAMERA_BEHIND = 22;
-const CAMERA_HEIGHT = 12;
-const LOOK_AHEAD = 30;
-const LABEL_BEHIND_CAR = 1.2;
+// The driver's eye in the visitor's car: left seat, behind the windscreen, above the hood.
+// At this height and distance the gold hood fills about the bottom quarter of the frame.
+const EYE = { x: LANE_X.you - 0.38, height: 1.45, behindNose: 1.6 } as const;
+const LOOK_AHEAD = 40;
+const LOOK_HEIGHT = 1.05;
+// Braking pitches the view down about 2 degrees, the way a car's nose dips, eased in and out.
+const BRAKE_DIP = 1.4;
+const DIP_RATE = 8;
+const LABEL_ABOVE_ROOF = 2.1;
 
-function ChaseCamera({ travelled }: { travelled: number }) {
+function DriverCamera({ travelled, braking }: { travelled: number; braking: boolean }) {
   const camera = useThree((state) => state.camera);
   const target = useRef(new Vector3());
-  useFrame(() => {
+  const dip = useRef(0);
+  useFrame((_, delta) => {
     const z = noseZ(travelled);
-    camera.position.set(TRACK_CENTRE, CAMERA_HEIGHT, z + CAMERA_BEHIND);
-    target.current.set(TRACK_CENTRE, 0.4, z - LOOK_AHEAD);
+    dip.current += ((braking ? BRAKE_DIP : 0) - dip.current) * Math.min(1, delta * DIP_RATE);
+    camera.position.set(EYE.x, EYE.height, z + EYE.behindNose);
+    target.current.set(EYE.x, LOOK_HEIGHT - dip.current, z - LOOK_AHEAD);
     camera.lookAt(target.current);
   });
   return null;
@@ -56,26 +63,24 @@ function Sun({ travelled }: { travelled: number }) {
   );
 }
 
-type LabelElements = Record<LaneId, HTMLSpanElement | null>;
+// The visitor is the driver, so only the two model lanes carry a name tag.
+const TAGGED_LANES = LANE_ORDER.filter((lane) => lane !== "you");
+type LabelElements = Partial<Record<LaneId, HTMLSpanElement | null>>;
 
 const projected = new Vector3();
-const LABEL_MARGIN = 6;
 
-function clamp(value: number, low: number, high: number) {
-  return Math.min(Math.max(value, low), high);
-}
-
-// Runs in the frame loop, outside render: pins each lane's name to the road just behind its car,
-// clear of the pedestrian ahead.
+// Runs in the frame loop, outside render: floats each model car's name above its roof, and hides it
+// while that car is behind the driver or out of frame.
 function placeLabels(camera: Camera, size: { width: number; height: number }, sim: Sim, elements: LabelElements) {
-  for (const lane of LANE_ORDER) {
+  for (const lane of TAGGED_LANES) {
     const element = elements[lane];
     if (!element) continue;
-    projected.set(LANE_X[lane], 0, noseZ(sim.cars[lane].y) + CAR.length + LABEL_BEHIND_CAR).project(camera);
-    const half = element.offsetWidth / 2;
-    const y = clamp(((1 - projected.y) / 2) * size.height, LABEL_MARGIN, size.height - element.offsetHeight - LABEL_MARGIN);
-    const x = clamp(((projected.x + 1) / 2) * size.width, half + LABEL_MARGIN, size.width - half - LABEL_MARGIN);
-    element.style.transform = `translate(${x}px, ${y}px) translate(-50%, 0)`;
+    projected.set(LANE_X[lane], LABEL_ABOVE_ROOF, noseZ(sim.cars[lane].y) + CAR.length / 2).project(camera);
+    const inView = projected.z < 1 && Math.abs(projected.x) < 1 && Math.abs(projected.y) < 1;
+    element.style.visibility = inView ? "visible" : "hidden";
+    const x = ((projected.x + 1) / 2) * size.width;
+    const y = ((1 - projected.y) / 2) * size.height;
+    element.style.transform = `translate(${x}px, ${y}px) translate(-50%, -100%)`;
   }
 }
 
@@ -92,7 +97,7 @@ function Scene({ sim, palette, labels }: { sim: Sim; palette: Palette; labels: R
       <fog attach="fog" args={[palette.wash, 60, 170]} />
       <hemisphereLight args={[palette.paper, palette.asphalt, 1.1]} />
       <Sun travelled={travelled} />
-      <ChaseCamera travelled={travelled} />
+      <DriverCamera travelled={travelled} braking={isBraking(sim, "you")} />
       <LaneLabels sim={sim} labels={labels} />
       <World palette={palette} />
       {LANE_ORDER.map((lane) => (
@@ -104,6 +109,7 @@ function Scene({ sim, palette, labels }: { sim: Sim; palette: Palette; labels: R
             scenario={sim.scenario}
             time={sim.time}
             palette={palette}
+            showImpact={lane !== "you"}
           />
         </group>
       ))}
@@ -111,19 +117,25 @@ function Scene({ sim, palette, labels }: { sim: Sim; palette: Palette; labels: R
   );
 }
 
-const LABEL_ORDER = LANE_ORDER.map((id) => LANES.find((lane) => lane.id === id)!);
+const LABEL_ORDER = TAGGED_LANES.map((id) => LANES.find((lane) => lane.id === id)!);
 
 export function Street3D({ sim }: { sim: Sim }) {
   const frame = useRef<HTMLDivElement>(null);
-  const labels = useRef<LabelElements>({ you: null, vla: null, sdk: null });
+  const labels = useRef<LabelElements>({});
   const palette = usePalette(frame);
   return (
     <div ref={frame} className="relative aspect-square w-full overflow-hidden bg-b-wash">
       {palette && (
-        <Canvas shadows dpr={[1, 2]} camera={{ fov: 50, near: 0.5, far: 260 }} aria-hidden="true">
+        // A nearer clip plane costs depth precision, and the ground then shows through the road far ahead.
+        <Canvas shadows dpr={[1, 2]} camera={{ fov: 62, near: 0.5, far: 260 }} aria-hidden="true">
           <Scene sim={sim} palette={palette} labels={labels} />
         </Canvas>
       )}
+      {/* The driver's own crash: the 3D burst would sit at the windscreen, so the view's edges glow instead. */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_28px_var(--b-crash)] transition-opacity duration-150 ${sim.cars.you.outcome === "hit" ? "opacity-100" : "opacity-0"}`}
+      />
       {LABEL_ORDER.map((lane) => (
         <span
           key={lane.id}

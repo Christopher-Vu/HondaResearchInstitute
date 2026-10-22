@@ -205,7 +205,8 @@ export const World = memo(function World({ palette }: { palette: Palette }) {
   const width = TRACK_RIGHT - TRACK_LEFT;
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, ROAD_MID_Z]} receiveShadow>
+      {/* 6 cm under the road: at 1 cm the ground showed through the asphalt in the low driver's-eye view. */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.06, ROAD_MID_Z]} receiveShadow>
         <planeGeometry args={[400, ROAD_LENGTH + 200]} />
         <meshStandardMaterial color={palette.rule} roughness={1} />
       </mesh>

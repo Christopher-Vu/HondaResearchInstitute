@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 night (Jerry) — The stop-in-time demo's 3D view is now the driver's seat
+
+On `/drive`, "3D street" used to watch all three lanes from 22 m behind and 12 m up. It now looks out from
+the visitor's own car: left seat, 1.45 m up, the gold hood along the bottom. The pedestrian steps out from
+behind the parked van in your own lane, which is what the demo is about. Braking dips the view about 2 degrees.
+Your own crash shows as a red glow around the edges rather than the 3D burst, which would sit on the windscreen.
+The two model lanes are 6.6 m to either side, so they are mostly out of view; their name tags float above
+their roofs when they are ahead of you, and the comparison is in the result panel and the Top-down view.
+
+Driving rounds in headless Chromium showed the ground plane, 1 cm under the road, showing through the
+asphalt in about a quarter of frames from this low angle. It now sits 6 cm down; a road pixel sampled in 48
+frames over four rounds was asphalt in all of them. The poster's phone picture
+(`dashboard/public/poster/drive-phone.png`) still shows the old chase view until it is retaken with
+`scripts/render_poster.py --phone`.
+
+---
+
 ## 2026-10-21 night (Jerry) — The poster page downloads as PowerPoint and goes to Canva
 
 The `/poster` page now has three buttons, shown on screen only. "Download PowerPoint" gives one 48 by 36 inch

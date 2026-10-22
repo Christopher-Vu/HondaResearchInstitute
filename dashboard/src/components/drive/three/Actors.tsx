@@ -140,6 +140,7 @@ export function LaneActors({
   scenario,
   time,
   palette,
+  showImpact,
 }: {
   car: CarState;
   paint: string;
@@ -147,6 +148,7 @@ export function LaneActors({
   scenario: Scenario;
   time: number;
   palette: Palette;
+  showImpact: boolean;
 }) {
   const z = noseZ(car.y);
   return (
@@ -154,7 +156,7 @@ export function LaneActors({
       <ParkedVan scenario={scenario} palette={palette} />
       <Pedestrian scenario={scenario} time={time} palette={palette} />
       <Car z={z} paint={paint} braking={braking} palette={palette} />
-      {car.outcome === "hit" && <Impact z={z - 0.2} palette={palette} />}
+      {showImpact && car.outcome === "hit" && <Impact z={z - 0.2} palette={palette} />}
       {car.outcome === "stopped" && <StopLine z={z} palette={palette} />}
     </group>
   );
