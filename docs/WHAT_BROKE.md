@@ -8,6 +8,18 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-21 — Poster PDF text came out as Type 3 glyphs
+
+**Expected:** Chromium's PDF export of the poster page would embed IBM Plex Sans as normal text.
+
+**What happened:** `pdffonts` showed every font as Type 3 (text drawn as glyph pictures), which design
+tools such as Canva often cannot edit as text. The cause was the font source: `next/font/google` serves
+IBM Plex Sans as a variable font, and Chromium embeds variable fonts as Type 3.
+
+**What we did:** the poster and demo load IBM's static TTFs through `next/font/local`
+(`dashboard/src/fonts/`). The PDF now embeds CID TrueType with Unicode maps. Check with
+`pdffonts poster/poster.pdf` after any font change.
+
 ## 2026-10-20 — A third of each policy step was a debug file write
 
 **Expected:** the policy's forward pass would dominate a step's wall time.

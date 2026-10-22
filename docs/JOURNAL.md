@@ -5,6 +5,28 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 evening — Research poster rebuilt in React, with a stop-in-time demo
+
+The Canva poster draft was rebuilt as code: a 48 x 36 in page at `/poster` in the dashboard app
+(`dashboard/src/components/poster/`), in Berkeley Blue and California Gold, with crash prevention as the
+motif. The motif is the stopping-distance bar: the hero shows a top-down street where a blocked camera
+centre hides a person stepping out from behind a van. Every number on the poster comes from one file,
+`facts.ts`, which reads the existing result JSON and names each source. One finding shaped the copy:
+on the P4 control gap, every method scores the same overlap (Jaccard 0.70), random axes included, so the
+poster says the test bench works and does not claim our method wins.
+
+The poster's QR code points to `/drive`, a phone game: hold Brake when a pedestrian appears, then compare
+with "model alone" and "model + SDK" lanes. Those two lanes are illustrations with fixed reaction times
+(1.2 s and 0.25 s), and the page says so; the SDK-trained result is a goal, not a measurement. Testing found
+that the SDK lane could itself crash at the nearest spawn distance, so spawns now start at 23 m.
+
+`scripts/render_poster.py` renders `poster/poster.pdf` (for print and for Canva import) and a preview,
+and reports the smallest text size (24 pt) and any overflowing panel. The QR code only works once the
+dashboard is redeployed; that was left for a person to approve. Canva import of the PDF was not tested,
+because the Canva connector was not signed in. Font embedding is in `docs/WHAT_BROKE.md`.
+
+---
+
 ## 2026-10-21 evening (Jerry) — P7, P8 and P9 screens submitted
 
 The three camera gaps that remove information (a freezing camera, a one-second delay, white-painted

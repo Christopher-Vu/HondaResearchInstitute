@@ -128,3 +128,58 @@ body {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Berkeley theme for the poster and the stop-in-time demo, light only because it prints.
+   Blue carries structure; gold marks the stop line and "ours"; crash red is a small mark, never a fill. */
+.theme-berkeley {
+  color-scheme: light;
+  --b-blue: #002676;
+  --b-blue-deep: #001845;
+  --b-blue-mid: #3b7ea1;
+  --b-gold: #fdb515;
+  --b-gold-deep: #c4820e;
+  --b-ink: #0e1b33;
+  --b-ink-2: #3d4a63;
+  --b-ink-3: #5b6780;
+  --b-rule: #d5dce8;
+  --b-wash: #eef2f8;
+  --b-paper: #ffffff;
+  --b-asphalt: #2b3446;
+  --b-crash: #d6231e;
+  background: var(--b-paper);
+  color: var(--b-ink);
+  font-family: var(--font-plex), system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-b-blue: var(--b-blue);
+  --color-b-blue-deep: var(--b-blue-deep);
+  --color-b-blue-mid: var(--b-blue-mid);
+  --color-b-gold: var(--b-gold);
+  --color-b-gold-deep: var(--b-gold-deep);
+  --color-b-ink: var(--b-ink);
+  --color-b-ink-2: var(--b-ink-2);
+  --color-b-ink-3: var(--b-ink-3);
+  --color-b-rule: var(--b-rule);
+  --color-b-wash: var(--b-wash);
+  --color-b-paper: var(--b-paper);
+  --color-b-asphalt: var(--b-asphalt);
+  --color-b-crash: var(--b-crash);
+  --font-plex: var(--font-plex);
+}
+
+/* Poster type, defined once. Sized for a 48 x 36 in print read from 1.5 m: 96 px = 1 in, so body 46 px is 34.5 pt.
+   Nothing on the poster is smaller than .p-note (24 pt). */
+@layer components {
+  .p-title { font-size: 150px; line-height: 1.04; font-weight: 700; color: var(--b-paper); text-wrap: balance; }
+  .p-subtitle { font-size: 60px; line-height: 1.2; font-weight: 400; color: var(--b-paper); }
+  .p-authors { font-size: 46px; line-height: 1.3; font-weight: 500; color: var(--b-paper); }
+  .p-head { font-size: 78px; line-height: 1.08; font-weight: 700; color: var(--b-blue); text-wrap: balance; }
+  .p-body { font-size: 46px; line-height: 1.34; font-weight: 400; color: var(--b-ink-2); text-wrap: pretty; }
+  .p-body strong { font-weight: 600; color: var(--b-ink); }
+  .p-label { font-size: 40px; line-height: 1.2; font-weight: 500; color: var(--b-ink-2); }
+  .p-label-strong { font-size: 44px; line-height: 1.15; font-weight: 600; color: var(--b-ink); }
+  .p-note { font-size: 32px; line-height: 1.3; font-weight: 400; color: var(--b-ink-3); }
+  .p-figure { font-size: 96px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .p-stat { font-size: 230px; line-height: 0.9; font-weight: 700; color: var(--b-blue); font-variant-numeric: tabular-nums; }
+}
