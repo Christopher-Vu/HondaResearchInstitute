@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 night (Jason) — CI passes again
+
+CI had failed on every push since at least 2026-10-15, so the CPU test suite had not run on any of those
+pushes. The failing step was the adapter type check (`mypy` over `adapters/simlingo`), which runs before
+the tests: ten errors in `route_run.py`, `camera_fault.py`, `ablate_replay.py` and `capture_agent.py`,
+nearly all values that can be `None` used where the code knows they are set. They are narrowed with
+`assert ... is not None`, the idiom the adapters already use, so no behaviour changes. `probe_residual.py`
+now passes `copy=False` to HDBSCAN, keeping today's behaviour and silencing scikit-learn's warning that
+the default flips in 1.10. Every CI step passes locally under Python 3.12 (measured: 299 passed, 43
+skipped for missing torch, CARLA or Bench2Drive). Jason has no push access, so this arrives as a pull
+request.
+
+---
+
 ## 2026-10-21 evening (Jerry) — P7, P8 and P9 screens submitted
 
 The three camera gaps that remove information (a freezing camera, a one-second delay, white-painted
