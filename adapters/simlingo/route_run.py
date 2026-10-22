@@ -147,7 +147,7 @@ def route_environment(config: dict[str, Any]) -> dict[str, str]:
     if not manifest:
         return knockout
     route_id = str(config["route"]["id"])
-    entry = next((entry for entry in json.loads((ROOT / manifest).read_text()) if str(entry["id"]) == route_id), {})
+    entry: dict[str, Any] = next((entry for entry in json.loads((ROOT / manifest).read_text()) if str(entry["id"]) == route_id), {})
     fault = (entry.get("sensor") or {}).get("camera_fault")
     return knockout | ({"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {})
 

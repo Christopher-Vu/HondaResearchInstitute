@@ -56,7 +56,8 @@ class CaptureAgent(VisibleAgent):
         super().setup(path_to_conf_file, route_index)
         # Upstream rewrites metric_info.json every step: ~0.26 s on Savio's scratch (40265241), about a third of a
         # step. Only Bench2Drive's efficiency/smoothness tools read it, so write it once, at the end, instead.
-        self.metric_path, self.save_path_metric = self.save_path_metric, None
+        self.metric_path = self.save_path_metric
+        self.save_path_metric: Any = None
         self.capture_every = int(os.environ.get("SIMLINGO_CAPTURE_EVERY", "10"))
         self.token_layers = [int(layer) for layer in os.environ.get("SIMLINGO_TOKEN_LAYERS", "").split(",") if layer]
         self.capture_dir = self.evidence / "capture"
