@@ -45,6 +45,11 @@ production build with placeholder keys; the import itself has not run, because t
 poster change, since the downloads are fixed files. The "Built with" row now shows the Berkeley Research
 Computing logo beside "Savio" instead of a text credit.
 
+Later the same night, at Jerry's request, the buttons were shortened to "PowerPoint" and "Canva" (their
+screen-reader names still say what downloads), and the Canva button became the one-click import once keys
+exist, replacing the second button. The bar collapses to a small "Export" pill so it stops covering the
+poster's top corner; the choice is remembered in the browser.
+
 ---
 
 ## 2026-10-21 late — Poster gets a results panel, a network-style pipeline and tool logos
