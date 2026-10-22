@@ -20,6 +20,8 @@ async def phone_shot(b):
     pg = await ctx.new_page()
     await pg.goto(f"{BASE}/drive", wait_until="networkidle")
     await pg.add_style_tag(content=HIDE_DEV)
+    # The top-down view exposes the pedestrian as SVG, so it times the brake; the poster shows the 3D result.
+    await pg.get_by_role("radio", name="Top-down").click()
     await pg.get_by_role("button", name="Start").click()
     await pg.wait_for_function("document.querySelectorAll('svg ellipse').length >= 3", timeout=10000)
     await pg.wait_for_timeout(200)
@@ -28,6 +30,8 @@ async def phone_shot(b):
     await pg.mouse.down()
     await pg.wait_for_selector("text=Try again", timeout=10000)
     await pg.mouse.up()
+    await pg.get_by_role("radio", name="3D street").click()
+    await pg.wait_for_timeout(2000)
     await pg.evaluate("window.scrollTo(0,0)")
     await pg.screenshot(path=f"{REPO}/dashboard/public/poster/drive-phone.png")
     await ctx.close()
@@ -71,7 +75,7 @@ async def poster(b, out):
 async def main():
     out = sys.argv[1]
     async with async_playwright() as p:
-        b = await p.chromium.launch()
+        b = await p.chromium.launch(args=["--use-angle=swiftshader", "--enable-unsafe-swiftshader"])
         if "--phone" in sys.argv:
             await phone_shot(b)
         await poster(b, out)

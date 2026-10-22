@@ -1,5 +1,6 @@
 import {
   createCar,
+  MAX_STEP_S,
   SDK_REACTION_S,
   SPEED_MS,
   stepCar,
@@ -52,6 +53,14 @@ export function isBraking(sim: Sim, lane: LaneId) {
   if (lane === "you") return sim.brakeLatched;
   const reaction = lane === "vla" ? VLA_REACTION_S : SDK_REACTION_S;
   return modelBrakes(sim.time, sim.scenario, reaction);
+}
+
+export function advanceSimBy(sim: Sim, elapsed: number): Sim {
+  let next = sim;
+  for (let remaining = elapsed; remaining > 0 && next.phase === "running"; remaining -= MAX_STEP_S) {
+    next = advanceSim(next, Math.min(remaining, MAX_STEP_S));
+  }
+  return next;
 }
 
 export function advanceSim(sim: Sim, dt: number): Sim {

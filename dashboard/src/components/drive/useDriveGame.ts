@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { advanceSim, createSim, PREVIEW_SCENARIO, pressBrake, type Sim } from "./game";
+import { advanceSimBy, createSim, PREVIEW_SCENARIO, pressBrake, type Sim } from "./game";
 import { createScenario, MAX_FRAME_S } from "./physics";
 
 function useSimLoop(running: boolean, simRef: { current: Sim }, lastFrameRef: { current: number }, commit: (sim: Sim) => void) {
@@ -12,7 +12,7 @@ function useSimLoop(running: boolean, simRef: { current: Sim }, lastFrameRef: { 
       const dt = Math.min(Math.max((now - previous) / 1000, 0), MAX_FRAME_S);
       previous = now;
       lastFrameRef.current = now;
-      commit(advanceSim(simRef.current, dt));
+      commit(advanceSimBy(simRef.current, dt));
       handle = requestAnimationFrame(tick);
     };
     handle = requestAnimationFrame(tick);

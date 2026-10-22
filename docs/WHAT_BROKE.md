@@ -8,6 +8,19 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-21 — The 3D demo went blank, and slow frames shortened reaction times
+
+**Expected:** the 3D view would keep drawing once a run started.
+
+**What happened:** the canvas went blank the moment the car moved. The WebGL check ran inside
+`useSyncExternalStore`, which calls it on every render, so each frame opened a new WebGL context until the
+browser dropped the oldest, the scene's own ("Too many active WebGL contexts"). Profiling it also showed the
+game loop clamped each frame to 50 ms: below 20 frames per second the simulation clock fell behind the wall
+clock, so a slow phone measured reaction times shorter than they were.
+
+**What we did:** the WebGL probe runs once and releases its context. The loop now splits a long frame into
+steps of at most 1/60 s (`advanceSimBy`), so simulated time keeps pace with real time on any device.
+
 ## 2026-10-21 — Poster PDF text came out as Type 3 glyphs
 
 **Expected:** Chromium's PDF export of the poster page would embed IBM Plex Sans as normal text.

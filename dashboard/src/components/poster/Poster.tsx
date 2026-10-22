@@ -109,7 +109,7 @@ function Demo() {
         </div>
         <img
           src="/poster/drive-phone.png"
-          alt="The demo on a phone: three roads side by side, you, the model alone, and the model with our SDK"
+          alt="The demo on a phone: a 3D street with three lanes, you, the model alone, and the model with our SDK, after a pedestrian steps out"
           className="h-[900px] w-auto rounded-[56px] shadow-[0_24px_60px_rgb(0_0_0/0.35)]"
         />
       </div>

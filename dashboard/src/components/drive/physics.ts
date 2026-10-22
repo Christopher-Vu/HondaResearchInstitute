@@ -2,7 +2,11 @@ export type LaneId = "you" | "vla" | "sdk";
 
 export const SPEED_MS = 60 / 3.6;
 export const BRAKE_DECEL = 8;
-export const MAX_FRAME_S = 0.05;
+// Physics steps at most this long, so a slow frame is split into several steps rather than clamped:
+// the simulation clock must keep pace with the wall clock or reaction times read short on slow phones.
+export const MAX_STEP_S = 1 / 60;
+// A longer gap than this means the tab was hidden; it is not driving time.
+export const MAX_FRAME_S = 0.25;
 export const VLA_REACTION_S = 1.2;
 export const SDK_REACTION_S = 0.25;
 export const STEP_OUT_S = 0.5;

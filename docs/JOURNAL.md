@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-21 late — The stop-in-time demo gets a 3D street
+
+`/drive` now opens on a 3D view built with three.js through react-three-fiber
+(`dashboard/src/components/drive/three/`): three lanes side by side on a city street, a chase camera behind
+the visitor's car, parked vans, and pedestrians marked by a gold ground ring. It draws from the same
+physics and game state as the top-down view, which stays as a switch and as the fallback when the browser
+has no WebGL. The poster's phone image now shows the 3D result. Two bugs found on the way are in
+`docs/WHAT_BROKE.md`; the one that mattered for the science-fair use is that slow phones under-reported
+reaction times, now fixed for both views.
+
+---
+
 ## 2026-10-21 evening — Research poster rebuilt in React, with a stop-in-time demo
 
 The Canva poster draft was rebuilt as code: a 48 x 36 in page at `/poster` in the dashboard app
