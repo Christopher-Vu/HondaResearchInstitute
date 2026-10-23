@@ -1,0 +1,29 @@
+{
+  "gap_id": "P7_camera_freeze",
+  "routes_listed": 20,
+  "routes_without_outcome": [],
+  "prd_9_1": {
+    "n_in": 10,
+    "failures_in": 10,
+    "n_neighbourhood": 10,
+    "failures_neighbourhood": 4,
+    "fail_rate_in": 1.0,
+    "fail_rate_neighbourhood": 0.4,
+    "uplift_pp": 60.0,
+    "ratio": 2.5,
+    "fisher_p": 0.010835913312693499,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 10,
+    "base_routes": 10,
+    "slice_only_failed": 6,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 1.0,
+    "fail_rate_neighbourhood": 0.4,
+    "uplift_pp": 60.0,
+    "ratio": 2.5,
+    "mcnemar_p": 0.03125,
+    "passes": false
+  }
+}

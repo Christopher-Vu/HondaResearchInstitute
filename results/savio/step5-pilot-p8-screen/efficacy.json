@@ -1,0 +1,31 @@
+{
+  "gap_id": "P8_camera_latency",
+  "routes_listed": 20,
+  "routes_without_outcome": [
+    "2420641"
+  ],
+  "prd_9_1": {
+    "n_in": 10,
+    "failures_in": 10,
+    "n_neighbourhood": 9,
+    "failures_neighbourhood": 4,
+    "fail_rate_in": 1.0,
+    "fail_rate_neighbourhood": 0.4444444444444444,
+    "uplift_pp": 55.55555555555556,
+    "ratio": 2.25,
+    "fisher_p": 0.010835913312693497,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 9,
+    "base_routes": 9,
+    "slice_only_failed": 5,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 1.0,
+    "fail_rate_neighbourhood": 0.4444444444444444,
+    "uplift_pp": 55.55555555555556,
+    "ratio": 2.25,
+    "mcnemar_p": 0.0625,
+    "passes": false
+  }
+}
