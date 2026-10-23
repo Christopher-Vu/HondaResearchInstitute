@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image
 from agent_simlingo import LingoAgent
 from camera_fault import CameraFault
-from light_glare import camera_to_world, glare_rects
+from light_glare import LightBoxCache, camera_to_world, glare_rects
 
 
 GLARE_RANGE_M = 80.0
@@ -30,7 +30,8 @@ class VisibleAgent(LingoAgent):
         super().setup(path_to_conf_file, route_index)
         self.evidence = Path(os.environ["SIMLINGO_EVIDENCE"])
         fault = json.loads(os.environ.get("SIMLINGO_CAMERA_FAULT", "null"))
-        self.light_boxes: list[np.ndarray] | None = None
+        self.lights: Any = None
+        self.light_boxes: LightBoxCache | None = None
         self.camera_fault = CameraFault(fault, self._light_rects if (fault or {}).get("kind") == "traffic_light_glare"
                                         else None)
         (self.evidence / "frames").mkdir(parents=True, exist_ok=True)
@@ -50,13 +51,14 @@ class VisibleAgent(LingoAgent):
         import carla
         from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
         ego = CarlaDataProvider.get_hero_actor()
-        if self.light_boxes is None:
-            lights = CarlaDataProvider.get_world().get_actors().filter("traffic.traffic_light")
-            self.light_boxes = [np.array([[v.x, v.y, v.z] for v in box.get_world_vertices(carla.Transform())])
-                                for light in lights for box in light.get_light_boxes()]
+        if self.lights is None:
+            self.lights = CarlaDataProvider.get_world().get_actors().filter("traffic.traffic_light")
+            self.light_boxes = LightBoxCache(lambda light: [
+                np.array([[v.x, v.y, v.z] for v in box.get_world_vertices(carla.Transform())])
+                for box in light.get_light_boxes()])
         location = ego.get_location()
         here = np.array([location.x, location.y])
-        nearby = [corners for corners in self.light_boxes
+        nearby = [corners for corners in self.light_boxes.boxes(self.lights)
                   if np.linalg.norm(corners.mean(axis=0)[:2] - here) < GLARE_RANGE_M]
         camera = camera_to_world(np.array(ego.get_transform().get_matrix()), tuple(self.config.camera_pos_0))
         return glare_rects(np.linalg.inv(camera), nearby, self.config.camera_width_0, self.config.camera_height_0,

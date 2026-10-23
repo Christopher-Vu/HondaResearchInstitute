@@ -5,10 +5,30 @@ CARLA's camera frame is x forward, y right, z up.
 """
 from __future__ import annotations
 
+from typing import Any, Callable
+
 import numpy as np
 
 NEAREST_VISIBLE_M = 0.5
 MIN_PADDING_PX = 4
+
+
+class LightBoxCache:
+    """Each traffic light's box corners, read once it is awake.
+
+    On large maps CARLA keeps actors far from the ego dormant, and a dormant light refuses get_light_boxes.
+    Lights never move, so an awake light's corners are kept; a dormant one is tried again on a later call.
+    """
+
+    def __init__(self, box_corners: Callable[[Any], list[np.ndarray]]) -> None:
+        self._box_corners = box_corners
+        self._corners_by_light: dict[int, list[np.ndarray]] = {}
+
+    def boxes(self, lights: Any) -> list[np.ndarray]:
+        for light in lights:
+            if light.id not in self._corners_by_light and not light.is_dormant:
+                self._corners_by_light[light.id] = self._box_corners(light)
+        return [corners for boxes in self._corners_by_light.values() for corners in boxes]
 
 
 def camera_to_world(ego_matrix: np.ndarray, mount_xyz: tuple[float, float, float]) -> np.ndarray:

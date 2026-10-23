@@ -1,7 +1,9 @@
 """Traffic-light glare geometry: boxes ahead land in the image, boxes behind the lens or off-image do not."""
 import numpy as np
 
-from light_glare import camera_to_world, glare_rects
+from types import SimpleNamespace
+
+from light_glare import LightBoxCache, camera_to_world, glare_rects
 
 WIDTH, HEIGHT, FOV = 1024, 512, 110
 MOUNT = (-1.5, 0.0, 2.0)
@@ -57,3 +59,22 @@ def test_the_ego_yaw_is_respected():
     world_box = box((18.5, 0, 2.0))
     assert len(rects([world_box])) == 1
     assert rects([world_box], ego(yaw_degrees=90)) == []
+
+
+def test_a_dormant_light_is_skipped_until_it_wakes_and_then_read_once():
+    reads = []
+
+    def box_corners(light):
+        if light.is_dormant:
+            raise RuntimeError("Function not availiable when the actor is dormant")
+        reads.append(light.id)
+        return [box((light.id, 0, 2.0))]
+
+    awake, far = SimpleNamespace(id=1, is_dormant=False), SimpleNamespace(id=2, is_dormant=True)
+    cache = LightBoxCache(box_corners)
+    assert len(cache.boxes([awake, far])) == 1
+    far.is_dormant = False
+    assert len(cache.boxes([awake, far])) == 2
+    awake.is_dormant = True
+    assert len(cache.boxes([awake, far])) == 2
+    assert reads == [1, 2]

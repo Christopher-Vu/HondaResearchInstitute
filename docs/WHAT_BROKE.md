@@ -18,8 +18,8 @@ light in the world on its first call. On the large maps (Town12, Town13) CARLA k
 and a dormant light refuses that call. Only 3 pairs scored, so the screen verdict (0 against 0) says nothing
 about the gap.
 
-**What we did:** nothing yet. The fix is to read boxes only from lights that are awake near the ego, then
-rerun the screen.
+**What we did:** `LightBoxCache` (`adapters/simlingo/light_glare.py`) reads a light's boxes only once it is
+awake and retries dormant ones on later steps. Unit-tested, not yet run in CARLA; the P9 screen needs a rerun.
 
 ## 2026-10-21 — The 3D demo went blank, and slow frames shortened reaction times
 

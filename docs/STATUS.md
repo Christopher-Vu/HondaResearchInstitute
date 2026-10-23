@@ -17,7 +17,8 @@ Last updated: 2026-10-23 (P7 and P8 screens pass, P9 crashed; current step is 5)
 latency passes (5 against 0 over 9 pairs; route 2420641 stopped for slow simulation).
 Both need full-pilot configs next. P9 glare does not pass, but only 3 of 10 pairs
 scored: 7 slice routes crashed on our own glare code, not on CARLA or the disk
-(`docs/WHAT_BROKE.md` 2026-10-23). Fix the crash and rerun the P9 screen.
+(`docs/WHAT_BROKE.md` 2026-10-23). The crash is fixed in code (unit-tested, not yet
+run in CARLA); next, bring Savio's checkout up to date and rerun the P9 screen.
 Scratch reads were clean today (3,000 files, 0 failures), but the 2026-10-26
 maintenance still applies. Jerry's account still cannot read Chris's Step 2 shards:
 `/global/scratch/users/christophervu` is `drwx------`; Chris must grant access.
