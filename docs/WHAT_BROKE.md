@@ -8,6 +8,19 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-23 — P9's glare fault crashed 7 of its 10 slice routes
+
+**Expected:** the P9 screen (array 40341126) would score 10 pairs, like P7 and P8.
+
+**What happened:** 7 slice routes ended "Agent crashed" with `get_light_boxes: Function not availiable when
+the actor is dormant`. `_light_rects` in `adapters/simlingo/visible_agent.py` reads the boxes of every traffic
+light in the world on its first call. On the large maps (Town12, Town13) CARLA keeps far-away actors dormant,
+and a dormant light refuses that call. Only 3 pairs scored, so the screen verdict (0 against 0) says nothing
+about the gap.
+
+**What we did:** nothing yet. The fix is to read boxes only from lights that are awake near the ego, then
+rerun the screen.
+
 ## 2026-10-21 — The 3D demo went blank, and slow frames shortened reaction times
 
 **Expected:** the 3D view would keep drawing once a run started.

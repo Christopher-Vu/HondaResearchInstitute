@@ -6,11 +6,21 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-22 (pooled dev-evaluation rule drafted; current step is 5)
+Last updated: 2026-10-23 (P7 and P8 screens pass, P9 crashed; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-23, P7–P9 screens scored (measured).** P7 camera freeze passes its screen
+(6 slice-only against 0 neighbourhood-only failures over 10 pairs) and P8 camera
+latency passes (5 against 0 over 9 pairs; route 2420641 stopped for slow simulation).
+Both need full-pilot configs next. P9 glare does not pass, but only 3 of 10 pairs
+scored: 7 slice routes crashed on our own glare code, not on CARLA or the disk
+(`docs/WHAT_BROKE.md` 2026-10-23). Fix the crash and rerun the P9 screen.
+Scratch reads were clean today (3,000 files, 0 failures), but the 2026-10-26
+maintenance still applies. Jerry's account still cannot read Chris's Step 2 shards:
+`/global/scratch/users/christophervu` is `drwx------`; Chris must grant access.
 
 **2026-10-22, a pass rule for the dev evaluation, drafted and not run.** Pooling the
 two Step 4 waves with the P4 pilot, all already in Jerry's Savio share, gives 504
