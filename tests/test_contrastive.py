@@ -70,6 +70,20 @@ def test_dev_eval_runs_end_to_end_on_synthetic_shards(tmp_path):
     torch.save({"config": {"layer": 10, "k": 4}, "state": model.state_dict()}, tmp_path / "run/sae.pt")
     gaps = [dev_eval.Gap("G", "T0_control", dev_eval.gap_failures([shards], ["G"])["G"])]
     report = dev_eval.evaluate_run(tmp_path / "run", [shards], gaps, [], torch.device("cpu"))
+    assert "contrastive_stability" in report
+
+    stability = report["contrastive_stability"]
+
+    assert set(stability) == {"uncapped", "capped"}
+
+    for method in ("uncapped", "capped"):
+        assert stability[method]["n_resamples"] == 10
+        assert (
+            stability[method]["n_comparisons"]
+            + stability[method]["n_empty_pairs"]
+            + stability[method]["n_no_overlap_pairs"]
+            == 45
+        )
     assert report["failing"] == 6 and gaps[0].failing_rollouts == {"r0", "r1", "r2", "r3"}
     assert set(report) >= {"contrastive", "B7_pool", "B2_taxonomy", "B1_random"}
 
