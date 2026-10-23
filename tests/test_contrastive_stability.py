@@ -6,6 +6,7 @@ from discovery.contrastive_stability import (
     evaluate_stability,
     axis_similarity,
     summarize_stability,
+    pairwise_stability_report,
 )
 
 
@@ -251,3 +252,29 @@ def test_all_pairs_stability_is_order_independent():
             forward_values,
             reverse_values,
         )
+
+
+def test_pairwise_report_counts_all_seed_pairs():
+    rollouts, base_ids = make_rollouts(n=60, seed=42)
+
+    report = pairwise_stability_report(
+        rollouts,
+        base_ids,
+        seeds=range(4),
+    )
+
+    for method in ("uncapped", "capped"):
+        result = report[method]
+
+        # Four seeds produce six possible pairs.
+        assert (
+            result["n_comparisons"]
+            + result["n_empty_pairs"]
+            + result["n_no_overlap_pairs"]
+            == 6
+        )
+
+        assert 0 <= result["empty_axis_frequency"] <= 1
+
+        if result["mean_pairwise_jaccard"] is not None:
+            assert 0 <= result["mean_pairwise_jaccard"] <= 1

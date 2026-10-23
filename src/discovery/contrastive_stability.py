@@ -249,3 +249,96 @@ def summarize_stability(results: list[dict]) -> dict:
         }
 
     return summary
+def pairwise_stability_report(
+    rollouts: list[Rollout],
+    base_ids: dict[str, str],
+    seeds: range = range(10),
+) -> dict:
+    """Evaluate all pairs of resamples for capped and uncapped discovery."""
+
+    rollout_ids = [r.rollout_id for r in rollouts]
+    report = {}
+
+    for method, cap in [
+        ("uncapped", None),
+        ("capped", 0.8),
+    ]:
+        samples = []
+
+        for seed in seeds:
+            selected_ids = set(
+                resample_by_base(rollout_ids, base_ids, seed)
+            )
+
+            sample = [
+                r for r in rollouts
+                if r.rollout_id in selected_ids
+            ]
+
+            directive, _ = contrastive_directive(
+                sample,
+                ContrastiveConfig(max_failure_share=cap),
+            )
+
+            samples.append({
+                "seed": seed,
+                "ids": selected_ids,
+                "axes": [
+                    set(axis.rollouts)
+                    for axis in directive.axes
+                ],
+            })
+
+        similarities = []
+        empty_pairs = 0
+        no_overlap_pairs = 0
+
+        for first, second in combinations(samples, 2):
+            shared = first["ids"] & second["ids"]
+
+            if not shared:
+                no_overlap_pairs += 1
+                continue
+
+            axes_a = [
+                axis & shared
+                for axis in first["axes"]
+                if axis & shared
+            ]
+
+            axes_b = [
+                axis & shared
+                for axis in second["axes"]
+                if axis & shared
+            ]
+
+            if not axes_a and not axes_b:
+                empty_pairs += 1
+                continue
+
+            similarities.append(
+                axis_similarity(axes_a, axes_b, shared)
+            )
+
+        report[method] = {
+            "n_resamples": len(samples),
+            "n_comparisons": len(similarities),
+            "n_empty_pairs": empty_pairs,
+            "n_no_overlap_pairs": no_overlap_pairs,
+            "mean_pairwise_jaccard": (
+                float(np.mean(similarities))
+                if similarities else None
+            ),
+            "std_pairwise_jaccard": (
+                float(np.std(similarities))
+                if similarities else None
+            ),
+            "empty_axis_frequency": float(
+                np.mean([
+                    len(sample["axes"]) == 0
+                    for sample in samples
+                ])
+            ) if samples else None,
+        }
+
+    return report

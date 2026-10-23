@@ -30,7 +30,7 @@ from discovery.contrastive import ContrastiveConfig, Rollout, contrastive_direct
 from harness.failure_time import failure_step
 from harness.schema import Gap
 from harness.scoring import jaccard, score
-
+from discovery.contrastive_stability import pairwise_stability_report
 
 def load_sae(run: Path, device: torch.device) -> tuple[sae.TopKSae, int]:
     saved = torch.load(run / "sae.pt", map_location=device, weights_only=False)
@@ -78,11 +78,35 @@ def summary(report: Any) -> dict[str, Any]:
     return {"mean_best_jaccard": report.mean_best_jaccard, "precision_at_m": report.precision_at_m,
             "n_axes": report.n_axes, "matches": [asdict(match) for match in report.matches]}
 
+def load_base_ids(
+    shard_dirs: list[Path],
+    rollout_ids: set[str],
+) -> dict[str, str]:
+    """Map encoded rollout IDs to their base-route IDs."""
+    base_ids = {}
 
+    for directory in shard_dirs:
+        for sidecar in sorted(directory.glob("*.json")):
+            meta = json.loads(sidecar.read_text())
+            route_id = meta["route_id"]
+
+            if route_id in rollout_ids:
+                base_ids[route_id] = meta["base_id"]
+
+    return base_ids
 def evaluate_run(run: Path, shard_dirs: list[Path], gaps: list[Gap], manifests: list[str],
                  device: torch.device) -> dict[str, Any]:
     model, layer = load_sae(run, device)
     rollouts = encode_rollouts(shard_dirs, model, layer, device)
+    base_ids = load_base_ids(
+    shard_dirs,
+    {rollout.rollout_id for rollout in rollouts},
+    )
+    stability = pairwise_stability_report(
+    rollouts,
+    base_ids,
+    seeds=range(10),
+    )
     failing = {rollout.rollout_id for rollout in rollouts if rollout.failed}
     contrastive, _effects = contrastive_directive(rollouts, ContrastiveConfig(), layer=f"driving_queries_L{layer}")
     # C27 variant: 0.8 because P4 alone is 70% of this corpus's failures; a realistic pool needs a lower cap.
@@ -94,6 +118,7 @@ def evaluate_run(run: Path, shard_dirs: list[Path], gaps: list[Gap], manifests: 
     random_summary, _draws = score_averaged(sorted(failing), gaps, RandomBaselineConfig(axis_sizes=sizes, n_draws=200))
     taxonomy = taxonomy_directive(records(manifests, rollouts), TaxonomyConfig())
     return {"run": str(run), "layer": layer, "rollouts": len(rollouts), "failing": len(failing),
+            "contrastive_stability": stability,
             "contrastive": summary(score(contrastive, gaps)),
             "contrastive_capped": summary(score(projected, gaps)), "B7_pool": summary(score(b7_pool, gaps)),
             "B2_taxonomy": summary(score(taxonomy, gaps)), "B1_random": random_summary,
