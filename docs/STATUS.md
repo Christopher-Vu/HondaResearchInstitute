@@ -6,11 +6,18 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-21 (P7–P9 screens submitted, IV 2026 sweep read; current step is 5)
+Last updated: 2026-10-22 (pooled dev-evaluation rule drafted; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-22, a pass rule for the dev evaluation, drafted and not run.** Pooling the
+two Step 4 waves with the P4 pilot, all already in Jerry's Savio share, gives 504
+rollouts and 140 failures with P4 at 31% instead of 70%, with no new rollouts.
+`docs/steps/dev-eval-pooled.md` fixes the methods, baselines (B3 included), a 0.5
+catch-all cap and what counts as separation before anything runs. Needs Chris's
+review; Tier 2 needs read access to his Step 2 shards, which Jerry's account lacks.
 
 **2026-10-21 18:00, P7–P9 screens submitted (Jerry's account).** Savio's checkout was
 fast-forwarded to `main` (b11ad6a) by git bundle and the left-crossing patch applied

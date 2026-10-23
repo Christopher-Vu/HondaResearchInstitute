@@ -5,6 +5,22 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-22 (Jerry) — A pass rule for a dev evaluation where P4 is a minority
+
+The first dev evaluation could not tell methods apart because P4 made up 70% of its failures, so an axis of
+every failure already scored 0.70. Checking Savio showed the fix needs no new rollouts: the two Step 4
+background waves and the P4 pilot, already in Jerry's share folder and captured the same way, pool to 504
+rollouts with 140 failures, P4 being 43 of them (31%). Chris's Step 2 shards are not readable from Jerry's
+account, so they become a second tier once he grants access.
+
+Before running anything, [`docs/steps/dev-eval-pooled.md`](steps/dev-eval-pooled.md) writes down what counts
+as separation: the best activation method must beat both the best baseline and the all-failures axis (0.31)
+by 0.15 Jaccard with a bootstrap interval over base routes excluding zero, without being a catch-all, and
+on at least 4 of 6 SAE seeds. B3, behavioural clustering, is included because it decides the go/no-go. The
+rule waits for Chris's review; no code changed and nothing ran.
+
+---
+
 ## 2026-10-21 night (Jerry) — The stop-in-time demo's 3D view is now the driver's seat
 
 On `/drive`, "3D street" used to watch all three lanes from 22 m behind and 12 m up. It now looks out from
