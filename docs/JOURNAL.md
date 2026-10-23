@@ -209,9 +209,9 @@ shards), and the Step 5 gap shortage. 311 CPU tests pass.
 Rollouts are the project's main cost, so four short profiling jobs timed every part of a policy step
 (`SIMLINGO_PROFILE`, 158859d and 1ef00c5; about 30 SU in all). Measured:
 
-- At two routes per A40, a step takes about 0.5 s. The forward pass is 0.13 s; about 0.26 s is SimLingo's
-  agent rewriting its whole `metric_info.json` debug file every step. `capture_agent.py` now writes that file
-  once per route instead (ca63c56). The change cannot alter driving, but it has not yet run on a live route.
+- At two routes per A40, a step takes about 0.5 s. The forward pass is 0.13 s; about 0.26 s is spent after
+  the model. (This entry first blamed SimLingo's per-step `metric_info.json` write; the 2026-10-23 entry
+  corrects that: the cost is our own per-step PNG save.)
 - The GPU is mostly idle: 18%, 27% and 37% average use at one, two and three routes per card. At four
   routes the forward pass jumps to 0.85 s, so three per card is the packing to use.
 - Our own capture code costs under 1% of a step, so it needs no work.

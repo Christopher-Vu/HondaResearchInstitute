@@ -33,22 +33,24 @@ IBM Plex Sans as a variable font, and Chromium embeds variable fonts as Type 3.
 (`dashboard/src/fonts/`). The PDF now embeds CID TrueType with Unicode maps. Check with
 `pdffonts poster/poster.pdf` after any font change.
 
-## 2026-10-20 — A third of each policy step was a debug file write
+## 2026-10-20 — A third of each policy step was saving a PNG nobody read
 
 **Expected:** the policy's forward pass would dominate a step's wall time.
 
 **What happened (measured, `capture/profile.jsonl`):** at two routes per A40, a step took about 0.5 s:
 forward 0.13 s, preparing the model input 0.065 s, and about 0.3 s *after* the model. Splitting that last
-part (1ef00c5, job 40265241) put 0.26 s of it in one line of SimLingo's agent: it rewrites the whole
-`metric_info.json`, indented, on every step. The cost is flat over a route rather than growing with the file,
-which first misled us into ruling it out; on Savio's networked scratch the per-step open and write is what
-costs. Only Bench2Drive's efficiency and smoothness tools read the file, and we use neither.
+part (1ef00c5, job 40265241) left 0.26 s after SimLingo's metric collection. We first blamed SimLingo
+rewriting `metric_info.json` every step and changed that (ca63c56); the confirming run (40414272, 2026-10-23)
+showed no change. The span also covered our own `VisibleAgent`, which encodes the full camera frame as
+`last-camera.png` on every step for the Mac's live viewer, which never runs on Savio. That is the cost.
+Lesson: a span named after its first suspect hid the second one; name spans by their boundaries.
 
 The same job put four routes on one A40: the forward pass rose from 0.13–0.17 s to 0.85 s, so four is past
-the GPU's useful packing. At three routes the GPU still averaged only 37% busy.
+the GPU's useful packing. At three routes the GPU still averaged only 37% busy (42% in 40414272).
 
-**What we did:** `capture_agent.py` now writes the file once, when the route ends. Not yet checked on a live
-route. Sealed pilots run from the frozen clone and are unaffected.
+**What we did:** `visible_agent.py` writes `last-camera.png` only when the live viewer is running; the
+metric-file change was reverted. Not yet checked on a live route. Sealed pilots run from the frozen clone and
+are unaffected.
 
 ## 2026-10-20 — Savio's scratch disk dropped files mid-session
 

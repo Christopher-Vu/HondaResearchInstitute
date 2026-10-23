@@ -94,9 +94,10 @@ class VisibleAgent(LingoAgent):
         self.trace.flush()
         if self.step % 20 == 0:
             Image.fromarray(rgb).save(self.evidence / "frames" / f"{self.step:06d}.png")
-        pending = self.evidence / "last-camera.tmp.png"
-        Image.fromarray(rgb).save(pending)
-        pending.replace(self.evidence / "last-camera.png")
+        if self.view is not None:  # only the live viewer reads it; encoding it cost ~0.25 s a step on Savio
+            pending = self.evidence / "last-camera.tmp.png"
+            Image.fromarray(rgb).save(pending)
+            pending.replace(self.evidence / "last-camera.png")
         print(f"SimLingo step {self.step}: speed={record['speed_metres_per_second']:.2f} "
               f"throttle={control.throttle:.3f} steer={control.steer:.3f} brake={control.brake:.3f}", flush=True)
         return control
