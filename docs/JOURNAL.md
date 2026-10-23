@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-23 (Jerry) — P7 and P8 pass their screens; P9's glare crash fixed
+
+The three screens submitted on 2026-10-21 have all finished. A screen is the 10-pair first stage of a pilot:
+each pair is one route with the practice gap and one similar route without it. Measured: P7 camera freeze
+had 6 routes fail only with the gap and 0 only without it; P8 camera latency had 5 against 0 over 9 pairs.
+Both clear the screen rule (an excess of 3), so they are candidates for full pilots, which still need configs.
+
+P9 traffic-light glare gave no usable result. 7 of its 10 gap routes crashed in our own glare code: on the
+large Town12 and Town13 maps CARLA keeps far-away actors "dormant", and a dormant light refuses the call that
+reads its size and position. `LightBoxCache` now reads a light only once it is awake (15ae746, unit-tested,
+not yet run in CARLA). The P9 screen was not resubmitted; it needs Savio's checkout updated first.
+
+Also checked: Savio scratch reads were clean today (3,000 files, 0 failures) ahead of the 2026-10-26
+maintenance, and Chris's scratch is still closed to Jerry's account. The screen score files were committed
+under `results/savio/step5-pilot-p{7,8,9}-screen/` (e27fac4), the first pilot results kept in git; shards
+stay on Savio. Details: [`docs/WHAT_BROKE.md`](WHAT_BROKE.md) 2026-10-23.
+
+---
+
 ## 2026-10-22 (Jerry) — A pass rule for a dev evaluation where P4 is a minority
 
 The first dev evaluation could not tell methods apart because P4 made up 70% of its failures, so an axis of
