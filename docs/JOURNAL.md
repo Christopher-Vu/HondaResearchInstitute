@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-30 (Jerry) — P9's glare screen rerun with the dormant-light fix
+
+Savio came back from its 2026-10-26 maintenance in good shape: on 2026-10-28 no storage target was inactive
+and a test read of 3,001 scratch files had no failures (measured), though A40 nodes were busy. Savio's code
+was brought up to 8e1e873, which includes the fix from 2026-10-23 that skips sleeping ("dormant") traffic
+lights. The P9 traffic-light glare screen was resubmitted in full, all 20 routes, so its gap and no-gap
+routes come from the same code (array 40659402, scoring job 40659403). The crashed run's files were kept
+under a `-crashed-40341126` name. This is also the first time the fix runs inside CARLA; if a gap route
+still ends "Agent crashed", read its `run.log` before trusting the verdict.
+
+---
+
 ## 2026-10-23 (Jerry) — P7 and P8 pass their screens; P9's glare crash fixed
 
 The three screens submitted on 2026-10-21 have all finished. A screen is the 10-pair first stage of a pilot:

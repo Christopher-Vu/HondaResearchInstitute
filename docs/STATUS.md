@@ -6,11 +6,19 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-23 (P7 and P8 screens pass, P9 crashed; current step is 5)
+Last updated: 2026-10-30 (P9 screen resubmitted with the glare fix; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-30, P9 screen resubmitted (Jerry's account).** Savio's checkout was
+fast-forwarded to 8e1e873 by git bundle, which carries the dormant-light fix. Array
+40659402 reruns all 20 routes; scoring job 40659403 runs after it and writes
+`results/savio/step5-pilot-p9-screen/efficacy.json`. The crashed run's results moved
+to `results/savio/step5-pilot-p9-screen-crashed-40341126`. About 85 SU expected.
+Savio was back after the 2026-10-26 maintenance (checked 2026-10-28: no inactive
+storage targets, 3,001 scratch reads clean).
 
 **2026-10-23, P7–P9 screens scored (measured).** P7 camera freeze passes its screen
 (6 slice-only against 0 neighbourhood-only failures over 10 pairs) and P8 camera
