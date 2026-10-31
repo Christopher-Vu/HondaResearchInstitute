@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-31 (Jerry) — P7, camera freeze, passes its full pilot
+
+The overnight session reran the P9 screen, found it had no effect, and ran P7's 60-pair full pilot. P9's
+routes with glare failed 3 of 9 times against 4 of 10 without (measured), so glare is dropped.
+
+P7 passes. Of 56 routes with the camera freeze, 53 failed, against 15 of 60 on the same roads without it
+(measured, Fisher p about 2e-15, the verdict of record). Paired by road, 40 roads failed only with the
+freeze and none failed only without it. The paired check reports "false" for a count reason alone: it wants
+60 pairs and we have 56, because four routes with the freeze crashed the simulator twice at the same point
+and the project's rule is not to rerun a route a third time. No replacement roads were drawn, because
+adding roads to the seeded draw would change which roads the other 57 pairs use. Chris and Jerry should
+decide whether 56 is accepted or four replacement pairs are drawn. The lost routes all had the freeze, so
+the loss makes the gap look weaker, not stronger.
+
+P8 (camera latency) is running the same way; its scoring job runs behind it. Also logged in
+`docs/WHAT_BROKE.md`: the P7 and P8 pilot configs are labelled "screen" in one field by a text-replacement
+slip. Nothing reads the field.
+
+---
+
 ## 2026-10-31 (Jerry) — P9 fails its screen; P7 and P8 full pilots submitted
 
 The P9 traffic-light glare screen finished with the dormant-light fix in place, and the fix held: glare

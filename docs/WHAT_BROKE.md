@@ -18,7 +18,11 @@ CARLA crash late in the route ("1 crash, please restart"), and 347248, a neighbo
 (600 s) waiting for the simulator while resetting the world after the route. That left 55
 pairs, so the paired check failed on count alone (39 slice-only failures, none the other way).
 
-**Did:** reran the five by id with `step5-pilot-p7-rerun.yaml`, and rescored both arrays together.
+**Did:** reran the five by id with `step5-pilot-p7-rerun.yaml` (array 40692440) and rescored both arrays
+together. 347248 completed. The other four, all slice routes, crashed again at the same simulation time
+(about 64 s for 380038, about 248 s for 2365938: a CARLA segmentation fault, then the evaluator went silent
+or timed out), as the 2026-10-16 entry predicted. They were not rerun a third time. P7 stands at 56
+pairs, 4 short of C23's 60; the verdict of record (PRD 9.1) passes with p = 2e-15.
 
 **Also:** `step5-pilot-p7-main.yaml` and `step5-pilot-p8-main.yaml` still carry `scope: ..._screen`. I
 made them with a text replacement for the hyphenated name and missed the underscored form. Nothing reads

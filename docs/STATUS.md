@@ -6,25 +6,25 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-31 (P7 passes its full pilot on 55 pairs; 5 routes rerunning; P8 running; current step is 5)
+Last updated: 2026-10-31 (P7 passes PRD 9.1 on 56 pairs, short of C23's 60; P8 running; current step is 5)
 
 ---
 
 ## Current position
 
-**2026-10-31 07:50, P7 camera freeze passes its full pilot (measured, first pass).** Array
-40681180: 56 of 60 tasks completed; 5 of 120 routes have no outcome (3 evaluator stalls,
-1 CARLA crash, 1 simulator timeout; 4 of the 5 are slice routes). PRD 9.1: 53 of 56 slice routes failed against
-15 of 59 neighbourhood routes (uplift 69 points, ratio 3.7, Fisher p 4e-15), passes. C23 paired:
-55 pairs, 39 failed only with the freeze and none only without (McNemar p 4e-12), uplift 71
-points, but `passes` is false only because 55 is under the 60-pair minimum. The 5 missing routes
-are rerunning (array 40692440, `configs/rollout/step5-pilot-p7-rerun.yaml`); scoring job 40692444
-rescores both arrays into `results/savio/step5-pilot-p7-main/` (first pass kept as
-`efficacy-first-pass.json`). If a route crashes again at the same point, the rule in
-`docs/WHAT_BROKE.md` is to replace its base route, not rerun it a third time. P8's pilot
-(array 40681196) is running. Both main configs carry `scope: ..._screen` by mistake (my text
-replacement missed the underscore form); it is a label only, left as run so the config hash
-still matches the evidence.
+**2026-10-31 12:35, P7 camera freeze passes its full pilot (measured).** Arrays 40681180 and the
+rerun 40692440, scored together into `results/savio/step5-pilot-p7-main/`. PRD 9.1 (the verdict of
+record): 53 of 56 slice routes failed against 15 of 60 neighbourhood routes (uplift 70 points, ratio 3.8,
+Fisher p 2e-15), passes. C23 paired: 56 pairs, 40 failed only with the freeze and none only without
+(McNemar p 2e-12), uplift 71 points, but `passes` is false because 56 is under its 60-pair minimum.
+Four slice routes (2365938, 2367038, 352038, 380038) crashed CARLA on the first run and again on the
+rerun at the same simulation time, so by the rule in `docs/WHAT_BROKE.md` they were not rerun a third time
+and no replacement base was drawn: `pilot_routes.py` draws bases with one seeded `random.sample`, so
+adding three bases would change which bases the other 57 are. The four lost routes were slice routes, so
+the loss works against the gap, not for it. **Decision for Chris and Jerry:** accept P7 on 56 pairs, or
+have 4 replacement pairs drawn. First pass kept as `efficacy-first-pass.json`. P8's pilot (array
+40681196) is running. Both main configs carry `scope: ..._screen` by mistake; it is a label only, left as
+run so the config hash still matches the evidence.
 
 **2026-10-31, P9 closed; P7 and P8 full pilots queued (Jerry's account).** The P9 glare
 screen reran cleanly with the dormant-light fix: 9 of 10 pairs scored (route 2809933 lost
