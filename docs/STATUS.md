@@ -6,11 +6,25 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-31 (P9 fails its screen; P7 and P8 full pilots queued; current step is 5)
+Last updated: 2026-10-31 (P7 passes its full pilot on 55 pairs; 5 routes rerunning; P8 running; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-31 07:50, P7 camera freeze passes its full pilot (measured, first pass).** Array
+40681180: 56 of 60 tasks completed; 5 of 120 routes have no outcome (3 evaluator stalls,
+2 CARLA crashes, all but one on slice routes). PRD 9.1: 53 of 56 slice routes failed against
+15 of 59 neighbourhood routes (uplift 69 points, ratio 3.7, Fisher p 4e-15), passes. C23 paired:
+55 pairs, 39 failed only with the freeze and none only without (McNemar p 4e-12), uplift 71
+points, but `passes` is false only because 55 is under the 60-pair minimum. The 5 missing routes
+are rerunning (array 40692440, `configs/rollout/step5-pilot-p7-rerun.yaml`); scoring job 40692444
+rescores both arrays into `results/savio/step5-pilot-p7-main/` (first pass kept as
+`efficacy-first-pass.json`). If a route crashes again at the same point, the rule in
+`docs/WHAT_BROKE.md` is to replace its base route, not rerun it a third time. P8's pilot
+(array 40681196) is running. Both main configs carry `scope: ..._screen` by mistake (my text
+replacement missed the underscore form); it is a label only, left as run so the config hash
+still matches the evidence.
 
 **2026-10-31, P9 closed; P7 and P8 full pilots queued (Jerry's account).** The P9 glare
 screen reran cleanly with the dormant-light fix: 9 of 10 pairs scored (route 2809933 lost

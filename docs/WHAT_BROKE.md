@@ -8,6 +8,24 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-10-31 — P7's full pilot lost 5 of 120 routes, and the main configs say "screen"
+
+**Expected:** 60 complete pairs, so C23's paired check (minimum 60 pairs) could pass.
+
+**What happened:** array 40681180 finished with 4 failed tasks. Five routes have no outcome: 2365938,
+2367038 and 380038 stalled (the evaluator printed nothing for 900 s and was stopped), 352038 hit a
+CARLA crash late in the route ("1 crash, please restart"), and 347248 shares a failed task. That left 55
+pairs, so the paired check failed on count alone (39 slice-only failures, none the other way).
+
+**Did:** reran the five by id with `step5-pilot-p7-rerun.yaml`, and rescored both arrays together.
+
+**Also:** `step5-pilot-p7-main.yaml` and `step5-pilot-p8-main.yaml` still carry `scope: ..._screen`. I
+made them with a text replacement for the hyphenated name and missed the underscored form. Nothing reads
+the field (it is only copied into each result file), so they stay as run to keep the config hash tied to the
+evidence; their result files are labelled "screen" though they come from the full pilots.
+
+---
+
 ## 2026-10-23 — P9's glare fault crashed 7 of its 10 slice routes
 
 **Expected:** the P9 screen (array 40341126) would score 10 pairs, like P7 and P8.

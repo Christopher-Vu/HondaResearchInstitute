@@ -1,0 +1,35 @@
+{
+  "gap_id": "P7_camera_freeze",
+  "routes_listed": 120,
+  "routes_without_outcome": [
+    "2365938",
+    "2367038",
+    "347248",
+    "352038",
+    "380038"
+  ],
+  "prd_9_1": {
+    "n_in": 56,
+    "failures_in": 53,
+    "n_neighbourhood": 59,
+    "failures_neighbourhood": 15,
+    "fail_rate_in": 0.9464285714285714,
+    "fail_rate_neighbourhood": 0.2542372881355932,
+    "uplift_pp": 69.21912832929782,
+    "ratio": 3.7226190476190477,
+    "fisher_p": 4.396802504262711e-15,
+    "passes": true
+  },
+  "c23_paired": {
+    "pairs": 55,
+    "base_routes": 55,
+    "slice_only_failed": 39,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 0.9454545454545454,
+    "fail_rate_neighbourhood": 0.23636363636363636,
+    "uplift_pp": 70.9090909090909,
+    "ratio": 4.0,
+    "mcnemar_p": 3.637978807091713e-12,
+    "passes": false
+  }
+}
