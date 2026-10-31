@@ -6,11 +6,24 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-30 (P9 screen resubmitted with the glare fix; current step is 5)
+Last updated: 2026-10-31 (P9 fails its screen; P7 and P8 full pilots queued; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-10-31, P9 closed; P7 and P8 full pilots queued (Jerry's account).** The P9 glare
+screen reran cleanly with the dormant-light fix: 9 of 10 pairs scored (route 2809933 lost
+to a CARLA start crash), glare routes failed 3 of 9 against 4 of 10 without, 0 excess
+failures against the 3 required (measured). Even a failed-only-with-glare outcome on the
+missing pair could not reach 3, so P9 is dropped without a full pilot. P7 camera freeze
+(array 40681180, scoring job 40681181) and P8 camera latency (array 40681196, scoring job
+40681197, starts after P7) are submitted, 60 pairs each, configs
+`configs/rollout/step5-pilot-p{7,8}-main.yaml`; screen bases are disjoint from the main
+bases (checked). Expect roughly 500 SU each (unmeasured; P4's pilot is the reference).
+Savio's checkout is at 15b29c8. The C21 background wave is not queued: its generator has one
+hard-coded id offset for background routes (`dev_routes.py` `ROLE_ID_OFFSET`), so a
+third wave would collide with wave 2's route ids, and C21 still needs Chris and Jerry.
 
 **2026-10-30, P9 screen resubmitted (Jerry's account).** Savio's checkout was
 fast-forwarded to 8e1e873 by git bundle, which carries the dormant-light fix. Array

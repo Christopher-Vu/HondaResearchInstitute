@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-31 (Jerry) — P9 fails its screen; P7 and P8 full pilots submitted
+
+The P9 traffic-light glare screen finished with the dormant-light fix in place, and the fix held: glare
+code ran on 19 of 20 routes with no crash (the twentieth, route 2809933, lost its CARLA server at start, a
+known failure). Over the 9 pairs that scored, routes with glare failed 3 times and routes without failed 4
+times (measured), so glare does nothing detectable to SimLingo and P9 is dropped. The earlier crash had
+hidden this: the first screen only had 3 scored pairs.
+
+P7 (camera freeze) and P8 (camera latency) both passed their screens on 2026-10-23, so each now has a
+60-pair full pilot config, generated the same way as P4's and on base routes that do not overlap its
+screen. Savio's code was brought up to date by git bundle, P7's array was submitted, and P8's array was
+chained behind it so the two do not share the four GPU slots. Each array has a scoring job after it that
+writes `efficacy.json`.
+
+Left undone: the C21 background wave. Its route generator gives every background-only route the same id
+offset as wave 2, so a new wave would reuse wave 2's ids; fixing that and choosing the presets is a
+decision for Chris and Jerry, so no code was written.
+
+---
+
 ## 2026-10-30 (Jerry) — P9's glare screen rerun with the dormant-light fix
 
 Savio came back from its 2026-10-26 maintenance in good shape: on 2026-10-28 no storage target was inactive

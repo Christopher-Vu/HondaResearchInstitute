@@ -1,70 +1,34 @@
 {
   "config": "configs/rollout/step5-pilot-p9-screen.yaml",
   "jobs": [
-    "40341126"
+    "40659402"
   ],
   "routes_configured": 20,
-  "routes_with_outcome": 13,
+  "routes_with_outcome": 19,
   "official": {
-    "driving score": 82.77527684615384,
-    "success rate": 0.5384615384615384,
-    "eval num": 13,
-    "warning": "-----------------------Warning: there are 13 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+    "driving score": 83.59824352631578,
+    "success rate": 0.631578947368421,
+    "eval num": 19,
+    "warning": "-----------------------Warning: there are 19 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
   },
   "clean": {
-    "routes_attempted": 13,
-    "routes_scored": 13,
+    "routes_attempted": 19,
+    "routes_scored": 19,
     "unscored": [],
-    "mean_driving_score_over_scored": 82.78,
-    "mean_route_completion_over_scored": 93.99,
-    "success_rate_over_scored": 0.538,
-    "mean_real_time_factor": 0.0935
+    "mean_driving_score_over_scored": 83.6,
+    "mean_route_completion_over_scored": 92.09,
+    "success_rate_over_scored": 0.632,
+    "mean_real_time_factor": 0.0904
   },
   "scenario_skipped": [],
-  "simulated_seconds_total": 779.5,
-  "wall_seconds_total": 7419.9,
+  "simulated_seconds_total": 1043.2,
+  "wall_seconds_total": 9930.4,
   "rerun": [
     {
-      "id": "205033",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "208233",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "237333",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "284733",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "387633",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "1484233",
-      "attempts": 1,
-      "last_status": "Failed - Agent crashed",
-      "stop_reason": null
-    },
-    {
-      "id": "2596833",
+      "id": "2809933",
       "attempts": 1,
       "last_status": null,
-      "stop_reason": "slow simulation"
+      "stop_reason": null
     }
   ],
   "not_run": []
