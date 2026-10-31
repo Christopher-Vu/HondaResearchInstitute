@@ -14,7 +14,8 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 **What happened:** array 40681180 finished with 4 failed tasks. Five routes have no outcome: 2365938,
 2367038 and 380038 stalled (the evaluator printed nothing for 900 s and was stopped), 352038 hit a
-CARLA crash late in the route ("1 crash, please restart"), and 347248 shares a failed task. That left 55
+CARLA crash late in the route ("1 crash, please restart"), and 347248, a neighbourhood route, timed out
+(600 s) waiting for the simulator while resetting the world after the route. That left 55
 pairs, so the paired check failed on count alone (39 slice-only failures, none the other way).
 
 **Did:** reran the five by id with `step5-pilot-p7-rerun.yaml`, and rescored both arrays together.

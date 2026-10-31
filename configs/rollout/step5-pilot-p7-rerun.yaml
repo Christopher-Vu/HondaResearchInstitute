@@ -1,5 +1,5 @@
-# Rerun of the 5 P7 full-pilot routes that ended with no outcome (array 40681180: 3 evaluator stalls, 2 CARLA
-# crashes), so the paired check reaches its 60-pair minimum. Same routes file, manifest, seed and gap as
+# Rerun of the 5 P7 full-pilot routes that ended with no outcome (array 40681180: 3 evaluator stalls, 1 CARLA
+# crash, 1 simulator timeout), so the paired check reaches its 60-pair minimum. Same routes file, manifest, seed and gap as
 # step5-pilot-p7-main.yaml; only the `routes` list differs.
 #   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-2 scripts/route_sample.sbatch configs/rollout/step5-pilot-p7-rerun.yaml 2
 # Score both arrays together: scripts/step5_pilot.sbatch configs/rollout/step5-pilot-p7-main.yaml P7_camera_freeze results/savio/40681180 results/savio/<rerun>
