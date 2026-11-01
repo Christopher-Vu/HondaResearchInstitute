@@ -25,7 +25,7 @@ local:
 
 video:
   status: final               # video/renders/final.mp4, 130 s; source committed 3f65e0c
-  pending: narration voice (ElevenLabs ~$0.70 needs Jerry's OK)
+  voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
   - progress report in to_human (HTML)

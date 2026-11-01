@@ -353,7 +353,7 @@ H1's Tier 2 (per-token SAEs on the whole pool) was not run; wave 3 captured the 
 `video/renders/final.mp4`: 130 s, 1920x1080, 30 fps, -17.1 LUFS, true peak -1.6 dB (measured, not heard). The fresh-drive
 scene now shows the H3 result (0.56, best of 18 dictionaries with median 0.41; 0.89, 48 drives, none wrong), and the closing
 line reads "two of three faults found". The closing card and the description carry https://github.com/trycua/cua. The
-voice is still macOS Daniel; an ElevenLabs take needs Jerry's OK (about $0.70).
+voice is macOS Daniel; Jerry chose to keep it over a paid ElevenLabs take.
 
 Final spend for the goal: 2237 of 6000 SU (sacct CPU time x 3.67). No Savio jobs remain. Log headers from 02:05 onward were
 corrected to their commit times; I had written estimates again (the H3 entry said 09:50 for a 09:29 commit).

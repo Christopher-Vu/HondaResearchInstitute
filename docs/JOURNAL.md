@@ -22,7 +22,7 @@ The agent then tried to knock its own result down. Only 3 of the 18 dictionaries
 and the typical value is 0.405. One prediction failed: a method without the "nothing changed" signal reached 0.541 on P7. The
 audit showed that sorting failures by drive length alone already gets 0.48, because frozen drives stall, so that result
 is treated as a stopwatch rather than a discovery. The delayed-camera fault (P8) stays unrecovered and was left out of this
-test. Numbers and audits are in the research log at 09:29. The final video followed: a 130-second explainer at `video/renders/final.mp4`, with a free macOS voice until Jerry approves a paid one.
+test. Numbers and audits are in the research log at 09:29. The final video followed: a 130-second explainer at `video/renders/final.mp4`, with a free macOS voice, which Jerry chose to keep.
 
 ## 2026-11-01 (Jerry, autoresearch) — the discovery methods find two of the three planted faults
 

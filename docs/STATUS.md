@@ -19,7 +19,7 @@ frozen in `docs/research/experiments/h3-confirm-fresh-pilots/protocol.md` before
 of 18 SAEs (median 0.405). **P7:** contrastive diffing misses it (0.340, Claim A fails), and a frozen-input signal read
 from activations recovers it (0.889, 48 rollouts, all P7 failures; Claim A′ holds). Plain B7's 0.541 on P7 is near what
 rollout length alone gets (0.48), so it does not count. **P8** was not in H3 and stays unrecovered. Details:
-`docs/research/research-log.md`, 09:29. Spend for the goal: 2237 SU of 6000. The explainer video is rendered (`video/renders/final.mp4`, source in `video/`; the render is git-ignored). **Next:** no autoresearch step is queued; Jerry decides on the voice and on P8. H1 Tier 2
+`docs/research/research-log.md`, 09:29. Spend for the goal: 2237 SU of 6000. The explainer video is rendered (`video/renders/final.mp4`, source in `video/`; the render is git-ignored). **Next:** no autoresearch step is queued; P8 is Jerry's call. H1 Tier 2
 (per-token SAEs) was not run; wave 3 captured the tokens, so it stays possible.
 
 **2026-11-01 00:21, the SDK recovers planted failures from activations (exploratory; autoresearch in
