@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-10-31 (Jerry) — P8, camera latency, passes its full pilot
+
+P8 delays every camera frame by one second. On its 60-pair full pilot, every one of the 58 routes with the
+delay that finished failed, against 12 of 60 on the same roads without it (measured, Fisher p about 5e-22).
+Paired by road, 46 roads failed only with the delay and none failed only without it. As with P7, the paired
+check reports "false" only on count: it wants 60 pairs and has 58. The two missing routes both crashed the
+simulator, and they are being rerun once.
+
+One of them sits on base route 3800, which also crashed the simulator for P7 at nearly the same moment. Both
+gaps change only the camera image, so this road crashes CARLA whatever we plant on it. That is logged in
+`docs/WHAT_BROKE.md`.
+
+With P4, P7 and P8, three practice gaps now pass. All three remove information from the camera. Step 5 asks
+for four to six, plus two decoys.
+
+---
+
 ## 2026-10-31 (Jerry) — P7, camera freeze, passes its full pilot
 
 The overnight session reran the P9 screen, found it had no effect, and ran P7's 60-pair full pilot. P9's
