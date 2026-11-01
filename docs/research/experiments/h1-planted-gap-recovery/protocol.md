@@ -83,7 +83,7 @@ reference for gap g: |key(g)| / |all failures|, what an axis holding every failu
 - The three camera faults share one signature, so one axis matches all three weakly. Audit: Hungarian assignment
   in `harness.scoring.score` credits an axis to one gap only.
 
-## Clarifications made before the run (2026-10-31 23:20, no H1 data opened yet)
+## Clarifications made before the run (2026-10-31 22:42, no H1 data opened yet)
 
 Points the protocol left open, settled while building `src/discovery/dev_eval.py`:
 

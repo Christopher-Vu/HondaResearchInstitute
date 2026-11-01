@@ -12,7 +12,7 @@ Last updated: 2026-11-01 (planted-gap recovery: P4 and P7 recovered from activat
 
 ## Current position
 
-**2026-11-01 01:30, the SDK recovers planted failures from activations (exploratory; autoresearch in
+**2026-11-01 00:21, the SDK recovers planted failures from activations (exploratory; autoresearch in
 `docs/research/`).** On a pool of 738 rollouts (P4, P7, P8 pilots plus both background waves; each gap 15 to 21%
 of 278 failures), with SAEs trained on layer-10 frame means (held-out explained variance 0.90 to 0.93):
 contrastive diffing recovers **P4** (Jaccard 0.574 vs best baseline 0.219, margin interval +0.26 to +0.52); with a
@@ -22,7 +22,7 @@ frame means (explained variance about -0.5), and probe-residual returns no axes 
 research log). **Confirmatory test H3 is running:** fresh P4 and P7 pilots (arrays 40716226, 40716227) plus
 background wave 3 (40715498, per-token capture), evaluated by a pipeline fixed in
 `docs/research/experiments/h3-confirm-fresh-pilots/protocol.md` before the data are opened. Spend for this goal:
-about 306 SU by 01:30 (sacct CPU-hours x 3.67; `check_usage.sh` counts running jobs at their full time limit).
+about 306 SU by 00:21 (sacct CPU-hours x 3.67; `check_usage.sh` counts running jobs at their full time limit).
 CI is off by default (C33).
 
 **2026-10-31 17:52, P8 camera latency passes its full pilot (measured, first pass).** Array

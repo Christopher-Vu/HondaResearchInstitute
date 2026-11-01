@@ -6,7 +6,7 @@ su_budget: 6000
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 306                # 2026-11-01 01:30
+su_spent: 306                # 2026-11-01 00:21
 started: 2026-10-31T22:40-07:00
 
 hypotheses:

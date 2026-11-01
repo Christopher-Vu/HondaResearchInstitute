@@ -1,6 +1,6 @@
 # H3: does the SDK find planted failures in rollouts nobody has looked at?
 
-**Locked 2026-11-01 00:50, before any H3 rollout exists. CONFIRMATORY.** Dev only (PRD §9.2); this is the
+**Locked 2026-11-01 00:15, before any H3 rollout exists. CONFIRMATORY.** Dev only (PRD §9.2); this is the
 project's first test of a fixed discovery pipeline on fresh planted data.
 
 ## Why
@@ -50,9 +50,9 @@ with no reruns (a route that crashes is lost, as in deployment).
 About 240 pilot routes. P7 routes stall and run long; the H1 pilots cost about 1,000 SU each with reruns
 (measured from usage). Expected under 2,000 SU, within the 6,000 SU budget.
 
-## Amendment (2026-11-01 01:20, before any H3 rollout was opened)
+## Amendment (2026-11-01 00:20, before any H3 rollout was opened)
 
-H2's rule failed for M1 (`docs/research/research-log.md`, 01:20), so M1 runs without the stale latent as stated
+H2's rule failed for M1 (`docs/research/research-log.md`, 00:20), so M1 runs without the stale latent as stated
 above. In addition, the whole evaluation runs a second time with `--stale-latent` and is reported beside the first.
 
 - **Claim A′ (SDK level):** for each gap, at least one label-free activation-reading method (M1 raw or capped, or

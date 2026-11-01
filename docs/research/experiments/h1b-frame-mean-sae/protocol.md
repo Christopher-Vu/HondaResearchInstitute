@@ -1,8 +1,8 @@
 # H1b: SAEs trained on the representation every rollout shares
 
-**Locked 2026-10-31 23:20. EXPLORATORY**: designed after H1 Tier 1 showed that the only SAEs available
+**Locked 2026-10-31 22:59. EXPLORATORY**: designed after H1 Tier 1 showed that the only SAEs available
 (`share/sae-sweep`, trained on single driving-query tokens) do not fit the layer frame means (explained variance
-about -0.5), so M1 and B7 could not be tested (`docs/research/research-log.md`, 23:10). Dev only (PRD §9.2).
+about -0.5), so M1 and B7 could not be tested (`docs/research/research-log.md`, 22:59). Dev only (PRD §9.2).
 
 ## Change from H1
 

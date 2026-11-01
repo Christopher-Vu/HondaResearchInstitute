@@ -1,7 +1,7 @@
 # H2: a stale-frame latent lets contrastive diffing see a frozen camera
 
-**Locked 2026-11-01 01:00. EXPLORATORY**: designed after the H2 diagnostic (`docs/research/research-log.md`,
-00:40) showed that frozen frames give bitwise-identical activations when the car is stopped.
+**Locked 2026-11-01 00:16. EXPLORATORY**: designed after the H2 diagnostic (`docs/research/research-log.md`,
+00:14) showed that frozen frames give bitwise-identical activations when the car is stopped.
 
 ## Change from H1b
 

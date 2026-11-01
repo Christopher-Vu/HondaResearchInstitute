@@ -2,7 +2,7 @@
 
 Decision timeline for the planted-gap recovery goal. Newest entry at the bottom. Times are Pacific.
 
-## 2026-10-31 22:40 — bootstrap
+## 2026-10-31 22:30 — bootstrap
 
 **Goal (from Jerry):** prove the discovery SDK finds failures we planted in CARLA, explain how, keep an extensive
 log, end with an explainer video; 6,000 SU allowed.
@@ -19,7 +19,7 @@ gap is roughly a fifth of the failures, so a catch-all scores about 0.2 and real
 build the mechanical code the 2026-10-22 spec listed as missing. Savio's login dropped at about 22:30, so the run
 waits for the user; code and tests go first.
 
-## 2026-10-31 22:55 — code and the Tier 2 corpus, while Savio is down
+## 2026-10-31 22:32 — code and the Tier 2 corpus, while Savio is down
 
 - **Protocol locked** in `10b02ce` before any data was opened.
 - **Evaluation code** delegated to a Sonnet subagent (single module, clear spec): `src/discovery/dev_eval.py` gets
@@ -30,7 +30,7 @@ waits for the user; code and tests go first.
   option because the background-only path hard-coded wave 2's id offset (a third wave would have reused its ids).
   Expected cost about 820 SU at 4.1 SU per route (unmeasured for this wave). Submit when Savio is back.
 
-## 2026-10-31 22:40 (Savio clock) — Savio back, wave 3 submitted, corpus counted
+## 2026-10-31 22:35 — Savio back, wave 3 submitted, corpus counted
 
 - Wave 3 submitted as array 40715498 (100 tasks, 200 routes). SU baseline for this goal: **6,595.83** used by
   imhaohao at 2026-11-01 05:35 UTC, read with `check_usage.sh` just before the submission. Ceiling: 12,596.
@@ -49,7 +49,7 @@ waits for the user; code and tests go first.
   Each planted gap is 15 to 21% of failures: far closer to PRD §9.1's assumed 4 to 8% than the old 70%.
 - 36 SAE runs are available in `share/sae-sweep` (layers 10 and 14, k 32/48/64, seeds 0 to 5).
 
-## 2026-10-31 23:10 — H1 Tier 1, layer 10: the activation methods were not actually tested
+## 2026-10-31 22:59 — H1 Tier 1, layer 10: the activation methods were not actually tested
 
 First run (40715529/31) failed: Savio's policy venv had no scikit-learn (B3 and M2 need it). Added
 scikit-learn 1.5.2 with uv, pinned numpy 1.26.4 and scipy 1.15.3; a dry run showed only four new packages and no
@@ -78,7 +78,7 @@ Tier 2 (confirmatory, per the protocol) waits for wave 3's per-token data. M2's 
 A slim copy of the 750 shards (layer means and state only, 6.5 GB) is being copied to the laptop so agents can work
 without competing for Savio's single session.
 
-## 2026-10-31 23:30 — layer 14 matches layer 10; frame-mean SAEs fit
+## 2026-10-31 23:24 — layer 14 matches layer 10; frame-mean SAEs fit
 
 - **Layer 14 Tier 1 (40715555), measured:** identical baseline numbers to layer 10, M2 empty, token SAEs misfit.
   The Tier 1 verdict stays "activation methods not tested".
@@ -86,9 +86,9 @@ without competing for Savio's single session.
   all 750 shards (labels never read) in 3.4 min on the laptop CPU: **held-out explained variance 0.922**, dead
   fraction 0, 5% of latents never fired on held-out frames. The other 35 runs are training, four at a time.
 - **M2 audit** handed to a Sonnet agent working on the local slim shards.
-- Wave 3: 9 of 100 tasks done after about 70 minutes, 6 running.
+- Wave 3: 9 of 100 tasks done after about 50 minutes, 6 running.
 
-## 2026-10-31 23:40 — M2 audit: a valid null, not a bug
+## 2026-10-31 23:26 — M2 audit: a valid null, not a bug
 
 Sonnet audit agent, on the local slim shards (measured):
 
@@ -107,7 +107,7 @@ Sonnet audit agent, on the local slim shards (measured):
 the probes' state list (lead, pedestrian, light, junction, occlusion) does not name camera staleness or a blacked-out
 centre, so M2 is the wrong tool for these three gaps by construction. Logged as a finding.
 
-## 2026-11-01 00:20 — H1b layer 10: P4 recovered; P7 and P8 found together, not apart (EXPLORATORY)
+## 2026-11-01 00:09 — H1b layer 10: P4 recovered; P7 and P8 found together, not apart (EXPLORATORY)
 
 18 frame-mean SAEs at layer 10, held-out explained variance 0.904 to 0.93 (all count). Run locally in 1 min 48 s.
 Output: `docs/research/data/h1b_layer10.json`. Measured:
@@ -132,7 +132,7 @@ B7 counts onsets over the whole rollout, which is why it partly sees them. A tem
 activations change from frame to frame) should expose P7 (identical activations for 40 steps out of 60) and
 perhaps P8. Diagnostic sent to a research agent before any new method is built.
 
-## 2026-11-01 00:40 — H2 diagnostic: timing faults need timing features (EXPLORATORY, oracle numbers)
+## 2026-11-01 00:14 — H2 diagnostic: timing faults need timing features (EXPLORATORY, oracle numbers)
 
 Sonnet research agent, local slim shards, layer 10, d_t = relative change of the frame mean between consecutive
 logged frames (5 policy steps apart). Measured:
@@ -151,7 +151,7 @@ logged frames (5 policy steps apart). Measured:
 - **Confound flagged:** stuck-ness. B7's mixed P7/P8 group may be partly "stuck failures". Any P7/P8 claim must
   beat rollout length (oracle Jaccard 0.628 for P7 ∪ P8) and mean speed (0.605).
 
-## 2026-11-01 00:45 — outer loop: where this stands and what proves it
+## 2026-11-01 00:14 — outer loop: where this stands and what proves it
 
 What we know: the SDK found P4 from activations alone, in a realistic mix, beating every baseline (exploratory).
 Timing faults are a blind spot of per-frame methods, explained mechanistically (a stale image is a normal image).
@@ -168,7 +168,7 @@ rollouts** evaluated by a **pipeline fixed before they are opened**.
   last logged frame) to contrastive diffing, and test it on the H1 pool. If it recovers P7 without hurting P4, it
   joins H3's fixed pipeline before H3's data are opened. P8's lag probe is noted, not built yet.
 
-## 2026-11-01 01:20 — H2: the stale-frame latent finds P7, but through B7, not M1 (EXPLORATORY)
+## 2026-11-01 00:20 — H2: the stale-frame latent finds P7, but through B7, not M1 (EXPLORATORY)
 
 Output `docs/research/data/h2_layer10.json`. Measured, layer 10, same pool as H1b:
 
@@ -194,3 +194,8 @@ the activations expose timing (P7 with the stale latent). M1's window is a real 
 **H3 amendment** (committed before any H3 rollout is opened): run H3's pipeline twice, without and with the stale
 latent, and report both. Claims A and B keep B7 as a baseline. A new Claim A′ asks the SDK-level question: does any
 label-free activation-reading method, B7 included, return an axis with Jaccard ≥ 0.5 that holds ≤ 50% of failures?
+
+## 2026-11-01 00:28 — correction: timestamps
+
+Headers from 22:30 onward had been written from estimated times, some running up to an hour ahead of the clock.
+Each is now the time of the commit that recorded it (`git log`). No content changed.
