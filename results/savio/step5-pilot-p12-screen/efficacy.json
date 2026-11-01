@@ -1,0 +1,29 @@
+{
+  "gap_id": "P12_walkers_at_speed",
+  "routes_listed": 20,
+  "routes_without_outcome": [],
+  "prd_9_1": {
+    "n_in": 10,
+    "failures_in": 4,
+    "n_neighbourhood": 10,
+    "failures_neighbourhood": 2,
+    "fail_rate_in": 0.4,
+    "fail_rate_neighbourhood": 0.2,
+    "uplift_pp": 20.0,
+    "ratio": 2.0,
+    "fisher_p": 0.6284829721362228,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 10,
+    "base_routes": 10,
+    "slice_only_failed": 3,
+    "neighbourhood_only_failed": 1,
+    "fail_rate_in": 0.4,
+    "fail_rate_neighbourhood": 0.2,
+    "uplift_pp": 20.0,
+    "ratio": 2.0,
+    "mcnemar_p": 0.625,
+    "passes": false
+  }
+}

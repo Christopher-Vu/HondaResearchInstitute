@@ -6,11 +6,19 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-01 (planted-gap recovery confirmed on fresh drives for P4 and P7 by H3; final video rendered)
+Last updated: 2026-11-01 (H5: no interactional gap passes its screen; waiting on Jerry's call)
 
 ---
 
 ## Current position
+
+**2026-11-01 12:15, H5: no interactional gap passes its screen (measured, screens only).** Protocol locked first in
+`docs/research/experiments/h5-interactional-screen/protocol.md`; 58 of 60 routes scored. Each gap reached 2 of the 3 excess failures
+required: P10 late fast crossing 2 vs 0 on 9 pairs, P11 blind-side crossing 4 vs 2 on 10, P12 walkers at speed 3 vs 1 on 10.
+P11 was properly tested. P10 and P12 failed the C24 check (3 of 5, 4 needed), so by the locked rule they are untested; the check itself is flawed
+(`docs/WHAT_BROKE.md`), and waiving it would not change the result. PRD 13.1 needs two passing interactional gaps, and there are none.
+Spend: 2580 of 6000 SU; no jobs left. **Blocker:** Jerry's call on what to do next. No full pilot is queued. Details:
+`docs/research/research-log.md`, 12:15.
 
 **2026-11-01 09:29, H3 confirms planted-failure recovery on fresh drives (measured, confirmatory, dev data).** Pipeline
 frozen in `docs/research/experiments/h3-confirm-fresh-pilots/protocol.md` before the rollouts existed; 435 new rollouts,
@@ -430,8 +438,9 @@ https://claude.ai/artifact/MuXb6v1BD4v1z9zbDAhDcr (private to its owner).
    separate methods.
 2. **More practice gaps that remove information.** Appearance changes (night,
    fog, dust, pedestrians in lane, animals) all failed; blinding the camera
-   passed. Candidates: hazards hidden until late, a camera fault on one side
-   only, a lead vehicle invisible to the camera. Interactional ones still need
+   passed. H5 tried a hazard seen late and a camera fault on one side, and neither
+   passed its screen (2026-11-01). A lead vehicle invisible to the camera is
+   untried. Interactional ones still need
    C23's 30-base-route floor. More candidates, and a replay pre-screen to
    reject no-effect gaps before they cost a pilot, in
    `docs/iv2026-literature-findings.md`.

@@ -21,6 +21,9 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
   group that mixes them (58 slice rollouts, 36 of them P8): the two timing faults look alike inside the model.
 - H1 Tier 1 could not test activation methods because its SAEs did not fit the input. H3 became the confirmatory test.
   Tier 2 (per-token data on the whole pool) was not run; wave 3 captured the tokens, so it stays possible.
+- **No interactional gap passes yet (H5, screens, measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
+  required. P11 was properly tested. P10 and P12 failed the manipulation check (3 of 5, 4 needed), so by the locked rule they are
+  untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps; there are none.
 
 ## Patterns and insights
 
@@ -37,6 +40,8 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 - A pool's size sets the bar: H3's smaller pool made each fault a bigger share of failures, so the catch-all rose from
   0.155-0.209 to 0.256-0.300.
 - A planted gap that is most of the failures makes every method look the same (the 2026-10-15 dev evaluation).
+- A manipulation check must not depend on how the model reacts. "Walker within 15 m with the car above 4 m/s" fails when the
+  car brakes early, which is the behaviour under test. Measure the hazard before the model can respond (H5).
 - Base routes 3048 and 3800 crash CARLA at the same simulated second every time; don't count on them.
 - Savio's shared login drops every few hours; an agent cannot reopen it.
 - SAEs trained on single tokens do not transfer to frame means (explained variance about -0.5); train on the
@@ -44,6 +49,8 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Open questions
 
+- Can any interactional gap break SimLingo strongly enough to pass? Walkers met at speed were struck in only about 1 route in 5 (H5),
+  and 8 of 29 neighbourhood routes fail anyway, so a weak effect is hard to see in 10 pairs.
 - Do activation methods beat behaviour (B3) on these gaps, or does the car's behaviour already give them away?
 - Do the three camera faults share one internal signature? Partly answered: P7 and P8 seem to share one; P4 has
   its own.

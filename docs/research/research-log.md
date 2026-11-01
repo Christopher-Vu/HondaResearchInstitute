@@ -358,7 +358,7 @@ voice is macOS Daniel; Jerry chose to keep it over a paid ElevenLabs take.
 Final spend for the goal: 2237 of 6000 SU (sacct CPU time x 3.67). No Savio jobs remain. Log headers from 02:05 onward were
 corrected to their commit times; I had written estimates again (the H3 entry said 09:50 for a 09:29 commit).
 
-## 2026-11-01 10:45 PST — H5 protocol: three interactional gaps to screen
+## 2026-11-01 10:29 PST — H5 protocol: three interactional gaps to screen
 
 Jerry asked to start screening interactional gaps, the kind the go/no-go rule is decided on. Locked in
 `docs/research/experiments/h5-interactional-screen/protocol.md` before any route ran; gaps in
@@ -366,3 +366,47 @@ Jerry asked to start screening interactional gaps, the kind the go/no-go rule is
 tested. P10 is a faster walker seen later, P11 a crossing from the camera's blind side against the mirror-image patch, P12 walkers at
 Fail2Drive's distance. One small code change: `crossing-timing.patch` makes the walker's speed and start time parameters, stock defaults
 kept. Screens only; a full pilot is Jerry's call.
+
+## 2026-11-01 12:15 PST — H5 result: no interactional gap passes its screen
+
+All jobs ended by 12:07 PST. 58 of 60 routes scored. Measured, screens only, dev data. The per-route table is
+`docs/research/data/h5_manipulation.json`, made by `experiments/h5-interactional-screen/manipulation_check.py`.
+
+| Gap | Pairs | C24 check, first 5 slice routes (4 needed) | Slice-only | Neighbourhood-only | Excess (3 needed) | Fails: slice, neighbourhood | Walker struck: slice, neighbourhood |
+|---|---|---|---:|---:|---:|---|---|
+| P10 late fast crossing | 9 | 3, fails, so **untested** | 2 | 0 | 2 | 4 of 9, 2 of 9 | 2, 0 |
+| P11 blind-side crossing | 10 | 4, holds | 4 | 2 | 2 | 6 of 10, 4 of 10 | 2, 1 |
+| P12 walkers at speed | 10 | 3, fails, so **untested** | 3 | 1 | 2 | 4 of 10, 2 of 10 | 2, 0 |
+
+**Verdict under the locked rule:** P11 was tested and fails. P10 and P12 are reported as untested. Two predictions failed: P12
+did not pass, and neither did my 60% guess that one of the three would. The P11 prediction held: it failed with both arms failing.
+
+**The check I wrote is flawed, and I did not override it.** It asks for a walker within 15 m while the car is above 4 m/s. A
+car that sees the walkers and brakes early fails that, so the measure counts good driving as "the hazard did not happen". Across all
+P10 and P12 slice routes there are 6 misses: 3 are the car slowing below 4 m/s first, and in 3 no walker ever came within 15 m. Read
+afterwards (exploratory), the car was above 4 m/s when a walker first came within 30 m in 7 of 9 P10 slice routes and 9 of 10 P12
+slice routes. Waiving the check changes nothing, because both gaps still reach only 2 of the 3 excess failures required.
+Distances are sampled every 0.5 s.
+
+**What the failures were.**
+- **P10:** the slice routes struck 2 walkers and the neighbourhood struck none. Only one of the two slice-only failures is the walker
+  (26406). In the other (26408) the car moved for only 3.4 s between 15 s and 215 s, never came near a walker, then hit a vehicle. That is the
+  stall I flagged at 10:55. Same-seed runs do not reproduce (`docs/WHAT_BROKE.md`, 2026-10-06), so it is noise, not the gap. Base route
+  28154 lost both arms because the crossing could not be placed. Both failed array tasks (0 and 6) are from that base.
+- **P11:** the black box was at least 99% black in every saved frame of all 20 routes. Most failures do not involve the walker: 4 of
+  6 slice failures and 3 of 4 neighbourhood failures. So the patch, on either side, appears to cause most of them. This is what the
+  protocol said to look for. No unpatched arm exists here, so that cause is inferred.
+- **P12:** 2 of 10 routes struck walkers, close to P5's 2 of 8 and far from Fail2Drive's 87%. Speed does not close that gap in this
+  screen. Our setup may differ from theirs in other ways (not checked). Neighbourhood route 2433382 has a walker at 8.3 m with none
+  injected, so "no walkers" means none planted.
+
+**Exploratory, not a verdict.** Pooled across P10 and P11, which have a walker in both arms, slice routes struck 4 walkers in 19 and
+neighbourhood routes 1 in 19. If the same failure rates held at 60 pairs, Fisher's test would give p 0.011 for P10, 0.028 for P12 and
+0.044 for P11 against PRD 9.1's 0.01, and P11's ratio of 1.5 is under the required 2.0. Rates from 10 pairs are rough. A full pilot on
+these gaps as written looks unlikely to pass.
+
+**Mechanics.** The patch was in the tree the runs used: `Bench2Drive/scenario_runner` was changed at 10:27, before the arrays were
+submitted. The walker's real speed was not measured from logs. Spend: 2580 of 6000 SU, so H5 cost 343 SU for 58 scored routes. No jobs
+are left on Savio.
+
+Stopping here as the protocol says: a full pilot is Jerry's call.

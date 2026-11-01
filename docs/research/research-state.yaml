@@ -6,7 +6,7 @@ su_budget: 6000
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 2237               # 2026-11-01 09:35 PST, final, no jobs left
+su_spent: 2580               # 2026-11-01 12:15 PST, no jobs left; H5 cost 343
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -18,6 +18,9 @@ hypotheses:
   H3:   {status: done, kind: confirmatory, protocol: docs/research/experiments/h3-confirm-fresh-pilots/protocol.md,
          result: "P4 M1 0.557 (A yes, B yes); P7 M1 0.340 (A no); P7 B7 stale 0.889 (A' yes); plain B7 0.541 is near rollout length 0.48",
          data: [docs/research/data/h3_layer10_plain.json, docs/research/data/h3_layer10_stale.json]}
+  H5:   {status: done, kind: screen, protocol: docs/research/experiments/h5-interactional-screen/protocol.md,
+         result: "no gap passes: P11 tested, excess 2 of 3; P10 and P12 untested (check 3 of 5), excess 2 of 3 either way",
+         data: docs/research/data/h5_manipulation.json, note: "C24 check counts early braking as no hazard; not overridden"}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -28,5 +31,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - progress report in to_human (HTML)
+  - waiting on Jerry: what to do about interactional gaps after H5; no full pilot starts without that call
   - P8: lag-alignment probe idea noted (needs state labels); not built

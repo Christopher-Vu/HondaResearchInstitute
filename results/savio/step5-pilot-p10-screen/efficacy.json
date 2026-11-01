@@ -1,0 +1,32 @@
+{
+  "gap_id": "P10_late_fast_crossing",
+  "routes_listed": 20,
+  "routes_without_outcome": [
+    "2815470",
+    "2815480"
+  ],
+  "prd_9_1": {
+    "n_in": 9,
+    "failures_in": 4,
+    "n_neighbourhood": 9,
+    "failures_neighbourhood": 2,
+    "fail_rate_in": 0.4444444444444444,
+    "fail_rate_neighbourhood": 0.2222222222222222,
+    "uplift_pp": 22.22222222222222,
+    "ratio": 2.0,
+    "fisher_p": 0.6199095022624433,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 9,
+    "base_routes": 9,
+    "slice_only_failed": 2,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 0.4444444444444444,
+    "fail_rate_neighbourhood": 0.2222222222222222,
+    "uplift_pp": 22.22222222222222,
+    "ratio": 2.0,
+    "mcnemar_p": 0.5,
+    "passes": false
+  }
+}

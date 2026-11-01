@@ -8,6 +8,21 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-01 — H5's manipulation check counted early braking as "no hazard"
+
+**Expected:** C24's check, written before the screens ran, would confirm the walker reached the car at speed: walker within 15 m with the
+car above 4 m/s, in at least 4 of the first 5 scored slice routes.
+
+**Actual (measured):** P10 and P12 each got 3 of 5. Across all their slice routes there are 6 misses. In 3 the model did its job: the
+car slowed below 4 m/s before the walker came within 15 m. In the other 3 no walker ever came within 15 m. Read afterwards, the car
+was above 4 m/s when a walker first came within 30 m in 7 of 9 P10 and 9 of 10 P12 slice routes.
+
+**What we did:** kept the rule. P10 and P12 are reported as untested, unlike P3's check on 2026-10-13, which was overridden. Nothing
+turns on it here: both gaps reach 2 of the 3 excess failures required, so they miss whether or not the check holds. Any further
+screen should measure the hazard before the model can respond, for example the walker's distance when it starts to move.
+
+---
+
 ## 2026-10-31 — Base route 3800 crashes CARLA at about 60 s in both P7 and P8
 
 **Expected:** a lost route is bad luck on one run.

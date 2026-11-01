@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-01 (Jerry) — three new interactional gaps miss their screens by one failure each
+
+The project's go/no-go rule needs two interactional gaps that pass, where an interactional gap is a failure caused by how the car and
+something else in the world meet, not by a broken camera alone. None had passed. The earlier two met a car starting from rest, so
+the agent tried three new ones with hazards at speed or on the camera's blind side. It wrote the rules down first
+(`docs/research/experiments/h5-interactional-screen/protocol.md`) and ran 10 pairs of routes for each, where each pair is the same road
+with and without the planted condition.
+
+None passed (measured). A gap needs at least 3 more failures with the condition than without it, and each reached 2: P10 (a faster walker
+seen later), P11 (a walker from the blacked-out side of the camera) and P12 (walkers 60 m ahead). P11 was properly tested, and most of
+its failures had nothing to do with the walker, so the black patch on either side seems to be the cause. Walkers were struck in about
+1 route in 5.
+
+The agent's own check on P10 and P12 turned out to be badly designed. It asked for a walker within 15 m of a moving car, which a car that
+brakes early fails, so by the locked rule both gaps are reported as untested. Waiving the check would not change the result. Details are
+in the research log at 12:15 and in `docs/WHAT_BROKE.md`. This cost 343 SU (2580 of 6000 spent). Nothing is queued: what to try next
+is Jerry's decision.
+
 ## 2026-11-01 (Jerry, autoresearch) — fresh drives confirm two of the three planted faults are found
 
 Everything found earlier was exploratory, because the method was chosen after looking at the same drives it was judged

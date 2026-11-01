@@ -1,0 +1,44 @@
+{
+  "config": "configs/rollout/step5-pilot-p10-screen.yaml",
+  "jobs": [
+    "40727203"
+  ],
+  "routes_configured": 20,
+  "routes_with_outcome": 20,
+  "official": {
+    "driving score": 82.3219055,
+    "success rate": 0.7,
+    "eval num": 20,
+    "warning": "-----------------------Warning: there are 20 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 20,
+    "routes_scored": 18,
+    "unscored": [
+      {
+        "id": "2815470",
+        "scenario": "T_Junction",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 4.85
+      },
+      {
+        "id": "2815480",
+        "scenario": "T_Junction",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 4.65
+      }
+    ],
+    "mean_driving_score_over_scored": 80.36,
+    "mean_route_completion_over_scored": 95.29,
+    "success_rate_over_scored": 0.667,
+    "mean_real_time_factor": 0.0887
+  },
+  "scenario_skipped": [
+    "2815470",
+    "2815480"
+  ],
+  "simulated_seconds_total": 2450.0,
+  "wall_seconds_total": 25803.4,
+  "rerun": [],
+  "not_run": []
+}
