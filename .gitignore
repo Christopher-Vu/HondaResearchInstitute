@@ -43,3 +43,5 @@ checkpoints/
 video/assets/
 video/renders/
 video/node_modules/
+video/review/
+video/.hyperframes/

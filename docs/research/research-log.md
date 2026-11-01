@@ -239,3 +239,16 @@ components): lead distance R² 0.79, lead relative speed 0.55, junction distance
 **Reading:** a delayed camera is the hardest of the three. Its activations look like normal driving shifted in
 time, and the cars it breaks mostly stop moving, which erases the one signal that is specific to delay. P8 stays
 unrecovered; logged as a limit of the current toolbox, not tuned further.
+
+## 2026-11-01 01:27 — explainer video, first draft
+
+Storyline "One road, three drives" (`video/STORYLINES.md`, `video/SPEC.md`), built with HyperFrames by a Sonnet
+subagent: 126 s, 1920x1080, narration -17.1 LUFS, true peak -1.6 dB (measured, not heard). Every number on screen
+reads from `video/data.js`; the 896-bar columns are real layer-10 activations from shards 2640642 and 2640638
+(the two frozen frames, steps 190 and 195, differ by exactly 0.0). Two claims were caught and fixed in the script
+before recording: "278 crashed for ordinary reasons" (154 of the 278 are planted) and "its top suspect" (the P4
+axis was the 9th of 10).
+
+Review of the draft: story, data and motion right; heroes too small and parked in corners. Sent back for a layout
+pass. The draft narration is macOS's Daniel voice (free); an ElevenLabs take was priced at about 1,912 credits
+(about $0.70) and not bought, pending Jerry's OK.
