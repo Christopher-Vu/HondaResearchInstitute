@@ -302,3 +302,48 @@ rerun: 2365937 and 2585737. Slice 54 of 58 failed (93.1%), neighbourhood 19 of 6
 The H3 pool is now complete: 439 shards, 180 failures with an outcome (wave 3 52, P4-confirm 46 + 9, P7-confirm 54 + 19).
 The answer keys are therefore 46 (26% of failures) and 54 (30%), so the catch-all reference is about 0.26 and 0.30.
 2237 SU spent; all Savio jobs for H3 are done. Next: 36 frame-mean SAEs on this pool, then the locked evaluation.
+
+## 2026-11-01 09:50 PST — H3 result: the frozen pipeline finds both faults on fresh drives (CONFIRMATORY)
+
+Run exactly as locked: 18 frame-mean SAEs at layer 10 on all 439 H3 shards (k 32, 48, 64; seeds 0 to 5), then
+`dev_eval.py` without and with `--stale-latent`. Data: `docs/research/data/h3_layer10_plain.json`, `h3_layer10_stale.json`.
+`research-state.yaml` said 36 SAEs; that was my mistake, the protocol's grid at one layer is 18.
+
+Sanity: every SAE counts (held-out explained variance 0.875 to 0.922, none skipped). The pool scored is 435 rollouts with
+180 failures. I recomputed both answer keys from the shard metadata, separately from `dev_eval.py`: 46 and 54, no overlap.
+
+| Gap | Key | Catch-all | Best M1 | Best baseline | B7-pool, plain | B7-pool, stale |
+|---|---|---|---|---|---|---|
+| P4 occlusion | 46 | 0.256 | **0.557** (49 rollouts, 34 in key, 4 clean twins) | 0.354 B2 | 0.116 | 0.065 |
+| P7 freeze | 54 | 0.300 | 0.340 | 0.415 B2 | 0.541 | **0.889** (48 rollouts, all in key) |
+
+Claims against the locked rules:
+
+- **P4: Claim A holds, Claim B holds.** Margin +0.204 over B2, bootstrap interval +0.108 to +0.350, 5 of 6 seeds.
+- **P7: Claim A fails, Claim B fails** (M1 0.340), as predicted; B7 counts as a baseline for those two claims.
+- **P7: Claim A′ holds with the stale latent** (B7 0.889, 27% of failures), as predicted.
+- **Claim A′ also holds for P4** through M1.
+- **One prediction failed:** I predicted that without the stale latent Claim A′ holds for P4 only. B7 reaches 0.541 on
+  P7 without it. See the length audit below for why that is weak evidence.
+
+Audits, done because the numbers looked good:
+
+- **Rollout length (the stuck-ness confound the protocol names).** Taking the N longest failing rollouts, the best N
+  reaches Jaccard 0.48 on P7 and 0.26 on P4. So plain B7's 0.541 (only 2 of 18 SAEs reach 0.5, median 0.09) barely beats
+  a stopwatch, and I do not count it as a real recovery. The stale-latent axis at 0.889 clearly beats length, and it
+  holds none of P7's clean twins (the 19 neighbourhood failures), which length-only would pick up.
+- **Best-of-18 selection.** 0.557 is the maximum over the dictionaries. Only 3 of 18 reach 0.5 on P4; the median is 0.405
+  (range 0.31 to 0.557). The median still beats the best baseline and the catch-all. The rule is what was locked, and
+  the honest sentence is "the method finds P4 in some dictionaries, and most seeds at the winning size beat the baselines".
+- **Chance.** A random group of 49 of the 180 failures would hold 34 or more of the 46 P4 failures with probability about
+  3e-15 (hypergeometric). Even across every axis of every dictionary, chance does not explain it.
+- **What the P7 axis is.** All 18 SAEs give the same 0.889 because the winning axis is the stale latent itself, which does
+  not depend on the SAE. It is a frozen-input detector read from activations, chosen by H2 on the old pool and then fixed;
+  the dictionary adds nothing to it. It misses the 6 P7 failures whose frames never repeat exactly.
+- M2 returns no axes again.
+
+**What this means.** H1b and H2 were exploratory. H3 ran the same pipeline, frozen in advance, on drives nobody had opened, and
+both results came back close to their earlier values: P4 0.574 to 0.557, P7 0.906 to 0.889. **Limits:** this is dev data
+with practice gaps; the choice of "best axis" uses the answer key, as the scoring rule defines, so a user without a key
+would still have to look at the top groups; and P8 was left out of H3 because no label-free signature exists for it.
+H1's Tier 2 (per-token SAEs on the whole pool) was not run; wave 3 captured the tokens, and it stays possible.

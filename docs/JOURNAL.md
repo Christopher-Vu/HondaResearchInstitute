@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-01 (Jerry, autoresearch) — fresh drives confirm two of the three planted faults are found
+
+Everything found earlier was exploratory, because the method was chosen after looking at the same drives it was judged
+on. So the agent wrote the rules and the expected results down first (`docs/research/experiments/h3-confirm-fresh-pilots/protocol.md`),
+then ran 320 new routes on Savio: 60 pairs each of the black-patch (P4) and frozen-camera (P7) faults, and 200 ordinary
+drives. Both faults broke driving again (measured: P4 78.0% failed against 15.3% on the same roads without it, P7 93.1%
+against 31.7%). Four routes crashed the simulator and stayed lost, as the rules said.
+
+The tool scored the same as before on data it had never seen (measured). Score is Jaccard: the overlap between the tool's
+group and the true fault's failures, where 1 is perfect. On P4 the contrastive method reached 0.557 against 0.354 for the best
+method that ignores the model's insides, and that passes both locked claims. On P7 the same method missed (0.340), as
+predicted, and the "nothing changed since the last frame" signal found 48 drives, all of them truly P7 (0.889).
+
+The agent then tried to knock its own result down. Only 3 of the 18 dictionaries reach 0.5 on P4, so 0.557 is a best case
+and the typical value is 0.405. One prediction failed: a method without the "nothing changed" signal reached 0.541 on P7. The
+audit showed that sorting failures by drive length alone already gets 0.48, because frozen drives stall, so that result
+is treated as a stopwatch rather than a discovery. The delayed-camera fault (P8) stays unrecovered and was left out of this
+test. Numbers and audits are in the research log at 09:50. The final video is next.
+
 ## 2026-11-01 (Jerry, autoresearch) — the discovery methods find two of the three planted faults
 
 Jerry asked the agent to prove that our discovery tools find failures we planted on purpose in CARLA, keeping a

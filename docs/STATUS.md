@@ -6,11 +6,21 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-01 (planted-gap recovery: P4 and P7 recovered from activations, exploratory; H3 confirmatory pilots running)
+Last updated: 2026-11-01 (planted-gap recovery confirmed on fresh drives for P4 and P7 by H3; final video in progress)
 
 ---
 
 ## Current position
+
+**2026-11-01 09:50, H3 confirms planted-failure recovery on fresh drives (measured, confirmatory, dev data).** Pipeline
+frozen in `docs/research/experiments/h3-confirm-fresh-pilots/protocol.md` before the rollouts existed; 435 new rollouts,
+180 failures; both faults pass PRD 9.1 again (P4 78.0% vs 15.3%, P7 93.1% vs 31.7%). **P4:** contrastive diffing Jaccard
+0.557 vs best baseline 0.354 and catch-all 0.256, margin interval +0.108 to +0.350, Claims A and B hold; 0.557 is the best
+of 18 SAEs (median 0.405). **P7:** contrastive diffing misses it (0.340, Claim A fails), and a frozen-input signal read
+from activations recovers it (0.889, 48 rollouts, all P7 failures; Claim A′ holds). Plain B7's 0.541 on P7 is near what
+rollout length alone gets (0.48), so it does not count. **P8** was not in H3 and stays unrecovered. Details:
+`docs/research/research-log.md`, 09:50. Spend for the goal: 2237 SU of 6000. **Next:** final explainer video. H1 Tier 2
+(per-token SAEs) was not run; wave 3 captured the tokens, so it stays possible.
 
 **2026-11-01 00:21, the SDK recovers planted failures from activations (exploratory; autoresearch in
 `docs/research/`).** On a pool of 738 rollouts (P4, P7, P8 pilots plus both background waves; each gap 15 to 21%

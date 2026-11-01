@@ -4,6 +4,13 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Current understanding
 
+- **Confirmed on fresh drives (H3, a pipeline frozen before the data existed).** On 435 new rollouts with 180 failures,
+  contrastive diffing recovers P4 (Jaccard 0.557 vs 0.354 for the best baseline and 0.256 for the catch-all; margin
+  interval +0.108 to +0.350; Claims A and B hold). A frozen-input signal read from activations recovers P7 (0.889, 48
+  rollouts, all P7 failures; Claim A′ holds). Contrastive diffing alone still misses P7 (0.340). Both results are close to
+  their exploratory values (0.574, 0.906). P8 was not tested in H3 and stays unrecovered.
+- Caveats to carry with those numbers: 0.557 is the best of 18 dictionaries, and the median is 0.405; the P7 axis does not
+  depend on the dictionary at all; "best axis" is chosen using the answer key, as the scoring rule defines.
 - Planting works: three camera faults (P4, P7, P8) each raise SimLingo's failure rate by 52 to 80 points on the
   same roads (measured, full pilots, PRD 9.1).
 - **The SDK recovers a planted failure from the policy's activations (exploratory, H1b, layer 10).** In a pool of 738
@@ -12,8 +19,8 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
   vs 0.219 for the best baseline; bootstrap interval of the margin +0.26 to +0.52; stable across seeds).
 - The same method does not recover P7 (freeze) or P8 (latency). An activation-statistics baseline (B7) finds one
   group that mixes them (58 slice rollouts, 36 of them P8): the two timing faults look alike inside the model.
-- The confirmatory test (H1 Tier 1) could not test activation methods: its SAEs did not fit the input. Tier 2
-  (per-token data on the whole pool, wave 3) is the confirmatory test, running.
+- H1 Tier 1 could not test activation methods because its SAEs did not fit the input. H3 became the confirmatory test.
+  Tier 2 (per-token data on the whole pool) was not run; wave 3 captured the tokens, so it stays possible.
 
 ## Patterns and insights
 
@@ -25,6 +32,10 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Lessons and constraints
 
+- Rollout length alone reaches Jaccard 0.48 on P7, because frozen drives stall and run long. Any P7 axis near that
+  value is a stopwatch, not a discovery (plain B7's 0.541 is one). Check length before believing a timing-fault axis.
+- A pool's size sets the bar: H3's smaller pool made each fault a bigger share of failures, so the catch-all rose from
+  0.155-0.209 to 0.256-0.300.
 - A planted gap that is most of the failures makes every method look the same (the 2026-10-15 dev evaluation).
 - Base routes 3048 and 3800 crash CARLA at the same simulated second every time; don't count on them.
 - Savio's shared login drops every few hours; an agent cannot reopen it.
