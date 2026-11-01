@@ -269,3 +269,16 @@ is tied to wave 2's paths), P4-confirm 40719025 and P7-confirm 40719026 (both `s
 gives the PRD 9.1 efficacy verdict). Outputs: `results/savio/step5-background-wave3`, `step5-confirm-p4`,
 `step5-confirm-p7`. Measured at 02:25: wave 3 96 of 100 tasks, P4-confirm 37 of 60, P7-confirm 8 of 60; 1075 SU spent.
 Lost so far, no reruns per protocol: wave 3 task 12, P4-confirm task 2.
+
+## 2026-11-01 03:40 PST — wave 3 background ready
+
+Wave 3 rollouts and export finished (job 40719024): 200 shards, 199 with an outcome (147 fine, 52 failed, 1 without
+an outcome), against 56 failures of 195 in wave 2 (measured). Audit: stride 5 and capture_every 10 match waves 1 and
+2, the town mix matches, median rollout length 380 steps against 399. The slim copy first read as 409 MB and then
+658 MB; both were `du` lag on scratch, and the finished copy is 1.3 GB on the laptop, in line with wave 2.
+
+One thing to carry into H3's reading: the pool is smaller than H1's, so each planted fault will be a bigger share of the
+failures (estimated near a quarter to a third, against 15 to 21% in H1). The catch-all reference rises with it, so Claim
+B's bar over the catch-all is harder here. The protocol stays as locked.
+
+Measured at 03:25: P4-confirm 51 of 60 tasks, P7-confirm 12 of 60; 1380 SU spent.
