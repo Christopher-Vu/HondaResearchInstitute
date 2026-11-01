@@ -87,3 +87,22 @@ without competing for Savio's single session.
   fraction 0, 5% of latents never fired on held-out frames. The other 35 runs are training, four at a time.
 - **M2 audit** handed to a Sonnet agent working on the local slim shards.
 - Wave 3: 9 of 100 tasks done after about 70 minutes, 6 running.
+
+## 2026-10-31 23:40 — M2 audit: a valid null, not a bug
+
+Sonnet audit agent, on the local slim shards (measured):
+
+- Data and integration are sound: 738 rollouts (460 successes, 278 failures), every state array present, no NaN
+  activations. All six probes fit on 58,518 success frames.
+- Failing windows give 3,276 residual frames, real and varied. **Every frame is HDBSCAN noise** at the
+  pre-registered `min_cluster_size` 60 (whose default `min_samples` also becomes 60): the residuals form one
+  dense blob with heavy tails, and HDBSCAN never selects a single cluster by default. So M2 emits no axes.
+- **There is a signal, but it is shared:** standardised residual RMS on held-out success frames vs failing
+  windows: lead distance 0.45 vs 0.89, lead relative speed 0.59 vs 1.12, pedestrian distance 0.42 vs 1.00,
+  occlusion 0.75 vs 1.12, red light 0.54 vs 0.86, time to junction 0.37 vs 0.35. Before a failure the policy
+  mis-reads its surroundings about twice as much, but every failure looks alike to these probes.
+- Tuning (`min_samples` 5) still gives 0 axes: the best cluster has 2 rollouts against the support floor of 20.
+
+**Decision:** report M2 as "no axes under the pre-registered settings". No tuning: it would be exploratory, and
+the probes' state list (lead, pedestrian, light, junction, occlusion) does not name camera staleness or a blacked-out
+centre, so M2 is the wrong tool for these three gaps by construction. Logged as a finding.
