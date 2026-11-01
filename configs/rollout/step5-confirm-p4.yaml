@@ -1,0 +1,41 @@
+# H3 confirmatory pilot for P4 (docs/research/experiments/h3-confirm-fresh-pilots/protocol.md): the same fault as
+# step5-pilot-p4-main.yaml on a fresh base draw, traffic seed and id offset, so every rollout is new. No reruns.
+# Routes and manifest are generated, not written:
+#   python adapters/simlingo/pilot_routes.py configs/rollout/step5-confirm-p4.yaml
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch configs/rollout/step5-confirm-p4.yaml 2
+
+name: step5-confirm-p4
+step: 5
+scope: savio_step5_confirm_p4
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+capture_every: 10
+capture_token_layers: [10, 11]   # as wave 3, so a per-token pool is possible
+
+route:
+  seed: 11                       # traffic manager seed; unused by every earlier run
+  routes_file: configs/rollout/step5-confirm-p4.xml
+  manifest: configs/rollout/step5-confirm-p4.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v2.yaml
+  gap_id: P4_camera_occlusion
+  generator_seed: 7
+  stage: main
+  screen_base_routes: 10
+  id_offset: 5                   # route ids end in 35 and 45; unused by P3-P9
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]
