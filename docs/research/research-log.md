@@ -29,3 +29,22 @@ waits for the user; code and tests go first.
   11, so the per-token SAE can read background and pilots alike. `dev_routes.py` gained a `background_role`
   option because the background-only path hard-coded wave 2's id offset (a third wave would have reused its ids).
   Expected cost about 820 SU at 4.1 SU per route (unmeasured for this wave). Submit when Savio is back.
+
+## 2026-10-31 22:40 (Savio clock) — Savio back, wave 3 submitted, corpus counted
+
+- Wave 3 submitted as array 40715498 (100 tasks, 200 routes). SU baseline for this goal: **6,595.83** used by
+  imhaohao at 2026-11-01 05:35 UTC, read with `check_usage.sh` just before the submission. Ceiling: 12,596.
+- Tier 1 corpus, counted from the sidecars (measured):
+
+| Source | Rollouts with an outcome | Failures | Key |
+|---|---|---|---|
+| wave 1 | 189 | 29 | (P1, P2 slices count as background) |
+| wave 2 | 195 | 56 | |
+| P4 pilot | 120 | 55 | P4: 43 |
+| P7 pilot | 116 | 68 | P7: 53 |
+| P8 pilot | 118 | 70 | P8: 58 |
+| **Pool** | **738** | **278** | |
+
+  Catch-all references (an axis holding every failure): P4 43/278 = 0.155, P7 53/278 = 0.191, P8 58/278 = 0.209.
+  Each planted gap is 15 to 21% of failures, close to PRD §9.1's assumed 4 to 8% range than the old 70%.
+- 36 SAE runs are available in `share/sae-sweep` (layers 10 and 14, k 32/48/64, seeds 0 to 5).
