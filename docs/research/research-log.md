@@ -106,3 +106,28 @@ Sonnet audit agent, on the local slim shards (measured):
 **Decision:** report M2 as "no axes under the pre-registered settings". No tuning: it would be exploratory, and
 the probes' state list (lead, pedestrian, light, junction, occlusion) does not name camera staleness or a blacked-out
 centre, so M2 is the wrong tool for these three gaps by construction. Logged as a finding.
+
+## 2026-11-01 00:20 — H1b layer 10: P4 recovered; P7 and P8 found together, not apart (EXPLORATORY)
+
+18 frame-mean SAEs at layer 10, held-out explained variance 0.904 to 0.93 (all count). Run locally in 1 min 48 s.
+Output: `docs/research/data/h1b_layer10.json`. Measured:
+
+| Gap | Catch-all | Best baseline | Best M1 | Winning axis | Claim A | Claim B |
+|---|---|---|---|---|---|---|
+| P4 occlusion | 0.155 | B2 0.219 | **0.574** (capped, L10 k32 s4) | 31 rollouts: 27 in key, 31 slice, 0 neighbourhood | yes | yes: delta +0.355 [+0.264, +0.520], stable |
+| P7 freeze | 0.191 | B7 0.278 | 0.207 (a 77% catch-all) | | no | no |
+| P8 latency | 0.209 | B7 **0.444** | 0.276 | B7: 59 rollouts, 58 slice, 36 in key, 0 neighbourhood | no | no |
+
+Audit:
+- The P4 axis is clean: precision 27/31 = 0.87, recall 27/43 = 0.63, no P4 neighbourhood rollout. A latent fires on
+  the blacked-out camera image, which is exactly the planted cause.
+- B7's P8 axis holds 58 pilot slice rollouts but only 36 are P8 failures. The other 22 are slice failures of the
+  other pilots (P7 is the obvious candidate; to be checked). So B7 found a shared "stale camera" signature, and
+  merging two gaps caps its Jaccard with either.
+- M1's P7 axes are catch-alls.
+
+**Mechanism hypothesis (H2):** P4 changes what is in the image, so a per-frame latent can fire on it. P7 and P8
+show a real, normal-looking image, only at the wrong time. M1 scores frames one by one, so it is blind to timing;
+B7 counts onsets over the whole rollout, which is why it partly sees them. A temporal signal (how much the
+activations change from frame to frame) should expose P7 (identical activations for 40 steps out of 60) and
+perhaps P8. Diagnostic sent to a research agent before any new method is built.
