@@ -23,9 +23,13 @@ local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB)
   frame_mean_saes: scratchpad sae-frames (L10 done, L14 training at 2 workers for battery)
 
+video:
+  status: draft_v2            # video/renders/draft-v2.mp4, 126 s; source committed c4cdef6
+  pending: H3 verdict (H3_STATUS in video/data.js), narration voice (ElevenLabs ~$0.70 needs Jerry's OK)
+
 next_actions:
   - layer-14 H1b and H2 when the SAEs finish (replication)
   - progress report in to_human (HTML)
   - when H3 arrays finish: export slim shards on Savio, copy, train SAEs, evaluate twice, score claims A, A', B
   - P8: lag-alignment probe idea noted (needs state labels); not built
-  - explainer video last
+  - after H3: set H3_STATUS, re-render the final video
