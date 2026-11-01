@@ -167,3 +167,30 @@ rollouts** evaluated by a **pipeline fixed before they are opened**.
 - **H2, exploratory:** add one label-free temporal latent (stale frame: the activations did not change since the
   last logged frame) to contrastive diffing, and test it on the H1 pool. If it recovers P7 without hurting P4, it
   joins H3's fixed pipeline before H3's data are opened. P8's lag probe is noted, not built yet.
+
+## 2026-11-01 01:20 — H2: the stale-frame latent finds P7, but through B7, not M1 (EXPLORATORY)
+
+Output `docs/research/data/h2_layer10.json`. Measured, layer 10, same pool as H1b:
+
+| Gap | M1 best | B7-pool best | B7's axis |
+|---|---|---|---|
+| P4 | 0.574 (unchanged) | 0.091 | |
+| P7 | 0.207 (unchanged) | **0.906** | 48 rollouts: 48 P7 slice failures, 0 neighbourhood, 0 other |
+| P8 | 0.276 (unchanged) | 0.350 | 50 slice, 0 neighbourhood |
+
+- B7's 0.906 equals the diagnostic's oracle ceiling, reached here with no threshold tuned on the key.
+- **Why M1 misses it (diagnosed):** M1 looks at the 3 s before each failure. Only 3 failing rollouts have a stale frame
+  inside that window (support 3 against a floor of 20; it fired in 0 of 460 success windows). A P7 car's frozen,
+  stopped frames are spread over a long stall that mostly precedes the last 3 s. B7 counts over the whole rollout.
+- Widening M1's window to 30 s or the whole rollout does not help (best P7 0.10 to 0.17) and hurts P4 (0.574 to
+  0.21 to 0.47): M1 ranks latents by effect × support and merges overlapping ones, so a narrow signal never founds
+  its own axis.
+- **H2's pre-registered rule** (M1 must reach 0.5 on P7) **fails**. The stale latent does not join H3's M1.
+
+**Reading:** the SDK has two complementary detectors. Contrastive diffing (M1) finds causes visible in what the
+model sees just before failing (P4). Whole-rollout activation statistics (B7) find causes that act over time, once
+the activations expose timing (P7 with the stale latent). M1's window is a real blind spot for slow failures.
+
+**H3 amendment** (committed before any H3 rollout is opened): run H3's pipeline twice, without and with the stale
+latent, and report both. Claims A and B keep B7 as a baseline. A new Claim A′ asks the SDK-level question: does any
+label-free activation-reading method, B7 included, return an axis with Jaccard ≥ 0.5 that holds ≤ 50% of failures?

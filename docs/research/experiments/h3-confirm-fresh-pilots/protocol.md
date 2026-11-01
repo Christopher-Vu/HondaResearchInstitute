@@ -49,3 +49,14 @@ with no reruns (a route that crashes is lost, as in deployment).
 
 About 240 pilot routes. P7 routes stall and run long; the H1 pilots cost about 1,000 SU each with reruns
 (measured from usage). Expected under 2,000 SU, within the 6,000 SU budget.
+
+## Amendment (2026-11-01 01:20, before any H3 rollout was opened)
+
+H2's rule failed for M1 (`docs/research/research-log.md`, 01:20), so M1 runs without the stale latent as stated
+above. In addition, the whole evaluation runs a second time with `--stale-latent` and is reported beside the first.
+
+- **Claim A′ (SDK level):** for each gap, at least one label-free activation-reading method (M1 raw or capped, or
+  B7-pool) has an axis with Jaccard ≥ 0.5 holding at most 50% of failures. Claims A and B are unchanged, with B7
+  still a baseline.
+- **Predictions:** without the stale latent, Claim A′ holds for P4 only. With it, Claim A′ holds for P4 and P7,
+  P7 through B7.
