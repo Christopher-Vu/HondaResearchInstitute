@@ -43,7 +43,8 @@ P2_GAP = "P2_occluded_pedestrian_night"
 P2_FAMILY = "DynamicObjectCrossing"
 SLICE_ROLE = {P1_GAP: "P1_slice", P2_GAP: "P2_slice"}
 ROLE_ID_OFFSET = {"background": 0, "P1_slice": 1, "P2_slice": 10, "P2_neighbourhood": 20,
-                  "pilot_slice": 30, "pilot_neighbourhood": 40, "background_wave2": 50}
+                  "pilot_slice": 30, "pilot_neighbourhood": 40, "background_wave2": 50,
+                  "background_wave3": 60}
 
 # Read from CARLA 0.9.15 (carla.WeatherParameters.<preset>) with float32 noise rounded to 6 digits;
 # tests/test_dev_routes.py compares them with CARLA when it is installed. These are the presets of
@@ -153,7 +154,8 @@ def plan_pool(routes: list[ET.Element], gaps: dict[str, dict[str, Any]], pool: d
     rng = random.Random(pool["generator_seed"])
     excluded = set(pool["exclude_scenarios"])
     if pool.get("background_only"):
-        return plan_background(routes, [], excluded, pool["background"], rng, "background_wave2")
+        return plan_background(routes, [], excluded, pool["background"], rng,
+                               pool.get("background_role", "background_wave2"))
     p1 = plan_p1_slice(routes, gaps[P1_GAP], excluded, rng)
     background = plan_background(routes, [planned.base for planned in p1], excluded, pool["background"], rng)
     p2 = gaps[P2_GAP]
@@ -221,7 +223,7 @@ def manifest_entry(planned: PlannedRoute, route: ET.Element, gaps: list[dict[str
 def expected_role_counts(routes: list[ET.Element], gaps: dict[str, dict[str, Any]],
                          pool: dict[str, Any]) -> Counter[str]:
     if pool.get("background_only"):
-        return Counter({"background_wave2": pool["background"]})
+        return Counter({pool.get("background_role", "background_wave2"): pool["background"]})
     p2_routes = sum(family_of(route) == P2_FAMILY for route in routes)
     p2_combinations = len(list(itertools.product(*gaps[P2_GAP]["plant"]["grid"].values())))
     return Counter({"P1_slice": gaps[P1_GAP]["plant"]["base_routes"], "background": pool["background"],
