@@ -6,7 +6,14 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 - Planting works: three camera faults (P4, P7, P8) each raise SimLingo's failure rate by 52 to 80 points on the
   same roads (measured, full pilots, PRD 9.1).
-- Recovery is untested on a pool where the planted gaps are a minority. H1 tests it.
+- **The SDK recovers a planted failure from the policy's activations (exploratory, H1b, layer 10).** In a pool of 738
+  rollouts where P4 is 15% of the 278 failures, contrastive diffing over an SAE trained on frame means returns a
+  group of 31 failing rollouts, 27 of them P4 failures and none from P4's fault-free twin routes (Jaccard 0.574
+  vs 0.219 for the best baseline; bootstrap interval of the margin +0.26 to +0.52; stable across seeds).
+- The same method does not recover P7 (freeze) or P8 (latency). An activation-statistics baseline (B7) finds one
+  group that mixes them (58 slice rollouts, 36 of them P8): the two timing faults look alike inside the model.
+- The confirmatory test (H1 Tier 1) could not test activation methods: its SAEs did not fit the input. Tier 2
+  (per-token data on the whole pool, wave 3) is the confirmatory test, running.
 
 ## Patterns and insights
 
@@ -27,4 +34,6 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 ## Open questions
 
 - Do activation methods beat behaviour (B3) on these gaps, or does the car's behaviour already give them away?
-- Do the three camera faults share one internal signature?
+- Do the three camera faults share one internal signature? Partly answered: P7 and P8 seem to share one; P4 has
+  its own.
+- Can a temporal feature (frame-to-frame change) separate P7 from P8 and recover both? (H2, diagnostic running.)
