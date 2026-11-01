@@ -82,3 +82,19 @@ reference for gap g: |key(g)| / |all failures|, what an axis holding every failu
   neighbourhood.
 - The three camera faults share one signature, so one axis matches all three weakly. Audit: Hungarian assignment
   in `harness.scoring.score` credits an axis to one gap only.
+
+## Clarifications made before the run (2026-10-31 23:20, no H1 data opened yet)
+
+Points the protocol left open, settled while building `src/discovery/dev_eval.py`:
+
+1. An SAE with explained variance below 0.8 on the frame means does not count for M1 or for B7-pool.
+2. "Best activation method" is the maximum over every counting M1 run at the layer (all k and seeds, raw and
+   capped) and M2. B7-pool from every counting run joins the baselines. The bootstrap re-takes both maxima in
+   each replicate, so the interval covers that selection.
+3. Rule 3 applies only when an SAE method wins. For an M2 winner it is not applicable and does not block Claim B.
+   For an SAE winner, only runs of the same variant (raw or capped) at the same layer and k count. A run beats the
+   baseline when it is strictly above the best baseline's point Jaccard.
+4. "The interval excludes zero" means its lower bound is above 0. The 0.15 margins carry a 1e-9 float tolerance.
+5. B1 runs once per SAE run, sized from that run's M1 raw axes. With no SAE, its axes are failures // 10.
+6. The slice and neighbourhood audit counts members by sidecar `role`. `in_key` is recorded beside it.
+7. Duplicate route ids across shard directories stop the run rather than overwrite.

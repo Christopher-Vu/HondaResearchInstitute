@@ -46,5 +46,5 @@ waits for the user; code and tests go first.
 | **Pool** | **738** | **278** | |
 
   Catch-all references (an axis holding every failure): P4 43/278 = 0.155, P7 53/278 = 0.191, P8 58/278 = 0.209.
-  Each planted gap is 15 to 21% of failures, close to PRD §9.1's assumed 4 to 8% range than the old 70%.
+  Each planted gap is 15 to 21% of failures: far closer to PRD §9.1's assumed 4 to 8% than the old 70%.
 - 36 SAE runs are available in `share/sae-sweep` (layers 10 and 14, k 32/48/64, seeds 0 to 5).
