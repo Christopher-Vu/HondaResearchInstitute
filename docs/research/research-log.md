@@ -216,3 +216,26 @@ Each is now the time of the commit that recorded it (`git log`). No content chan
 - The stale latent is layer-independent, as expected: a frozen, stopped car repeats its activations at every layer.
 - Spare note: the failed P4-confirm task (array 40716226 task 2) lost neighbourhood route 468345 to a CARLA crash at
   start-up (exit 139). H3 allows no reruns, so that pair is lost.
+
+## 2026-11-01 00:45 — H4 lag probe: specific to camera faults, not to P8 (EXPLORATORY, locked rule fails)
+
+Sonnet research agent ran the locked protocol on the local pool. Per-rollout table (no key columns):
+`docs/research/data/h4_lag_probe_table.csv`. Probes fitted on 299 successful background rollouts (layer 10, 64 PCA
+components): lead distance R² 0.79, lead relative speed 0.55, junction distance 0.79 (in-sample). Measured:
+
+| Gap | Key | In axis and key | Jaccard |
+|---|---|---|---|
+| P4 | 43 | 6 | 0.071 |
+| P7 | 53 | 13 | 0.148 |
+| P8 | 58 | 27 | **0.342** (rule needs 0.5: fails) |
+
+- The axis (48 failures, 17% share) is **almost entirely camera faults**: 46 pilot slice rollouts (27 P8, 14 P7,
+  6 P4... by source dir: p8 27, p7 14, p4 6), 1 neighbourhood, 1 background. Only 2 of 124 failures outside every
+  key landed in it. The probe detects "perception runs late" for any stale or degraded camera, not latency alone.
+- Recall is limited by stalling: 18 of 70 P8 failures had too few moving frames to measure a lag at all.
+- Post hoc (not the rule): requiring the lag to be exactly 4 (the planted delay) gives Jaccard 0.100; at least 4
+  gives 0.278. Neither rescues it.
+
+**Reading:** a delayed camera is the hardest of the three. Its activations look like normal driving shifted in
+time, and the cars it breaks mostly stop moving, which erases the one signal that is specific to delay. P8 stays
+unrecovered; logged as a limit of the current toolbox, not tuned further.

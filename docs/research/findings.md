@@ -36,4 +36,5 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 - Do activation methods beat behaviour (B3) on these gaps, or does the car's behaviour already give them away?
 - Do the three camera faults share one internal signature? Partly answered: P7 and P8 seem to share one; P4 has
   its own.
-- Can a temporal feature (frame-to-frame change) separate P7 from P8 and recover both? (H2, diagnostic running.)
+- P8 (delayed camera) is still not recovered. A lag probe (H4) flags camera faults in general with high
+  specificity but cannot single out the delay, because the delayed cars stop moving and stop revealing the lag.
