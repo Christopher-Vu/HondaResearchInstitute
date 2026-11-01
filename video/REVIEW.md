@@ -15,8 +15,8 @@ Seven scene files plus an end card. Scene length = voice clips + 0.35 s each; th
 | scene-d P4 group of 31, 0.57 | 9-10 | 61.16 | 15.40 |
 | scene-e frozen frame, identical numbers | 11-12 | 76.56 | 15.42 |
 | scene-f P7 group of 48, delay | 13-14 | 91.98 | 15.81 |
-| scene-g fresh piles, "two of three found" | 15-16 | 107.79 | 14.16 |
-| scene-end project line + Cua link | none | 121.95 | 4.00 |
+| scene-g fresh piles, H3 scores, "two of three faults found" | 15-16 | 107.79 | 18.22 |
+| scene-end project line + Cua link | none | 126.01 | 4.00 |
 
 Every number on screen is filled from `data.js` (`data-bind` or script). Seams: 7, all LEFT (cut-the-curve, exit `power3.in` / entry `power3.out`, 0.4 s, 260 px). `ledger.json` + `seam-gate.mjs verify`: PASSED, 0 fail, 0 warn (run with CHROME_PATH set to system Chrome; the cached headless-shell would not start).
 

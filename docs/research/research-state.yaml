@@ -6,7 +6,7 @@ su_budget: 6000
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 2237               # 2026-11-01 09:05 PST
+su_spent: 2237               # 2026-11-01 09:35 PST, final, no jobs left
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -24,10 +24,9 @@ local:
   frame_mean_saes: scratchpad sae-frames (H1 pool, L10 and L14); scratchpad h3/sae (H3 pool, 18 runs)
 
 video:
-  status: draft_v2            # video/renders/draft-v2.mp4, 126 s; source committed c4cdef6
-  pending: H3 verdict in the video, narration voice (ElevenLabs ~$0.70 needs Jerry's OK)
+  status: final               # video/renders/final.mp4, 130 s; source committed 3f65e0c
+  pending: narration voice (ElevenLabs ~$0.70 needs Jerry's OK)
 
 next_actions:
   - progress report in to_human (HTML)
   - P8: lag-alignment probe idea noted (needs state labels); not built
-  - update the video for the H3 verdict and render the final cut

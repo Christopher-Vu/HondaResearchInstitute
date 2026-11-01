@@ -253,14 +253,14 @@ Review of the draft: story, data and motion right; heroes too small and parked i
 pass. The draft narration is macOS's Daniel voice (free); an ElevenLabs take was priced at about 1,912 credits
 (about $0.70) and not bought, pending Jerry's OK.
 
-## 2026-11-01 02:07 PST — H3 rollouts, progress check
+## 2026-11-01 02:05 PST — H3 rollouts, progress check
 
 Measured on Savio: wave 3 at 85 of 100 tasks complete (1 failed), P4-confirm at 36 of 60 (1 failed), P7-confirm
 at 8 of 60. Recent tasks take 6 to 20 minutes each and about 6 run at once across the three arrays, so the rest
 (about 90 tasks) should finish in roughly 4 hours. SU spent since the goal started: 998 (sacct CPU time x 3.67),
 well inside the 6000 budget. Nothing to act on until the arrays finish.
 
-## 2026-11-01 02:35 PST — H3 post-processing queued
+## 2026-11-01 02:27 PST — H3 post-processing queued
 
 Rollout arrays only write raw captures to `results/savio/<array job>/`; shards and scores come from a follow-up job,
 which had not been queued for H3. Queued now, each starting when its array ends (`afterany`): wave 3 40719024
@@ -270,7 +270,7 @@ gives the PRD 9.1 efficacy verdict). Outputs: `results/savio/step5-background-wa
 `step5-confirm-p7`. Measured at 02:25: wave 3 96 of 100 tasks, P4-confirm 37 of 60, P7-confirm 8 of 60; 1075 SU spent.
 Lost so far, no reruns per protocol: wave 3 task 12, P4-confirm task 2.
 
-## 2026-11-01 03:40 PST — wave 3 background ready
+## 2026-11-01 03:29 PST — wave 3 background ready
 
 Wave 3 rollouts and export finished (job 40719024): 200 shards, 199 with an outcome (147 fine, 52 failed, 1 without
 an outcome), against 56 failures of 195 in wave 2 (measured). Audit: stride 5 and capture_every 10 match waves 1 and
@@ -283,7 +283,7 @@ B's bar over the catch-all is harder here. The protocol stays as locked.
 
 Measured at 03:25: P4-confirm 51 of 60 tasks, P7-confirm 12 of 60; 1380 SU spent.
 
-## 2026-11-01 04:50 PST — P4-confirm: the planted fault works again on fresh drives
+## 2026-11-01 04:47 PST — P4-confirm: the planted fault works again on fresh drives
 
 Measured (`results/savio/step5-confirm-p4/efficacy.json`, job 40719025): of 120 routes, 118 have an outcome. Lost and
 not rerun, per the protocol: 1171535 and 468345. Slice 46 of 59 failed (78.0%), neighbourhood 9 of 59 (15.3%): uplift
@@ -303,7 +303,7 @@ The H3 pool is now complete: 439 shards, 180 failures with an outcome (wave 3 52
 The answer keys are therefore 46 (26% of failures) and 54 (30%), so the catch-all reference is about 0.26 and 0.30.
 2237 SU spent; all Savio jobs for H3 are done. Next: 36 frame-mean SAEs on this pool, then the locked evaluation.
 
-## 2026-11-01 09:50 PST — H3 result: the frozen pipeline finds both faults on fresh drives (CONFIRMATORY)
+## 2026-11-01 09:29 PST — H3 result: the frozen pipeline finds both faults on fresh drives (CONFIRMATORY)
 
 Run exactly as locked: 18 frame-mean SAEs at layer 10 on all 439 H3 shards (k 32, 48, 64; seeds 0 to 5), then
 `dev_eval.py` without and with `--stale-latent`. Data: `docs/research/data/h3_layer10_plain.json`, `h3_layer10_stale.json`.
@@ -347,3 +347,13 @@ both results came back close to their earlier values: P4 0.574 to 0.557, P7 0.90
 with practice gaps; the choice of "best axis" uses the answer key, as the scoring rule defines, so a user without a key
 would still have to look at the top groups; and P8 was left out of H3 because no label-free signature exists for it.
 H1's Tier 2 (per-token SAEs on the whole pool) was not run; wave 3 captured the tokens, and it stays possible.
+
+## 2026-11-01 09:37 PST — final video; goal finished
+
+`video/renders/final.mp4`: 130 s, 1920x1080, 30 fps, -17.1 LUFS, true peak -1.6 dB (measured, not heard). The fresh-drive
+scene now shows the H3 result (0.56, best of 18 dictionaries with median 0.41; 0.89, 48 drives, none wrong), and the closing
+line reads "two of three faults found". The closing card and the description carry https://github.com/trycua/cua. The
+voice is still macOS Daniel; an ElevenLabs take needs Jerry's OK (about $0.70).
+
+Final spend for the goal: 2237 of 6000 SU (sacct CPU time x 3.67). No Savio jobs remain. Log headers from 02:05 onward were
+corrected to their commit times; I had written estimates again (the H3 entry said 09:50 for a 09:29 commit).
