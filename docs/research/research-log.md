@@ -259,3 +259,13 @@ Measured on Savio: wave 3 at 85 of 100 tasks complete (1 failed), P4-confirm at 
 at 8 of 60. Recent tasks take 6 to 20 minutes each and about 6 run at once across the three arrays, so the rest
 (about 90 tasks) should finish in roughly 4 hours. SU spent since the goal started: 998 (sacct CPU time x 3.67),
 well inside the 6000 budget. Nothing to act on until the arrays finish.
+
+## 2026-11-01 02:35 PST — H3 post-processing queued
+
+Rollout arrays only write raw captures to `results/savio/<array job>/`; shards and scores come from a follow-up job,
+which had not been queued for H3. Queued now, each starting when its array ends (`afterany`): wave 3 40719024
+(score and export, from a one-off sbatch outside the repo, `../wave3_post.sbatch`, because `step4_wave2.sbatch`
+is tied to wave 2's paths), P4-confirm 40719025 and P7-confirm 40719026 (both `scripts/step5_pilot.sbatch`, which also
+gives the PRD 9.1 efficacy verdict). Outputs: `results/savio/step5-background-wave3`, `step5-confirm-p4`,
+`step5-confirm-p7`. Measured at 02:25: wave 3 96 of 100 tasks, P4-confirm 37 of 60, P7-confirm 8 of 60; 1075 SU spent.
+Lost so far, no reruns per protocol: wave 3 task 12, P4-confirm task 2.

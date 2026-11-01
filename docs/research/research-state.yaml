@@ -6,7 +6,7 @@ su_budget: 6000
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 998                # 2026-11-01 02:07 PST
+su_spent: 1075               # 2026-11-01 02:25 PST
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -17,6 +17,8 @@ hypotheses:
          data: docs/research/data/h2_layer10.json, rule: failed for M1}
   H3:   {status: running, protocol: docs/research/experiments/h3-confirm-fresh-pilots/protocol.md,
          arrays: {p4c: 40716226, p7c: 40716227, wave3: 40715498},
+         post_jobs: {wave3: 40719024, p4c: 40719025, p7c: 40719026},
+         shards: results/savio/{step5-background-wave3,step5-confirm-p4,step5-confirm-p7}/shards,
          evaluation: train frame-mean SAEs on H3 pool L10 (36 runs), dev_eval without and with --stale-latent}
 
 local:
