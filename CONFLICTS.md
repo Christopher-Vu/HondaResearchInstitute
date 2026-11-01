@@ -682,6 +682,14 @@ is near certain, so a 10-pair screen checks only the mechanics.
 Open: whether Chris accepts the category, and whether to score it before any method uses
 situation-matched controls.
 
+### C33 · CI off by default · new, 2026-10-31 (Jerry), pending review (Chris)
+`PRD.md` §14 makes the sealed-key guard a CI check. Jerry turned the whole workflow off:
+`.github/workflows/ci.yml` now runs only when started by hand (`workflow_dispatch`), with every check left in
+place. Until it is turned back on, the guard, config check, lint, typecheck and tests are enforced only by
+running them before a commit (`CLAUDE.md`, "Before running anything"). The sealed key matters from Step 8;
+re-enable CI, or replace it with a pre-commit hook, before the test pool is sealed. To re-enable, restore
+`on: [push, pull_request]`.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

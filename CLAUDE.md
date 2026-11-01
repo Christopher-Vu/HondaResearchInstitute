@@ -119,7 +119,8 @@ something, say so in the new entry.
   directly from the PDFs. New citations get evidence first.
 - **Log surprises in `docs/WHAT_BROKE.md` as they happen.** Reconstructing it
   later never works, and `PRD.md` §6 commits us to publishing it.
-- **Nothing outside scoring code reads `gaps/sealed/`.** CI-enforced.
+- **Nothing outside scoring code reads `gaps/sealed/`.** Enforced by `scripts/check_sealed_imports.py`;
+  CI is off by default (`CONFLICTS.md` C33), so run it before committing.
 - **Recheck any deadline or model-roster fact older than two weeks** before
   acting on it. Several dates in the source documents had already passed.
 
