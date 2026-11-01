@@ -51,15 +51,19 @@
     #g-card {
       position: absolute;
       left: 96px;
-      top: 800px;
+      top: 96px;
       padding: 24px 40px;
       border: 1px solid var(--ink);
       white-space: nowrap;
     }
-    #g-status {
+    .g-score {
       position: absolute;
-      left: 760px;
-      top: 812px;
+      top: 750px;
+      white-space: nowrap;
+    }
+    .g-note {
+      position: absolute;
+      top: 880px;
       white-space: nowrap;
     }
     #g-home {
@@ -102,7 +106,10 @@
         <div data-hf-id="hf-nsxw" class="body g-fresh-label" id="g-label-p4" style="left: 96px">fresh P4 drives</div>
         <div data-hf-id="hf-oorl" class="body g-fresh-label" id="g-label-p7" style="left: 988px">fresh P7 drives</div>
         <div data-hf-id="hf-36cj" class="body" id="g-card">written before the data</div>
-        <div data-hf-id="hf-b124" class="body muted" id="g-status">verdict: <span data-hf-id="hf-rhus" id="g-status-value"></span></div>
+        <div class="display accent g-score" id="g-score-p4" style="left: 96px" data-bind="fresh.p4.jaccard" data-decimals="2"></div>
+        <div class="display accent g-score" id="g-score-p7" style="left: 988px" data-bind="fresh.p7.jaccard" data-decimals="2"></div>
+        <div class="body muted g-note" id="g-note-p4" style="left: 96px">best of <span data-bind="fresh.p4.dictionaries"></span> dictionaries, median <span data-bind="fresh.p4.median" data-decimals="2"></span></div>
+        <div class="body muted g-note" id="g-note-p7" style="left: 988px"><span data-bind="fresh.p7.found"></span> drives, none wrong</div>
       </div>
 
       <div data-hf-id="hf-pkz8" id="g-home">
@@ -119,7 +126,7 @@
         </div>
         <div data-hf-id="hf-12qs" class="body accent g-found" id="g-found-2" style="left: 680px">found</div>
         <div data-hf-id="hf-ibia" class="body accent g-found" id="g-found-3" style="left: 1264px">found</div>
-        <div data-hf-id="hf-lirr" class="display" id="g-claim">two of three found</div>
+        <div data-hf-id="hf-lirr" class="display" id="g-claim">two of three faults found</div>
       </div>
     </div>
   </div>
@@ -135,9 +142,6 @@
       const tl = gsap.timeline({ paused: true });
       const ink = L.cssColor("--ink");
       const muted = L.cssColor("--muted");
-
-      const variables = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
-      document.getElementById("g-status-value").textContent = variables.H3_STATUS || D.h3Status;
 
       /* shot 15: the tuned results, then two fresh piles being driven under rules written first */
       const SIDE = { x: 214, y: 212, scale: 2.6 };
@@ -167,7 +171,7 @@
       const freshP4 = buildFresh(document.getElementById("g-fresh-p4"));
       const freshP7 = buildFresh(document.getElementById("g-fresh-p7"));
 
-      gsap.set(["#g-tuned", "#g-unproven", "#g-fresh-p4", "#g-fresh-p7", "#g-label-p4", "#g-label-p7", "#g-card", "#g-status"], { opacity: 0 });
+      gsap.set(["#g-tuned", "#g-unproven", "#g-fresh-p4", "#g-fresh-p7", "#g-label-p4", "#g-label-p7", "#g-card", "#g-score-p4", "#g-score-p7", "#g-note-p4", "#g-note-p7"], { opacity: 0 });
       gsap.set(["#g-ring-2", "#g-ring-3", "#g-found-2", "#g-found-3", "#g-claim", "#g-f1", "#g-f2", "#g-f3"], { opacity: 0 });
 
       L.textIn(tl, "#g-tuned", cue(15, "We tuned") + 0.3);
@@ -193,7 +197,12 @@
 
       const ruleAt = cue(15, "rules written");
       tl.fromTo("#g-card", { opacity: 0, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: M.enter.duration, ease: M.enter.ease }, ruleAt);
-      L.textIn(tl, "#g-status", ruleAt + 0.7);
+
+      const scoreAt = cue(15, "came back");
+      L.textIn(tl, "#g-score-p4", scoreAt + 0.4);
+      L.textIn(tl, "#g-note-p4", scoreAt + 0.6);
+      L.textIn(tl, "#g-score-p7", scoreAt + 1.4);
+      L.textIn(tl, "#g-note-p7", scoreAt + 1.6);
 
       /* shot 16: the home stage returns; the two crashed drives carry orange "found" marks */
       const homeAt = cue(16, "Reading");
@@ -208,7 +217,7 @@
       });
       L.textIn(tl, "#g-claim", markAt + 0.6);
 
-      L.seamOut(tl, "#g-stage", 14.16);
+      L.seamOut(tl, "#g-stage", 18.22);
       L.seamIn(tl, "#g-stage");
       window.__timelines["scene-g"] = tl;
     })();

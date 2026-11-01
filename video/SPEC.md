@@ -64,8 +64,8 @@ TIME:    narrated; the voice is the clock. 16 narration clips (below) plus a 4 s
     drives with no mistakes.
 14. A one-second delay is still hidden. The cars it breaks end up parked, and a parked car cannot show that it
     sees late.
-15. We tuned these methods after seeing the data, so this is not proof yet. Both faults are being driven again on
-    fresh roads, with the rules written down first.
+15. We tuned these methods after seeing the data, and that is not proof. Both faults were then driven again on
+    fresh roads, with the rules written down first. The overlaps came back at 0.56 and 0.89.
 16. Reading the model's insides told us why two of these three drives crashed.
 
 ## MOTION
@@ -102,9 +102,10 @@ TIME:    narrated; the voice is the clock. 16 narration clips (below) plus a 4 s
 14. A P8 tile: the car parked; a small speed readout at 0 m/s (from `controls.jsonl` of a P8 slice route, else
     omit). The tile stays unmarked.
 15. Two new empty piles appear labelled "fresh P4 drives" and "fresh P7 drives", filling slowly; the rule card
-    "written before the data" in body type. Verdict variable `H3_STATUS` defaults to "running".
+    "written before the data" in body type. The fresh scores land in orange: 0.56 (best of 18 dictionaries, median
+    0.41) and 0.89 (48 drives, none wrong).
 16. Home stage returns: three frames; the left and middle crashed drives now carry orange "found" marks; the
-    right one (if P8 ever shown) none. Line on screen: "two of three found".
+    right one (if P8 ever shown) none. Line on screen: "two of three faults found".
 End card (4 s): project line "SimLingo failure discovery, Honda Research Institute" and the link
 https://github.com/trycua/cua set in body type, held 3 s.
 
@@ -112,7 +113,7 @@ https://github.com/trycua/cua set in body type, held 3 s.
 
 pool 738, failures 278, keys {P4: 43, P7: 53, P8: 58}, catch_all ~0.2 (0.155 to 0.209), P4 found group 31 with
 27 in key, P4 jaccard 0.574, best baseline 0.219, P7 found group 48 with 48 in key, P7 jaccard 0.906,
-dictionary size 896, k shown 32, window 3 s, H3_STATUS "running".
+dictionary size 896, k shown 32, window 3 s, fresh P4 0.557 (median 0.405 of 18), fresh P7 0.889 (48 drives).
 
 ## BANNED
 

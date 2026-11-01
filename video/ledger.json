@@ -93,7 +93,7 @@
     },
     {
       "id": "g->end",
-      "cut": 121.95,
+      "cut": 126.01,
       "technique": "cut-the-curve LEFT",
       "exit": {
         "selector": "#g-stage",

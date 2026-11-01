@@ -15,12 +15,13 @@ window.DATA = {
   delaySeconds: 1,
   frozenChange: 0.0,
   frozenSpeed: [0.0001424485380994156, 0.00033306016121059656],
-  h3Status: "running",
+  /* H3, the confirmatory run on fresh drives: docs/research/data/h3_layer10_*.json. */
+  fresh: { p4: { jaccard: 0.557, median: 0.405, dictionaries: 18 }, p7: { jaccard: 0.889, found: 48 } },
   projectLine: "SimLingo failure discovery, Honda Research Institute",
   link: "https://github.com/trycua/cua",
   air: 0.35,
   endCardSeconds: 4,
-  narration: [6.42, 7.87, 7.68, 9.28, 7.18, 8.29, 5.74, 5.9, 7.76, 6.94, 6.26, 8.46, 8.19, 6.92, 9.49, 3.97],
+  narration: [6.42, 7.87, 7.68, 9.28, 7.18, 8.29, 5.74, 5.9, 7.76, 6.94, 6.26, 8.46, 8.19, 6.92, 13.55, 3.97],
   /* Used only to place visual beats on the words that name them. */
   narrationText: [
     "This is one stretch of highway, driven three times by the same self-driving model, and it crashed twice.",
@@ -37,13 +38,13 @@ window.DATA = {
     "There was one clue. When the car is stopped and the picture is frozen, the model's numbers repeat exactly, and that happens nowhere else in the pile.",
     "We added that one signal, \"nothing changed since the last frame\", and a second method pulled out 48 frozen drives with no mistakes.",
     "A one-second delay is still hidden. The cars it breaks end up parked, and a parked car cannot show that it sees late.",
-    "We tuned these methods after seeing the data, so this is not proof yet. Both faults are being driven again on fresh roads, with the rules written down first.",
+    "We tuned these methods after seeing the data, and that is not proof. Both faults were then driven again on fresh roads, with the rules written down first. The overlaps came back at 0.56 and 0.89.",
     "Reading the model's insides told us why two of these three drives crashed."
   ],
   /* Measured start of each sentence pause (seconds into the clip), from ffmpeg silencedetect on the voice files. */
   pauseAnchors: [
     [1.74, 4.86], [3.23, 4.33], [2.14, 4.07], [3.33, 6.15], [3.2], [1.96, 3.95], [3.79], [],
-    [null, 5.95], [2.57], [1.94, 4.94], [1.1, 3.82, 6.02], [1.43, 3.94], [1.98, 4.13], [2.42, 4.21, 7.37], []
+    [null, 5.95], [2.57], [1.94, 4.94], [1.1, 3.82, 6.02], [1.43, 3.94], [1.98, 4.13], [2.42, 3.87, 6.96, 9.05], []
   ],
   /* First narration clip each scene file plays. */
   sceneFirstClip: { a: 1, b: 4, c: 6, d: 9, e: 11, f: 13, g: 15 }
