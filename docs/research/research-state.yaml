@@ -3,34 +3,29 @@ goal: >-
   Show that the discovery SDK, run on CARLA rollouts of SimLingo, recovers failures we planted on purpose
   (P4, P7, P8), and how. End with a step-by-step explainer video.
 su_budget: 6000
-su_baseline: 6595.83         # imhaohao total at 2026-11-01 05:35 UTC, before wave 3; ceiling 12596
+su_measure: >-
+  sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
+  full time limit, so it overstates mid-run)
+su_spent: 306                # 2026-11-01 01:30
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
-  H1:
-    title: activation methods recover planted gaps P4, P7, P8 in a mixed pool (confirmatory)
-    protocol: docs/research/experiments/h1-planted-gap-recovery/protocol.md
-    status: tier1_ran_untested   # layers 10 and 14 ran; token SAEs misfit frame means (EV ~ -0.5), M2 empty
-    tier1_results: savio results/savio/h1/layer{10,14}.json
-    tier2: waits for wave 3 (array 40715498, per-token capture), then per-token SAEs on the whole pool
-  H1b:
-    title: same test with SAEs trained on the pooled frame means (exploratory)
-    protocol: docs/research/experiments/h1b-frame-mean-sae/protocol.md
-    status: training             # 36 runs local, 3.4 min each, first run EV 0.92
-    sae_dir: scratchpad sae-frames/ (local)
+  H1:   {status: tier1_untested, note: token SAEs misfit frame means; M2 valid null}
+  H1b:  {status: done_layer10, result: "P4 recovered 0.574 (A yes, B yes); P7 0.207, P8 0.276 not",
+         data: docs/research/data/h1b_layer10.json, todo: layer 14 replication when its SAEs finish}
+  H2:   {status: done_layer10, result: "stale latent: B7 recovers P7 0.906; M1 unchanged (3 s window blind spot)",
+         data: docs/research/data/h2_layer10.json, rule: failed for M1}
+  H3:   {status: running, protocol: docs/research/experiments/h3-confirm-fresh-pilots/protocol.md,
+         arrays: {p4c: 40716226, p7c: 40716227, wave3: 40715498},
+         evaluation: train frame-mean SAEs on H3 pool L10 (36 runs), dev_eval without and with --stale-latent}
 
-audits:
-  - M2 probe-residual returns zero axes on the pool: Sonnet agent diagnosing (local data)
-
-data:
-  slim_shards_local: scratchpad h1-slim/{wave1,wave2,p4,p7,p8}, 750 shards, 7.8 GB
-  slim_shards_savio: /global/scratch/users/imhaohao/h1-slim
-
-running:
-  - wave 3, array 40715498 (100 tasks, about 12 h left at 2026-10-31 23:30)
+local:
+  slim_shards: scratchpad h1-slim (750 shards, 7.8 GB)
+  frame_mean_saes: scratchpad sae-frames (L10 done, L14 training at 2 workers for battery)
 
 next_actions:
-  - when the 36 frame-mean SAEs finish: run dev_eval locally with them at layers 10 and 14 (H1b)
-  - act on the M2 audit; any fix makes M2 results exploratory
-  - Tier 2 after wave 3
-  - progress report in to_human; then the explainer video
+  - layer-14 H1b and H2 when the SAEs finish (replication)
+  - progress report in to_human (HTML)
+  - when H3 arrays finish: export slim shards on Savio, copy, train SAEs, evaluate twice, score claims A, A', B
+  - P8: lag-alignment probe idea noted (needs state labels); not built
+  - explainer video last
