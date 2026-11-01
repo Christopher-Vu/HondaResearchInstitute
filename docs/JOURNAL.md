@@ -11,7 +11,7 @@ P8 delays every camera frame by one second. On its 60-pair full pilot, every one
 delay that finished failed, against 12 of 60 on the same roads without it (measured, Fisher p about 5e-22).
 Paired by road, 46 roads failed only with the delay and none failed only without it. As with P7, the paired
 check reports "false" only on count: it wants 60 pairs and has 58. The two missing routes both crashed the
-simulator, and they are being rerun once.
+simulator, and on their one rerun they crashed again at the same moments, so P8 stays at 58 pairs.
 
 One of them sits on base route 3800, which also crashed the simulator for P7 at nearly the same moment. Both
 gaps change only the camera image, so this road crashes CARLA whatever we plant on it. That is logged in

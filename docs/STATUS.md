@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-31 (P7 and P8 pass PRD 9.1 on full pilots; P8's 2 lost routes rerunning; current step is 5)
+Last updated: 2026-10-31 (P7 and P8 pass PRD 9.1 on 56 and 58 pairs; current step is 5)
 
 ---
 
@@ -17,10 +17,12 @@ Last updated: 2026-10-31 (P7 and P8 pass PRD 9.1 on full pilots; P8's 2 lost rou
 with a scored outcome failed, against 12 of 60 neighbourhood routes (uplift 80 points, ratio 5.0, Fisher
 p 5e-22), passes. C23 paired: 58 pairs, 46 failed only with the latency and none only without (McNemar
 p 3e-14); `passes` is false only because 58 is under the 60-pair minimum. Two slice routes, 304831 and
-380031, were lost to CARLA segmentation faults at about 75 and 60 simulated seconds. They are rerunning
-once (array 40710547, `configs/rollout/step5-pilot-p8-rerun.yaml`), and job 40710548 rescores both arrays.
-Base route 3800 also lost P7's 380038 at about 64 s, so it probably crashes CARLA whatever the gap; expect
-380031 to fail again. **Practice gaps passing now: P4, P7, P8** (Step 5 needs 4 to 6 and 2 decoys).
+380031, were lost to CARLA segmentation faults at about 75 and 60 simulated seconds, and crashed again
+within a second of the same points on their one rerun (array 40710547), so P8 stays at **58 pairs** and they
+are not rerun a third time. Both are MergerIntoSlowTraffic routes on Town12 and Town13 (base routes 3048
+and 3800); 3800 also lost P7's 380038. **Decision for Chris and Jerry:** accept P7 on 56 and P8 on 58
+pairs, or draw replacement roads, and whether to exclude base routes 3048 and 3800 from future draws.
+**Practice gaps passing now: P4, P7, P8** (Step 5 needs 4 to 6 and 2 decoys).
 
 **2026-10-31 12:35, P7 camera freeze passes its full pilot (measured).** Arrays 40681180 and the
 rerun 40692440, scored together into `results/savio/step5-pilot-p7-main/`. PRD 9.1 (the verdict of

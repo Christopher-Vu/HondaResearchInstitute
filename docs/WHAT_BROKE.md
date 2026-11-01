@@ -17,8 +17,10 @@ segmentation fault followed by a silent evaluator: 304831 at about 75 simulated 
 60. Route 380031 shares base route 3800 with P7's 380038, which crashed at about 64 s on both of its runs.
 P7 and P8 change only the camera feed, so the crash belongs to the base route, not the gap.
 
-**Did:** reran P8's two routes once (array 40710547). If 3800 fails again, it is a candidate for exclusion
-from future pilot draws.
+**Did:** reran P8's two routes once (array 40710547). Both crashed again within a second of the same points
+(304831 at 73.8 s, 380031 at 60.7 s; "The simulation took longer than 600.0s to update"). Both are
+MergerIntoSlowTraffic routes on Town12 and Town13 with the car standing still, the 2026-10-16 pattern. Base
+routes 3048 and 3800 are candidates for exclusion from future pilot draws (decision for Chris and Jerry).
 
 ---
 
