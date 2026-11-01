@@ -1,0 +1,35 @@
+{
+  "config": "configs/rollout/step5-background-wave3.yaml",
+  "jobs": [
+    "40715498"
+  ],
+  "routes_configured": 200,
+  "routes_with_outcome": 199,
+  "official": {
+    "driving score": 88.71475461809047,
+    "success rate": 0.7386934673366834,
+    "eval num": 199,
+    "warning": "-----------------------Warning: there are 199 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 199,
+    "routes_scored": 199,
+    "unscored": [],
+    "mean_driving_score_over_scored": 88.71,
+    "mean_route_completion_over_scored": 99.45,
+    "success_rate_over_scored": 0.739,
+    "mean_real_time_factor": 0.0959
+  },
+  "scenario_skipped": [],
+  "simulated_seconds_total": 7910.9,
+  "wall_seconds_total": 81699.8,
+  "rerun": [
+    {
+      "id": "1171560",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": "slow simulation"
+    }
+  ],
+  "not_run": []
+}

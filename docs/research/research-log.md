@@ -291,3 +291,14 @@ not rerun, per the protocol: 1171535 and 468345. Slice 46 of 59 failed (78.0%), 
 failures against 0 neighbourhood-only, McNemar p 1.5e-11; it reports `passes: false` only because 58 pairs is short
 of its minimum of 60. This verdict says the fault breaks driving; it says nothing yet about whether the tool finds it.
 P7-confirm is at 22 of 60 tasks; 1654 SU spent.
+
+## 2026-11-01 09:10 PST — P7-confirm: the freeze breaks driving again; all H3 drives are in
+
+Measured (`results/savio/step5-confirm-p7/efficacy.json`, job 40719026): 118 of 120 routes have an outcome; lost and not
+rerun: 2365937 and 2585737. Slice 54 of 58 failed (93.1%), neighbourhood 19 of 60 (31.7%): uplift 61.4 points, Fisher p
+1.1e-12, so PRD 9.1 passes. Paired: 36 slice-only failures against 0 neighbourhood-only, McNemar p 2.9e-11; C23 reports
+`passes: false` only because 58 pairs is under its minimum of 60.
+
+The H3 pool is now complete: 439 shards, 180 failures with an outcome (wave 3 52, P4-confirm 46 + 9, P7-confirm 54 + 19).
+The answer keys are therefore 46 (26% of failures) and 54 (30%), so the catch-all reference is about 0.26 and 0.30.
+2237 SU spent; all Savio jobs for H3 are done. Next: 36 frame-mean SAEs on this pool, then the locked evaluation.
