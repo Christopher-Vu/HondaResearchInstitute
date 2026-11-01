@@ -1,0 +1,94 @@
+# Interactional practice gaps (PRD 9.1: the main claim is about these). Every interactional gap so far, P5 and P6,
+# met SimLingo starting from rest or in appearance only, and failed its screen (docs/WHAT_BROKE.md, 2026-10-14 and
+# 2026-10-15). These change the interaction itself and meet the car at speed.
+# Public, like versions 1 and 2: every predicate here is excluded from the sealed pool.
+# docs/research/experiments/h5-interactional-screen/protocol.md fixes the screen and its reading.
+
+version: 3
+
+gaps:
+  - gap_id: P10_late_fast_crossing
+    tier: T2_interactional
+    summary: >-
+      A pedestrian runs from behind a blocker at 3.5 m/s, starting when the car is 1.4 s from the crossing point.
+      Bench2Drive's DynamicObjectCrossing always walks at 2 m/s and starts at 2.1 s. The trigger sits 50 m along the
+      route so the car is at speed. The neighbourhood is the same crossing at stock timing, so the pair differs only
+      in how late and how fast the walker comes. At 1.4 s a car at 9 m/s has 12.6 m, enough to stop by simple
+      arithmetic (not checked with an expert driver).
+    predicate:
+      - {field: injected_parameters.reaction_time, op: "==", value: 1.4}
+    plant:
+      base_routes: 60
+      min_route_length_m: 130
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        trigger_after_m: 50
+        parameters: {distance: 20, direction: right, reaction_time: 1.4, adversary_speed: 3.5}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      scenario:
+        type: DynamicObjectCrossing
+        trigger_after_m: 50
+        parameters: {distance: 20, direction: right, reaction_time: 2.1, adversary_speed: 2.0}
+    # C24, fixed before the screen runs: the logged nearest-pedestrian distance falls below 15 m with the car above
+    # 4 m/s in at least 4 of the first 5 scored slice routes.
+    manipulation_check: {measure: min_pedestrian_distance_m, max_value: 15, min_ego_speed: 4, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P11_blind_side_crossing
+    tier: T2_interactional
+    summary: >-
+      A conjunction: the right side of the camera is blacked out and a pedestrian crosses from the right. In the
+      neighbourhood the same crossing runs with the mirror-image patch on the left, so the walker stays visible. Both
+      arms carry a patch of the same size and the same stock crossing; only whether the hazard falls in the blind area
+      differs. The patch reaches from 55% of the width because a walker at the kerb 15 m ahead sits near 60% of the
+      width (fov 110, by arithmetic).
+    predicate:
+      - {field: sensor.camera_fault.box, op: "==", value: [0.55, 0.25, 1.0, 0.65]}
+    plant:
+      base_routes: 60
+      min_route_length_m: 130
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.55, 0.25, 1.0, 0.65]}
+      scenario:
+        type: DynamicObjectCrossing
+        trigger_after_m: 50
+        parameters: {distance: 20, direction: right}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.0, 0.25, 0.45, 0.65]}
+      scenario:
+        type: DynamicObjectCrossing
+        trigger_after_m: 50
+        parameters: {distance: 20, direction: right}
+    # C24, fixed before the screen runs: at least 99% of the box's pixels are black in the saved frames of the first
+    # 5 scored slice routes, and the nearest-pedestrian distance falls below 15 m in at least 4 of them.
+    manipulation_check: {measure: black_fraction_in_box, min_fraction: 0.99, max_pedestrian_distance_m: 15, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P12_walkers_at_speed
+    tier: T2_interactional
+    summary: >-
+      P5 with Fail2Drive's own distance: three pedestrians walking along the ego lane 60 m ahead, not 30 m. Fail2Drive
+      reports SimLingo colliding in 87% of its PedestriansOnRoad routes, and P5 measured 2 of 8 with the car meeting
+      them slowly (docs/WHAT_BROKE.md, 2026-10-14). This tests whether speed explains that difference.
+    predicate:
+      - {field: injected, op: "==", value: PedestriansOnRoad}
+    plant:
+      base_routes: 60
+      min_route_length_m: 130
+      weather: {preset: ClearNoon}
+      scenario:
+        type: PedestriansOnRoad
+        parameters: {distance: 60, walker_duration: 20, walker_speed: 2}
+        attributes:
+          pedestrians: {a: walker.pedestrian.0034, b: walker.pedestrian.0007, c: walker.pedestrian.0015}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+    # C24, fixed before the screen runs: the nearest-pedestrian distance falls below 15 m with the car above 4 m/s in
+    # at least 4 of the first 5 scored slice routes.
+    manipulation_check: {measure: min_pedestrian_distance_m, max_value: 15, min_ego_speed: 4, min_routes_passing: 4, of_routes: 5}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}

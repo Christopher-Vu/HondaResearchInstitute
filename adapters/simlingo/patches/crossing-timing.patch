@@ -1,0 +1,15 @@
+--- a/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
++++ b/Bench2Drive/scenario_runner/srunner/scenarios/object_crash_vehicle.py
+@@ -165,9 +165,10 @@
+         self._blocker_transform = None
+         self._collision_wp = None
+ 
+-        self._adversary_speed = 2.0  # Speed of the adversary [m/s]
++        # Timing as parameters, stock defaults kept: a faster walker seen later (practice gap P10).
++        self._adversary_speed = get_value_parameter(config, 'adversary_speed', float, 2.0)  # Speed of the adversary [m/s]
+         self._crossing_angle = get_value_parameter(config, 'crossing_angle', float, 0)
+-        self._reaction_time = 2.1  # Time the agent has to react to avoid the collision [s]
++        self._reaction_time = get_value_parameter(config, 'reaction_time', float, 2.1)  # Time the agent has to react to avoid the collision [s]
+         self._reaction_time += 0.1 * floor(self._crossing_angle / 5)
+         self._min_trigger_dist = 6.0  # Min distance to the collision location that triggers the adversary [m]
+         self._ego_end_distance = 40

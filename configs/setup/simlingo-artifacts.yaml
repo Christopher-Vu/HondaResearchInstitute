@@ -7,6 +7,8 @@ source:
   scenario_patch: adapters/simlingo/patches/fail2drive-scenarios.patch
   # Stops direction: left crossings looping forever on two-way roads; see docs/infra/left-crossing-stall.md.
   crossing_patch: adapters/simlingo/patches/left-crossing-walk.patch
+  # adversary_speed and reaction_time parameters on DynamicObjectCrossing, stock defaults kept, for P10.
+  timing_patch: adapters/simlingo/patches/crossing-timing.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454

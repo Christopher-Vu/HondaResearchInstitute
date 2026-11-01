@@ -357,3 +357,12 @@ voice is macOS Daniel; Jerry chose to keep it over a paid ElevenLabs take.
 
 Final spend for the goal: 2237 of 6000 SU (sacct CPU time x 3.67). No Savio jobs remain. Log headers from 02:05 onward were
 corrected to their commit times; I had written estimates again (the H3 entry said 09:50 for a 09:29 commit).
+
+## 2026-11-01 10:45 PST — H5 protocol: three interactional gaps to screen
+
+Jerry asked to start screening interactional gaps, the kind the go/no-go rule is decided on. Locked in
+`docs/research/experiments/h5-interactional-screen/protocol.md` before any route ran; gaps in
+`gaps/practice/practice_v3.yaml`. Insight from re-reading P5 and P6: both met a car starting from rest, so "at speed" was never
+tested. P10 is a faster walker seen later, P11 a crossing from the camera's blind side against the mirror-image patch, P12 walkers at
+Fail2Drive's distance. One small code change: `crossing-timing.patch` makes the walker's speed and start time parameters, stock defaults
+kept. Screens only; a full pilot is Jerry's call.

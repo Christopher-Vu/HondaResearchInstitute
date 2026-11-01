@@ -19,8 +19,8 @@ the unit of analysis (CONFLICTS.md C23). An arm may set:
 With `pilot.stage`, the generator draws `screen_base_routes` + `plant.base_routes` bases in one order: the first
 `screen_base_routes` are the screen, the rest the full pilot, so the full pilot never reuses a screened base.
 Routes reuse dev_routes.py's construction: one <weather> element, ids of base id times 100 plus the role offset
-plus `pilot.id_offset` (0 to 9, so slice ids stay in 30-39 and neighbourhood ids in 40-49), so pilots of different gaps
-never share a route id.
+plus `pilot.id_offset` (0 to 9 give slice ids 30-39 and neighbourhood ids 40-49; 40 to 49 give 70-79 and 80-89, since
+background wave 3 takes 60), so pilots of different gaps never share a route id.
 """
 from __future__ import annotations
 
