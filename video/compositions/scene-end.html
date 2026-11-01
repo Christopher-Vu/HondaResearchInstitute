@@ -1,0 +1,54 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #end-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    #end-text {
+      position: absolute;
+      left: 0;
+      top: 696px;
+      width: 1920px;
+      text-align: center;
+    }
+    #end-link {
+      margin-top: 28px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div data-hf-id="hf-483l" id="root" data-composition-id="scene-end" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-cc7h" id="end-stage">
+      <div data-hf-id="hf-yk7o" id="end-text">
+        <div data-hf-id="hf-hsw1" class="body" id="end-project"></div>
+        <div data-hf-id="hf-vjyu" class="link" id="end-link"></div>
+      </div>
+      <div data-hf-id="hf-i4kw" class="shot" id="end-frame" style="left: 540px; top: 236px; width: 840px; height: 420px">
+        <img data-hf-id="hf-39t1" class="still" src="assets/frames/route-2640642/000300.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      document.getElementById("end-project").textContent = D.projectLine;
+      document.getElementById("end-link").textContent = D.link;
+
+      const tl = gsap.timeline({ paused: true });
+      gsap.set(["#end-project", "#end-link"], { opacity: 0 });
+      L.textIn(tl, "#end-project", 0.45);
+      L.textIn(tl, "#end-link", 0.7);
+      L.seamIn(tl, "#end-stage");
+      window.__timelines["scene-end"] = tl;
+    })();
+  </script>
+</template>

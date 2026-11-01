@@ -1,0 +1,213 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #a-stage,
+    #a-cam {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    #a-cam {
+      transform-origin: 0 0;
+    }
+    .a-reel-642 { background-image: url("assets/reels/reel-642.jpg"); background-size: 3360px 1400px; }
+    .a-reel-648 { background-image: url("assets/reels/reel-648.jpg"); background-size: 3360px 1400px; }
+    .a-reel-638a { background-image: url("assets/reels/reel-638a.jpg"); background-size: 3360px 1400px; }
+    .a-reel-632c { background-image: url("assets/reels/reel-632c.jpg"); background-size: 3360px 1680px; }
+    .a-reel-638c { background-image: url("assets/reels/reel-638c.jpg"); background-size: 3360px 1680px; }
+    .a-hires,
+    .a-hires .still { opacity: 0; }
+    .a-name,
+    .a-crashed,
+    .a-did {
+      position: absolute;
+      width: 560px;
+      white-space: nowrap;
+    }
+    .a-name { top: 668px; }
+    .a-crashed { top: 738px; }
+    .a-did { top: 796px; }
+    .a-redact {
+      position: absolute;
+      top: 798px;
+      width: 228px;
+      height: 52px;
+      background: var(--ink);
+    }
+    #a-clock {
+      position: absolute;
+      left: 724px;
+      top: 922px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      opacity: 0;
+    }
+    #a-clock svg {
+      width: 72px;
+      height: 72px;
+    }
+  </style>
+
+  <div data-hf-id="hf-pchv" id="root" data-composition-id="scene-a" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-uv9r" id="a-stage">
+      <div data-hf-id="hf-1643" id="a-cam" data-layout-allow-overflow>
+        <div data-hf-id="hf-b4jd" class="shot" id="a-f1" style="left: 96px; top: 370px">
+          <div data-hf-id="hf-j1au" class="reel a-reel-642" id="a-r1"></div>
+        </div>
+        <div data-hf-id="hf-yvgx" class="shot" id="a-f2" style="left: 680px; top: 370px">
+          <div data-hf-id="hf-ayl0" class="reel a-reel-648" id="a-r2a"></div>
+          <div data-hf-id="hf-4c45" class="a-hires" id="a-h2">
+            <img data-hf-id="hf-ju2i" class="still" id="a-h2-c0" src="assets/frames/route-2640648/000000.png" alt="" />
+            <img data-hf-id="hf-kng2" class="still" id="a-h2-b0" src="assets/frames/route-2640632/000000.png" alt="" />
+            <img data-hf-id="hf-25ko" class="still" id="a-h2-b20" src="assets/frames/route-2640632/000020.png" alt="" />
+            <img data-hf-id="hf-s5j0" class="still" id="a-h2-b40" src="assets/frames/route-2640632/000040.png" alt="" />
+            <img data-hf-id="hf-wyco" class="still" id="a-h2-b60" src="assets/frames/route-2640632/000060.png" alt="" />
+            <img data-hf-id="hf-no84" class="still" id="a-h2-b80" src="assets/frames/route-2640632/000080.png" alt="" />
+            <img data-hf-id="hf-33cs" class="still" id="a-h2-b100" src="assets/frames/route-2640632/000100.png" alt="" />
+            <img data-hf-id="hf-3kl4" class="still" id="a-h2-b120" src="assets/frames/route-2640632/000120.png" alt="" />
+            <img data-hf-id="hf-fyyk" class="still" id="a-h2-b140" src="assets/frames/route-2640632/000140.png" alt="" />
+            <img data-hf-id="hf-ouk0" class="still" id="a-h2-b160" src="assets/frames/route-2640632/000160.png" alt="" />
+            <img data-hf-id="hf-6uvw" class="still" id="a-h2-b180" src="assets/frames/route-2640632/000180.png" alt="" />
+          </div>
+          <div data-hf-id="hf-1wlh" class="reel a-reel-632c" id="a-r2c" style="opacity: 0"></div>
+        </div>
+        <div data-hf-id="hf-e8xp" class="shot" id="a-f3" style="left: 1264px; top: 370px">
+          <div data-hf-id="hf-q4kn" class="reel a-reel-638a" id="a-r3a"></div>
+          <div data-hf-id="hf-5eto" class="a-hires" id="a-h3">
+            <img data-hf-id="hf-bxbs" class="still" id="a-h3-s0" src="assets/frames/route-2640638/000000.png" alt="" />
+            <img data-hf-id="hf-i70a" class="still" id="a-h3-s20" src="assets/frames/route-2640638/000020.png" alt="" />
+            <img data-hf-id="hf-lea6" class="still" id="a-h3-s40" src="assets/frames/route-2640638/000040.png" alt="" />
+            <img data-hf-id="hf-mdzi" class="still" id="a-h3-s80" src="assets/frames/route-2640638/000080.png" alt="" />
+            <img data-hf-id="hf-6gmi" class="still" id="a-h3-s100" src="assets/frames/route-2640638/000100.png" alt="" />
+          </div>
+          <div data-hf-id="hf-3ofq" class="reel a-reel-638c" id="a-r3c" style="opacity: 0"></div>
+        </div>
+
+        <div data-hf-id="hf-ohv4" class="a-name body muted" id="a-name1" style="left: 96px">first drive</div>
+        <div data-hf-id="hf-xfa4" class="a-name body muted" id="a-name2" style="left: 680px">second drive</div>
+        <div data-hf-id="hf-xpv3" class="a-name body muted" id="a-name3" style="left: 1264px">third drive</div>
+
+        <div data-hf-id="hf-98mx" class="rule" id="a-rule2" style="left: 680px; top: 726px; width: 560px"></div>
+        <div data-hf-id="hf-mk2l" class="rule" id="a-rule3" style="left: 1264px; top: 726px; width: 560px"></div>
+        <div data-hf-id="hf-i1ll" class="a-crashed body" id="a-crashed2" style="left: 680px">crashed</div>
+        <div data-hf-id="hf-r8p9" class="a-crashed body" id="a-crashed3" style="left: 1264px">crashed</div>
+
+        <div data-hf-id="hf-qr2o" class="a-did body" id="a-did2" style="left: 680px">we did this</div>
+        <div data-hf-id="hf-arto" class="a-did body" id="a-did3" style="left: 1264px">we did this</div>
+        <div data-hf-id="hf-2pj6" class="a-redact" id="a-redact2" style="left: 672px"></div>
+        <div data-hf-id="hf-cqpu" class="a-redact" id="a-redact3" style="left: 1256px"></div>
+      </div>
+
+      <div data-hf-id="hf-k41z" id="a-clock">
+        <svg data-hf-id="hf-5vl2" viewBox="0 0 72 72" aria-hidden="true">
+          <circle data-hf-id="hf-3696" cx="36" cy="36" r="33" fill="none" stroke="#1b1c1e" stroke-width="3"></circle>
+          <line data-hf-id="hf-cf6q" id="a-clock-hand" x1="36" y1="36" x2="36" y2="12" stroke="#1b1c1e" stroke-width="3"></line>
+        </svg>
+        <div data-hf-id="hf-x72h" class="body"><span data-hf-id="hf-w5ly" data-bind="frozenSeconds"></span> s frozen</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("a", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+
+      const reelSpec = (extra) => ({ cols: 6, w: 560, h: 280, ...extra });
+
+      /* shot 1: three real drives, 1 PNG per 7.5 video frames */
+      L.driveReel(tl, "#a-r1", reelSpec({ at: 0, count: 30 }));
+      L.driveReel(tl, "#a-r2a", reelSpec({ at: 0, count: 30 }));
+      L.driveReel(tl, "#a-r3a", reelSpec({ at: 0, count: 30 }));
+
+      const namesAt = cue(1, "driven three times");
+      ["#a-name1", "#a-name2", "#a-name3"].forEach((name, i) => L.textIn(tl, name, namesAt + i * 0.17));
+
+      const crashedAt = cue(1, "crashed twice");
+      ["2", "3"].forEach((which, i) => {
+        L.wipeIn(tl, `#a-rule${which}`, crashedAt + i * 0.17);
+        L.textIn(tl, `#a-crashed${which}`, crashedAt + 0.15 + i * 0.17);
+      });
+
+      /* shot 2: push in on the middle frame, cut to the black patch, pan to the frozen drive */
+      const pushAt = cue(2, "Before the second");
+      const blackAt = cue(2, "blacked out");
+      const panAt = cue(2, "Before the third");
+      const clockAt = cue(2, "two seconds");
+      const pullAt = cue(3, "We planted") + 0.0;
+      const middleCentre = { x: 960, y: 510 };
+      const rightCentre = { x: 1544, y: 510 };
+      const zoom = 2.4;
+      const frameAt = (centre) => ({ x: 960 - zoom * centre.x, y: 540 - zoom * centre.y });
+
+      gsap.set("#a-cam", { transformOrigin: "0 0" });
+      tl.to("#a-cam", { ...frameAt(middleCentre), scale: zoom, duration: M.camera.duration, ease: M.camera.ease }, pushAt);
+      ["#a-name1", "#a-name2", "#a-name3", "#a-rule2", "#a-rule3", "#a-crashed2", "#a-crashed3"].forEach((label) =>
+        tl.to(label, { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, pushAt)
+      );
+
+      /* middle frame: the drive rewinds to its start as full-resolution PNGs; the same frame is cut from clean to black patch */
+      gsap.set(["#a-h2-c0", "#a-h3-s0"], { opacity: 1 });
+      tl.set("#a-h2", { opacity: 1 }, pushAt);
+      tl.set("#a-r2a", { opacity: 0 }, pushAt);
+      const blackSteps = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
+      blackSteps.forEach((step, i) => tl.set(`#a-h2-b${step}`, { opacity: 1 }, L.snap(blackAt + i * 0.25)));
+
+      /* right frame: the pan arrives as it steps, then holds through a repeated pair (000040 = 000060) */
+      tl.to("#a-cam", { ...frameAt(rightCentre), scale: zoom, duration: M.camera.duration, ease: M.camera.ease }, panAt);
+      tl.set("#a-h3", { opacity: 1 }, panAt);
+      tl.set("#a-r3a", { opacity: 0 }, panAt);
+      const frozenSteps = [
+        [20, panAt + 0.5],
+        [40, panAt + 1.0],
+        [80, clockAt + 1.3],
+        [100, clockAt + 1.65]
+      ];
+      frozenSteps.forEach(([step, at]) => tl.set(`#a-h3-s${step}`, { opacity: 1 }, L.snap(at)));
+
+      /* the clock: a hand sweeps while the picture is held */
+      L.textIn(tl, "#a-clock", clockAt);
+      tl.fromTo("#a-clock-hand", { rotation: 0, svgOrigin: "36 36" }, { rotation: 240, duration: 1.3, ease: "none" }, clockAt);
+      L.textOut(tl, "#a-clock", clockAt + 1.25);
+
+      /* shot 3: pull back to all three; the crashed ones carry "we did this", then the answer is hidden from the tool */
+      tl.to("#a-cam", { x: 0, y: 0, scale: 1, duration: M.camera.duration, ease: M.camera.ease }, pullAt);
+      tl.set("#a-h2", { opacity: 0 }, pullAt + 0.05);
+      tl.set("#a-h3", { opacity: 0 }, pullAt + 0.05);
+      tl.set("#a-r2c", { opacity: 1 }, pullAt + 0.05);
+      tl.set("#a-r3c", { opacity: 1 }, pullAt + 0.05);
+      L.driveReel(tl, "#a-r1", reelSpec({ at: pullAt + 0.05, count: 30 }));
+      L.driveReel(tl, "#a-r2c", reelSpec({ at: pullAt + 0.05, count: 32, rows: 6 }));
+      L.driveReel(tl, "#a-r3c", reelSpec({ at: pullAt + 0.05, count: 32, rows: 6 }));
+
+      const labelsBack = pullAt + 0.7;
+      ["#a-name1", "#a-name2", "#a-name3"].forEach((name, i) => L.textIn(tl, name, labelsBack + i * 0.17));
+      ["2", "3"].forEach((which, i) => {
+        L.wipeIn(tl, `#a-rule${which}`, labelsBack + i * 0.17);
+        L.textIn(tl, `#a-crashed${which}`, labelsBack + 0.15 + i * 0.17);
+      });
+
+      const didAt = cue(3, "on purpose");
+      ["2", "3"].forEach((which, i) => L.textIn(tl, `#a-did${which}`, didAt + i * 0.17));
+      const hiddenAt = cue(3, "without being told");
+      ["2", "3"].forEach((which, i) => L.wipeIn(tl, `#a-redact${which}`, hiddenAt + i * 0.17, 0.5));
+
+      /* initial states */
+      gsap.set(["#a-name1", "#a-name2", "#a-name3", "#a-crashed2", "#a-crashed3", "#a-did2", "#a-did3"], { opacity: 0 });
+      gsap.set(["#a-rule2", "#a-rule3", "#a-redact2", "#a-redact3"], { clipPath: "inset(0 100% 0 0)" });
+
+      L.seamOut(tl, "#a-stage", 23.02);
+      window.__timelines["scene-a"] = tl;
+    })();
+  </script>
+</template>

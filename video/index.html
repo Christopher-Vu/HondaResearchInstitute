@@ -1,0 +1,292 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[{"id":"H3_STATUS","type":"string","label":"Fresh-drive verdict","default":"running"}]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="data.js"></script>
+    <script src="lib.js"></script>
+    <style>
+      @font-face {
+        font-family: "Archivo";
+        src: url("assets/fonts/Archivo-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        font-stretch: 62% 125%;
+        font-display: block;
+      }
+
+      :root {
+        --ground: #d8d8d4;
+        --ink: #1b1c1e;
+        --accent: #ff5a1f;
+        --muted: #6b6e72;
+        --hairline: 2px;
+        --frame-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+        --shade: rgba(27, 28, 30, 0.12);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+
+      body {
+        font-family: "Archivo", sans-serif;
+        color: var(--ink);
+      }
+
+      #ground {
+        position: absolute;
+        inset: 0;
+        background: var(--ground);
+      }
+
+      #grain {
+        position: absolute;
+        inset: 0;
+        background-image: url("assets/grain.png");
+        background-size: 256px 256px;
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .display {
+        font-weight: 800;
+        font-stretch: 112%;
+        font-size: 96px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+      .display-xl { font-size: 220px; }
+      .display-lg { font-size: 120px; }
+      .body {
+        font-weight: 500;
+        font-stretch: 100%;
+        font-size: 44px;
+        line-height: 1.18;
+        font-variant-numeric: tabular-nums;
+      }
+      .link {
+        font-weight: 700;
+        font-stretch: 100%;
+        font-size: 56px;
+        line-height: 1.18;
+      }
+      .small {
+        font-weight: 500;
+        font-stretch: 100%;
+        font-size: 32px;
+        line-height: 1.2;
+      }
+      .ink { color: var(--ink); }
+      .muted { color: var(--muted); }
+      .accent { color: var(--accent); }
+
+      /* a real camera frame: square corners, 1 px ink edge, soft contact shadow */
+      .shot {
+        position: absolute;
+        width: 560px;
+        height: 280px;
+        border: 1px solid var(--ink);
+        box-shadow: var(--frame-shadow);
+        background: var(--ink);
+        overflow: hidden;
+      }
+      .reel,
+      .still {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+      }
+      .still { object-fit: cover; }
+
+      .rule {
+        position: absolute;
+        height: var(--hairline);
+        background: var(--ink);
+      }
+
+      .tile {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        box-shadow: inset 0 0 0 1px var(--ink);
+      }
+      .tile .ring {
+        position: absolute;
+        inset: -1.5px;
+        border: 1.5px solid var(--accent);
+        opacity: 0;
+      }
+      .sq {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        box-shadow: inset 0 0 0 2px var(--ink);
+      }
+      .tile .patch {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-5ozs"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="125.95"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div data-hf-id="hf-7hg0" id="ground"></div>
+
+      <div data-hf-id="hf-akuz"
+        id="scene-a"
+        class="clip"
+        data-composition-id="scene-a"
+        data-composition-src="compositions/scene-a.html"
+        data-start="0"
+        data-duration="23.02"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-j6dh"
+        id="scene-b"
+        class="clip"
+        data-composition-id="scene-b"
+        data-composition-src="compositions/scene-b.html"
+        data-start="23.02"
+        data-duration="17.16"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-o6ty"
+        id="scene-c"
+        class="clip"
+        data-composition-id="scene-c"
+        data-composition-src="compositions/scene-c.html"
+        data-start="40.18"
+        data-duration="20.98"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-b6rd"
+        id="scene-d"
+        class="clip"
+        data-composition-id="scene-d"
+        data-composition-src="compositions/scene-d.html"
+        data-start="61.16"
+        data-duration="15.4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-t7g6"
+        id="scene-e"
+        class="clip"
+        data-composition-id="scene-e"
+        data-composition-src="compositions/scene-e.html"
+        data-start="76.56"
+        data-duration="15.42"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-cx7n"
+        id="scene-f"
+        class="clip"
+        data-composition-id="scene-f"
+        data-composition-src="compositions/scene-f.html"
+        data-start="91.98"
+        data-duration="15.81"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-f7ki"
+        id="scene-g"
+        class="clip"
+        data-composition-id="scene-g"
+        data-composition-src="compositions/scene-g.html"
+        data-start="107.79"
+        data-duration="14.16"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-8y4u"
+        id="scene-end"
+        class="clip"
+        data-composition-id="scene-end"
+        data-composition-src="compositions/scene-end.html"
+        data-start="121.95"
+        data-duration="4"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <div data-hf-id="hf-f6d6" id="grain"></div>
+
+      <audio data-hf-id="hf-knjt" id="vo-01" class="clip" src="assets/voice/n01.wav" data-start="0" data-duration="6.42" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-w189" id="vo-02" class="clip" src="assets/voice/n02.wav" data-start="6.77" data-duration="7.87" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-s1w9" id="vo-03" class="clip" src="assets/voice/n03.wav" data-start="14.99" data-duration="7.68" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-hhcn" id="vo-04" class="clip" src="assets/voice/n04.wav" data-start="23.02" data-duration="9.28" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-6twn" id="vo-05" class="clip" src="assets/voice/n05.wav" data-start="32.65" data-duration="7.18" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-24uz" id="vo-06" class="clip" src="assets/voice/n06.wav" data-start="40.18" data-duration="8.29" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-bxsn" id="vo-07" class="clip" src="assets/voice/n07.wav" data-start="48.82" data-duration="5.74" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-ejic" id="vo-08" class="clip" src="assets/voice/n08.wav" data-start="54.91" data-duration="5.9" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-33rh" id="vo-09" class="clip" src="assets/voice/n09.wav" data-start="61.16" data-duration="7.76" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-q4w4" id="vo-10" class="clip" src="assets/voice/n10.wav" data-start="69.27" data-duration="6.94" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-nhzz" id="vo-11" class="clip" src="assets/voice/n11.wav" data-start="76.56" data-duration="6.26" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-movk" id="vo-12" class="clip" src="assets/voice/n12.wav" data-start="83.17" data-duration="8.46" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-6t86" id="vo-13" class="clip" src="assets/voice/n13.wav" data-start="91.98" data-duration="8.19" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-saeg" id="vo-14" class="clip" src="assets/voice/n14.wav" data-start="100.52" data-duration="6.92" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-7gvb" id="vo-15" class="clip" src="assets/voice/n15.wav" data-start="107.79" data-duration="9.49" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-i0a6" id="vo-16" class="clip" src="assets/voice/n16.wav" data-start="117.63" data-duration="3.97" data-track-index="10" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const mainTimeline = gsap.timeline({ paused: true });
+      window.__timelines["main"] = mainTimeline;
+    </script>
+  </body>
+</html>

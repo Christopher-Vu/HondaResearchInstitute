@@ -1,0 +1,211 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #f-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .pile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 574px;
+      height: 252px;
+      transform-origin: 0 0;
+    }
+    .mark {
+      position: absolute;
+      inset: 3px;
+      background: var(--ground);
+    }
+    #f-signal {
+      position: absolute;
+      left: 1384px;
+      top: 372px;
+    }
+    #f-notes {
+      position: absolute;
+      left: 986px;
+      top: 834px;
+      display: flex;
+      align-items: baseline;
+      gap: 72px;
+      white-space: nowrap;
+    }
+    #f-score-block .body {
+      margin-top: 4px;
+    }
+    .f-pane {
+      position: absolute;
+      top: 360px;
+      width: 560px;
+      height: 280px;
+    }
+    .f-pane svg {
+      width: 560px;
+      height: 280px;
+      overflow: visible;
+    }
+    .f-pane .scene-line {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 2px;
+    }
+    .f-pane .car {
+      fill: var(--ink);
+    }
+    .f-pane-label {
+      position: absolute;
+      top: 666px;
+      width: 560px;
+      white-space: nowrap;
+    }
+    #f-equals {
+      position: absolute;
+      left: 906px;
+      top: 456px;
+    }
+    #f-illustrative {
+      position: absolute;
+      left: 340px;
+      top: 740px;
+    }
+  </style>
+
+  <div data-hf-id="hf-nseu" id="root" data-composition-id="scene-f" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-u0p0" id="f-stage">
+      <div data-hf-id="hf-ocmw" class="pile" id="f-pile" data-layout-allow-overflow></div>
+
+      <div data-hf-id="hf-pz3u" class="shot" id="f-sig-a" style="left: 1010px; top: 330px; width: 360px; height: 180px">
+        <img data-hf-id="hf-vr9y" class="still" src="assets/frames/route-2640638/000100.png" alt="" />
+      </div>
+      <div data-hf-id="hf-2cke" class="shot" id="f-sig-b" style="left: 1464px; top: 330px; width: 360px; height: 180px">
+        <img data-hf-id="hf-1mys" class="still" src="assets/frames/route-2640638/000120.png" alt="" />
+      </div>
+      <div data-hf-id="hf-9p7e" class="display" id="f-signal">=</div>
+
+      <div data-hf-id="hf-upq5" id="f-notes">
+        <div data-hf-id="hf-808t" class="display" id="f-count"><span data-hf-id="hf-8y7y" data-bind="p7.inKey"></span> of <span data-hf-id="hf-ob7c" data-bind="p7.found"></span></div>
+        <div data-hf-id="hf-5xt4" id="f-score-block">
+          <div data-hf-id="hf-kui7" class="display accent" id="f-score">0.00</div>
+          <div data-hf-id="hf-gokb" class="body" id="f-score-label">overlap</div>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-szxl" class="f-pane" id="f-pane-now" style="left: 340px">
+        <svg data-hf-id="hf-nk99" viewBox="0 0 560 280" aria-hidden="true">
+          <rect data-hf-id="hf-rzyr" class="scene-line" x="1" y="1" width="558" height="278"></rect>
+          <line data-hf-id="hf-orzf" class="scene-line" x1="0" y1="120" x2="560" y2="120"></line>
+          <path data-hf-id="hf-5pum" class="scene-line" d="M60 279 L230 120 M300 120 L440 279"></path>
+          <rect data-hf-id="hf-epe5" class="car" x="440" y="206" width="104" height="34"></rect>
+          <rect data-hf-id="hf-vk14" class="car" x="458" y="180" width="66" height="30"></rect>
+        </svg>
+      </div>
+      <div data-hf-id="hf-5ysx" class="f-pane" id="f-pane-late" style="left: 1020px">
+        <svg data-hf-id="hf-w77l" viewBox="0 0 560 280" aria-hidden="true">
+          <rect data-hf-id="hf-6kvn" class="scene-line" x="1" y="1" width="558" height="278"></rect>
+          <line data-hf-id="hf-6s97" class="scene-line" x1="0" y1="120" x2="560" y2="120"></line>
+          <path data-hf-id="hf-fpj6" class="scene-line" d="M60 279 L230 120 M300 120 L440 279"></path>
+          <rect data-hf-id="hf-5269" class="car" x="440" y="206" width="104" height="34"></rect>
+          <rect data-hf-id="hf-xhk0" class="car" x="458" y="180" width="66" height="30"></rect>
+        </svg>
+      </div>
+      <div data-hf-id="hf-7llu" class="f-pane-label body" id="f-label-now" style="left: 340px">now</div>
+      <div data-hf-id="hf-any9" class="f-pane-label body" id="f-label-late" style="left: 1020px"><span data-hf-id="hf-hv51" data-bind="delaySeconds"></span> s late</div>
+      <div data-hf-id="hf-2ifn" class="display" id="f-equals">=</div>
+      <div data-hf-id="hf-8nkx" class="small muted" id="f-illustrative">illustrative</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("f", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+      const ink = L.cssColor("--ink");
+
+      const SIDE = { x: 96, y: 351, scale: 1.5 };
+      const pile = L.buildPile(document.getElementById("f-pile"));
+      const tiles = pile.tiles;
+      const roles = pile.roles;
+      gsap.set("#f-pile", { x: SIDE.x, y: SIDE.y, scale: SIDE.scale, transformOrigin: "0 0" });
+      roles.crashed.forEach((i) => (tiles[i].style.backgroundColor = ink));
+      roles.p7.forEach((i) => {
+        const mark = document.createElement("div");
+        mark.className = "mark";
+        tiles[i].appendChild(mark);
+      });
+
+      gsap.set(["#f-signal", "#f-sig-a", "#f-sig-b", "#f-count", "#f-score", "#f-score-label", "#f-pane-now", "#f-pane-late", "#f-label-now", "#f-label-late", "#f-equals", "#f-illustrative"], { opacity: 0 });
+
+      /* shot 13: one added signal, "nothing changed", and 48 frozen drives come out with no mistakes */
+      const signalAt = cue(13, "We added");
+      const methodAt = cue(13, "and a second method");
+      const foundAt = methodAt - 0.1;
+      const cleanAt = cue(13, "no mistakes");
+
+      tl.fromTo("#f-sig-a", { opacity: 0 }, { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, signalAt + 0.3);
+      tl.fromTo("#f-sig-b", { opacity: 0 }, { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, signalAt + 0.47);
+      L.textIn(tl, "#f-signal", cue(13, "nothing changed"));
+      tl.to(["#f-signal", "#f-sig-a", "#f-sig-b"], { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, methodAt - 0.3);
+
+      const foundTiles = roles.foundP7.map((i) => tiles[i]);
+      const rings = foundTiles.map((tile) => {
+        const ring = document.createElement("div");
+        ring.className = "ring";
+        tile.appendChild(ring);
+        return ring;
+      });
+      tl.to(rings, { opacity: 1, duration: 0.25, ease: "power2.out", stagger: 0.004 }, foundAt);
+
+      const group = { x: 986, y: 190, size: 96, gap: 10, perRow: 8, stagger: 0.006, duration: 0.8 };
+      L.slideToGroup(tl, pile, roles.foundP7, SIDE, group, foundAt + 0.35, {});
+      L.textIn(tl, "#f-count", foundAt + 1.4);
+      const score = { value: 0 };
+      const scoreEl = document.getElementById("f-score");
+      L.textIn(tl, "#f-score", cleanAt - 0.2);
+      tl.to(
+        score,
+        { value: D.p7.jaccard, duration: 0.8, ease: "power2.out", onUpdate: () => (scoreEl.textContent = score.value.toFixed(2)) },
+        cleanAt - 0.2
+      );
+      L.textIn(tl, "#f-score-label", cleanAt + 0.3);
+
+      /* shot 14: a one-second delay stays hidden; the cars it breaks are parked, so late looks the same as now */
+      const delayAt = cue(14, "A one-second");
+      const parkedAt = cue(14, "The cars it breaks");
+      const equalAt = cue(14, "parked car cannot");
+
+      const groupTiles = roles.foundP7.map((i) => tiles[i]);
+      tl.to(groupTiles, { opacity: 0, x: "-=160", duration: M.exit.duration, ease: M.exit.ease, stagger: 0.004 }, delayAt + 0.1);
+      tl.to(["#f-notes"], { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, delayAt + 0.1);
+
+      const delayedTile = roles.p8[0];
+      const solo = { x: 1180, y: 380, size: 240, gap: 0, perRow: 1 };
+      L.slideToGroup(tl, pile, [delayedTile], SIDE, solo, cue(14, "still hidden") - 0.2, {});
+      const restOfPile = tiles.filter((_, i) => i !== delayedTile && !roles.foundP7.includes(i));
+      tl.to(restOfPile, { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, parkedAt - 0.3);
+      tl.to(tiles[delayedTile], { opacity: 0, duration: 0.3, ease: M.exit.ease }, parkedAt);
+      tl.fromTo("#f-pane-now", { opacity: 0 }, { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, parkedAt);
+      tl.fromTo("#f-pane-late", { opacity: 0 }, { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, parkedAt + 0.17);
+      L.textIn(tl, "#f-label-now", parkedAt + 0.4);
+      L.textIn(tl, "#f-label-late", parkedAt + 0.57);
+      L.textIn(tl, "#f-equals", equalAt);
+      L.textIn(tl, "#f-illustrative", equalAt + 0.3);
+
+      L.seamOut(tl, "#f-stage", 15.81);
+      L.seamIn(tl, "#f-stage");
+      window.__timelines["scene-f"] = tl;
+    })();
+  </script>
+</template>

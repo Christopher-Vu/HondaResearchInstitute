@@ -1,0 +1,200 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #d-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .pile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 574px;
+      height: 252px;
+      transform-origin: 0 0;
+    }
+    #d-suspects {
+      position: absolute;
+      left: 96px;
+      top: 296px;
+    }
+    #d-suspects-label {
+      position: absolute;
+      left: 96px;
+      top: 232px;
+      white-space: nowrap;
+    }
+    .d-ring-sq {
+      position: absolute;
+      inset: -3px;
+      border: 3px solid var(--accent);
+      opacity: 0;
+    }
+    #d-notes {
+      position: absolute;
+      left: 1150px;
+      top: 836px;
+      white-space: nowrap;
+    }
+    #d-extra {
+      position: absolute;
+      left: 96px;
+      top: 790px;
+      white-space: nowrap;
+    }
+    #d-score-row {
+      position: absolute;
+      left: 800px;
+      top: 330px;
+      display: flex;
+      align-items: baseline;
+      gap: 72px;
+      white-space: nowrap;
+    }
+    .d-score-label {
+      margin-top: 8px;
+      white-space: normal;
+    }
+    #d-baseline .d-score-label {
+      width: 360px;
+    }
+  </style>
+
+  <div data-hf-id="hf-7dx0" id="root" data-composition-id="scene-d" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-pbbi" id="d-stage">
+      <div data-hf-id="hf-kiku" id="d-suspects-label" class="body"><span data-hf-id="hf-3m0f" data-bind="suspects"></span> suspects</div>
+      <div data-hf-id="hf-p1gu" id="d-suspects"></div>
+
+      <div data-hf-id="hf-x4ca" class="pile" id="d-pile" data-layout-allow-overflow></div>
+
+      <div data-hf-id="hf-i01n" id="d-notes">
+        <div data-hf-id="hf-ppva" class="display" id="d-note-count"><span data-hf-id="hf-v5fx" data-bind="p4.inKey"></span> of <span data-hf-id="hf-0ds7" data-bind="p4.found"></span></div>
+      </div>
+      <div data-hf-id="hf-ntxi" id="d-extra">
+        <div data-hf-id="hf-qcpc" class="body muted" id="d-note-other"><span data-hf-id="hf-h9gl" data-bind="p4.other"></span> other crashes</div>
+        <div data-hf-id="hf-yd25" class="body" id="d-note-twins"><span data-hf-id="hf-1h6o" data-bind="p4.twinsInGroup"></span> clean twins</div>
+      </div>
+
+      <div data-hf-id="hf-du05" id="d-score-row">
+        <div data-hf-id="hf-6gf5" id="d-score" data-hold>
+          <div data-hf-id="hf-aim2" class="display display-xl accent" id="d-score-value">0.00</div>
+          <div data-hf-id="hf-1gl8" class="body d-score-label">our tool</div>
+        </div>
+        <div data-hf-id="hf-25bd" id="d-baseline">
+          <div data-hf-id="hf-uz23" class="display display-lg muted"><span data-hf-id="hf-lbh8" data-bind="baseline" data-decimals="2"></span></div>
+          <div data-hf-id="hf-y6mx" class="body muted d-score-label">best without the insides</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("d", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+      const ink = L.cssColor("--ink");
+
+      const SIDE = { x: 96, y: 351, scale: 1.5 };
+      const pile = L.buildPile(document.getElementById("d-pile"));
+      const tiles = pile.tiles;
+      const roles = pile.roles;
+      gsap.set("#d-pile", { x: SIDE.x, y: SIDE.y, scale: SIDE.scale, transformOrigin: "0 0" });
+      roles.crashed.forEach((i) => (tiles[i].style.backgroundColor = ink));
+
+      /* the ten suspects: one small square each, the fourth is the group that gets found */
+      const suspectsRow = document.getElementById("d-suspects");
+      const suspects = [];
+      for (let i = 0; i < D.suspects; i++) {
+        const square = document.createElement("div");
+        square.className = "sq";
+        square.style.left = `${i * 56}px`;
+        suspectsRow.appendChild(square);
+        suspects.push(square);
+      }
+      const chosen = suspects[3];
+      const chosenRing = document.createElement("div");
+      chosenRing.className = "d-ring-sq";
+      chosen.appendChild(chosenRing);
+
+      gsap.set(suspects, { opacity: 0 });
+      gsap.set("#d-suspects-label", { opacity: 0 });
+
+      const suspectsAt = cue(9, "ten suspects");
+      L.textIn(tl, "#d-suspects-label", suspectsAt);
+      tl.to(suspects, { opacity: 1, duration: 0.3, ease: "power2.out", stagger: 0.09 }, suspectsAt + 0.1);
+
+      /* shot 9: 31 tiles get orange outlines and slide out into their own group */
+      const foundAt = cue(9, "a group of 31");
+      const slideAt = cue(9, "crashed drives");
+      const keyAt = cue(9, "27 of them");
+
+      const foundTiles = roles.foundP4.map((i) => tiles[i]);
+      const rings = foundTiles.map((tile) => {
+        const ring = document.createElement("div");
+        ring.className = "ring";
+        tile.appendChild(ring);
+        return ring;
+      });
+      const keyTiles = roles.foundP4.slice(0, D.p4.inKey).map((i) => tiles[i]);
+      const patches = keyTiles.map((tile) => {
+        const patch = document.createElement("div");
+        patch.className = "patch";
+        patch.style.backgroundImage = "url('assets/reels/patch-thumb.jpg')";
+        tile.appendChild(patch);
+        return patch;
+      });
+
+      tl.to(suspects.filter((s) => s !== chosen), { opacity: 0.25, duration: M.exit.duration, ease: M.exit.ease }, foundAt);
+      tl.to(chosenRing, { opacity: 1, duration: 0.3, ease: "power2.out" }, foundAt);
+      tl.to(rings, { opacity: 1, duration: 0.3, ease: "power2.out", stagger: 0.012 }, foundAt + 0.1);
+
+      const group = { x: 1150, y: 190, size: 96, gap: 10, perRow: 6 };
+      L.slideToGroup(tl, pile, roles.foundP4, SIDE, group, slideAt, {});
+      tl.to("#d-suspects, #d-suspects-label", { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, slideAt + 0.2);
+      const others = tiles.filter((_, i) => !roles.foundP4.includes(i));
+      tl.to(others, { opacity: 0.45, duration: M.enter.duration, ease: "power2.out" }, slideAt);
+
+      gsap.set(["#d-notes > div", "#d-extra > div"], { opacity: 0 });
+      L.textIn(tl, "#d-note-count", keyAt);
+      tl.to(patches, { opacity: 1, duration: 0.3, ease: "power2.out", stagger: 0.02 }, keyAt);
+      L.textIn(tl, "#d-note-other", cue(9, "blacked-out") + 0.6);
+      L.textIn(tl, "#d-note-twins", cue(9, "clean twins"));
+
+      /* shot 10: the group stays as the hero and the number lands */
+      const overlapAt = cue(10, "That is");
+      const scoreAt = cue(10, "0.57");
+      const baselineAt = cue(10, "managed");
+
+      tl.to(others, { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, overlapAt);
+      tl.to("#d-extra", { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, overlapAt);
+      tl.to("#d-pile", { x: SIDE.x - (group.x - 96), duration: M.move.duration, ease: M.move.ease }, overlapAt + 0.2);
+      tl.to("#d-notes", { x: -(group.x - 96), duration: M.move.duration, ease: M.move.ease }, overlapAt + 0.2);
+
+      gsap.set(["#d-score", "#d-baseline"], { opacity: 0 });
+      const score = { value: 0 };
+      const scoreEl = document.getElementById("d-score-value");
+      L.textIn(tl, "#d-score", scoreAt - 0.15);
+      tl.to(
+        score,
+        { value: D.p4.jaccard, duration: 0.8, ease: "power2.out", onUpdate: () => (scoreEl.textContent = score.value.toFixed(2)) },
+        scoreAt - 0.15
+      );
+      L.textIn(tl, "#d-baseline", baselineAt - 0.1);
+
+      L.seamOut(tl, "#d-stage", 15.4);
+      L.seamIn(tl, "#d-stage");
+      window.__timelines["scene-d"] = tl;
+    })();
+  </script>
+</template>

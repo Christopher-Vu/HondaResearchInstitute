@@ -1,0 +1,110 @@
+{
+  "fps": 30,
+  "seams": [
+    {
+      "id": "a->b",
+      "cut": 23.02,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#a-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#b-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "b->c",
+      "cut": 40.18,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#b-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#c-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "c->d",
+      "cut": 61.16,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#c-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#d-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "d->e",
+      "cut": 76.56,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#d-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#e-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "e->f",
+      "cut": 91.98,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#e-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#f-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "f->g",
+      "cut": 107.79,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#f-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#g-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "g->end",
+      "cut": 121.95,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#g-stage",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#end-stage",
+        "axis": "x",
+        "dir": -1
+      }
+    }
+  ]
+}

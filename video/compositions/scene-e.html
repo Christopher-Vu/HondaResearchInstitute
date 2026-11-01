@@ -1,0 +1,177 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #e-stage,
+    #e-rows {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    #e-rows {
+      transform-origin: 0 0;
+    }
+    .e-hires .still { opacity: 0; }
+    .e-label {
+      position: absolute;
+      white-space: nowrap;
+    }
+    .e-bars {
+      position: absolute;
+      left: 600px;
+      width: 1224px;
+      height: 220px;
+    }
+    #e-equals {
+      position: absolute;
+      left: 1166px;
+      top: 430px;
+      opacity: 0;
+    }
+    #e-change {
+      position: absolute;
+      left: 1280px;
+      top: 452px;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    #e-scan {
+      position: absolute;
+      left: 214px;
+      top: 196px;
+      width: 3px;
+      height: 690px;
+      background: var(--ink);
+      opacity: 0;
+    }
+    #e-pile-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .mark {
+      position: absolute;
+      inset: 3px;
+      background: var(--ground);
+      opacity: 0;
+    }
+  </style>
+
+  <div data-hf-id="hf-grpz" id="root" data-composition-id="scene-e" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-quuz" id="e-stage">
+      <div data-hf-id="hf-b87l" id="e-rows" data-layout-allow-overflow>
+        <div data-hf-id="hf-yyp2" class="shot" id="e-fl" style="left: 96px; top: 330px; width: 820px; height: 410px">
+          <img data-hf-id="hf-1mys" class="still" src="assets/frames/route-2640638/000120.png" alt="" />
+        </div>
+        <div data-hf-id="hf-kivd" class="shot e-hires" id="e-fr" style="left: 1004px; top: 330px; width: 820px; height: 410px">
+          <img data-hf-id="hf-ffuj" class="still" id="e-fr-120" src="assets/frames/route-2640648/000120.png" alt="" />
+          <img data-hf-id="hf-h8kj" class="still" id="e-fr-140" src="assets/frames/route-2640648/000140.png" alt="" />
+          <img data-hf-id="hf-9fvn" class="still" id="e-fr-160" src="assets/frames/route-2640648/000160.png" alt="" />
+          <img data-hf-id="hf-nid7" class="still" id="e-fr-180" src="assets/frames/route-2640648/000180.png" alt="" />
+          <img data-hf-id="hf-zno9" class="still" id="e-fr-200" src="assets/frames/route-2640648/000200.png" alt="" />
+        </div>
+        <div data-hf-id="hf-oshd" class="e-label body" id="e-lab-fl" style="left: 96px; top: 766px">frozen drive</div>
+        <div data-hf-id="hf-t789" class="e-label body muted" id="e-lab-old" style="left: 96px; top: 822px">a picture from earlier</div>
+        <div data-hf-id="hf-tq5o" class="e-label body" id="e-lab-fr" style="left: 1004px; top: 766px">clean drive</div>
+
+        <div data-hf-id="hf-44fn" class="shot" id="e-fb" style="left: 96px; top: 550px; width: 440px; height: 220px; opacity: 0">
+          <img data-hf-id="hf-vr9y" class="still" src="assets/frames/route-2640638/000100.png" alt="" />
+        </div>
+        <canvas data-hf-id="hf-ugih" class="e-bars" id="e-bars-a" width="2448" height="440" style="top: 190px"></canvas>
+        <canvas data-hf-id="hf-2wq2" class="e-bars" id="e-bars-b" width="2448" height="440" style="top: 550px"></canvas>
+        <div data-hf-id="hf-ikbj" class="e-label body muted" id="e-speed-a" style="left: 96px; top: 420px"><span data-hf-id="hf-4rol" data-bind="frozenSpeed.0" data-decimals="1"></span> m/s</div>
+        <div data-hf-id="hf-x7wv" class="e-label body muted" id="e-speed-b" style="left: 96px; top: 780px"><span data-hf-id="hf-h7qk" data-bind="frozenSpeed.1" data-decimals="1"></span> m/s</div>
+        <div data-hf-id="hf-s2r8" class="display" id="e-equals">=</div>
+        <div data-hf-id="hf-6kp0" class="body" id="e-change"><span data-hf-id="hf-4i74" data-bind="frozenChange" data-decimals="1"></span> change</div>
+      </div>
+
+      <div data-hf-id="hf-2jb4" id="e-pile-wrap">
+        <div data-hf-id="hf-aig9" class="pile" id="e-pile" data-layout-allow-overflow></div>
+      </div>
+      <div data-hf-id="hf-jhuc" id="e-scan"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("e", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+      const ink = L.cssColor("--ink");
+
+      L.drawBars(document.getElementById("e-bars-a"), window.BARS.frozenA, "row");
+      L.drawBars(document.getElementById("e-bars-b"), window.BARS.frozenB, "row");
+
+      const gone = ["#e-lab-fl", "#e-lab-old", "#e-lab-fr", "#e-speed-a", "#e-speed-b"];
+      gsap.set(gone, { opacity: 0 });
+      gsap.set("#e-fr-120", { opacity: 1 });
+      gsap.set(["#e-bars-a", "#e-bars-b"], { clipPath: "inset(0 100% 0 0)" });
+
+      /* shot 11: the frozen frame holds while the clean twin keeps driving; they look alike */
+      L.textIn(tl, "#e-lab-fl", 0.45);
+      L.textIn(tl, "#e-lab-fr", 0.6);
+      [["140", 1.0], ["160", 2.0], ["180", 3.0], ["200", 4.0]].forEach(([step, at]) => {
+        tl.set(`#e-fr-${step}`, { opacity: 1 }, at);
+      });
+      L.textIn(tl, "#e-lab-old", cue(11, "only an old one"));
+
+      /* shot 12: two consecutive frozen frames and their 896 numbers: identical */
+      const clueAt = cue(12, "There was one clue");
+      const stoppedAt = cue(12, "When the car");
+      const numbersAt = cue(12, "the model's numbers");
+      const equalsAt = cue(12, "repeat exactly");
+      const pileAt = cue(12, "nowhere else");
+      const rowsOut = clueAt - 0.1;
+
+      tl.to(["#e-fr", "#e-lab-fr", "#e-lab-old", "#e-lab-fl"], { opacity: 0, x: -140, duration: M.exit.duration, ease: M.exit.ease }, rowsOut);
+      tl.to("#e-fl", { x: 0, y: -140, scale: 440 / 820, transformOrigin: "0 0", duration: M.move.duration, ease: M.move.ease }, rowsOut + 0.1);
+      tl.to("#e-fb", { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, rowsOut + 0.5);
+      L.textIn(tl, "#e-speed-a", stoppedAt);
+      L.textIn(tl, "#e-speed-b", stoppedAt + 0.17);
+
+      tl.to("#e-bars-a", { clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power2.inOut" }, numbersAt);
+      tl.to("#e-bars-b", { clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power2.inOut" }, numbersAt + 0.35);
+      L.textIn(tl, "#e-equals", equalsAt);
+      L.textIn(tl, "#e-change", equalsAt + 0.17);
+
+      /* the repeat happens nowhere else in the pile: a scan across it marks only the 53 frozen-drive tiles */
+      const PILE_POSE = { x: 214, y: 212, scale: 2.6 };
+      const pile = L.buildPile(document.getElementById("e-pile"));
+      const tiles = pile.tiles;
+      gsap.set("#e-pile", { x: PILE_POSE.x, y: PILE_POSE.y, scale: PILE_POSE.scale, transformOrigin: "0 0" });
+      pile.roles.crashed.forEach((i) => (tiles[i].style.backgroundColor = ink));
+      const marks = pile.roles.p7.map((i) => {
+        const mark = document.createElement("div");
+        mark.className = "mark";
+        tiles[i].appendChild(mark);
+        return { mark, col: i % pile.cols };
+      });
+
+      tl.to("#e-rows", { x: -260, opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, pileAt - 0.35);
+      tl.to("#e-pile-wrap", { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, pileAt - 0.2);
+      const scanStart = pileAt + 0.2;
+      const scanSeconds = 1.3;
+      const pileWidth = pile.width * PILE_POSE.scale;
+      gsap.set("#e-scan", { x: 0 });
+      tl.set("#e-scan", { opacity: 1 }, scanStart);
+      tl.to("#e-scan", { x: pileWidth, duration: scanSeconds, ease: "none" }, scanStart);
+      tl.set("#e-scan", { opacity: 0 }, scanStart + scanSeconds + 0.02);
+      marks.forEach(({ mark, col }) => {
+        tl.to(mark, { opacity: 1, duration: 0.15, ease: "power2.out" }, L.snap(scanStart + (col / pile.cols) * scanSeconds));
+      });
+
+      L.seamOut(tl, "#e-stage", 15.42);
+      L.seamIn(tl, "#e-stage");
+      window.__timelines["scene-e"] = tl;
+    })();
+  </script>
+</template>

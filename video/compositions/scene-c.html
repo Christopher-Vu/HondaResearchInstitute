@@ -1,0 +1,264 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #c-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .c-reel-642 {
+      background-image: url("assets/reels/reel-642.jpg");
+      background-size: 3360px 1400px;
+    }
+    #c-bars {
+      position: absolute;
+      left: 800px;
+      top: 92px;
+      width: 640px;
+      height: 896px;
+    }
+    #c-bar-count {
+      position: absolute;
+      left: 1500px;
+      top: 440px;
+      width: 360px;
+    }
+    #c-grid {
+      position: absolute;
+      left: 110px;
+      top: 330px;
+      width: 1702px;
+      height: 400px;
+    }
+    .slot {
+      position: absolute;
+      width: 11px;
+      height: 34px;
+      box-shadow: inset 0 0 0 1px var(--muted);
+    }
+    .slot.lit-target {
+      box-shadow: inset 0 0 0 1px var(--muted);
+    }
+    #c-grid-note {
+      position: absolute;
+      left: 110px;
+      top: 770px;
+      width: 1702px;
+    }
+    #c-grid-note .small {
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+    .c-lane-label {
+      position: absolute;
+      left: 96px;
+      width: 180px;
+    }
+    .c-lane {
+      position: absolute;
+      left: 288px;
+      width: 1536px;
+      height: 200px;
+    }
+    .c-thumbs {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1536px;
+      height: 64px;
+      background-repeat: no-repeat;
+      background-size: 1536px 64px;
+      box-shadow: 0 0 0 1px var(--ink);
+    }
+    .c-raster {
+      position: absolute;
+      left: 0;
+      top: 80px;
+      width: 1536px;
+      height: 120px;
+    }
+    .cell {
+      position: absolute;
+      width: 120px;
+      height: 10px;
+      box-shadow: inset 0 0 0 1px var(--muted);
+    }
+    #c-window {
+      position: absolute;
+      left: 1440px;
+      top: 296px;
+      width: 384px;
+      height: 218px;
+      background: var(--shade);
+    }
+    #c-window-label {
+      position: absolute;
+      left: 1440px;
+      top: 214px;
+      width: 384px;
+      white-space: nowrap;
+    }
+    #c-cursor {
+      position: absolute;
+      left: 288px;
+      top: 270px;
+      width: 2px;
+      height: 520px;
+      background: var(--ink);
+    }
+  </style>
+
+  <div data-hf-id="hf-3n0d" id="root" data-composition-id="scene-c" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-exbx" id="c-stage">
+      <div data-hf-id="hf-4o3f" class="shot" id="c-frame" style="left: 96px; top: 400px">
+        <div data-hf-id="hf-1ro1" class="reel c-reel-642" id="c-reel"></div>
+      </div>
+      <div data-hf-id="hf-e6r5" class="rule" id="c-link" style="left: 656px; top: 540px; width: 304px"></div>
+      <canvas data-hf-id="hf-y1kr" id="c-bars" width="1280" height="1792"></canvas>
+      <div data-hf-id="hf-bq4u" id="c-bar-count">
+        <div data-hf-id="hf-v8lb" class="display" data-bind="dictionary"></div>
+        <div data-hf-id="hf-d0jo" class="body muted">numbers from this one frame</div>
+      </div>
+
+      <div data-hf-id="hf-h3b9" id="c-grid"></div>
+      <div data-hf-id="hf-n02e" id="c-grid-note">
+        <div data-hf-id="hf-o5va" class="body"><span data-hf-id="hf-28s3" data-bind="kLit"></span> of <span data-hf-id="hf-a6kh" data-bind="dictionary"></span> lit</div>
+        <div data-hf-id="hf-2o2m" class="small muted">illustrative</div>
+      </div>
+
+      <div data-hf-id="hf-qv5u" id="c-lanes">
+        <div data-hf-id="hf-tii4" class="c-lane-label body" id="c-label-crash" style="top: 270px">crash</div>
+        <div data-hf-id="hf-pyde" class="c-lane" id="c-lane-crash" style="top: 270px">
+          <div data-hf-id="hf-x1xu" class="c-thumbs" style="background-image: url('assets/reels/strip-632.jpg')"></div>
+          <div data-hf-id="hf-7glk" class="c-raster" id="c-raster-crash"></div>
+        </div>
+        <div data-hf-id="hf-r5f8" class="c-lane-label body" id="c-label-fine" style="top: 580px">fine</div>
+        <div data-hf-id="hf-xrsh" class="c-lane" id="c-lane-fine" style="top: 580px">
+          <div data-hf-id="hf-4vqv" class="c-thumbs" style="background-image: url('assets/reels/strip-642.jpg')"></div>
+          <div data-hf-id="hf-9wmn" class="c-raster" id="c-raster-fine"></div>
+        </div>
+        <div data-hf-id="hf-b741" id="c-window"></div>
+        <div data-hf-id="hf-sa7g" id="c-window-label" class="body">last <span data-hf-id="hf-63r4" data-bind="windowSeconds"></span> s</div>
+        <div data-hf-id="hf-x5yz" id="c-cursor"></div>
+        <div data-hf-id="hf-yn4y" class="small muted" id="c-raster-note" style="position: absolute; left: 288px; top: 800px">illustrative</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("c", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+      const ink = L.cssColor("--ink");
+
+      /* shot 6: one clean frame, and the 896 numbers it produces unroll to the right */
+      L.drawBars(document.getElementById("c-bars"), window.BARS.clean, "column");
+      const driveSpec = { cols: 6, w: 560, h: 280, at: 0, count: 16, last: 15 };
+      L.driveReel(tl, "#c-reel", driveSpec);
+
+      const insidesAt = cue(6, "insides");
+      const numbersAt = cue(6, "896 numbers");
+      gsap.set(["#c-link", "#c-bar-count"], { opacity: 1 });
+      gsap.set("#c-link", { clipPath: "inset(0 100% 0 0)" });
+      gsap.set("#c-bars", { clipPath: "inset(0 0 100% 0)" });
+      gsap.set("#c-bar-count", { opacity: 0 });
+      gsap.set("#c-frame", { x: 584, scale: 1.5 });
+      tl.to("#c-frame", { x: 0, scale: 1, duration: M.move.duration, ease: M.move.ease }, insidesAt - 0.1);
+      L.wipeIn(tl, "#c-link", insidesAt + 0.6, 0.5);
+      tl.to("#c-bars", { clipPath: "inset(0 0 0% 0)", duration: 1.8, ease: "power2.inOut" }, numbersAt);
+      L.textIn(tl, "#c-bar-count", numbersAt + 0.4);
+
+      /* shot 7: the column re-folds into a dictionary of 896 slots, 32 lit */
+      const learnAt = cue(7, "First it learns");
+      const foldAt = learnAt + 0.1;
+      const slotPitch = 15.2;
+      const grid = document.getElementById("c-grid");
+      const slots = [];
+      for (let i = 0; i < D.dictionary; i++) {
+        const slot = document.createElement("div");
+        slot.className = "slot";
+        slot.style.left = `${(i % 112) * slotPitch}px`;
+        slot.style.top = `${Math.floor(i / 112) * 48}px`;
+        grid.appendChild(slot);
+        slots.push(slot);
+      }
+      const random = L.seededRandom(896);
+      const order = [...slots.keys()].sort(() => random() - 0.5);
+      const lit = order.slice(0, D.kLit).map((i) => slots[i]);
+
+      gsap.set(slots, { opacity: 0 });
+      gsap.set(["#c-grid-note"], { opacity: 0 });
+      tl.to(["#c-frame", "#c-link"], { x: -760, opacity: 0, duration: M.move.duration, ease: M.move.ease }, foldAt);
+      tl.to("#c-bar-count", { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, foldAt);
+      tl.to(
+        "#c-bars",
+        { x: -140, rotation: -90, scaleY: 1.9, scaleX: 0.4, duration: M.camera.duration, ease: M.camera.ease },
+        foldAt + 0.2
+      );
+      tl.to("#c-bars", { opacity: 0, duration: 0.5, ease: "power2.in" }, foldAt + 1.2);
+      tl.to(slots, { opacity: 1, duration: 0.3, ease: "power2.out", stagger: { each: 0.0008 } }, foldAt + 1.1);
+
+      const patternsAt = cue(7, "patterns");
+      tl.to(lit, { backgroundColor: ink, duration: 0.3, ease: "power2.out", stagger: { each: 0.05 } }, patternsAt);
+      L.textIn(tl, "#c-grid-note", patternsAt + 0.2);
+
+      /* shot 8: which patterns switch on in the three seconds before a crash */
+      const asksAt = cue(8, "Then it asks");
+      const windowAt = cue(8, "three seconds");
+      const crashLitAt = cue(8, "before a crash");
+      const stayOffAt = cue(8, "stay off");
+
+      const buildRaster = (container) => {
+        const cells = [];
+        for (let col = 0; col < 12; col++) {
+          for (let row = 0; row < 10; row++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.style.left = `${col * 128 + 4}px`;
+            cell.style.top = `${row * 12}px`;
+            container.appendChild(cell);
+            cells.push({ cell, col, row });
+          }
+        }
+        return cells;
+      };
+      const crashCells = buildRaster(document.getElementById("c-raster-crash"));
+      buildRaster(document.getElementById("c-raster-fine"));
+      const litRandom = L.seededRandom(3);
+      const litCells = crashCells.filter(({ col }) => (col >= 9 ? litRandom() < 0.62 : litRandom() < 0.04));
+
+      tl.to(["#c-grid", "#c-grid-note"], { x: -300, opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, asksAt - 0.2);
+      gsap.set(["#c-lanes"], { opacity: 0 });
+      tl.fromTo("#c-lanes", { opacity: 0 }, { opacity: 1, duration: M.enter.duration, ease: M.enter.ease }, asksAt);
+      gsap.set(["#c-window", "#c-window-label"], { opacity: 0 });
+      gsap.set("#c-window", { clipPath: "inset(0 100% 0 0)" });
+      gsap.set("#c-cursor", { opacity: 0 });
+      tl.set("#c-cursor", { opacity: 1 }, asksAt + 0.8);
+      L.wipeIn(tl, "#c-window", windowAt - 0.2, 0.5);
+      tl.set("#c-window", { opacity: 1 }, windowAt - 0.2);
+      L.textIn(tl, "#c-window-label", windowAt);
+
+      const sweepStart = asksAt + 0.8;
+      const columnTime = (crashLitAt - sweepStart) / 9;
+      tl.fromTo("#c-cursor", { x: 0 }, { x: 1536, duration: columnTime * 12, ease: "none" }, sweepStart);
+      litCells.forEach(({ cell, col }) => {
+        tl.set(cell, { backgroundColor: ink }, L.snap(sweepStart + col * columnTime + 0.02));
+      });
+
+      L.seamOut(tl, "#c-stage", 20.98);
+      L.seamIn(tl, "#c-stage");
+      window.__timelines["scene-c"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,269 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #b-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .pile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 574px;
+      height: 252px;
+      transform-origin: 0 0;
+    }
+    #b-counts {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      white-space: nowrap;
+    }
+    #b-counts .gap {
+      margin-left: 56px;
+    }
+    .b-bar-row {
+      position: absolute;
+      left: 1020px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 64px;
+      white-space: nowrap;
+    }
+    .b-bar {
+      height: 64px;
+      background: var(--ink);
+      flex: none;
+    }
+    .b-bar-row.total .body {
+      position: absolute;
+      left: 24px;
+      color: var(--ground);
+    }
+    .strong { font-weight: 800; }
+    #b-jac {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: visible;
+    }
+    #b-jac circle {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 2px;
+    }
+    #b-jac .overlap {
+      fill: var(--accent);
+      stroke: none;
+    }
+    .b-label {
+      position: absolute;
+      width: 600px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    #b-catchall {
+      position: absolute;
+      left: 1660px;
+      top: 490px;
+    }
+  </style>
+
+  <div data-hf-id="hf-s0rm" id="root" data-composition-id="scene-b" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-26zc" id="b-stage">
+      <div data-hf-id="hf-3in6" class="shot" id="b-f1" style="left: 96px; top: 370px">
+        <img data-hf-id="hf-5t3f" class="still" src="assets/frames/route-2640642/000580.png" alt="" />
+      </div>
+      <div data-hf-id="hf-1xrk" class="shot" id="b-f2" style="left: 680px; top: 370px">
+        <img data-hf-id="hf-tefw" class="still" src="assets/frames/route-2640632/001420.png" alt="" />
+      </div>
+      <div data-hf-id="hf-r5t2" class="shot" id="b-f3" style="left: 1264px; top: 370px">
+        <img data-hf-id="hf-6cll" class="still" src="assets/frames/route-2640638/001760.png" alt="" />
+      </div>
+
+      <div data-hf-id="hf-ej05" class="pile" id="b-pile"></div>
+
+      <div data-hf-id="hf-gx8u" id="b-counts">
+        <span data-hf-id="hf-67xy" class="display" id="b-pool">0</span>
+        <span data-hf-id="hf-ezuw" class="body muted" id="b-label-drives">drives</span>
+        <span data-hf-id="hf-olub" class="display gap" id="b-failures">0</span>
+        <span data-hf-id="hf-sk2q" class="body muted" id="b-label-crashes">crashes</span>
+      </div>
+
+      <div data-hf-id="hf-fs4s" id="b-bars">
+        <div data-hf-id="hf-p94i" class="b-bar-row total" id="b-row-total" style="top: 330px">
+          <div data-hf-id="hf-squr" class="b-bar" id="b-bar-total"></div>
+          <span data-hf-id="hf-6dpz" class="body">all crashes</span>
+        </div>
+        <div data-hf-id="hf-5usu" class="b-bar-row" id="b-row-p4" style="top: 440px">
+          <div data-hf-id="hf-3yef" class="b-bar" id="b-bar-p4"></div>
+          <span data-hf-id="hf-lq8c" class="body"><span data-hf-id="hf-a83d" class="strong" data-bind="keys.P4"></span> P4 black patch</span>
+        </div>
+        <div data-hf-id="hf-nqhu" class="b-bar-row" id="b-row-p7" style="top: 540px">
+          <div data-hf-id="hf-t2ws" class="b-bar" id="b-bar-p7"></div>
+          <span data-hf-id="hf-syzu" class="body"><span data-hf-id="hf-e67e" class="strong" data-bind="keys.P7"></span> P7 frozen</span>
+        </div>
+        <div data-hf-id="hf-ytds" class="b-bar-row" id="b-row-p8" style="top: 640px">
+          <div data-hf-id="hf-p4sr" class="b-bar" id="b-bar-p8"></div>
+          <span data-hf-id="hf-fz12" class="body"><span data-hf-id="hf-p1p1" class="strong" data-bind="keys.P8"></span> P8 delay</span>
+        </div>
+      </div>
+
+      <svg data-hf-id="hf-dau8" id="b-jac" viewBox="0 0 1920 1080" aria-hidden="true">
+        <defs data-hf-id="hf-mh0t">
+          <clipPath data-hf-id="hf-q7t3" id="b-clip-answer"><circle data-hf-id="hf-mjle" class="answer-clip" cx="1190" cy="540" r="150"></circle></clipPath>
+        </defs>
+        <circle data-hf-id="hf-a0zs" class="overlap" id="b-overlap" cx="1400" cy="540" r="150" clip-path="url(#b-clip-answer)"></circle>
+        <circle data-hf-id="hf-ib8x" id="b-answer" class="answer" cx="1190" cy="540" r="150" pathLength="1"></circle>
+        <circle data-hf-id="hf-7dlz" id="b-truth" class="truth" cx="1400" cy="540" r="150" pathLength="1"></circle>
+      </svg>
+      <div data-hf-id="hf-1z3q" class="b-label body" id="b-label-answer" style="left: 890px; top: 310px">the tool's answer</div>
+      <div data-hf-id="hf-fc72" class="b-label body" id="b-label-every" style="left: 1060px; top: 190px">every crash</div>
+      <div data-hf-id="hf-ywdi" class="b-label body" id="b-label-truth" style="left: 1100px; top: 726px">the truth</div>
+      <div data-hf-id="hf-1coc" id="b-catchall" class="display muted"><span data-hf-id="hf-nl9x" data-bind="catchAll.value" data-decimals="1"></span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const L = window.LIB;
+      const D = L.D;
+      const M = L.MOVE;
+      const cue = (n, phrase) => L.cue("b", n, phrase);
+      L.bindNumbers(document);
+
+      const tl = gsap.timeline({ paused: true });
+      const ink = L.cssColor("--ink");
+
+      const BIG = { x: 214, y: 212, scale: 2.6 };
+      const SIDE = { x: 96, y: 351, scale: 1.5 };
+      const pile = L.buildPile(document.getElementById("b-pile"));
+      const tiles = pile.tiles;
+      const roles = pile.roles;
+
+      gsap.set("#b-pile", { x: BIG.x, y: BIG.y, scale: BIG.scale, transformOrigin: "0 0" });
+      gsap.set(tiles, { opacity: 0 });
+      gsap.set(["#b-pool", "#b-failures", "#b-label-drives", "#b-label-crashes"], { opacity: 0 });
+      gsap.set("#b-counts", { x: 214, y: 82 });
+
+      /* shot 4: the three drives shrink into tiles and fly into the pile */
+      const arrivals = [
+        { frame: "#b-f1", left: 96, cell: roles.crashed.length ? [...Array(D.pool).keys()].find((i) => !roles.crashed.includes(i)) : 0 },
+        { frame: "#b-f2", left: 680, cell: roles.p4[0] },
+        { frame: "#b-f3", left: 1264, cell: roles.p7[0] }
+      ];
+      const tileScreen = pile.size * BIG.scale;
+      arrivals.forEach((arrival, i) => {
+        const col = arrival.cell % pile.cols;
+        const row = Math.floor(arrival.cell / pile.cols);
+        const targetX = BIG.x + (col * pile.pitch + pile.size / 2) * BIG.scale;
+        const targetY = BIG.y + (row * pile.pitch + pile.size / 2) * BIG.scale;
+        const flyAt = 0.45 + i * 0.12;
+        tl.to(
+          arrival.frame,
+          {
+            x: targetX - (arrival.left + 280),
+            y: targetY - (370 + 140),
+            scaleX: tileScreen / 560,
+            scaleY: tileScreen / 280,
+            duration: M.move.duration,
+            ease: M.move.ease
+          },
+          flyAt
+        );
+        tl.set(arrival.frame, { opacity: 0 }, flyAt + M.move.duration);
+        tl.set(tiles[arrival.cell], { opacity: 1 }, flyAt + M.move.duration);
+      });
+
+      const fillAt = 1.3;
+      const rest = tiles.filter((_, i) => !arrivals.some((a) => a.cell === i));
+      tl.fromTo(
+        rest,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.2, ease: "power2.out", stagger: { each: 0.0026, from: "center" } },
+        fillAt
+      );
+
+      const countTo = (selector, target, at, seconds) => {
+        const counter = { value: 0 };
+        const el = document.querySelector(selector);
+        tl.to(counter, { value: target, duration: seconds, ease: "power2.out", onUpdate: () => (el.textContent = Math.round(counter.value)) }, at);
+      };
+      L.textIn(tl, "#b-pool", cue(4, "So we hid"));
+      tl.fromTo("#b-label-drives", { opacity: 0 }, { opacity: 1, duration: M.enter.duration }, cue(4, "So we hid") + 0.1);
+      countTo("#b-pool", D.pool, fillAt, 1.9);
+
+      const crashAt = cue(4, "278 crashes");
+      L.textIn(tl, "#b-failures", crashAt);
+      tl.fromTo("#b-label-crashes", { opacity: 0 }, { opacity: 1, duration: M.enter.duration }, crashAt + 0.1);
+      countTo("#b-failures", D.failures, crashAt, 0.9);
+      const crashedTiles = roles.crashed.map((i) => tiles[i]);
+      tl.to(
+        crashedTiles,
+        { backgroundColor: ink, duration: 0.25, ease: "power2.out", stagger: { each: 0.0028 } },
+        crashAt
+      );
+
+      /* the pile steps aside; each planted fault drawn against all the crashes */
+      const fifthAt = cue(4, "each planted");
+      tl.to("#b-pile", { ...SIDE, duration: M.camera.duration, ease: M.camera.ease }, fifthAt);
+      tl.to("#b-counts", { x: 96, y: 200, duration: M.camera.duration, ease: M.camera.ease }, fifthAt);
+
+      const barMax = 804;
+      const rows = [
+        { id: "total", value: D.failures },
+        { id: "p4", value: D.keys.P4 },
+        { id: "p7", value: D.keys.P7 },
+        { id: "p8", value: D.keys.P8 }
+      ];
+      rows.forEach((row, i) => {
+        document.getElementById(`b-bar-${row.id}`).style.width = `${(row.value / D.failures) * barMax}px`;
+        const at = fifthAt + 0.5 + i * 0.17;
+        tl.fromTo(`#b-row-${row.id}`, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: M.move.duration, ease: M.enter.ease }, at);
+      });
+
+      /* shot 5: the score is how much the answer overlaps the truth */
+      const scoreAt = cue(5, "We score");
+      const answerAt = cue(5, "its answer");
+      const overlapAt = cue(5, "overlaps");
+      const truthAt = cue(5, "the truth");
+      const everyAt = cue(5, "every crash");
+      const catchAt = cue(5, "scores about");
+
+      tl.to("#b-bars", { x: -140, opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, scoreAt + 0.3);
+
+      gsap.set(["#b-answer", "#b-truth"], { strokeDasharray: "1 1", strokeDashoffset: 1 });
+      gsap.set(["#b-overlap", "#b-label-answer", "#b-label-every", "#b-label-truth", "#b-catchall"], { opacity: 0 });
+      tl.to("#b-answer", { strokeDashoffset: 0, duration: 0.7, ease: "power2.out" }, answerAt - 0.5);
+      L.textIn(tl, "#b-label-answer", answerAt - 0.2);
+      tl.to("#b-truth", { strokeDashoffset: 0, duration: 0.7, ease: "power2.out" }, overlapAt);
+      tl.to("#b-overlap", { opacity: 1, duration: 0.4, ease: "power2.out" }, truthAt);
+      L.textIn(tl, "#b-label-truth", truthAt);
+
+      /* the answer "every crash" swallows the truth */
+      const morph = { duration: M.camera.duration, ease: M.camera.ease };
+      tl.to(["#b-answer", ".answer-clip"], { attr: { cx: 1360, cy: 540, r: 260 }, ...morph }, everyAt);
+      tl.to(["#b-truth", "#b-overlap"], { attr: { cx: 1360, cy: 540, r: 102 }, ...morph }, everyAt);
+      tl.to("#b-label-answer", { opacity: 0, duration: M.exit.duration, ease: M.exit.ease }, everyAt);
+      tl.to("#b-label-truth", { x: 0, y: -36, duration: morph.duration, ease: morph.ease }, everyAt);
+      L.textIn(tl, "#b-label-every", everyAt + 0.5);
+      L.textIn(tl, "#b-catchall", catchAt);
+
+      L.seamOut(tl, "#b-stage", 17.16);
+      L.seamIn(tl, "#b-stage");
+      window.__timelines["scene-b"] = tl;
+    })();
+  </script>
+</template>
