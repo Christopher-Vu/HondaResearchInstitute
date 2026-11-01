@@ -1,0 +1,22 @@
+# Autoresearch state. Read this and findings.md first on every loop tick.
+goal: >-
+  Show that the discovery SDK, run on CARLA rollouts of SimLingo, recovers failures we planted on purpose
+  (P4, P7, P8), and how. End with a step-by-step explainer video.
+su_budget: 6000
+su_spent_this_goal: 0          # update from check_usage.sh; baseline user total 4512.61 SU on 2026-10-31 08:30
+started: 2026-10-31T22:40-07:00
+
+hypotheses:
+  H1:
+    title: activation methods recover planted gaps P4, P7, P8 in a mixed pool
+    protocol: docs/research/experiments/h1-planted-gap-recovery/protocol.md
+    status: protocol_locked      # protocol_locked -> code_ready -> running -> analysed
+    tier: 1 (layer-10 frame means)
+
+blockers:
+  - Savio shared login dropped 2026-10-31 ~22:30; needs the user (PIN + code)
+
+next_actions:
+  - extend src/discovery/dev_eval.py to the protocol (layer-mean input, M2, B3, cap 0.5, per-gap base-route bootstrap)
+  - when Savio is back: inventory shards, run H1 on CPU, record counts
+  - Tier 2 candidate: per-token background wave (C21) so the per-token SAE runs on the whole pool
