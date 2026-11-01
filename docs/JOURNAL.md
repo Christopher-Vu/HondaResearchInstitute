@@ -5,6 +5,34 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-01 (Jerry, autoresearch) — the discovery methods find two of the three planted faults
+
+Jerry asked the agent to prove that our discovery tools find failures we planted on purpose in CARLA, keeping a
+full log (`docs/research/research-log.md`) and ending with an explainer video. The test pool mixes 738 driving
+runs: the three camera-fault pilots (P4 black patch, P7 frozen image, P8 one-second delay) and 384 ordinary runs.
+Each fault is 15 to 21% of the failures, so a method that simply returns every failure scores only about 0.2.
+
+The first, pre-registered run could not test the activation methods at all. The only sparse autoencoders (SAEs,
+which split the model's internal state into a dictionary of features) had been trained on single tokens, and they
+do not fit the averaged per-frame data every run has. Retrained on that data (they fit well, about 92% of the
+variance), the contrastive method found the black-patch fault: a group of 31 failing runs, 27 of them P4, none of
+them from the same roads without the patch (measured, Jaccard 0.574 against 0.219 for the best baseline).
+
+The frozen and delayed faults were invisible to it, and the reason is now understood: a frozen frame is a normal
+picture, only an old one. A research agent found that when the car is stopped and the image is frozen, the model's
+activations repeat exactly, which never happens otherwise. Adding that "nothing changed" signal as one extra
+feature, the activation-statistics method (B7) found the frozen-camera fault almost perfectly (48 runs, all P7
+failures; Jaccard 0.906). The contrastive method still misses it because it only looks at the 3 seconds before a
+failure, while the frozen frames come earlier in a long stall. The delayed-camera fault is still not found.
+
+All of this is exploratory, because the methods were adjusted after seeing the data. The confirming test is
+running: fresh P4 and P7 runs on Savio, judged by a pipeline written down before they finish
+(`docs/research/experiments/h3-confirm-fresh-pilots/protocol.md`). Two smaller fixes: Savio's policy environment
+gained scikit-learn, and the background-wave generator gained its own route-id offset so a third wave does not
+reuse wave 2's ids.
+
+---
+
 ## 2026-10-31 (Jerry) — P8, camera latency, passes its full pilot
 
 P8 delays every camera frame by one second. On its 60-pair full pilot, every one of the 58 routes with the
