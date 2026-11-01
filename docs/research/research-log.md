@@ -48,3 +48,32 @@ waits for the user; code and tests go first.
   Catch-all references (an axis holding every failure): P4 43/278 = 0.155, P7 53/278 = 0.191, P8 58/278 = 0.209.
   Each planted gap is 15 to 21% of failures: far closer to PRD §9.1's assumed 4 to 8% than the old 70%.
 - 36 SAE runs are available in `share/sae-sweep` (layers 10 and 14, k 32/48/64, seeds 0 to 5).
+
+## 2026-10-31 23:10 — H1 Tier 1, layer 10: the activation methods were not actually tested
+
+First run (40715529/31) failed: Savio's policy venv had no scikit-learn (B3 and M2 need it). Added
+scikit-learn 1.5.2 with uv, pinned numpy 1.26.4 and scipy 1.15.3; a dry run showed only four new packages and no
+changes, so wave 3's running CARLA jobs were not touched. Rerun as 40715554 (layer 10), 40715555 (layer 14).
+
+**Layer 10 result (measured, confirmatory per the locked protocol):** Claim A no and Claim B no for all three gaps.
+But the audit says this is not a verdict on the methods:
+
+| Gap | Catch-all | B2 taxonomy | B3 behaviour | M2 probe-residual | M1 (exploratory, does not count) |
+|---|---|---|---|---|---|
+| P4 | 0.155 | 0.219 | 0.176 | 0 (no axes) | 0.551 |
+| P7 | 0.191 | 0.270 | 0.176 | 0 (no axes) | 0.206 |
+| P8 | 0.209 | 0.296 | 0.200 | 0 (no axes) | 0.242 |
+
+- **Flaw 1, representation.** All 18 layer-10 SAEs score explained variance about -0.5 on frame means (worse than
+  predicting the mean). They were trained on single driving-query tokens; a frame mean over 30 tokens is a
+  different input. By the protocol they do not count, so M1 and B7 sat out. Even so, the best of 18 M1 runs found a
+  P4 axis at Jaccard 0.55 (exploratory; selected over 18 runs, so optimistic).
+- **Flaw 2, M2 emitted no axes at all.** Cause unknown; being audited.
+- **B2's best axis is a 196-rollout stratum holding 71% of failures** (the pilot routes' shared metadata); it beats
+  the catch-all only because the pilot pairs are failure-dense.
+
+**Decision:** the Tier 1 rule cannot test activation methods while the only SAEs do not fit the shared input.
+Two fixes, both pre-registered before running: H1b (exploratory) trains SAEs on the pooled frame means themselves;
+Tier 2 (confirmatory, per the protocol) waits for wave 3's per-token data. M2's empty output goes to an audit agent.
+A slim copy of the 750 shards (layer means and state only, 6.5 GB) is being copied to the laptop so agents can work
+without competing for Savio's single session.
