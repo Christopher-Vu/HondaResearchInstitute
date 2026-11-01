@@ -131,3 +131,39 @@ show a real, normal-looking image, only at the wrong time. M1 scores frames one 
 B7 counts onsets over the whole rollout, which is why it partly sees them. A temporal signal (how much the
 activations change from frame to frame) should expose P7 (identical activations for 40 steps out of 60) and
 perhaps P8. Diagnostic sent to a research agent before any new method is built.
+
+## 2026-11-01 00:40 — H2 diagnostic: timing faults need timing features (EXPLORATORY, oracle numbers)
+
+Sonnet research agent, local slim shards, layer 10, d_t = relative change of the frame mean between consecutive
+logged frames (5 policy steps apart). Measured:
+
+- **P7 freeze has a clean, label-free signature.** Exact-zero changes (d_t < 1e-3) occur in 52 of 60 P7 slice
+  rollouts and in 0 of the other 698. They happen when the car is stopped and the image is frozen: the activations
+  are bitwise identical. Best oracle Jaccard with P7's key: 0.906 for "any exact-zero step" (48 of 48 predicted are
+  P7 failures). While the car moves, frozen frames only lower d_t (0.128 vs 0.188 median), because the speed input
+  still changes. The 5 missed P7 failures are short crashes with the car moving throughout.
+- **P8 latency has no such signature.** Every cheap statistic that separates P8 slice from its twins (median d_t,
+  autocorrelation, length) tracks "the car is stuck": P7 and P8 slice rollouts last a median of 484 and 489 logged
+  frames against 85 to 92 for their neighbourhoods, at 0.5 m/s mean speed against 4.6 to 5.1.
+- **A latency-specific signal exists, but it needs a probe.** A ridge probe from layer-10 activations to the
+  logged lead distance, fitted on background rollouts, fits best at a lag of 4 logged frames (exactly 20 steps,
+  1 s) in 21 of 42 P8 slice rollouts and at lag 0 in 38 of 49 neighbourhood rollouts.
+- **Confound flagged:** stuck-ness. B7's mixed P7/P8 group may be partly "stuck failures". Any P7/P8 claim must
+  beat rollout length (oracle Jaccard 0.628 for P7 ∪ P8) and mean speed (0.605).
+
+## 2026-11-01 00:45 — outer loop: where this stands and what proves it
+
+What we know: the SDK found P4 from activations alone, in a realistic mix, beating every baseline (exploratory).
+Timing faults are a blind spot of per-frame methods, explained mechanistically (a stale image is a normal image).
+
+What is missing for "prove": every positive so far is exploratory. The SAE recipe and the evaluation were settled
+after seeing H1's data, and the same P4 rollouts were used to see the result. A proof needs **fresh planted
+rollouts** evaluated by a **pipeline fixed before they are opened**.
+
+**Decision: DEEPEN and CONFIRM in parallel.**
+- **H3, confirmatory:** fresh P4 and P7 pilots (new base draws, new traffic seeds, new route ids), pooled with
+  wave 3's background; the pipeline is fixed in H3's protocol before any H3 rollout is read. Submitted now so the
+  GPU time overlaps with method work.
+- **H2, exploratory:** add one label-free temporal latent (stale frame: the activations did not change since the
+  last logged frame) to contrastive diffing, and test it on the H1 pool. If it recovers P7 without hurting P4, it
+  joins H3's fixed pipeline before H3's data are opened. P8's lag probe is noted, not built yet.
