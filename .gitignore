@@ -40,3 +40,6 @@ checkpoints/
 # Local
 .env
 .DS_Store
+video/assets/
+video/renders/
+video/node_modules/
