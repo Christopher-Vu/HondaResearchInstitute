@@ -1,0 +1,43 @@
+# Rerun of the 2 P8 full-pilot routes that ended with no outcome (array 40681196, both slice routes), once, so the
+# paired check can reach its 60-pair minimum. A route that fails again is not rerun a third time (docs/WHAT_BROKE.md).
+# Same routes file, manifest, seed and gap as step5-pilot-p8-main.yaml; only the `routes` list differs.
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-0 scripts/route_sample.sbatch configs/rollout/step5-pilot-p8-rerun.yaml 2
+# Score both arrays together: scripts/step5_pilot.sbatch configs/rollout/step5-pilot-p8-main.yaml P8_camera_latency results/savio/40681196 results/savio/<rerun>
+
+name: step5-pilot-p8-rerun
+step: 5
+scope: savio_step5_pilot_p8_rerun
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+capture_every: 10
+capture_token_layers: [10, 11]   # Step 4 closed on layers 10 and 11
+
+routes: ["304831", "380031"]
+
+route:
+  seed: 8                        # traffic manager seed; P3-P6 used 2, 4, 5, 6
+  routes_file: configs/rollout/step5-pilot-p8-main.xml
+  manifest: configs/rollout/step5-pilot-p8-main.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v2.yaml
+  gap_id: P8_camera_latency
+  generator_seed: 5
+  stage: main
+  screen_base_routes: 10
+  id_offset: 1                   # route ids end in 31 and 41; P3 uses 30 and 40
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]
