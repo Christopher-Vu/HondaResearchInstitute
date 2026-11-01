@@ -77,3 +77,13 @@ Two fixes, both pre-registered before running: H1b (exploratory) trains SAEs on 
 Tier 2 (confirmatory, per the protocol) waits for wave 3's per-token data. M2's empty output goes to an audit agent.
 A slim copy of the 750 shards (layer means and state only, 6.5 GB) is being copied to the laptop so agents can work
 without competing for Savio's single session.
+
+## 2026-10-31 23:30 — layer 14 matches layer 10; frame-mean SAEs fit
+
+- **Layer 14 Tier 1 (40715555), measured:** identical baseline numbers to layer 10, M2 empty, token SAEs misfit.
+  The Tier 1 verdict stays "activation methods not tested".
+- **H1b SAEs:** `sae.py` gained `--frame-means` (`c92d31c`). One run, L10 k48 seed 0, trained on 170,822 frames of
+  all 750 shards (labels never read) in 3.4 min on the laptop CPU: **held-out explained variance 0.922**, dead
+  fraction 0, 5% of latents never fired on held-out frames. The other 35 runs are training, four at a time.
+- **M2 audit** handed to a Sonnet agent working on the local slim shards.
+- Wave 3: 9 of 100 tasks done after about 70 minutes, 6 running.

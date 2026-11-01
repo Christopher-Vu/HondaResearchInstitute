@@ -3,20 +3,34 @@ goal: >-
   Show that the discovery SDK, run on CARLA rollouts of SimLingo, recovers failures we planted on purpose
   (P4, P7, P8), and how. End with a step-by-step explainer video.
 su_budget: 6000
-su_spent_this_goal: 0          # update from check_usage.sh; baseline user total 4512.61 SU on 2026-10-31 08:30
+su_baseline: 6595.83         # imhaohao total at 2026-11-01 05:35 UTC, before wave 3; ceiling 12596
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
   H1:
-    title: activation methods recover planted gaps P4, P7, P8 in a mixed pool
+    title: activation methods recover planted gaps P4, P7, P8 in a mixed pool (confirmatory)
     protocol: docs/research/experiments/h1-planted-gap-recovery/protocol.md
-    status: protocol_locked      # protocol_locked -> code_ready -> running -> analysed
-    tier: 1 (layer-10 frame means)
+    status: tier1_ran_untested   # layers 10 and 14 ran; token SAEs misfit frame means (EV ~ -0.5), M2 empty
+    tier1_results: savio results/savio/h1/layer{10,14}.json
+    tier2: waits for wave 3 (array 40715498, per-token capture), then per-token SAEs on the whole pool
+  H1b:
+    title: same test with SAEs trained on the pooled frame means (exploratory)
+    protocol: docs/research/experiments/h1b-frame-mean-sae/protocol.md
+    status: training             # 36 runs local, 3.4 min each, first run EV 0.92
+    sae_dir: scratchpad sae-frames/ (local)
 
-blockers:
-  - Savio shared login dropped 2026-10-31 ~22:30; needs the user (PIN + code)
+audits:
+  - M2 probe-residual returns zero axes on the pool: Sonnet agent diagnosing (local data)
+
+data:
+  slim_shards_local: scratchpad h1-slim/{wave1,wave2,p4,p7,p8}, 750 shards, 7.8 GB
+  slim_shards_savio: /global/scratch/users/imhaohao/h1-slim
+
+running:
+  - wave 3, array 40715498 (100 tasks, about 12 h left at 2026-10-31 23:30)
 
 next_actions:
-  - extend src/discovery/dev_eval.py to the protocol (layer-mean input, M2, B3, cap 0.5, per-gap base-route bootstrap)
-  - when Savio is back: inventory shards, run H1 on CPU, record counts
-  - Tier 2 candidate: per-token background wave (C21) so the per-token SAE runs on the whole pool
+  - when the 36 frame-mean SAEs finish: run dev_eval locally with them at layers 10 and 14 (H1b)
+  - act on the M2 audit; any fix makes M2 results exploratory
+  - Tier 2 after wave 3
+  - progress report in to_human; then the explainer video
