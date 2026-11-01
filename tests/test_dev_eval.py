@@ -286,3 +286,8 @@ def test_claim_b_needs_the_margin_over_baseline_and_catch_all_a_clear_interval_a
     assert not dev_eval.claim_b(winner(0.8, 0.6), 0.6, 0.3, (0.05, 0.3), None)["holds"]
     unstable = dev_eval.claim_b(winner(0.8, 0.4), 0.6, 0.3, (0.05, 0.3), {"seeds_beating": 3, "seeds_total": 6})
     assert unstable["margin"] and unstable["stable"] is False and not unstable["holds"]
+
+
+def test_stale_frames_mark_only_repeats_of_the_previous_frame():
+    means = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0005], [0.0, 1.0]])
+    assert dev_eval.stale_frames(means).tolist() == [0.0, 1.0, 0.0, 1.0, 1.0]

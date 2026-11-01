@@ -41,6 +41,7 @@ from harness.scoring import MATCH_THRESHOLD, jaccard, score
 
 ACTIVATION, BASELINE = "activation", "baseline"
 CATCH_ALL_CAP = 0.5
+STALE_CHANGE = 1e-3
 MIN_EXPLAINED_VARIANCE = 0.8
 MIN_STABLE_SEEDS = 4
 RANDOM_DRAWS = 200
@@ -157,15 +158,27 @@ class VarianceTally:
         return 1 - self.squared_error / max(spread, 1e-12)
 
 
+def stale_frames(means: np.ndarray) -> np.ndarray:
+    """1 where a frame mean barely differs from the previous logged frame's (H2: a frozen input), else 0."""
+    change = np.linalg.norm(np.diff(means, axis=0), axis=1) / np.maximum(np.linalg.norm(means[:-1], axis=1), 1e-12)
+    return np.concatenate([[0.0], (change < STALE_CHANGE).astype(np.float64)])
+
+
 @torch.no_grad()
-def encode_frames(model: sae.TopKSae, frames: list[Frames], device: torch.device) -> tuple[list[Rollout], float]:
-    """Each rollout's per-frame latents, and the SAE's explained variance on these normalised frame means."""
+def encode_frames(model: sae.TopKSae, frames: list[Frames], device: torch.device,
+                  stale_latent: bool = False) -> tuple[list[Rollout], float]:
+    """Each rollout's per-frame latents, and the SAE's explained variance on these normalised frame means.
+
+    With `stale_latent`, one more latent is appended: stale_frames of the raw frame means."""
     tally, rollouts = VarianceTally(), []
     for item in frames:
         inputs = sae.normalise(torch.from_numpy(item.means).to(device))
         reconstruction, latents, _pre = model(inputs)
         tally.add(inputs, reconstruction)
-        rollouts.append(Rollout(item.rollout_id, latents.cpu().numpy(), item.steps, item.failed, item.failure_step))
+        values = latents.cpu().numpy()
+        if stale_latent:
+            values = np.column_stack([values, stale_frames(item.means)]).astype(values.dtype)
+        rollouts.append(Rollout(item.rollout_id, values, item.steps, item.failed, item.failure_step))
     return rollouts, tally.explained
 
 
@@ -185,7 +198,7 @@ def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int) -> list[Meth
             MethodRun("B7_pool", BASELINE, pool, info)]
 
 
-def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device
+def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device, stale_latent: bool = False
              ) -> tuple[list[MethodRun], list[SaeInfo], list[dict[str, str]]]:
     methods, infos, skipped = [], [], []
     for run in runs:
@@ -196,7 +209,7 @@ def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.d
         if config["layer"] != layer:
             skipped.append({"run": str(run), "reason": f"SAE layer {config['layer']} is not --layer {layer}"})
             continue
-        rollouts, explained = encode_frames(model, frames, device)
+        rollouts, explained = encode_frames(model, frames, device, stale_latent)
         info = SaeInfo(str(run), config["layer"], config["k"], config["seed"], explained)
         infos.append(info)
         methods += sae_methods(rollouts, info, layer)
@@ -353,11 +366,12 @@ def corpus_counts(shards: list[Shard], gaps: list[Gap], manifest_records: int) -
 
 
 def evaluate(shard_dirs: list[Path], layer: int, sae_runs: list[Path], gap_ids: list[str], manifests: list[str],
-             device: torch.device, replicates: int = BOOTSTRAP_REPLICATES) -> dict[str, Any]:
+             device: torch.device, replicates: int = BOOTSTRAP_REPLICATES, stale_latent: bool = False
+             ) -> dict[str, Any]:
     shards = load_shards(shard_dirs)
     frames = [read_frames(shard, layer) for shard in shards]
     records = taxonomy_records(manifests, {s.route_id: not s.meta["success"] for s in shards})
-    sae_method_runs, infos, skipped = run_saes(sae_runs, frames, layer, device)
+    sae_method_runs, infos, skipped = run_saes(sae_runs, frames, layer, device, stale_latent)
     runs = sae_method_runs + non_sae_methods(shards, layer, records)
     gaps = gap_keys(shards, gap_ids)
     context = ScoringContext({s.route_id for s in shards if s.meta["success"] is False},
@@ -368,7 +382,7 @@ def evaluate(shard_dirs: list[Path], layer: int, sae_runs: list[Path], gap_ids: 
                for run in runs}
     deltas = bootstrap_deltas([run for run in runs if run.counts], gaps,
                               {s.route_id: str(s.meta["base_id"]) for s in shards}, replicates)
-    return {"layer": layer, "corpus": corpus_counts(shards, gaps, len(records)),
+    return {"layer": layer, "stale_latent": stale_latent, "corpus": corpus_counts(shards, gaps, len(records)),
             "saes": [{**asdict(info), "counts": info.counts} for info in infos], "skipped_saes": skipped,
             "methods": results, "B1_random": random_floors(runs, context.failing, gaps),
             "gaps": {gap.gap_id: gap_verdict(gap, runs, results, deltas[gap.gap_id], len(context.failing))
@@ -400,11 +414,13 @@ def main() -> None:
     parser.add_argument("--sae", type=Path, nargs="*", default=[], help="SAE run directories; none runs M2, B2, B3")
     parser.add_argument("--gap", nargs="+", required=True, help="practice gaps that passed efficacy")
     parser.add_argument("--manifests", nargs="+", required=True, help="manifests (globs allowed) for B2's metadata")
+    parser.add_argument("--stale-latent", action="store_true", help="append H2's stale-frame latent to every SAE's")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     manifests = sorted({path for pattern in args.manifests for path in glob.glob(pattern)})
-    result = evaluate(args.shards, args.layer, args.sae, args.gap, manifests, device)
+    result = evaluate(args.shards, args.layer, args.sae, args.gap, manifests, device,
+                      stale_latent=args.stale_latent)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, default=str) + "\n")
     for skipped in result["skipped_saes"]:
