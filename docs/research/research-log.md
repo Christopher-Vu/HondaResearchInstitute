@@ -199,3 +199,20 @@ label-free activation-reading method, B7 included, return an axis with Jaccard �
 
 Headers from 22:30 onward had been written from estimated times, some running up to an hour ahead of the clock.
 Each is now the time of the commit that recorded it (`git log`). No content changed.
+
+## 2026-11-01 00:42 — layer 14 replicates the direction, not the strength (EXPLORATORY)
+
+18 layer-14 frame-mean SAEs, held-out explained variance 0.900 to 0.937. Data: `docs/research/data/h1b_layer14.json`,
+`h2_layer14.json`. Measured:
+
+| Gap | Layer 10 best activation | Layer 14 best activation | Layer 14 claims |
+|---|---|---|---|
+| P4 | M1 0.574 | M1 0.435 (79 rollouts, 61 slice, 5 neighbourhood) | A no (below 0.5), **B yes**: delta +0.216 [+0.162, +0.320], stable |
+| P7, stale latent | B7 0.906 | B7 0.906 (the same 48 rollouts) | A′ yes |
+| P8 | B7 0.444 | B7 0.395 | none |
+
+- P4 is found at both layers and beats every baseline at both, but layer 10 gives the cleaner group. This matches
+  Step 4's independent choice of layer 10 as the logged site.
+- The stale latent is layer-independent, as expected: a frozen, stopped car repeats its activations at every layer.
+- Spare note: the failed P4-confirm task (array 40716226 task 2) lost neighbourhood route 468345 to a CARLA crash at
+  start-up (exit 139). H3 allows no reruns, so that pair is lost.
