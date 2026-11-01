@@ -252,3 +252,10 @@ axis was the 9th of 10).
 Review of the draft: story, data and motion right; heroes too small and parked in corners. Sent back for a layout
 pass. The draft narration is macOS's Daniel voice (free); an ElevenLabs take was priced at about 1,912 credits
 (about $0.70) and not bought, pending Jerry's OK.
+
+## 2026-11-01 02:07 PST — H3 rollouts, progress check
+
+Measured on Savio: wave 3 at 85 of 100 tasks complete (1 failed), P4-confirm at 36 of 60 (1 failed), P7-confirm
+at 8 of 60. Recent tasks take 6 to 20 minutes each and about 6 run at once across the three arrays, so the rest
+(about 90 tasks) should finish in roughly 4 hours. SU spent since the goal started: 998 (sacct CPU time x 3.67),
+well inside the 6000 budget. Nothing to act on until the arrays finish.
