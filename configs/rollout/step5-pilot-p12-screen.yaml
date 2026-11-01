@@ -35,7 +35,7 @@ pilot:
   base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
   practice_gaps: gaps/practice/practice_v3.yaml
   gap_id: P12_walkers_at_speed
-  generator_seed: 15
+  generator_seed: 16
   stage: screen
   screen_base_routes: 10
   id_offset: 42                  # route ids end in 72 and 82

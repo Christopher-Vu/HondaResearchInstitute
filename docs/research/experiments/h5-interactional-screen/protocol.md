@@ -22,7 +22,7 @@ Three gaps in `gaps/practice/practice_v3.yaml`, each screened on 10 fresh base-r
 | P11 blind-side crossing | Right side of camera black, walker from the right | Left side black, walker from the right | A conjunction: patch and hazard side |
 | P12 walkers at speed | Three walkers 60 m ahead | No walkers | Whether speed explains P5 against Fail2Drive's 87% |
 
-Base routes come from seeds 11, 14 and 15. Seeds 12 and 13 were redrawn before anything ran because they drew base routes 3048 and 3800, which
+Base routes come from seeds 11, 14 and 16. Earlier seeds were redrawn before anything ran because they drew base routes 3048 and 3800, which
 crash CARLA at the same simulated second every time (`docs/WHAT_BROKE.md`). No outcome informed this.
 
 ## Decision rule
