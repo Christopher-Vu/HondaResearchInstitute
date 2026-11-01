@@ -3,8 +3,9 @@
     python -m src.discovery.sae SHARD_DIR [SHARD_DIR ...] --layer 10 --k 64 --seed 0 --output OUT_DIR
 
 Inputs are the `driving_query_tokens` arrays that export_activations.py writes, (T, token layers, 30, hidden), at the
-decoder layer named by `--layer`. Every token is one sample, mean-subtracted and L2-normalised on its own. A tenth of
-the base routes, chosen by the seed, is held out for evaluation.
+decoder layer named by `--layer`. With `--frame-means` they are instead the `driving_queries` frame means at that
+layer, (T, layers, hidden), which every shard has. Every token or frame is one sample, mean-subtracted and
+L2-normalised on its own. A tenth of the base routes, chosen by the seed, is held out for evaluation.
 
 The recipe is PRD 12.2's: TopK with an AuxK loss (k_aux 512, coefficient 1/32), expansion ratio 1, no encoder or
 decoder bias, a pre-bias initialised to the geometric median of 10,000 samples, unit-norm decoder columns with
@@ -44,6 +45,7 @@ class SaeConfig:
     batch: int = 4096
     lr: float = 1e-4
     grad_clip: float = 1.0
+    inputs: str = "tokens"
 
 
 def normalise(tokens: torch.Tensor) -> torch.Tensor:
@@ -127,6 +129,19 @@ def load_tokens(shard_dirs: list[Path], layer: int) -> tuple[torch.Tensor, np.nd
     return torch.cat(tokens), np.asarray(bases)
 
 
+def load_frame_means(shard_dirs: list[Path], layer: int) -> tuple[torch.Tensor, np.ndarray]:
+    """Every logged frame's driving-query mean at `layer`, float16, with the base route of its rollout."""
+    frames, bases = [], []
+    for sidecar in sorted(path for directory in shard_dirs for path in directory.glob("*.json")):
+        with np.load(sidecar.with_suffix(".npz")) as archive:
+            array = archive["driving_queries"][:, layer]
+        frames.append(torch.from_numpy(array))
+        bases += [json.loads(sidecar.read_text())["base_id"]] * len(array)
+    if not frames:
+        raise ValueError(f"no shards in {shard_dirs}")
+    return torch.cat(frames), np.asarray(bases)
+
+
 def held_out_mask(bases: np.ndarray, seed: int) -> np.ndarray:
     unique = sorted(set(bases.tolist()))
     if len(unique) < 2:
@@ -197,11 +212,14 @@ def main() -> None:
     parser.add_argument("--k", type=int, default=64)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--epochs", type=int, default=100)
+    parser.add_argument("--frame-means", action="store_true", help="train on frame means, not tokens")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    config = SaeConfig(layer=args.layer, k=args.k, seed=args.seed, epochs=args.epochs)
+    config = SaeConfig(layer=args.layer, k=args.k, seed=args.seed, epochs=args.epochs,
+                       inputs="frame_means" if args.frame_means else "tokens")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    tokens, bases = load_tokens(args.shards, args.layer)
+    load = load_frame_means if args.frame_means else load_tokens
+    tokens, bases = load(args.shards, args.layer)
     held = held_out_mask(bases, args.seed)
     x = normalise(tokens.float())
     model, curve = train(x[torch.from_numpy(~held)].to(device), config, device)

@@ -68,6 +68,17 @@ def test_tokens_load_at_the_requested_layer_and_held_out_bases_stay_out(tmp_path
     assert set(bases[held]).isdisjoint(bases[~held]) and len(set(bases[held])) == 1
 
 
+def test_frame_means_load_one_row_per_frame_at_the_requested_layer(tmp_path):
+    means = np.zeros((4, 24, HIDDEN), dtype=np.float16)
+    means[:, 14] = 14
+    for index in range(3):
+        np.savez(tmp_path / f"r{index}.npz", driving_queries=means)
+        (tmp_path / f"r{index}.json").write_text(json.dumps({"route_id": f"r{index}", "base_id": f"b{index}"}))
+    frames, bases = sae.load_frame_means([tmp_path], 14)
+    assert frames.shape == (3 * 4, HIDDEN) and float(frames[0, 0]) == 14.0
+    assert list(bases[:4]) == ["b0"] * 4
+
+
 def test_one_base_route_cannot_be_split_and_two_keep_one_for_training():
     with pytest.raises(ValueError):
         sae.held_out_mask(np.array(["b0", "b0"]), seed=0)
