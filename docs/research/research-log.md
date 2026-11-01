@@ -282,3 +282,12 @@ failures (estimated near a quarter to a third, against 15 to 21% in H1). The cat
 B's bar over the catch-all is harder here. The protocol stays as locked.
 
 Measured at 03:25: P4-confirm 51 of 60 tasks, P7-confirm 12 of 60; 1380 SU spent.
+
+## 2026-11-01 04:50 PST — P4-confirm: the planted fault works again on fresh drives
+
+Measured (`results/savio/step5-confirm-p4/efficacy.json`, job 40719025): of 120 routes, 118 have an outcome. Lost and
+not rerun, per the protocol: 1171535 and 468345. Slice 46 of 59 failed (78.0%), neighbourhood 9 of 59 (15.3%): uplift
+62.7 points, Fisher p 5.7e-12, so the PRD 9.1 verdict of record passes. The paired test (C23) has 37 slice-only
+failures against 0 neighbourhood-only, McNemar p 1.5e-11; it reports `passes: false` only because 58 pairs is short
+of its minimum of 60. This verdict says the fault breaks driving; it says nothing yet about whether the tool finds it.
+P7-confirm is at 22 of 60 tasks; 1654 SU spent.

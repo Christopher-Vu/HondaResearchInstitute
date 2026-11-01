@@ -6,7 +6,7 @@ su_budget: 6000
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 1380               # 2026-11-01 03:25 PST
+su_spent: 1654               # 2026-11-01 04:45 PST
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -22,7 +22,7 @@ hypotheses:
          evaluation: train frame-mean SAEs on H3 pool L10 (36 runs), dev_eval without and with --stale-latent}
 
 local:
-  slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/wave3 (200 shards, 1.3 GB), p4c and p7c to add
+  slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/wave3 (200 shards, 1.3 GB), p4c (119 shards), p7c to add
   frame_mean_saes: scratchpad sae-frames (L10 done, L14 training at 2 workers for battery)
 
 video:

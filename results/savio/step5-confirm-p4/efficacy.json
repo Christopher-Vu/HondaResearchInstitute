@@ -1,0 +1,32 @@
+{
+  "gap_id": "P4_camera_occlusion",
+  "routes_listed": 120,
+  "routes_without_outcome": [
+    "1171535",
+    "468345"
+  ],
+  "prd_9_1": {
+    "n_in": 59,
+    "failures_in": 46,
+    "n_neighbourhood": 59,
+    "failures_neighbourhood": 9,
+    "fail_rate_in": 0.7796610169491526,
+    "fail_rate_neighbourhood": 0.15254237288135594,
+    "uplift_pp": 62.71186440677966,
+    "ratio": 5.111111111111111,
+    "fisher_p": 5.742998748761355e-12,
+    "passes": true
+  },
+  "c23_paired": {
+    "pairs": 58,
+    "base_routes": 58,
+    "slice_only_failed": 37,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 0.7758620689655172,
+    "fail_rate_neighbourhood": 0.13793103448275862,
+    "uplift_pp": 63.793103448275865,
+    "ratio": 5.625,
+    "mcnemar_p": 1.4551915228366852e-11,
+    "passes": false
+  }
+}

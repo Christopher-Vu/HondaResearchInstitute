@@ -1,0 +1,41 @@
+{
+  "config": "configs/rollout/step5-confirm-p4.yaml",
+  "jobs": [
+    "40716226"
+  ],
+  "routes_configured": 120,
+  "routes_with_outcome": 118,
+  "official": {
+    "driving score": 77.30990589830508,
+    "success rate": 0.5338983050847458,
+    "eval num": 118,
+    "warning": "-----------------------Warning: there are 118 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 118,
+    "routes_scored": 118,
+    "unscored": [],
+    "mean_driving_score_over_scored": 77.31,
+    "mean_route_completion_over_scored": 99.14,
+    "success_rate_over_scored": 0.534,
+    "mean_real_time_factor": 0.0912
+  },
+  "scenario_skipped": [],
+  "simulated_seconds_total": 5655.6,
+  "wall_seconds_total": 58096.1,
+  "rerun": [
+    {
+      "id": "468345",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "1171535",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    }
+  ],
+  "not_run": []
+}
