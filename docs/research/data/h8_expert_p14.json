@@ -1,0 +1,192 @@
+[
+ {
+  "id": "1175574",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 21.55,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "1171574",
+  "arm": "slice",
+  "status": null
+ },
+ {
+  "id": "1171584",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 39.15,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "1175584",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 22.4,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "205074",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 13.5,
+  "infractions": {},
+  "collision_messages": []
+ },
+ {
+  "id": "205084",
+  "arm": "neighbourhood",
+  "status": "Perfect",
+  "duration_game": 15.7,
+  "infractions": {},
+  "collision_messages": []
+ },
+ {
+  "id": "220174",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 52.35,
+  "infractions": {
+   "collisions_vehicle": 1,
+   "min_speed_infractions": 1
+  },
+  "collision_messages": [
+   "Agent collided against object with type=vehicle.lincoln.mkz_2017 and id=3934 at (x=918.638, y=3681.294, z=370."
+  ]
+ },
+ {
+  "id": "220184",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 51.75,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2639474",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 16.7,
+  "infractions": {
+   "outside_route_lanes": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2639484",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 19.15,
+  "infractions": {
+   "outside_route_lanes": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2695674",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 15.15,
+  "infractions": {},
+  "collision_messages": []
+ },
+ {
+  "id": "2695684",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 15.9,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2696674",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 246.15,
+  "infractions": {
+   "min_speed_infractions": 1,
+   "scenario_timeouts": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2696684",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 15.8,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2750674",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 21.45,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "2750684",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 22.05,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "367674",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 246.75,
+  "infractions": {
+   "min_speed_infractions": 1,
+   "scenario_timeouts": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "367684",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 14.3,
+  "infractions": {
+   "min_speed_infractions": 1
+  },
+  "collision_messages": []
+ },
+ {
+  "id": "493774",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 10.65,
+  "infractions": {},
+  "collision_messages": []
+ },
+ {
+  "id": "493784",
+  "arm": "neighbourhood",
+  "status": "Perfect",
+  "duration_game": 12.65,
+  "infractions": {},
+  "collision_messages": []
+ }
+]

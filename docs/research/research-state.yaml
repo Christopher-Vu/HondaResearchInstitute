@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 2873               # 2026-11-02 03:33 PST, H7 cost 241
+su_spent: 2954               # 2026-11-02 06:39 PST, H8 cost 81
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -29,6 +29,8 @@ hypotheses:
   H7:   {status: done, kind: screen, protocol: docs/research/experiments/h7-traffic-pressure/protocol.md,
          result: "P14 passes its screen (excess 4 of 3, 9 pairs); P15 excess 0, P16 excess 1; all checks hold; solvability not yet checked",
          data: docs/research/data/h7_check.json}
+  H8:   {status: done, kind: solvability, protocol: docs/research/experiments/h8-expert-check/protocol.md,
+         result: "P14 solvable: expert collision-free on 8 of 9 slice routes and 4 of 5 slice-only roads; fails the success label on 4 of 9", data: docs/research/data/h8_expert_p14.json}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -39,5 +41,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - expert driver check on P14 before any full pilot
+  - P14 full pilot on 60 pairs, on routes cut from the leaderboard sets; screen more vehicle gaps for a second interactional gap
   - P8: lag-alignment probe idea noted (needs state labels); not built

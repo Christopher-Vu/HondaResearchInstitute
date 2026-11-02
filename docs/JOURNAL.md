@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — The expert driver can handle P14's fast traffic
+
+The worry about P14 was that nobody could join a stream at 15 m/s, so its crashes would say nothing about the model. PDM-Lite, the rule-based expert that generated SimLingo's training data, drove the same routes. It collided on 1 of 9 routes with fast traffic, where SimLingo collided on 8 of 10 (measured). That passes the rule locked before the run.
+
+It is not a clean sweep. The expert sees true positions, which a camera model cannot. It also fails the project's success label on 4 of 9, partly by waiting until a timeout. Getting the expert running took two fixes: it needs its source folder as the working directory, and only one of its routes can share a node. Details are in `docs/research/research-log.md`.
+
 ## 2026-11-02 — Joining fast traffic passes a screen, the first interactional gap to do so
 
 H7 ran three traffic gaps on the same roads. P14, joining a stream at 15 m/s against 7 m/s, gave 5 failures only with the fast stream and 1 only with the slow one, on 9 pairs; the screen needs an excess of 3 (measured, dev data). P15 (left turns) and P16 (dense oncoming traffic) did not pass. Details: `docs/research/research-log.md`.

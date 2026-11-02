@@ -454,3 +454,16 @@ All of P14's failures are vehicle collisions. Base routes 4937 and 26956 failed 
 **The main threat is fairness.** The car enters at 8 to 10 m/s and does not wait. In 2750674, 2695674 and 367674 its speed jumps at the collision, so a flow vehicle probably hit it from behind. The spacing is unchanged across arms, so 15 m/s leaves about 1.7 s between vehicles on 2050, against 3.5 s at 7 m/s. If a careful driver cannot join either, these failures are not model weakness. The locked protocol requires an expert driver check before any full pilot.
 
 P15's neighbourhood fails 6 of 10, so it had little room to show an effect. P16's failures mix collisions and timeouts. Data: `docs/research/data/h7_check.json`. Spend 2873 of 6000 SU; H7 cost 241 SU, about 4 SU per route, with long stalls on P15 and P16.
+
+## 2026-11-02 06:41 — H8 result: the expert can drive P14's fast traffic, so P14 counts as solvable
+
+Measured on 19 of 20 routes (1171574 lost to a CARLA timeout, not rerun). By the locked rule P14 is solvable. PDM-Lite had no vehicle collision on 8 of 9 scored slice routes (70% needed) and on 4 of the 5 roads where SimLingo failed only with fast traffic (4 needed). The prediction was 50%.
+
+| On P14's roads | SimLingo slice | Expert slice | SimLingo neighbourhood | Expert neighbourhood |
+|---|---:|---:|---:|---:|
+| Vehicle collision | 8 of 10 | 1 of 9 | 3 of 9 | 0 of 10 |
+| Fails the project's success label | 8 of 10 | 4 of 9 | 3 of 9 | 1 of 10 |
+
+**The rule's limit:** it counts waiting as clean, and two expert slice routes (26966, 3676) wait until a scenario timeout, which the project's label calls a failure. So fast traffic is harder for the expert too. The expert also sees true positions, so this is an upper bound on what a careful driver could do. On the 5 roads, the expert finished 26956, 27506 and 4937 with no such failure, waited out 3676 and collided on 2201.
+
+The expert's run also rules out my worry in its simplest form: a stream vehicle does not always hit a car that joins. Data: `docs/research/data/h8_expert_p14.json`. Spend 2954 of 6000 SU; H8 cost about 81 SU, including the failed tests.
