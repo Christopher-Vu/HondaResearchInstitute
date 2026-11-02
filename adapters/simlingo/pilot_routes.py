@@ -18,6 +18,8 @@ the unit of analysis (CONFLICTS.md C23). An arm may set:
     base_scenario_parameters
               values replacing parameters of the base route's own scenario: a scalar becomes value=..., a mapping
               becomes the element's attributes (e.g. `frequency: {from: 30, to: 45}`); recorded in the manifest
+    added_scenario_parameters
+              the same, for parameters the base route's scenario does not write down (a patched-in knob)
 
 With `pilot.stage`, the generator draws `screen_base_routes` + `plant.base_routes` bases in one order: the first
 `screen_base_routes` are the screen, the rest the full pilot, so the full pilot never reuses a screened base.
@@ -109,10 +111,12 @@ def injected_scenario(route: ET.Element, spec: dict[str, Any], base_index: int) 
     return scenario
 
 
-def set_base_parameters(route: ET.Element, parameters: dict[str, Any]) -> None:
+def set_base_parameters(route: ET.Element, parameters: dict[str, Any], may_add: bool = False) -> None:
     for scenario in route.iter("scenario"):
         for name, value in parameters.items():
             element = scenario.find(name)
+            if element is None and may_add:
+                element = ET.SubElement(scenario, name)
             if element is None:
                 raise ValueError(f"Route {route.get('id')}'s {scenario.get('type')} has no parameter {name}")
             element.attrib.clear()
@@ -123,6 +127,7 @@ def set_base_parameters(route: ET.Element, parameters: dict[str, Any]) -> None:
 def build_arm(planned: PlannedRoute, arm: dict[str, Any], base_index: int) -> ET.Element:
     route = build_route(planned)
     set_base_parameters(route, arm.get("base_scenario_parameters", {}))
+    set_base_parameters(route, arm.get("added_scenario_parameters", {}), may_add=True)
     if "scenario" in arm:
         scenarios = route.find("scenarios")
         assert scenarios is not None
@@ -135,8 +140,9 @@ def arm_entry(planned: PlannedRoute, route: ET.Element, arm: dict[str, Any], gap
     entry = manifest_entry(planned, route, [])
     if "sensor" in arm:
         entry["sensor"] = arm["sensor"]
-    if "base_scenario_parameters" in arm:
-        entry["base_scenario_parameters"] = arm["base_scenario_parameters"]
+    for key in ("base_scenario_parameters", "added_scenario_parameters"):
+        if key in arm:
+            entry[key] = arm[key]
     if "scenario" in arm:
         entry["injected"] = arm["scenario"]["type"]
         entry["injected_parameters"] = resolved_parameters(arm["scenario"], base_index)

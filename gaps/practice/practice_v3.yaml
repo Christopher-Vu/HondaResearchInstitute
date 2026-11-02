@@ -127,6 +127,64 @@ gaps:
     manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
     screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
 
+  - gap_id: P17_late_static_cut_in
+    tier: T2_interactional
+    summary: >-
+      A sub-range of a known family: a parked vehicle cuts in when the car is 1.6 s away, or 10 m at low speed. Bench2Drive's StaticCutIn starts at 2.7 s or 15 m, which is the neighbourhood. SimLingo's measured stops from 10 to 12 m/s take 7 to 8 m, so at 11 m/s it has about 0.7 s to respond (arithmetic; the expert check comes after any pass). Needs adapters/simlingo/patches/cut-in-timing.patch.
+    predicate:
+      - {field: added_scenario_parameters.reaction_time, op: "==", value: 1.6}
+    plant:
+      base_routes: 0
+      include_scenarios: [StaticCutIn]
+      weather: {preset: ClearNoon}
+      added_scenario_parameters: {reaction_time: 1.6, min_trigger_dist: 10}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      added_scenario_parameters: {reaction_time: 2.7, min_trigger_dist: 15}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P18_close_emergency_vehicle
+    tier: T1_enumerable
+    summary: >-
+      An enumerable family, not a conjunction: an emergency vehicle starts 25 m behind and the car must make way. In the neighbourhood it starts 140 m behind, the scenario's own default, on the same road. Unplanted, this family failed 12 of 13 at 26 to 30 m. This fills PRD 9.1's enumerable slot and does not count toward the two interactional gaps.
+    predicate:
+      - {field: base_scenario_parameters.distance, op: "==", value: 25}
+    plant:
+      base_routes: 0
+      include_scenarios: [YieldToEmergencyVehicle]
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {distance: 25}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {distance: 140}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P19_wide_invading_turn
+    tier: T2_interactional
+    summary: >-
+      A region outside the collection range: oncoming traffic on a bend comes 1.2 m into the car's half of the road, so the car must move over while passing it.
+      Bench2Drive's routes and the leaderboard's use 0.15 to 0.6 m. The neighbourhood is the same road at 0.2 m. Unplanted, InvadingTurn failed 1 of 12. PRD 9.1 names this family as a candidate.
+    predicate:
+      - {field: base_scenario_parameters.offset, op: "==", value: 1.2}
+    plant:
+      base_routes: 0
+      include_scenarios: [InvadingTurn]
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {offset: 1.2}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {offset: 0.2}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
   - gap_id: P11_blind_side_crossing
     tier: T2_interactional
     summary: >-

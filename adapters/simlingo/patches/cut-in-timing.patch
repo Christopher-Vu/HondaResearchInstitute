@@ -1,0 +1,32 @@
+diff --git a/Bench2Drive/scenario_runner/srunner/scenarios/cut_in_with_static_vehicle.py b/Bench2Drive/scenario_runner/srunner/scenarios/cut_in_with_static_vehicle.py
+index 01d345b..c1972d3 100644
+--- a/Bench2Drive/scenario_runner/srunner/scenarios/cut_in_with_static_vehicle.py
++++ b/Bench2Drive/scenario_runner/srunner/scenarios/cut_in_with_static_vehicle.py
+@@ -50,8 +50,9 @@ class StaticCutIn(BasicScenario):
+         self._trigger_location = config.trigger_points[0].location
+         self._reference_waypoint = self._wmap.get_waypoint(self._trigger_location)
+ 
+-        self._reaction_time = 2.7  # Time the agent has to react to avoid the collision [s]
+-        self._min_trigger_dist = 15.0  # Min distance to the collision location that triggers the adversary [m]
++        # Timing as parameters, stock defaults kept: a cut-in that starts later (practice gap P17).
++        self._reaction_time = get_value_parameter(config, 'reaction_time', float, 2.7)  # Time the agent has to react to avoid the collision [s]
++        self._min_trigger_dist = get_value_parameter(config, 'min_trigger_dist', float, 15.0)  # Min distance to the collision location that triggers the adversary [m]
+ 
+         self._back_vehicles = 2
+         self._front_vehicles = 3
+diff --git a/scenario_runner_autopilot/srunner/scenarios/cut_in_with_static_vehicle.py b/scenario_runner_autopilot/srunner/scenarios/cut_in_with_static_vehicle.py
+index 01d345b..c1972d3 100644
+--- a/scenario_runner_autopilot/srunner/scenarios/cut_in_with_static_vehicle.py
++++ b/scenario_runner_autopilot/srunner/scenarios/cut_in_with_static_vehicle.py
+@@ -50,8 +50,9 @@ class StaticCutIn(BasicScenario):
+         self._trigger_location = config.trigger_points[0].location
+         self._reference_waypoint = self._wmap.get_waypoint(self._trigger_location)
+ 
+-        self._reaction_time = 2.7  # Time the agent has to react to avoid the collision [s]
+-        self._min_trigger_dist = 15.0  # Min distance to the collision location that triggers the adversary [m]
++        # Timing as parameters, stock defaults kept: a cut-in that starts later (practice gap P17).
++        self._reaction_time = get_value_parameter(config, 'reaction_time', float, 2.7)  # Time the agent has to react to avoid the collision [s]
++        self._min_trigger_dist = get_value_parameter(config, 'min_trigger_dist', float, 15.0)  # Min distance to the collision location that triggers the adversary [m]
+ 
+         self._back_vehicles = 2
+         self._front_vehicles = 3

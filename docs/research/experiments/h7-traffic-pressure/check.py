@@ -1,7 +1,7 @@
 """H7's C24 check and per-route reading, from each screen's shards and route file.
 
 Run on Savio from the repo root with the policy venv:
-    .runtime/policy-venv/bin/python docs/research/experiments/h7-traffic-pressure/check.py OUT.json
+    .runtime/policy-venv/bin/python docs/research/experiments/h7-traffic-pressure/check.py OUT.json [GAP=CONFIG_NAME ...]
 """
 
 import json
@@ -66,7 +66,8 @@ def gap_rows(name: str) -> list[dict]:
 
 
 def main() -> None:
-    table = {gap: gap_rows(name) for gap, name in NAMES.items()}
+    names = dict(pair.split("=") for pair in sys.argv[2:]) or NAMES
+    table = {gap: gap_rows(name) for gap, name in names.items()}
     report = {gap: {"check": check_summary(rows), "routes": rows} for gap, rows in table.items()}
     Path(sys.argv[1]).write_text(json.dumps(report, indent=1) + "\n")
 

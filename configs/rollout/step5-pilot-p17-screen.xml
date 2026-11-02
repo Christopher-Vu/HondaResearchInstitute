@@ -1,0 +1,624 @@
+<routes>
+   <route id="270978" road_id="837" town="Town12">
+      <waypoints>
+         <position x="-1564.0" y="6464.3" z="373.1" />
+         <position x="-1566.0" y="6464.5" z="373.1" />
+         <position x="-1568.0" y="6464.7" z="373.1" />
+         <position x="-1570.0" y="6465.0" z="373.1" />
+         <position x="-1572.0" y="6465.2" z="373.0" />
+         <position x="-1574.0" y="6465.4" z="373.0" />
+         <position x="-1576.0" y="6465.6" z="373.0" />
+         <position x="-1578.0" y="6465.8" z="373.0" />
+         <position x="-1580.0" y="6466.0" z="373.0" />
+         <position x="-1582.0" y="6466.3" z="373.0" />
+         <position x="-1584.0" y="6466.5" z="372.9" />
+         <position x="-1586.0" y="6466.7" z="372.9" />
+         <position x="-1588.0" y="6467.0" z="372.9" />
+         <position x="-1590.0" y="6467.2" z="372.9" />
+         <position x="-1592.0" y="6467.4" z="372.9" />
+         <position x="-1594.0" y="6467.7" z="372.9" />
+         <position x="-1596.0" y="6467.9" z="372.8" />
+         <position x="-1598.0" y="6468.2" z="372.8" />
+         <position x="-1600.0" y="6468.5" z="372.8" />
+         <position x="-1601.9" y="6468.7" z="372.8" />
+         <position x="-1603.9" y="6469.0" z="372.8" />
+         <position x="-1605.9" y="6469.2" z="372.8" />
+         <position x="-1607.9" y="6469.5" z="372.7" />
+         <position x="-1609.9" y="6469.8" z="372.7" />
+         <position x="-1611.9" y="6470.1" z="372.7" />
+         <position x="-1613.9" y="6470.3" z="372.7" />
+         <position x="-1615.9" y="6470.6" z="372.7" />
+         <position x="-1617.9" y="6470.9" z="372.7" />
+         <position x="-1619.9" y="6471.2" z="372.6" />
+         <position x="-1621.8" y="6471.5" z="372.6" />
+         <position x="-1623.8" y="6471.8" z="372.6" />
+         <position x="-1625.8" y="6472.1" z="372.6" />
+         <position x="-1627.8" y="6472.4" z="372.6" />
+         <position x="-1629.8" y="6472.7" z="372.6" />
+         <position x="-1631.8" y="6473.0" z="372.5" />
+         <position x="-1633.8" y="6473.3" z="372.5" />
+         <position x="-1635.7" y="6473.6" z="372.5" />
+         <position x="-1637.7" y="6474.0" z="372.5" />
+         <position x="-1639.7" y="6474.3" z="372.5" />
+         <position x="-1641.7" y="6474.6" z="372.4" />
+         <position x="-1643.7" y="6474.9" z="372.4" />
+         <position x="-1645.6" y="6475.3" z="372.4" />
+         <position x="-1647.6" y="6475.6" z="372.4" />
+         <position x="-1649.6" y="6475.9" z="372.4" />
+         <position x="-1651.6" y="6476.3" z="372.4" />
+         <position x="-1653.6" y="6476.6" z="372.3" />
+         <position x="-1655.5" y="6477.0" z="372.3" />
+         <position x="-1657.5" y="6477.3" z="372.3" />
+         <position x="-1659.5" y="6477.7" z="372.3" />
+         <position x="-1661.5" y="6478.0" z="372.3" />
+         <position x="-1663.4" y="6478.4" z="372.3" />
+         <position x="-1665.4" y="6478.8" z="372.2" />
+         <position x="-1667.4" y="6479.1" z="372.2" />
+         <position x="-1669.4" y="6479.5" z="372.2" />
+         <position x="-1671.3" y="6479.9" z="372.2" />
+         <position x="-1673.3" y="6480.3" z="372.2" />
+         <position x="-1675.3" y="6480.6" z="372.2" />
+         <position x="-1677.3" y="6481.0" z="372.1" />
+         <position x="-1679.2" y="6481.4" z="372.1" />
+         <position x="-1681.2" y="6481.8" z="372.1" />
+         <position x="-1683.2" y="6482.2" z="372.1" />
+         <position x="-1685.1" y="6482.6" z="372.1" />
+         <position x="-1687.1" y="6483.0" z="372.1" />
+         <position x="-1689.1" y="6483.4" z="372.0" />
+         <position x="-1691.0" y="6483.8" z="372.0" />
+         <position x="-1693.0" y="6484.2" z="372.0" />
+         <position x="-1695.0" y="6484.6" z="372.0" />
+         <position x="-1696.9" y="6485.0" z="372.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <distance value="42" />
+            <direction value="right" />
+            <trigger_point x="-1575.0" y="6465.5" yaw="-186.2" z="373.0" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+   </route>
+   <route id="270988" road_id="837" town="Town12">
+      <waypoints>
+         <position x="-1564.0" y="6464.3" z="373.1" />
+         <position x="-1566.0" y="6464.5" z="373.1" />
+         <position x="-1568.0" y="6464.7" z="373.1" />
+         <position x="-1570.0" y="6465.0" z="373.1" />
+         <position x="-1572.0" y="6465.2" z="373.0" />
+         <position x="-1574.0" y="6465.4" z="373.0" />
+         <position x="-1576.0" y="6465.6" z="373.0" />
+         <position x="-1578.0" y="6465.8" z="373.0" />
+         <position x="-1580.0" y="6466.0" z="373.0" />
+         <position x="-1582.0" y="6466.3" z="373.0" />
+         <position x="-1584.0" y="6466.5" z="372.9" />
+         <position x="-1586.0" y="6466.7" z="372.9" />
+         <position x="-1588.0" y="6467.0" z="372.9" />
+         <position x="-1590.0" y="6467.2" z="372.9" />
+         <position x="-1592.0" y="6467.4" z="372.9" />
+         <position x="-1594.0" y="6467.7" z="372.9" />
+         <position x="-1596.0" y="6467.9" z="372.8" />
+         <position x="-1598.0" y="6468.2" z="372.8" />
+         <position x="-1600.0" y="6468.5" z="372.8" />
+         <position x="-1601.9" y="6468.7" z="372.8" />
+         <position x="-1603.9" y="6469.0" z="372.8" />
+         <position x="-1605.9" y="6469.2" z="372.8" />
+         <position x="-1607.9" y="6469.5" z="372.7" />
+         <position x="-1609.9" y="6469.8" z="372.7" />
+         <position x="-1611.9" y="6470.1" z="372.7" />
+         <position x="-1613.9" y="6470.3" z="372.7" />
+         <position x="-1615.9" y="6470.6" z="372.7" />
+         <position x="-1617.9" y="6470.9" z="372.7" />
+         <position x="-1619.9" y="6471.2" z="372.6" />
+         <position x="-1621.8" y="6471.5" z="372.6" />
+         <position x="-1623.8" y="6471.8" z="372.6" />
+         <position x="-1625.8" y="6472.1" z="372.6" />
+         <position x="-1627.8" y="6472.4" z="372.6" />
+         <position x="-1629.8" y="6472.7" z="372.6" />
+         <position x="-1631.8" y="6473.0" z="372.5" />
+         <position x="-1633.8" y="6473.3" z="372.5" />
+         <position x="-1635.7" y="6473.6" z="372.5" />
+         <position x="-1637.7" y="6474.0" z="372.5" />
+         <position x="-1639.7" y="6474.3" z="372.5" />
+         <position x="-1641.7" y="6474.6" z="372.4" />
+         <position x="-1643.7" y="6474.9" z="372.4" />
+         <position x="-1645.6" y="6475.3" z="372.4" />
+         <position x="-1647.6" y="6475.6" z="372.4" />
+         <position x="-1649.6" y="6475.9" z="372.4" />
+         <position x="-1651.6" y="6476.3" z="372.4" />
+         <position x="-1653.6" y="6476.6" z="372.3" />
+         <position x="-1655.5" y="6477.0" z="372.3" />
+         <position x="-1657.5" y="6477.3" z="372.3" />
+         <position x="-1659.5" y="6477.7" z="372.3" />
+         <position x="-1661.5" y="6478.0" z="372.3" />
+         <position x="-1663.4" y="6478.4" z="372.3" />
+         <position x="-1665.4" y="6478.8" z="372.2" />
+         <position x="-1667.4" y="6479.1" z="372.2" />
+         <position x="-1669.4" y="6479.5" z="372.2" />
+         <position x="-1671.3" y="6479.9" z="372.2" />
+         <position x="-1673.3" y="6480.3" z="372.2" />
+         <position x="-1675.3" y="6480.6" z="372.2" />
+         <position x="-1677.3" y="6481.0" z="372.1" />
+         <position x="-1679.2" y="6481.4" z="372.1" />
+         <position x="-1681.2" y="6481.8" z="372.1" />
+         <position x="-1683.2" y="6482.2" z="372.1" />
+         <position x="-1685.1" y="6482.6" z="372.1" />
+         <position x="-1687.1" y="6483.0" z="372.1" />
+         <position x="-1689.1" y="6483.4" z="372.0" />
+         <position x="-1691.0" y="6483.8" z="372.0" />
+         <position x="-1693.0" y="6484.2" z="372.0" />
+         <position x="-1695.0" y="6484.6" z="372.0" />
+         <position x="-1696.9" y="6485.0" z="372.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <distance value="42" />
+            <direction value="right" />
+            <trigger_point x="-1575.0" y="6465.5" yaw="-186.2" z="373.0" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+   </route>
+   <route id="2535878" road_id="20" town="Town06">
+      <waypoints>
+         <position x="-263.9" y="138.5" z="0.0" />
+         <position x="-265.9" y="138.5" z="0.0" />
+         <position x="-267.9" y="138.5" z="0.0" />
+         <position x="-269.9" y="138.5" z="0.0" />
+         <position x="-271.9" y="138.5" z="0.0" />
+         <position x="-273.9" y="138.5" z="0.0" />
+         <position x="-276.0" y="138.5" z="0.0" />
+         <position x="-278.1" y="138.4" z="0.0" />
+         <position x="-280.1" y="138.2" z="0.0" />
+         <position x="-282.2" y="137.9" z="0.0" />
+         <position x="-284.2" y="137.5" z="0.0" />
+         <position x="-286.3" y="137.0" z="0.0" />
+         <position x="-288.3" y="136.4" z="0.0" />
+         <position x="-290.2" y="135.7" z="0.0" />
+         <position x="-292.2" y="134.8" z="0.0" />
+         <position x="-294.0" y="133.9" z="0.0" />
+         <position x="-295.9" y="133.0" z="0.0" />
+         <position x="-297.7" y="131.9" z="0.0" />
+         <position x="-299.4" y="130.7" z="0.0" />
+         <position x="-301.1" y="129.4" z="0.0" />
+         <position x="-302.7" y="128.1" z="0.0" />
+         <position x="-304.2" y="126.7" z="0.0" />
+         <position x="-305.6" y="125.2" z="0.0" />
+         <position x="-307.0" y="123.6" z="0.0" />
+         <position x="-308.3" y="122.0" z="0.0" />
+         <position x="-309.5" y="120.3" z="0.0" />
+         <position x="-310.7" y="118.5" z="0.0" />
+         <position x="-311.7" y="116.7" z="0.0" />
+         <position x="-312.7" y="114.9" z="0.0" />
+         <position x="-313.5" y="113.0" z="0.0" />
+         <position x="-314.3" y="111.0" z="0.0" />
+         <position x="-315.0" y="109.0" z="0.0" />
+         <position x="-315.5" y="107.0" z="0.0" />
+         <position x="-316.0" y="105.0" z="0.0" />
+         <position x="-316.3" y="102.9" z="0.0" />
+         <position x="-316.6" y="100.9" z="0.0" />
+         <position x="-316.7" y="98.8" z="0.0" />
+         <position x="-316.8" y="96.7" z="0.0" />
+         <position x="-316.7" y="94.6" z="0.0" />
+         <position x="-316.6" y="92.6" z="0.0" />
+         <position x="-316.3" y="90.5" z="0.0" />
+         <position x="-316.0" y="88.4" z="0.0" />
+         <position x="-315.6" y="86.4" z="0.0" />
+         <position x="-315.0" y="84.4" z="0.0" />
+         <position x="-314.4" y="82.4" z="0.0" />
+         <position x="-313.7" y="80.4" z="0.0" />
+         <position x="-312.9" y="78.5" z="0.0" />
+         <position x="-312.0" y="76.7" z="0.0" />
+         <position x="-311.0" y="74.8" z="0.0" />
+         <position x="-309.9" y="73.0" z="0.0" />
+         <position x="-308.8" y="71.3" z="0.0" />
+         <position x="-307.6" y="69.6" z="0.0" />
+         <position x="-306.2" y="68.0" z="0.0" />
+         <position x="-304.9" y="66.4" z="0.0" />
+         <position x="-303.4" y="64.9" z="0.0" />
+         <position x="-301.9" y="63.5" z="0.0" />
+         <position x="-300.3" y="62.2" z="0.0" />
+         <position x="-298.7" y="60.9" z="0.0" />
+         <position x="-297.0" y="59.7" z="0.0" />
+         <position x="-295.2" y="58.6" z="0.0" />
+         <position x="-293.4" y="57.5" z="0.0" />
+         <position x="-291.6" y="56.6" z="0.0" />
+         <position x="-289.7" y="55.7" z="0.0" />
+         <position x="-287.7" y="55.0" z="0.0" />
+         <position x="-285.8" y="54.3" z="0.0" />
+         <position x="-283.8" y="53.7" z="0.0" />
+         <position x="-281.7" y="53.2" z="0.0" />
+         <position x="-279.7" y="52.8" z="0.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <distance value="40" />
+            <direction value="right" />
+            <trigger_point x="-277.0" y="138.5" yaw="182.6" z="0.0" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+   </route>
+   <route id="2535888" road_id="20" town="Town06">
+      <waypoints>
+         <position x="-263.9" y="138.5" z="0.0" />
+         <position x="-265.9" y="138.5" z="0.0" />
+         <position x="-267.9" y="138.5" z="0.0" />
+         <position x="-269.9" y="138.5" z="0.0" />
+         <position x="-271.9" y="138.5" z="0.0" />
+         <position x="-273.9" y="138.5" z="0.0" />
+         <position x="-276.0" y="138.5" z="0.0" />
+         <position x="-278.1" y="138.4" z="0.0" />
+         <position x="-280.1" y="138.2" z="0.0" />
+         <position x="-282.2" y="137.9" z="0.0" />
+         <position x="-284.2" y="137.5" z="0.0" />
+         <position x="-286.3" y="137.0" z="0.0" />
+         <position x="-288.3" y="136.4" z="0.0" />
+         <position x="-290.2" y="135.7" z="0.0" />
+         <position x="-292.2" y="134.8" z="0.0" />
+         <position x="-294.0" y="133.9" z="0.0" />
+         <position x="-295.9" y="133.0" z="0.0" />
+         <position x="-297.7" y="131.9" z="0.0" />
+         <position x="-299.4" y="130.7" z="0.0" />
+         <position x="-301.1" y="129.4" z="0.0" />
+         <position x="-302.7" y="128.1" z="0.0" />
+         <position x="-304.2" y="126.7" z="0.0" />
+         <position x="-305.6" y="125.2" z="0.0" />
+         <position x="-307.0" y="123.6" z="0.0" />
+         <position x="-308.3" y="122.0" z="0.0" />
+         <position x="-309.5" y="120.3" z="0.0" />
+         <position x="-310.7" y="118.5" z="0.0" />
+         <position x="-311.7" y="116.7" z="0.0" />
+         <position x="-312.7" y="114.9" z="0.0" />
+         <position x="-313.5" y="113.0" z="0.0" />
+         <position x="-314.3" y="111.0" z="0.0" />
+         <position x="-315.0" y="109.0" z="0.0" />
+         <position x="-315.5" y="107.0" z="0.0" />
+         <position x="-316.0" y="105.0" z="0.0" />
+         <position x="-316.3" y="102.9" z="0.0" />
+         <position x="-316.6" y="100.9" z="0.0" />
+         <position x="-316.7" y="98.8" z="0.0" />
+         <position x="-316.8" y="96.7" z="0.0" />
+         <position x="-316.7" y="94.6" z="0.0" />
+         <position x="-316.6" y="92.6" z="0.0" />
+         <position x="-316.3" y="90.5" z="0.0" />
+         <position x="-316.0" y="88.4" z="0.0" />
+         <position x="-315.6" y="86.4" z="0.0" />
+         <position x="-315.0" y="84.4" z="0.0" />
+         <position x="-314.4" y="82.4" z="0.0" />
+         <position x="-313.7" y="80.4" z="0.0" />
+         <position x="-312.9" y="78.5" z="0.0" />
+         <position x="-312.0" y="76.7" z="0.0" />
+         <position x="-311.0" y="74.8" z="0.0" />
+         <position x="-309.9" y="73.0" z="0.0" />
+         <position x="-308.8" y="71.3" z="0.0" />
+         <position x="-307.6" y="69.6" z="0.0" />
+         <position x="-306.2" y="68.0" z="0.0" />
+         <position x="-304.9" y="66.4" z="0.0" />
+         <position x="-303.4" y="64.9" z="0.0" />
+         <position x="-301.9" y="63.5" z="0.0" />
+         <position x="-300.3" y="62.2" z="0.0" />
+         <position x="-298.7" y="60.9" z="0.0" />
+         <position x="-297.0" y="59.7" z="0.0" />
+         <position x="-295.2" y="58.6" z="0.0" />
+         <position x="-293.4" y="57.5" z="0.0" />
+         <position x="-291.6" y="56.6" z="0.0" />
+         <position x="-289.7" y="55.7" z="0.0" />
+         <position x="-287.7" y="55.0" z="0.0" />
+         <position x="-285.8" y="54.3" z="0.0" />
+         <position x="-283.8" y="53.7" z="0.0" />
+         <position x="-281.7" y="53.2" z="0.0" />
+         <position x="-279.7" y="52.8" z="0.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <distance value="40" />
+            <direction value="right" />
+            <trigger_point x="-277.0" y="138.5" yaw="182.6" z="0.0" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+   </route>
+   <route id="6001278" town="Town13">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-2426.2" y="-2737.1" z="154.5" />
+         <position x="-2005.3" y="-2531.2" z="154.2" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <trigger_point x="-2367.6" y="-2711.8" z="154.3" yaw="21.1" />
+            <distance value="100" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6001288" town="Town13">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-2426.2" y="-2737.1" z="154.5" />
+         <position x="-2005.3" y="-2531.2" z="154.2" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <trigger_point x="-2367.6" y="-2711.8" z="154.3" yaw="21.1" />
+            <distance value="100" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002578" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="2640.9" y="6187.9" z="370.9" />
+         <position x="2210.9" y="6115.4" z="370.2" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_4" type="StaticCutIn">
+            <trigger_point x="2516.5" y="6168.4" z="369.3" yaw="188.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002588" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="2640.9" y="6187.9" z="370.9" />
+         <position x="2210.9" y="6115.4" z="370.2" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_4" type="StaticCutIn">
+            <trigger_point x="2516.5" y="6168.4" z="369.3" yaw="188.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002678" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="1698.3" y="6061.5" z="367.4" />
+         <position x="1537.0" y="6066.1" z="367.5" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_5" type="StaticCutIn">
+            <trigger_point x="1637.6" y="6065.4" z="367.8" yaw="179.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002688" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="1698.3" y="6061.5" z="367.4" />
+         <position x="1537.0" y="6066.1" z="367.5" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_5" type="StaticCutIn">
+            <trigger_point x="1637.6" y="6065.4" z="367.8" yaw="179.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002778" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="1537.0" y="6066.1" z="367.5" />
+         <position x="1076.1" y="6068.8" z="364.8" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_6" type="StaticCutIn">
+            <trigger_point x="1335.3" y="6067.3" z="366.5" yaw="179.7" />
+            <distance value="120" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6002788" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="1537.0" y="6066.1" z="367.5" />
+         <position x="1076.1" y="6068.8" z="364.8" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_6" type="StaticCutIn">
+            <trigger_point x="1335.3" y="6067.3" z="366.5" yaw="179.7" />
+            <distance value="120" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6003478" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="2628.0" y="3730.1" z="356.0" />
+         <position x="2470.3" y="3547.2" z="354.9" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <trigger_point x="2449.2" y="3672.0" z="355.0" yaw="279.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6003488" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="2628.0" y="3730.1" z="356.0" />
+         <position x="2470.3" y="3547.2" z="354.9" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_1" type="StaticCutIn">
+            <trigger_point x="2449.2" y="3672.0" z="355.0" yaw="279.6" />
+            <distance value="100" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6004478" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-1193.3" y="5582.8" z="375.6" />
+         <position x="-824.0" y="5838.0" z="372.7" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_2" type="StaticCutIn">
+            <trigger_point x="-824.3" y="5675.0" z="375.0" yaw="89.9" />
+            <distance value="90" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6004488" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-1193.3" y="5582.8" z="375.6" />
+         <position x="-824.0" y="5838.0" z="372.7" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_2" type="StaticCutIn">
+            <trigger_point x="-824.3" y="5675.0" z="375.0" yaw="89.9" />
+            <distance value="90" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6004778" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-500.0" y="3867.4" z="367.8" />
+         <position x="-973.1" y="3920.0" z="361.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_2" type="StaticCutIn">
+            <trigger_point x="-657.5" y="3919.8" z="370.8" yaw="179.7" />
+            <distance value="90" />
+            <direction value="right" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6004788" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="-500.0" y="3867.4" z="367.8" />
+         <position x="-973.1" y="3920.0" z="361.0" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_2" type="StaticCutIn">
+            <trigger_point x="-657.5" y="3919.8" z="370.8" yaw="179.7" />
+            <distance value="90" />
+            <direction value="right" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6005278" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="3741.9" y="6075.2" z="367.4" />
+         <position x="3335.1" y="6301.5" z="369.1" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_5" type="StaticCutIn">
+            <trigger_point x="3586.6" y="6246.3" z="369.0" yaw="148.9" />
+            <distance value="100" />
+            <direction value="left" />
+            <reaction_time value="1.6" />
+            <min_trigger_dist value="10" />
+         </scenario>
+      </scenarios>
+   </route>
+   <route id="6005288" town="Town12">
+      <weathers>
+         <weather route_percentage="0" cloudiness="5.0" dust_storm="0.0" fog_density="2.0" fog_distance="0.75" fog_falloff="0.1" mie_scattering_scale="0.03" precipitation="0.0" precipitation_deposits="0.0" rayleigh_scattering_scale="0.0331" scattering_intensity="1.0" sun_altitude_angle="45.0" sun_azimuth_angle="-1.0" wetness="0.0" wind_intensity="10.0" />
+      </weathers>
+      <waypoints>
+         <position x="3741.9" y="6075.2" z="367.4" />
+         <position x="3335.1" y="6301.5" z="369.1" />
+      </waypoints>
+      <scenarios>
+         <scenario name="StaticCutIn_5" type="StaticCutIn">
+            <trigger_point x="3586.6" y="6246.3" z="369.0" yaw="148.9" />
+            <distance value="100" />
+            <direction value="left" />
+            <reaction_time value="2.7" />
+            <min_trigger_dist value="15" />
+         </scenario>
+      </scenarios>
+   </route>
+</routes>

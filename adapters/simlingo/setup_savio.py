@@ -27,7 +27,7 @@ DOWNLOADS = ROOT / ".runtime/downloads"
 VENV = ROOT / ".runtime/policy-venv"
 MAPS_DIRECTORY = CARLA_ROOT / "CarlaUE4/Content/Carla/Maps"
 HUGGING_FACE = "https://huggingface.co"
-SOURCE_PATCH_KEYS = ("patch", "benchmark_patch", "scenario_patch", "timing_patch", "crossing_patch")
+SOURCE_PATCH_KEYS = ("patch", "benchmark_patch", "scenario_patch", "timing_patch", "crossing_patch", "cut_in_patch")
 BASE_MODEL_SKIPPED = ("examples/", "README.md", ".gitattributes")
 
 

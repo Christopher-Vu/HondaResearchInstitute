@@ -165,6 +165,8 @@ def test_base_scenario_parameters_replace_a_value_and_an_interval():
     assert route.find(".//frequency").attrib == {"from": "30", "to": "45"}
     with pytest.raises(ValueError, match="no parameter"):
         pilot_routes.set_base_parameters(route, {"missing": 1})
+    pilot_routes.set_base_parameters(route, {"missing": 1}, may_add=True)
+    assert route.find(".//missing").attrib == {"value": "1"}
 
 
 def test_a_cut_keeps_one_scenario_and_the_road_around_its_trigger():

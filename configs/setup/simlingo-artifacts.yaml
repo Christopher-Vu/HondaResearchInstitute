@@ -9,6 +9,7 @@ source:
   crossing_patch: adapters/simlingo/patches/left-crossing-walk.patch
   # adversary_speed and reaction_time parameters on DynamicObjectCrossing, stock defaults kept, for P10.
   timing_patch: adapters/simlingo/patches/crossing-timing.patch
+  cut_in_patch: adapters/simlingo/patches/cut-in-timing.patch
 checkpoint:
   repository: RenzKa/simlingo
   revision: 26c7c89e797d4e25bbf640013317af8da26a5454
