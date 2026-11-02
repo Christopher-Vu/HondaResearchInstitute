@@ -3,6 +3,9 @@ goal: >-
   Show that the discovery SDK, run on CARLA rollouts of SimLingo, recovers failures we planted on purpose
   (P4, P7, P8), and how. End with a step-by-step explainer video.
 su_budget: 6000
+neurips_bar: >-
+  Agent's working definition, not from the PRD: two or more interactional gaps pass PRD 9.1; decoys pass; every method and baseline scored on a blind
+  pool with the preregistered go/no-go; causal checks; a full paper draft with verified citations. The blind pool needs Chris (key, sign-off) and more SU than the budget.
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
@@ -23,6 +26,8 @@ hypotheses:
          data: docs/research/data/h5_manipulation.json, note: "C24 check counts early braking as no hazard; not overridden"}
   H6:   {status: running, kind: screen, protocol: docs/research/experiments/h6-later-crossing/protocol.md,
          note: "P13, P10 with the walker at 1.2 s; 1.0 s ruled out by measured stops"}
+  H7:   {status: locked, kind: screen, protocol: docs/research/experiments/h7-traffic-pressure/protocol.md,
+         note: "P14 fast flow join, P15 fast flow left turn, P16 dense oncoming; starts after H6 and Savio's update to main's speed-up"}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)

@@ -417,3 +417,11 @@ Jerry chose to screen a harder P10 after H5. Measured first, on H5's crash-free 
 is 8 to 10 m/s² on average. That rules out the 1.0 s I proposed: its two measured stops would end at or past the walker's line, so a strike
 would measure physics. The new gap P13 starts the walker at 1.2 s, and the rest matches P10. The hazard check now reads the car's speed at the trigger point, before the
 walker is placed. Protocol: `docs/research/experiments/h6-later-crossing/protocol.md`. Prediction: no pass, about 70% (a guess).
+
+## 2026-11-02 01:50 — H7 protocol: traffic pressure, after reading which families fail
+
+Jerry asked to keep going until the results are NeurIPS-ready. All planted interactional gaps so far used a walker or an animal, and SimLingo rarely fails those:
+2 of 65 unplanted crossing routes. Over 601 unplanted routes, the families that fail most involve moving vehicles. On signalized right turns, base routes with
+13 to 14 m/s traffic failed 8 of 8 and those with 10 to 12 m/s failed 0 of 5 (exploratory, 5 bases). H7 varies traffic on fixed roads through three new gaps: P14, P15, P16.
+`pilot_routes.py` can now override the base scenario's parameters. Main was merged (823932c) for Chris's speed-up.
+Protocol: `docs/research/experiments/h7-traffic-pressure/protocol.md`. Prediction: at least one passes, about 70% (a guess).

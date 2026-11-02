@@ -64,6 +64,69 @@ gaps:
     manipulation_check: {measure: ego_speed_at_trigger_point, max_miss_m: 5, min_ego_speed: 4, min_fraction_passing: 0.7, of_routes: scored_slices}
     screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
 
+  - gap_id: P14_fast_flow_join
+    tier: T2_interactional
+    summary: >-
+      A sub-range of a known family: the car joins a stream of traffic moving at 15 m/s (right turns and merges). The neighbourhood is
+      the same base route with the stream at 7 m/s. On Bench2Drive's own routes, signalized right turns failed 8 of 8 at 13 to 14 m/s and 0 of 5
+      at 10 to 12 m/s (dev data, 5 base routes, exploratory). Solvability is not checked with an expert driver.
+    predicate:
+      - {field: base_scenario_parameters.flow_speed, op: "==", value: 15}
+    plant:
+      base_routes: 10
+      include_scenarios: [SignalizedJunctionRightTurn, NonSignalizedJunctionRightTurn, EnterActorFlow, MergerIntoSlowTrafficV2]
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {flow_speed: 15}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {flow_speed: 7}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after. Reaching the trigger comes before the traffic matters.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P15_fast_flow_left_turn
+    tier: T2_interactional
+    summary: >-
+      A sub-range of a known family: the car turns left across a stream moving at 15 m/s. The neighbourhood is the same base route with
+      the stream at 7 m/s. These families already fail about half the time at 8 to 11 m/s (dev data), so the slower stream may lower
+      the neighbourhood's rate. Solvability is not checked with an expert driver.
+    predicate:
+      - {field: base_scenario_parameters.flow_speed, op: "==", value: 15}
+    plant:
+      base_routes: 10
+      include_scenarios: [SignalizedJunctionLeftTurn, NonSignalizedJunctionLeftTurn, SignalizedJunctionLeftTurnEnterFlow, NonSignalizedJunctionLeftTurnEnterFlow]
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {flow_speed: 15}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {flow_speed: 7}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after. Reaching the trigger comes before the traffic matters.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
+  - gap_id: P16_dense_oncoming_overtake
+    tier: T2_interactional
+    summary: >-
+      A sub-range of a known family: the car must leave its lane around an obstacle while oncoming vehicles come every 30 to 45 m. The
+      neighbourhood is the same base route with gaps of 120 to 200 m. Bench2Drive's routes draw these gaps from about 30 to 200 m. Solvability is not
+      checked with an expert driver, and short gaps may make a car wait until a timeout.
+    predicate:
+      - {field: base_scenario_parameters.frequency, op: "==", value: {from: 30, to: 45}}
+    plant:
+      base_routes: 10
+      include_scenarios: [ConstructionObstacleTwoWays, ParkedObstacleTwoWays, AccidentTwoWays, VehicleOpensDoorTwoWays]
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {frequency: {from: 30, to: 45}}
+    neighbourhood:
+      weather: {preset: ClearNoon}
+      base_scenario_parameters: {frequency: {from: 120, to: 200}}
+    # C24, fixed before the screen runs: the car passes within 5 m of the scenario's trigger point in at least 70% of scored
+    # slice routes, with another vehicle within 50 m in the 10 s after. Reaching the trigger comes before the traffic matters.
+    manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
   - gap_id: P11_blind_side_crossing
     tier: T2_interactional
     summary: >-

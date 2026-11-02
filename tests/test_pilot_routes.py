@@ -1,5 +1,6 @@
 """The Step 5 pilot generator: pairs on distinct base routes that differ only in the planted weather."""
 import json
+import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 
@@ -153,3 +154,13 @@ def test_include_scenarios_restricts_the_base_routes_to_those_families():
     assert len(entries) == 20
     assert {entry["scenario"] for entry in entries} <= set(gap["plant"]["include_scenarios"])
     assert all("Signalized" in entry["scenario"] or "RedLight" in entry["scenario"] for entry in entries)
+
+
+def test_base_scenario_parameters_replace_a_value_and_an_interval():
+    route = ET.fromstring('<route id="1"><scenarios><scenario type="X"><flow_speed value="10"/>'
+                          '<frequency from="60" to="130"/></scenario></scenarios></route>')
+    pilot_routes.set_base_parameters(route, {"flow_speed": 15, "frequency": {"from": 30, "to": 45}})
+    assert route.find(".//flow_speed").attrib == {"value": "15"}
+    assert route.find(".//frequency").attrib == {"from": "30", "to": "45"}
+    with pytest.raises(ValueError, match="no parameter"):
+        pilot_routes.set_base_parameters(route, {"missing": 1})
