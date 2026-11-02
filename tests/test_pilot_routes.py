@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+import cut_routes
 import pilot_routes
 from harness.predicates import matches
 
@@ -164,3 +165,20 @@ def test_base_scenario_parameters_replace_a_value_and_an_interval():
     assert route.find(".//frequency").attrib == {"from": "30", "to": "45"}
     with pytest.raises(ValueError, match="no parameter"):
         pilot_routes.set_base_parameters(route, {"missing": 1})
+
+
+def test_a_cut_keeps_one_scenario_and_the_road_around_its_trigger():
+    route = ET.fromstring('<route id="9" town="T"><waypoints>' + "".join(
+        f'<position x="{x}" y="0" z="0"/>' for x in (0, 100, 200, 300, 400)) + '</waypoints><scenarios>'
+        '<scenario type="A"><trigger_point x="210" y="0"/></scenario><scenario type="B"><trigger_point x="310" y="0"/></scenario>'
+        '</scenarios></route>')
+    scenario = next(route.iter("scenario"))
+    points = pilot_routes.waypoints(route)
+    bounds = cut_routes.cut_bounds(points, cut_routes.trigger_of(scenario), lead_m=20, tail_m=60)
+    assert bounds == (1, 3)
+    cut = cut_routes.cut_route(route, scenario, bounds, 60000)
+    assert cut.get("id") == "60000" and [point[0] for point in pilot_routes.waypoints(cut)] == [100, 200, 300]
+    assert [item.get("type") for item in cut.iter("scenario")] == ["A"]
+    assert cut_routes.cut_bounds(points, (5, 0), lead_m=20, tail_m=60) is None
+    assert cut_routes.cut_bounds(points, (150, 0), lead_m=20, tail_m=60) == (1, 3)  # far from every waypoint
+    assert not cut_routes.spaced((0, 0), [(50, 0)], 100) and cut_routes.spaced((0, 0), [(150, 0)], 100)

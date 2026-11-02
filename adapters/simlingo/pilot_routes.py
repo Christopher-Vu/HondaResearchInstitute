@@ -63,7 +63,7 @@ def eligible(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any
 
 
 def draw_bases(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any]) -> list[ET.Element]:
-    count = gap["plant"]["base_routes"]
+    count = pilot.get("base_routes", gap["plant"]["base_routes"])
     screen = pilot.get("screen_base_routes", 0) if pilot.get("stage") else 0
     drawn = random.Random(pilot["generator_seed"]).sample(eligible(routes, gap, pilot), screen + count)
     chosen = drawn[:screen] if pilot.get("stage") == "screen" else drawn[screen:]
