@@ -7,7 +7,7 @@ Jerry asked on 2026-11-02 to keep going until the results are NeurIPS-ready.
 
 60 fresh base-route pairs, one slice route with the stream at 15 m/s and one neighbourhood route at 7 m/s, in `configs/rollout/step5-pilot-p14-main.yaml`. None of P14's screen bases is reused.
 
-Bench2Drive-220 has only 10 unscreened roads in these four families, so the bases come from a new file: those 10 plus routes cut from the leaderboard's `routes_validation.xml` and `routes_training.xml` (Town13 and Town12), 100 to 500 m long, around one scenario each (`adapters/simlingo/cut_routes.py`). Generator seed 33, chosen once. The draw gave 29 non-signalized right turns, 24 signalized right turns, 4 EnterActorFlow and 3 MergerIntoSlowTrafficV2, which is heavier on right turns than the screen. Per-token capture stays on, so these rollouts can enter the dev pool.
+Bench2Drive-220 has only 10 unscreened roads in these four families, so the bases come from a new file: those 10 plus routes cut from the leaderboard's `routes_validation.xml` and `routes_training.xml` (Town13 and Town12), 100 to 500 m long, around one scenario each (`adapters/simlingo/cut_routes.py`). Generator seed 33, chosen once. The draw gave 30 non-signalized right turns, 26 signalized right turns, 2 EnterActorFlow and 2 MergerIntoSlowTrafficV2, with 1 base from Bench2Drive-220, which is much heavier on right turns than the screen. Per-token capture stays on, so these rollouts can enter the dev pool.
 
 **What differs from the screen:** the routes are longer, start on other roads and mostly use a family (non-signalized right turn) with one route in the screen. So this can fail by generalising badly.
 
