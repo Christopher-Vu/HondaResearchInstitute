@@ -467,3 +467,19 @@ Measured on 19 of 20 routes (1171574 lost to a CARLA timeout, not rerun). By the
 **The rule's limit:** it counts waiting as clean, and two expert slice routes (26966, 3676) wait until a scenario timeout, which the project's label calls a failure. So fast traffic is harder for the expert too. The expert also sees true positions, so this is an upper bound on what a careful driver could do. On the 5 roads, the expert finished 26956, 27506 and 4937 with no such failure, waited out 3676 and collided on 2201.
 
 The expert's run also rules out my worry in its simplest form: a stream vehicle does not always hit a car that joins. Data: `docs/research/data/h8_expert_p14.json`. Spend 2954 of 6000 SU; H8 cost about 81 SU, including the failed tests.
+
+## 2026-11-02 11:09 — H9: P14 fails its full pilot. H10: P19 passes its screen
+
+**H9, P14 full pilot (measured, dev data).** The check holds, 53 of 58. PRD 9.1, the verdict of record, **fails**: 30 of 58 against 21 of 58, uplift 15.5 points (20 needed), ratio 1.43 (2 needed), Fisher p 0.13 (0.01 needed). C23 on 56 pairs: 17 slice-only against 8 neighbourhood-only, McNemar p 0.11. Four routes lost and not rerun. My prediction (pass, about 55%) was wrong. All 17 slice-only failures are vehicle collisions, so an effect may exist, but it is far smaller than the screen's 78% against 33%. The screen was the best of three on 9 pairs, and the winner's curse I named in the protocol appears to have applied. This pilot also ran almost only right turns on longer roads. I will not slice these numbers by family to rescue it.
+
+**H10, screens (measured, dev data).** Every check holds.
+
+| Gap | Pairs | Check | Slice-only | Neighbourhood-only | Excess (3 needed) | Fails, slice and neighbourhood |
+|---|---:|---:|---:|---:|---:|---|
+| P17 late static cut-in | 9 | 8 of 9 | 2 | 2 | 0 | 5 of 9, 5 of 10 |
+| P18 close emergency vehicle | 9 | 7 of 10 | 1 | 0 | 1 | 8 of 10, 6 of 9 |
+| P19 wide invading turn | 10 | 10 of 10 | 4 | 0 | **4** | 7 of 10, 3 of 10 |
+
+Predictions: P19's pass was given about 35%, P17's about 40% and P18's about 70%. P18's failures do not depend on the distance: starting 140 m behind still fails 6 of 9, so the family fails whatever this knob does, and this neighbourhood cannot show it. **P19 is a screen pass, on the same small evidence that misled me on P14.** All 7 of its slice failures include a vehicle collision, and 2 of its 3 neighbourhood failures do. It uses a value outside the routes' range (1.2 m against 0.15 to 0.6 m), so it may be impossible to avoid.
+
+Data: `docs/research/data/h9_h10_check.json`. Spend 3978 of 6000 SU; H9 and H10 cost about 1024 SU. Candidates tried: 19. Interactional gaps passing PRD 9.1 on this branch: 0.

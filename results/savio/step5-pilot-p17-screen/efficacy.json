@@ -1,0 +1,31 @@
+{
+  "gap_id": "P17_late_static_cut_in",
+  "routes_listed": 20,
+  "routes_without_outcome": [
+    "6102778"
+  ],
+  "prd_9_1": {
+    "n_in": 9,
+    "failures_in": 5,
+    "n_neighbourhood": 10,
+    "failures_neighbourhood": 5,
+    "fail_rate_in": 0.5555555555555556,
+    "fail_rate_neighbourhood": 0.5,
+    "uplift_pp": 5.555555555555558,
+    "ratio": 1.1111111111111112,
+    "fisher_p": 1.0,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 9,
+    "base_routes": 9,
+    "slice_only_failed": 2,
+    "neighbourhood_only_failed": 2,
+    "fail_rate_in": 0.5555555555555556,
+    "fail_rate_neighbourhood": 0.5555555555555556,
+    "uplift_pp": 0.0,
+    "ratio": 1.0,
+    "mcnemar_p": 1.0,
+    "passes": false
+  }
+}

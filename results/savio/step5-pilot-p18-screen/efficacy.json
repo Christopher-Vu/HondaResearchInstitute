@@ -1,0 +1,31 @@
+{
+  "gap_id": "P18_close_emergency_vehicle",
+  "routes_listed": 20,
+  "routes_without_outcome": [
+    "6200689"
+  ],
+  "prd_9_1": {
+    "n_in": 10,
+    "failures_in": 8,
+    "n_neighbourhood": 9,
+    "failures_neighbourhood": 6,
+    "fail_rate_in": 0.8,
+    "fail_rate_neighbourhood": 0.6666666666666666,
+    "uplift_pp": 13.333333333333341,
+    "ratio": 1.2000000000000002,
+    "fisher_p": 0.6284829721362228,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 9,
+    "base_routes": 9,
+    "slice_only_failed": 1,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 0.7777777777777778,
+    "fail_rate_neighbourhood": 0.6666666666666666,
+    "uplift_pp": 11.111111111111116,
+    "ratio": 1.1666666666666667,
+    "mcnemar_p": 1.0,
+    "passes": false
+  }
+}

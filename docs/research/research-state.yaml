@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 2954               # 2026-11-02 06:39 PST, H8 cost 81
+su_spent: 3978               # 2026-11-02 11:08 PST, H9 and H10 cost 1024
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -31,8 +31,10 @@ hypotheses:
          data: docs/research/data/h7_check.json}
   H8:   {status: done, kind: solvability, protocol: docs/research/experiments/h8-expert-check/protocol.md,
          result: "P14 solvable: expert collision-free on 8 of 9 slice routes and 4 of 5 slice-only roads; fails the success label on 4 of 9", data: docs/research/data/h8_expert_p14.json}
-  H9:   {status: running, kind: full_pilot, protocol: docs/research/experiments/h9-p14-full-pilot/protocol.md, arrays: [40760688, 40761936], scoring: 40761937}
-  H10:  {status: running, kind: screen, protocol: docs/research/experiments/h10-second-interactional/protocol.md, arrays: {P17: 40762084, P18: 40762087, P19: 40762089}, scoring: [40762085, 40762088, 40762090]}
+  H9:   {status: done, kind: full_pilot, protocol: docs/research/experiments/h9-p14-full-pilot/protocol.md,
+         result: "P14 fails PRD 9.1: 30 of 58 vs 21 of 58, uplift 15.5, ratio 1.43, Fisher p 0.13; C23 17 vs 8, McNemar p 0.11", data: docs/research/data/h9_h10_check.json}
+  H10:  {status: done, kind: screen, protocol: docs/research/experiments/h10-second-interactional/protocol.md,
+         result: "P19 passes its screen (excess 4 on 10 pairs); P17 excess 0; P18 excess 1", data: docs/research/data/h9_h10_check.json}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -43,5 +45,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - score H9 (P14 full pilot) and H10 (P17, P18, P19); then the dev evaluation over the new gaps
+  - expert check on P19, then its full pilot
   - P8: lag-alignment probe idea noted (needs state labels); not built

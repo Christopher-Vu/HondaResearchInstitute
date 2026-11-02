@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — The first promising traffic gap failed its full test
+
+P14, joining fast traffic, passed its 10-pair screen and the expert check, then failed the real test on about 60 pairs. Failure rose from 36% to 52%, which is 15.5 points where the rule needs 20, and the statistics were well short (Fisher p 0.13 against 0.01; measured). The screen had shown 78% against 33%. That gap between a screen and a pilot is the main lesson: the screen picks the luckiest of a few small tests.
+
+Three more screens ran. P17 (a parked car cutting in later) and P18 (an emergency vehicle close behind) did not pass. P19 did: oncoming traffic crossing 1.2 m over the centre line on a bend gave 4 extra failures on 10 pairs. It deserves the same doubt as P14, and it has not yet gone through the expert check or a pilot.
+
+Also today: Jerry asked for work to go straight to `main`, so PR 7 merged by fast-forward at 86eddfa. A commit with two failing tests went in at 4700bd3 and was fixed at 2d10e7f (`docs/WHAT_BROKE.md`). No interactional gap passes PRD 9.1 on this branch yet, after 19 candidates tried in all. See `docs/research/research-log.md`.
+
 ## 2026-11-02 — The expert driver can handle P14's fast traffic
 
 The worry about P14 was that nobody could join a stream at 15 m/s, so its crashes would say nothing about the model. PDM-Lite, the rule-based expert that generated SimLingo's training data, drove the same routes. It collided on 1 of 9 routes with fast traffic, where SimLingo collided on 8 of 10 (measured). That passes the rule locked before the run.

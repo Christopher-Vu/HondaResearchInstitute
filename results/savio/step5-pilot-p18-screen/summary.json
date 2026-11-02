@@ -1,0 +1,37 @@
+{
+  "config": "configs/rollout/step5-pilot-p18-screen.yaml",
+  "jobs": [
+    "40762087"
+  ],
+  "routes_configured": 20,
+  "routes_with_outcome": 20,
+  "official": {
+    "driving score": 74.9,
+    "success rate": 0.3,
+    "eval num": 20,
+    "warning": "-----------------------Warning: there are 20 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 20,
+    "routes_scored": 19,
+    "unscored": [
+      {
+        "id": "6200689",
+        "scenario": "YieldToEmergencyVehicle",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.55
+      }
+    ],
+    "mean_driving_score_over_scored": 73.58,
+    "mean_route_completion_over_scored": 100.0,
+    "success_rate_over_scored": 0.263,
+    "mean_real_time_factor": 0.1202
+  },
+  "scenario_skipped": [
+    "6200689"
+  ],
+  "simulated_seconds_total": 1274.7,
+  "wall_seconds_total": 10945.4,
+  "rerun": [],
+  "not_run": []
+}

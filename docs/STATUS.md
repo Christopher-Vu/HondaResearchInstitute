@@ -6,13 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-02 (P14 solvable; full pilot next)
+Last updated: 2026-11-02 (P14 fails its full pilot; P19 passes a screen)
 
 ---
 
 ## Current position
 
-**2026-11-02 08:00, running: H9, P14's full pilot (arrays 40760688, 40761936), and H10, three more screens (P17 40762084, P18 40762087, P19 40762089).** No results from either yet. Scoring jobs are chained.
+**2026-11-02 11:10, H9: P14 fails its full pilot. H10: P19 passes a screen (measured, dev data).** P14 gives 30 of 58 against 21 of 58 (uplift 15.5 points, ratio 1.43, Fisher p 0.13). P19, oncoming traffic 1.2 m over the line on a bend, gives 4 slice-only against 0 on 10 pairs; P17 and P18 do not pass. **Interactional gaps passing PRD 9.1 on this branch: none.** Next: expert check on P19, then its full pilot. Spend 3978 of 6000 SU; candidates tried 19. Work now goes straight to `main`.
 
 **2026-11-02 06:45, H8: P14 counts as solvable (measured).** PDM-Lite collides on 1 of 9 slice routes, against SimLingo's 8 of 10. It still fails the success label on 4 of 9, two by waiting out a timeout. Next: P14's full pilot, which needs routes cut from the leaderboard sets because Bench2Drive-220 has too few roads, and more screens for a second interactional gap. Spend 2954 of 6000 SU.
 

@@ -24,6 +24,8 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 - **No interactional gap passes yet (H5, screens, measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
   required. P11 was properly tested. P10 and P12 failed the manipulation check (3 of 5, 4 needed), so by the locked rule they are
   untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps; there are none.
+- **P14 fails its full pilot (H9, measured, 58 slice routes).** 52% against 36%, uplift 15.5 points, ratio 1.43, Fisher p 0.13, on routes that were almost all right turns. Its screen's 78% against 33% did not hold, so **a 10-pair screen pass is weak evidence.**
+- **P19, oncoming traffic 1.2 m over the line on a bend, passes its screen (H10, measured, 10 pairs).** 4 slice-only against 0 neighbourhood-only. Expert check and full pilot not done. P17 (late cut-in) and P18 (close emergency vehicle) do not pass.
 - **P14, joining fast traffic, is the first interactional gap to pass a screen (H7, measured, 9 pairs).** 5 slice-only against 1 neighbourhood-only failures; 15 m/s against 7 m/s on the same roads. Far short of PRD 9.1's evidence, and not yet shown to be solvable: the car may be hit from behind. P15 (left turn) and P16 (dense oncoming) did not pass.
 - **P14 is solvable by the locked rule (H8, measured).** PDM-Lite, which sees true positions, collides on 1 of 9 slice routes against SimLingo's 8 of 10. It fails the success label on 4 of 9, two of them by waiting until a timeout, so fast traffic is harder for it as well.
 - **A later walker changes nothing (H6, screen, measured).** P13, with the walker starting at 1.2 s, gives 1 slice-only and 1 neighbourhood-only failure on 10 pairs, with one walker struck in each arm. The check held.
@@ -39,6 +41,8 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Lessons and constraints
 
+- A screen's best of three is inflated. P14 went from 78% against 33% to 52% against 36%. Read a screen pass as a reason to run the pilot and nothing more.
+- Cut routes and base routes both carry a neighbourhood failure rate near 35%, which eats power: the efficacy check needs a strong effect to show at all.
 - Rollout length alone reaches Jaccard 0.48 on P7, because frozen drives stall and run long. Any P7 axis near that
   value is a stopwatch, not a discovery (plain B7's 0.541 is one). Check length before believing a timing-fault axis.
 - A pool's size sets the bar: H3's smaller pool made each fault a bigger share of failures, so the catch-all rose from
