@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-02: two cut-route files reused one base id for different roads
+
+`cut_routes.py` numbered every cut from 60000, so base 60024 meant one road in P17's file and another in P19's. With the same id offset, two route ids clashed. Anything pooling by base route would have treated different roads as one. `test_no_two_committed_manifests_share_a_route_id` caught it, but my commit command ran after the test printed its failure, so 4700bd3 went in failing and three screens were queued from it. They were cancelled within minutes, before any result, and regenerated with a distinct `first_id` per config. The draws did not change. P14's main pilot keeps 60000. **Chain commits on the test command's exit code.**
+
 ## 2026-11-01 — H5's manipulation check counted early braking as "no hazard"
 
 **Expected:** C24's check, written before the screens ran, would confirm the walker reached the car at speed: walker within 15 m with the

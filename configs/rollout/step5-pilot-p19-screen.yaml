@@ -44,7 +44,7 @@ pilot:
     bench2drive: .runtime/simlingo/leaderboard/data/bench2drive220.xml
     from: [.runtime/simlingo/leaderboard/data/routes_validation.xml, .runtime/simlingo/leaderboard/data/routes_training.xml]
     excluded_bases: []
-    first_id: 60000
+    first_id: 63000                # distinct from every other cut file: a base id names one road
     lead_m: 20
     tail_m: 60
     min_spacing_m: 100
