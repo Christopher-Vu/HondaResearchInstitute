@@ -188,7 +188,7 @@ def expert_command(output: Path, config: dict[str, Any], ports: Ports) -> list[s
             "--timeout", str(config["simulator"]["timeout_seconds"]), "--debug", "0", "--track", "MAP",
             "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
             "--agent", str(SOURCE / "team_code/autopilot.py"), "--agent-config", str(routes_file(config)),
-            "--checkpoint", str(output / "result.json"), "--debug-checkpoint", str(output / "live.txt")]
+            "--checkpoint", str(output.resolve() / "result.json"), "--debug-checkpoint", str(output.resolve() / "live.txt")]
 
 
 def stop_process_group(process: subprocess.Popen[Any], grace_seconds: float = 10) -> None:
@@ -315,9 +315,9 @@ def record_slow_stop(output: Path, check_after: float, minimum: float) -> str:
 
 def run_evaluator(output: Path, command: list[str], environment: dict[str, str],
                   silence_limit_seconds: float = 900, slow_check_after_seconds: float = SLOW_CHECK_AFTER_SECONDS,
-                  slow_check_every_seconds: float = SLOW_CHECK_EVERY_SECONDS) -> bool:
+                  slow_check_every_seconds: float = SLOW_CHECK_EVERY_SECONDS, cwd: Path = ROOT) -> bool:
     """Return False when the user stopped the run; raise when the evaluator failed, went silent or crawled."""
-    process = subprocess.Popen(command, cwd=ROOT, env=environment, stdout=subprocess.PIPE,
+    process = subprocess.Popen(command, cwd=cwd, env=environment, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, text=True, start_new_session=True)
     guard = SilenceGuard(process, silence_limit_seconds)
     slow_guard = SlowGuard(process, output / "controls.jsonl", slow_check_after_seconds, slow_check_every_seconds)

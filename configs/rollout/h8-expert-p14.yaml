@@ -1,5 +1,6 @@
 # H8: PDM-Lite on P14's routes, the same routes file and traffic seed as its screen.
-#   ROUTE_MODE=expert bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-6%6 scripts/route_sample.sbatch configs/rollout/h8-expert-p14.yaml 3
+# One route per A40: the expert's evaluator picks a free traffic-manager port, and routes sharing a node raced for it (bind error).
+#   ROUTE_MODE=expert bash scripts/submit.sh gpu_a40 --time=0-01:00:00 --array=0-19%6 scripts/route_sample.sbatch configs/rollout/h8-expert-p14.yaml 1
 
 name: h8-expert-p14
 step: 5

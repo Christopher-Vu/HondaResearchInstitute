@@ -204,7 +204,9 @@ def expert(output: Path, config: dict[str, Any], container: str | None, slot: in
     check_route(config)
     root = server_root(config["simulator"].get("carla_build"))
     with carla_server(output, config["simulator"]["quality"], container, slot, root) as (ports, versions):
-        run_evaluator(output, expert_command(output, config, ports), expert_environment(output, CARLA_ROOT / "PythonAPI/carla"))
+        # PDM-Lite reads team_code/speed_limits by a path relative to the source tree.
+        run_evaluator(output, expert_command(output, config, ports), expert_environment(output, CARLA_ROOT / "PythonAPI/carla"),
+                      cwd=SOURCE)
     record = json.loads((output / "result.json").read_text())["_checkpoint"]["records"][0]
     report = {"route": config["route"]["id"], "status": record["status"], "infractions": record["infractions"],
               "duration_game": record["meta"]["duration_game"], "versions": versions}
