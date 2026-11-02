@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — Rollouts now run almost twice as fast; one decoy rule for every decoy
+
+On 2026-10-23 the rollout profiling (10-20 entry) was corrected. The third of each policy step that looked like
+evaluator bookkeeping was actually our own viewer agent saving `last-camera.png` every step for a live window
+that never runs on Savio. That save now runs only when the viewer is open (94fbbed). The earlier metric-file
+change was reverted. The confirming run (job 40414722, 3 routes on one A40) measured these per-step times:
+forward pass 0.15 s, model input 0.05 s, everything after the model 0.05 s (it was 0.25–0.29 s). That is about
+0.28 s a step against about 0.5 s before. One of the three routes died at step 124 with no error in its log,
+which is the usual CARLA crash rate (`docs/WHAT_BROKE.md`). The next rollout arrays can run 3 routes per GPU.
+Four per GPU is still out: the forward pass slowed to 0.85 s.
+
+The same day, Chris reversed part of C31 in `CONFLICTS.md` (d3733a5). Every decoy, an included gap that the
+policy should handle about as well as its neighbourhood, is now judged by one rule: uplift within 10 points and
+McNemar p above 0.2 on 60 pairs. The change came after a result, and the entry says so and gives the reasons.
+
+The rest of that session's jobs finished on 10-23. Their results stay in the sealed notes. Since then nothing
+has run on Savio (10-23 to 11-02). In the meantime Catherine merged a resampling stability check for the
+contrastive method (#4, `src/discovery/contrastive_stability.py`, now reported by `dev_eval.py`) and a
+failure-axis explorer page for the dashboard (#5, #6). Its tests pass and the sealed-import guard is clean.
+
 ## 2026-11-01 (Jerry) — three new interactional gaps miss their screens by one failure each
 
 The project's go/no-go rule needs two interactional gaps that pass, where an interactional gap is a failure caused by how the car and
@@ -378,9 +398,9 @@ shards), and the Step 5 gap shortage. 311 CPU tests pass.
 Rollouts are the project's main cost, so four short profiling jobs timed every part of a policy step
 (`SIMLINGO_PROFILE`, 158859d and 1ef00c5; about 30 SU in all). Measured:
 
-- At two routes per A40, a step takes about 0.5 s. The forward pass is 0.13 s; about 0.26 s is SimLingo's
-  agent rewriting its whole `metric_info.json` debug file every step. `capture_agent.py` now writes that file
-  once per route instead (ca63c56). The change cannot alter driving, but it has not yet run on a live route.
+- At two routes per A40, a step takes about 0.5 s. The forward pass is 0.13 s; about 0.26 s is spent after
+  the model. (This entry first blamed SimLingo's per-step `metric_info.json` write; the 2026-10-23 entry
+  corrects that: the cost is our own per-step PNG save.)
 - The GPU is mostly idle: 18%, 27% and 37% average use at one, two and three routes per card. At four
   routes the forward pass jumps to 0.85 s, so three per card is the packing to use.
 - Our own capture code costs under 1% of a step, so it needs no work.

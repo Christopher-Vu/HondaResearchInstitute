@@ -2,32 +2,26 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-10-18
+updated: 2026-11-02
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
-  start: 2026-10-12
-  end: 2026-10-16
+  start: 2026-10-19
+  end: 2026-10-23
   done:
-    - {text: "P4 camera occlusion passed efficacy: 43 of 60 failed with it against 12 of 60, the first gap that works", who: Imhaohao}
-    - {text: "Dense fog, pedestrians in lane and an animal crossing all failed to make SimLingo fail", who: Imhaohao}
-    - {text: "Per-token capture at layers 10 and 14; layer sweep rerun over both dev waves plus P4", who: Imhaohao}
-    - {text: "SAE sweep healthy but seed-unstable; first dev evaluation inconclusive, P4 dominates the corpus", who: Imhaohao}
-    - {text: "Independent Savio bring-up; GPU job and Step 1 rerun passed at 0.078 times real time, 9.42 GB", who: Christopher-Vu}
-    - {text: "Added B3 behavioral baseline, probe-residual method, the go/no-go bootstrap and key sealing", who: Christopher-Vu}
-    - {text: "Committed and tagged the B4 factor list; specs for Step 8, Step 10 and the describability gate", who: Christopher-Vu}
-    - {text: "Step 2 rerun with layer 10 and 14 tokens queued: a dev corpus where P4 is a minority", who: Christopher-Vu}
-    - {text: "Step 4 closed: driving queries at layer 10, per-token capture moves to layers 10 and 11", who: Christopher-Vu}
-    - {text: "B7 signed off and corrected to Dr. VLA's hysteresis; earlier B7 numbers are pre-correction", who: Christopher-Vu}
-    - {text: "CARLA segfaults lost 8 of about 90 long routes; reran them, budget one rerun per 20", who: Christopher-Vu}
+    - {text: "Rollouts almost twice as fast: a per-step viewer PNG nobody read cost a third of each step", who: Christopher-Vu}
+    - {text: "One decoy rule for every decoy: uplift within 10 points, McNemar p above 0.2 (C31)", who: Christopher-Vu}
+    - {text: "P7 camera freeze, P8 latency and P9 light glare screens run; left-crossing patch on the runtime", who: Imhaohao}
+    - {text: "IEEE IV 2026 sweep: nothing changes the method; four more gap families to consider", who: Imhaohao}
+    - {text: "Resampling stability check for the contrastive method, reported by the dev evaluation", who: cattayw}
   next:
-    - {text: "Score the Step 2 rerun and run B3 and probe-residual on it", who: Christopher-Vu}
-    - {text: "Clear C20 to C30, sign off B2 and B3, commit the preregistration", who: Christopher-Vu}
-    - {text: "Read the sealed-gap screens and run full pilots for those that pass", who: Christopher-Vu}
-    - {text: "Rerun the dev evaluation on the Step 2 corpus, with B7 post-correction", who: Imhaohao}
+    - {text: "Push the P7 to P9 screen numbers; full pilots for the ones that pass", who: Imhaohao}
+    - {text: "Screen the remaining decoy at 3 routes per GPU", who: Christopher-Vu}
+    - {text: "Run B3, B7 and probe-residual on the dev pool once P7 to P9 are in", who: Christopher-Vu}
+    - {text: "Clear C20 to C30 and commit the preregistration", who: Christopher-Vu}
 
 steps:
   - id: 0

@@ -652,6 +652,14 @@ so no result is rescued after the fact. Cost: the rule admits a decoy with a tru
 about 10 points. Decoys are scored on hit rate, not as gaps, so that is acceptable.
 `PRD.md` §9.1; the arithmetic is the binomial with n = 11 and p = 1/2.
 
+**Reversed in part, 2026-10-23 (Chris):** the grandfather clause above is dropped. One rule now applies to
+every decoy, including the one judged before 2026-10-18, which failed the old band and passes this rule
+(its slice failed *less* often than its neighbourhood). This is a change made after that decoy's result was
+seen, and the paper reports it under both rules. Why it is still sound: the reason for the rule is the
+false-rejection arithmetic above, not that decoy's outcome; choosing which planted regions to keep from
+efficacy pilots is the protocol itself; and no method has touched the test pool, so the choice cannot
+favour any method. A single rule across all decoys is also simpler to preregister than two.
+
 ### C32 · A blind-spot control: rear-ended while stopped · new, 2026-10-21 (Jerry), pending review (Chris)
 Proposal, not built. Some failures have a cause the policy cannot perceive. SimLingo has one forward camera
 (mounted at x = -1.5 m, fov 110), so a vehicle driving into the stopped ego from behind is invisible to it

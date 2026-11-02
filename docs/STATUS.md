@@ -6,11 +6,15 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-01 (H5: no interactional gap passes its screen; waiting on Jerry's call)
+Last updated: 2026-11-02 (H6 screen running; main merged; push toward a NeurIPS-ready result)
 
 ---
 
 ## Current position
+
+**2026-11-02, merged from main (Chris).** The per-step PNG fix is confirmed: about 0.28 s a step, down from 0.5 (journal 11-02). Use 3 routes per A40 from
+now on. Chris's note that P7–P9 screen numbers are not in the repo is out of date: they are on this branch, as are the P7 and P8 full pilots and H3.
+Still needed from Chris: the kinematic decoy screen.
 
 **2026-11-01 12:15, H5: no interactional gap passes its screen (measured, screens only).** Protocol locked first in
 `docs/research/experiments/h5-interactional-screen/protocol.md`; 58 of 60 routes scored. Each gap reached 2 of the 3 excess failures

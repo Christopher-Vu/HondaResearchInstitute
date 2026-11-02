@@ -54,9 +54,6 @@ class CaptureAgent(VisibleAgent):
         self.profile: Any = None
         self.marks: dict[str, float] = {}
         super().setup(path_to_conf_file, route_index)
-        # Upstream rewrites metric_info.json every step: ~0.26 s on Savio's scratch (40265241), about a third of a
-        # step. Only Bench2Drive's efficiency/smoothness tools read it, so write it once, at the end, instead.
-        self.metric_path, self.save_path_metric = self.save_path_metric, None
         self.capture_every = int(os.environ.get("SIMLINGO_CAPTURE_EVERY", "10"))
         self.token_layers = [int(layer) for layer in os.environ.get("SIMLINGO_TOKEN_LAYERS", "").split(",") if layer]
         self.capture_dir = self.evidence / "capture"
@@ -98,7 +95,7 @@ class CaptureAgent(VisibleAgent):
         self.marks[name] = time.monotonic()
 
     def _time_method(self, name: str) -> None:
-        """Time an upstream method inside after_model; its remainder is mostly the per-step metric_info.json dump."""
+        """Time an upstream method inside after_model; `after_metric_info` is the rest, including VisibleAgent's work."""
         method = getattr(self, name)
 
         def timed(*args: Any, **kwargs: Any) -> Any:
@@ -116,7 +113,7 @@ class CaptureAgent(VisibleAgent):
                  "forward": ("forward_started", "forward_done"), "capture_hook": ("forward_done", "hook_done"),
                  "after_model": ("hook_done", "left"), "control_pid": ("control_pid_started", "control_pid_done"),
                  "get_metric_info": ("get_metric_info_started", "get_metric_info_done"),
-                 "metric_dump": ("get_metric_info_done", "left")}
+                 "after_metric_info": ("get_metric_info_done", "left")}
         row = {"step": self.step, **{name: round(marks[end] - marks[start], 5)
                                      for name, (start, end) in spans.items() if start in marks and end in marks}}
         if "previous_left" in marks:
@@ -208,7 +205,4 @@ class CaptureAgent(VisibleAgent):
             self._flush()
         if self.profile is not None:
             self.profile.close()
-        if getattr(self, "metric_path", None) is not None and getattr(self, "metric_info", None):
-            with open(f"{self.metric_path}/metric_info.json", "w") as outfile:
-                json.dump(self.metric_info, outfile, indent=4)
         super().destroy(results)

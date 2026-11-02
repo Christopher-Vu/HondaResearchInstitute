@@ -133,9 +133,22 @@ export default function Page() {
         <h1 className="t-title">
           Failure-axis discovery <span className="hidden font-normal text-ink-3 sm:inline">SimLingo on Bench2Drive</span>
         </h1>
-        <a href={REPO_URL} aria-label="Open the repository on GitHub" className="-m-2 rounded-full p-2 text-ink-2 transition-colors duration-150 hover:text-ink">
-          <GithubLogo size={22} />
-        </a>
+        <div className="flex items-center gap-5">
+  <a
+    href="/failure-explorer"
+    className="text-sm font-medium text-ink-2 hover:text-ink"
+  >
+    Failure-Axis Explorer →
+  </a>
+
+  <a
+    href={REPO_URL}
+    aria-label="Open the repository on GitHub"
+    className="-m-2 rounded-full p-2 text-ink-2 transition-colors duration-150 hover:text-ink"
+  >
+    <GithubLogo size={22} />
+  </a>
+</div>
       </header>
 
       <Suspense fallback={<div className="py-8"><Placeholder height="h-40" /></div>}>
