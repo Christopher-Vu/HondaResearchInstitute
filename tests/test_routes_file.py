@@ -5,7 +5,8 @@ import pytest
 import yaml
 
 import route_run
-from route_run import ROOT, Ports, check_route, configured_route_ids, evaluator_command, route_from_xml, routes_file
+from route_run import (ROOT, Ports, check_route, configured_route_ids, evaluator_command, expert_command,
+                       expert_environment, route_from_xml, routes_file)
 
 PINNED = '<routes><route id="1" town="Town12"><waypoints/><scenarios><scenario type="Accident"/></scenarios></route></routes>'
 CUSTOM = '<routes><route id="7" town="Town05"><waypoints/><scenarios><scenario type="ControlLoss"/></scenarios></route></routes>'
@@ -85,3 +86,13 @@ def test_committed_dev_pool_routes_resolve_through_its_config():
         assert config["route"]["scenario"] == manifest[route_id]["scenario"]
         assert config["route"]["town"] == manifest[route_id]["town"]
         check_route(config)
+
+
+def test_expert_runs_from_its_own_trees_and_writes_no_data_folder(tmp_path):
+    config = {"route": {"id": "1", "seed": 3, "routes_file": "r.xml"}, "simulator": {"timeout_seconds": 600}}
+    command = expert_command(tmp_path, config, Ports(rpc=2000, traffic_manager=8000))
+    assert any("leaderboard_autopilot" in part for part in command) and "--external-server" not in command
+    assert command[command.index("--track") + 1] == "MAP"
+    environment = expert_environment(tmp_path, tmp_path)
+    assert "SAVE_PATH" not in environment and environment["DATAGEN"] == "0"
+    assert "scenario_runner_autopilot" in environment["PYTHONPATH"] and "Bench2Drive" not in environment["PYTHONPATH"]

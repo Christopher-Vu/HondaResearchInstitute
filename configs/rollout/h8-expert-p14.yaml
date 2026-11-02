@@ -1,0 +1,36 @@
+# H8: PDM-Lite on P14's routes, the same routes file and traffic seed as its screen.
+#   ROUTE_MODE=expert bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-6%6 scripts/route_sample.sbatch configs/rollout/h8-expert-p14.yaml 3
+
+name: h8-expert-p14
+step: 5
+scope: savio_h8_expert_p14
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+
+route:
+  seed: 17                       # traffic manager seed; unused by every earlier pilot
+  routes_file: configs/rollout/step5-pilot-p14-screen.xml
+  manifest: configs/rollout/step5-pilot-p14-screen.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+  practice_gaps: gaps/practice/practice_v3.yaml
+  gap_id: P14_fast_flow_join
+  generator_seed: 30
+  stage: screen
+  screen_base_routes: 10
+  id_offset: 44                  # route ids end in 74 and 84
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

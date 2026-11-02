@@ -26,7 +26,8 @@ from typing import Any
 import yaml
 from artifacts import verify_artifacts
 from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment, route_environment,
-                       check_external_server_patch, check_route, evaluator_command, policy_environment,
+                       check_external_server_patch, check_route, evaluator_command, expert_command, expert_environment,
+                       policy_environment,
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
@@ -198,9 +199,22 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
                                                 "container": container, "savio_verified": True})
 
 
+def expert(output: Path, config: dict[str, Any], container: str | None, slot: int = 0) -> dict[str, Any]:
+    """PDM-Lite on a configured route: can a privileged rule-based driver finish what the policy failed?"""
+    check_route(config)
+    root = server_root(config["simulator"].get("carla_build"))
+    with carla_server(output, config["simulator"]["quality"], container, slot, root) as (ports, versions):
+        run_evaluator(output, expert_command(output, config, ports), expert_environment(output, CARLA_ROOT / "PythonAPI/carla"))
+    record = json.loads((output / "result.json").read_text())["_checkpoint"]["records"][0]
+    report = {"route": config["route"]["id"], "status": record["status"], "infractions": record["infractions"],
+              "duration_game": record["meta"]["duration_game"], "versions": versions}
+    (output / "readiness.json").write_text(json.dumps(report, indent=2) + "\n")
+    return report
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("mode", choices=["render", "route"])
+    parser.add_argument("mode", choices=["render", "route", "expert"])
     parser.add_argument("--config", type=Path, default=STEP1_CONFIG)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--route", help="Bench2Drive route id; town and scenario come from the routes file")
@@ -214,8 +228,10 @@ def main() -> None:
     if args.route:
         config["route"].update(route_from_xml(args.route, config))
     container = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"]["container"]
-    report = (render(output, config, container) if args.mode == "render"
-              else route(output, config, container, args.slot, args.slots))
+    runs = {"render": lambda: render(output, config, container),
+            "route": lambda: route(output, config, container, args.slot, args.slots),
+            "expert": lambda: expert(output, config, container, args.slot)}
+    report = runs[args.mode]()
     print(json.dumps(report, indent=2))
 
 

@@ -169,6 +169,28 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--debug-checkpoint", str(output / "live.txt")]
 
 
+def expert_environment(output: Path, carla_pythonapi: Path) -> dict[str, str]:
+    """PDM-Lite runs from its own leaderboard and scenario runner, which expose the scenario state it reads."""
+    values = policy_environment(output, "cpu", carla_pythonapi, False, {"DATAGEN": "0"})
+    values.pop("SAVE_PATH")  # the expert would otherwise write a data-collection folder
+    trees = [SOURCE, SOURCE / "team_code", SOURCE / "leaderboard_autopilot", SOURCE / "scenario_runner_autopilot",
+             carla_pythonapi]
+    values.update({"PYTHONPATH": os.pathsep.join(map(str, trees)),
+                   "SCENARIO_RUNNER_ROOT": str(SOURCE / "scenario_runner_autopilot"),
+                   "LEADERBOARD_ROOT": str(SOURCE / "leaderboard_autopilot")})
+    return values
+
+
+def expert_command(output: Path, config: dict[str, Any], ports: Ports) -> list[str]:
+    return [sys.executable, "-u", str(SOURCE / "leaderboard_autopilot/leaderboard/leaderboard_evaluator_local.py"),
+            "--host", "localhost", "--port", str(ports.rpc),
+            "--traffic-manager-seed", str(config["route"]["seed"]),
+            "--timeout", str(config["simulator"]["timeout_seconds"]), "--debug", "0", "--track", "MAP",
+            "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
+            "--agent", str(SOURCE / "team_code/autopilot.py"), "--agent-config", str(routes_file(config)),
+            "--checkpoint", str(output / "result.json"), "--debug-checkpoint", str(output / "live.txt")]
+
+
 def stop_process_group(process: subprocess.Popen[Any], grace_seconds: float = 10) -> None:
     if process.poll() is not None:
         return

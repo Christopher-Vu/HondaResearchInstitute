@@ -19,6 +19,7 @@
 #   bash scripts/submit.sh gpu --dependency=afterok:<step1 job id> scripts/route_sample.sbatch
 #   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-109%4 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml 2
 # Each route's own output goes to results/savio/<array job>/route-<id>/run.log.
+# ROUTE_MODE=expert runs PDM-Lite on the same routes instead of the policy.
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
@@ -46,7 +47,7 @@ for SLOT in "${!ROUTES[@]}"; do
   OUT=results/savio/$SLURM_ARRAY_JOB_ID/route-$ROUTE
   mkdir -p "$OUT"
   echo "=== route $ROUTE (array task $SLURM_ARRAY_TASK_ID, slot $SLOT of ${#ROUTES[@]}, job $SLURM_JOB_ID) ==="
-  "$PY" adapters/simlingo/run_savio.py route --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
+  "$PY" adapters/simlingo/run_savio.py "${ROUTE_MODE:-route}" --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
     --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 &
   PIDS+=($!)
   # Two CARLA servers starting together crashed one with a segfault (2026-10-08),
