@@ -12,6 +12,8 @@ Last updated: 2026-11-02 (P14 solvable; full pilot next)
 
 ## Current position
 
+**2026-11-02 08:00, running: H9, P14's full pilot (arrays 40760688, 40761936), and H10, three more screens (P17 40762084, P18 40762087, P19 40762089).** No results from either yet. Scoring jobs are chained.
+
 **2026-11-02 06:45, H8: P14 counts as solvable (measured).** PDM-Lite collides on 1 of 9 slice routes, against SimLingo's 8 of 10. It still fails the success label on 4 of 9, two by waiting out a timeout. Next: P14's full pilot, which needs routes cut from the leaderboard sets because Bench2Drive-220 has too few roads, and more screens for a second interactional gap. Spend 2954 of 6000 SU.
 
 **2026-11-02 03:40, H7: P14, joining fast traffic, passes its screen (measured, 9 pairs, dev data).** Excess 4 of the 3 required; P15 excess 0, P16 excess 1. This is the first interactional gap to pass a screen on this branch, and it is not a PRD 9.1 verdict. The car may be getting hit from behind, so an expert driver check comes before any full pilot. Next: build that check. Spend 2873 of 6000 SU.
