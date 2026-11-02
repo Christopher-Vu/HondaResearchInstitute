@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-02 (H6 screen running; main merged; push toward a NeurIPS-ready result)
+Last updated: 2026-11-02 (P14 passes a screen; expert check next)
 
 ---
 
 ## Current position
+
+**2026-11-02 03:40, H7: P14, joining fast traffic, passes its screen (measured, 9 pairs, dev data).** Excess 4 of the 3 required; P15 excess 0, P16 excess 1. This is the first interactional gap to pass a screen on this branch, and it is not a PRD 9.1 verdict. The car may be getting hit from behind, so an expert driver check comes before any full pilot. Next: build that check. Spend 2873 of 6000 SU.
 
 **2026-11-02 02:15, H6: a later walker changes nothing (measured, screen). H7 running.** P13 gives excess 0 of 3 required on 10 pairs, and its check held. H7 tests traffic pressure on fixed roads
 (P14, P15, P16; arrays 40750508, 40750511, 40750513), because SimLingo fails moving traffic far more than walkers across 601 unplanted routes. Spend 2632 of 6000 SU. PR: Christopher-Vu/HondaResearchInstitute#7.

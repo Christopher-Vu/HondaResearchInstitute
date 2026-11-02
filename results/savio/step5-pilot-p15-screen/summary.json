@@ -1,0 +1,35 @@
+{
+  "config": "configs/rollout/step5-pilot-p15-screen.yaml",
+  "jobs": [
+    "40750511"
+  ],
+  "routes_configured": 20,
+  "routes_with_outcome": 19,
+  "official": {
+    "driving score": 79.43289894736841,
+    "success rate": 0.42105263157894735,
+    "eval num": 19,
+    "warning": "-----------------------Warning: there are 19 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 19,
+    "routes_scored": 19,
+    "unscored": [],
+    "mean_driving_score_over_scored": 79.43,
+    "mean_route_completion_over_scored": 100.0,
+    "success_rate_over_scored": 0.421,
+    "mean_real_time_factor": 0.109
+  },
+  "scenario_skipped": [],
+  "simulated_seconds_total": 1547.7,
+  "wall_seconds_total": 13584.0,
+  "rerun": [
+    {
+      "id": "208675",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    }
+  ],
+  "not_run": []
+}

@@ -24,6 +24,7 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 - **No interactional gap passes yet (H5, screens, measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
   required. P11 was properly tested. P10 and P12 failed the manipulation check (3 of 5, 4 needed), so by the locked rule they are
   untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps; there are none.
+- **P14, joining fast traffic, is the first interactional gap to pass a screen (H7, measured, 9 pairs).** 5 slice-only against 1 neighbourhood-only failures; 15 m/s against 7 m/s on the same roads. Far short of PRD 9.1's evidence, and not yet shown to be solvable: the car may be hit from behind. P15 (left turn) and P16 (dense oncoming) did not pass.
 - **A later walker changes nothing (H6, screen, measured).** P13, with the walker starting at 1.2 s, gives 1 slice-only and 1 neighbourhood-only failure on 10 pairs, with one walker struck in each arm. The check held.
 
 ## Patterns and insights
@@ -51,6 +52,7 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Open questions
 
+- Can a careful driver join P14's fast traffic at all? If not, its failures are physics and not model weakness.
 - Can any interactional gap break SimLingo strongly enough to pass? Walkers met at speed were struck in only about 1 route in 5 (H5),
   and 8 of 29 neighbourhood routes fail anyway, so a weak effect is hard to see in 10 pairs.
 - Do activation methods beat behaviour (B3) on these gaps, or does the car's behaviour already give them away?

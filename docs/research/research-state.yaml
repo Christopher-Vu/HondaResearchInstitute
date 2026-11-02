@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 2632               # 2026-11-02 02:13 PST, H6 cost 53
+su_spent: 2873               # 2026-11-02 03:33 PST, H7 cost 241
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -26,8 +26,9 @@ hypotheses:
          data: docs/research/data/h5_manipulation.json, note: "C24 check counts early braking as no hazard; not overridden"}
   H6:   {status: done, kind: screen, protocol: docs/research/experiments/h6-later-crossing/protocol.md,
          result: "P13 fails: excess 0 of 3 on 10 pairs, check held 9 of 10, one walker struck per arm", data: docs/research/data/h6_check.json}
-  H7:   {status: running, arrays: [40750508, 40750511, 40750513], kind: screen, protocol: docs/research/experiments/h7-traffic-pressure/protocol.md,
-         note: "P14 fast flow join, P15 fast flow left turn, P16 dense oncoming; on abe1831 with main's speed-up"}
+  H7:   {status: done, kind: screen, protocol: docs/research/experiments/h7-traffic-pressure/protocol.md,
+         result: "P14 passes its screen (excess 4 of 3, 9 pairs); P15 excess 0, P16 excess 1; all checks hold; solvability not yet checked",
+         data: docs/research/data/h7_check.json}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -38,5 +39,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - score H7 (P14, P15, P16); expert check before any full pilot
+  - expert driver check on P14 before any full pilot
   - P8: lag-alignment probe idea noted (needs state labels); not built

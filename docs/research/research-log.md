@@ -436,3 +436,21 @@ Four slice routes that stopped did so 4.3 to 7.8 m from the crossing point, meas
 the car's position, and no log records them. Taking 0.4 s from stock timing to 1.2 s does not visibly raise strikes, and 1.0 s would test physics, so I stop varying walker timing. Data: `docs/research/data/h6_check.json`.
 
 Cost: 52.6 SU, 2.6 SU per route, under half the estimate. Goal spend is 2632 of 6000 SU. H7 arrays submitted on abe1831 with main's speed-up, three routes per A40: P14 40750508, P15 40750511, P16 40750513; scoring jobs 40750509, 40750512, 40750515.
+
+## 2026-11-02 03:34 — H7 result: P14 passes its screen, the first interactional gap to do so
+
+Measured, screens only, dev data. Every gap's check held. 56 of 60 routes scored in pairs; four routes were lost to one CARLA start crash, two 600-second simulator timeouts and one other crash (not yet diagnosed), and are not rerun, as locked.
+
+| Gap | Pairs | Check | Slice-only | Neighbourhood-only | Excess (3 needed) | Fails, slice and neighbourhood |
+|---|---:|---:|---:|---:|---:|---|
+| P14 fast flow to join | 9 | 10 of 10 | 5 | 1 | **4** | 8 of 10, 3 of 9 |
+| P15 fast flow on a left turn | 9 | 9 of 9 | 2 | 2 | 0 | 5 of 9, 6 of 10 |
+| P16 dense oncoming overtake | 8 | 8 of 8 | 2 | 1 | 1 | 4 of 8, 4 of 10 |
+
+Predictions: P14's held; P15's and P16's did not. **A screen pass means worth a further look and is not a verdict:** PRD 9.1's thresholds need far more pairs. McNemar p on these 9 pairs is 0.22, against the 0.01 required.
+
+All of P14's failures are vehicle collisions. Base routes 4937 and 26956 failed at 15 m/s and passed at 7 m/s here, and also passed unplanted at 10 to 12 m/s, which supports a causal reading on the same road. Against that, 26966 and 2050 fail at 7 m/s too, so speed is not the whole story.
+
+**The main threat is fairness.** The car enters at 8 to 10 m/s and does not wait. In 2750674, 2695674 and 367674 its speed jumps at the collision, so a flow vehicle probably hit it from behind. The spacing is unchanged across arms, so 15 m/s leaves about 1.7 s between vehicles on 2050, against 3.5 s at 7 m/s. If a careful driver cannot join either, these failures are not model weakness. The locked protocol requires an expert driver check before any full pilot.
+
+P15's neighbourhood fails 6 of 10, so it had little room to show an effect. P16's failures mix collisions and timeouts. Data: `docs/research/data/h7_check.json`. Spend 2873 of 6000 SU; H7 cost 241 SU, about 4 SU per route, with long stalls on P15 and P16.

@@ -1,0 +1,32 @@
+{
+  "gap_id": "P16_dense_oncoming_overtake",
+  "routes_listed": 20,
+  "routes_without_outcome": [
+    "2092076",
+    "266876"
+  ],
+  "prd_9_1": {
+    "n_in": 8,
+    "failures_in": 4,
+    "n_neighbourhood": 10,
+    "failures_neighbourhood": 4,
+    "fail_rate_in": 0.5,
+    "fail_rate_neighbourhood": 0.4,
+    "uplift_pp": 9.999999999999998,
+    "ratio": 1.25,
+    "fisher_p": 1.0,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 8,
+    "base_routes": 8,
+    "slice_only_failed": 2,
+    "neighbourhood_only_failed": 1,
+    "fail_rate_in": 0.5,
+    "fail_rate_neighbourhood": 0.375,
+    "uplift_pp": 12.5,
+    "ratio": 1.3333333333333333,
+    "mcnemar_p": 1.0,
+    "passes": false
+  }
+}

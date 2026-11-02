@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — Joining fast traffic passes a screen, the first interactional gap to do so
+
+H7 ran three traffic gaps on the same roads. P14, joining a stream at 15 m/s against 7 m/s, gave 5 failures only with the fast stream and 1 only with the slow one, on 9 pairs; the screen needs an excess of 3 (measured, dev data). P15 (left turns) and P16 (dense oncoming traffic) did not pass. Details: `docs/research/research-log.md`.
+
+This does not prove a gap yet. The evidence is 9 pairs, and in several crashes the car's speed jumps at impact, so a stream vehicle probably hit it from behind. If a careful driver cannot join that stream either, the failures say nothing about the model. The next step is to run the expert driver on these routes.
+
 ## 2026-11-02 — A later walker did not break SimLingo, so the search moves to traffic
 
 Jerry asked for a harder version of P10, and later asked to keep going until the results are NeurIPS-ready. I first measured how quickly SimLingo stops. From 10 to 12 m/s it takes 7 to 8 m. That ruled out starting the walker 1.0 s
