@@ -1,0 +1,53 @@
+# Step 5 efficacy pilot for practice gap P19, oncoming traffic far over the line on a bend, gaps/practice/practice_v3.yaml.
+# Full pilot, only if the expert check holds. Protocol: docs/research/experiments/h11-p19-expert-and-pilot/protocol.md
+# Routes and manifest are generated, not written:
+#   python adapters/simlingo/cut_routes.py configs/rollout/step5-pilot-p19-main.yaml
+#   python adapters/simlingo/pilot_routes.py configs/rollout/step5-pilot-p19-main.yaml
+# Three routes per A40, in route_run.run_order's shuffle:
+#   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-36%6 scripts/route_sample.sbatch configs/rollout/step5-pilot-p19-main.yaml 3
+# Captures every layer's frame means plus layers 10 and 11's driving-query tokens (the per-token SAE input).
+
+name: step5-pilot-p19-main
+step: 5
+scope: savio_step5_pilot_p19_main
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+capture_every: 10
+capture_token_layers: [10, 11]   # Step 4 closed on layers 10 and 11
+
+route:
+  seed: 24                       # traffic manager seed; unused by every earlier pilot
+  routes_file: configs/rollout/step5-pilot-p19-main.xml
+  manifest: configs/rollout/step5-pilot-p19-main.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: configs/rollout/step5-pilot-p19-main-bases.xml
+  practice_gaps: gaps/practice/practice_v3.yaml
+  gap_id: P19_wide_invading_turn
+  generator_seed: 37
+  base_routes: 55
+  id_offset: 48                  # route ids end in 78 and 88
+  cut_routes:
+    bench2drive: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+    from: [.runtime/simlingo/leaderboard/data/routes_validation.xml, .runtime/simlingo/leaderboard/data/routes_training.xml]
+    excluded_bases: [2790, 2802, 3572, 63000, 63024, 63032, 63039, 63040, 63044, 63059]   # P19's screen
+    first_id: 63000                # distinct from every other cut file: a base id names one road
+    lead_m: 20
+    tail_m: 60
+    min_spacing_m: 100
+    min_length_m: 100
+    max_length_m: 800
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

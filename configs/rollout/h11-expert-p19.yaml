@@ -1,0 +1,46 @@
+# H11: PDM-Lite on P19's screen routes, the same routes file and traffic seed.
+#   ROUTE_MODE=expert bash scripts/submit.sh gpu_a40 --time=0-01:00:00 --array=0-19%6 scripts/route_sample.sbatch configs/rollout/h11-expert-p19.yaml 1
+
+name: h11-expert-p19
+step: 5
+scope: savio_h11_expert_p19
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: stock-linux-release
+  bench2drive_version: "0.0.3"
+  quality: Epic                  # matches Steps 1, 2 and 4
+  timeout_seconds: 600           # Bench2Drive's default, as in Step 4
+
+
+route:
+  seed: 23                       # traffic manager seed; unused by every earlier pilot
+  routes_file: configs/rollout/step5-pilot-p19-screen.xml
+  manifest: configs/rollout/step5-pilot-p19-screen.manifest.json   # the route list; this config has no `routes` key
+
+pilot:
+  base_routes_file: configs/rollout/step5-pilot-p19-screen-bases.xml
+  practice_gaps: gaps/practice/practice_v3.yaml
+  gap_id: P19_wide_invading_turn
+  generator_seed: 36
+  stage: screen
+  screen_base_routes: 10
+  id_offset: 48                  # route ids end in 78 and 88
+  cut_routes:
+    bench2drive: .runtime/simlingo/leaderboard/data/bench2drive220.xml
+    from: [.runtime/simlingo/leaderboard/data/routes_validation.xml, .runtime/simlingo/leaderboard/data/routes_training.xml]
+    excluded_bases: []
+    first_id: 63000                # distinct from every other cut file: a base id names one road
+    lead_m: 20
+    tail_m: 60
+    min_spacing_m: 100
+    min_length_m: 100
+    max_length_m: 500
+  # Bench2Drive skipped these scenarios' authored scenario in Step 2, which summarize() rejects (as in Step 4).
+  exclude_scenarios: [InterurbanActorFlow, InterurbanAdvancedActorFlow]

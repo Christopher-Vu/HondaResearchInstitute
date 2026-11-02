@@ -4,8 +4,8 @@
 
 Each cut keeps one scenario and the waypoints around its trigger: from the last waypoint at least `lead_m` before it to the first at
 least `tail_m` after it. The leaderboard interpolates between waypoints, so a cut drives the same road as the long route. A trigger
-within `min_spacing_m` of an earlier cut of the same family is skipped, and only routes of `min_length_m` to `max_length_m` stay. Bases named in `excluded_bases` are dropped: a full pilot
-never reuses a screened base.
+within `min_spacing_m` of an earlier cut of the same family is skipped, and only routes of `min_length_m` to `max_length_m` stay. Bases named in `excluded_bases` are dropped, cuts included: a full
+pilot never reuses a screened base. Length filtering comes after numbering, so a config with the same `first_id` gives a road the same id.
 """
 from __future__ import annotations
 
@@ -94,10 +94,11 @@ def generate(config: dict[str, Any]) -> list[ET.Element]:
     required = list(gap["plant"].get("base_scenario_parameters", {}))
     long_routes = [route for path in spec["from"] for route in ET.parse(ROOT / path).getroot().iter("route")]
     kept = [route for route in ET.parse(ROOT / spec["bench2drive"]).getroot().iter("route")
-            if str(route.get("id")) not in set(map(str, spec["excluded_bases"]))
-            and next(route.iter("scenario")).get("type") in families]
+            if next(route.iter("scenario")).get("type") in families]
+    excluded = set(map(str, spec["excluded_bases"]))
     bases = kept + cuts_from(long_routes, families, required, spec, spec["first_id"])
-    return [base for base in bases if spec["min_length_m"] <= route_length(base) <= spec["max_length_m"]]
+    return [base for base in bases if str(base.get("id")) not in excluded
+            and spec["min_length_m"] <= route_length(base) <= spec["max_length_m"]]
 
 
 def main() -> None:
