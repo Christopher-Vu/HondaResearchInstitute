@@ -483,3 +483,11 @@ The expert's run also rules out my worry in its simplest form: a stream vehicle 
 Predictions: P19's pass was given about 35%, P17's about 40% and P18's about 70%. P18's failures do not depend on the distance: starting 140 m behind still fails 6 of 9, so the family fails whatever this knob does, and this neighbourhood cannot show it. **P19 is a screen pass, on the same small evidence that misled me on P14.** All 7 of its slice failures include a vehicle collision, and 2 of its 3 neighbourhood failures do. It uses a value outside the routes' range (1.2 m against 0.15 to 0.6 m), so it may be impossible to avoid.
 
 Data: `docs/research/data/h9_h10_check.json`. Spend 3978 of 6000 SU; H9 and H10 cost about 1024 SU. Candidates tried: 19. Interactional gaps passing PRD 9.1 on this branch: 0.
+
+## 2026-11-02 12:22 — H11 step 1: the expert drives P19, so its full pilot runs
+
+Measured on 18 of 20 routes (base 63032's two routes hit the 1 h job limit and are not rerun). PDM-Lite had no vehicle collision on 9 of 9 slice routes (70% needed) and on all 4 of SimLingo's slice-only roads (3 needed), with no scenario timeouts. By the locked rule, P19 is solvable. The prediction was about 55%. Nothing was skipped in the expert's logs, and its `invading_turn.py` matches Bench2Drive's.
+
+**This expert has an unusually large advantage here.** PDM-Lite reads the scenario's exact offset and shifts its route for it (`privileged_route_planner.shift_route_for_invading_turn`), so its driving proves there is room on the road. It does not prove a camera-only driver could see the need in time. Bench2Drive's expert is the one that wrote SimLingo's training data, which is why it is the stated test.
+
+P19's pilot was submitted at this point. Data: `docs/research/data/h11_expert_p19.json`. Spend 4079 of 6000 SU.

@@ -1,0 +1,160 @@
+[
+ {
+  "id": "279078",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 8.45,
+  "infractions": {}
+ },
+ {
+  "id": "279088",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 8.45,
+  "infractions": {
+   "outside_route_lanes": 1
+  }
+ },
+ {
+  "id": "280278",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 29.9,
+  "infractions": {
+   "min_speed_infractions": 4
+  }
+ },
+ {
+  "id": "280288",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 29.85,
+  "infractions": {
+   "min_speed_infractions": 5
+  }
+ },
+ {
+  "id": "357278",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 45.75,
+  "infractions": {
+   "min_speed_infractions": 2
+  }
+ },
+ {
+  "id": "357288",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 45.5,
+  "infractions": {
+   "min_speed_infractions": 2
+  }
+ },
+ {
+  "id": "6300078",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 138.65,
+  "infractions": {
+   "min_speed_infractions": 2
+  }
+ },
+ {
+  "id": "6300088",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 138.45,
+  "infractions": {
+   "min_speed_infractions": 2
+  }
+ },
+ {
+  "id": "6302478",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 157.9,
+  "infractions": {}
+ },
+ {
+  "id": "6302488",
+  "arm": "neighbourhood",
+  "status": "Perfect",
+  "duration_game": 157.8,
+  "infractions": {}
+ },
+ {
+  "id": "6303278",
+  "arm": "slice",
+  "status": null
+ },
+ {
+  "id": "6303288",
+  "arm": "neighbourhood",
+  "status": null
+ },
+ {
+  "id": "6303978",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 89.75,
+  "infractions": {}
+ },
+ {
+  "id": "6303988",
+  "arm": "neighbourhood",
+  "status": "Perfect",
+  "duration_game": 89.55,
+  "infractions": {}
+ },
+ {
+  "id": "6304078",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 87.65,
+  "infractions": {
+   "min_speed_infractions": 1
+  }
+ },
+ {
+  "id": "6304088",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 87.75,
+  "infractions": {
+   "min_speed_infractions": 1
+  }
+ },
+ {
+  "id": "6304478",
+  "arm": "slice",
+  "status": "Completed",
+  "duration_game": 57.0,
+  "infractions": {
+   "min_speed_infractions": 1
+  }
+ },
+ {
+  "id": "6304488",
+  "arm": "neighbourhood",
+  "status": "Completed",
+  "duration_game": 58.15,
+  "infractions": {
+   "min_speed_infractions": 1
+  }
+ },
+ {
+  "id": "6305978",
+  "arm": "slice",
+  "status": "Perfect",
+  "duration_game": 97.95,
+  "infractions": {}
+ },
+ {
+  "id": "6305988",
+  "arm": "neighbourhood",
+  "status": "Perfect",
+  "duration_game": 96.3,
+  "infractions": {}
+ }
+]

@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-02 (P14 fails its full pilot; P19 passes a screen)
+Last updated: 2026-11-02 (P19 solvable; its full pilot running)
 
 ---
 
 ## Current position
+
+**2026-11-02 12:25, H11: the expert drives P19 (measured), so its 55-pair pilot is running.** Collision-free on 9 of 9 slice routes; the expert reads the offset directly, so this shows the road has room. Spend 4079 of 6000 SU.
 
 **2026-11-02 11:10, H9: P14 fails its full pilot. H10: P19 passes a screen (measured, dev data).** P14 gives 30 of 58 against 21 of 58 (uplift 15.5 points, ratio 1.43, Fisher p 0.13). P19, oncoming traffic 1.2 m over the line on a bend, gives 4 slice-only against 0 on 10 pairs; P17 and P18 do not pass. **Interactional gaps passing PRD 9.1 on this branch: none.** Next: expert check on P19, then its full pilot. Spend 3978 of 6000 SU; candidates tried 19. Work now goes straight to `main`.
 

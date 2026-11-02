@@ -5,6 +5,10 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — P19 goes to a full pilot after the expert drives it
+
+P19 puts oncoming traffic 1.2 m over the centre line on a bend. PDM-Lite, the rule-based expert, drove the routes with no vehicle collisions on 9 of 9 (measured), so the locked rule lets the 55-pair pilot run. The expert is told the exact offset by the scenario, so this shows only that the road has room to avoid the traffic. If this pilot also fails, the plan is to stop adding candidates and bring the choice of paper to Jerry and Chris.
+
 ## 2026-11-02 — The first promising traffic gap failed its full test
 
 P14, joining fast traffic, passed its 10-pair screen and the expert check, then failed the real test on about 60 pairs. Failure rose from 36% to 52%, which is 15.5 points where the rule needs 20, and the statistics were well short (Fisher p 0.13 against 0.01; measured). The screen had shown 78% against 33%. That gap between a screen and a pilot is the main lesson: the screen picks the luckiest of a few small tests.

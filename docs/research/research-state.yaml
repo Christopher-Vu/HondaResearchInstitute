@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 3978               # 2026-11-02 11:08 PST, H9 and H10 cost 1024
+su_spent: 4079               # 2026-11-02 12:21 PST, H11 expert cost 101
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -35,6 +35,8 @@ hypotheses:
          result: "P14 fails PRD 9.1: 30 of 58 vs 21 of 58, uplift 15.5, ratio 1.43, Fisher p 0.13; C23 17 vs 8, McNemar p 0.11", data: docs/research/data/h9_h10_check.json}
   H10:  {status: done, kind: screen, protocol: docs/research/experiments/h10-second-interactional/protocol.md,
          result: "P19 passes its screen (excess 4 on 10 pairs); P17 excess 0; P18 excess 1", data: docs/research/data/h9_h10_check.json}
+  H11:  {status: running, kind: full_pilot, protocol: docs/research/experiments/h11-p19-expert-and-pilot/protocol.md,
+         step_1: "P19 solvable: expert collision-free on 9 of 9 slice routes and 4 of 4 slice-only roads", data: docs/research/data/h11_expert_p19.json}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -45,5 +47,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - expert check on P19, then its full pilot
+  - score P19's full pilot; if it fails, stop adding gaps and bring the decision to Jerry and Chris
   - P8: lag-alignment probe idea noted (needs state labels); not built
