@@ -6,11 +6,17 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-10-21 (P7–P9 screens submitted, IV 2026 sweep read; current step is 5)
+Last updated: 2026-11-02 (rollout speed-up confirmed; Savio idle since 10-23; current step is 5)
 
 ---
 
 ## Current position
+
+**2026-11-02.** Savio queue empty since 10-23. The per-step PNG fix is confirmed: about 0.28 s a step, down
+from 0.5 (journal 11-02). Use 3 routes per A40 from now on. Step 5 still needs interactional gaps and a
+kinematic decoy. The visual decoy slot is filled. P7–P9 screen numbers (Jerry's account, 10-21) are not in the
+repo yet, and Steps 6–7 on the dev pool wait on them. Next: the kinematic decoy screen (Chris to approve),
+P7–P9 numbers from Jerry, then the full pilots for whichever of P7–P9 passed.
 
 **2026-10-21 18:00, P7–P9 screens submitted (Jerry's account).** Savio's checkout was
 fast-forwarded to `main` (b11ad6a) by git bundle and the left-crossing patch applied
