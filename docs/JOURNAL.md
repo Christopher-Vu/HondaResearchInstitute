@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — A later walker did not break SimLingo, so the search moves to traffic
+
+Jerry asked for a harder version of P10, and later asked to keep going until the results are NeurIPS-ready. I first measured how quickly SimLingo stops. From 10 to 12 m/s it takes 7 to 8 m. That ruled out starting the walker 1.0 s
+out, because normal stops would end at the walker's path and a crash would measure physics. P13 used 1.2 s. It failed its screen: one failure only with the condition and one only without it, against the 3 extra required (measured; screen on dev data; `docs/research/data/h6_check.json`). A walker was struck once in each arm.
+
+A count over 601 drives with nothing planted explains why: 2 of 65 walker crossings failed, against 8 of 13 signalized right turns and 8 of 11 left turns into entering traffic. H7 now varies traffic on the same roads through three new gaps, locked first in
+`docs/research/experiments/h7-traffic-pressure/protocol.md`. Main was merged for Chris's speed-up. The merged evaluation no longer calls Catherine's stability check; PR 7 asks Chris about that, and about a possible overlap between these public gaps and the sealed pool.
+
+Unfinished: H7 is running. The blind test needs Chris and more compute than the 6000 SU budget.
+
 ## 2026-11-02 — Rollouts now run almost twice as fast; one decoy rule for every decoy
 
 On 2026-10-23 the rollout profiling (10-20 entry) was corrected. The third of each policy step that looked like

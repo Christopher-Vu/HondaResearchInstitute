@@ -425,3 +425,14 @@ Jerry asked to keep going until the results are NeurIPS-ready. All planted inter
 13 to 14 m/s traffic failed 8 of 8 and those with 10 to 12 m/s failed 0 of 5 (exploratory, 5 bases). H7 varies traffic on fixed roads through three new gaps: P14, P15, P16.
 `pilot_routes.py` can now override the base scenario's parameters. Main was merged (823932c) for Chris's speed-up.
 Protocol: `docs/research/experiments/h7-traffic-pressure/protocol.md`. Prediction: at least one passes, about 70% (a guess).
+
+## 2026-11-02 02:14 — H6 result: a later walker changes nothing; H7 submitted
+
+P13 (walker at 3.5 m/s, 1.2 s) fails its screen, as predicted (measured, screen, dev data; 20 of 20 routes scored). The new check holds: 9 of 10 slice routes reached the trigger
+above 4 m/s. Slice-only failures 1, neighbourhood-only 1, excess 0 of the 3 required; 3 of 10 fail in each arm. A walker was struck once in each arm (356173 with the condition, 324883 at stock timing).
+Both other failures in each arm are shared by the pair (bases 1825 and 2509) and involve no walker.
+
+Four slice routes that stopped did so 4.3 to 7.8 m from the crossing point, measured from the car's centre, which is more room than the arithmetic in the protocol predicted. These walker-start times are estimates from
+the car's position, and no log records them. Taking 0.4 s from stock timing to 1.2 s does not visibly raise strikes, and 1.0 s would test physics, so I stop varying walker timing. Data: `docs/research/data/h6_check.json`.
+
+Cost: 52.6 SU, 2.6 SU per route, under half the estimate. Goal spend is 2632 of 6000 SU. H7 arrays submitted on abe1831 with main's speed-up, three routes per A40: P14 40750508, P15 40750511, P16 40750513; scoring jobs 40750509, 40750512, 40750515.

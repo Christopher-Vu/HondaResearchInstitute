@@ -24,9 +24,11 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 - **No interactional gap passes yet (H5, screens, measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
   required. P11 was properly tested. P10 and P12 failed the manipulation check (3 of 5, 4 needed), so by the locked rule they are
   untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps; there are none.
+- **A later walker changes nothing (H6, screen, measured).** P13, with the walker starting at 1.2 s, gives 1 slice-only and 1 neighbourhood-only failure on 10 pairs, with one walker struck in each arm. The check held.
 
 ## Patterns and insights
 
+- SimLingo rarely fails walkers and often fails moving traffic (601 unplanted routes, measured): crossings 2 of 65, signalized right turns 8 of 13, left turn with entering flow 8 of 11, EnterActorFlow 6 of 10. Walkers were the wrong place to look for interactional gaps. Whether traffic speed itself causes failures is H7.
 - Every gap that only changed appearance (fog, dust, night, pedestrians, animals, glare) failed to cause failures;
   every gap that removed information from the camera passed. SimLingo is robust to looks, fragile to missing input.
 - Before a failure, SimLingo's layer-10 activations mis-decode lead distance, closing speed, pedestrian distance,
