@@ -21,6 +21,8 @@ hypotheses:
   H5:   {status: done, kind: screen, protocol: docs/research/experiments/h5-interactional-screen/protocol.md,
          result: "no gap passes: P11 tested, excess 2 of 3; P10 and P12 untested (check 3 of 5), excess 2 of 3 either way",
          data: docs/research/data/h5_manipulation.json, note: "C24 check counts early braking as no hazard; not overridden"}
+  H6:   {status: running, kind: screen, protocol: docs/research/experiments/h6-later-crossing/protocol.md,
+         note: "P13, P10 with the walker at 1.2 s; 1.0 s ruled out by measured stops"}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -31,5 +33,5 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - waiting on Jerry: what to do about interactional gaps after H5; no full pilot starts without that call
+  - H6 screen of P13 running; no full pilot starts without Jerry's call
   - P8: lag-alignment probe idea noted (needs state labels); not built

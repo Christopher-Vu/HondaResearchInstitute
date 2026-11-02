@@ -410,3 +410,10 @@ submitted. The walker's real speed was not measured from logs. Spend: 2580 of 60
 are left on Savio.
 
 Stopping here as the protocol says: a full pilot is Jerry's call.
+
+## 2026-11-02 01:41 — H6 protocol: screen P10 with a later walker
+
+Jerry chose to screen a harder P10 after H5. Measured first, on H5's crash-free routes: SimLingo stops from 10 to 12 m/s in 7 to 8 m, which
+is 8 to 10 m/s² on average. That rules out the 1.0 s I proposed: its two measured stops would end at or past the walker's line, so a strike
+would measure physics. The new gap P13 starts the walker at 1.2 s, and the rest matches P10. The hazard check now reads the car's speed at the trigger point, before the
+walker is placed. Protocol: `docs/research/experiments/h6-later-crossing/protocol.md`. Prediction: no pass, about 70% (a guess).
