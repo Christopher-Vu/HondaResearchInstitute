@@ -1,6 +1,6 @@
-# H13: a gap that cuts across scenario families (draft)
+# H13: a gap that cuts across scenario families
 
-**Draft, not locked. Nothing has run.** It locks when Jerry approves it and the commit is pushed before any route is submitted. Dev only (PRD §9.2).
+**Locked 2026-11-03 on Jerry's approval, before any route ran.** Dev only (PRD §9.2).
 
 ## Why this gap
 
@@ -27,8 +27,8 @@ P11's left-patch arm failed 4 of 10 roads with no hazard on that side, where tho
 
 ## Steps
 
-1. **Screen.** 10 pairs, 2 from each family. Check first: at least 99% of the box is black in the saved frames of the first 5 scored slice routes, and the car passes within 5 m of the scenario's trigger with another vehicle within 50 m in the 10 s after, on at least 70% of scored slice routes. Pass: at least 3 excess slice-only failures.
-2. **Full pilot, only if the screen passes.** 40 new pairs, 8 from each family, none reused. PRD 9.1 is the verdict. C23's McNemar is reported with it, and 40 pairs sits under its floor of 60.
+1. **Screen.** 10 pairs, 2 from each family. Check first: at least 99% of the box is black in the saved frames of the first 5 scored slice routes, and the car passes within 5 m of the scenario's trigger with another vehicle within 50 m in the 10 s after, on at least 70% of scored slice routes. Pass: at least 3 excess slice-only failures. Configuration: `configs/rollout/step5-pilot-p20-screen.yaml`; the check is `check.py`.
+2. **Full pilot, only if the screen passes and the SU left cover 680.** 40 new pairs, 8 from each family, none reused (the same seeded draw, past the screen's). PRD 9.1 is the verdict. C23's McNemar is reported with it, and 40 pairs sits under its floor of 60.
 3. **Methods, only if PRD 9.1 passes.** H12's pipeline on H12's pool without P19, plus P20's rollouts: Claims A, A′ and B, the length audit, and B2's measured score against 0.4.
 
 If the screen fails, the remaining SU stay unspent and the candidate count rises to 20. No slicing by family after the fact.

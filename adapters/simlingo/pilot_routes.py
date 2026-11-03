@@ -5,11 +5,12 @@
 The config's `pilot` section names one gap in a practice-gap file. Base routes are drawn from the pinned
 Bench2Drive-220 routes with the generator seed, one route per base, skipping excluded scenario families and routes
 shorter than the gap's `plant.min_route_length_m`, and, when the gap sets `plant.include_scenarios`, keeping only
-routes of those scenario families. Each base yields a slice route under the gap's `plant` and a
+routes of those scenario families (`plant.even_families` draws the same number from each). Each base yields a slice route under the gap's `plant` and a
 neighbourhood route under its `neighbourhood`, so the pair differs only in the planted factor and the base route is
 the unit of analysis (CONFLICTS.md C23). An arm may set:
 
-    weather   a preset with overrides (default ClearNoon)
+    weather   a preset with overrides (default ClearNoon), or `draw: background`: one stock preset per base route, drawn
+              with the generator seed and shared by both arms
     sensor    agent-side settings recorded in the manifest, e.g. `camera_fault`, which run_savio.py hands the agent
     scenario  a scenario appended to the route, triggered at its first waypoint: `type`, `parameters` (each written
               as <name value=...>; a list rotates across base routes in draw order) and `attributes` (child
@@ -39,8 +40,8 @@ from typing import Any
 
 import yaml
 from artifacts import ROOT
-from dev_routes import (PlannedRoute, build_route, family_of, manifest_document, manifest_entry, routes_document,
-                        weather_from_spec)
+from dev_routes import (BACKGROUND_PRESETS, PlannedRoute, build_route, family_of, manifest_document, manifest_entry,
+                        preset_weather, routes_document, weather_from_spec)
 from harness.predicates import matches
 
 SLICE, NEIGHBOURHOOD = "pilot_slice", "pilot_neighbourhood"
@@ -64,22 +65,37 @@ def eligible(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any
             and (included is None or family_of(route) in included)]
 
 
+def draw_evenly(pool: list[ET.Element], screen: int, count: int, rng: random.Random) -> list[ET.Element]:
+    """The same number from each family, screened bases first, so the screen is an even share too."""
+    families = sorted({family_of(route) for route in pool})
+    picks = [rng.sample([route for route in pool if family_of(route) == family], (screen + count) // len(families))
+             for family in families]
+    screened = screen // len(families)
+    return [route for pick in picks for route in pick[:screened]] + [route for pick in picks for route in pick[screened:]]
+
+
 def draw_bases(routes: list[ET.Element], gap: dict[str, Any], pilot: dict[str, Any]) -> list[ET.Element]:
     count = pilot.get("base_routes", gap["plant"]["base_routes"])
     screen = pilot.get("screen_base_routes", 0) if pilot.get("stage") else 0
-    drawn = random.Random(pilot["generator_seed"]).sample(eligible(routes, gap, pilot), screen + count)
+    pool, rng = eligible(routes, gap, pilot), random.Random(pilot["generator_seed"])
+    drawn = draw_evenly(pool, screen, count, rng) if gap["plant"].get("even_families") else rng.sample(pool, screen + count)
     chosen = drawn[:screen] if pilot.get("stage") == "screen" else drawn[screen:]
     return sorted(chosen, key=lambda route: int(str(route.get("id"))))
 
 
-def plan_pairs(bases: list[ET.Element], gap: dict[str, Any],
-               id_offset: int = 0) -> list[tuple[PlannedRoute, dict[str, Any]]]:
+def arm_weather(arm: dict[str, Any], base: ET.Element, seed: int) -> dict[str, float]:
+    spec = arm.get("weather", DEFAULT_WEATHER)
+    if spec.get("draw") == "background":
+        return preset_weather(random.Random(f"{seed}:{base.get('id')}").choice(BACKGROUND_PRESETS))
+    return weather_from_spec(spec)
+
+
+def plan_pairs(bases: list[ET.Element], gap: dict[str, Any], id_offset: int = 0,
+               seed: int = 0) -> list[tuple[PlannedRoute, dict[str, Any]]]:
     plant, nearby = gap["plant"], gap["neighbourhood"]
-    slice_weather = weather_from_spec(plant.get("weather", DEFAULT_WEATHER))
-    neighbourhood_weather = weather_from_spec(nearby.get("weather", DEFAULT_WEATHER))
     return [pair for base in bases for pair in (
-        (PlannedRoute(base, SLICE, slice_weather, {}, id_offset), plant),
-        (PlannedRoute(base, NEIGHBOURHOOD, neighbourhood_weather, {}, id_offset, (gap["gap_id"],)), nearby))]
+        (PlannedRoute(base, SLICE, arm_weather(plant, base, seed), {}, id_offset), plant),
+        (PlannedRoute(base, NEIGHBOURHOOD, arm_weather(nearby, base, seed), {}, id_offset, (gap["gap_id"],)), nearby))]
 
 
 def resolved_parameters(spec: dict[str, Any], base_index: int) -> dict[str, Any]:
@@ -167,7 +183,7 @@ def generate(config: dict[str, Any]) -> tuple[str, list[dict[str, Any]]]:
     gaps = {gap["gap_id"]: gap for gap in yaml.safe_load((ROOT / pilot["practice_gaps"]).read_text())["gaps"]}
     gap = gaps[pilot["gap_id"]]
     bases = draw_bases(routes, gap, pilot)
-    pairs = plan_pairs(bases, gap, pilot.get("id_offset", 0))
+    pairs = plan_pairs(bases, gap, pilot.get("id_offset", 0), pilot["generator_seed"])
     built = [(planned, build_arm(planned, arm, index // 2), arm, index // 2) for index, (planned, arm) in enumerate(pairs)]
     entries = [arm_entry(planned, route, arm, gap, base) for planned, route, arm, base in built]
     validate(entries, len(bases), gap)

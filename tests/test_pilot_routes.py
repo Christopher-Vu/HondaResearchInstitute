@@ -114,7 +114,8 @@ def test_no_two_committed_manifests_share_a_route_id():
 
 @pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main", "step5-pilot-p5-screen",
                                   "step5-pilot-p5-main", "step5-pilot-p6-screen", "step5-pilot-p6-main",
-                                  "step5-pilot-p7-screen", "step5-pilot-p8-screen", "step5-pilot-p9-screen"])
+                                  "step5-pilot-p7-screen", "step5-pilot-p8-screen", "step5-pilot-p9-screen",
+                                  "step5-pilot-p20-screen"])
 def test_committed_pilot_files_are_what_the_generator_writes(name):
     config, (document, entries) = load(name)
     assert (ROOT / config["route"]["routes_file"]).read_text() == document
@@ -155,6 +156,18 @@ def test_include_scenarios_restricts_the_base_routes_to_those_families():
     assert len(entries) == 20
     assert {entry["scenario"] for entry in entries} <= set(gap["plant"]["include_scenarios"])
     assert all("Signalized" in entry["scenario"] or "RedLight" in entry["scenario"] for entry in entries)
+
+
+def test_an_even_screen_takes_two_from_each_family_and_shares_weather_within_a_pair():
+    _config, (_document, entries) = load("step5-pilot-p20-screen")
+    slices = [entry for entry in entries if entry["role"] == "pilot_slice"]
+    assert set(Counter(entry["scenario"] for entry in slices).values()) == {2} and len(slices) == 10
+    weather = {entry["base_id"]: entry["weather"] for entry in slices}
+    assert len({str(value) for value in weather.values()}) > 1
+    for entry in entries:
+        assert entry["weather"] == weather[entry["base_id"]]
+        assert ("left" if entry["sensor"]["camera_fault"]["box"][0] == 0.0 else "right") == (
+            "left" if entry["role"] == "pilot_slice" else "right")
 
 
 def test_base_scenario_parameters_replace_a_value_and_an_interval():

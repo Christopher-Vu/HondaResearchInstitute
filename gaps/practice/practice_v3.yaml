@@ -185,6 +185,31 @@ gaps:
     manipulation_check: {measure: reached_trigger_with_traffic, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
     screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
 
+  - gap_id: P20_oncoming_hidden
+    tier: T2_interactional
+    summary: >-
+      A conjunction across five families: the left of the camera is blacked out on a road where the car meets vehicles coming the other way.
+      The neighbourhood is the same road with the mirror-image patch on the right, so oncoming traffic stays visible. Both arms carry a patch
+      of one size, so only whether it hides the traffic differs. Spread over families because a single-family gap cannot pass PRD 13 Step 5
+      (docs/research/experiments/h13-cross-family-gap/protocol.md).
+    predicate:
+      - {field: sensor.camera_fault.box, op: "==", value: [0.0, 0.25, 0.45, 0.65]}
+    plant:
+      base_routes: 40
+      include_scenarios: [AccidentTwoWays, ParkedObstacleTwoWays, HazardAtSideLaneTwoWays, VehicleOpensDoorTwoWays, InvadingTurn]
+      even_families: true
+      weather: {draw: background}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.0, 0.25, 0.45, 0.65]}
+    neighbourhood:
+      weather: {draw: background}
+      sensor:
+        camera_fault: {kind: occlusion, box: [0.55, 0.25, 1.0, 0.65]}
+    # C24, fixed before the screen runs: at least 99% of the box is black in the saved frames of the first 5 scored slice routes, and the car
+    # passes within 5 m of the scenario's trigger with another vehicle within 50 m in the 10 s after, on at least 70% of scored slice routes.
+    manipulation_check: {measure: black_box_and_reached_trigger_with_traffic, min_fraction: 0.99, of_first_routes: 5, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+
   - gap_id: P11_blind_side_crossing
     tier: T2_interactional
     summary: >-
