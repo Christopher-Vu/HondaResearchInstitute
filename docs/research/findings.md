@@ -21,9 +21,10 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
   group that mixes them (58 slice rollouts, 36 of them P8): the two timing faults look alike inside the model.
 - H1 Tier 1 could not test activation methods because its SAEs did not fit the input. H3 became the confirmatory test.
   Tier 2 (per-token data on the whole pool) was not run; wave 3 captured the tokens, so it stays possible.
-- **No interactional gap passes yet (H5, screens, measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
+- **H5's screens found no passing gap (measured).** P10, P11 and P12 each reached 2 of the 3 excess failures
   required. P11 was properly tested. P10 and P12 failed the manipulation check (3 of 5, 4 needed), so by the locked rule they are
-  untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps; there are none.
+  untested, and they would miss the screen even if the check were waived. PRD 13.1 needs two passing interactional gaps.
+- **P19 passes PRD 9.1, the first interactional gap on this branch to do so (H11, measured, dev data).** With oncoming traffic 1.2 m over the line on a bend, SimLingo fails 42 of 53 against 7 of 48 at 0.2 m on the same roads: uplift 64.7 points, ratio 5.43, Fisher p 4e-11. On 46 pairs, 32 fail only at 1.2 m and none only at 0.2 m (McNemar p 5e-10); C23's floor of 60 pairs is not met. All 32 are vehicle collisions. The worst case for the 9 lost routes still passes (uplift 50.9, ratio 3.0). One gap on dev data does not meet PRD 13.1, which needs two on the test pool, and 1.2 m lies outside the routes' 0.15 to 0.6 m. No dose-response has been measured.
 - **P19 is solvable by the locked rule (H11, measured).** PDM-Lite had no vehicle collision on 9 of 9 slice routes. It reads the exact offset from the scenario, so this shows the road has room and not that a camera-only driver could respond in time.
 - **P14 fails its full pilot (H9, measured, 58 slice routes).** 52% against 36%, uplift 15.5 points, ratio 1.43, Fisher p 0.13, on routes that were almost all right turns. Its screen's 78% against 33% did not hold, so **a 10-pair screen pass is weak evidence.**
 - **P19, oncoming traffic 1.2 m over the line on a bend, passes its screen (H10, measured, 10 pairs).** 4 slice-only against 0 neighbourhood-only. Expert check and full pilot not done. P17 (late cut-in) and P18 (close emergency vehicle) do not pass.
@@ -42,6 +43,7 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Lessons and constraints
 
+- Screens can mislead in both directions. P14's effect shrank from 78% against 33% to 52% against 36%, while P19's grew from 70% against 30% to 79% against 15%.
 - A screen's best of three is inflated. P14 went from 78% against 33% to 52% against 36%. Read a screen pass as a reason to run the pilot and nothing more.
 - Cut routes and base routes both carry a neighbourhood failure rate near 35%, which eats power: the efficacy check needs a strong effect to show at all.
 - Rollout length alone reaches Jaccard 0.48 on P7, because frozen drives stall and run long. Any P7 axis near that

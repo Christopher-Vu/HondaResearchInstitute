@@ -491,3 +491,34 @@ Measured on 18 of 20 routes (base 63032's two routes hit the 1 h job limit and a
 **This expert has an unusually large advantage here.** PDM-Lite reads the scenario's exact offset and shifts its route for it (`privileged_route_planner.shift_route_for_invading_turn`), so its driving proves there is room on the road. It does not prove a camera-only driver could see the need in time. Bench2Drive's expert is the one that wrote SimLingo's training data, which is why it is the stated test.
 
 P19's pilot was submitted at this point. Data: `docs/research/data/h11_expert_p19.json`. Spend 4079 of 6000 SU.
+
+## 2026-11-02 19:40 — H11 step 2: P19 passes PRD 9.1, the first interactional gap on this branch to do so
+
+Measured on dev data, on 46 complete pairs and 101 of 110 routes. The check came first and holds, 48 of 53 scored slice routes. The screen's roads were excluded, so this pilot does not reuse the data that selected P19.
+
+| Rule | Measured | Needed |
+|---|---:|---:|
+| Fails, slice (1.2 m) | 42 of 53, 79% | |
+| Fails, neighbourhood (0.2 m) | 7 of 48, 15% | |
+| Uplift | 64.7 points | 20 |
+| Ratio | 5.43 | 2 |
+| Fisher p | 4e-11 | 0.01 |
+| Slice rollouts | 53 | 30 |
+
+**PRD 9.1, the verdict of record, passes.** C23 on 46 pairs gives 32 slice-only against 0 neighbourhood-only, McNemar p 5e-10. `efficacy.json` marks C23 as not passing only because 46 pairs is under its floor of 60; P7 (56) and P8 (58) sit under the same floor. The locked read: all 32 slice-only failures include a vehicle collision, 14 of them also a scenario timeout, and the other 18 have no timeout. The prediction was a pass at about 40%, and the effect is larger than the screen's 70% against 30%, unlike P14.
+
+**Checks I ran on this result because it is so large (exploratory).**
+
+- Lost routes: 9 routes have no outcome, 7 neighbourhood and 2 slice. Counting every lost neighbourhood route as a failure and every lost slice route as a success gives 42 of 55 against 14 of 55, uplift 50.9, ratio 3.0, Fisher p 1e-7, which still passes.
+- Candidates tried: 19. Multiplying p by 19 gives 8e-10. The pilot used new roads, so the screen that selected P19 does not inflate this number.
+- Nothing was skipped by the scenario runner in either arm, and both arms ran the same two towns.
+
+**What this does not show.**
+
+- It is one gap on dev data. PRD 13.1 needs two interactional gaps on the test pool, and practice gaps do not count there (PRD 9.2).
+- 1.2 m lies outside the 0.15 to 0.6 m used in the route sets, so this may be mainly an out-of-range failure. Whether failure rises gradually with offset has not been measured.
+- The expert that drove these roads reads the exact offset (H11 step 1). No camera-only driver has been shown to avoid this traffic.
+- Why the car hits the traffic, for example whether it holds its line or moves over too late, has not been read from the frames.
+
+Data: `results/savio/step5-pilot-p19-main/`, `docs/research/data/h11_p19_main.json`. Spend 4943 of 6000 SU; the pilot cost about 864 SU. Interactional gaps passing PRD 9.1 on this branch: 1.
+

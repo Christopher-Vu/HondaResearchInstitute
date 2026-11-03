@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-02 — P19 passes the full test, the first interactional gap to do so
+
+P19 puts oncoming traffic 1.2 m over the centre line on a bend. On 55 new roads, SimLingo failed 42 of 53 drives at 1.2 m and 7 of 48 at 0.2 m (measured, dev data). The rule needs a rise of 20 points and a ratio of 2; it got 64.7 points and 5.43. On the 46 roads with both drives, 32 failed only at 1.2 m and none failed only at 0.2 m, and all 32 were vehicle collisions. The prediction was a pass at about 40%.
+
+Nine routes were lost to simulator failures. Even if each lost route had gone against P19, it would still pass. The paired check's own floor of 60 pairs is not met, at 46.
+
+This is one gap on practice data, so it does not meet the go/no-go, which needs two on the test pool. The value 1.2 m is also outside the 0.15 to 0.6 m in the route sets, so this may be mainly an out-of-range failure, and nobody has yet measured how failure changes with offset. The plan to stop and hand the paper choice to Jerry and Chris applied only if this pilot failed, so work continues: next is whether the methods recover P19, then one more gap, which is all the budget allows. See `docs/research/research-log.md`.
+
 ## 2026-11-02 — P19 goes to a full pilot after the expert drives it
 
 P19 puts oncoming traffic 1.2 m over the centre line on a bend. PDM-Lite, the rule-based expert, drove the routes with no vehicle collisions on 9 of 9 (measured), so the locked rule lets the 55-pair pilot run. The expert is told the exact offset by the scenario, so this shows only that the road has room to avoid the traffic. If this pilot also fails, the plan is to stop adding candidates and bring the choice of paper to Jerry and Chris.

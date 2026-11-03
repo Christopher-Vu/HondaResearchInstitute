@@ -1,0 +1,83 @@
+{
+  "config": "configs/rollout/step5-pilot-p19-main.yaml",
+  "jobs": [
+    "40773928"
+  ],
+  "routes_configured": 110,
+  "routes_with_outcome": 101,
+  "official": {
+    "driving score": 70.24945293069307,
+    "success rate": 0.5148514851485149,
+    "eval num": 101,
+    "warning": "-----------------------Warning: there are 101 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 101,
+    "routes_scored": 101,
+    "unscored": [],
+    "mean_driving_score_over_scored": 70.25,
+    "mean_route_completion_over_scored": 98.83,
+    "success_rate_over_scored": 0.515,
+    "mean_real_time_factor": 0.1089
+  },
+  "scenario_skipped": [],
+  "simulated_seconds_total": 17422.2,
+  "wall_seconds_total": 164893.4,
+  "rerun": [
+    {
+      "id": "6303688",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6304388",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": "slow simulation"
+    },
+    {
+      "id": "6304678",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6306288",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6306788",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6307188",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": "slow simulation"
+    },
+    {
+      "id": "6307388",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6307978",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    },
+    {
+      "id": "6308088",
+      "attempts": 1,
+      "last_status": null,
+      "stop_reason": null
+    }
+  ],
+  "not_run": []
+}

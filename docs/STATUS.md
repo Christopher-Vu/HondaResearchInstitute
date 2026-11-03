@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-02 (P19 solvable; its full pilot running)
+Last updated: 2026-11-02 (P19 passes PRD 9.1; first interactional gap to do so)
 
 ---
 
 ## Current position
+
+**2026-11-02 19:40, H11: P19 passes PRD 9.1 (measured, dev data).** 42 of 53 against 7 of 48, uplift 64.7 points, ratio 5.43, Fisher p 4e-11; 32 slice-only against 0 on 46 pairs, under C23's floor of 60. **Interactional gaps passing on this branch: 1. PRD 13.1 needs 2, on the test pool.** Next: whether the methods recover P19, using shards already captured, then a second gap. Spend 4943 of 6000 SU; a full pilot costs about 860 SU, so one more fits. Candidates tried 19.
 
 **2026-11-02 12:25, H11: the expert drives P19 (measured), so its 55-pair pilot is running.** Collision-free on 9 of 9 slice routes; the expert reads the offset directly, so this shows the road has room. Spend 4079 of 6000 SU.
 

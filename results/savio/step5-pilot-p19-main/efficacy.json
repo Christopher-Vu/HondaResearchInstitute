@@ -1,0 +1,39 @@
+{
+  "gap_id": "P19_wide_invading_turn",
+  "routes_listed": 110,
+  "routes_without_outcome": [
+    "6303688",
+    "6304388",
+    "6304678",
+    "6306288",
+    "6306788",
+    "6307188",
+    "6307388",
+    "6307978",
+    "6308088"
+  ],
+  "prd_9_1": {
+    "n_in": 53,
+    "failures_in": 42,
+    "n_neighbourhood": 48,
+    "failures_neighbourhood": 7,
+    "fail_rate_in": 0.7924528301886793,
+    "fail_rate_neighbourhood": 0.14583333333333334,
+    "uplift_pp": 64.6619496855346,
+    "ratio": 5.433962264150943,
+    "fisher_p": 3.9552366773245894e-11,
+    "passes": true
+  },
+  "c23_paired": {
+    "pairs": 46,
+    "base_routes": 46,
+    "slice_only_failed": 32,
+    "neighbourhood_only_failed": 0,
+    "fail_rate_in": 0.8260869565217391,
+    "fail_rate_neighbourhood": 0.13043478260869565,
+    "uplift_pp": 69.56521739130434,
+    "ratio": 6.333333333333334,
+    "mcnemar_p": 4.656612873077393e-10,
+    "passes": false
+  }
+}
