@@ -4,6 +4,9 @@ The evolving answer to: does the discovery SDK recover failures we planted in CA
 
 ## Current understanding
 
+- **The methods find P19 in some dictionaries, and B2 beats them (H12, measured, dev data).** Contrastive diffing's best axis reaches Jaccard 0.705 (33 rollouts, 31 in the key, 14% of failures), far above a stopwatch (0.327) and the catch-all (0.183). The median of 18 dictionaries is 0.375, and 0 of 6 seeds beat B2's `InvadingTurn` stratum (0.857). This is the first time the methods have been tested on anything other than a camera fault.
+- **P19 breaks PRD Step 5's single-factor condition (H12).** One family with few neighbourhood failures nearly equals the gap, so B2 reaches 0.857 where the limit is 0.4. Lowering it would take about 370 more `InvadingTurn` routes at ordinary offsets (estimate). On a realistic pool P19 is enumerable, so **interactional gaps meeting the PRD's definition: 0.** A gap has to cut across scenario families, or the family has to fail often without it.
+- **P4's result depends on the dictionaries (H12).** The best M1 axis is 0.490 here against 0.557 in H3, so Claim A misses by 0.010. Claim B still holds, on 6 of 6 seeds. The frozen-input signal gives 0.889 on P7 again.
 - **Confirmed on fresh drives (H3, a pipeline frozen before the data existed).** On 435 new rollouts with 180 failures,
   contrastive diffing recovers P4 (Jaccard 0.557 vs 0.354 for the best baseline and 0.256 for the catch-all; margin
   interval +0.108 to +0.350; Claims A and B hold). A frozen-input signal read from activations recovers P7 (0.889, 48

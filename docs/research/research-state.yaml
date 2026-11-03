@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 4943               # 2026-11-02 19:38 PST, H11 pilot cost about 864
+su_spent: 4959               # 2026-11-03, H12 cost about 16
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -39,6 +39,9 @@ hypotheses:
          step_1: "P19 solvable: expert collision-free on 9 of 9 slice routes and 4 of 4 slice-only roads",
          result: "P19 passes PRD 9.1: 42 of 53 vs 7 of 48, uplift 64.7, ratio 5.43, Fisher p 4e-11; C23 32 vs 0 on 46 pairs, McNemar p 5e-10, under its 60-pair floor; check 48 of 53",
          data: [docs/research/data/h11_expert_p19.json, docs/research/data/h11_p19_main.json, results/savio/step5-pilot-p19-main/]}
+  H12:  {status: done, kind: dev_evaluation, protocol: docs/research/experiments/h12-methods-on-p19/protocol.md,
+         result: "P19 M1 0.705 (A yes, B no; median 0.375, 0 of 6 seeds beat B2 0.857); P4 M1 0.490 (A no, B yes); P7 stale 0.889; B2 breaks Step 5's single-factor condition, so P19 is enumerable on a realistic pool",
+         data: [docs/research/data/h12_layer10_plain.json, docs/research/data/h12_layer10_stale.json]}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -49,7 +52,7 @@ video:
   voice: macOS Daniel, kept by Jerry 2026-11-01; no ElevenLabs take
 
 next_actions:
-  - test whether the discovery methods recover P19 on the dev pool, using the shards already captured; lock the protocol first
-  - look for a second interactional gap with the 1057 SU left; a full pilot costs about 860 SU, so only one more fits
+  - decide with Jerry and Chris what P19 counts as, since B2 breaks Step 5's single-factor condition on it (H12), before spending more
+  - a next gap must cut across scenario families or use a family that fails often anyway; 1041 SU left, and a full pilot costs about 860 SU, so only one more fits
   - tell Chris P19 may overlap the sealed pool, since public predicates are excluded from the key
   - P8: lag-alignment probe idea noted (needs state labels); not built

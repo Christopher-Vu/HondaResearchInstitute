@@ -8,6 +8,16 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-03: P19 passed PRD 9.1 but a scenario label nearly equals it
+
+**Expected:** P19 would count as the first interactional gap, as STATUS and the log said on 2026-11-02.
+
+**Actual (measured, H12):** B2, a list of scenario names, scores Jaccard 0.857 on it, and PRD §13 Step 5 forbids a single-factor stratum reaching 0.4 with an interactional gap. H10 and H11 checked PRD 9.1 and solvability and never checked this condition. Changing one parameter inside one family, with few neighbourhood failures, makes the family nearly the gap.
+
+**What we did:** recorded it in `docs/research/research-log.md` and stopped before choosing another gap. Check B2's expected Jaccard before a screen is spent, because it can be estimated from the route list.
+
+---
+
 ## 2026-11-02: two cut-route files reused one base id for different roads
 
 `cut_routes.py` numbered every cut from 60000, so base 60024 meant one road in P17's file and another in P19's. With the same id offset, two route ids clashed. Anything pooling by base route would have treated different roads as one. `test_no_two_committed_manifests_share_a_route_id` caught it, but my commit command ran after the test printed its failure, so 4700bd3 went in failing and three screens were queued from it. They were cancelled within minutes, before any result, and regenerated with a distinct `first_id` per config. The draws did not change. P14's main pilot keeps 60000. **Chain commits on the test command's exit code.**

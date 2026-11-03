@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-02 (P19 passes PRD 9.1; first interactional gap to do so)
+Last updated: 2026-11-03 (H12 read; P19 fails the single-factor condition)
 
 ---
 
 ## Current position
+
+**2026-11-03, H12: the methods find P19 only partly, and P19 is not interactional by the PRD's own test (measured, dev data).** Contrastive diffing's best axis scores Jaccard 0.705 against 0.183 for the catch-all and 0.327 for a stopwatch, but the median of 18 dictionaries is 0.375, and B2's scenario label scores 0.857 (Claim B fails, 0 of 6 seeds). PRD §13 Step 5 bars a single-factor stratum above 0.4, so **interactional gaps meeting the definition: 0.** P4 is 0.490 on this pool (Claim A misses by 0.010; Claim B holds); the frozen-input signal gives 0.889 on P7. **Blocker: Jerry and Chris decide what P19 counts as and what the last pilot goes on.** Spend 4959 of 6000 SU; a full pilot costs about 860 SU, so one more fits. No jobs running.
 
 **2026-11-02 19:40, H11: P19 passes PRD 9.1 (measured, dev data).** 42 of 53 against 7 of 48, uplift 64.7 points, ratio 5.43, Fisher p 4e-11; 32 slice-only against 0 on 46 pairs, under C23's floor of 60. **Interactional gaps passing on this branch: 1. PRD 13.1 needs 2, on the test pool.** Next: whether the methods recover P19, using shards already captured, then a second gap. Spend 4943 of 6000 SU; a full pilot costs about 860 SU, so one more fits. Candidates tried 19.
 

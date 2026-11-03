@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-03 (Jerry) — Reading H12: partial recovery of P19, and a problem with P19 itself
+
+H12 had finished overnight on Savio without anyone reading it, so this session read it and ran the audits its protocol named. It asked whether the discovery methods find P19, oncoming traffic 1.2 m over the line on a bend, the first failure tested that is not a camera fault. In the best of 18 dictionaries (sets of features learned from activations), contrastive diffing returns 33 failing drives, 31 of them P19's, with no factor list. That is far beyond chance and beyond sorting by drive length. Most dictionaries do worse (median Jaccard 0.375, where Jaccard is shared members over combined members), and a plain list of scenario names scores 0.857.
+
+The protocol expected the list to win. What it missed is that the PRD's Step 5 forbids any single label reaching 0.4 on an interactional gap, so P19 does not meet the definition, although yesterday's notes called it the first interactional gap. Getting under the limit would take an estimated 370 more routes of that family. So the count of qualifying gaps is back to zero, which affects the go/no-go and the NeurIPS bar. Details are in [`docs/research/research-log.md`](research/research-log.md).
+
+No new jobs ran and nothing was spent beyond H12's 16 SU. The session stopped there because the last affordable full pilot should go on a gap that cuts across scenario families, and what P19 now counts as is for Jerry and Chris to decide.
+
+---
+
 ## 2026-11-02 — P19 passes the full test, the first interactional gap to do so
 
 P19 puts oncoming traffic 1.2 m over the centre line on a bend. On 55 new roads, SimLingo failed 42 of 53 drives at 1.2 m and 7 of 48 at 0.2 m (measured, dev data). The rule needs a rise of 20 points and a ratio of 2; it got 64.7 points and 5.43. On the 46 roads with both drives, 32 failed only at 1.2 m and none failed only at 0.2 m, and all 32 were vehicle collisions. The prediction was a pass at about 40%.

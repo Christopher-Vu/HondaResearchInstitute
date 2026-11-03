@@ -522,3 +522,24 @@ Measured on dev data, on 46 complete pairs and 101 of 110 routes. The check came
 
 Data: `results/savio/step5-pilot-p19-main/`, `docs/research/data/h11_p19_main.json`. Spend 4943 of 6000 SU; the pilot cost about 864 SU. Interactional gaps passing PRD 9.1 on this branch: 1.
 
+
+## 2026-11-03 — H12: the methods find P19 in some dictionaries, B2 beats them, and P19 breaks a Step 5 condition
+
+Measured, dev data. Job 40793572 ran the locked pipeline on 2026-11-02 (about 16 SU); its output was read on 2026-11-03. Pool: 536 rollouts, 229 failures. All 18 SAEs count (held-out explained variance 0.96 to 0.97).
+
+| Gap | Key | Catch-all | Best activation (M1) | Median of 18 | Reach 0.5 | Best baseline | Length audit | Claim A | Claim B |
+|---|---:|---:|---:|---:|---:|---:|---:|---|---|
+| P19 | 42 | 0.183 | 0.705 | 0.375 | 5 of 18 | 0.857 B2 | 0.327 | holds | fails, margin -0.153 [-0.296, -0.019], 0 of 6 seeds |
+| P4 | 46 | 0.201 | 0.490 | 0.387 | 0 of 18 | 0.257 B2 | 0.203 | fails | holds, margin +0.233 [+0.157, +0.385], 6 of 6 seeds |
+| P7 | 54 | 0.236 | 0.275 | 0.231 | 0 of 18 | 0.500 B3 | 0.324 | fails | fails |
+
+- **P19: Claims A and A' hold, Claim B fails, as predicted.** The best axis has 33 rollouts: 31 of P19's 42 key failures and 2 from a neighbourhood. It holds 14% of failures and no background or other-gap rollouts. A random 33 of the 229 failures would hold 31 or more of the key with probability about 1e-26, and a stopwatch reaches only 0.327. So no factor list was needed to find this group.
+- **That is the best of 18 dictionaries.** The median is 0.375, and only k = 32 and k = 48 reach 0.5 (5 runs). Seeds disagree widely: at k = 32 the range is 0.218 to 0.705.
+- **B2 wins with 0.857:** the `InvadingTurn` stratum, 42 slice and 7 neighbourhood failures. M1's axis has higher precision (94% against 86%) and lower recall (74% against 100%). The axis's 2 neighbourhood rollouts could be from any pilot, because the output does not record which, so at most 2 of P19's 7 neighbourhood failures are in it. On that small sample, M1 may separate 1.2 m from 0.2 m where B2 cannot; this is exploratory and not shown.
+- **P4 misses Claim A by 0.010 on this pool** (0.490, against 0.557 in H3 with different dictionaries and pool). Claim B holds. This shows how much the headline depends on the dictionaries.
+- **P7:** the stale latent gives 0.889 again (48 rollouts, all in the key), and it is independent of the SAE, as in H3. Plain M1 misses it. M2 returns no axes again.
+- **Predictions:** four of five held. Wrong: P4's M1 reaching 0.5 (about 60%).
+
+**A problem I did not see when P19 was chosen.** PRD §13 Step 5 requires that no single-factor stratum has expected Jaccard at least 0.4 with any interactional gap. B2's 0.857 breaks that on this pool. The cause is structural: P19's whole pilot is one scenario family with a low neighbourhood failure rate, so the family nearly is the gap. Only 5 of the pool's other rollouts are `InvadingTurn`, and none failed. To bring B2 below 0.4 the stratum would need more than 56 extra failures, which at the measured 15% is about 370 more `InvadingTurn` routes at ordinary offsets; Bench2Drive-220 holds 5 per family. **So on any realistic pool P19 behaves as an enumerable gap, and it does not count toward PRD 13.1's two interactional gaps as they are defined.** It still counts as a gap that fails. Any gap built by changing one parameter inside one family and having low neighbourhood failures has the same problem. This needs Chris and Jerry; no entry in CONFLICTS.md yet.
+
+Data: `docs/research/data/h12_layer10_plain.json`, `h12_layer10_stale.json`; on Savio `results/savio/h12/`. Spend 4959 of 6000 SU (`sacct`, the measure above).
