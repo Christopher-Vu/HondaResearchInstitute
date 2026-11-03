@@ -561,3 +561,7 @@ Ranges cover slice rates 0.5 to 0.8 and added neighbourhood rates 0 to 0.24. Val
 **B2 is not the hard part now.** P20's mirror patch fails on its own: P11's left-patch arm failed 4 of 10 roads where those families' unplanted rates predict about 1.6 (measured, small). If that holds, chance of passing PRD 9.1 is 38% even at a true slice rate of 0.80 for the five low-baseline families, and 5% for the eight families. A clean neighbourhood would pass easily but would only show that a patch hurts, which is P4 again. So the five-family set goes in the draft, at about 12% overall (a guess).
 
 Draft, not locked: `docs/research/experiments/h13-cross-family-gap/protocol.md`. Data: `docs/research/data/h13_b2_precheck.json`. Spend unchanged at 4959 of 6000 SU.
+
+## 2026-11-03: H13 locked; first P20 screen lost to CARLA startup
+
+No outcome exists. Array 40829006 timed out starting CARLA (300 s against about 18 s on 2026-11-02). Probe 40829691 gates a rerun of the same screen as 40829692. Spend 5029 of 6000 SU. See `docs/WHAT_BROKE.md`.

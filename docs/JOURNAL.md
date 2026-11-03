@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-03: the P20 screen was locked and submitted, and CARLA would not start
+
+Jerry approved the screen for P20, the gap that hides oncoming traffic across five scenario families. The protocol and route files were committed before any drive ran ([protocol](research/experiments/h13-cross-family-gap/protocol.md)). The generator gained two small abilities: drawing evenly from each family, and giving each pair one weather shared by both arms.
+
+The first attempt produced no results. CARLA, the driving simulator, normally starts in about 18 seconds, and it was not ready after 300 on any node. File operations on Savio's shared disk were slow from the compute nodes while looking normal from the login node, so slow disk lookups are the likely cause, though this is not confirmed. About 69 SU were lost, leaving about 971 of the 6,000. Details are in [WHAT_BROKE](WHAT_BROKE.md).
+
+One retry is queued on Savio. A short test at 14:14 checks that CARLA opens its port within 150 seconds, and the screen runs only if it does. Nothing about P20 has been measured yet.
+
+---
+
 ## 2026-11-03: checking the last gap against the taxonomy baseline before spending on it
 
 H12 showed that P19 is nearly the same thing as its scenario family, so a plain list of scenario names (B2) finds it. Jerry asked to check this first for the next gap, because about 1,041 compute units (SU) remain and a full pilot costs about 860. I wrote [b2_precheck.py](research/experiments/h13-cross-family-gap/b2_precheck.py), which adds simulated drives on real roads to the H12 pool and runs B2's own code. It used no compute budget and no simulator.

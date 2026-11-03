@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-03 (H13 B2 pre-check done; draft awaits approval)
+Last updated: 2026-11-03 (H13 locked; first screen lost to CARLA startup; gated retry queued)
 
 ---
 
 ## Current position
+
+**2026-11-03 13:15, H13 locked, screen not yet measured.** The first P20 screen (array 40829006) lost every route to CARLA taking over 300 s to start, probably slow scratch metadata on compute nodes (`docs/WHAT_BROKE.md`). Spend 5029 of 6000 SU. Queued on Savio: probe 40829691 at 14:14, then screen array 40829692 only if CARLA opens its port within 150 s, then scoring 40829693. If the probe fails, the screen is dropped and needs resubmitting. After scoring, run `docs/research/experiments/h13-cross-family-gap/check.py step5-pilot-p20-screen 40829692 OUT.json` first, then read the screen rule.
 
 **2026-11-03, H13 pre-check: a gap spread over four or more families clears B2's limit (simulated, no rollouts).** Expected B2 is 0.24 to 0.33 for draft gap P20, oncoming traffic hidden by a camera patch across five families; the same simulation gives 0.801 on P19 against 0.857 measured. A single-family gap cannot clear it by arithmetic. The risk has moved to PRD 9.1: the mirror patch alone probably fails often, so the overall chance is about 12% (a guess). **Blocker: Jerry approves or rejects the draft (`docs/research/experiments/h13-cross-family-gap/protocol.md`).** It would cost about 820 of the 1041 SU left. What P19 counts as still needs Jerry and Chris. No jobs running.
 

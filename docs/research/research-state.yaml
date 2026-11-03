@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 4959               # 2026-11-03, H12 cost about 16
+su_spent: 5029               # 2026-11-03, the lost P20 screen and a probe cost about 69
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -56,6 +56,6 @@ video:
 
 next_actions:
   - decide with Jerry and Chris what P19 counts as, since B2 breaks Step 5's single-factor condition on it (H12), before spending more
-  - H13 locked 2026-11-03: P20 screen configured and pushed; submit when the Savio link is back (needs a person to log in)
+  - H13 locked 2026-11-03: first screen lost to CARLA startup; probe 40829691 at 14:14 gates screen 40829692, scoring 40829693
   - tell Chris P19 may overlap the sealed pool, since public predicates are excluded from the key
   - P8: lag-alignment probe idea noted (needs state labels); not built

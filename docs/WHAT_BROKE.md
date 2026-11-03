@@ -8,6 +8,20 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-03: every P20 screen route failed because CARLA took over 300 s to start
+
+**Expected:** CARLA ready in about 18 s, as on 2026-11-02 (route 6308188's `server-ready`).
+
+**What happened:** array 40829006 lost 19 of its 20 routes to `TimeoutError: CARLA did not become ready within 300 seconds`; the last was cancelled. No route drove, so no outcome exists. Six nodes were affected, and the server's log matches a good run's until it is killed. While stuck, the server was idle, near 40 MB of memory, with 0 MiB on the GPU, and `strace` showed ordinary file calls (`stat`, `fstat`, `close`) on scratch taking 0.25 to 0.8 s.
+
+A probe (40829569, n0217) measured 17 ms per entry listing `Engine/Plugins` from the node, against 0.2 ms per entry on another CARLA tree from the login node. Its server reached only 338 MB and 158 MiB on the GPU by 268 s. The likely cause is slow scratch metadata on compute nodes; this is not confirmed, and Savio's status page did not settle it. Reads from the login node looked normal, so a login-node check does not clear the disk. A test of repeated lookups in one directory also looked normal (0.2 ms), since that directory's entries were already cached.
+
+**What we did:** cancelled the rest, about 69 SU lost including the probe. Queued one retry: a probe at 14:14 that passes only if CARLA opens its port within 150 s, with the same screen under `afterok`, so a failed probe costs about 2 SU and drops the screen. The protocol is unchanged.
+
+**Also:** the first submit ran before Savio had the P20 files. Savio's checkout tracks `codex/carla-bringup`, so `git pull` does not bring `main`. Use `git fetch origin main && git merge --ff-only origin/main`. The array was still queued, and it reads its config at start, so the merge fixed it.
+
+---
+
 ## 2026-11-03: P19 passed PRD 9.1 but a scenario label nearly equals it
 
 **Expected:** P19 would count as the first interactional gap, as STATUS and the log said on 2026-11-02.
