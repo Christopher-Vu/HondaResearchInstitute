@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-03: checking the last gap against the taxonomy baseline before spending on it
+
+H12 showed that P19 is nearly the same thing as its scenario family, so a plain list of scenario names (B2) finds it. Jerry asked to check this first for the next gap, because about 1,041 compute units (SU) remain and a full pilot costs about 860. I wrote [b2_precheck.py](research/experiments/h13-cross-family-gap/b2_precheck.py), which adds simulated drives on real roads to the H12 pool and runs B2's own code. It used no compute budget and no simulator.
+
+Three things came out. A gap inside one family cannot get under the PRD's limit of 0.4, by arithmetic, which corrects the note I wrote hours earlier that a family failing often might be enough. A gap spread evenly over four or more families can: the simulation expects 0.24 to 0.33 for the draft gap P20, a camera patch that hides oncoming traffic, and it gives 0.801 on P19 against the measured 0.857. These are simulated numbers, and the real score only exists after a pilot.
+
+The risk has moved. The comparison drives carry a mirror-image patch, and a patch alone already fails often (P11: 4 of 10 against about 1.6 expected, measured on a small sample), which makes the required ratio of 2 hard to reach. I put the overall chance of P20 passing at about 12%, a guess. The [draft protocol](research/experiments/h13-cross-family-gap/protocol.md) is not locked and nothing was submitted; it needs Jerry's approval.
+
 ## 2026-11-03 (Jerry) — Reading H12: partial recovery of P19, and a problem with P19 itself
 
 H12 had finished overnight on Savio without anyone reading it, so this session read it and ran the audits its protocol named. It asked whether the discovery methods find P19, oncoming traffic 1.2 m over the line on a bend, the first failure tested that is not a camera fault. In the best of 18 dictionaries (sets of features learned from activations), contrastive diffing returns 33 failing drives, 31 of them P19's, with no factor list. That is far beyond chance and beyond sorting by drive length. Most dictionaries do worse (median Jaccard 0.375, where Jaccard is shared members over combined members), and a plain list of scenario names scores 0.857.

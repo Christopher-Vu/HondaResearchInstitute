@@ -543,3 +543,21 @@ Measured, dev data. Job 40793572 ran the locked pipeline on 2026-11-02 (about 16
 **A problem I did not see when P19 was chosen.** PRD §13 Step 5 requires that no single-factor stratum has expected Jaccard at least 0.4 with any interactional gap. B2's 0.857 breaks that on this pool. The cause is structural: P19's whole pilot is one scenario family with a low neighbourhood failure rate, so the family nearly is the gap. Only 5 of the pool's other rollouts are `InvadingTurn`, and none failed. To bring B2 below 0.4 the stratum would need more than 56 extra failures, which at the measured 15% is about 370 more `InvadingTurn` routes at ordinary offsets; Bench2Drive-220 holds 5 per family. **So on any realistic pool P19 behaves as an enumerable gap, and it does not count toward PRD 13.1's two interactional gaps as they are defined.** It still counts as a gap that fails. Any gap built by changing one parameter inside one family and having low neighbourhood failures has the same problem. This needs Chris and Jerry; no entry in CONFLICTS.md yet.
 
 Data: `docs/research/data/h12_layer10_plain.json`, `h12_layer10_stale.json`; on Savio `results/savio/h12/`. Spend 4959 of 6000 SU (`sacct`, the measure above).
+
+## 2026-11-03 — H13 pre-check: B2 can be beaten by spreading a gap; the patch alone is the risk
+
+Jerry asked for a B2 pre-check before the last full pilot goes anywhere. No rollouts and no SU: `docs/research/experiments/h13-cross-family-gap/b2_precheck.py` runs B2's own strata on H12's pool without P19, plus simulated pairs on real roads cut from the leaderboard routes.
+
+**Single-family gaps cannot pass (arithmetic).** PRD 9.1 needs a ratio of 2, so neighbourhood failures N are at most K/2 for K key failures. B2's family stratum scores K / (K + N + B), with B the family's failures outside the pilot, so getting under 0.4 needs B above K. With K near 40 and 5 routes per family, that is out of reach. This corrects the second half of what H12 suggested: a family that fails often does not rescue a gap, and `YieldToEmergencyVehicle` at 94% could not pass the ratio anyway.
+
+| Candidate, 40 pairs | Roads | Expected B2 | Top stratum |
+|---|---:|---:|---|
+| Eight oncoming-traffic families | 430 | 0.19 to 0.26 | `ability = Overtaking` |
+| Five low-baseline families, four in Overtaking | 280 | 0.24 to 0.33 | `ability = Overtaking` |
+| Four families across three abilities | 222 | 0.25 to 0.28 | `scenario = InvadingTurn` |
+
+Ranges cover slice rates 0.5 to 0.8 and added neighbourhood rates 0 to 0.24. Validation: on P19's real rates the simulation gives 0.801 against the measured 0.857, so it reads low by about 0.06. All candidates stay under 0.4 with that error added. These are simulated, and failures concentrated in one family would raise them, so the real B2 must be measured after any pilot.
+
+**B2 is not the hard part now.** P20's mirror patch fails on its own: P11's left-patch arm failed 4 of 10 roads where those families' unplanted rates predict about 1.6 (measured, small). If that holds, chance of passing PRD 9.1 is 38% even at a true slice rate of 0.80 for the five low-baseline families, and 5% for the eight families. A clean neighbourhood would pass easily but would only show that a patch hurts, which is P4 again. So the five-family set goes in the draft, at about 12% overall (a guess).
+
+Draft, not locked: `docs/research/experiments/h13-cross-family-gap/protocol.md`. Data: `docs/research/data/h13_b2_precheck.json`. Spend unchanged at 4959 of 6000 SU.

@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-03 (H12 read; P19 fails the single-factor condition)
+Last updated: 2026-11-03 (H13 B2 pre-check done; draft awaits approval)
 
 ---
 
 ## Current position
+
+**2026-11-03, H13 pre-check: a gap spread over four or more families clears B2's limit (simulated, no rollouts).** Expected B2 is 0.24 to 0.33 for draft gap P20, oncoming traffic hidden by a camera patch across five families; the same simulation gives 0.801 on P19 against 0.857 measured. A single-family gap cannot clear it by arithmetic. The risk has moved to PRD 9.1: the mirror patch alone probably fails often, so the overall chance is about 12% (a guess). **Blocker: Jerry approves or rejects the draft (`docs/research/experiments/h13-cross-family-gap/protocol.md`).** It would cost about 820 of the 1041 SU left. What P19 counts as still needs Jerry and Chris. No jobs running.
 
 **2026-11-03, H12: the methods find P19 only partly, and P19 is not interactional by the PRD's own test (measured, dev data).** Contrastive diffing's best axis scores Jaccard 0.705 against 0.183 for the catch-all and 0.327 for a stopwatch, but the median of 18 dictionaries is 0.375, and B2's scenario label scores 0.857 (Claim B fails, 0 of 6 seeds). PRD §13 Step 5 bars a single-factor stratum above 0.4, so **interactional gaps meeting the definition: 0.** P4 is 0.490 on this pool (Claim A misses by 0.010; Claim B holds); the frozen-input signal gives 0.889 on P7. **Blocker: Jerry and Chris decide what P19 counts as and what the last pilot goes on.** Spend 4959 of 6000 SU; a full pilot costs about 860 SU, so one more fits. No jobs running.
 

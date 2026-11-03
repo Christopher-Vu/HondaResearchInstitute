@@ -1,0 +1,438 @@
+{
+ "family_rates_n_failed": {
+  "ParkingCutIn": [
+   19,
+   1
+  ],
+  "ParkedObstacle": [
+   16,
+   3
+  ],
+  "HazardAtSideLane": [
+   17,
+   3
+  ],
+  "ConstructionObstacleTwoWays": [
+   18,
+   10
+  ],
+  "AccidentTwoWays": [
+   17,
+   4
+  ],
+  "ParkingExit": [
+   17,
+   3
+  ],
+  "SignalizedJunctionRightTurn": [
+   18,
+   11
+  ],
+  "OppositeVehicleRunningRedLight": [
+   19,
+   4
+  ],
+  "NonSignalizedJunctionLeftTurn": [
+   18,
+   7
+  ],
+  "NonSignalizedJunctionRightTurn": [
+   20,
+   2
+  ],
+  "OppositeVehicleTakingPriority": [
+   16,
+   5
+  ],
+  "VehicleTurningRoute": [
+   19,
+   2
+  ],
+  "VehicleTurningRoutePedestrian": [
+   17,
+   0
+  ],
+  "EnterActorFlow": [
+   15,
+   9
+  ],
+  "BlockedIntersection": [
+   19,
+   6
+  ],
+  "MergerIntoSlowTraffic": [
+   18,
+   6
+  ],
+  "HighwayCutIn": [
+   17,
+   0
+  ],
+  "VanillaSignalizedTurnEncounterRedLight": [
+   18,
+   9
+  ],
+  "VanillaNonSignalizedTurn": [
+   19,
+   0
+  ],
+  "VanillaNonSignalizedTurnEncounterStopsign": [
+   17,
+   0
+  ],
+  "ConstructionObstacle": [
+   18,
+   5
+  ],
+  "Accident": [
+   17,
+   1
+  ],
+  "ParkedObstacleTwoWays": [
+   20,
+   4
+  ],
+  "StaticCutIn": [
+   18,
+   9
+  ],
+  "InvadingTurn": [
+   16,
+   1
+  ],
+  "CrossingBicycleFlow": [
+   19,
+   0
+  ],
+  "ParkingCrossingPedestrian": [
+   19,
+   3
+  ],
+  "YieldToEmergencyVehicle": [
+   18,
+   17
+  ],
+  "HazardAtSideLaneTwoWays": [
+   19,
+   2
+  ],
+  "VehicleOpensDoorTwoWays": [
+   18,
+   3
+  ],
+  "HardBreakRoute": [
+   18,
+   0
+  ],
+  "ControlLoss": [
+   18,
+   0
+  ],
+  "SignalizedJunctionLeftTurn": [
+   19,
+   9
+  ],
+  "PedestrianCrossing": [
+   16,
+   5
+  ],
+  "VanillaSignalizedTurnEncounterGreenLight": [
+   19,
+   4
+  ],
+  "SequentialLaneChange": [
+   17,
+   3
+  ],
+  "DynamicObjectCrossing": [
+   65,
+   2
+  ],
+  "HighwayExit": [
+   15,
+   14
+  ],
+  "InterurbanAdvancedActorFlow": [
+   3,
+   0
+  ],
+  "MergerIntoSlowTrafficV2": [
+   16,
+   7
+  ],
+  "T_Junction": [
+   19,
+   0
+  ],
+  "NonSignalizedJunctionLeftTurnEnterFlow": [
+   19,
+   7
+  ],
+  "SignalizedJunctionLeftTurnEnterFlow": [
+   16,
+   12
+  ]
+ },
+ "candidates": {
+  "P19 as run, to validate against the measured 0.857": [
+   {
+    "pairs": 53,
+    "slice_failure_rate": 0.79,
+    "added_neighbour_failure_rate": 0.09,
+    "roads": 65,
+    "expected_b2": 0.801,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.995
+   }
+  ],
+  "eight oncoming-traffic families": [
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 430,
+    "expected_b2": 0.202,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.245
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 430,
+    "expected_b2": 0.194,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.02
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 430,
+    "expected_b2": 0.187,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.0
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 430,
+    "expected_b2": 0.23,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.665
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 430,
+    "expected_b2": 0.221,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.14
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 430,
+    "expected_b2": 0.212,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.01
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 430,
+    "expected_b2": 0.259,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.91
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 430,
+    "expected_b2": 0.249,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.465
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 430,
+    "expected_b2": 0.24,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.05
+   }
+  ],
+  "five low-baseline families, four sharing the Overtaking ability": [
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 280,
+    "expected_b2": 0.268,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.695
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 280,
+    "expected_b2": 0.254,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.205
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 280,
+    "expected_b2": 0.241,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.02
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 280,
+    "expected_b2": 0.298,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.97
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 280,
+    "expected_b2": 0.282,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.58
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 280,
+    "expected_b2": 0.269,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.145
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 280,
+    "expected_b2": 0.334,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 1.0
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 280,
+    "expected_b2": 0.317,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.865
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 280,
+    "expected_b2": 0.302,
+    "commonest_top_stratum": "ability = Overtaking",
+    "chance_of_passing_prd_91": 0.38
+   }
+  ],
+  "four families across three abilities": [
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 222,
+    "expected_b2": 0.279,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.495
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 222,
+    "expected_b2": 0.264,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.06
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.5,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 222,
+    "expected_b2": 0.25,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.0
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 222,
+    "expected_b2": 0.272,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.9
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 222,
+    "expected_b2": 0.261,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.37
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.65,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 222,
+    "expected_b2": 0.251,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.025
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.0,
+    "roads": 222,
+    "expected_b2": 0.265,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.99
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.12,
+    "roads": 222,
+    "expected_b2": 0.255,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.765
+   },
+   {
+    "pairs": 40,
+    "slice_failure_rate": 0.8,
+    "added_neighbour_failure_rate": 0.24,
+    "roads": 222,
+    "expected_b2": 0.247,
+    "commonest_top_stratum": "scenario = InvadingTurn",
+    "chance_of_passing_prd_91": 0.205
+   }
+  ]
+ }
+}

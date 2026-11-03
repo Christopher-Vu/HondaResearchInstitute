@@ -43,6 +43,9 @@ hypotheses:
          result: "P19 M1 0.705 (A yes, B no; median 0.375, 0 of 6 seeds beat B2 0.857); P4 M1 0.490 (A no, B yes); P7 stale 0.889; B2 breaks Step 5's single-factor condition, so P19 is enumerable on a realistic pool",
          data: [docs/research/data/h12_layer10_plain.json, docs/research/data/h12_layer10_stale.json]}
 
+  H13:  {status: draft_not_locked, kind: pre_check, protocol: docs/research/experiments/h13-cross-family-gap/protocol.md,
+         result: "simulated B2 0.24 to 0.33 for P20; 0.801 on P19 against 0.857 measured; no rollouts run", data: docs/research/data/h13_b2_precheck.json}
+
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
   frame_mean_saes: scratchpad sae-frames (H1 pool, L10 and L14); scratchpad h3/sae (H3 pool, 18 runs)
@@ -53,6 +56,6 @@ video:
 
 next_actions:
   - decide with Jerry and Chris what P19 counts as, since B2 breaks Step 5's single-factor condition on it (H12), before spending more
-  - a next gap must cut across scenario families or use a family that fails often anyway; 1041 SU left, and a full pilot costs about 860 SU, so only one more fits
+  - H13 draft: P20 hides oncoming traffic across five families; B2 pre-check 0.24 to 0.33 (simulated); screen then 40-pair pilot, about 820 of the 1041 SU left; needs Jerry's approval before it locks
   - tell Chris P19 may overlap the sealed pool, since public predicates are excluded from the key
   - P8: lag-alignment probe idea noted (needs state labels); not built
