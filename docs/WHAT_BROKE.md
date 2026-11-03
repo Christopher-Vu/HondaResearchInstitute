@@ -18,6 +18,8 @@ A probe (40829569, n0217) measured 17 ms per entry listing `Engine/Plugins` from
 
 **What we did:** cancelled the rest, about 69 SU lost including the probe. Queued one retry: a probe at 14:14 that passes only if CARLA opens its port within 150 s, with the same screen under `afterok`, so a failed probe costs about 2 SU and drops the screen. The protocol is unchanged.
 
+**Retry:** probe 40829691 (n0212, 14:17) was not ready after 150 s, so Savio cancelled the screen array. Its scoring job 40829693 still ran for 11 minutes, because `afterany` counts a cancelled array as finished; about 3 SU, and it wrote an empty `results/savio/step5-pilot-p20-screen` holding 0 pairs, which is not a result. Gate a chain by having the probe submit the array, as `step5_continue.sbatch` does. Probe 40831451 now does this: it tries at 16:38 and then every 3 hours, 5 attempts at most. Spend 5033 of 6000 SU.
+
 **Also:** the first submit ran before Savio had the P20 files. Savio's checkout tracks `codex/carla-bringup`, so `git pull` does not bring `main`. Use `git fetch origin main && git merge --ff-only origin/main`. The array was still queued, and it reads its config at start, so the merge fixed it.
 
 ---

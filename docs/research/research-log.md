@@ -565,3 +565,5 @@ Draft, not locked: `docs/research/experiments/h13-cross-family-gap/protocol.md`.
 ## 2026-11-03: H13 locked; first P20 screen lost to CARLA startup
 
 No outcome exists. Array 40829006 timed out starting CARLA (300 s against about 18 s on 2026-11-02). Probe 40829691 gates a rerun of the same screen as 40829692. Spend 5029 of 6000 SU. See `docs/WHAT_BROKE.md`.
+
+Probe 40829691 failed at 14:17 (not ready after 150 s), so the screen did not run. Scoring 40829693 ran under `afterany` and produced an empty report with 0 pairs, which is not an outcome. Probe 40831451 repeats from 16:38, 5 attempts at most, and submits the screen on success. Spend 5033 of 6000 SU.

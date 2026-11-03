@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-03 (H13 locked; first screen lost to CARLA startup; gated retry queued)
+Last updated: 2026-11-03 (H13 locked; P20 screen waiting on CARLA startup; repeating start test queued)
 
 ---
 
 ## Current position
+
+**2026-11-03 14:40, P20 screen still not measured: CARLA stayed too slow to start.** Test 40829691 at 14:17 was not ready after 150 s, so the screen did not run. `results/savio/step5-pilot-p20-screen` holds an empty scoring output (0 pairs), which is not a result. Spend 5033 of 6000 SU. Queued: test 40831451 at 16:38, kept on Savio as `carla-start-probe.sbatch`. It retries every 3 hours, 5 attempts at most, and submits the screen and scoring itself once the port opens within 150 s. It logs each attempt to `/global/scratch/users/imhaohao/carla-chain.log`. After scoring, run `docs/research/experiments/h13-cross-family-gap/check.py step5-pilot-p20-screen <array> OUT.json` first, then read the screen rule. If all 5 attempts fail, ask Savio support about scratch speed.
 
 **2026-11-03 13:15, H13 locked, screen not yet measured.** The first P20 screen (array 40829006) lost every route to CARLA taking over 300 s to start, probably slow scratch metadata on compute nodes (`docs/WHAT_BROKE.md`). Spend 5029 of 6000 SU. Queued on Savio: probe 40829691 at 14:14, then screen array 40829692 only if CARLA opens its port within 150 s, then scoring 40829693. If the probe fails, the screen is dropped and needs resubmitting. After scoring, run `docs/research/experiments/h13-cross-family-gap/check.py step5-pilot-p20-screen 40829692 OUT.json` first, then read the screen rule.
 

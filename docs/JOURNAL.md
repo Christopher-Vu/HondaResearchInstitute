@@ -13,6 +13,8 @@ The first attempt produced no results. CARLA, the driving simulator, normally st
 
 One retry is queued on Savio. A short test at 14:14 checks that CARLA opens its port within 150 seconds, and the screen runs only if it does. Nothing about P20 has been measured yet.
 
+That test failed at 14:17, so the screen did not run. The scoring job ran anyway, because the way it was chained treats a cancelled job as finished. It cost about 3 SU and wrote an empty result folder. A new test (job 40831451) starts at 16:38 and repeats every 3 hours, up to 5 times, and it submits the screen itself only when CARLA starts in time. Spend is 5033 of 6000 SU.
+
 ---
 
 ## 2026-11-03: checking the last gap against the taxonomy baseline before spending on it
