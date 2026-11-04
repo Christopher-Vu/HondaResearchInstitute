@@ -219,6 +219,17 @@ def test_local_server_variable_replaces_only_the_stock_server(monkeypatch):
         server_root("fail2drive")
 
 
+def test_a_staged_named_build_serves_only_configs_naming_that_build(monkeypatch):
+    from pathlib import Path
+
+    from run_savio import server_root
+    monkeypatch.setenv("CARLA_SERVER_ROOT", "/tmp/f2d-local-7")
+    monkeypatch.setenv("CARLA_SERVER_BUILD", "fail2drive")
+    assert server_root("fail2drive") == Path("/tmp/f2d-local-7")
+    with pytest.raises(ValueError, match="stock"):
+        server_root(None)
+
+
 def test_job_facts_name_the_server_a_run_used():
     from pathlib import Path
 

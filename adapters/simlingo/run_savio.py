@@ -32,6 +32,7 @@ from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_enviro
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
 LOCAL_SERVER_VARIABLE = "CARLA_SERVER_ROOT"
+LOCAL_BUILD_VARIABLE = "CARLA_SERVER_BUILD"
 STEP1_CONFIG = ROOT / "configs/rollout/step1-single-route.yaml"
 CLUSTER_CONFIG = ROOT / "configs/cluster/savio.yaml"
 SERVER_STARTUP_SECONDS = 300
@@ -71,15 +72,19 @@ def torch_threads(slots: int) -> int:
 
 def server_root(build: str | None) -> Path:
     """The CARLA server a config's `simulator.carla_build` names (configs/cluster/savio.yaml `carla.builds`);
-    the stock release when it names none, read from `CARLA_SERVER_ROOT` when `scripts/route_sample.sbatch` staged
-    a copy of it to node-local disk. The client is always the stock 0.9.15 PythonAPI."""
+    the stock release when it names none. `scripts/route_sample.sbatch` may stage a copy on node-local disk:
+    `CARLA_SERVER_ROOT` is then that copy, and `CARLA_SERVER_BUILD` names the build it holds (unset: stock). A staged
+    copy of one build never stands in for another. The client is always the stock 0.9.15 PythonAPI."""
     builds = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"].get("builds") or {}
+    named = build if build in builds else None
     local = os.environ.get(LOCAL_SERVER_VARIABLE)
-    if build not in builds:
-        return Path(local) if local else CARLA_ROOT
     if local:
-        raise ValueError(f"{LOCAL_SERVER_VARIABLE} replaces only the stock server, and this config names {build}")
-    return ROOT / builds[build]
+        staged = os.environ.get(LOCAL_BUILD_VARIABLE) or None
+        if staged != named:
+            raise ValueError(f"{LOCAL_SERVER_VARIABLE} holds {staged or 'the stock server'}, "
+                             f"and this config names {named or 'the stock server'}")
+        return Path(local)
+    return ROOT / builds[named] if named else CARLA_ROOT
 
 
 def server_command(quality: str, rpc_port: int, container: str | None, root: Path = CARLA_ROOT) -> list[str]:

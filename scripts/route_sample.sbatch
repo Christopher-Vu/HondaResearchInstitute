@@ -22,13 +22,14 @@
 # ROUTE_MODE=expert runs PDM-Lite on the same routes instead of the policy.
 # ROUTE_IDS="a b c d" reruns those routes (score_routes' rerun list) instead, K per GPU: pass K and --array=0-<ceil(routes / K) - 1>.
 # CARLA_LOCAL_TAR=<tar> runs the server, and POLICY_VENV_LOCAL_TAR=<tar> the policy's Python, from a copy on node-local disk,
+# CARLA_LOCAL_BUILD=<name> says the tar holds that carla.builds entry (e.g. fail2drive) instead of the stock server,
 # for when slow scratch makes a route miss its start limits (docs/WHAT_BROKE.md, 2026-11-03). The first tar holds CarlaUE4,
 # Engine, Plugins and CarlaUE4.sh at its top level; the second holds the venv's contents.
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
 PY=.runtime/policy-venv/bin/python
-unset CARLA_SERVER_ROOT
+unset CARLA_SERVER_ROOT CARLA_SERVER_BUILD
 if [ -n "${CARLA_LOCAL_TAR:-}${POLICY_VENV_LOCAL_TAR:-}" ]; then
   STAGE=$(mktemp -d "/tmp/route-local-$SLURM_JOB_ID.XXXXXX")
   trap 'chmod -R u+w "$STAGE" 2>/dev/null; rm -rf "$STAGE" || true' EXIT
@@ -38,6 +39,7 @@ if [ -n "${CARLA_LOCAL_TAR:-}" ]; then
   tar -xf "$CARLA_LOCAL_TAR" -C "$STAGE/carla"
   [ -x "$STAGE/carla/CarlaUE4.sh" ] || { echo "$CARLA_LOCAL_TAR has no CarlaUE4.sh at its top level" >&2; exit 2; }
   export CARLA_SERVER_ROOT=$STAGE/carla
+  [ -z "${CARLA_LOCAL_BUILD:-}" ] || export CARLA_SERVER_BUILD=$CARLA_LOCAL_BUILD
   echo "CARLA server staged at $CARLA_SERVER_ROOT after $SECONDS s"
 fi
 if [ -n "${POLICY_VENV_LOCAL_TAR:-}" ]; then
