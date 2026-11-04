@@ -12,9 +12,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence
 
-from .schema import TIERS, Directive, Gap
+from .schema import FISHER_RULE, NON_RESIDUALIZED, TIERS, Directive, Gap, SchemaError
 
 MATCH_THRESHOLD = 0.5  # theta, PRD 10.2
+BUDGET_M = 10  # PRD 10.2's fixed budget; harness/PREREGISTRATION.md section 1 holds every method to it
 
 
 def jaccard(a: set[str], b: set[str]) -> float:
@@ -75,6 +76,7 @@ class ScoringReport:
 
     method: str
     budget_m: int
+    preprocessing: str = NON_RESIDUALIZED
     matches: list[Match] = field(default_factory=list)
     recall_by_tier: dict[str, float] = field(default_factory=dict)
     precision_at_m: float = 0.0
@@ -91,6 +93,13 @@ class ScoringReport:
         lines.append("  mean best Jacc  = %.3f" % self.mean_best_jaccard)
         lines.append("  decoy hit rate  = %.3f" % self.decoy_hit_rate)
         return "\n".join(lines)
+
+
+def require_budget(directive: Directive, budget: int = BUDGET_M) -> None:
+    """The scoring run refuses a directive on another budget: precision divides by M, so a smaller M flatters it."""
+    if directive.budget_m != budget:
+        raise SchemaError("%s: budget_m is %d, and the scoring run holds every method to %d"
+                          % (directive.method, directive.budget_m, budget))
 
 
 def score(directive: Directive, gaps: Sequence[Gap], *,
@@ -110,7 +119,7 @@ def score(directive: Directive, gaps: Sequence[Gap], *,
 
     axes = directive.axes
     rep = ScoringReport(method=directive.method, budget_m=directive.budget_m,
-                        n_axes=len(axes))
+                        preprocessing=directive.preprocessing, n_axes=len(axes))
 
     if not real:
         return rep
@@ -170,26 +179,34 @@ def validated_precision(rep: ScoringReport, reproducing_axis_ids: Iterable[str],
 
 def harness_is_valid(reports_by_method: dict[str, ScoringReport],
                      gaps: Sequence[Gap], *,
-                     threshold: float = MATCH_THRESHOLD) -> tuple[bool, str]:
+                     threshold: float = MATCH_THRESHOLD,
+                     efficacy_rule: str = FISHER_RULE) -> tuple[bool, str]:
     """PRD 13.1 condition 1: at least one T0 control gap recovered by at least
-    one method, and at least two T2 gaps re-confirming efficacy on the test pool.
+    one method using the non-residualized variant, and at least two T2 gaps
+    re-confirming efficacy on the test pool.
+
+    Residualized reports are dropped here rather than trusted to the caller:
+    they are expected to miss control gaps (PRD 9.2), and one that matches a
+    control gap says nothing about the variant this check is defined on.
+    `efficacy_rule` is PRD 9.1's Fisher rule until C23 is accepted, then C23's.
 
     Returns (verdict, human-readable reason). This is the check that decides
     whether we have a measuring instrument at all.
     """
     t0_found = any(
         m.matched and m.tier == "T0_control"
-        for rep in reports_by_method.values() for m in rep.matches
+        for rep in reports_by_method.values() if rep.preprocessing == NON_RESIDUALIZED
+        for m in rep.matches
     )
     t2_efficacious = sum(
         1 for g in gaps
         if not g.is_decoy and g.tier == "T2_interactional" and g.efficacy
-        and g.passes_efficacy()
+        and g.reconfirms(efficacy_rule)
     )
     if not t0_found:
-        return False, ("no T0 control gap recovered by any method: the harness "
-                       "is broken, not the methods (PRD 9.1)")
+        return False, ("no T0 control gap recovered by any non-residualized method: "
+                       "the harness is broken, not the methods (PRD 9.1)")
     if t2_efficacious < 2:
-        return False, ("only %d T2 gap(s) re-confirm efficacy on the test pool; "
-                       "need >= 2 (PRD 13.1)" % t2_efficacious)
-    return True, "T0 recovered and %d T2 gaps efficacious" % t2_efficacious
+        return False, ("only %d T2 gap(s) re-confirm efficacy on the test pool under %s; "
+                       "need >= 2 (PRD 13.1)" % (t2_efficacious, efficacy_rule))
+    return True, "T0 recovered and %d T2 gaps efficacious under %s" % (t2_efficacious, efficacy_rule)

@@ -36,6 +36,7 @@ from pathlib import Path
 import numpy as np
 
 TOKEN_ARRAYS = ("driving_query_tokens", "driving_query_token_layers")
+EPISODE_MEAN = "_episode_mean"
 
 
 def meta_problems(meta: dict) -> list[str]:
@@ -51,6 +52,36 @@ def meta_problems(meta: dict) -> list[str]:
     return problems
 
 
+def site_problems(arrays: dict[str, np.ndarray], rows: int) -> list[str]:
+    sites = [name for name, values in arrays.items() if values.ndim == 3 and name not in TOKEN_ARRAYS]
+    problems = [] if sites else ["npz has no (T, layers, hidden) activation site"]
+    for site in sites:
+        mean = arrays.get(f"{site}{EPISODE_MEAN}")
+        if len(arrays[site]) != rows:
+            problems.append(f"{site} has {len(arrays[site])} rows for {rows} steps")
+        if mean is None or mean.shape != arrays[site].shape[1:]:
+            problems.append(f"{site} lacks a matching {site}{EPISODE_MEAN}")
+    return problems
+
+
+def state_problems(arrays: dict[str, np.ndarray], rows: int) -> list[str]:
+    """A 1-d episode mean belongs to a (T, hidden) site such as vision_bridge, so its length is the hidden size."""
+    return [f"state {name} has {len(values)} rows for {rows} steps" for name, values in arrays.items()
+            if values.ndim == 1 and name != "step" and name not in TOKEN_ARRAYS
+            and not name.endswith(EPISODE_MEAN) and len(values) != rows]
+
+
+def token_problems(arrays: dict[str, np.ndarray], rows: int) -> list[str]:
+    if ("driving_query_tokens" in arrays) != ("driving_query_token_layers" in arrays):
+        return ["driving_query_tokens and driving_query_token_layers come together"]
+    if "driving_query_tokens" not in arrays:
+        return []
+    tokens, layers = arrays["driving_query_tokens"], arrays["driving_query_token_layers"]
+    if tokens.ndim != 4 or len(tokens) != rows or tokens.shape[1] != len(layers):
+        return ["driving_query_tokens is not (T, token layers, tokens, hidden)"]
+    return []
+
+
 def array_problems(arrays: dict[str, np.ndarray]) -> list[str]:
     if "step" not in arrays:
         return ["npz lacks step"]
@@ -58,24 +89,7 @@ def array_problems(arrays: dict[str, np.ndarray]) -> list[str]:
     if steps.ndim != 1 or not np.issubdtype(steps.dtype, np.integer) or np.any(np.diff(steps) <= 0):
         return ["step is not a 1-d increasing integer array"]
     rows = len(steps)
-    sites = [name for name, values in arrays.items() if values.ndim == 3 and name not in TOKEN_ARRAYS]
-    problems = [] if sites else ["npz has no (T, layers, hidden) activation site"]
-    for site in sites:
-        mean = arrays.get(f"{site}_episode_mean")
-        if len(arrays[site]) != rows:
-            problems.append(f"{site} has {len(arrays[site])} rows for {rows} steps")
-        if mean is None or mean.shape != arrays[site].shape[1:]:
-            problems.append(f"{site} lacks a matching {site}_episode_mean")
-    for name, values in arrays.items():
-        if values.ndim == 1 and name != "step" and name not in TOKEN_ARRAYS and len(values) != rows:
-            problems.append(f"state {name} has {len(values)} rows for {rows} steps")
-    if ("driving_query_tokens" in arrays) != ("driving_query_token_layers" in arrays):
-        problems.append("driving_query_tokens and driving_query_token_layers come together")
-    elif "driving_query_tokens" in arrays:
-        tokens, layers = arrays["driving_query_tokens"], arrays["driving_query_token_layers"]
-        if tokens.ndim != 4 or len(tokens) != rows or tokens.shape[1] != len(layers):
-            problems.append("driving_query_tokens is not (T, token layers, tokens, hidden)")
-    return problems
+    return site_problems(arrays, rows) + state_problems(arrays, rows) + token_problems(arrays, rows)
 
 
 def shard_problems(sidecar: Path) -> list[str]:

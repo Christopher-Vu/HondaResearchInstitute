@@ -15,10 +15,10 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from harness.schema import (  # noqa: E402
-    AxisCard, Directive, Gap, SchemaError, SupportingEpisode,
+    ACTION_RESIDUAL, AxisCard, Directive, Gap, SchemaError, SupportingEpisode,
 )
 from harness.scoring import (  # noqa: E402
-    harness_is_valid, jaccard, score, validated_precision,
+    harness_is_valid, jaccard, require_budget, score, validated_precision,
 )
 
 
@@ -234,6 +234,82 @@ def test_harness_valid_when_both_conditions_hold():
     reports = {"sae": score(Directive("sae", [axis("a1", ["r1", "r2"])]), g)}
     ok, why = harness_is_valid(reports, g)
     assert ok is True, why
+
+
+def validity_gaps(pairs_pass=True):
+    paired = {"c23_paired": {"passes": pairs_pass}}
+    return [gap("c1", "T0_control", ["r1", "r2"]),
+            Gap("i1", "T2_interactional", {"r5"}, {"r5"}, {**gap("x", "T2_interactional", ["r5"]).efficacy, **paired}),
+            Gap("i2", "T2_interactional", {"r7"}, {"r7"}, {**gap("x", "T2_interactional", ["r7"]).efficacy, **paired})]
+
+
+def test_a_residualized_report_cannot_satisfy_harness_validity():
+    """PRD 13.1: the control gap must be recovered using the non-residualized variant."""
+    g = validity_gaps()
+    residualized = Directive("sae", [axis("a1", ["r1", "r2"])], preprocessing=ACTION_RESIDUAL)
+    reports = {"sae@residual": score(residualized, g),
+               "sae@raw": score(Directive("sae", [axis("a1", ["r9"])]), g)}
+    ok, why = harness_is_valid(reports, g)
+    assert ok is False and "non-residualized" in why
+
+
+def test_a_non_residualized_report_still_validates_beside_a_residualized_one():
+    g = validity_gaps()
+    residualized = Directive("sae", [axis("a1", ["r9"])], preprocessing=ACTION_RESIDUAL)
+    reports = {"sae@residual": score(residualized, g),
+               "sae@raw": score(Directive("sae", [axis("a1", ["r1", "r2"])]), g)}
+    assert harness_is_valid(reports, g)[0] is True
+
+
+def test_validity_reads_the_rule_it_is_given():
+    """Fisher passes both T2 gaps here and C23's paired report does not, so only the named rule decides."""
+    g = validity_gaps(pairs_pass=False)
+    reports = {"sae": score(Directive("sae", [axis("a1", ["r1", "r2"])]), g)}
+    assert harness_is_valid(reports, g)[0] is True
+    assert harness_is_valid(reports, g, efficacy_rule="prd_9_1")[0] is True
+    ok, why = harness_is_valid(reports, g, efficacy_rule="c23")
+    assert ok is False and "c23" in why
+
+
+def test_an_unknown_efficacy_rule_or_a_missing_paired_report_is_loud():
+    g = validity_gaps()
+    with pytest.raises(SchemaError):
+        g[1].reconfirms("mcnemar")
+    with pytest.raises(SchemaError):
+        gap("i", "T2_interactional", ["r5"]).reconfirms("c23")
+
+
+def test_the_scoring_run_refuses_any_budget_but_ten():
+    require_budget(Directive("sae", []))
+    with pytest.raises(SchemaError, match="budget_m"):
+        require_budget(Directive("sae", [], budget_m=5))
+    with pytest.raises(SchemaError, match="budget_m"):
+        require_budget(Directive("sae", [], budget_m=11))
+
+
+def test_a_directive_survives_the_file_it_crosses_to_scoring_in():
+    card = axis("a1", ["r1", "r2"], method="contrastive", score_=2.5)
+    card.preprocessing, card.layer = [ACTION_RESIDUAL], "driving_queries_L10"
+    original = Directive("contrastive", [card], budget_m=10, preprocessing=ACTION_RESIDUAL)
+    restored = Directive.from_dict(original.to_dict())
+    assert restored.preprocessing == ACTION_RESIDUAL and restored.budget_m == 10
+    assert restored.axes[0].rollouts == {"r1", "r2"} and restored.axes[0].layer == "driving_queries_L10"
+    assert restored.to_dict() == original.to_dict()
+
+
+def test_a_directive_contradicting_its_axes_preprocessing_is_refused():
+    card = axis("a1", ["r1"])
+    card.preprocessing = [ACTION_RESIDUAL]
+    with pytest.raises(SchemaError, match="preprocessing"):
+        Directive("sae", [card]).validate()
+    with pytest.raises(SchemaError, match="preprocessing"):
+        Directive("sae", [], preprocessing="whitened").validate()
+
+
+def test_a_score_report_carries_the_directives_variant():
+    g = [gap("c1", "T0_control", ["r1"])]
+    assert score(Directive("sae", [], preprocessing=ACTION_RESIDUAL), g).preprocessing == ACTION_RESIDUAL
+    assert score(Directive("sae", []), g).preprocessing == "non_residualized"
 
 
 # --------------------------------------------------------------------------

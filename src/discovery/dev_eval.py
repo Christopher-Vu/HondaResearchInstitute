@@ -216,12 +216,16 @@ def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.d
     return methods, infos, skipped
 
 
+def probe_run(shards: list[Shard], layer: int) -> MethodRun:
+    rollouts = [rollout for shard in shards
+                if (rollout := probe_residual.load_shard(shard.sidecar, "driving_queries", layer))]
+    return MethodRun("M2_probe_residual", ACTIVATION,
+                     probe_residual.probe_residual_directive(rollouts, probe_residual.ProbeResidualConfig()))
+
+
 def non_sae_methods(shards: list[Shard], layer: int, records: list[dict[str, Any]]) -> list[MethodRun]:
-    probe_rollouts = [rollout for shard in shards
-                      if (rollout := probe_residual.load_shard(shard.sidecar, "driving_queries", layer))]
     behaviour = [rollout for shard in shards if (rollout := behavioral.load_shard(shard.sidecar))]
-    return [MethodRun("M2_probe_residual", ACTIVATION,
-                      probe_residual.probe_residual_directive(probe_rollouts, probe_residual.ProbeResidualConfig())),
+    return [probe_run(shards, layer),
             MethodRun("B2_taxonomy", BASELINE, taxonomy_directive(records, TaxonomyConfig())),
             MethodRun("B3_behavioral", BASELINE,
                       behavioral.behavioral_directive(behaviour, behavioral.BehavioralConfig()))]

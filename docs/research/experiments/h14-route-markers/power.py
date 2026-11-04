@@ -3,8 +3,9 @@
     python docs/research/experiments/h14-route-markers/power.py --discordance 0.15 0.20 0.24
 
 A pair is discordant when exactly one arm fails. Repeat-run noise splits discordant pairs evenly; a true change of
-`delta` adds that share of pairs to one side. Thresholds sit at Holm's first step across three metrics, the
-conservative case of one metric carrying the effect. Rerun with the 212-route discordance before locking.
+`delta` adds that share of pairs to one side. Thresholds sit at Holm's first step across three metrics, with one
+metric carrying the effect. That is conservative for Real effect only: No effect needs all three metrics, so its
+shares here are upper bounds.
 """
 from __future__ import annotations
 

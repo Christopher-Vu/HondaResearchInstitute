@@ -11,7 +11,9 @@ key's predicates, evaluated against the test pool's manifest entries, and the ro
 objects harness.scoring matches against.
 
 Key format (JSON): {"version": 1, "gaps": [{"gap_id", "tier", "decoy": bool, "predicate": [{field, op, value}],
-"efficacy": {...}}]}, predicates in harness.predicates' syntax.
+"neighbourhood_predicate": [{field, op, value}], "efficacy": {...}}]}, predicates in harness.predicates' syntax.
+`efficacy` records the sealing pilot and stays in the key: PRD 13.1 asks for re-confirmation on the test pool, so a
+Gap's efficacy is computed on that pool from the two predicates. A throwaway key states `"dry_run": true`.
 """
 from __future__ import annotations
 
@@ -21,6 +23,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .efficacy import pool_efficacy
 from .predicates import matches
 from .schema import TIERS, Gap
 
@@ -52,21 +55,29 @@ def load_key(key: Path) -> list[dict[str, Any]]:
             raise ValueError(f"{gap['gap_id']}: unknown tier {gap['tier']!r}")
         if not gap.get("predicate"):
             raise ValueError(f"{gap['gap_id']}: empty predicate")
+        if not gap.get("neighbourhood_predicate"):
+            raise ValueError(f"{gap['gap_id']}: no neighbourhood predicate, so it cannot re-confirm on the test pool")
     if len({gap["gap_id"] for gap in gaps}) != len(gaps):
         raise ValueError("duplicate gap ids in the key")
     return gaps
 
 
+def key_is_dry_run(key: Path) -> bool:
+    return bool(json.loads(key.read_text()).get("dry_run", False))
+
+
 def gaps_from_key(key_gaps: Sequence[Mapping[str, Any]], manifest: Sequence[Mapping[str, Any]],
                   failed: Mapping[str, bool]) -> list[Gap]:
     """Slice = test-pool rollouts whose manifest entry matches the predicate; failing = the slice's failures.
-    Rollouts with no outcome (absent from `failed`) are in no slice."""
+    Rollouts with no outcome (absent from `failed`) are in no slice. Efficacy is the pool's own; a gap with no
+    neighbourhood predicate has none, and so cannot count as re-confirming."""
     out = []
     for spec in key_gaps:
         in_slice = {str(e["id"]) for e in manifest if str(e["id"]) in failed and matches(spec["predicate"], e)}
         out.append(Gap(gap_id=spec["gap_id"], tier=spec["tier"],
                        failing_rollouts={r for r in in_slice if failed[r]}, slice_rollouts=in_slice,
-                       efficacy=dict(spec.get("efficacy", {})), is_decoy=bool(spec.get("decoy", False))))
+                       efficacy=pool_efficacy(spec, manifest, failed) if spec.get("neighbourhood_predicate") else {},
+                       is_decoy=bool(spec.get("decoy", False))))
     return out
 
 

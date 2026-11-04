@@ -17,6 +17,8 @@ that reads them.
   which every method, baseline and the scoring read (`PRD.md` §8.2). `python -m
   harness.shards <dir>` checks a directory of shards against it.
 - `failure_time.py` — when a failing rollout failed, for the methods' failure windows.
+- `scoring_run.py` — one scoring run: emitted directive files plus a committed key give one report (Step 8's
+  `score-v1`; `docs/research/experiments/h15-scoring-dry-run/` is its dry run).
 
 ## Rules
 

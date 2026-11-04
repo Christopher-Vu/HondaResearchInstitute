@@ -17,6 +17,12 @@ BASELINES = (
     "B4p_enumerated_pairs", "B5_domino", "B6_detector", "B7_actstats",
 )
 CAUSAL_VERDICTS = ("causal", "correlational_only", "untested")
+# PRD 9.2's preprocessing variants. Only the first can satisfy harness validity (PRD 13.1).
+NON_RESIDUALIZED, ACTION_RESIDUAL = "non_residualized", "action_residual"
+PREPROCESSING = (NON_RESIDUALIZED, ACTION_RESIDUAL)
+# How a gap re-confirms efficacy on the test pool: PRD 9.1's Fisher rule, or CONFLICTS.md C23's paired rule if accepted.
+FISHER_RULE, PAIRED_RULE = "prd_9_1", "c23"
+EFFICACY_RULES = (FISHER_RULE, PAIRED_RULE)
 
 
 class SchemaError(ValueError):
@@ -74,6 +80,20 @@ class AxisCard:
     def rollouts(self) -> set[str]:
         """R(a_j): the rollout set this axis claims. The unit of scoring."""
         return {e.episode_id for e in self.supporting_episodes}
+
+    def to_dict(self) -> dict[str, Any]:
+        """What from_dict reads back: a directive crosses from the methods to scoring only as a file."""
+        return {
+            "axis_id": self.axis_id, "name": self.name, "description": self.description,
+            "rank": int(self.rank), "score": float(self.score),
+            "provenance": {"method": self.method, "config_hash": self.config_hash, "layer": self.layer,
+                           "aggregation": self.aggregation, "preprocessing": list(self.preprocessing)},
+            "supporting_episodes": [{"episode_id": e.episode_id, "activation": float(e.activation),
+                                     "timesteps": [int(e.timesteps[0]), int(e.timesteps[1])]}
+                                    for e in self.supporting_episodes],
+            "generality": self.generality, "causal": self.causal, "gate": self.gate,
+            "parameterization": self.parameterization,
+        }
 
     def validate(self) -> None:
         if not self.name.strip():
@@ -140,8 +160,15 @@ class Directive:
     method: str
     axes: list[AxisCard]
     budget_m: int = 10
+    preprocessing: str = NON_RESIDUALIZED
 
     def validate(self) -> None:
+        if self.preprocessing not in PREPROCESSING:
+            raise SchemaError("%s: preprocessing %r not in %s"
+                              % (self.method, self.preprocessing, PREPROCESSING))
+        if any(self.preprocessing not in a.preprocessing for a in self.axes if set(a.preprocessing) & set(PREPROCESSING)):
+            raise SchemaError("%s: an axis says it came from another preprocessing variant than %s"
+                              % (self.method, self.preprocessing))
         if len(self.axes) > self.budget_m:
             raise SchemaError("%s: %d axes exceeds budget M=%d"
                               % (self.method, len(self.axes), self.budget_m))
@@ -156,9 +183,14 @@ class Directive:
             method=_req(d, "method", str, "directive"),
             axes=[AxisCard.from_dict(a) for a in d.get("axes", [])],
             budget_m=int(d.get("budget_m", 10)),
+            preprocessing=d.get("preprocessing", NON_RESIDUALIZED),
         )
         obj.validate()
         return obj
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"method": self.method, "budget_m": self.budget_m, "preprocessing": self.preprocessing,
+                "axes": [a.to_dict() for a in self.axes]}
 
 
 @dataclass
@@ -204,6 +236,18 @@ class Gap:
         ratio = p_in / p_nbhd if p_nbhd > 0 else float("inf")
         return (uplift_pp >= min_uplift_pp and ratio >= min_ratio
                 and fisher_p < max_p and n_in >= min_n)
+
+    def reconfirms(self, rule: str = FISHER_RULE) -> bool:
+        """Whether this gap's efficacy stats pass `rule`. Fisher reads the flat stats; C23 reads efficacy["c23_paired"],
+        harness.efficacy's report of the pairs, whose `passes` holds the rule's thresholds."""
+        if rule == FISHER_RULE:
+            return self.passes_efficacy()
+        if rule != PAIRED_RULE:
+            raise SchemaError("%s: unknown efficacy rule %r; use one of %s" % (self.gap_id, rule, EFFICACY_RULES))
+        try:
+            return bool(self.efficacy["c23_paired"]["passes"])
+        except (KeyError, TypeError) as exc:
+            raise SchemaError("%s: no paired efficacy report: %s" % (self.gap_id, exc))
 
     @property
     def attributable_share(self) -> float:

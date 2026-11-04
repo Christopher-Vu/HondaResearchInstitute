@@ -54,8 +54,55 @@ def test_gaps_from_key_use_predicates_and_outcomes():
                 {"id": "5", "weather": {"fog_density": 90}}]
     failed = {"1": True, "2": False, "3": True, "4": False}
     g1, d1 = seal.gaps_from_key(KEY["gaps"], manifest, failed)
-    assert g1.slice_rollouts == {"1", "2"} and g1.failing_rollouts == {"1"} and g1.efficacy == {"uplift": 0.3}
+    assert g1.slice_rollouts == {"1", "2"} and g1.failing_rollouts == {"1"}
     assert d1.is_decoy and d1.slice_rollouts == {"4"} and d1.failing_rollouts == set()
+
+
+def test_a_sealing_pilots_stats_never_count_as_re_confirming_on_the_test_pool():
+    """PRD 13.1 asks for re-confirmation on the test pool, so the key's own efficacy block must not reach the Gap."""
+    manifest = [{"id": "1", "weather": {"fog_density": 90}}]
+    g1, _ = seal.gaps_from_key(KEY["gaps"], manifest, {"1": True})
+    assert g1.efficacy == {}
+
+
+def paired_pool(pairs):
+    """pairs: (slice failed, neighbourhood failed) per base route; the manifest itself carries no roles."""
+    manifest, failed = [], {}
+    for index, (slice_failed, nbhd_failed) in enumerate(pairs):
+        manifest += [{"id": f"s{index}", "base_id": str(index), "fog": 90}, {"id": f"n{index}", "base_id": str(index), "fog": 0}]
+        failed |= {f"s{index}": slice_failed, f"n{index}": nbhd_failed}
+    return manifest, failed
+
+
+SPEC = {"gap_id": "G", "tier": "T2_interactional", "predicate": [{"field": "fog", "op": "==", "value": 90}],
+        "neighbourhood_predicate": [{"field": "fog", "op": "==", "value": 0}], "efficacy": {"fisher_p": 1e-9}}
+
+
+def test_efficacy_is_computed_on_the_pool_from_the_keys_two_predicates():
+    manifest, failed = paired_pool([(True, False)] * 30 + [(False, False)] * 30)
+    gap, = seal.gaps_from_key([SPEC], manifest, failed)
+    assert gap.efficacy["n_in"] == 60 and gap.efficacy["n_neighbourhood"] == 60
+    assert gap.reconfirms("prd_9_1") and gap.reconfirms("c23")
+    assert gap.efficacy["c23_paired"]["slice_only_failed"] == 30
+
+
+def test_a_pool_that_does_not_reproduce_the_gap_does_not_re_confirm_whatever_the_pilot_said():
+    manifest, failed = paired_pool([(True, True)] * 30 + [(False, False)] * 30)
+    gap, = seal.gaps_from_key([SPEC], manifest, failed)
+    assert not gap.reconfirms("prd_9_1") and not gap.reconfirms("c23")
+
+
+def test_an_arm_with_no_outcomes_reads_as_not_re_confirming_and_does_not_crash():
+    manifest, failed = paired_pool([(True, False)] * 40)
+    gap, = seal.gaps_from_key([SPEC], manifest, {route: did for route, did in failed.items() if route.startswith("s")})
+    assert gap.failing_rollouts and not gap.reconfirms("prd_9_1") and not gap.reconfirms("c23")
+
+
+def test_a_route_in_both_arms_is_refused():
+    spec = {**SPEC, "neighbourhood_predicate": SPEC["predicate"]}
+    manifest, failed = paired_pool([(True, False)])
+    with pytest.raises(ValueError, match="both"):
+        seal.gaps_from_key([spec], manifest, failed)
 
 
 def test_bad_keys_are_refused(tmp_path):
@@ -65,4 +112,7 @@ def test_bad_keys_are_refused(tmp_path):
         seal.load_key(bad)
     bad.write_text(json.dumps({"gaps": [{"gap_id": "X", "tier": "T0_control", "predicate": []}]}))
     with pytest.raises(ValueError):
+        seal.load_key(bad)
+    bad.write_text(json.dumps({"gaps": [{"gap_id": "X", "tier": "T0_control", "predicate": [{"field": "a", "op": "==", "value": 1}]}]}))
+    with pytest.raises(ValueError, match="neighbourhood"):
         seal.load_key(bad)

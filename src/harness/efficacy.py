@@ -7,7 +7,12 @@ PRD 9.1, the rule in force: slice against neighbourhood as unrelated groups, two
 harness.schema.Gap.passes_efficacy. C23, proposed: the base route is the unit. Each base route with an outcome on
 both its slice and its neighbourhood route is a pair; McNemar's exact test (two-sided binomial on the discordant
 pairs) replaces Fisher, with the same uplift and ratio thresholds, at least 60 pairs from at least 30 base routes.
-Routes without an outcome are left out of both and counted.
+Routes without an outcome are left out of both and counted. When a base route carries several pairs, the n-th slice
+route listed for that base pairs with its n-th neighbourhood route, so a lost route leaves its own twin unpaired and
+does not shift the others.
+
+C31's decoy rule is `decoy_verdict`. `pool_efficacy` computes all of it on the test pool from a sealed key's
+predicates, because that pool's manifest carries no roles (docs/steps/08-seal-generate-score.md).
 
 A screen (Step 5's 10-pair first stage) passes its gap's `screen_rule` when, among pairs, slice-only failures exceed
 neighbourhood-only failures by at least `min_excess_slice_only_failures`; `--screen` exits 0 then, 3 otherwise, and 4 when the report holds no pair or fewer than the rule's `min_pairs`, which is no result.
@@ -22,13 +27,17 @@ from typing import Any
 
 from scipy.stats import binomtest, fisher_exact
 
-from src.harness.schema import Gap
+from .predicates import matches
+from .schema import Gap
 
 MIN_UPLIFT_PP = 20.0
 MIN_RATIO = 2.0
 MAX_P = 0.01
 MIN_PAIRS = 60
 MIN_BASE_ROUTES = 30
+DECOY_MAX_ABS_UPLIFT_PP = 10.0
+DECOY_MIN_P = 0.2
+DECOY_OLD_BAND_PP = 5.0
 
 
 def outcomes_by_route(rows: list[dict[str, Any]]) -> dict[str, bool]:
@@ -59,37 +68,77 @@ def unpaired(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: st
     return {**stats, "passes": bool(Gap(gap_id, "T0_control", set(), efficacy=stats).passes_efficacy())}
 
 
-def outcome_pairs(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: str) -> dict[str, tuple[bool, bool]]:
-    """Base route to (slice failed, neighbourhood failed), for bases with an outcome on both."""
-    by_base: dict[str, dict[str, bool]] = defaultdict(dict)
+def outcome_pairs(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: str
+                  ) -> dict[tuple[str, int], tuple[bool, bool]]:
+    """(base route, n-th pair on it) to (slice failed, neighbourhood failed), for pairs with an outcome on both."""
+    listed: dict[str, dict[str, list[str]]] = defaultdict(lambda: {"slice": [], "neighbourhood": []})
     for entry in manifest:
         in_slice, in_nbhd = roles(entry, gap_id)
-        if entry["id"] in failed and (in_slice or in_nbhd):
-            by_base[entry["base_id"]]["slice" if in_slice else "neighbourhood"] = failed[entry["id"]]
-    return {base: (pair["slice"], pair["neighbourhood"]) for base, pair in by_base.items() if len(pair) == 2}
+        if in_slice or in_nbhd:
+            listed[entry["base_id"]]["slice" if in_slice else "neighbourhood"].append(entry["id"])
+    return {(base, n): (failed[slice_id], failed[nbhd_id]) for base, arms in listed.items()
+            for n, (slice_id, nbhd_id) in enumerate(zip(arms["slice"], arms["neighbourhood"]))
+            if slice_id in failed and nbhd_id in failed}
 
 
-def paired(pairs: dict[str, tuple[bool, bool]]) -> dict[str, Any]:
-    n = len(pairs)
+def paired(pairs: dict[tuple[str, int], tuple[bool, bool]]) -> dict[str, Any]:
+    n, base_routes = len(pairs), len({base for base, _ in pairs})
     slice_only = sum(slice_failed and not nbhd_failed for slice_failed, nbhd_failed in pairs.values())
     nbhd_only = sum(nbhd_failed and not slice_failed for slice_failed, nbhd_failed in pairs.values())
-    counts = {"pairs": n, "base_routes": n, "slice_only_failed": slice_only, "neighbourhood_only_failed": nbhd_only}
+    counts = {"pairs": n, "base_routes": base_routes, "slice_only_failed": slice_only,
+              "neighbourhood_only_failed": nbhd_only}
     if not n:
         return {**counts, "passes": False}
     stats = {**counts, **rates(sum(pair[0] for pair in pairs.values()), n, sum(pair[1] for pair in pairs.values()), n),
              "mcnemar_p": float(binomtest(slice_only, slice_only + nbhd_only, 0.5).pvalue) if slice_only + nbhd_only
              else 1.0}
     passes = bool(stats["uplift_pp"] >= MIN_UPLIFT_PP and stats["ratio"] >= MIN_RATIO and stats["mcnemar_p"] < MAX_P
-                  and n >= MIN_PAIRS and n >= MIN_BASE_ROUTES)
+                  and n >= MIN_PAIRS and base_routes >= MIN_BASE_ROUTES)
     return {**stats, "passes": passes}
 
 
-def efficacy(manifest: list[dict[str, Any]], rows: list[dict[str, Any]], gap_id: str) -> dict[str, Any]:
-    failed = outcomes_by_route(rows)
+def decoy_verdict(paired_report: dict[str, Any]) -> dict[str, Any]:
+    """C31's rule on a decoy's paired pilot, with PRD 9.1's old 5-point band beside it for the report (C31's reversal)."""
+    if not paired_report["pairs"]:
+        return {"passes": False, "within_old_band": False}
+    close = abs(paired_report["uplift_pp"])
+    return {"passes": bool(paired_report["pairs"] >= MIN_PAIRS and close <= DECOY_MAX_ABS_UPLIFT_PP
+                           and paired_report["mcnemar_p"] > DECOY_MIN_P),
+            "within_old_band": bool(close <= DECOY_OLD_BAND_PP)}
+
+
+def efficacy_from_outcomes(manifest: list[dict[str, Any]], failed: dict[str, bool], gap_id: str) -> dict[str, Any]:
     listed = [entry for entry in manifest if any(roles(entry, gap_id))]
     return {"gap_id": gap_id, "routes_listed": len(listed),
             "routes_without_outcome": sorted(entry["id"] for entry in listed if entry["id"] not in failed),
             "prd_9_1": unpaired(manifest, failed, gap_id), "c23_paired": paired(outcome_pairs(manifest, failed, gap_id))}
+
+
+def efficacy(manifest: list[dict[str, Any]], rows: list[dict[str, Any]], gap_id: str) -> dict[str, Any]:
+    return efficacy_from_outcomes(manifest, outcomes_by_route(rows), gap_id)
+
+
+def role_labels(spec: dict[str, Any], manifest: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """The manifest entries a key's gap touches, with the roles that manifest itself does not carry."""
+    gap_id, labelled = spec["gap_id"], []
+    for entry in manifest:
+        in_slice, in_nbhd = matches(spec["predicate"], entry), matches(spec["neighbourhood_predicate"], entry)
+        if in_slice and in_nbhd:
+            raise ValueError(f"{gap_id}: route {entry['id']} matches both its slice and its neighbourhood")
+        if in_slice or in_nbhd:
+            labelled.append({"id": str(entry["id"]), "base_id": str(entry["base_id"]),
+                             "practice_gaps": [gap_id] if in_slice else [],
+                             "neighbourhood_of": [gap_id] if in_nbhd else []})
+    return labelled
+
+
+def pool_efficacy(spec: dict[str, Any], manifest: list[dict[str, Any]], failed: dict[str, bool]) -> dict[str, Any]:
+    """One key gap's efficacy on the pool, in the shape harness.schema.Gap reads: PRD 9.1's stats flat, C23's and C31's
+    nested. An arm with no outcome has no rates or p value, so the defaults make it read as not re-confirming."""
+    report = efficacy_from_outcomes(role_labels(spec, manifest), failed, spec["gap_id"])
+    return {"fail_rate_in": 0.0, "fail_rate_neighbourhood": 0.0, "fisher_p": 1.0, **report["prd_9_1"],
+            "c23_paired": report["c23_paired"], "c31_decoy": decoy_verdict(report["c23_paired"]),
+            "routes_listed": report["routes_listed"], "routes_without_outcome": report["routes_without_outcome"]}
 
 
 NO_RESULT_EXIT = 4

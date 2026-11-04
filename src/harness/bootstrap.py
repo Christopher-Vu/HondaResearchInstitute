@@ -22,7 +22,7 @@ from typing import Mapping, Sequence
 import numpy as np
 
 from .schema import Directive, Gap
-from .scoring import MATCH_THRESHOLD, jaccard, score
+from .scoring import MATCH_THRESHOLD, jaccard, require_budget, score
 
 INTERACTIONAL = "T2_interactional"
 MARGIN = 0.15
@@ -79,6 +79,8 @@ def advantage(activation: Mapping[str, Directive], baselines: Mapping[str, Direc
     """PRD 13.1 condition 2 over the real (non-decoy) gaps; base_of maps every scored rollout id to its base route."""
     if not activation or not baselines:
         raise ValueError("need at least one activation method and one baseline")
+    for directive in (*activation.values(), *baselines.values()):
+        require_budget(directive)
     real = [g for g in gaps if not g.is_decoy]
     t2 = [g for g in real if g.tier == INTERACTIONAL]
     if not t2:

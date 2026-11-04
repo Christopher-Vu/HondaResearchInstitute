@@ -1,0 +1,4744 @@
+{
+  "layer": 10,
+  "stale_latent": false,
+  "corpus": {
+    "rollouts": 536,
+    "failures": 229,
+    "key": {
+      "P19_wide_invading_turn": 42,
+      "P4_camera_occlusion": 46,
+      "P7_camera_freeze": 54
+    },
+    "manifest_records": 536,
+    "sources": {
+      "results/savio/step5-background-wave3/shards": {
+        "rollouts": 199,
+        "failures": 52,
+        "key": {
+          "P19_wide_invading_turn": 0,
+          "P4_camera_occlusion": 0,
+          "P7_camera_freeze": 0
+        }
+      },
+      "results/savio/step5-confirm-p4/shards": {
+        "rollouts": 118,
+        "failures": 55,
+        "key": {
+          "P19_wide_invading_turn": 0,
+          "P4_camera_occlusion": 46,
+          "P7_camera_freeze": 0
+        }
+      },
+      "results/savio/step5-confirm-p7/shards": {
+        "rollouts": 118,
+        "failures": 73,
+        "key": {
+          "P19_wide_invading_turn": 0,
+          "P4_camera_occlusion": 0,
+          "P7_camera_freeze": 54
+        }
+      },
+      "results/savio/step5-pilot-p19-main/shards": {
+        "rollouts": 101,
+        "failures": 49,
+        "key": {
+          "P19_wide_invading_turn": 42,
+          "P4_camera_occlusion": 0,
+          "P7_camera_freeze": 0
+        }
+      }
+    }
+  },
+  "saes": [
+    {
+      "run": "results/savio/h12/sae/L10_k32_s0",
+      "layer": 10,
+      "k": 32,
+      "seed": 0,
+      "explained_variance": 0.9633248012955519,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k32_s1",
+      "layer": 10,
+      "k": 32,
+      "seed": 1,
+      "explained_variance": 0.9627822578590857,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k32_s2",
+      "layer": 10,
+      "k": 32,
+      "seed": 2,
+      "explained_variance": 0.9641348794835212,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k32_s3",
+      "layer": 10,
+      "k": 32,
+      "seed": 3,
+      "explained_variance": 0.9639904225433839,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k32_s4",
+      "layer": 10,
+      "k": 32,
+      "seed": 4,
+      "explained_variance": 0.9626584601003711,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k32_s5",
+      "layer": 10,
+      "k": 32,
+      "seed": 5,
+      "explained_variance": 0.9622541590944151,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s0",
+      "layer": 10,
+      "k": 48,
+      "seed": 0,
+      "explained_variance": 0.968019659955448,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s1",
+      "layer": 10,
+      "k": 48,
+      "seed": 1,
+      "explained_variance": 0.9676969976244166,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s2",
+      "layer": 10,
+      "k": 48,
+      "seed": 2,
+      "explained_variance": 0.9687403046175491,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s3",
+      "layer": 10,
+      "k": 48,
+      "seed": 3,
+      "explained_variance": 0.9688198365149736,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s4",
+      "layer": 10,
+      "k": 48,
+      "seed": 4,
+      "explained_variance": 0.9675920431862319,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k48_s5",
+      "layer": 10,
+      "k": 48,
+      "seed": 5,
+      "explained_variance": 0.967164153906918,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s0",
+      "layer": 10,
+      "k": 64,
+      "seed": 0,
+      "explained_variance": 0.9711318726203255,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s1",
+      "layer": 10,
+      "k": 64,
+      "seed": 1,
+      "explained_variance": 0.970593451887157,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s2",
+      "layer": 10,
+      "k": 64,
+      "seed": 2,
+      "explained_variance": 0.9717115577573063,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s3",
+      "layer": 10,
+      "k": 64,
+      "seed": 3,
+      "explained_variance": 0.9717398908867763,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s4",
+      "layer": 10,
+      "k": 64,
+      "seed": 4,
+      "explained_variance": 0.9705670040679082,
+      "counts": true
+    },
+    {
+      "run": "results/savio/h12/sae/L10_k64_s5",
+      "layer": 10,
+      "k": 64,
+      "seed": 5,
+      "explained_variance": 0.9705074499769757,
+      "counts": true
+    }
+  ],
+  "skipped_saes": [],
+  "methods": {
+    "M1_raw@results/savio/h12/sae/L10_k32_s0": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s0",
+      "score": {
+        "mean_best_jaccard": 0.4250995421425399,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.6136363636363636,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.41304347826086957,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.24861878453038674,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.6136363636363636,
+          "axis_size": 29,
+          "share_of_failures": 0.12663755458515283,
+          "in_key": 27,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.41304347826086957,
+          "axis_size": 84,
+          "share_of_failures": 0.36681222707423583,
+          "in_key": 38,
+          "pilot_slice": 60,
+          "pilot_neighbourhood": 9,
+          "other": 15,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.24861878453038674,
+          "axis_size": 172,
+          "share_of_failures": 0.7510917030567685,
+          "in_key": 45,
+          "pilot_slice": 118,
+          "pilot_neighbourhood": 23,
+          "other": 31,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s0": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s0",
+      "score": {
+        "mean_best_jaccard": 0.4114090039028513,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.6136363636363636,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.41304347826086957,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.20754716981132076,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.6136363636363636,
+          "axis_size": 29,
+          "share_of_failures": 0.12663755458515283,
+          "in_key": 27,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.41304347826086957,
+          "axis_size": 84,
+          "share_of_failures": 0.36681222707423583,
+          "in_key": 38,
+          "pilot_slice": 60,
+          "pilot_neighbourhood": 9,
+          "other": 15,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.20754716981132076,
+          "axis_size": 74,
+          "share_of_failures": 0.3231441048034934,
+          "in_key": 22,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 14,
+          "other": 18,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s0": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s0",
+      "score": {
+        "mean_best_jaccard": 0.19686753114670733,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a7",
+            "jaccard": 0.48,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.05263157894736842,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.057971014492753624,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a7",
+          "best_jaccard": 0.48,
+          "axis_size": 32,
+          "share_of_failures": 0.13973799126637554,
+          "in_key": 24,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 7,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.05263157894736842,
+          "axis_size": 34,
+          "share_of_failures": 0.14847161572052403,
+          "in_key": 4,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 5,
+          "other": 10,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.057971014492753624,
+          "axis_size": 19,
+          "share_of_failures": 0.08296943231441048,
+          "in_key": 4,
+          "pilot_slice": 13,
+          "pilot_neighbourhood": 2,
+          "other": 4,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k32_s1": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s1",
+      "score": {
+        "mean_best_jaccard": 0.2905690089151756,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.3111111111111111,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.3275862068965517,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.23300970873786409,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.3111111111111111,
+          "axis_size": 76,
+          "share_of_failures": 0.3318777292576419,
+          "in_key": 28,
+          "pilot_slice": 62,
+          "pilot_neighbourhood": 10,
+          "other": 4,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.3275862068965517,
+          "axis_size": 31,
+          "share_of_failures": 0.13537117903930132,
+          "in_key": 19,
+          "pilot_slice": 29,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.23300970873786409,
+          "axis_size": 200,
+          "share_of_failures": 0.8733624454148472,
+          "in_key": 48,
+          "pilot_slice": 133,
+          "pilot_neighbourhood": 25,
+          "other": 42,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s1": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s1",
+      "score": {
+        "mean_best_jaccard": 0.28697318007662836,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.3111111111111111,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.3275862068965517,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.2222222222222222,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.3111111111111111,
+          "axis_size": 76,
+          "share_of_failures": 0.3318777292576419,
+          "in_key": 28,
+          "pilot_slice": 62,
+          "pilot_neighbourhood": 10,
+          "other": 4,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.3275862068965517,
+          "axis_size": 31,
+          "share_of_failures": 0.13537117903930132,
+          "in_key": 19,
+          "pilot_slice": 29,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.2222222222222222,
+          "axis_size": 78,
+          "share_of_failures": 0.3406113537117904,
+          "in_key": 24,
+          "pilot_slice": 45,
+          "pilot_neighbourhood": 14,
+          "other": 19,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s1": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s1",
+      "score": {
+        "mean_best_jaccard": 0.18198830409356725,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a8",
+            "jaccard": 0.44,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.05333333333333334,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.05263157894736842,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a8",
+          "best_jaccard": 0.44,
+          "axis_size": 30,
+          "share_of_failures": 0.13100436681222707,
+          "in_key": 22,
+          "pilot_slice": 22,
+          "pilot_neighbourhood": 7,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.05333333333333334,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 4,
+          "pilot_slice": 17,
+          "pilot_neighbourhood": 3,
+          "other": 13,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.05263157894736842,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 4,
+          "pilot_slice": 16,
+          "pilot_neighbourhood": 4,
+          "other": 6,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k32_s2": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s2",
+      "score": {
+        "mean_best_jaccard": 0.29824001545302353,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.20408163265306123,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.4358974358974359,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.24120603015075376,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.21761658031088082,
+          "axis_size": 193,
+          "share_of_failures": 0.8427947598253275,
+          "in_key": 42,
+          "pilot_slice": 129,
+          "pilot_neighbourhood": 26,
+          "other": 38,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.4358974358974359,
+          "axis_size": 66,
+          "share_of_failures": 0.28820960698689957,
+          "in_key": 34,
+          "pilot_slice": 52,
+          "pilot_neighbourhood": 4,
+          "other": 10,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.24120603015075376,
+          "axis_size": 193,
+          "share_of_failures": 0.8427947598253275,
+          "in_key": 48,
+          "pilot_slice": 129,
+          "pilot_neighbourhood": 26,
+          "other": 38,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s2": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s2",
+      "score": {
+        "mean_best_jaccard": 0.2843133474712422,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.23809523809523808,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.4358974358974359,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.17894736842105263,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.23809523809523808,
+          "axis_size": 36,
+          "share_of_failures": 0.1572052401746725,
+          "in_key": 15,
+          "pilot_slice": 30,
+          "pilot_neighbourhood": 4,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.4358974358974359,
+          "axis_size": 66,
+          "share_of_failures": 0.28820960698689957,
+          "in_key": 34,
+          "pilot_slice": 52,
+          "pilot_neighbourhood": 4,
+          "other": 10,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.17894736842105263,
+          "axis_size": 58,
+          "share_of_failures": 0.25327510917030566,
+          "in_key": 17,
+          "pilot_slice": 29,
+          "pilot_neighbourhood": 12,
+          "other": 17,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s2": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s2",
+      "score": {
+        "mean_best_jaccard": 0.20186932215234102,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a2",
+            "jaccard": 0.4528301886792453,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.041666666666666664,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.1111111111111111,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a2",
+          "best_jaccard": 0.4528301886792453,
+          "axis_size": 35,
+          "share_of_failures": 0.15283842794759825,
+          "in_key": 24,
+          "pilot_slice": 26,
+          "pilot_neighbourhood": 8,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.041666666666666664,
+          "axis_size": 29,
+          "share_of_failures": 0.12663755458515283,
+          "in_key": 3,
+          "pilot_slice": 16,
+          "pilot_neighbourhood": 4,
+          "other": 9,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.1111111111111111,
+          "axis_size": 6,
+          "share_of_failures": 0.026200873362445413,
+          "in_key": 6,
+          "pilot_slice": 6,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k32_s3": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s3",
+      "score": {
+        "mean_best_jaccard": 0.4647804576376005,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.7045454545454546,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.4897959183673469,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.2,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.7045454545454546,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 31,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.4897959183673469,
+          "axis_size": 27,
+          "share_of_failures": 0.11790393013100436,
+          "in_key": 24,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.2,
+          "axis_size": 72,
+          "share_of_failures": 0.314410480349345,
+          "in_key": 21,
+          "pilot_slice": 41,
+          "pilot_neighbourhood": 13,
+          "other": 18,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s3": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s3",
+      "score": {
+        "mean_best_jaccard": 0.4647804576376005,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.7045454545454546,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.4897959183673469,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.2,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.7045454545454546,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 31,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.4897959183673469,
+          "axis_size": 27,
+          "share_of_failures": 0.11790393013100436,
+          "in_key": 24,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.2,
+          "axis_size": 72,
+          "share_of_failures": 0.314410480349345,
+          "in_key": 21,
+          "pilot_slice": 41,
+          "pilot_neighbourhood": 13,
+          "other": 18,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s3": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s3",
+      "score": {
+        "mean_best_jaccard": 0.2070714245447883,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.48,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.08641975308641975,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.0547945205479452,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.48,
+          "axis_size": 32,
+          "share_of_failures": 0.13973799126637554,
+          "in_key": 24,
+          "pilot_slice": 25,
+          "pilot_neighbourhood": 6,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.08641975308641975,
+          "axis_size": 42,
+          "share_of_failures": 0.18340611353711792,
+          "in_key": 7,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 7,
+          "other": 12,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.0547945205479452,
+          "axis_size": 23,
+          "share_of_failures": 0.10043668122270742,
+          "in_key": 4,
+          "pilot_slice": 13,
+          "pilot_neighbourhood": 3,
+          "other": 7,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k32_s4": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s4",
+      "score": {
+        "mean_best_jaccard": 0.38496148898414956,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.43037974683544306,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.4492753623188406,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.27522935779816515,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.43037974683544306,
+          "axis_size": 71,
+          "share_of_failures": 0.31004366812227074,
+          "in_key": 34,
+          "pilot_slice": 62,
+          "pilot_neighbourhood": 7,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.4492753623188406,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 31,
+          "pilot_slice": 44,
+          "pilot_neighbourhood": 3,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.27522935779816515,
+          "axis_size": 85,
+          "share_of_failures": 0.37117903930131,
+          "in_key": 30,
+          "pilot_slice": 50,
+          "pilot_neighbourhood": 15,
+          "other": 20,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s4": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s4",
+      "score": {
+        "mean_best_jaccard": 0.38496148898414956,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.43037974683544306,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.4492753623188406,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.27522935779816515,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.43037974683544306,
+          "axis_size": 71,
+          "share_of_failures": 0.31004366812227074,
+          "in_key": 34,
+          "pilot_slice": 62,
+          "pilot_neighbourhood": 7,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.4492753623188406,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 31,
+          "pilot_slice": 44,
+          "pilot_neighbourhood": 3,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.27522935779816515,
+          "axis_size": 85,
+          "share_of_failures": 0.37117903930131,
+          "in_key": 30,
+          "pilot_slice": 50,
+          "pilot_neighbourhood": 15,
+          "other": 20,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s4": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s4",
+      "score": {
+        "mean_best_jaccard": 0.214987714987715,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a10",
+            "jaccard": 0.5,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.09090909090909091,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.05405405405405406,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a10",
+          "best_jaccard": 0.5,
+          "axis_size": 30,
+          "share_of_failures": 0.13100436681222707,
+          "in_key": 24,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 6,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.09090909090909091,
+          "axis_size": 50,
+          "share_of_failures": 0.2183406113537118,
+          "in_key": 8,
+          "pilot_slice": 25,
+          "pilot_neighbourhood": 9,
+          "other": 16,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.05405405405405406,
+          "axis_size": 24,
+          "share_of_failures": 0.10480349344978165,
+          "in_key": 4,
+          "pilot_slice": 17,
+          "pilot_neighbourhood": 3,
+          "other": 4,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k32_s5": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s5",
+      "score": {
+        "mean_best_jaccard": 0.39267336437147754,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.6363636363636364,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.3246753246753247,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.2169811320754717,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.6363636363636364,
+          "axis_size": 30,
+          "share_of_failures": 0.13100436681222707,
+          "in_key": 28,
+          "pilot_slice": 28,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.3246753246753247,
+          "axis_size": 56,
+          "share_of_failures": 0.2445414847161572,
+          "in_key": 25,
+          "pilot_slice": 45,
+          "pilot_neighbourhood": 4,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.2169811320754717,
+          "axis_size": 75,
+          "share_of_failures": 0.32751091703056767,
+          "in_key": 23,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 14,
+          "other": 19,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k32_s5": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s5",
+      "score": {
+        "mean_best_jaccard": 0.39267336437147754,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.6363636363636364,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.3246753246753247,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.2169811320754717,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.6363636363636364,
+          "axis_size": 30,
+          "share_of_failures": 0.13100436681222707,
+          "in_key": 28,
+          "pilot_slice": 28,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.3246753246753247,
+          "axis_size": 56,
+          "share_of_failures": 0.2445414847161572,
+          "in_key": 25,
+          "pilot_slice": 45,
+          "pilot_neighbourhood": 4,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.2169811320754717,
+          "axis_size": 75,
+          "share_of_failures": 0.32751091703056767,
+          "in_key": 23,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 14,
+          "other": 19,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k32_s5": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k32_s5",
+      "score": {
+        "mean_best_jaccard": 0.1608215104226323,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.3617021276595745,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.06329113924050633,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.056338028169014086,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.3617021276595745,
+          "axis_size": 22,
+          "share_of_failures": 0.09606986899563319,
+          "in_key": 17,
+          "pilot_slice": 17,
+          "pilot_neighbourhood": 5,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.06329113924050633,
+          "axis_size": 38,
+          "share_of_failures": 0.16593886462882096,
+          "in_key": 5,
+          "pilot_slice": 22,
+          "pilot_neighbourhood": 5,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.05747126436781609,
+          "axis_size": 38,
+          "share_of_failures": 0.16593886462882096,
+          "in_key": 5,
+          "pilot_slice": 22,
+          "pilot_neighbourhood": 5,
+          "other": 11,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s0": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s0",
+      "score": {
+        "mean_best_jaccard": 0.3624673937173937,
+        "precision_at_m": 0.1,
+        "n_axes": 9,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.5227272727272727,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.3229166666666667,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.24175824175824176,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.5227272727272727,
+          "axis_size": 25,
+          "share_of_failures": 0.1091703056768559,
+          "in_key": 23,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.3229166666666667,
+          "axis_size": 81,
+          "share_of_failures": 0.3537117903930131,
+          "in_key": 31,
+          "pilot_slice": 71,
+          "pilot_neighbourhood": 8,
+          "other": 2,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.24175824175824176,
+          "axis_size": 172,
+          "share_of_failures": 0.7510917030567685,
+          "in_key": 44,
+          "pilot_slice": 119,
+          "pilot_neighbourhood": 22,
+          "other": 31,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s0": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s0",
+      "score": {
+        "mean_best_jaccard": 0.3567112451041023,
+        "precision_at_m": 0.1,
+        "n_axes": 8,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.5227272727272727,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.3229166666666667,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.22448979591836735,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.5227272727272727,
+          "axis_size": 25,
+          "share_of_failures": 0.1091703056768559,
+          "in_key": 23,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.3229166666666667,
+          "axis_size": 81,
+          "share_of_failures": 0.3537117903930131,
+          "in_key": 31,
+          "pilot_slice": 71,
+          "pilot_neighbourhood": 8,
+          "other": 2,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.22448979591836735,
+          "axis_size": 66,
+          "share_of_failures": 0.28820960698689957,
+          "in_key": 22,
+          "pilot_slice": 37,
+          "pilot_neighbourhood": 13,
+          "other": 16,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s0": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s0",
+      "score": {
+        "mean_best_jaccard": 0.20786815523657629,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.2727272727272727,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.017543859649122806,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a10",
+            "jaccard": 0.3333333333333333,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.2727272727272727,
+          "axis_size": 14,
+          "share_of_failures": 0.0611353711790393,
+          "in_key": 12,
+          "pilot_slice": 12,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.017543859649122806,
+          "axis_size": 12,
+          "share_of_failures": 0.05240174672489083,
+          "in_key": 1,
+          "pilot_slice": 12,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a10",
+          "best_jaccard": 0.3333333333333333,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 20,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 0,
+          "other": 3,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s1": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s1",
+      "score": {
+        "mean_best_jaccard": 0.2750085608592691,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a7",
+            "jaccard": 0.2786885245901639,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.3181818181818182,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.22815533980582525,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a7",
+          "best_jaccard": 0.2786885245901639,
+          "axis_size": 36,
+          "share_of_failures": 0.1572052401746725,
+          "in_key": 17,
+          "pilot_slice": 30,
+          "pilot_neighbourhood": 3,
+          "other": 3,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.3181818181818182,
+          "axis_size": 41,
+          "share_of_failures": 0.17903930131004367,
+          "in_key": 21,
+          "pilot_slice": 30,
+          "pilot_neighbourhood": 4,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.22815533980582525,
+          "axis_size": 199,
+          "share_of_failures": 0.868995633187773,
+          "in_key": 47,
+          "pilot_slice": 134,
+          "pilot_neighbourhood": 26,
+          "other": 39,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s1": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s1",
+      "score": {
+        "mean_best_jaccard": 0.2712838249491513,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.2786885245901639,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.3181818181818182,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.2169811320754717,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.2786885245901639,
+          "axis_size": 36,
+          "share_of_failures": 0.1572052401746725,
+          "in_key": 17,
+          "pilot_slice": 30,
+          "pilot_neighbourhood": 3,
+          "other": 3,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.3181818181818182,
+          "axis_size": 41,
+          "share_of_failures": 0.17903930131004367,
+          "in_key": 21,
+          "pilot_slice": 30,
+          "pilot_neighbourhood": 4,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.2169811320754717,
+          "axis_size": 75,
+          "share_of_failures": 0.32751091703056767,
+          "in_key": 23,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 14,
+          "other": 18,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s1": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s1",
+      "score": {
+        "mean_best_jaccard": 0.1717046238785369,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.42857142857142855,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.02857142857142857,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.057971014492753624,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.42857142857142855,
+          "axis_size": 28,
+          "share_of_failures": 0.1222707423580786,
+          "in_key": 21,
+          "pilot_slice": 21,
+          "pilot_neighbourhood": 6,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.02857142857142857,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 2,
+          "pilot_slice": 17,
+          "pilot_neighbourhood": 4,
+          "other": 5,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.057971014492753624,
+          "axis_size": 19,
+          "share_of_failures": 0.08296943231441048,
+          "in_key": 4,
+          "pilot_slice": 11,
+          "pilot_neighbourhood": 2,
+          "other": 6,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s2": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s2",
+      "score": {
+        "mean_best_jaccard": 0.32747498887819815,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.3409090909090909,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.41379310344827586,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.22772277227722773,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.3409090909090909,
+          "axis_size": 76,
+          "share_of_failures": 0.3318777292576419,
+          "in_key": 30,
+          "pilot_slice": 68,
+          "pilot_neighbourhood": 5,
+          "other": 3,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.41379310344827586,
+          "axis_size": 77,
+          "share_of_failures": 0.33624454148471616,
+          "in_key": 36,
+          "pilot_slice": 59,
+          "pilot_neighbourhood": 7,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.22772277227722773,
+          "axis_size": 70,
+          "share_of_failures": 0.3056768558951965,
+          "in_key": 23,
+          "pilot_slice": 41,
+          "pilot_neighbourhood": 13,
+          "other": 16,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s2": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s2",
+      "score": {
+        "mean_best_jaccard": 0.32292953433274363,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.32727272727272727,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.41379310344827586,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.22772277227722773,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.32727272727272727,
+          "axis_size": 104,
+          "share_of_failures": 0.45414847161572053,
+          "in_key": 36,
+          "pilot_slice": 85,
+          "pilot_neighbourhood": 11,
+          "other": 8,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.41379310344827586,
+          "axis_size": 77,
+          "share_of_failures": 0.33624454148471616,
+          "in_key": 36,
+          "pilot_slice": 59,
+          "pilot_neighbourhood": 7,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.22772277227722773,
+          "axis_size": 70,
+          "share_of_failures": 0.3056768558951965,
+          "in_key": 23,
+          "pilot_slice": 41,
+          "pilot_neighbourhood": 13,
+          "other": 16,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s2": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s2",
+      "score": {
+        "mean_best_jaccard": 0.13830367163700497,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.17777777777777778,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.05194805194805195,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.18518518518518517,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.17777777777777778,
+          "axis_size": 11,
+          "share_of_failures": 0.048034934497816595,
+          "in_key": 8,
+          "pilot_slice": 8,
+          "pilot_neighbourhood": 3,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.05194805194805195,
+          "axis_size": 35,
+          "share_of_failures": 0.15283842794759825,
+          "in_key": 4,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 3,
+          "other": 13,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.18518518518518517,
+          "axis_size": 10,
+          "share_of_failures": 0.043668122270742356,
+          "in_key": 10,
+          "pilot_slice": 10,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s3": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s3",
+      "score": {
+        "mean_best_jaccard": 0.30059891089302854,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.23076923076923078,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.44642857142857145,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.22459893048128343,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.23076923076923078,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 18,
+          "pilot_slice": 47,
+          "pilot_neighbourhood": 5,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.44642857142857145,
+          "axis_size": 35,
+          "share_of_failures": 0.15283842794759825,
+          "in_key": 25,
+          "pilot_slice": 26,
+          "pilot_neighbourhood": 3,
+          "other": 6,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.22459893048128343,
+          "axis_size": 175,
+          "share_of_failures": 0.7641921397379913,
+          "in_key": 42,
+          "pilot_slice": 122,
+          "pilot_neighbourhood": 21,
+          "other": 32,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s3": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s3",
+      "score": {
+        "mean_best_jaccard": 0.28591778591778594,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.23076923076923078,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.44642857142857145,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.18055555555555555,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.23076923076923078,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 18,
+          "pilot_slice": 47,
+          "pilot_neighbourhood": 5,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.44642857142857145,
+          "axis_size": 35,
+          "share_of_failures": 0.15283842794759825,
+          "in_key": 25,
+          "pilot_slice": 26,
+          "pilot_neighbourhood": 3,
+          "other": 6,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.18055555555555555,
+          "axis_size": 31,
+          "share_of_failures": 0.13537117903930132,
+          "in_key": 13,
+          "pilot_slice": 14,
+          "pilot_neighbourhood": 8,
+          "other": 9,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s3": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s3",
+      "score": {
+        "mean_best_jaccard": 0.1568533763993674,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a8",
+            "jaccard": 0.3829787234042553,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.03278688524590164,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.0547945205479452,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a8",
+          "best_jaccard": 0.3829787234042553,
+          "axis_size": 23,
+          "share_of_failures": 0.10043668122270742,
+          "in_key": 18,
+          "pilot_slice": 18,
+          "pilot_neighbourhood": 4,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.03278688524590164,
+          "axis_size": 17,
+          "share_of_failures": 0.07423580786026202,
+          "in_key": 2,
+          "pilot_slice": 11,
+          "pilot_neighbourhood": 3,
+          "other": 3,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.0547945205479452,
+          "axis_size": 23,
+          "share_of_failures": 0.10043668122270742,
+          "in_key": 4,
+          "pilot_slice": 8,
+          "pilot_neighbourhood": 2,
+          "other": 13,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s4": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s4",
+      "score": {
+        "mean_best_jaccard": 0.3957806898983369,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.5454545454545454,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.4065934065934066,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.23529411764705882,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.5454545454545454,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 24,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.4065934065934066,
+          "axis_size": 82,
+          "share_of_failures": 0.35807860262008734,
+          "in_key": 37,
+          "pilot_slice": 52,
+          "pilot_neighbourhood": 11,
+          "other": 19,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.23529411764705882,
+          "axis_size": 177,
+          "share_of_failures": 0.7729257641921398,
+          "in_key": 44,
+          "pilot_slice": 118,
+          "pilot_neighbourhood": 24,
+          "other": 35,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s4": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s4",
+      "score": {
+        "mean_best_jaccard": 0.3954273954273954,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.5454545454545454,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.4065934065934066,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a7",
+            "jaccard": 0.23423423423423423,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.5454545454545454,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 24,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.4065934065934066,
+          "axis_size": 82,
+          "share_of_failures": 0.35807860262008734,
+          "in_key": 37,
+          "pilot_slice": 52,
+          "pilot_neighbourhood": 11,
+          "other": 19,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a7",
+          "best_jaccard": 0.23423423423423423,
+          "axis_size": 83,
+          "share_of_failures": 0.3624454148471616,
+          "in_key": 26,
+          "pilot_slice": 49,
+          "pilot_neighbourhood": 15,
+          "other": 19,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s4": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s4",
+      "score": {
+        "mean_best_jaccard": 0.10243417784401392,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a8",
+            "jaccard": 0.18181818181818182,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.01639344262295082,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.10909090909090909,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a8",
+          "best_jaccard": 0.18181818181818182,
+          "axis_size": 10,
+          "share_of_failures": 0.043668122270742356,
+          "in_key": 8,
+          "pilot_slice": 8,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.01639344262295082,
+          "axis_size": 16,
+          "share_of_failures": 0.06986899563318777,
+          "in_key": 1,
+          "pilot_slice": 10,
+          "pilot_neighbourhood": 2,
+          "other": 4,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a6",
+          "best_jaccard": 0.10909090909090909,
+          "axis_size": 7,
+          "share_of_failures": 0.03056768558951965,
+          "in_key": 6,
+          "pilot_slice": 6,
+          "pilot_neighbourhood": 1,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k48_s5": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s5",
+      "score": {
+        "mean_best_jaccard": 0.2800779764358237,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.25316455696202533,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.38461538461538464,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.20245398773006135,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.25316455696202533,
+          "axis_size": 57,
+          "share_of_failures": 0.24890829694323144,
+          "in_key": 20,
+          "pilot_slice": 48,
+          "pilot_neighbourhood": 4,
+          "other": 5,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.38461538461538464,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 20,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.20245398773006135,
+          "axis_size": 142,
+          "share_of_failures": 0.6200873362445415,
+          "in_key": 33,
+          "pilot_slice": 99,
+          "pilot_neighbourhood": 20,
+          "other": 23,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k48_s5": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s5",
+      "score": {
+        "mean_best_jaccard": 0.27721916419927267,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.25316455696202533,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.38461538461538464,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.19387755102040816,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.25316455696202533,
+          "axis_size": 57,
+          "share_of_failures": 0.24890829694323144,
+          "in_key": 20,
+          "pilot_slice": 48,
+          "pilot_neighbourhood": 4,
+          "other": 5,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.38461538461538464,
+          "axis_size": 26,
+          "share_of_failures": 0.11353711790393013,
+          "in_key": 20,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.19387755102040816,
+          "axis_size": 63,
+          "share_of_failures": 0.27510917030567683,
+          "in_key": 19,
+          "pilot_slice": 38,
+          "pilot_neighbourhood": 10,
+          "other": 15,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k48_s5": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k48_s5",
+      "score": {
+        "mean_best_jaccard": 0.22291666666666665,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a7",
+            "jaccard": 0.4375,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.03125,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a2",
+            "jaccard": 0.2,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a7",
+          "best_jaccard": 0.4375,
+          "axis_size": 27,
+          "share_of_failures": 0.11790393013100436,
+          "in_key": 21,
+          "pilot_slice": 21,
+          "pilot_neighbourhood": 5,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.03125,
+          "axis_size": 20,
+          "share_of_failures": 0.08733624454148471,
+          "in_key": 2,
+          "pilot_slice": 13,
+          "pilot_neighbourhood": 3,
+          "other": 4,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a2",
+          "best_jaccard": 0.2,
+          "axis_size": 12,
+          "share_of_failures": 0.05240174672489083,
+          "in_key": 11,
+          "pilot_slice": 11,
+          "pilot_neighbourhood": 1,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s0": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s0",
+      "score": {
+        "mean_best_jaccard": 0.3516905976650235,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.4318181818181818,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.3902439024390244,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.23300970873786409,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.4318181818181818,
+          "axis_size": 21,
+          "share_of_failures": 0.09170305676855896,
+          "in_key": 19,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.3902439024390244,
+          "axis_size": 68,
+          "share_of_failures": 0.29694323144104806,
+          "in_key": 32,
+          "pilot_slice": 51,
+          "pilot_neighbourhood": 6,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.23300970873786409,
+          "axis_size": 200,
+          "share_of_failures": 0.8733624454148472,
+          "in_key": 48,
+          "pilot_slice": 130,
+          "pilot_neighbourhood": 28,
+          "other": 42,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s0": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s0",
+      "score": {
+        "mean_best_jaccard": 0.3346267553584627,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a9",
+            "jaccard": 0.4318181818181818,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.3902439024390244,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.18181818181818182,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a9",
+          "best_jaccard": 0.4318181818181818,
+          "axis_size": 21,
+          "share_of_failures": 0.09170305676855896,
+          "in_key": 19,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.3902439024390244,
+          "axis_size": 68,
+          "share_of_failures": 0.29694323144104806,
+          "in_key": 32,
+          "pilot_slice": 51,
+          "pilot_neighbourhood": 6,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.18181818181818182,
+          "axis_size": 76,
+          "share_of_failures": 0.3318777292576419,
+          "in_key": 20,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 15,
+          "other": 18,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s0": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s0",
+      "score": {
+        "mean_best_jaccard": 0.10287490287490286,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a2",
+            "jaccard": 0.1509433962264151,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.06666666666666667,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a10",
+            "jaccard": 0.07272727272727272,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.16923076923076924,
+          "axis_size": 34,
+          "share_of_failures": 0.14847161572052403,
+          "in_key": 11,
+          "pilot_slice": 21,
+          "pilot_neighbourhood": 4,
+          "other": 9,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.06666666666666667,
+          "axis_size": 34,
+          "share_of_failures": 0.14847161572052403,
+          "in_key": 5,
+          "pilot_slice": 21,
+          "pilot_neighbourhood": 4,
+          "other": 9,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a10",
+          "best_jaccard": 0.07272727272727272,
+          "axis_size": 5,
+          "share_of_failures": 0.021834061135371178,
+          "in_key": 4,
+          "pilot_slice": 5,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s1": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s1",
+      "score": {
+        "mean_best_jaccard": 0.244450064074805,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.30337078651685395,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a6",
+            "jaccard": 0.19696969696969696,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.23300970873786409,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.30337078651685395,
+          "axis_size": 74,
+          "share_of_failures": 0.3231441048034934,
+          "in_key": 27,
+          "pilot_slice": 55,
+          "pilot_neighbourhood": 9,
+          "other": 10,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.19696969696969696,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 13,
+          "pilot_slice": 26,
+          "pilot_neighbourhood": 3,
+          "other": 4,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.23300970873786409,
+          "axis_size": 200,
+          "share_of_failures": 0.8733624454148472,
+          "in_key": 48,
+          "pilot_slice": 128,
+          "pilot_neighbourhood": 30,
+          "other": 42,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s1": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s1",
+      "score": {
+        "mean_best_jaccard": 0.2544463243850807,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.30337078651685395,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.23170731707317074,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a7",
+            "jaccard": 0.22826086956521738,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.30337078651685395,
+          "axis_size": 74,
+          "share_of_failures": 0.3231441048034934,
+          "in_key": 27,
+          "pilot_slice": 55,
+          "pilot_neighbourhood": 9,
+          "other": 10,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.23170731707317074,
+          "axis_size": 55,
+          "share_of_failures": 0.24017467248908297,
+          "in_key": 19,
+          "pilot_slice": 35,
+          "pilot_neighbourhood": 9,
+          "other": 11,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a7",
+          "best_jaccard": 0.22826086956521738,
+          "axis_size": 59,
+          "share_of_failures": 0.2576419213973799,
+          "in_key": 21,
+          "pilot_slice": 32,
+          "pilot_neighbourhood": 8,
+          "other": 19,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s1": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s1",
+      "score": {
+        "mean_best_jaccard": 0.12719875300520464,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.1774193548387097,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.016666666666666666,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.16363636363636364,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.1774193548387097,
+          "axis_size": 31,
+          "share_of_failures": 0.13537117903930132,
+          "in_key": 11,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 4,
+          "other": 8,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.04054054054054054,
+          "axis_size": 31,
+          "share_of_failures": 0.13537117903930132,
+          "in_key": 3,
+          "pilot_slice": 19,
+          "pilot_neighbourhood": 4,
+          "other": 8,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.16363636363636364,
+          "axis_size": 10,
+          "share_of_failures": 0.043668122270742356,
+          "in_key": 9,
+          "pilot_slice": 10,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s2": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s2",
+      "score": {
+        "mean_best_jaccard": 0.29252344691735516,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.3142857142857143,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.35398230088495575,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.20930232558139536,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.3142857142857143,
+          "axis_size": 50,
+          "share_of_failures": 0.2183406113537118,
+          "in_key": 22,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 6,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.35398230088495575,
+          "axis_size": 107,
+          "share_of_failures": 0.4672489082969432,
+          "in_key": 40,
+          "pilot_slice": 74,
+          "pilot_neighbourhood": 12,
+          "other": 21,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.20930232558139536,
+          "axis_size": 102,
+          "share_of_failures": 0.44541484716157204,
+          "in_key": 27,
+          "pilot_slice": 66,
+          "pilot_neighbourhood": 15,
+          "other": 21,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s2": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s2",
+      "score": {
+        "mean_best_jaccard": 0.29252344691735516,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.3142857142857143,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.35398230088495575,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.20930232558139536,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.3142857142857143,
+          "axis_size": 50,
+          "share_of_failures": 0.2183406113537118,
+          "in_key": 22,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 6,
+          "other": 2,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.35398230088495575,
+          "axis_size": 107,
+          "share_of_failures": 0.4672489082969432,
+          "in_key": 40,
+          "pilot_slice": 74,
+          "pilot_neighbourhood": 12,
+          "other": 21,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.20930232558139536,
+          "axis_size": 102,
+          "share_of_failures": 0.44541484716157204,
+          "in_key": 27,
+          "pilot_slice": 66,
+          "pilot_neighbourhood": 15,
+          "other": 21,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s2": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s2",
+      "score": {
+        "mean_best_jaccard": 0.1643228526979448,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.125,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a2",
+            "jaccard": 0.02127659574468085,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a9",
+            "jaccard": 0.3389830508474576,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.125,
+          "axis_size": 12,
+          "share_of_failures": 0.05240174672489083,
+          "in_key": 6,
+          "pilot_slice": 7,
+          "pilot_neighbourhood": 2,
+          "other": 3,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a9",
+          "best_jaccard": 0.028985507246376812,
+          "axis_size": 25,
+          "share_of_failures": 0.1091703056768559,
+          "in_key": 2,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 0,
+          "other": 2,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a9",
+          "best_jaccard": 0.3389830508474576,
+          "axis_size": 25,
+          "share_of_failures": 0.1091703056768559,
+          "in_key": 20,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 0,
+          "other": 2,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s3": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s3",
+      "score": {
+        "mean_best_jaccard": 0.31418559986085715,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.22033898305084745,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.47297297297297297,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.1962025316455696,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.2733812949640288,
+          "axis_size": 135,
+          "share_of_failures": 0.5895196506550219,
+          "in_key": 38,
+          "pilot_slice": 105,
+          "pilot_neighbourhood": 14,
+          "other": 16,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.47297297297297297,
+          "axis_size": 63,
+          "share_of_failures": 0.27510917030567683,
+          "in_key": 35,
+          "pilot_slice": 48,
+          "pilot_neighbourhood": 5,
+          "other": 10,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.1962025316455696,
+          "axis_size": 135,
+          "share_of_failures": 0.5895196506550219,
+          "in_key": 31,
+          "pilot_slice": 105,
+          "pilot_neighbourhood": 14,
+          "other": 16,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s3": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s3",
+      "score": {
+        "mean_best_jaccard": 0.2978562425913636,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.22033898305084745,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.47297297297297297,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.17266187050359713,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.24793388429752067,
+          "axis_size": 109,
+          "share_of_failures": 0.4759825327510917,
+          "in_key": 30,
+          "pilot_slice": 87,
+          "pilot_neighbourhood": 10,
+          "other": 12,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.47297297297297297,
+          "axis_size": 63,
+          "share_of_failures": 0.27510917030567683,
+          "in_key": 35,
+          "pilot_slice": 48,
+          "pilot_neighbourhood": 5,
+          "other": 10,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.17266187050359713,
+          "axis_size": 109,
+          "share_of_failures": 0.4759825327510917,
+          "in_key": 24,
+          "pilot_slice": 87,
+          "pilot_neighbourhood": 10,
+          "other": 12,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s3": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s3",
+      "score": {
+        "mean_best_jaccard": 0.14809203142536476,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.4090909090909091,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.016666666666666666,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a4",
+            "jaccard": 0.018518518518518517,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a1",
+          "best_jaccard": 0.4090909090909091,
+          "axis_size": 20,
+          "share_of_failures": 0.08733624454148471,
+          "in_key": 18,
+          "pilot_slice": 18,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.016666666666666666,
+          "axis_size": 15,
+          "share_of_failures": 0.06550218340611354,
+          "in_key": 1,
+          "pilot_slice": 9,
+          "pilot_neighbourhood": 2,
+          "other": 4,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.018518518518518517,
+          "axis_size": 1,
+          "share_of_failures": 0.004366812227074236,
+          "in_key": 1,
+          "pilot_slice": 1,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s4": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s4",
+      "score": {
+        "mean_best_jaccard": 0.37198976392631383,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.49230769230769234,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a5",
+            "jaccard": 0.3764705882352941,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.24719101123595505,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.49230769230769234,
+          "axis_size": 55,
+          "share_of_failures": 0.24017467248908297,
+          "in_key": 32,
+          "pilot_slice": 44,
+          "pilot_neighbourhood": 6,
+          "other": 5,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.3764705882352941,
+          "axis_size": 71,
+          "share_of_failures": 0.31004366812227074,
+          "in_key": 32,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 10,
+          "other": 18,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.24719101123595505,
+          "axis_size": 168,
+          "share_of_failures": 0.7336244541484717,
+          "in_key": 44,
+          "pilot_slice": 116,
+          "pilot_neighbourhood": 21,
+          "other": 31,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s4": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s4",
+      "score": {
+        "mean_best_jaccard": 0.3477322950647164,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.49230769230769234,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.3764705882352941,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a10",
+            "jaccard": 0.1744186046511628,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.49230769230769234,
+          "axis_size": 55,
+          "share_of_failures": 0.24017467248908297,
+          "in_key": 32,
+          "pilot_slice": 44,
+          "pilot_neighbourhood": 6,
+          "other": 5,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.3764705882352941,
+          "axis_size": 71,
+          "share_of_failures": 0.31004366812227074,
+          "in_key": 32,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 10,
+          "other": 18,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a10",
+          "best_jaccard": 0.1744186046511628,
+          "axis_size": 47,
+          "share_of_failures": 0.2052401746724891,
+          "in_key": 15,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 7,
+          "other": 13,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s4": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s4",
+      "score": {
+        "mean_best_jaccard": 0.0739627512446985,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.13793103448275862,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.0,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a2",
+            "jaccard": 0.05454545454545454,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.13793103448275862,
+          "axis_size": 24,
+          "share_of_failures": 0.10480349344978165,
+          "in_key": 8,
+          "pilot_slice": 14,
+          "pilot_neighbourhood": 3,
+          "other": 7,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.029411764705882353,
+          "axis_size": 24,
+          "share_of_failures": 0.10480349344978165,
+          "in_key": 2,
+          "pilot_slice": 14,
+          "pilot_neighbourhood": 3,
+          "other": 7,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a2",
+          "best_jaccard": 0.05454545454545454,
+          "axis_size": 4,
+          "share_of_failures": 0.017467248908296942,
+          "in_key": 3,
+          "pilot_slice": 3,
+          "pilot_neighbourhood": 1,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M1_raw@results/savio/h12/sae/L10_k64_s5": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s5",
+      "score": {
+        "mean_best_jaccard": 0.3065048986101618,
+        "precision_at_m": 0.0,
+        "n_axes": 9,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a8",
+            "jaccard": 0.4090909090909091,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a4",
+            "jaccard": 0.3026315789473684,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.2077922077922078,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a8",
+          "best_jaccard": 0.4090909090909091,
+          "axis_size": 20,
+          "share_of_failures": 0.08733624454148471,
+          "in_key": 18,
+          "pilot_slice": 18,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.3026315789473684,
+          "axis_size": 53,
+          "share_of_failures": 0.2314410480349345,
+          "in_key": 23,
+          "pilot_slice": 35,
+          "pilot_neighbourhood": 6,
+          "other": 12,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a2",
+          "best_jaccard": 0.2077922077922078,
+          "axis_size": 132,
+          "share_of_failures": 0.5764192139737991,
+          "in_key": 32,
+          "pilot_slice": 93,
+          "pilot_neighbourhood": 18,
+          "other": 21,
+          "recovers": false
+        }
+      }
+    },
+    "M1_capped@results/savio/h12/sae/L10_k64_s5": {
+      "family": "M1_capped",
+      "kind": "activation",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s5",
+      "score": {
+        "mean_best_jaccard": 0.2786033597597178,
+        "precision_at_m": 0.0,
+        "n_axes": 8,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a7",
+            "jaccard": 0.4090909090909091,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a3",
+            "jaccard": 0.3026315789473684,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.12408759124087591,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "contrastive-a7",
+          "best_jaccard": 0.4090909090909091,
+          "axis_size": 20,
+          "share_of_failures": 0.08733624454148471,
+          "in_key": 18,
+          "pilot_slice": 18,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "contrastive-a3",
+          "best_jaccard": 0.3026315789473684,
+          "axis_size": 53,
+          "share_of_failures": 0.2314410480349345,
+          "in_key": 23,
+          "pilot_slice": 35,
+          "pilot_neighbourhood": 6,
+          "other": 12,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "contrastive-a1",
+          "best_jaccard": 0.12408759124087591,
+          "axis_size": 100,
+          "share_of_failures": 0.4366812227074236,
+          "in_key": 17,
+          "pilot_slice": 77,
+          "pilot_neighbourhood": 8,
+          "other": 15,
+          "recovers": false
+        }
+      }
+    },
+    "B7_pool@results/savio/h12/sae/L10_k64_s5": {
+      "family": "B7_pool",
+      "kind": "baseline",
+      "counts": true,
+      "sae": "results/savio/h12/sae/L10_k64_s5",
+      "score": {
+        "mean_best_jaccard": 0.1238095238095238,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.24444444444444444,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a5",
+            "jaccard": 0.015873015873015872,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a8",
+            "jaccard": 0.1111111111111111,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B7-B-a3",
+          "best_jaccard": 0.24444444444444444,
+          "axis_size": 14,
+          "share_of_failures": 0.0611353711790393,
+          "in_key": 11,
+          "pilot_slice": 11,
+          "pilot_neighbourhood": 2,
+          "other": 1,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B7-B-a5",
+          "best_jaccard": 0.015873015873015872,
+          "axis_size": 18,
+          "share_of_failures": 0.07860262008733625,
+          "in_key": 1,
+          "pilot_slice": 12,
+          "pilot_neighbourhood": 2,
+          "other": 4,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B7-B-a8",
+          "best_jaccard": 0.1111111111111111,
+          "axis_size": 6,
+          "share_of_failures": 0.026200873362445413,
+          "in_key": 6,
+          "pilot_slice": 6,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "M2_probe_residual": {
+      "family": "M2_probe_residual",
+      "kind": "activation",
+      "counts": true,
+      "sae": null,
+      "score": {
+        "mean_best_jaccard": 0.0,
+        "precision_at_m": 0.0,
+        "n_axes": 0,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": null,
+            "jaccard": 0.0,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": null,
+            "jaccard": 0.0,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": null,
+            "jaccard": 0.0,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "B2_taxonomy": {
+      "family": "B2_taxonomy",
+      "kind": "baseline",
+      "counts": true,
+      "sae": null,
+      "score": {
+        "mean_best_jaccard": 0.47193402500665066,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B2-a6",
+            "jaccard": 0.8571428571428571,
+            "matched": true
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a9",
+            "jaccard": 0.19402985074626866,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B2-a2",
+            "jaccard": 0.3016759776536313,
+            "matched": false
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B2-a6",
+          "best_jaccard": 0.8571428571428571,
+          "axis_size": 49,
+          "share_of_failures": 0.21397379912663755,
+          "in_key": 42,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 7,
+          "other": 0,
+          "recovers": true
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B2-a2",
+          "best_jaccard": 0.2569832402234637,
+          "axis_size": 179,
+          "share_of_failures": 0.7816593886462883,
+          "in_key": 46,
+          "pilot_slice": 142,
+          "pilot_neighbourhood": 35,
+          "other": 2,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B2-a2",
+          "best_jaccard": 0.3016759776536313,
+          "axis_size": 179,
+          "share_of_failures": 0.7816593886462883,
+          "in_key": 54,
+          "pilot_slice": 142,
+          "pilot_neighbourhood": 35,
+          "other": 2,
+          "recovers": false
+        }
+      }
+    },
+    "B3_behavioral": {
+      "family": "B3_behavioral",
+      "kind": "baseline",
+      "counts": true,
+      "sae": null,
+      "score": {
+        "mean_best_jaccard": 0.33660130718954245,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P19_wide_invading_turn",
+            "tier": "T0_control",
+            "axis_id": "B3-a2",
+            "jaccard": 0.3333333333333333,
+            "matched": false
+          },
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B3-a1",
+            "jaccard": 0.14583333333333334,
+            "matched": false
+          },
+          {
+            "gap_id": "P7_camera_freeze",
+            "tier": "T0_control",
+            "axis_id": "B3-a4",
+            "jaccard": 0.5,
+            "matched": true
+          }
+        ]
+      },
+      "gaps": {
+        "P19_wide_invading_turn": {
+          "axis_id": "B3-a2",
+          "best_jaccard": 0.3333333333333333,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 24,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 5,
+          "other": 6,
+          "recovers": false
+        },
+        "P4_camera_occlusion": {
+          "axis_id": "B3-a2",
+          "best_jaccard": 0.17647058823529413,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 15,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 5,
+          "other": 6,
+          "recovers": false
+        },
+        "P7_camera_freeze": {
+          "axis_id": "B3-a4",
+          "best_jaccard": 0.5,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 29,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": true
+        }
+      }
+    }
+  },
+  "B1_random": [
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s0",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20181992753045158,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s1",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20774033134691475,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s2",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20456566878697882,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s3",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.19364771417504856,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s4",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.19755984438359095,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k32_s5",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.18336394751018545,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s0",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.2065774423337227,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s1",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20789863507452047,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s2",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.1996633575699241,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s3",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.1982568718368277,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s4",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20447833928815937,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k48_s5",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.1957461148521674,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s0",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20479813293621732,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s1",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20365565932868576,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s2",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20547145238714498,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s3",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.19221181092169756,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s4",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.1996286279158539,
+      "decoy_hit_rate": 0.0
+    },
+    {
+      "sizes_from": "results/savio/h12/sae/L10_k64_s5",
+      "method": "B1_random",
+      "n_draws": 200,
+      "recall_by_tier": {
+        "T0_control": 0.0
+      },
+      "recall_by_tier_max": {
+        "T0_control": 0.0
+      },
+      "precision_at_m": 0.0,
+      "mean_best_jaccard": 0.20430692183434954,
+      "decoy_hit_rate": 0.0
+    }
+  ],
+  "gaps": {
+    "P19_wide_invading_turn": {
+      "key_size": 42,
+      "catch_all": 0.18340611353711792,
+      "best_activation": {
+        "method": "M1_raw@results/savio/h12/sae/L10_k32_s3",
+        "axis_id": "contrastive-a4",
+        "best_jaccard": 0.7045454545454546,
+        "axis_size": 33,
+        "share_of_failures": 0.14410480349344978,
+        "in_key": 31,
+        "pilot_slice": 31,
+        "pilot_neighbourhood": 2,
+        "other": 0,
+        "recovers": true
+      },
+      "best_baseline": {
+        "method": "B2_taxonomy",
+        "axis_id": "B2-a6",
+        "best_jaccard": 0.8571428571428571,
+        "axis_size": 49,
+        "share_of_failures": 0.21397379912663755,
+        "in_key": 42,
+        "pilot_slice": 42,
+        "pilot_neighbourhood": 7,
+        "other": 0,
+        "recovers": true
+      },
+      "delta": -0.1525974025974025,
+      "interval": [
+        -0.2963687611408199,
+        -0.018516992602358433
+      ],
+      "claim_a": true,
+      "claim_b": {
+        "margin": false,
+        "not_catch_all": true,
+        "stable": false,
+        "seed_counts": {
+          "seeds_beating": 0,
+          "seeds_total": 6
+        },
+        "holds": false
+      },
+      "best_by_family": {
+        "B2_taxonomy": {
+          "method": "B2_taxonomy",
+          "axis_id": "B2-a6",
+          "best_jaccard": 0.8571428571428571,
+          "axis_size": 49,
+          "share_of_failures": 0.21397379912663755,
+          "in_key": 42,
+          "pilot_slice": 42,
+          "pilot_neighbourhood": 7,
+          "other": 0,
+          "recovers": true
+        },
+        "B3_behavioral": {
+          "method": "B3_behavioral",
+          "axis_id": "B3-a2",
+          "best_jaccard": 0.3333333333333333,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 24,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 5,
+          "other": 6,
+          "recovers": false
+        },
+        "B7_pool": {
+          "method": "B7_pool@results/savio/h12/sae/L10_k32_s4",
+          "axis_id": "B7-B-a10",
+          "best_jaccard": 0.5,
+          "axis_size": 30,
+          "share_of_failures": 0.13100436681222707,
+          "in_key": 24,
+          "pilot_slice": 24,
+          "pilot_neighbourhood": 6,
+          "other": 0,
+          "recovers": true
+        },
+        "M1_capped": {
+          "method": "M1_capped@results/savio/h12/sae/L10_k32_s3",
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.7045454545454546,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 31,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "M1_raw": {
+          "method": "M1_raw@results/savio/h12/sae/L10_k32_s3",
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.7045454545454546,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 31,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 2,
+          "other": 0,
+          "recovers": true
+        },
+        "M2_probe_residual": {
+          "method": "M2_probe_residual",
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "P4_camera_occlusion": {
+      "key_size": 46,
+      "catch_all": 0.20087336244541484,
+      "best_activation": {
+        "method": "M1_raw@results/savio/h12/sae/L10_k32_s3",
+        "axis_id": "contrastive-a6",
+        "best_jaccard": 0.4897959183673469,
+        "axis_size": 27,
+        "share_of_failures": 0.11790393013100436,
+        "in_key": 24,
+        "pilot_slice": 27,
+        "pilot_neighbourhood": 0,
+        "other": 0,
+        "recovers": false
+      },
+      "best_baseline": {
+        "method": "B2_taxonomy",
+        "axis_id": "B2-a2",
+        "best_jaccard": 0.2569832402234637,
+        "axis_size": 179,
+        "share_of_failures": 0.7816593886462883,
+        "in_key": 46,
+        "pilot_slice": 142,
+        "pilot_neighbourhood": 35,
+        "other": 2,
+        "recovers": false
+      },
+      "delta": 0.23281267814388323,
+      "interval": [
+        0.1573114222892541,
+        0.384769887639632
+      ],
+      "claim_a": false,
+      "claim_b": {
+        "margin": true,
+        "not_catch_all": true,
+        "stable": true,
+        "seed_counts": {
+          "seeds_beating": 6,
+          "seeds_total": 6
+        },
+        "holds": true
+      },
+      "best_by_family": {
+        "B2_taxonomy": {
+          "method": "B2_taxonomy",
+          "axis_id": "B2-a2",
+          "best_jaccard": 0.2569832402234637,
+          "axis_size": 179,
+          "share_of_failures": 0.7816593886462883,
+          "in_key": 46,
+          "pilot_slice": 142,
+          "pilot_neighbourhood": 35,
+          "other": 2,
+          "recovers": false
+        },
+        "B3_behavioral": {
+          "method": "B3_behavioral",
+          "axis_id": "B3-a2",
+          "best_jaccard": 0.17647058823529413,
+          "axis_size": 54,
+          "share_of_failures": 0.23580786026200873,
+          "in_key": 15,
+          "pilot_slice": 43,
+          "pilot_neighbourhood": 5,
+          "other": 6,
+          "recovers": false
+        },
+        "B7_pool": {
+          "method": "B7_pool@results/savio/h12/sae/L10_k32_s4",
+          "axis_id": "B7-B-a4",
+          "best_jaccard": 0.09090909090909091,
+          "axis_size": 50,
+          "share_of_failures": 0.2183406113537118,
+          "in_key": 8,
+          "pilot_slice": 25,
+          "pilot_neighbourhood": 9,
+          "other": 16,
+          "recovers": false
+        },
+        "M1_capped": {
+          "method": "M1_capped@results/savio/h12/sae/L10_k32_s3",
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.4897959183673469,
+          "axis_size": 27,
+          "share_of_failures": 0.11790393013100436,
+          "in_key": 24,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "M1_raw": {
+          "method": "M1_raw@results/savio/h12/sae/L10_k32_s3",
+          "axis_id": "contrastive-a6",
+          "best_jaccard": 0.4897959183673469,
+          "axis_size": 27,
+          "share_of_failures": 0.11790393013100436,
+          "in_key": 24,
+          "pilot_slice": 27,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        },
+        "M2_probe_residual": {
+          "method": "M2_probe_residual",
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    },
+    "P7_camera_freeze": {
+      "key_size": 54,
+      "catch_all": 0.23580786026200873,
+      "best_activation": {
+        "method": "M1_raw@results/savio/h12/sae/L10_k32_s4",
+        "axis_id": "contrastive-a5",
+        "best_jaccard": 0.27522935779816515,
+        "axis_size": 85,
+        "share_of_failures": 0.37117903930131,
+        "in_key": 30,
+        "pilot_slice": 50,
+        "pilot_neighbourhood": 15,
+        "other": 20,
+        "recovers": false
+      },
+      "best_baseline": {
+        "method": "B3_behavioral",
+        "axis_id": "B3-a4",
+        "best_jaccard": 0.5,
+        "axis_size": 33,
+        "share_of_failures": 0.14410480349344978,
+        "in_key": 29,
+        "pilot_slice": 31,
+        "pilot_neighbourhood": 1,
+        "other": 1,
+        "recovers": true
+      },
+      "delta": -0.22477064220183485,
+      "interval": [
+        -0.3333333333333333,
+        -0.08064081676984904
+      ],
+      "claim_a": false,
+      "claim_b": {
+        "margin": false,
+        "not_catch_all": true,
+        "stable": false,
+        "seed_counts": {
+          "seeds_beating": 0,
+          "seeds_total": 6
+        },
+        "holds": false
+      },
+      "best_by_family": {
+        "B2_taxonomy": {
+          "method": "B2_taxonomy",
+          "axis_id": "B2-a2",
+          "best_jaccard": 0.3016759776536313,
+          "axis_size": 179,
+          "share_of_failures": 0.7816593886462883,
+          "in_key": 54,
+          "pilot_slice": 142,
+          "pilot_neighbourhood": 35,
+          "other": 2,
+          "recovers": false
+        },
+        "B3_behavioral": {
+          "method": "B3_behavioral",
+          "axis_id": "B3-a4",
+          "best_jaccard": 0.5,
+          "axis_size": 33,
+          "share_of_failures": 0.14410480349344978,
+          "in_key": 29,
+          "pilot_slice": 31,
+          "pilot_neighbourhood": 1,
+          "other": 1,
+          "recovers": true
+        },
+        "B7_pool": {
+          "method": "B7_pool@results/savio/h12/sae/L10_k64_s2",
+          "axis_id": "B7-B-a9",
+          "best_jaccard": 0.3389830508474576,
+          "axis_size": 25,
+          "share_of_failures": 0.1091703056768559,
+          "in_key": 20,
+          "pilot_slice": 23,
+          "pilot_neighbourhood": 0,
+          "other": 2,
+          "recovers": false
+        },
+        "M1_capped": {
+          "method": "M1_capped@results/savio/h12/sae/L10_k32_s4",
+          "axis_id": "contrastive-a4",
+          "best_jaccard": 0.27522935779816515,
+          "axis_size": 85,
+          "share_of_failures": 0.37117903930131,
+          "in_key": 30,
+          "pilot_slice": 50,
+          "pilot_neighbourhood": 15,
+          "other": 20,
+          "recovers": false
+        },
+        "M1_raw": {
+          "method": "M1_raw@results/savio/h12/sae/L10_k32_s4",
+          "axis_id": "contrastive-a5",
+          "best_jaccard": 0.27522935779816515,
+          "axis_size": 85,
+          "share_of_failures": 0.37117903930131,
+          "in_key": 30,
+          "pilot_slice": 50,
+          "pilot_neighbourhood": 15,
+          "other": 20,
+          "recovers": false
+        },
+        "M2_probe_residual": {
+          "method": "M2_probe_residual",
+          "axis_id": null,
+          "best_jaccard": 0.0,
+          "axis_size": 0,
+          "share_of_failures": 0.0,
+          "in_key": 0,
+          "pilot_slice": 0,
+          "pilot_neighbourhood": 0,
+          "other": 0,
+          "recovers": false
+        }
+      }
+    }
+  }
+}

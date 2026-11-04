@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from harness.bootstrap import advantage, mean_best_jaccard, weighted_jaccard  # noqa: E402
-from harness.schema import AxisCard, Directive, Gap, SupportingEpisode  # noqa: E402
+from harness.schema import AxisCard, Directive, Gap, SchemaError, SupportingEpisode  # noqa: E402
 from harness.scoring import score  # noqa: E402
 
 
@@ -93,3 +93,9 @@ def test_no_interactional_gaps_is_an_error_not_a_pass():
     with pytest.raises(ValueError):
         advantage({"sae": directive("sae")}, {"B1_random": directive("B1_random")},
                   [Gap("C", "T0_control", ids("a", 3))], BASE_OF, replicates=10)
+
+
+def test_a_directive_off_the_fixed_budget_is_refused():
+    short = Directive("sae", [], budget_m=5)
+    with pytest.raises(SchemaError, match="budget_m"):
+        advantage({"sae": short}, {"b": directive("B3_behavioral", GAP_A)}, GAPS, BASE_OF, replicates=1)

@@ -47,3 +47,10 @@ def test_each_required_sidecar_key_is_checked(tmp_path, key):
 ])
 def test_array_violations_are_named(tmp_path, changes, problem):
     assert problem in shard_problems(write(tmp_path, **changes))
+
+
+def test_a_one_dimensional_episode_mean_is_not_a_state_array(tmp_path):
+    """The export format: vision_bridge is (T, hidden), so its episode mean has the hidden size, not T rows."""
+    sidecar = write(tmp_path, vision_bridge=np.zeros((T, HIDDEN), np.float16),
+                    vision_bridge_episode_mean=np.zeros(HIDDEN, np.float32))
+    assert shard_problems(sidecar) == []
