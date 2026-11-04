@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 02:30 (finishing the study; amended P20 screen driving from node-local disk, unread)
+Last updated: 2026-11-04 14:00 (Chris answered; Savio link down; P20 scored and unread)
 
 ---
 
 ## Current position
+
+**2026-11-04 14:00, Chris answered (Christopher-Vu/HondaResearchInstitute#8, counts only).** Sealed: 9 candidates tried plus 3 decoys; passed 9.1: control 1, enumerable 1, interactional 0; decoys passing C31: visually novel 1, kinematic 0; about 6,000 SU spent. P19 does not overlap his pool; P20 does, and that candidate is counted as tried and not passed. More sealed candidates are coming under a new direction, in a separate issue, and **the study must not close at ending A on these counts**. His decisions on C23, C29, C34, P19's label, H14, C35 and the preregistration follow separately. So: P20's screen is still read, since its drives are done, but its full pilot does not run without Chris's say, because the region overlaps his pool. H14's Stage 1 (about 650 SU) waits for his decision; H14's offline test (at most 29 SU), H15, H16 and H17 go ahead. **Blocker: the Savio login expired; the P20 screen is scored (job 40859837 completed 03:56) and unread.**
 
 **2026-11-04 02:30, finishing the study (Jerry's order). End states and wording are fixed in CONFLICTS C34. P20 outcome unread.** The amended screen's six re-cut routes were lost to the slow disk as array 40858449 and are driving again from node-local disk as array 40859836; scoring 40859837 covers arrays 40843139, 40849201, 40858449 and 40859836. Read `results/savio/step5-pilot-p20-screen-amended/` only: check first, then the rule. Do not open `step5-pilot-p20-screen/`, whose scoring is superseded. Delete the shards 6415539 and 6415549 from the amended folder after scoring. **Next without a person:** read P20; run H14's offline test and Stage 1 on Savio; dry-run the frozen scoring path; run B7 variant A; finish `docs/research/dev-report.md`. **Waiting on Jerry:** forward `docs/research/chris-ask.md`; log in when the link drops. End state B needs Chris's answers by 2026-11-18, and may need more SU.
 

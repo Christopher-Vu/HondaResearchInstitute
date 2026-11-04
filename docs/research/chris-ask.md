@@ -1,3 +1,5 @@
+**Answered by Chris on 2026-11-04 in issue 8.** Kept as sent.
+
 # Chris: four answers, counts only
 
 Chris, this should take about 2 minutes. Jerry has asked to finish the study, and these counts decide which ending in `CONFLICTS.md` C34 it can reach. Please send numbers and yes or no only. Do not send a predicate, a scenario family or a parameter, because PRD 9.1 excludes anything written in a shared document from the sealed key.

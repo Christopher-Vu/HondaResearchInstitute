@@ -17,6 +17,14 @@ A draft [CONFLICTS C35](../CONFLICTS.md) proposes keeping `--debug 2` until H14 
 
 ---
 
+## 2026-11-04: Chris's counts keep the blind test open, with no interactional gap yet
+
+Chris answered the counts-only question ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)). Of 9 sealed candidates and 3 decoys, one control and one enumerable gap passed PRD 9.1, no interactional gap did, and one visually novel decoy passed C31, at about 6,000 SU. PRD 13.1 needs two interactional gaps, so the blind test cannot run yet. Chris says more candidates are coming under a new direction and asks that the study not close at the dev-only ending.
+
+P20's region overlaps a candidate of Chris's, which is already counted as tried and not passed. P20's screen will still be read, but no full pilot follows without Chris's say. The marker test's first stage also waits for Chris's decision, while its cheap offline part and the other dev experiments go ahead.
+
+---
+
 ## 2026-11-04: Jerry asked for the study to be finished, so its end was defined first
 
 An audit of every PRD step found that no step from 5 onward meets its done-condition and that the blind test has not started. Public gaps can never enter the sealed key, so nothing done on P1 to P20 can produce the PRD's go or no-go read. [CONFLICTS C34](../CONFLICTS.md) therefore defines two honest ends: a dev-only report, reachable without Chris, and the blind read, which needs Chris's sealed work and probably more compute. It also fixes the wording for each P20 result, and it was committed before P20 was read.
