@@ -725,6 +725,9 @@ Written before the amended P20 screen was read, so the wording cannot be chosen 
 
 **Alternatives.** Moving to 0 now costs no SU, but it leaves every earlier result with an unknown offset and splits the dev pool across two settings. `--debug 1` does not help, because it draws the same markers (`route_scenario.py:93`).
 
+### C36 · Step 8's tag order, with one tag already placed · new, 2026-11-04 (agent), pending review (Chris and Jerry)
+`docs/steps/08-seal-generate-score.md` asks for its tags in order. `b4-factors-v1`, its third, already exists ahead of the first two, because the B4 factor list was committed before any sealed gap was designed (C30). `harness/PREREGISTRATION.md` therefore reads "in this order, except tag 3". Moving the tag would date the factor list later and weaken what C30 protects, so it stays.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

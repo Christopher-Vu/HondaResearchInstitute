@@ -17,6 +17,16 @@ A draft [CONFLICTS C35](../CONFLICTS.md) proposes keeping `--debug 2` until H14 
 
 ---
 
+## 2026-11-04: Jerry asked for the study to be finished, so its end was defined first
+
+An audit of every PRD step found that no step from 5 onward meets its done-condition and that the blind test has not started. Public gaps can never enter the sealed key, so nothing done on P1 to P20 can produce the PRD's go or no-go read. [CONFLICTS C34](../CONFLICTS.md) therefore defines two honest ends: a dev-only report, reachable without Chris, and the blind read, which needs Chris's sealed work and probably more compute. It also fixes the wording for each P20 result, and it was committed before P20 was read.
+
+Jerry approved amending the screen. Three pairs that ended before their hazard were cut again past it, under new ids, and the check and the reader now refuse to answer on missing data. The six new routes were then lost to the slow shared disk, at about 37 SU (estimate), before any drive. They are running again with CARLA and Python copied to each node's own disk, which is a new way of starting routes and has not yet been shown to work at this scale.
+
+An agent drafted [the question for Chris](research/chris-ask.md), [a sheet of pending decisions](research/conflicts-sheet.md), [the preregistration](../harness/PREREGISTRATION.md) and [report v0](research/dev-report.md), and independent reviewers corrected them. Nothing has been sent, and the preregistration binds nobody until it is signed. P19's truncation was checked: without its 8 uncertain pairs it reads 40 of 45 against 7 of 42 (exploratory), so its verdict holds.
+
+---
+
 ## 2026-11-03: reviewing the P20 screen before reading it found route markers in the camera
 
 The repeating start test opened CARLA's port in 120 seconds at 19:48 and started the screen by itself. A same-node test showed the shared disk is the main cause of the slow starts: CARLA's port opened in 127 seconds from the shared disk and 4 seconds from the node's own disk (measured). Six routes were stopped by the slow-simulation guard before any drive had really begun, because the guard counted loading time. They are listed for rerun and were never scored, and the guard now starts timing at the first control row.

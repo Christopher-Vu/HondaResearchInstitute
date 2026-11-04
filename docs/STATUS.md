@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 01:30 (H14 route-marker protocol drafted, nothing run; P20 entry below not re-read by this session)
+Last updated: 2026-11-04 02:30 (finishing the study; amended P20 screen driving from node-local disk, unread)
 
 ---
 
 ## Current position
+
+**2026-11-04 02:30, finishing the study (Jerry's order). End states and wording are fixed in CONFLICTS C34. P20 outcome unread.** The amended screen's six re-cut routes were lost to the slow disk as array 40858449 and are driving again from node-local disk as array 40859836; scoring 40859837 covers arrays 40843139, 40849201, 40858449 and 40859836. Read `results/savio/step5-pilot-p20-screen-amended/` only: check first, then the rule. Do not open `step5-pilot-p20-screen/`, whose scoring is superseded. Delete the shards 6415539 and 6415549 from the amended folder after scoring. **Next without a person:** read P20; run H14's offline test and Stage 1 on Savio; dry-run the frozen scoring path; run B7 variant A; finish `docs/research/dev-report.md`. **Waiting on Jerry:** forward `docs/research/chris-ask.md`; log in when the link drops. End state B needs Chris's answers by 2026-11-18, and may need more SU.
 
 **2026-11-04 01:30, H14 drafted, not locked, nothing run.** `docs/research/experiments/h14-route-markers/protocol.md` measures what the route markers do to driving: paired `--debug 2` and `--debug 0` drives on a seeded draw of Step 2's 213 routes, an offline check first, then 80 pairs at about 660 SU and all 213 at about 1,750 SU (estimates). **Blocker: Jerry and Chris approve it, and Chris still needs telling.** `--debug` is unchanged; draft CONFLICTS C35 is pending review. The flag dates from 2026-10-02, not 2026-10-05 (`docs/WHAT_BROKE.md`). This session did not touch Savio or read any P20 result.
 
