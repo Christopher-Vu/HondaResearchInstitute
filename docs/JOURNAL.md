@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-03: the compute budget rose to 10,000 units while the Savio link was down
+
+Jerry raised the compute budget from 6,000 to 10,000 SU (service units, Savio's measure of compute used). The last measured spend was 5,033, so about 4,967 remain. This does not change P20's locked rules, because a protocol is fixed before its data exists and the only budget condition in it, that the full pilot's 680 SU are available, was already met. The note that the blind test pool needs more SU than the budget is no longer known to be true, so it now says the cost needs rechecking.
+
+The Savio login expired before the start test could be read. Those jobs continue without the link, so the P20 screen may have started or may still be waiting. Nothing about P20 has been measured.
+
+---
+
 ## 2026-11-03: the P20 screen was locked and submitted, and CARLA would not start
 
 Jerry approved the screen for P20, the gap that hides oncoming traffic across five scenario families. The protocol and route files were committed before any drive ran ([protocol](research/experiments/h13-cross-family-gap/protocol.md)). The generator gained two small abilities: drawing evenly from each family, and giving each pair one weather shared by both arms.
