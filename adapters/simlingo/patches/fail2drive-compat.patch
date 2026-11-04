@@ -1,0 +1,25 @@
+diff --git a/leaderboard/leaderboard/leaderboard_evaluator.py b/leaderboard/leaderboard/leaderboard_evaluator.py
+index f52b0a7..a8f1f11 100644
+--- a/leaderboard/leaderboard/leaderboard_evaluator.py
++++ b/leaderboard/leaderboard/leaderboard_evaluator.py
+@@ -18,7 +18,7 @@ from argparse import RawTextHelpFormatter
+ from distutils.version import LooseVersion
+ import importlib
+ import os
+-import pkg_resources
++# import pkg_resources  # not in the SimLingo venv; SimLingo's Bench2Drive copy drops it the same way
+ import sys
+ import carla
+ import signal
+@@ -82,10 +82,7 @@ class LeaderboardEvaluator(object):
+         # Setup the simulation
+         self.client, self.client_timeout, self.traffic_manager = self._setup_simulation(args)
+ 
+-        dist = pkg_resources.get_distribution("carla")
+-        if dist.version != 'leaderboard':
+-            if LooseVersion(dist.version) < LooseVersion('0.9.10'):
+-                raise ImportError("CARLA version 0.9.10.1 or newer required. CARLA version found: {}".format(dist))
++        # The harness checks the server is 0.9.15 before the evaluator starts (route_run.wait_for_server).
+ 
+         # Load agent
+         module_name = os.path.basename(args.agent).split('.')[0]

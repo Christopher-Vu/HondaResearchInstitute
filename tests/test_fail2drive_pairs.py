@@ -22,3 +22,12 @@ def test_a_base_without_its_twin_refuses(tmp_path):
     write(tmp_path, "Base_Wall_0095.xml", 95)
     with pytest.raises(FileNotFoundError, match="twin"):
         build(["Wall"], tmp_path)
+
+
+def test_a_base_twin_without_a_scenario_is_a_runnable_route(tmp_path):
+    from route_run import NO_SCENARIO, check_route, route_from_xml
+    (tmp_path / "routes.xml").write_text('<routes><route id="95" town="Town13"><scenarios/></route></routes>')
+    config = {"route": {"routes_file": str(tmp_path / "routes.xml")}}
+    config["route"].update(route_from_xml("95", config))
+    assert config["route"]["scenario"] == NO_SCENARIO
+    check_route(config)

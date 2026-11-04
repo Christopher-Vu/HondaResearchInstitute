@@ -33,10 +33,13 @@ VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
 RUN_ORDER_SEED = 0
 # Every run before simulator.debug_level existed used 2, which draws route markers into the camera (WHAT_BROKE 2026-11-03).
 DEFAULT_DEBUG_LEVEL = 2
+NO_SCENARIO = "none"
 # Leaderboard and scenario-runner trees a config can name in simulator.benchmark. Fail2Drive's ships its 17 unseen
-# scenarios and connects to a running server itself, so it takes no --external-server patch.
+# scenarios and connects to a running server itself, so it takes no --external-server patch; fail2drive-compat.patch
+# drops its pkg_resources version check, as SimLingo's Bench2Drive copy does.
 BENCHMARKS = {"bench2drive": SOURCE / "Bench2Drive", "fail2drive": ROOT / ".runtime/fail2drive-src"}
 FAIL2DRIVE_REVISION = "bceb18afb7d62e06e990739e013e750d92ad7a88"
+FAIL2DRIVE_PATCH = ROOT / "adapters/simlingo/patches/fail2drive-compat.patch"
 
 
 @dataclass(frozen=True)
@@ -71,18 +74,20 @@ def route_from_xml(route_id: str, config: dict[str, Any] | None = None) -> dict[
     selected = ET.parse(path).find(f".//route[@id='{route_id}']")
     if selected is None:
         raise ValueError(f"Route {route_id} is not in {'the pinned routes file' if path == ROUTES else path}")
-    scenario = selected.find("scenarios/scenario")
-    if scenario is None:
-        raise ValueError(f"Route {route_id} has no authored scenario")
-    return {"id": route_id, "town": str(selected.get("town")), "scenario": str(scenario.get("type"))}
+    return {"id": route_id, "town": str(selected.get("town")), "scenario": scenario_type(selected)}
+
+
+def scenario_type(route: ET.Element) -> str:
+    """The route's first authored scenario; NO_SCENARIO for a road with none, such as a Fail2Drive base twin."""
+    scenario = route.find("scenarios/scenario")
+    return NO_SCENARIO if scenario is None else str(scenario.get("type"))
 
 
 def check_route(config: dict[str, Any]) -> None:
     selected = ET.parse(routes_file(config)).find(f".//route[@id='{config['route']['id']}']")
     if selected is None or selected.get("town") != config["route"]["town"]:
         raise ValueError("The configured route is missing or its town differs from the routes file")
-    scenario = selected.find("scenarios/scenario")
-    if scenario is None or scenario.get("type") != config["route"]["scenario"]:
+    if scenario_type(selected) != config["route"]["scenario"]:
         raise ValueError("The authored scenario does not match the config")
 
 
@@ -128,6 +133,7 @@ def check_benchmark(simulator: dict[str, Any]) -> None:
                               text=True).stdout.strip()
         if head != FAIL2DRIVE_REVISION:
             raise RuntimeError(f"{root} is at {head}, expected {FAIL2DRIVE_REVISION}")
+        subprocess.run(["git", "-C", str(root), "apply", "--reverse", "--check", str(FAIL2DRIVE_PATCH)], check=True)
 
 
 def policy_environment(output: Path, device: str, carla_pythonapi: Path,
