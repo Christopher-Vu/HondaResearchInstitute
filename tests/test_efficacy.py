@@ -1,4 +1,6 @@
 """Practice-gap efficacy: PRD 9.1's unpaired Fisher rule and CONFLICTS.md C23's paired McNemar rule."""
+import json
+
 from src.harness import efficacy
 
 GAP = "G"
@@ -56,3 +58,13 @@ def test_a_screen_passes_on_an_excess_of_slice_only_failures():
     report = efficacy.efficacy(manifest, rows, GAP)
     assert efficacy.screen_passes(report, {"min_excess_slice_only_failures": 3})
     assert not efficacy.screen_passes(report, {"min_excess_slice_only_failures": 4})
+
+
+def test_a_screen_report_with_no_pairs_is_not_a_failed_screen(tmp_path, capsys):
+    manifest, _ = pilot([(True, False)])
+    report = tmp_path / "efficacy.json"
+    report.write_text(json.dumps(efficacy.efficacy(manifest, [], GAP)))
+    gaps = tmp_path / "gaps.yaml"
+    gaps.write_text(f"gaps:\n- gap_id: {GAP}\n  screen_rule:\n    min_excess_slice_only_failures: 3\n")
+    assert efficacy.screen_verdict(report, gaps) == efficacy.NO_PAIRS_EXIT
+    assert "on 0 pairs, 2 routes without an outcome; no result" in capsys.readouterr().out

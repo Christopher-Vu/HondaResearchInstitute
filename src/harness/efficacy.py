@@ -10,7 +10,7 @@ pairs) replaces Fisher, with the same uplift and ratio thresholds, at least 60 p
 Routes without an outcome are left out of both and counted.
 
 A screen (Step 5's 10-pair first stage) passes its gap's `screen_rule` when, among pairs, slice-only failures exceed
-neighbourhood-only failures by at least `min_excess_slice_only_failures`; `--screen` exits 0 then and 3 otherwise.
+neighbourhood-only failures by at least `min_excess_slice_only_failures`; `--screen` exits 0 then, 3 otherwise, and 4 when the report holds no pair, which is no result at all.
 """
 from __future__ import annotations
 
@@ -92,6 +92,9 @@ def efficacy(manifest: list[dict[str, Any]], rows: list[dict[str, Any]], gap_id:
             "prd_9_1": unpaired(manifest, failed, gap_id), "c23_paired": paired(outcome_pairs(manifest, failed, gap_id))}
 
 
+NO_PAIRS_EXIT = 4
+
+
 def screen_passes(report: dict[str, Any], rule: dict[str, Any]) -> bool:
     paired_report = report["c23_paired"]
     excess = paired_report["slice_only_failed"] - paired_report["neighbourhood_only_failed"]
@@ -104,8 +107,12 @@ def screen_verdict(report_path: Path, gaps_path: Path) -> int:
     gaps = {gap["gap_id"]: gap for gap in yaml.safe_load(gaps_path.read_text())["gaps"]}
     passed = screen_passes(report, gaps[report["gap_id"]]["screen_rule"])
     paired_report = report["c23_paired"]
+    verdict = f"passes: {passed}" if paired_report["pairs"] else "no result"
     print(f"{report['gap_id']} screen: {paired_report['slice_only_failed']} slice-only against "
-          f"{paired_report['neighbourhood_only_failed']} neighbourhood-only failures; passes: {passed}")
+          f"{paired_report['neighbourhood_only_failed']} neighbourhood-only failures on {paired_report['pairs']} pairs, "
+          f"{len(report['routes_without_outcome'])} routes without an outcome; {verdict}")
+    if not paired_report["pairs"]:
+        return NO_PAIRS_EXIT
     return 0 if passed else 3
 
 

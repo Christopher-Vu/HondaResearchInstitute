@@ -280,15 +280,20 @@ class SlowGuard:
                  clock: Any = time.monotonic) -> None:
         self.process, self.controls = process, controls
         self.check_after, self.minimum, self.clock = check_after, minimum, clock
-        self.started = clock()
+        self.first_control_at: float | None = None
         self.tripped = False
         self._done = threading.Event()
         self._thread = threading.Thread(target=self._watch, args=(every,), daemon=True)
         self._thread.start()
 
     def check(self) -> bool:
-        wall = self.clock() - self.started
-        return too_slow(latest_simulation_seconds(self.controls), wall, self.check_after, self.minimum)
+        """The clock starts at the first control row: a slow disk stretches loading, not simulation (WHAT_BROKE 2026-11-03)."""
+        simulated = latest_simulation_seconds(self.controls)
+        if simulated is None:
+            return False
+        if self.first_control_at is None:
+            self.first_control_at = self.clock()
+        return too_slow(simulated, self.clock() - self.first_control_at, self.check_after, self.minimum)
 
     def _watch(self, every: float) -> None:
         while not self._done.wait(every):

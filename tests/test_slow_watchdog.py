@@ -62,6 +62,25 @@ def test_guard_trips_on_a_slow_controls_file_using_an_injected_clock(tmp_path):
         route_run.stop_process_group(process)
 
 
+def test_guard_does_not_count_loading_time_as_slow_simulation(tmp_path):
+    controls = tmp_path / "controls.jsonl"
+    now = [0.0]
+    process = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"], start_new_session=True)
+    guard = SlowGuard(process, controls, check_after=600, every=3600, clock=lambda: now[0])
+    try:
+        now[0] = 900
+        assert guard.check() is False
+        write_controls(controls, '{"simulation_seconds": 0.05}\n')
+        assert guard.check() is False
+        now[0] = 1499
+        assert guard.check() is False
+        now[0] = 1500
+        assert guard.check() is True
+    finally:
+        guard.close()
+        route_run.stop_process_group(process)
+
+
 SLOW_EVALUATOR = (
     "import json, time\n"
     "open('controls.jsonl', 'w').write(json.dumps({'simulation_seconds': 0.01}) + '\\n')\n"

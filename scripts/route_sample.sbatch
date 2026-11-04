@@ -20,18 +20,25 @@
 #   bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-109%4 scripts/route_sample.sbatch configs/rollout/step2-bench2drive220.yaml 2
 # Each route's own output goes to results/savio/<array job>/route-<id>/run.log.
 # ROUTE_MODE=expert runs PDM-Lite on the same routes instead of the policy.
+# ROUTE_IDS="a b c d" reruns those routes (score_routes' rerun list) instead, K per GPU: pass K and --array=0-<ceil(routes / K) - 1>.
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
 PY=.runtime/policy-venv/bin/python
 CONFIG=${1:-configs/rollout/savio-mac-paired.yaml}
 PER_GPU=${2:-1}
-mapfile -t ROUTES < <(PYTHONPATH=adapters/simlingo "$PY" -c '
+if [ -n "${ROUTE_IDS+x}" ]; then
+  read -ra NAMED_ROUTES <<< "${ROUTE_IDS//$'\n'/ }"
+  [ "${#NAMED_ROUTES[@]}" -gt 0 ] || { echo "ROUTE_IDS names no route" >&2; exit 2; }
+  ROUTES=("${NAMED_ROUTES[@]:SLURM_ARRAY_TASK_ID*PER_GPU:PER_GPU}")
+else
+  mapfile -t ROUTES < <(PYTHONPATH=adapters/simlingo "$PY" -c '
 import sys, yaml
 from route_run import configured_route_ids, run_order
 routes = run_order(configured_route_ids(yaml.safe_load(open(sys.argv[1]))))
 first = int(sys.argv[2]) * int(sys.argv[3])
 print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_GPU")
+fi
 
 # GPU_LOG=1 samples the GPU's utilisation and memory every 2 s next to the routes (rollout profiling).
 if [ -n "${GPU_LOG:-}" ]; then

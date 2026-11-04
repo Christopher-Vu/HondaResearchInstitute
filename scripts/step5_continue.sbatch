@@ -16,8 +16,10 @@ MAIN=${2:?full-pilot config}
 GAP=${3:?gap id}
 GAPS=${4:-gaps/practice/practice_v2.yaml}
 REPORT=results/savio/$(basename "$SCREEN" .yaml)/efficacy.json
-if ! .runtime/analysis-venv/bin/python -m src.harness.efficacy --screen "$REPORT" --gaps "$GAPS"; then
-  echo "screen did not pass; the full pilot is not submitted"
+VERDICT=0
+.runtime/analysis-venv/bin/python -m src.harness.efficacy --screen "$REPORT" --gaps "$GAPS" || VERDICT=$?
+if [ "$VERDICT" -ne 0 ]; then
+  echo "screen did not pass (exit $VERDICT; 3 is a failed screen, 4 is no pairs and so no result); the full pilot is not submitted"
   exit 0
 fi
 ARRAY=$(bash scripts/submit.sh gpu_a40 --time=0-03:00:00 --array=0-59%6 scripts/route_sample.sbatch "$MAIN" 2 | tail -1 | awk '{print $4}')

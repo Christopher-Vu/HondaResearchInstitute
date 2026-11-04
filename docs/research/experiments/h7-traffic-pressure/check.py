@@ -29,10 +29,11 @@ def encounter(shard: Path, trigger: tuple[float, float]) -> dict:
     data = np.load(shard)
     x, y, speed, vehicles = (data[key].astype(float) for key in ("ego_x", "ego_y", "ego_speed", "vehicles_50m"))
     misses = np.hypot(x - trigger[0], y - trigger[1])
-    at_trigger = int(np.argmin(misses))
+    at_trigger = int(np.nanargmin(misses))
     window = vehicles[at_trigger:at_trigger + TRAFFIC_WINDOW_SAMPLES]
     return {"trigger_miss_m": round(float(misses[at_trigger]), 1), "speed_at_trigger": round(float(speed[at_trigger]), 2),
-            "most_vehicles_50m": int(window.max()) if window.size else 0, "mean_speed": round(float(speed.mean()), 2),
+            "most_vehicles_50m": int(np.nanmax(window)) if np.isfinite(window).any() else 0,
+            "mean_speed": round(float(np.nanmean(speed)), 2), "state_error_samples": int(np.isnan(x).sum()),
             "biggest_lead_closing_m_s": round(float(np.nanmax(np.abs(data["lead_relative_speed"]))), 2)
             if np.isfinite(data["lead_relative_speed"]).any() else None}
 
