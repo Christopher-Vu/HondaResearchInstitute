@@ -175,7 +175,7 @@ Going to 0 changes three smaller things.
 
 **Check.** In both arms, each route's count of `SimLingo step` lines must equal its rows in `controls.jsonl`, and guard stops are reported by arm. The expert already runs at `--debug 0` under the same `run_evaluator` (`run_savio.py:208`), but it prints its own lines, so that proves nothing for the policy.
 
-**Code needed after approval, not written now.** `evaluator_command` reads `config["simulator"].get("debug", 2)`, with one test that the value reaches the command, plus two configs and the analysis, which is written before any outcome is read. The new key changes only the new configs' hashes.
+**Code.** `evaluator_command` reads `simulator.debug_level`, default 2, and refuses `simulator.debug` (committed with `tests/test_debug_level.py`). Still needed: two configs and the analysis, written before any outcome is read. The new key changes only the new configs' hashes.
 
 ## Cost (estimates)
 

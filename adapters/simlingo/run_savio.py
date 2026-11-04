@@ -31,6 +31,7 @@ from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_enviro
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
+LOCAL_SERVER_VARIABLE = "CARLA_SERVER_ROOT"
 STEP1_CONFIG = ROOT / "configs/rollout/step1-single-route.yaml"
 CLUSTER_CONFIG = ROOT / "configs/cluster/savio.yaml"
 SERVER_STARTUP_SECONDS = 300
@@ -70,9 +71,15 @@ def torch_threads(slots: int) -> int:
 
 def server_root(build: str | None) -> Path:
     """The CARLA server a config's `simulator.carla_build` names (configs/cluster/savio.yaml `carla.builds`);
-    the stock release when it names none. The client is always the stock 0.9.15 PythonAPI."""
+    the stock release when it names none, read from `CARLA_SERVER_ROOT` when `scripts/route_sample.sbatch` staged
+    a copy of it to node-local disk. The client is always the stock 0.9.15 PythonAPI."""
     builds = yaml.safe_load(CLUSTER_CONFIG.read_text())["carla"].get("builds") or {}
-    return ROOT / builds[build] if build in builds else CARLA_ROOT
+    local = os.environ.get(LOCAL_SERVER_VARIABLE)
+    if build not in builds:
+        return Path(local) if local else CARLA_ROOT
+    if local:
+        raise ValueError(f"{LOCAL_SERVER_VARIABLE} replaces only the stock server, and this config names {build}")
+    return ROOT / builds[build]
 
 
 def server_command(quality: str, rpc_port: int, container: str | None, root: Path = CARLA_ROOT) -> list[str]:
@@ -160,9 +167,9 @@ def carla_server(output: Path, quality: str, container: str | None, slot: int = 
             stop_process_group(server, grace_seconds=30)
 
 
-def job_facts() -> dict[str, Any]:
+def job_facts(server: Path = CARLA_ROOT) -> dict[str, Any]:
     return {"environment": "savio", "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
-            "node": socket.gethostname()}
+            "node": socket.gethostname(), "carla_server_root": str(server)}
 
 
 def render(output: Path, config: dict[str, Any], container: str | None) -> dict[str, Any]:
@@ -195,7 +202,7 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
             command = evaluator_command(output, config, ports, torch_threads(slots), agent)
             run_evaluator(output, command, environment)
     # With several slots the GPU figures cover every route sharing the GPU, not this one alone.
-    return summarize(output, config, versions, {**job_facts(), **gpu.report(), "routes_sharing_gpu": slots,
+    return summarize(output, config, versions, {**job_facts(root), **gpu.report(), "routes_sharing_gpu": slots,
                                                 "container": container, "savio_verified": True})
 
 
@@ -209,7 +216,7 @@ def expert(output: Path, config: dict[str, Any], container: str | None, slot: in
                       cwd=SOURCE)
     record = json.loads((output / "result.json").read_text())["_checkpoint"]["records"][0]
     report = {"route": config["route"]["id"], "status": record["status"], "infractions": record["infractions"],
-              "duration_game": record["meta"]["duration_game"], "versions": versions}
+              "duration_game": record["meta"]["duration_game"], "versions": versions, **job_facts(root)}
     (output / "readiness.json").write_text(json.dumps(report, indent=2) + "\n")
     return report
 

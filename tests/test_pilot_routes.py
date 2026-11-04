@@ -240,6 +240,53 @@ def test_a_cut_keeps_one_scenario_and_the_road_around_its_trigger():
     assert not cut_routes.spaced((0, 0), [(50, 0)], 100) and cut_routes.spaced((0, 0), [(150, 0)], 100)
 
 
+def route_with_hazard(*parameters):
+    return ET.fromstring('<route id="9" town="T"><waypoints>' + "".join(
+        f'<position x="{x}" y="0" z="0"/>' for x in (0, 100, 200, 300, 400)) + '</waypoints><scenarios><scenario type="A">'
+        '<trigger_point x="110" y="0"/>' + "".join(f'<{name} value="{value}"/>' for name, value in parameters) + '</scenario></scenarios></route>')
+
+
+def cut_ends(route, **tail):
+    spec = {"lead_m": 20, "tail_m": 60, "min_spacing_m": 100, **tail}
+    return [pilot_routes.waypoints(cut)[-1][0] for cut in cut_routes.cuts_from([route], {"A"}, [], spec, 60000)]
+
+
+def test_tail_past_hazard_runs_past_the_hazard_and_any_bicycle_ride():
+    assert cut_ends(route_with_hazard(("distance", 90)), tail_past_hazard_m=60) == [300]
+    assert cut_ends(route_with_hazard(("distance", 90), ("bicycle_drive_distance", 100)), tail_past_hazard_m=60) == [400]
+
+
+def test_without_the_key_a_tail_ignores_the_hazard():
+    assert cut_ends(route_with_hazard(("distance", 90), ("bicycle_drive_distance", 100))) == [200]
+
+
+def test_tail_past_hazard_keeps_every_road_on_its_id_and_drops_what_cannot_reach():
+    spec = {"lead_m": 20, "tail_m": 60, "min_spacing_m": 100}
+    cannot_reach = route_with_hazard(("distance", 400))
+    can_reach = route_with_hazard(("distance", 90))
+    next(can_reach.iter("trigger_point")).set("x", "220")
+    routes = [cannot_reach, can_reach]
+    assert [cut.get("id") for cut in cut_routes.cuts_from(routes, {"A"}, [], spec, 60000)] == ["60000", "60001"]
+    keyed = cut_routes.cuts_from(routes, {"A"}, [], {**spec, "tail_past_hazard_m": 60}, 60000)
+    assert [cut.get("id") for cut in keyed] == ["60001"]
+
+
+def test_report_lists_a_hazard_past_the_route_end_and_keeps_the_ride_visible():
+    route = route_with_hazard(("distance", 200), ("bicycle_drive_distance", 100))
+    assert cut_routes.hazards_past_route_end([route]) == [
+        {"route": "9", "scenario": "A", "hazard_starts_m": 200.0, "hazard_m": 300.0, "end_m": 290.0}]
+    assert cut_routes.hazards_past_route_end([route_with_hazard(("distance", 200))]) == []
+    assert cut_routes.hazards_past_route_end([route_with_hazard()]) == []
+
+
+def test_report_finds_the_three_short_p20_pairs_and_none_of_their_recuts():
+    def listed_bases(name):
+        routes = ET.parse(ROOT / f"configs/rollout/{name}.xml").getroot().iter("route")
+        return {row["route"][:-2] for row in cut_routes.hazards_past_route_end(list(routes))}
+    assert {"64155", "64223", "64250"} <= listed_bases("step5-pilot-p20-screen")
+    assert not {"64155", "64223", "64250", "64901", "64902", "64903"} & listed_bases("step5-pilot-p20-screen-amended")
+
+
 def test_recut_script_writes_the_committed_amended_files():
     if not (ROOT / ".runtime/simlingo/leaderboard/data/routes_training.xml").is_file():
         pytest.skip("long routes not installed")

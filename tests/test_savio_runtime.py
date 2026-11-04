@@ -206,3 +206,140 @@ def test_carla_0915_and_its_patch_builds_are_accepted_and_others_refused():
     from route_run import CARLA_0915
     assert all(CARLA_0915.match(v) for v in ("0.9.15", "0.9.15.2", "0.9.15.2-dirty"))
     assert not any(CARLA_0915.match(v) for v in ("0.9.14", "0.9.16", "0.9.150", "1.0"))
+
+
+def test_local_server_variable_replaces_only_the_stock_server(monkeypatch):
+    from pathlib import Path
+
+    from run_savio import server_root
+    monkeypatch.setenv("CARLA_SERVER_ROOT", "/tmp/carla-local-7")
+    assert server_root(None) == server_root("stock-linux-release") == Path("/tmp/carla-local-7")
+    assert server_command("Epic", 20000, None, server_root(None))[0] == "/tmp/carla-local-7/CarlaUE4.sh"
+    with pytest.raises(ValueError, match="fail2drive"):
+        server_root("fail2drive")
+
+
+def test_job_facts_name_the_server_a_run_used():
+    from pathlib import Path
+
+    from run_savio import job_facts
+    assert job_facts()["carla_server_root"] == str(CARLA_ROOT)
+    assert job_facts(Path("/tmp/carla-local-7"))["carla_server_root"] == "/tmp/carla-local-7"
+
+
+@pytest.fixture
+def route_sample(tmp_path):
+    """route_sample.sbatch in a submit directory whose fake policy python reports the server it was handed."""
+    import os
+    import shutil
+    import tarfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    python = tmp_path / ".runtime/policy-venv/bin/python"
+    python.parent.mkdir(parents=True)
+    job = f"pytest-{os.getpid()}"
+    environment = {"PATH": os.environ["PATH"], "SLURM_SUBMIT_DIR": str(tmp_path), "SLURM_JOB_ID": job,
+                   "SLURM_ARRAY_JOB_ID": "1", "SLURM_ARRAY_TASK_ID": "0", "ROUTE_IDS": "7"}
+    command = ["bash", str(Path(__file__).resolve().parents[1] / "scripts/route_sample.sbatch"), "config.yaml"]
+
+    def fake_python(body):
+        python.write_text("#!/usr/bin/env bash\n" + body)
+        python.chmod(0o755)
+
+    def carla_tar(*names):
+        with tarfile.open(tmp_path / "carla.tar", "w") as archive:
+            for name in names:
+                (tmp_path / name).write_text("#!/usr/bin/env bash\n")
+                (tmp_path / name).chmod(0o755)
+                archive.add(tmp_path / name, arcname=name)
+        return {"CARLA_LOCAL_TAR": str(tmp_path / "carla.tar")}
+
+    def venv_tar():
+        (tmp_path / "stagedvenv/bin").mkdir(parents=True)
+        staged = tmp_path / "stagedvenv/bin/python"
+        staged.write_text('#!/usr/bin/env bash\necho "python=staged"\n')
+        staged.chmod(0o755)
+        with tarfile.open(tmp_path / "venv.tar", "w") as archive:
+            archive.add(tmp_path / "stagedvenv", arcname=".")
+        return {"POLICY_VENV_LOCAL_TAR": str(tmp_path / "venv.tar")}
+
+    def run(body='echo "server=${CARLA_SERVER_ROOT:-none}"; ls ${CARLA_SERVER_ROOT:-}', stage=None):
+        fake_python(body)
+        return subprocess.run(command, env={**environment, **(stage or {})}, capture_output=True, text=True, timeout=60)
+
+    def stages():
+        return list(Path("/tmp").glob(f"route-local-{job}.*"))
+
+    yield SimpleNamespace(run=run, carla_tar=carla_tar, venv_tar=venv_tar, fake_python=fake_python, command=command,
+                          environment=environment, stages=stages, output=tmp_path / "results/savio/1/route-7")
+    for stage in stages():
+        shutil.rmtree(stage, ignore_errors=True)
+
+
+def test_route_sample_runs_the_stock_server_unless_given_a_tar(route_sample):
+    finished = route_sample.run()
+    assert finished.returncode == 0, finished.stderr
+    assert "server=none" in (route_sample.output / "run.log").read_text()
+    assert not route_sample.stages()
+
+
+def test_route_sample_stages_the_tar_for_the_route_and_removes_it_afterwards(route_sample):
+    finished = route_sample.run(stage=route_sample.carla_tar("CarlaUE4.sh", "Engine"))
+    assert finished.returncode == 0, finished.stderr
+    log = (route_sample.output / "run.log").read_text()
+    assert "server=/tmp/route-local-" in log and "CarlaUE4.sh" in log and "Engine" in log
+    assert not route_sample.stages()
+
+
+def test_route_sample_runs_the_route_with_the_staged_python_when_given_its_tar(route_sample):
+    finished = route_sample.run(stage=route_sample.venv_tar())
+    assert finished.returncode == 0, finished.stderr
+    assert "python=staged" in (route_sample.output / "run.log").read_text()
+    assert not route_sample.stages()
+
+
+def test_route_sample_ignores_an_inherited_server_path(route_sample):
+    finished = route_sample.run(stage={"CARLA_SERVER_ROOT": "/some/stale/path"})
+    assert finished.returncode == 0, finished.stderr
+    assert "server=none" in (route_sample.output / "run.log").read_text()
+
+
+def test_route_sample_removes_a_stage_it_cannot_write_to(route_sample):
+    from pathlib import Path
+    finished = route_sample.run("chmod -R a-w \"$CARLA_SERVER_ROOT\"", stage=route_sample.carla_tar("CarlaUE4.sh"))
+    assert finished.returncode == 0, finished.stderr
+    assert not route_sample.stages() and Path("/tmp").is_dir()
+
+
+def test_route_sample_removes_the_stage_when_a_route_fails(route_sample):
+    finished = route_sample.run("exit 1", stage=route_sample.carla_tar("CarlaUE4.sh"))
+    assert finished.returncode == 1 and not route_sample.stages()
+
+
+def test_route_sample_refuses_a_tar_without_the_server_at_its_top_level(route_sample):
+    finished = route_sample.run(stage=route_sample.carla_tar("Engine"))
+    assert finished.returncode == 2 and "no CarlaUE4.sh" in finished.stderr
+    assert not route_sample.output.exists() and not route_sample.stages()
+
+
+def test_route_sample_removes_the_stage_when_the_job_is_cancelled(route_sample):
+    import contextlib
+    import os
+    import signal
+    import time
+
+    route_sample.fake_python("touch results/savio/1/route-7/server-ready; exec sleep 60")
+    job = subprocess.Popen(route_sample.command, env={**route_sample.environment, **route_sample.carla_tar("CarlaUE4.sh")},
+                           start_new_session=True)
+    try:
+        deadline = time.monotonic() + 20
+        while not (route_sample.output / "server-ready").exists() and time.monotonic() < deadline:
+            time.sleep(0.1)
+        assert route_sample.stages()
+        job.terminate()
+        assert job.wait(timeout=20) != 0
+        assert not route_sample.stages()
+    finally:
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(job.pid, signal.SIGKILL)

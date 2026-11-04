@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import yaml
-from cut_routes import cut_bounds, trigger_of, waypoints
+from cut_routes import cut_bounds, required_tail_m, trigger_of, waypoints
 from dev_routes import manifest_document, routes_document
 
 ROOT = Path(__file__).resolve().parents[3].parent
@@ -19,23 +19,13 @@ NEW_BASE_IDS = {"64155": "64901", "64223": "64902", "64250": "64903"}
 TAIL_PAST_HAZARD_M = 60
 
 
-def parameter(scenario: ET.Element, name: str) -> float:
-    element = scenario.find(name)
-    return float(element.get("value", 0)) if element is not None else 0.0
-
-
-def required_tail_m(scenario: ET.Element) -> float:
-    """Straight-line metres past the trigger: the hazard, plus any distance its bicycles ride, plus a margin."""
-    return parameter(scenario, "distance") + parameter(scenario, "bicycle_drive_distance") + TAIL_PAST_HAZARD_M
-
-
 def long_route_positions(scenario: ET.Element, first_point: tuple[float, ...], long_routes: list[ET.Element],
                          lead_m: float) -> list[ET.Element]:
     """Waypoints from the same start as the first cut, on the long route it came from, to the first past the required tail."""
     trigger = trigger_of(scenario)
     for route in long_routes:
         if any(other.get("type") == scenario.get("type") and trigger_of(other) == trigger for other in route.iter("scenario")):
-            bounds = cut_bounds(waypoints(route), trigger, lead_m, required_tail_m(scenario))
+            bounds = cut_bounds(waypoints(route), trigger, lead_m, required_tail_m(scenario, TAIL_PAST_HAZARD_M))
             if bounds and waypoints(route)[bounds[0]] == first_point:
                 return list(route.iter("position"))[bounds[0]:bounds[1] + 1]
     raise ValueError(f"no long route keeps the start of the cut with trigger {trigger}")

@@ -3,7 +3,7 @@
     python adapters/simlingo/cut_routes.py configs/rollout/step5-pilot-p14-main.yaml
 
 Each cut keeps one scenario and the waypoints around its trigger: from the last waypoint at least `lead_m` before it to the first at
-least `tail_m` after it. The leaderboard interpolates between waypoints, so a cut drives the same road as the long route. A trigger
+least `tail_m` after it, or at least `tail_past_hazard_m` past its hazard when the spec sets that key; a cut that cannot reach it is dropped and its id stays unused. The leaderboard interpolates between waypoints, so a cut drives the same road as the long route. A trigger
 within `min_spacing_m` of an earlier cut of the same family is skipped, and only routes of `min_length_m` to `max_length_m` stay. Bases named in `excluded_bases` are dropped, cuts included: a full
 pilot never reuses a screened base. Length filtering comes after numbering, so a config with the same `first_id` gives a road the same id.
 """
@@ -26,6 +26,38 @@ def trigger_of(scenario: ET.Element) -> tuple[float, float]:
     point = scenario.find("trigger_point")
     assert point is not None
     return float(point.get("x", 0)), float(point.get("y", 0))
+
+
+ROUTE_END_MARGIN_M = 10  # a route ends once over 90% complete and within this of its last waypoint
+
+
+def parameter(scenario: ET.Element, name: str) -> float:
+    element = scenario.find(name)
+    return float(element.get("value", 0)) if element is not None else 0.0
+
+
+def required_tail_m(scenario: ET.Element, past_hazard_m: float) -> float:
+    """Straight-line metres past the trigger: the hazard, plus any distance its bicycles ride, plus a margin."""
+    return parameter(scenario, "distance") + parameter(scenario, "bicycle_drive_distance") + past_hazard_m
+
+
+def hazards_past_route_end(routes: list[ET.Element]) -> list[dict[str, Any]]:
+    """Report only: each scenario whose hazard, bicycle ride included, lies further from its trigger than the route's
+    last waypoint does.
+
+    A straight line is shorter than the road on a bend, so a listed route may still reach its hazard by road, and
+    `hazard_starts_m` shows when only the end of a ride falls past the route's end.
+    """
+    listed = []
+    for route in routes:
+        end = waypoints(route)[-1][:2]
+        for scenario in route.iter("scenario"):
+            hazard_m, end_m = required_tail_m(scenario, 0), math.dist(end, trigger_of(scenario))
+            if hazard_m > end_m - ROUTE_END_MARGIN_M:
+                listed.append({"route": route.get("id"), "scenario": scenario.get("type"),
+                               "hazard_starts_m": parameter(scenario, "distance"), "hazard_m": hazard_m,
+                               "end_m": round(end_m, 1)})
+    return listed
 
 
 def distance_to_segment(point: tuple[float, float], start: tuple[float, float], end: tuple[float, float]) -> float:
@@ -70,6 +102,7 @@ def spaced(trigger: tuple[float, float], earlier: list[tuple[float, float]], min
 def cuts_from(routes: list[ET.Element], families: set[str], required: list[str], spec: dict[str, Any],
               first_id: int) -> list[ET.Element]:
     cuts: list[ET.Element] = []
+    numbered = 0
     seen: dict[str, list[tuple[float, float]]] = {family: [] for family in families}
     for route in routes:
         points = waypoints(route)
@@ -82,7 +115,12 @@ def cuts_from(routes: list[ET.Element], families: set[str], required: list[str],
             if bounds is None or not spaced(trigger, seen[family], spec["min_spacing_m"]):
                 continue
             seen[family].append(trigger)
-            cuts.append(cut_route(route, scenario, bounds, first_id + len(cuts)))
+            base_id = first_id + numbered
+            numbered += 1
+            if "tail_past_hazard_m" in spec:
+                bounds = cut_bounds(points, trigger, spec["lead_m"], required_tail_m(scenario, spec["tail_past_hazard_m"]))
+            if bounds is not None:
+                cuts.append(cut_route(route, scenario, bounds, base_id))
     return cuts
 
 
@@ -108,6 +146,9 @@ def main() -> None:
     bases = generate(config)
     (ROOT / config["pilot"]["base_routes_file"]).write_text(routes_document(bases))
     print(f"{len(bases)} bases, median length {sorted(map(route_length, bases))[len(bases) // 2]:.0f} m")
+    for listed in hazards_past_route_end(bases):
+        print(f"route {listed['route']} ({listed['scenario']}) ends {listed['end_m']} m past its trigger, "
+              f"hazard from {listed['hazard_starts_m']} to {listed['hazard_m']} m by straight line")
 
 
 if __name__ == "__main__":

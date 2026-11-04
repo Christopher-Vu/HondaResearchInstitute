@@ -31,6 +31,8 @@ AGENT = ROOT / "adapters/simlingo/visible_agent.py"
 VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
                   "Failed - Agent deviated from the route", "Failed - Agent got blocked"}
 RUN_ORDER_SEED = 0
+# Every run before simulator.debug_level existed used 2, which draws route markers into the camera (WHAT_BROKE 2026-11-03).
+DEFAULT_DEBUG_LEVEL = 2
 
 
 @dataclass(frozen=True)
@@ -152,6 +154,13 @@ def route_environment(config: dict[str, Any]) -> dict[str, str]:
     return knockout | ({"SIMLINGO_CAMERA_FAULT": json.dumps(fault)} if fault else {})
 
 
+def debug_level(simulator: dict[str, Any]) -> int:
+    """Above 0 the evaluator draws route markers that the policy's camera sees, so the setting must not fail silently."""
+    if "debug" in simulator:
+        raise ValueError("simulator.debug is not read; the key is simulator.debug_level")
+    return simulator.get("debug_level", DEFAULT_DEBUG_LEVEL)
+
+
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
                       agent: Path = AGENT) -> list[str]:
     evaluator = SOURCE / "Bench2Drive/leaderboard/leaderboard/leaderboard_evaluator.py"
@@ -162,7 +171,8 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--host", "localhost", "--port", str(ports.rpc),
             "--traffic-manager-port", str(ports.traffic_manager),
             "--traffic-manager-seed", str(config["route"]["seed"]),
-            "--timeout", str(config["simulator"]["timeout_seconds"]), "--debug", "2",
+            "--timeout", str(config["simulator"]["timeout_seconds"]),
+            "--debug", str(debug_level(config["simulator"])),
             "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
             "--agent", str(agent), "--agent-config", str(CHECKPOINT) + "+agent",
             "--checkpoint", str(output / "result.json"),

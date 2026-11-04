@@ -720,7 +720,7 @@ Written before the amended P20 screen was read, so the wording cannot be chosen 
 **Proposed. Nothing changes until this is reviewed.**
 
 1. `--debug 2` stays for running work, so no pool mixes settings while the question is open.
-2. H14 (`docs/research/experiments/h14-route-markers/protocol.md`) measures the effect first. For it, `evaluator_command` reads `simulator.debug` from the rollout config with a default of 2, which puts the setting into the new configs' hashes and leaves the old configs and hashes alone.
+2. H14 (`docs/research/experiments/h14-route-markers/protocol.md`) measures the effect first. For it, `evaluator_command` reads `simulator.debug_level` from the rollout config with a default of 2, which puts the setting into the new configs' hashes and leaves the old configs and hashes alone.
 3. After H14, the blind pool runs at `--debug 0` under every verdict, because that is the benchmark's default and the setting a reader can reproduce. If dev work must carry over to it, H14's offline activation measure or a recapture has to support that first.
 
 **Alternatives.** Moving to 0 now costs no SU, but it leaves every earlier result with an unknown offset and splits the dev pool across two settings. `--debug 1` does not help, because it draws the same markers (`route_scenario.py:93`).
