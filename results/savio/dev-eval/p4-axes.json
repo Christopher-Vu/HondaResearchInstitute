@@ -1,0 +1,841 @@
+{
+  "gaps": {
+    "P4_camera_occlusion": 51
+  },
+  "runs": [
+    {
+      "run": "results/savio/sae-sweep/L10_k32_s0",
+      "layer": 10,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 4,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.2,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.2,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.6986301369863014,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [232, 664, 49, 893, 703, 166, 609, 770, 321, 855, 736, 841, 224, 81, 618, 491, 331, 765, 94, 454, 423, 766, 251, 137, 869, 23, 309, 107, 890, 601, 180, 89, 584, 467, 587, 150, 249, 684, 98, 522, 805, 104, 700, 288, 674, 807, 427, 839, 554, 313, 345, 42, 505, 291, 124, 267, 336, 133, 191, 306, 276, 297, 157, 85, 139, 241, 108, 508, 182, 866, 538, 654, 371, 335, 874, 119, 231, 693, 811, 279, 729, 209, 364, 366, 319, 473, 410, 675, 46, 731, 120, 797, 689, 392, 704, 547, 312, 835, 809, 457, 697, 0, 363, 699, 858, 615, 669, 493, 221, 886, 469, 537, 315, 338, 757, 300, 225, 188, 284, 118, 791, 26, 733, 752, 623, 487, 466, 542, 426, 25, 882, 174, 381, 799, 754, 172, 409, 69, 374, 404, 155, 289, 196, 358, 536, 719, 87, 625, 567, 88, 460, 550, 333, 484, 106, 588, 408, 506, 814, 12, 347, 671, 756, 414, 808, 178, 662, 299, 595, 849, 546, 143, 889, 293, 772, 153, 668, 349, 373, 518, 635, 614, 202, 235, 63, 47, 830, 208, 465, 357, 626, 459, 659, 400, 192, 391, 369, 102, 634, 504, 485, 832, 864, 375, 145, 576, 44, 416, 725]; founder SMD 1.36, support 71; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 33,
+          "description": "latents [99]; founder SMD 0.38, support 33; not describability-gated",
+          "share_of_failures": 0.4520547945205479,
+          "jaccard": {
+            "P4_camera_occlusion": 0.47368421052631576
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.8181818181818182
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 22,
+          "description": "latents [681]; founder SMD 0.44, support 22; not describability-gated",
+          "share_of_failures": 0.3013698630136986,
+          "jaccard": {
+            "P4_camera_occlusion": 0.2807017543859649
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7272727272727273
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 26,
+          "description": "latents [282]; founder SMD 0.31, support 26; not describability-gated",
+          "share_of_failures": 0.3561643835616438,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3275862068965517
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7307692307692307
+          }
+        }
+      ]
+    },
+    {
+      "run": "results/savio/sae-sweep/L10_k48_s0",
+      "layer": 10,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 5,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.3157894736842105,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a8",
+            "jaccard": 0.3157894736842105,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.6986301369863014,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [49, 704, 418, 107, 111, 807, 180, 202, 321, 42, 609, 338, 12, 379, 411, 139, 855, 841, 811, 466, 454, 757, 770, 191, 797, 224, 119, 874, 890, 766, 618, 664, 112, 282, 859, 601, 345, 677, 700, 669, 547, 882, 693, 363, 203, 617, 68, 170, 849, 172, 331, 568, 380, 674, 854, 522, 132, 81, 137, 554, 673, 330, 41, 491, 98, 232, 251, 508, 124, 633, 625, 577, 523, 278, 410, 427, 467, 288, 133, 572, 89, 94, 576, 358, 596, 541, 689, 188, 293, 275, 634, 241, 592, 45, 371, 120, 457, 643, 814, 317, 414, 464, 46, 386, 473, 716, 93, 408, 129, 641, 291, 595, 231, 893, 276, 306, 407, 686, 584, 772, 719, 478, 420, 334, 546, 536, 866, 44, 699, 680, 756, 295, 642, 150, 484, 768, 273, 587, 399, 47, 649, 364, 366, 316, 886, 626, 871, 784, 324, 196, 652, 32, 401, 235, 869, 125, 425, 872, 724, 832, 178, 714, 864, 725, 333, 684, 336, 381, 22, 83, 630, 374, 312, 290, 30, 830, 368, 602, 11, 599, 487, 513, 182, 740, 37, 445, 233, 29, 474, 456, 2, 339, 559, 865, 654, 123, 809, 734, 296, 529, 18, 347, 697, 611, 428, 477, 286, 313, 88, 605, 483, 189, 795, 267, 350, 450, 34, 460, 497, 67, 201, 100, 69, 87, 888, 542, 585, 335, 121, 423, 131, 365, 588, 179, 216, 527, 315, 856, 796, 328, 227, 667]; founder SMD 1.36, support 72; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 36,
+          "description": "latents [537]; founder SMD 0.42, support 36; not describability-gated",
+          "share_of_failures": 0.4931506849315068,
+          "jaccard": {
+            "P4_camera_occlusion": 0.38095238095238093
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6666666666666666
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 27,
+          "description": "latents [801]; founder SMD 0.47, support 27; not describability-gated",
+          "share_of_failures": 0.3698630136986301,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3448275862068966
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7407407407407407
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 26,
+          "description": "latents [808]; founder SMD 0.37, support 26; not describability-gated",
+          "share_of_failures": 0.3561643835616438,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3050847457627119
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6923076923076923
+          }
+        },
+        {
+          "axis_id": "contrastive-a5",
+          "size": 21,
+          "description": "latents [544]; founder SMD 0.38, support 21; not describability-gated",
+          "share_of_failures": 0.2876712328767123,
+          "jaccard": {
+            "P4_camera_occlusion": 0.2413793103448276
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "run": "results/savio/sae-sweep/L10_k64_s0",
+      "layer": 10,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.7183098591549296,
+        "precision_at_m": 0.1,
+        "n_axes": 6,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.7183098591549296,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.453125,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a6",
+            "jaccard": 0.453125,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.7015820953115957,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [841, 807, 224, 49, 107, 454, 577, 191, 104, 508, 111, 811, 618, 321, 232, 132, 68, 625, 770, 182, 609, 81, 180, 756, 889, 408, 120, 757, 46, 178, 345, 890, 576, 282, 133, 664, 641, 338, 686, 379, 358, 172, 249, 198, 819, 588, 652, 63, 866, 316, 572, 137, 587, 616, 317, 363, 98, 18, 73, 791, 410, 882, 568, 700, 669, 634, 290, 371, 727, 251, 355, 874, 511, 772, 273, 754, 276, 92, 94, 567, 797, 766, 716, 604, 855, 299, 602, 547, 315, 484, 546, 364, 12, 173, 673, 384, 288, 291, 109, 473, 830, 672, 89, 457, 704, 146, 479, 106, 203, 674, 124, 522, 438, 406, 42, 633, 10, 699, 202, 413, 729, 143, 627, 856, 2, 872, 629, 140, 553, 60, 309, 131, 648, 153, 596, 29, 44, 859, 14, 189, 814, 23, 678, 456, 85, 87, 55, 542, 330, 617, 467, 536, 557, 179, 295, 523, 399, 839, 386, 241, 719, 374, 722, 312, 725, 119, 529, 860, 615, 481, 684, 893, 231, 235, 739, 869, 86, 168, 407, 592, 201, 513, 687, 280, 820, 601, 125, 196, 267, 863, 366, 621, 174, 464, 421, 311, 654, 188, 784, 677, 895, 607, 485, 166, 256, 614, 402, 313, 246, 703, 123, 4, 487, 448, 347, 333, 443, 876, 449, 293, 177, 239, 450, 824, 689]; founder SMD 1.29, support 72; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 71,
+          "description": "latents [112, 554, 556, 328, 108, 515, 611, 584, 45, 350, 83, 537, 697]; founder SMD 1.08, support 36; not describability-gated",
+          "share_of_failures": 0.9726027397260274,
+          "jaccard": {
+            "P4_camera_occlusion": 0.7183098591549296
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7183098591549296
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 27,
+          "description": "latents [744]; founder SMD 0.93, support 27; not describability-gated",
+          "share_of_failures": 0.3698630136986301,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3684210526315789
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7777777777777778
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 27,
+          "description": "latents [423]; founder SMD 0.76, support 27; not describability-gated",
+          "share_of_failures": 0.3698630136986301,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3448275862068966
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7407407407407407
+          }
+        },
+        {
+          "axis_id": "contrastive-a5",
+          "size": 30,
+          "description": "latents [493]; founder SMD 0.52, support 30; not describability-gated",
+          "share_of_failures": 0.410958904109589,
+          "jaccard": {
+            "P4_camera_occlusion": 0.35
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7
+          }
+        },
+        {
+          "axis_id": "contrastive-a6",
+          "size": 28,
+          "description": "latents [667]; founder SMD 0.37, support 28; not describability-gated",
+          "share_of_failures": 0.3835616438356164,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3620689655172414
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.75
+          }
+        }
+      ]
+    },
+    {
+      "run": "results/savio/sae-sweep/L14_k32_s0",
+      "layer": 14,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.7205882352941176,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a2",
+            "jaccard": 0.7205882352941176,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.4727272727272727,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.4727272727272727,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.6991977010595692,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [6, 639, 611, 173, 618, 448, 81, 537, 111, 367, 740, 727, 784, 890, 224, 785, 66, 165, 454, 146, 766, 642, 859, 550, 841, 717, 68, 193, 860, 597, 526, 94, 209, 12, 282, 62, 402, 692, 447, 116, 559, 557, 800, 191, 258, 26, 8, 560, 112, 182, 858, 220, 290, 756, 284, 188, 556, 811, 805, 633, 539, 235, 586, 441, 804, 615, 175, 592, 410, 398, 89, 546, 63, 149, 432, 120, 106, 140, 522, 354, 168, 118, 428, 779, 596, 119, 456, 108, 780, 10, 31, 443, 21, 401, 749, 326, 877, 179, 807, 358, 536, 121, 708, 772, 459, 392, 832, 460, 799, 855, 738, 680, 616, 416, 203, 513, 303, 870, 567, 792, 452, 634, 617, 147, 4, 450, 262, 359, 817, 34, 754, 18, 839, 844, 729, 818, 570, 582, 425, 347, 382, 636, 46, 243, 355, 830, 194, 399, 131, 331, 662, 731, 719, 601, 762, 613, 752, 375, 469, 496, 249, 669, 542, 863, 232, 222, 816, 178, 850, 819, 400, 82, 838, 261, 20, 438, 649, 128, 420]; founder SMD 1.45, support 71; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 66,
+          "description": "latents [837, 409, 541, 747, 201, 405, 484]; founder SMD 1.02, support 33; not describability-gated",
+          "share_of_failures": 0.9041095890410958,
+          "jaccard": {
+            "P4_camera_occlusion": 0.7205882352941176
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7424242424242424
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 44,
+          "description": "latents [264, 369]; founder SMD 0.52, support 34; not describability-gated",
+          "share_of_failures": 0.6027397260273972,
+          "jaccard": {
+            "P4_camera_occlusion": 0.5573770491803278
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7727272727272727
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 25,
+          "description": "latents [744]; founder SMD 0.53, support 25; not describability-gated",
+          "share_of_failures": 0.3424657534246575,
+          "jaccard": {
+            "P4_camera_occlusion": 0.26666666666666666
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.64
+          }
+        },
+        {
+          "axis_id": "contrastive-a5",
+          "size": 28,
+          "description": "latents [809]; founder SMD 0.47, support 28; not describability-gated",
+          "share_of_failures": 0.3835616438356164,
+          "jaccard": {
+            "P4_camera_occlusion": 0.31666666666666665
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6785714285714286
+          }
+        },
+        {
+          "axis_id": "contrastive-a6",
+          "size": 24,
+          "description": "latents [493]; founder SMD 0.53, support 24; not describability-gated",
+          "share_of_failures": 0.3287671232876712,
+          "jaccard": {
+            "P4_camera_occlusion": 0.29310344827586204
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7083333333333334
+          }
+        },
+        {
+          "axis_id": "contrastive-a7",
+          "size": 25,
+          "description": "latents [696]; founder SMD 0.43, support 25; not describability-gated",
+          "share_of_failures": 0.3424657534246575,
+          "jaccard": {
+            "P4_camera_occlusion": 0.35714285714285715
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "run": "results/savio/sae-sweep/L14_k48_s0",
+      "layer": 14,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 6,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.4444444444444444,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a1",
+            "jaccard": 0.4444444444444444,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.6986301369863014,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [139, 890, 799, 727, 18, 541, 62, 712, 6, 149, 601, 116, 8, 224, 146, 760, 12, 140, 557, 209, 740, 764, 618, 818, 454, 858, 398, 569, 464, 871, 582, 108, 559, 282, 587, 410, 94, 550, 756, 721, 855, 460, 546, 537, 611, 235, 586, 379, 276, 865, 844, 785, 447, 522, 331, 188, 493, 870, 173, 295, 452, 696, 112, 338, 800, 258, 20, 841, 168, 354, 367, 120, 766, 500, 639, 311, 784, 46, 284, 321, 836, 118, 326, 241, 780, 807, 642, 275, 448, 837, 375, 692, 106, 592, 66, 556, 127, 432, 615, 290, 390, 567, 402, 816, 773, 412, 811, 193, 621, 510, 240, 232, 607, 7, 817, 832, 708, 148, 754, 484, 358, 147, 762, 591, 409, 281, 884, 10, 32, 459, 539, 34, 355, 560, 813, 423, 392, 171, 183, 60, 749, 26, 403, 89, 391, 441, 165, 729, 339, 373, 15, 216, 350, 724, 81, 792, 667, 279, 824, 519, 124, 827, 105, 717, 496, 839, 334, 92, 850, 85, 842, 222, 795, 191, 613, 701, 162, 128, 456, 888, 215, 693, 261, 31, 425, 438, 54, 249, 302, 439, 364, 478, 617, 719, 4, 238, 186, 866, 852, 317, 461, 119, 874, 82, 738, 131, 68, 809, 752, 346, 194, 606, 540, 467, 797]; founder SMD 1.43, support 73; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 36,
+          "description": "latents [443]; founder SMD 0.83, support 36; not describability-gated",
+          "share_of_failures": 0.4931506849315068,
+          "jaccard": {
+            "P4_camera_occlusion": 0.4032258064516129
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6944444444444444
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 22,
+          "description": "latents [706]; founder SMD 0.61, support 22; not describability-gated",
+          "share_of_failures": 0.3013698630136986,
+          "jaccard": {
+            "P4_camera_occlusion": 0.35185185185185186
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.8636363636363636
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 24,
+          "description": "latents [786]; founder SMD 0.54, support 24; not describability-gated",
+          "share_of_failures": 0.3287671232876712,
+          "jaccard": {
+            "P4_camera_occlusion": 0.41509433962264153
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.9166666666666666
+          }
+        },
+        {
+          "axis_id": "contrastive-a5",
+          "size": 29,
+          "description": "latents [123]; founder SMD 0.43, support 29; not describability-gated",
+          "share_of_failures": 0.3972602739726027,
+          "jaccard": {
+            "P4_camera_occlusion": 0.45454545454545453
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.8620689655172413
+          }
+        },
+        {
+          "axis_id": "contrastive-a6",
+          "size": 27,
+          "description": "latents [570]; founder SMD 0.33, support 27; not describability-gated",
+          "share_of_failures": 0.3698630136986301,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3684210526315789
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7777777777777778
+          }
+        }
+      ]
+    },
+    {
+      "run": "results/savio/sae-sweep/L14_k64_s0",
+      "layer": 14,
+      "rollouts": 176,
+      "failing": 73,
+      "contrastive": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "contrastive-a1",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B7_pool": {
+        "mean_best_jaccard": 0.3793103448275862,
+        "precision_at_m": 0.0,
+        "n_axes": 10,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B7-B-a3",
+            "jaccard": 0.3793103448275862,
+            "matched": false
+          }
+        ]
+      },
+      "B2_taxonomy": {
+        "mean_best_jaccard": 0.6986301369863014,
+        "precision_at_m": 0.1,
+        "n_axes": 7,
+        "matches": [
+          {
+            "gap_id": "P4_camera_occlusion",
+            "tier": "T0_control",
+            "axis_id": "B2-a5",
+            "jaccard": 0.6986301369863014,
+            "matched": true
+          }
+        ]
+      },
+      "B1_random": {
+        "method": "B1_random",
+        "n_draws": 200,
+        "recall_by_tier": {
+          "T0_control": 1.0
+        },
+        "recall_by_tier_max": {
+          "T0_control": 1.0
+        },
+        "precision_at_m": 0.1,
+        "mean_best_jaccard": 0.6986301369863014,
+        "decoy_hit_rate": 0.0
+      },
+      "contrastive_axes": [
+        {
+          "axis_id": "contrastive-a1",
+          "size": 73,
+          "description": "latents [391, 224, 596, 560, 712, 865, 317, 62, 334, 755, 515, 766, 18, 269, 890, 740, 692, 116, 734, 6, 557, 173, 496, 76, 448, 279, 642, 290, 149, 233, 236, 587, 618, 871, 364, 727, 454, 807, 139, 852, 818, 858, 559, 12, 81, 611, 282, 398, 749, 756, 26, 780, 331, 592, 276, 248, 841, 738, 140, 493, 562, 550, 191, 800, 639, 379, 108, 586, 855, 350, 106, 182, 212, 541, 483, 29, 643, 112, 410, 120, 124, 754, 785, 302, 261, 326, 510, 542, 284, 412, 404, 209, 418, 567, 168, 44, 732, 367, 133, 46, 617, 137, 258, 866, 877, 354, 651, 460, 118, 20, 773, 447, 92, 696, 799, 127, 626, 633, 811, 15, 4, 358, 870, 392, 467, 484, 634, 267, 689, 188, 830, 760, 420, 832, 726, 706, 175, 721, 452, 274, 148, 232, 764, 579, 789, 315, 65, 295, 119, 874, 438, 222, 673, 215, 129, 638, 165, 609, 281, 241, 504, 569, 402, 401, 537, 180, 288, 443, 313, 847, 425, 774, 235, 546, 382, 94, 804, 836, 459, 462, 540, 423, 605, 339, 66, 105, 842, 341, 547, 178, 831, 817, 275, 584, 813, 377, 838, 519, 82, 565, 353, 456, 179, 819, 383, 839, 752, 421, 762, 42, 718, 380, 797, 539, 60, 701, 1, 202]; founder SMD 1.34, support 72; not describability-gated",
+          "share_of_failures": 1.0,
+          "jaccard": {
+            "P4_camera_occlusion": 0.6986301369863014
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6986301369863014
+          }
+        },
+        {
+          "axis_id": "contrastive-a2",
+          "size": 35,
+          "description": "latents [405]; founder SMD 1.09, support 35; not describability-gated",
+          "share_of_failures": 0.4794520547945205,
+          "jaccard": {
+            "P4_camera_occlusion": 0.5925925925925926
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.9142857142857143
+          }
+        },
+        {
+          "axis_id": "contrastive-a3",
+          "size": 47,
+          "description": "latents [146, 570]; founder SMD 0.49, support 35; not describability-gated",
+          "share_of_failures": 0.6438356164383562,
+          "jaccard": {
+            "P4_camera_occlusion": 0.5555555555555556
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7446808510638298
+          }
+        },
+        {
+          "axis_id": "contrastive-a4",
+          "size": 48,
+          "description": "latents [292, 649, 779]; founder SMD 0.55, support 30; not describability-gated",
+          "share_of_failures": 0.6575342465753424,
+          "jaccard": {
+            "P4_camera_occlusion": 0.5714285714285714
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.75
+          }
+        },
+        {
+          "axis_id": "contrastive-a5",
+          "size": 29,
+          "description": "latents [747]; founder SMD 0.54, support 29; not describability-gated",
+          "share_of_failures": 0.3972602739726027,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3333333333333333
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.6896551724137931
+          }
+        },
+        {
+          "axis_id": "contrastive-a6",
+          "size": 24,
+          "description": "latents [615]; founder SMD 0.51, support 24; not describability-gated",
+          "share_of_failures": 0.3287671232876712,
+          "jaccard": {
+            "P4_camera_occlusion": 0.41509433962264153
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.9166666666666666
+          }
+        },
+        {
+          "axis_id": "contrastive-a7",
+          "size": 23,
+          "description": "latents [765]; founder SMD 0.47, support 23; not describability-gated",
+          "share_of_failures": 0.3150684931506849,
+          "jaccard": {
+            "P4_camera_occlusion": 0.21311475409836064
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.5652173913043478
+          }
+        },
+        {
+          "axis_id": "contrastive-a8",
+          "size": 26,
+          "description": "latents [631]; founder SMD 0.36, support 26; not describability-gated",
+          "share_of_failures": 0.3561643835616438,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3275862068965517
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7307692307692307
+          }
+        },
+        {
+          "axis_id": "contrastive-a9",
+          "size": 24,
+          "description": "latents [551]; founder SMD 0.37, support 24; not describability-gated",
+          "share_of_failures": 0.3287671232876712,
+          "jaccard": {
+            "P4_camera_occlusion": 0.3392857142857143
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.7916666666666666
+          }
+        },
+        {
+          "axis_id": "contrastive-a10",
+          "size": 22,
+          "description": "latents [500]; founder SMD 0.38, support 22; not describability-gated",
+          "share_of_failures": 0.3013698630136986,
+          "jaccard": {
+            "P4_camera_occlusion": 0.32727272727272727
+          },
+          "precision": {
+            "P4_camera_occlusion": 0.8181818181818182
+          }
+        }
+      ]
+    }
+  ]
+}

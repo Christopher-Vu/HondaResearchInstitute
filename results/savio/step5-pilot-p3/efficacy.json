@@ -1,0 +1,31 @@
+{
+  "gap_id": "P3_dense_fog_day",
+  "routes_listed": 120,
+  "routes_without_outcome": [
+    "1171530"
+  ],
+  "prd_9_1": {
+    "n_in": 59,
+    "failures_in": 15,
+    "n_neighbourhood": 60,
+    "failures_neighbourhood": 18,
+    "fail_rate_in": 0.2542372881355932,
+    "fail_rate_neighbourhood": 0.3,
+    "uplift_pp": -4.576271186440678,
+    "ratio": 0.847457627118644,
+    "fisher_p": 0.6830009148711582,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 59,
+    "base_routes": 59,
+    "slice_only_failed": 6,
+    "neighbourhood_only_failed": 8,
+    "fail_rate_in": 0.2542372881355932,
+    "fail_rate_neighbourhood": 0.288135593220339,
+    "uplift_pp": -3.3898305084745783,
+    "ratio": 0.8823529411764706,
+    "mcnemar_p": 0.79052734375,
+    "passes": false
+  }
+}

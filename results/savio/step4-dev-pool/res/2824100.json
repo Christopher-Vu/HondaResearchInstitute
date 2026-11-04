@@ -1,0 +1,141 @@
+{
+    "_checkpoint": {
+        "global_record": {
+            "index": -1,
+            "route_id": -1,
+            "status": "Completed",
+            "infractions": {
+                "collisions_layout": 0.0,
+                "collisions_pedestrian": 0.0,
+                "collisions_vehicle": 12.999,
+                "red_light": 0.0,
+                "stop_infraction": 0.0,
+                "outside_route_lanes": 0.0,
+                "min_speed_infractions": 220.986,
+                "yield_emergency_vehicle_infractions": 0.0,
+                "scenario_timeouts": 0.0,
+                "route_dev": 0.0,
+                "vehicle_blocked": 0.0,
+                "route_timeout": 0.0
+            },
+            "scores_mean": {
+                "score_composed": 60.0,
+                "score_route": 100.0,
+                "score_penalty": 0.6
+            },
+            "scores_std_dev": {
+                "score_composed": 0,
+                "score_route": 0,
+                "score_penalty": 0
+            },
+            "meta": {
+                "total_length": 76.928,
+                "duration_game": 13.15,
+                "duration_system": 161.213,
+                "exceptions": []
+            }
+        },
+        "progress": [
+            1,
+            1
+        ],
+        "records": [
+            {
+                "index": 0,
+                "route_id": "RouteScenario_2824100_rep0",
+                "scenario_name": "SignalizedJunctionLeftTurnEnterFlow_1",
+                "weather_id": null,
+                "save_name": "RouteScenario_2824100_rep0_Town12_SignalizedJunctionLeftTurnEnterFlow_1_None_10_09_03_57_12",
+                "status": "Completed",
+                "num_infractions": 18,
+                "infractions": {
+                    "collisions_layout": [],
+                    "collisions_pedestrian": [],
+                    "collisions_vehicle": [
+                        "Agent collided against object with type=vehicle.lincoln.mkz_2017 and id=3915 at (x=2755.629, y=4698.464, z=365.243)"
+                    ],
+                    "red_light": [],
+                    "stop_infraction": [],
+                    "outside_route_lanes": [],
+                    "min_speed_infractions": [
+                        "Average speed is 194.4% of the surrounding traffic's one",
+                        "Average speed is 379.82% of the surrounding traffic's one",
+                        "Average speed is 363.34% of the surrounding traffic's one",
+                        "Average speed is 173.65% of the surrounding traffic's one",
+                        "Average speed is 41.94% of the surrounding traffic's one",
+                        "Average speed is 32.73% of the surrounding traffic's one",
+                        "Average speed is 283.18% of the surrounding traffic's one",
+                        "Average speed is 345.97% of the surrounding traffic's one",
+                        "Average speed is 347.83% of the surrounding traffic's one",
+                        "Average speed is 238.47% of the surrounding traffic's one",
+                        "Average speed is 259.29% of the surrounding traffic's one",
+                        "Average speed is 391.03% of the surrounding traffic's one",
+                        "Average speed is 1277.0% of the surrounding traffic's one",
+                        "Average speed is 1246.29% of the surrounding traffic's one",
+                        "Average speed is 367.84% of the surrounding traffic's one",
+                        "Average speed is 281.53% of the surrounding traffic's one",
+                        "Average speed is 288.45% of the surrounding traffic's one"
+                    ],
+                    "yield_emergency_vehicle_infractions": [],
+                    "scenario_timeouts": [],
+                    "route_dev": [],
+                    "vehicle_blocked": [],
+                    "route_timeout": []
+                },
+                "scores": {
+                    "score_route": 100,
+                    "score_penalty": 0.6,
+                    "score_composed": 60.0
+                },
+                "meta": {
+                    "route_length": 76.928,
+                    "duration_game": 13.15,
+                    "duration_system": 161.213
+                },
+                "town_name": "Town12"
+            }
+        ]
+    },
+    "entry_status": "Finished",
+    "eligible": true,
+    "sensors": [
+        "carla_camera",
+        "carla_imu",
+        "carla_gnss",
+        "carla_speedometer"
+    ],
+    "values": [
+        "60.0",
+        "100.0",
+        "0.6",
+        "0.0",
+        "12.999",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "0.0",
+        "220.986"
+    ],
+    "labels": [
+        "Avg. driving score",
+        "Avg. route completion",
+        "Avg. infraction penalty",
+        "Collisions with pedestrians",
+        "Collisions with vehicles",
+        "Collisions with layout",
+        "Red lights infractions",
+        "Stop sign infractions",
+        "Off-road infractions",
+        "Route deviations",
+        "Route timeouts",
+        "Agent blocked",
+        "Yield emergency vehicles infractions",
+        "Scenario timeouts",
+        "Min speed infractions"
+    ]
+}

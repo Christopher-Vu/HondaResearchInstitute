@@ -1,0 +1,28 @@
+{
+  "config": "configs/rollout/step5-pilot-p4-main.yaml",
+  "jobs": [
+    "39921545"
+  ],
+  "routes_configured": 120,
+  "routes_with_outcome": 120,
+  "official": {
+    "driving score": 77.66636754166666,
+    "success rate": 0.5416666666666666,
+    "eval num": 120,
+    "warning": "-----------------------Warning: there are 120 routes in your json, which does not equal to 220. All metrics (Driving Score, Success Rate, Ability) are inaccurate!!!"
+  },
+  "clean": {
+    "routes_attempted": 120,
+    "routes_scored": 120,
+    "unscored": [],
+    "mean_driving_score_over_scored": 77.67,
+    "mean_route_completion_over_scored": 99.11,
+    "success_rate_over_scored": 0.542,
+    "mean_real_time_factor": 0.0814
+  },
+  "scenario_skipped": [],
+  "simulated_seconds_total": 6058.6,
+  "wall_seconds_total": 75070.1,
+  "rerun": [],
+  "not_run": []
+}

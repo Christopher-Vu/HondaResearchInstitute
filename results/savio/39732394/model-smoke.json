@@ -1,0 +1,24 @@
+{
+  "scope": "offline_model_dummy_input",
+  "device": "cpu",
+  "checkpoint_strict_load": true,
+  "hidden_size": 896,
+  "decoder_layers": 24,
+  "speed_waypoints_shape": [
+    1,
+    10,
+    2
+  ],
+  "route_shape": [
+    1,
+    20,
+    2
+  ],
+  "finite_outputs": true,
+  "commentary": false,
+  "forward_wall_seconds": 8.413758544949815,
+  "carla_camera_verified": false,
+  "closed_loop_route_verified": false,
+  "source_revision": "743b243afd6cf5ff51b9fa1f8cac86f22d569684",
+  "checkpoint_sha256": "ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28"
+}

@@ -1,0 +1,41 @@
+{
+  "ticks": 100,
+  "simulated_seconds": 5.0,
+  "wall_seconds": 3.146620462881401,
+  "real_time_factor": 1.5890063828738452,
+  "distance_metres": 4.311911106109619,
+  "camera_pixels": {
+    "0": {
+      "mean": 131.8095240162037,
+      "std": 55.32558512706317
+    },
+    "99": {
+      "mean": 126.99109809027777,
+      "std": 52.00550337195213
+    }
+  },
+  "camera_verified": true,
+  "control_verified": true,
+  "scope": "camera_and_control_smoke",
+  "simlingo_route_verified": false,
+  "versions": {
+    "client": "0.9.15",
+    "server": "0.9.15"
+  },
+  "map": "Carla/Maps/Town10HD_Opt",
+  "environment": "savio",
+  "slurm_job_id": "39732394",
+  "node": "n0214.savio3",
+  "whole_stack_peak_vram": 6.05,
+  "gpus": [
+    {
+      "uuid": "GPU-8344345a-558d-a3d7-bd8a-08a197d8a79d",
+      "name": "NVIDIA A40",
+      "peak_mib": 6198,
+      "mean_utilization_percent": 6.0,
+      "samples": 53
+    }
+  ],
+  "gpu_monitor_error": null,
+  "container": null
+}

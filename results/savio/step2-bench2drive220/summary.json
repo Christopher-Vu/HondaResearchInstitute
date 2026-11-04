@@ -1,0 +1,83 @@
+{
+  "config": "configs/rollout/step2-bench2drive220.yaml",
+  "jobs": [
+    "39732614",
+    "39732818",
+    "39732819",
+    "39732860",
+    "39734524"
+  ],
+  "routes_configured": 220,
+  "routes_with_outcome": 220,
+  "official": {
+    "driving score": 88.60130705909091,
+    "success rate": 0.7272727272727273,
+    "eval num": 220,
+    "warning": null
+  },
+  "clean": {
+    "routes_attempted": 220,
+    "routes_scored": 213,
+    "unscored": [
+      {
+        "id": "23700",
+        "scenario": "InterurbanAdvancedActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 1.15
+      },
+      {
+        "id": "23901",
+        "scenario": "InterurbanActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 60.15
+      },
+      {
+        "id": "23910",
+        "scenario": "InterurbanActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.8
+      },
+      {
+        "id": "23918",
+        "scenario": "InterurbanActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.55
+      },
+      {
+        "id": "23930",
+        "scenario": "InterurbanActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.55
+      },
+      {
+        "id": "24078",
+        "scenario": "InterurbanAdvancedActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.55
+      },
+      {
+        "id": "24098",
+        "scenario": "InterurbanActorFlow",
+        "wall_capped": null,
+        "longest_stationary_sim_seconds": 0.65
+      }
+    ],
+    "mean_driving_score_over_scored": 88.63,
+    "mean_route_completion_over_scored": 99.15,
+    "success_rate_over_scored": 0.737,
+    "mean_real_time_factor": 0.081
+  },
+  "scenario_skipped": [
+    "23700",
+    "23901",
+    "23910",
+    "23918",
+    "23930",
+    "24078",
+    "24098"
+  ],
+  "simulated_seconds_total": 9062.0,
+  "wall_seconds_total": 113198.8,
+  "rerun": [],
+  "not_run": []
+}

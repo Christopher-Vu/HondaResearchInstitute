@@ -1,0 +1,1648 @@
+{
+  "shards": 390,
+  "episodes": {
+    "success": 299,
+    "failure": 85,
+    "excluded_no_outcome": 6
+  },
+  "input_dtypes": [
+    "torch.bfloat16"
+  ],
+  "layers": 24,
+  "hidden": 896,
+  "sites": [
+    "all_tokens",
+    "driving_queries",
+    "vision_bridge"
+  ],
+  "frames_used": {
+    "ego_speed": 28005,
+    "lead_distance": 17326,
+    "lead_relative_speed": 17326,
+    "pedestrian_distance": 2732,
+    "junction_distance": 11920,
+    "time_to_junction": 11920,
+    "red_light": 28005,
+    "occluded": 17995
+  },
+  "families_used": [
+    "failure_auroc",
+    "state_probes"
+  ],
+  "practice_gap_efficacy": {
+    "P1_dust_storm_night": {
+      "n_in": 30,
+      "failures_in": 7,
+      "n_neighbourhood": 29,
+      "failures_neighbourhood": 5,
+      "fail_rate_in": 0.23333333333333334,
+      "fail_rate_neighbourhood": 0.1724137931034483,
+      "fisher_p": 0.7480497930241056,
+      "passes": false
+    },
+    "P2_occluded_pedestrian_night": {
+      "n_in": 30,
+      "failures_in": 2,
+      "n_neighbourhood": 30,
+      "failures_neighbourhood": 0,
+      "fail_rate_in": 0.06666666666666667,
+      "fail_rate_neighbourhood": 0.0,
+      "fisher_p": 0.4915254237288137,
+      "passes": false
+    }
+  },
+  "skipped": [
+    {
+      "metric": "gap:P1_dust_storm_night",
+      "reason": "fails the PRD 9.1 efficacy check"
+    },
+    {
+      "metric": "gap:P2_occluded_pedestrian_night",
+      "reason": "fails the PRD 9.1 efficacy check"
+    }
+  ],
+  "chosen": [
+    {
+      "site": "driving_queries",
+      "layer": 14,
+      "reason": "best combined rank",
+      "combined_rank": 9.25
+    },
+    {
+      "site": "driving_queries",
+      "layer": 13,
+      "reason": "best combined rank",
+      "combined_rank": 9.625
+    }
+  ],
+  "pairs": [
+    {
+      "site": "all_tokens",
+      "layer": 0,
+      "metrics": {
+        "failure_auroc": 0.6463899272083414,
+        "state_r2:ego_speed": 0.6080688085666972,
+        "state_r2:lead_distance": 0.6856481094531492,
+        "state_r2:lead_relative_speed": 0.13352946093144358,
+        "state_r2:pedestrian_distance": 0.18976613392558161,
+        "state_r2:junction_distance": 0.5663131951899164,
+        "state_r2:time_to_junction": 0.5707056049491999,
+        "state_auroc:red_light": 0.9910422613784088,
+        "state_auroc:occluded": 0.8506929741940106
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 39.0,
+        "state_auroc:occluded": 11.0,
+        "state_auroc:red_light": 9.0,
+        "state_r2:ego_speed": 47.0,
+        "state_r2:junction_distance": 9.0,
+        "state_r2:lead_distance": 6.0,
+        "state_r2:lead_relative_speed": 49.0,
+        "state_r2:pedestrian_distance": 46.0,
+        "state_r2:time_to_junction": 33.0
+      },
+      "family_ranks": {
+        "failure_auroc": 39.0,
+        "state_probes": 26.25
+      },
+      "combined_rank": 32.625
+    },
+    {
+      "site": "all_tokens",
+      "layer": 1,
+      "metrics": {
+        "failure_auroc": 0.646940783002164,
+        "state_r2:ego_speed": 0.6035144460946584,
+        "state_r2:lead_distance": 0.6933273686929756,
+        "state_r2:lead_relative_speed": 0.24584844932747751,
+        "state_r2:pedestrian_distance": 0.29177295971261274,
+        "state_r2:junction_distance": 0.5335583093500634,
+        "state_r2:time_to_junction": 0.550167766127782,
+        "state_auroc:red_light": 0.9885890958581327,
+        "state_auroc:occluded": 0.8205673313966771
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 37.0,
+        "state_auroc:occluded": 27.0,
+        "state_auroc:red_light": 18.0,
+        "state_r2:ego_speed": 48.0,
+        "state_r2:junction_distance": 19.0,
+        "state_r2:lead_distance": 2.0,
+        "state_r2:lead_relative_speed": 47.0,
+        "state_r2:pedestrian_distance": 41.0,
+        "state_r2:time_to_junction": 40.0
+      },
+      "family_ranks": {
+        "failure_auroc": 37.0,
+        "state_probes": 30.25
+      },
+      "combined_rank": 33.625
+    },
+    {
+      "site": "all_tokens",
+      "layer": 2,
+      "metrics": {
+        "failure_auroc": 0.6502852646075152,
+        "state_r2:ego_speed": 0.7352256574729238,
+        "state_r2:lead_distance": 0.6850415578402038,
+        "state_r2:lead_relative_speed": 0.27918482768218733,
+        "state_r2:pedestrian_distance": 0.224453064253735,
+        "state_r2:junction_distance": 0.5345452586545227,
+        "state_r2:time_to_junction": 0.5884154413407405,
+        "state_auroc:red_light": 0.984880487589709,
+        "state_auroc:occluded": 0.8360873334138992
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 34.0,
+        "state_auroc:occluded": 23.0,
+        "state_auroc:red_light": 29.0,
+        "state_r2:ego_speed": 36.0,
+        "state_r2:junction_distance": 18.0,
+        "state_r2:lead_distance": 7.0,
+        "state_r2:lead_relative_speed": 40.0,
+        "state_r2:pedestrian_distance": 44.0,
+        "state_r2:time_to_junction": 29.0
+      },
+      "family_ranks": {
+        "failure_auroc": 34.0,
+        "state_probes": 28.25
+      },
+      "combined_rank": 31.125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 3,
+      "metrics": {
+        "failure_auroc": 0.6530001967342122,
+        "state_r2:ego_speed": 0.7138800046243977,
+        "state_r2:lead_distance": 0.6726862188538585,
+        "state_r2:lead_relative_speed": 0.2948476324117536,
+        "state_r2:pedestrian_distance": 0.1455795430161282,
+        "state_r2:junction_distance": 0.5179089640883506,
+        "state_r2:time_to_junction": 0.584196613185831,
+        "state_auroc:red_light": 0.986276352840822,
+        "state_auroc:occluded": 0.7907908586631537
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 32.0,
+        "state_auroc:occluded": 44.0,
+        "state_auroc:red_light": 25.0,
+        "state_r2:ego_speed": 45.0,
+        "state_r2:junction_distance": 20.0,
+        "state_r2:lead_distance": 14.0,
+        "state_r2:lead_relative_speed": 37.0,
+        "state_r2:pedestrian_distance": 47.0,
+        "state_r2:time_to_junction": 30.0
+      },
+      "family_ranks": {
+        "failure_auroc": 32.0,
+        "state_probes": 32.75
+      },
+      "combined_rank": 32.375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 4,
+      "metrics": {
+        "failure_auroc": 0.6486720440684636,
+        "state_r2:ego_speed": 0.7167623298636061,
+        "state_r2:lead_distance": 0.6750051646847668,
+        "state_r2:lead_relative_speed": 0.28846689544593695,
+        "state_r2:pedestrian_distance": 0.30777015743897895,
+        "state_r2:junction_distance": 0.5122637676134323,
+        "state_r2:time_to_junction": 0.5665636996503464,
+        "state_auroc:red_light": 0.9837660359546454,
+        "state_auroc:occluded": 0.8498791665551968
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 35.0,
+        "state_auroc:occluded": 12.0,
+        "state_auroc:red_light": 37.0,
+        "state_r2:ego_speed": 41.0,
+        "state_r2:junction_distance": 24.0,
+        "state_r2:lead_distance": 12.0,
+        "state_r2:lead_relative_speed": 38.0,
+        "state_r2:pedestrian_distance": 39.0,
+        "state_r2:time_to_junction": 35.0
+      },
+      "family_ranks": {
+        "failure_auroc": 35.0,
+        "state_probes": 29.75
+      },
+      "combined_rank": 32.375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 5,
+      "metrics": {
+        "failure_auroc": 0.6461538461538461,
+        "state_r2:ego_speed": 0.7153564460526721,
+        "state_r2:lead_distance": 0.6895228563493644,
+        "state_r2:lead_relative_speed": 0.2725133336172394,
+        "state_r2:pedestrian_distance": 0.3753424311643997,
+        "state_r2:junction_distance": 0.4999402973951961,
+        "state_r2:time_to_junction": 0.5408383220751061,
+        "state_auroc:red_light": 0.9878501567645998,
+        "state_auroc:occluded": 0.845362403470852
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 40.0,
+        "state_auroc:occluded": 13.0,
+        "state_auroc:red_light": 19.0,
+        "state_r2:ego_speed": 43.0,
+        "state_r2:junction_distance": 31.0,
+        "state_r2:lead_distance": 4.0,
+        "state_r2:lead_relative_speed": 41.0,
+        "state_r2:pedestrian_distance": 34.0,
+        "state_r2:time_to_junction": 44.0
+      },
+      "family_ranks": {
+        "failure_auroc": 40.0,
+        "state_probes": 28.625
+      },
+      "combined_rank": 34.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 6,
+      "metrics": {
+        "failure_auroc": 0.6293920912846744,
+        "state_r2:ego_speed": 0.7335179818393913,
+        "state_r2:lead_distance": 0.6704859649122522,
+        "state_r2:lead_relative_speed": 0.24753858053692046,
+        "state_r2:pedestrian_distance": 0.3769207023689456,
+        "state_r2:junction_distance": 0.5436174929115611,
+        "state_r2:time_to_junction": 0.5540561725927565,
+        "state_auroc:red_light": 0.9887515610767358,
+        "state_auroc:occluded": 0.8381628273334816
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 46.0,
+        "state_auroc:occluded": 20.0,
+        "state_auroc:red_light": 16.0,
+        "state_r2:ego_speed": 37.0,
+        "state_r2:junction_distance": 13.0,
+        "state_r2:lead_distance": 17.0,
+        "state_r2:lead_relative_speed": 46.0,
+        "state_r2:pedestrian_distance": 32.0,
+        "state_r2:time_to_junction": 37.0
+      },
+      "family_ranks": {
+        "failure_auroc": 46.0,
+        "state_probes": 27.25
+      },
+      "combined_rank": 36.625
+    },
+    {
+      "site": "all_tokens",
+      "layer": 7,
+      "metrics": {
+        "failure_auroc": 0.6448160535117057,
+        "state_r2:ego_speed": 0.7136644277306257,
+        "state_r2:lead_distance": 0.6673730125241297,
+        "state_r2:lead_relative_speed": 0.2625690446093294,
+        "state_r2:pedestrian_distance": 0.3535741208126031,
+        "state_r2:junction_distance": 0.5612425411023058,
+        "state_r2:time_to_junction": 0.5332530066068104,
+        "state_auroc:red_light": 0.9910043943641689,
+        "state_auroc:occluded": 0.837824727390585
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 43.0,
+        "state_auroc:occluded": 21.0,
+        "state_auroc:red_light": 10.0,
+        "state_r2:ego_speed": 46.0,
+        "state_r2:junction_distance": 10.0,
+        "state_r2:lead_distance": 19.0,
+        "state_r2:lead_relative_speed": 44.0,
+        "state_r2:pedestrian_distance": 36.0,
+        "state_r2:time_to_junction": 45.0
+      },
+      "family_ranks": {
+        "failure_auroc": 43.0,
+        "state_probes": 28.875
+      },
+      "combined_rank": 35.9375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 8,
+      "metrics": {
+        "failure_auroc": 0.6354121581743065,
+        "state_r2:ego_speed": 0.7219563433839992,
+        "state_r2:lead_distance": 0.6412186267859415,
+        "state_r2:lead_relative_speed": 0.26318112268041516,
+        "state_r2:pedestrian_distance": 0.28444950576071104,
+        "state_r2:junction_distance": 0.5965945955202693,
+        "state_r2:time_to_junction": 0.5726173627105211,
+        "state_auroc:red_light": 0.980390427547868,
+        "state_auroc:occluded": 0.8446024089198114
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 44.0,
+        "state_auroc:occluded": 15.0,
+        "state_auroc:red_light": 42.0,
+        "state_r2:ego_speed": 38.0,
+        "state_r2:junction_distance": 3.0,
+        "state_r2:lead_distance": 39.0,
+        "state_r2:lead_relative_speed": 43.0,
+        "state_r2:pedestrian_distance": 42.0,
+        "state_r2:time_to_junction": 32.0
+      },
+      "family_ranks": {
+        "failure_auroc": 44.0,
+        "state_probes": 31.75
+      },
+      "combined_rank": 37.875
+    },
+    {
+      "site": "all_tokens",
+      "layer": 9,
+      "metrics": {
+        "failure_auroc": 0.6188471375172143,
+        "state_r2:ego_speed": 0.7371858077674817,
+        "state_r2:lead_distance": 0.6463162535008123,
+        "state_r2:lead_relative_speed": 0.28357905616319445,
+        "state_r2:pedestrian_distance": 0.3844393726120523,
+        "state_r2:junction_distance": 0.5674203989293317,
+        "state_r2:time_to_junction": 0.541548825372397,
+        "state_auroc:red_light": 0.9833556688226911,
+        "state_auroc:occluded": 0.8397543109664616
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 48.0,
+        "state_auroc:occluded": 19.0,
+        "state_auroc:red_light": 38.0,
+        "state_r2:ego_speed": 35.0,
+        "state_r2:junction_distance": 8.0,
+        "state_r2:lead_distance": 36.0,
+        "state_r2:lead_relative_speed": 39.0,
+        "state_r2:pedestrian_distance": 29.0,
+        "state_r2:time_to_junction": 43.0
+      },
+      "family_ranks": {
+        "failure_auroc": 48.0,
+        "state_probes": 30.875
+      },
+      "combined_rank": 39.4375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 10,
+      "metrics": {
+        "failure_auroc": 0.6290379697029315,
+        "state_r2:ego_speed": 0.792532850625878,
+        "state_r2:lead_distance": 0.6590953452670383,
+        "state_r2:lead_relative_speed": 0.26358744218944985,
+        "state_r2:pedestrian_distance": 0.3760244296060472,
+        "state_r2:junction_distance": 0.5777667311192878,
+        "state_r2:time_to_junction": 0.6442952879710591,
+        "state_auroc:red_light": 0.9727367175942924,
+        "state_auroc:occluded": 0.8375711908713322
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 47.0,
+        "state_auroc:occluded": 22.0,
+        "state_auroc:red_light": 44.0,
+        "state_r2:ego_speed": 25.0,
+        "state_r2:junction_distance": 6.0,
+        "state_r2:lead_distance": 25.0,
+        "state_r2:lead_relative_speed": 42.0,
+        "state_r2:pedestrian_distance": 33.0,
+        "state_r2:time_to_junction": 24.0
+      },
+      "family_ranks": {
+        "failure_auroc": 47.0,
+        "state_probes": 27.625
+      },
+      "combined_rank": 37.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 11,
+      "metrics": {
+        "failure_auroc": 0.6071611253196931,
+        "state_r2:ego_speed": 0.7672366741024204,
+        "state_r2:lead_distance": 0.67127794736825,
+        "state_r2:lead_relative_speed": 0.2520758746342626,
+        "state_r2:pedestrian_distance": 0.39103104188007576,
+        "state_r2:junction_distance": 0.5571861703879878,
+        "state_r2:time_to_junction": 0.6137556178408066,
+        "state_auroc:red_light": 0.9867992684818734,
+        "state_auroc:occluded": 0.8015877628423396
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 49.0,
+        "state_auroc:occluded": 41.0,
+        "state_auroc:red_light": 24.0,
+        "state_r2:ego_speed": 29.0,
+        "state_r2:junction_distance": 11.0,
+        "state_r2:lead_distance": 16.0,
+        "state_r2:lead_relative_speed": 45.0,
+        "state_r2:pedestrian_distance": 27.0,
+        "state_r2:time_to_junction": 28.0
+      },
+      "family_ranks": {
+        "failure_auroc": 49.0,
+        "state_probes": 27.625
+      },
+      "combined_rank": 38.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 12,
+      "metrics": {
+        "failure_auroc": 0.6594137320480031,
+        "state_r2:ego_speed": 0.7635983260161588,
+        "state_r2:lead_distance": 0.6600787776487335,
+        "state_r2:lead_relative_speed": 0.3614323090455107,
+        "state_r2:pedestrian_distance": 0.4121635510364996,
+        "state_r2:junction_distance": 0.5520630101456456,
+        "state_r2:time_to_junction": 0.622096410459611,
+        "state_auroc:red_light": 0.984632863932373,
+        "state_auroc:occluded": 0.8450582826490922
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 29.0,
+        "state_auroc:occluded": 14.0,
+        "state_auroc:red_light": 32.0,
+        "state_r2:ego_speed": 31.0,
+        "state_r2:junction_distance": 12.0,
+        "state_r2:lead_distance": 24.0,
+        "state_r2:lead_relative_speed": 24.0,
+        "state_r2:pedestrian_distance": 25.0,
+        "state_r2:time_to_junction": 27.0
+      },
+      "family_ranks": {
+        "failure_auroc": 29.0,
+        "state_probes": 23.625
+      },
+      "combined_rank": 26.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 13,
+      "metrics": {
+        "failure_auroc": 0.6718473342514264,
+        "state_r2:ego_speed": 0.7773216030367505,
+        "state_r2:lead_distance": 0.6867811490049137,
+        "state_r2:lead_relative_speed": 0.31177034581964125,
+        "state_r2:pedestrian_distance": 0.3410883776802479,
+        "state_r2:junction_distance": 0.540170141715016,
+        "state_r2:time_to_junction": 0.6226692404683514,
+        "state_auroc:red_light": 0.9887485849471818,
+        "state_auroc:occluded": 0.8136535027553838
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 23.0,
+        "state_auroc:occluded": 32.0,
+        "state_auroc:red_light": 17.0,
+        "state_r2:ego_speed": 27.0,
+        "state_r2:junction_distance": 15.0,
+        "state_r2:lead_distance": 5.0,
+        "state_r2:lead_relative_speed": 32.0,
+        "state_r2:pedestrian_distance": 37.0,
+        "state_r2:time_to_junction": 26.0
+      },
+      "family_ranks": {
+        "failure_auroc": 23.0,
+        "state_probes": 23.875
+      },
+      "combined_rank": 23.4375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 14,
+      "metrics": {
+        "failure_auroc": 0.6741294511115483,
+        "state_r2:ego_speed": 0.7833041601617379,
+        "state_r2:lead_distance": 0.7048778398887929,
+        "state_r2:lead_relative_speed": 0.2988756078470305,
+        "state_r2:pedestrian_distance": 0.19987675772039848,
+        "state_r2:junction_distance": 0.5415486896447835,
+        "state_r2:time_to_junction": 0.630982156925068,
+        "state_auroc:red_light": 0.984675836339587,
+        "state_auroc:occluded": 0.870442684910226
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 22.0,
+        "state_auroc:occluded": 4.0,
+        "state_auroc:red_light": 31.0,
+        "state_r2:ego_speed": 26.0,
+        "state_r2:junction_distance": 14.0,
+        "state_r2:lead_distance": 1.0,
+        "state_r2:lead_relative_speed": 35.0,
+        "state_r2:pedestrian_distance": 45.0,
+        "state_r2:time_to_junction": 25.0
+      },
+      "family_ranks": {
+        "failure_auroc": 22.0,
+        "state_probes": 22.625
+      },
+      "combined_rank": 22.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 15,
+      "metrics": {
+        "failure_auroc": 0.6474916387959866,
+        "state_r2:ego_speed": 0.8001264716099585,
+        "state_r2:lead_distance": 0.6477339456127058,
+        "state_r2:lead_relative_speed": 0.3130637106260804,
+        "state_r2:pedestrian_distance": 0.26325503775804193,
+        "state_r2:junction_distance": 0.4911360442376136,
+        "state_r2:time_to_junction": 0.5688642259817627,
+        "state_auroc:red_light": 0.9871225777753387,
+        "state_auroc:occluded": 0.8630446153548111
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 36.0,
+        "state_auroc:occluded": 7.0,
+        "state_auroc:red_light": 22.0,
+        "state_r2:ego_speed": 24.0,
+        "state_r2:junction_distance": 36.0,
+        "state_r2:lead_distance": 34.0,
+        "state_r2:lead_relative_speed": 30.0,
+        "state_r2:pedestrian_distance": 43.0,
+        "state_r2:time_to_junction": 34.0
+      },
+      "family_ranks": {
+        "failure_auroc": 36.0,
+        "state_probes": 28.75
+      },
+      "combined_rank": 32.375
+    },
+    {
+      "site": "all_tokens",
+      "layer": 16,
+      "metrics": {
+        "failure_auroc": 0.6469014361597482,
+        "state_r2:ego_speed": 0.7659876954332505,
+        "state_r2:lead_distance": 0.6633400731263079,
+        "state_r2:lead_relative_speed": 0.3657494655473793,
+        "state_r2:pedestrian_distance": 0.3782764659366159,
+        "state_r2:junction_distance": 0.5360373061223209,
+        "state_r2:time_to_junction": 0.5442388996689831,
+        "state_auroc:red_light": 0.9822286109803308,
+        "state_auroc:occluded": 0.8639692779544385
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 38.0,
+        "state_auroc:occluded": 6.0,
+        "state_auroc:red_light": 41.0,
+        "state_r2:ego_speed": 30.0,
+        "state_r2:junction_distance": 16.0,
+        "state_r2:lead_distance": 22.0,
+        "state_r2:lead_relative_speed": 23.0,
+        "state_r2:pedestrian_distance": 31.0,
+        "state_r2:time_to_junction": 42.0
+      },
+      "family_ranks": {
+        "failure_auroc": 38.0,
+        "state_probes": 26.375
+      },
+      "combined_rank": 32.1875
+    },
+    {
+      "site": "all_tokens",
+      "layer": 17,
+      "metrics": {
+        "failure_auroc": 0.6835333464489475,
+        "state_r2:ego_speed": 0.7710431814187677,
+        "state_r2:lead_distance": 0.6811698569789468,
+        "state_r2:lead_relative_speed": 0.36105158290062567,
+        "state_r2:pedestrian_distance": 0.43979844626044584,
+        "state_r2:junction_distance": 0.495065775959454,
+        "state_r2:time_to_junction": 0.5606365220618825,
+        "state_auroc:red_light": 0.9856660164186536,
+        "state_auroc:occluded": 0.8567069711318921
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 18.0,
+        "state_auroc:occluded": 9.0,
+        "state_auroc:red_light": 27.0,
+        "state_r2:ego_speed": 28.0,
+        "state_r2:junction_distance": 34.0,
+        "state_r2:lead_distance": 8.0,
+        "state_r2:lead_relative_speed": 25.0,
+        "state_r2:pedestrian_distance": 23.0,
+        "state_r2:time_to_junction": 36.0
+      },
+      "family_ranks": {
+        "failure_auroc": 18.0,
+        "state_probes": 23.75
+      },
+      "combined_rank": 20.875
+    },
+    {
+      "site": "all_tokens",
+      "layer": 18,
+      "metrics": {
+        "failure_auroc": 0.6671257131615187,
+        "state_r2:ego_speed": 0.7542430121610079,
+        "state_r2:lead_distance": 0.6895983934099335,
+        "state_r2:lead_relative_speed": 0.3191969415444673,
+        "state_r2:pedestrian_distance": 0.37857493542500875,
+        "state_r2:junction_distance": 0.5127585306064837,
+        "state_r2:time_to_junction": 0.43723034440568875,
+        "state_auroc:red_light": 0.990737450060909,
+        "state_auroc:occluded": 0.8928865863037388
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 25.0,
+        "state_auroc:occluded": 2.0,
+        "state_auroc:red_light": 11.0,
+        "state_r2:ego_speed": 32.0,
+        "state_r2:junction_distance": 23.0,
+        "state_r2:lead_distance": 3.0,
+        "state_r2:lead_relative_speed": 29.0,
+        "state_r2:pedestrian_distance": 30.0,
+        "state_r2:time_to_junction": 49.0
+      },
+      "family_ranks": {
+        "failure_auroc": 25.0,
+        "state_probes": 22.375
+      },
+      "combined_rank": 23.6875
+    },
+    {
+      "site": "all_tokens",
+      "layer": 19,
+      "metrics": {
+        "failure_auroc": 0.6458784182569349,
+        "state_r2:ego_speed": 0.7429215641297144,
+        "state_r2:lead_distance": 0.6560594909557563,
+        "state_r2:lead_relative_speed": 0.308417642484097,
+        "state_r2:pedestrian_distance": 0.30405353227658094,
+        "state_r2:junction_distance": 0.5057790924451246,
+        "state_r2:time_to_junction": 0.5068741765021468,
+        "state_auroc:red_light": 0.9911953747752842,
+        "state_auroc:occluded": 0.8975807788260567
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 42.0,
+        "state_auroc:occluded": 1.0,
+        "state_auroc:red_light": 8.0,
+        "state_r2:ego_speed": 33.0,
+        "state_r2:junction_distance": 28.0,
+        "state_r2:lead_distance": 27.0,
+        "state_r2:lead_relative_speed": 33.0,
+        "state_r2:pedestrian_distance": 40.0,
+        "state_r2:time_to_junction": 47.0
+      },
+      "family_ranks": {
+        "failure_auroc": 42.0,
+        "state_probes": 27.125
+      },
+      "combined_rank": 34.5625
+    },
+    {
+      "site": "all_tokens",
+      "layer": 20,
+      "metrics": {
+        "failure_auroc": 0.6563446783395633,
+        "state_r2:ego_speed": 0.7405101801141694,
+        "state_r2:lead_distance": 0.6505959026017398,
+        "state_r2:lead_relative_speed": 0.33132697155780677,
+        "state_r2:pedestrian_distance": 0.46722902063336114,
+        "state_r2:junction_distance": 0.5148208617347164,
+        "state_r2:time_to_junction": 0.5535564300924809,
+        "state_auroc:red_light": 0.9824303828855999,
+        "state_auroc:occluded": 0.8317925108787001
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 31.0,
+        "state_auroc:occluded": 24.0,
+        "state_auroc:red_light": 40.0,
+        "state_r2:ego_speed": 34.0,
+        "state_r2:junction_distance": 22.0,
+        "state_r2:lead_distance": 32.0,
+        "state_r2:lead_relative_speed": 28.0,
+        "state_r2:pedestrian_distance": 19.0,
+        "state_r2:time_to_junction": 38.0
+      },
+      "family_ranks": {
+        "failure_auroc": 31.0,
+        "state_probes": 29.625
+      },
+      "combined_rank": 30.3125
+    },
+    {
+      "site": "all_tokens",
+      "layer": 21,
+      "metrics": {
+        "failure_auroc": 0.6614204210112138,
+        "state_r2:ego_speed": 0.718935763533894,
+        "state_r2:lead_distance": 0.6609317378578881,
+        "state_r2:lead_relative_speed": 0.29648130381767934,
+        "state_r2:pedestrian_distance": 0.5066535208158147,
+        "state_r2:junction_distance": 0.5060633113969306,
+        "state_r2:time_to_junction": 0.5159112703446593,
+        "state_auroc:red_light": 0.98435806797025,
+        "state_auroc:occluded": 0.8204877649026121
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 28.0,
+        "state_auroc:occluded": 28.0,
+        "state_auroc:red_light": 35.0,
+        "state_r2:ego_speed": 40.0,
+        "state_r2:junction_distance": 26.0,
+        "state_r2:lead_distance": 23.0,
+        "state_r2:lead_relative_speed": 36.0,
+        "state_r2:pedestrian_distance": 10.0,
+        "state_r2:time_to_junction": 46.0
+      },
+      "family_ranks": {
+        "failure_auroc": 28.0,
+        "state_probes": 30.5
+      },
+      "combined_rank": 29.25
+    },
+    {
+      "site": "all_tokens",
+      "layer": 22,
+      "metrics": {
+        "failure_auroc": 0.6676372221129253,
+        "state_r2:ego_speed": 0.7200499338241446,
+        "state_r2:lead_distance": 0.6440999347608442,
+        "state_r2:lead_relative_speed": 0.3386336061152325,
+        "state_r2:pedestrian_distance": 0.48002829064900177,
+        "state_r2:junction_distance": 0.48855364140878843,
+        "state_r2:time_to_junction": 0.5471108508495077,
+        "state_auroc:red_light": 0.9842751476777262,
+        "state_auroc:occluded": 0.7820182490943257
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 24.0,
+        "state_auroc:occluded": 47.0,
+        "state_auroc:red_light": 36.0,
+        "state_r2:ego_speed": 39.0,
+        "state_r2:junction_distance": 40.0,
+        "state_r2:lead_distance": 38.0,
+        "state_r2:lead_relative_speed": 27.0,
+        "state_r2:pedestrian_distance": 15.0,
+        "state_r2:time_to_junction": 41.0
+      },
+      "family_ranks": {
+        "failure_auroc": 24.0,
+        "state_probes": 35.375
+      },
+      "combined_rank": 29.6875
+    },
+    {
+      "site": "all_tokens",
+      "layer": 23,
+      "metrics": {
+        "failure_auroc": 0.6576824709817037,
+        "state_r2:ego_speed": 0.7139927729933657,
+        "state_r2:lead_distance": 0.6345260609476375,
+        "state_r2:lead_relative_speed": 0.3514506369822413,
+        "state_r2:pedestrian_distance": 0.4959546948323157,
+        "state_r2:junction_distance": 0.5162610029801427,
+        "state_r2:time_to_junction": 0.5754958843102302,
+        "state_auroc:red_light": 0.9850069609976528,
+        "state_auroc:occluded": 0.7846455577911049
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 30.0,
+        "state_auroc:occluded": 46.0,
+        "state_auroc:red_light": 28.0,
+        "state_r2:ego_speed": 44.0,
+        "state_r2:junction_distance": 21.0,
+        "state_r2:lead_distance": 44.0,
+        "state_r2:lead_relative_speed": 26.0,
+        "state_r2:pedestrian_distance": 12.0,
+        "state_r2:time_to_junction": 31.0
+      },
+      "family_ranks": {
+        "failure_auroc": 30.0,
+        "state_probes": 31.5
+      },
+      "combined_rank": 30.75
+    },
+    {
+      "site": "driving_queries",
+      "layer": 0,
+      "metrics": {
+        "failure_auroc": 0.665119024198308,
+        "state_r2:ego_speed": 0.7166034403104385,
+        "state_r2:lead_distance": 0.6349040458752448,
+        "state_r2:lead_relative_speed": 0.3074987226365288,
+        "state_r2:pedestrian_distance": 0.04458769199499735,
+        "state_r2:junction_distance": 0.6424459102890744,
+        "state_r2:time_to_junction": 0.4706581556195286,
+        "state_auroc:red_light": 0.9778936000293839,
+        "state_auroc:occluded": 0.8035611656468319
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 27.0,
+        "state_auroc:occluded": 40.0,
+        "state_auroc:red_light": 43.0,
+        "state_r2:ego_speed": 42.0,
+        "state_r2:junction_distance": 1.0,
+        "state_r2:lead_distance": 43.0,
+        "state_r2:lead_relative_speed": 34.0,
+        "state_r2:pedestrian_distance": 49.0,
+        "state_r2:time_to_junction": 48.0
+      },
+      "family_ranks": {
+        "failure_auroc": 27.0,
+        "state_probes": 37.5
+      },
+      "combined_rank": 32.25
+    },
+    {
+      "site": "driving_queries",
+      "layer": 1,
+      "metrics": {
+        "failure_auroc": 0.6305724965571513,
+        "state_r2:ego_speed": 0.8423741527747708,
+        "state_r2:lead_distance": 0.6262062618812851,
+        "state_r2:lead_relative_speed": 0.3127340584677467,
+        "state_r2:pedestrian_distance": 0.10920497988942379,
+        "state_r2:junction_distance": 0.633677086672332,
+        "state_r2:time_to_junction": 0.6875225741957465,
+        "state_auroc:red_light": 0.9845017448587847,
+        "state_auroc:occluded": 0.7853932522077972
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 45.0,
+        "state_auroc:occluded": 45.0,
+        "state_auroc:red_light": 33.0,
+        "state_r2:ego_speed": 23.0,
+        "state_r2:junction_distance": 2.0,
+        "state_r2:lead_distance": 48.0,
+        "state_r2:lead_relative_speed": 31.0,
+        "state_r2:pedestrian_distance": 48.0,
+        "state_r2:time_to_junction": 23.0
+      },
+      "family_ranks": {
+        "failure_auroc": 45.0,
+        "state_probes": 31.625
+      },
+      "combined_rank": 38.3125
+    },
+    {
+      "site": "driving_queries",
+      "layer": 2,
+      "metrics": {
+        "failure_auroc": 0.6742474916387959,
+        "state_r2:ego_speed": 0.9844775543078949,
+        "state_r2:lead_distance": 0.6079693058947006,
+        "state_r2:lead_relative_speed": 0.3724468977556621,
+        "state_r2:pedestrian_distance": 0.36288601067454285,
+        "state_r2:junction_distance": 0.46891706287662205,
+        "state_r2:time_to_junction": 0.7935301496110345,
+        "state_auroc:red_light": 0.9982618677521264,
+        "state_auroc:occluded": 0.840672746623075
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 21.0,
+        "state_auroc:occluded": 18.0,
+        "state_auroc:red_light": 1.0,
+        "state_r2:ego_speed": 3.0,
+        "state_r2:junction_distance": 44.0,
+        "state_r2:lead_distance": 49.0,
+        "state_r2:lead_relative_speed": 21.0,
+        "state_r2:pedestrian_distance": 35.0,
+        "state_r2:time_to_junction": 1.0
+      },
+      "family_ranks": {
+        "failure_auroc": 21.0,
+        "state_probes": 21.5
+      },
+      "combined_rank": 21.25
+    },
+    {
+      "site": "driving_queries",
+      "layer": 3,
+      "metrics": {
+        "failure_auroc": 0.6886090891205982,
+        "state_r2:ego_speed": 0.9847970416293851,
+        "state_r2:lead_distance": 0.6290056026950006,
+        "state_r2:lead_relative_speed": 0.3667953899787175,
+        "state_r2:pedestrian_distance": 0.3953710926322985,
+        "state_r2:junction_distance": 0.5003051464057003,
+        "state_r2:time_to_junction": 0.7919194240961936,
+        "state_auroc:red_light": 0.997354486984708,
+        "state_auroc:occluded": 0.8311654346544601
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 15.0,
+        "state_auroc:occluded": 25.0,
+        "state_auroc:red_light": 2.0,
+        "state_r2:ego_speed": 1.0,
+        "state_r2:junction_distance": 30.0,
+        "state_r2:lead_distance": 47.0,
+        "state_r2:lead_relative_speed": 22.0,
+        "state_r2:pedestrian_distance": 26.0,
+        "state_r2:time_to_junction": 2.0
+      },
+      "family_ranks": {
+        "failure_auroc": 15.0,
+        "state_probes": 19.375
+      },
+      "combined_rank": 17.1875
+    },
+    {
+      "site": "driving_queries",
+      "layer": 4,
+      "metrics": {
+        "failure_auroc": 0.6985244934094038,
+        "state_r2:ego_speed": 0.9826195232094673,
+        "state_r2:lead_distance": 0.6301058142236085,
+        "state_r2:lead_relative_speed": 0.4692090187546697,
+        "state_r2:pedestrian_distance": 0.4756865374035357,
+        "state_r2:junction_distance": 0.4370979860305426,
+        "state_r2:time_to_junction": 0.7876379839850604,
+        "state_auroc:red_light": 0.9917791316989591,
+        "state_auroc:occluded": 0.8068028660543045
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 9.0,
+        "state_auroc:occluded": 37.0,
+        "state_auroc:red_light": 7.0,
+        "state_r2:ego_speed": 7.0,
+        "state_r2:junction_distance": 49.0,
+        "state_r2:lead_distance": 46.0,
+        "state_r2:lead_relative_speed": 10.0,
+        "state_r2:pedestrian_distance": 18.0,
+        "state_r2:time_to_junction": 4.0
+      },
+      "family_ranks": {
+        "failure_auroc": 9.0,
+        "state_probes": 22.25
+      },
+      "combined_rank": 15.625
+    },
+    {
+      "site": "driving_queries",
+      "layer": 5,
+      "metrics": {
+        "failure_auroc": 0.6925831202046037,
+        "state_r2:ego_speed": 0.9825138626687263,
+        "state_r2:lead_distance": 0.6325373362212221,
+        "state_r2:lead_relative_speed": 0.47479803658886366,
+        "state_r2:pedestrian_distance": 0.3874870009199265,
+        "state_r2:junction_distance": 0.4639429409095812,
+        "state_r2:time_to_junction": 0.7401404269918682,
+        "state_auroc:red_light": 0.9939722730220921,
+        "state_auroc:occluded": 0.8115734731612606
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 13.0,
+        "state_auroc:occluded": 35.0,
+        "state_auroc:red_light": 4.0,
+        "state_r2:ego_speed": 8.0,
+        "state_r2:junction_distance": 45.0,
+        "state_r2:lead_distance": 45.0,
+        "state_r2:lead_relative_speed": 9.0,
+        "state_r2:pedestrian_distance": 28.0,
+        "state_r2:time_to_junction": 21.0
+      },
+      "family_ranks": {
+        "failure_auroc": 13.0,
+        "state_probes": 24.375
+      },
+      "combined_rank": 18.6875
+    },
+    {
+      "site": "driving_queries",
+      "layer": 6,
+      "metrics": {
+        "failure_auroc": 0.6504819988195948,
+        "state_r2:ego_speed": 0.9840552508786045,
+        "state_r2:lead_distance": 0.6540842735788014,
+        "state_r2:lead_relative_speed": 0.47980265325089244,
+        "state_r2:pedestrian_distance": 0.43708756283075745,
+        "state_r2:junction_distance": 0.48512342294962363,
+        "state_r2:time_to_junction": 0.7790382434319656,
+        "state_auroc:red_light": 0.9942261876849888,
+        "state_auroc:occluded": 0.7735608304681708
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 33.0,
+        "state_auroc:occluded": 48.0,
+        "state_auroc:red_light": 3.0,
+        "state_r2:ego_speed": 4.0,
+        "state_r2:junction_distance": 42.0,
+        "state_r2:lead_distance": 30.0,
+        "state_r2:lead_relative_speed": 7.0,
+        "state_r2:pedestrian_distance": 24.0,
+        "state_r2:time_to_junction": 9.0
+      },
+      "family_ranks": {
+        "failure_auroc": 33.0,
+        "state_probes": 20.875
+      },
+      "combined_rank": 26.9375
+    },
+    {
+      "site": "driving_queries",
+      "layer": 7,
+      "metrics": {
+        "failure_auroc": 0.6655911863072987,
+        "state_r2:ego_speed": 0.9838034124413968,
+        "state_r2:lead_distance": 0.6776068454503601,
+        "state_r2:lead_relative_speed": 0.4954606135344932,
+        "state_r2:pedestrian_distance": 0.47648142588161835,
+        "state_r2:junction_distance": 0.5059816082956831,
+        "state_r2:time_to_junction": 0.7812823294464568,
+        "state_auroc:red_light": 0.9931145911986025,
+        "state_auroc:occluded": 0.7679801057627051
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 26.0,
+        "state_auroc:occluded": 49.0,
+        "state_auroc:red_light": 6.0,
+        "state_r2:ego_speed": 5.0,
+        "state_r2:junction_distance": 27.0,
+        "state_r2:lead_distance": 11.0,
+        "state_r2:lead_relative_speed": 4.0,
+        "state_r2:pedestrian_distance": 17.0,
+        "state_r2:time_to_junction": 8.0
+      },
+      "family_ranks": {
+        "failure_auroc": 26.0,
+        "state_probes": 15.875
+      },
+      "combined_rank": 20.9375
+    },
+    {
+      "site": "driving_queries",
+      "layer": 8,
+      "metrics": {
+        "failure_auroc": 0.6836513869761952,
+        "state_r2:ego_speed": 0.9820924530516557,
+        "state_r2:lead_distance": 0.6790797582669054,
+        "state_r2:lead_relative_speed": 0.48098537798658914,
+        "state_r2:pedestrian_distance": 0.45546915325792503,
+        "state_r2:junction_distance": 0.5029803927585987,
+        "state_r2:time_to_junction": 0.7856008623427652,
+        "state_auroc:red_light": 0.9937927132056869,
+        "state_auroc:occluded": 0.7921546360590124
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 17.0,
+        "state_auroc:occluded": 43.0,
+        "state_auroc:red_light": 5.0,
+        "state_r2:ego_speed": 10.0,
+        "state_r2:junction_distance": 29.0,
+        "state_r2:lead_distance": 9.0,
+        "state_r2:lead_relative_speed": 6.0,
+        "state_r2:pedestrian_distance": 21.0,
+        "state_r2:time_to_junction": 5.0
+      },
+      "family_ranks": {
+        "failure_auroc": 17.0,
+        "state_probes": 16.0
+      },
+      "combined_rank": 16.5
+    },
+    {
+      "site": "driving_queries",
+      "layer": 9,
+      "metrics": {
+        "failure_auroc": 0.6936061381074169,
+        "state_r2:ego_speed": 0.9824003066967513,
+        "state_r2:lead_distance": 0.6556052297482462,
+        "state_r2:lead_relative_speed": 0.49206792636861896,
+        "state_r2:pedestrian_distance": 0.5055901668954162,
+        "state_r2:junction_distance": 0.48924849275366344,
+        "state_r2:time_to_junction": 0.7724286654557635,
+        "state_auroc:red_light": 0.9891278599939616,
+        "state_auroc:occluded": 0.792461831914359
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 12.0,
+        "state_auroc:occluded": 42.0,
+        "state_auroc:red_light": 15.0,
+        "state_r2:ego_speed": 9.0,
+        "state_r2:junction_distance": 38.0,
+        "state_r2:lead_distance": 28.0,
+        "state_r2:lead_relative_speed": 5.0,
+        "state_r2:pedestrian_distance": 11.0,
+        "state_r2:time_to_junction": 11.0
+      },
+      "family_ranks": {
+        "failure_auroc": 12.0,
+        "state_probes": 19.875
+      },
+      "combined_rank": 15.9375
+    },
+    {
+      "site": "driving_queries",
+      "layer": 10,
+      "metrics": {
+        "failure_auroc": 0.6995868581546331,
+        "state_r2:ego_speed": 0.9844926603792045,
+        "state_r2:lead_distance": 0.6714359823801799,
+        "state_r2:lead_relative_speed": 0.4668328088099982,
+        "state_r2:pedestrian_distance": 0.5723956247692328,
+        "state_r2:junction_distance": 0.4888735834979119,
+        "state_r2:time_to_junction": 0.7825748552050968,
+        "state_auroc:red_light": 0.9891712921285053,
+        "state_auroc:occluded": 0.8138319315792728
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 8.0,
+        "state_auroc:occluded": 31.0,
+        "state_auroc:red_light": 14.0,
+        "state_r2:ego_speed": 2.0,
+        "state_r2:junction_distance": 39.0,
+        "state_r2:lead_distance": 15.0,
+        "state_r2:lead_relative_speed": 11.0,
+        "state_r2:pedestrian_distance": 3.0,
+        "state_r2:time_to_junction": 6.0
+      },
+      "family_ranks": {
+        "failure_auroc": 8.0,
+        "state_probes": 15.125
+      },
+      "combined_rank": 11.5625
+    },
+    {
+      "site": "driving_queries",
+      "layer": 11,
+      "metrics": {
+        "failure_auroc": 0.694353728113319,
+        "state_r2:ego_speed": 0.983001564927025,
+        "state_r2:lead_distance": 0.6651113636815589,
+        "state_r2:lead_relative_speed": 0.4443839886515689,
+        "state_r2:pedestrian_distance": 0.606783014478737,
+        "state_r2:junction_distance": 0.49238281165209385,
+        "state_r2:time_to_junction": 0.758955371113252,
+        "state_auroc:red_light": 0.9844520459148557,
+        "state_auroc:occluded": 0.8809068704552926
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 11.0,
+        "state_auroc:occluded": 3.0,
+        "state_auroc:red_light": 34.0,
+        "state_r2:ego_speed": 6.0,
+        "state_r2:junction_distance": 35.0,
+        "state_r2:lead_distance": 20.0,
+        "state_r2:lead_relative_speed": 15.0,
+        "state_r2:pedestrian_distance": 1.0,
+        "state_r2:time_to_junction": 14.0
+      },
+      "family_ranks": {
+        "failure_auroc": 11.0,
+        "state_probes": 16.0
+      },
+      "combined_rank": 13.5
+    },
+    {
+      "site": "driving_queries",
+      "layer": 12,
+      "metrics": {
+        "failure_auroc": 0.6867991343694668,
+        "state_r2:ego_speed": 0.9812193141044857,
+        "state_r2:lead_distance": 0.6543024380386819,
+        "state_r2:lead_relative_speed": 0.4370267290206509,
+        "state_r2:pedestrian_distance": 0.5212588038811661,
+        "state_r2:junction_distance": 0.5086288711466304,
+        "state_r2:time_to_junction": 0.7567243848205912,
+        "state_auroc:red_light": 0.9894128425458576,
+        "state_auroc:occluded": 0.8615547615818833
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 16.0,
+        "state_auroc:occluded": 8.0,
+        "state_auroc:red_light": 13.0,
+        "state_r2:ego_speed": 11.0,
+        "state_r2:junction_distance": 25.0,
+        "state_r2:lead_distance": 29.0,
+        "state_r2:lead_relative_speed": 17.0,
+        "state_r2:pedestrian_distance": 9.0,
+        "state_r2:time_to_junction": 16.0
+      },
+      "family_ranks": {
+        "failure_auroc": 16.0,
+        "state_probes": 16.0
+      },
+      "combined_rank": 16.0
+    },
+    {
+      "site": "driving_queries",
+      "layer": 13,
+      "metrics": {
+        "failure_auroc": 0.7093055282313594,
+        "state_r2:ego_speed": 0.9811244849609732,
+        "state_r2:lead_distance": 0.6741923139561867,
+        "state_r2:lead_relative_speed": 0.4422541173146852,
+        "state_r2:pedestrian_distance": 0.5869579699962184,
+        "state_r2:junction_distance": 0.4805001227145036,
+        "state_r2:time_to_junction": 0.7519054595115519,
+        "state_auroc:red_light": 0.9895794332123378,
+        "state_auroc:occluded": 0.8659125454297775
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 4.0,
+        "state_auroc:occluded": 5.0,
+        "state_auroc:red_light": 12.0,
+        "state_r2:ego_speed": 12.0,
+        "state_r2:junction_distance": 43.0,
+        "state_r2:lead_distance": 13.0,
+        "state_r2:lead_relative_speed": 16.0,
+        "state_r2:pedestrian_distance": 2.0,
+        "state_r2:time_to_junction": 19.0
+      },
+      "family_ranks": {
+        "failure_auroc": 4.0,
+        "state_probes": 15.25
+      },
+      "combined_rank": 9.625
+    },
+    {
+      "site": "driving_queries",
+      "layer": 14,
+      "metrics": {
+        "failure_auroc": 0.7045839071414519,
+        "state_r2:ego_speed": 0.9796412079368592,
+        "state_r2:lead_distance": 0.6776997720982163,
+        "state_r2:lead_relative_speed": 0.426336128629486,
+        "state_r2:pedestrian_distance": 0.562599878798685,
+        "state_r2:junction_distance": 0.5359258514966274,
+        "state_r2:time_to_junction": 0.7601365150437722,
+        "state_auroc:red_light": 0.9871983118038186,
+        "state_auroc:occluded": 0.855577972550405
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 5.0,
+        "state_auroc:occluded": 10.0,
+        "state_auroc:red_light": 21.0,
+        "state_r2:ego_speed": 15.0,
+        "state_r2:junction_distance": 17.0,
+        "state_r2:lead_distance": 10.0,
+        "state_r2:lead_relative_speed": 18.0,
+        "state_r2:pedestrian_distance": 4.0,
+        "state_r2:time_to_junction": 13.0
+      },
+      "family_ranks": {
+        "failure_auroc": 5.0,
+        "state_probes": 13.5
+      },
+      "combined_rank": 9.25
+    },
+    {
+      "site": "driving_queries",
+      "layer": 15,
+      "metrics": {
+        "failure_auroc": 0.6950226244343891,
+        "state_r2:ego_speed": 0.9805765634328442,
+        "state_r2:lead_distance": 0.6574342496837927,
+        "state_r2:lead_relative_speed": 0.4050175643281849,
+        "state_r2:pedestrian_distance": 0.49392007977643515,
+        "state_r2:junction_distance": 0.4959502277183333,
+        "state_r2:time_to_junction": 0.7817989178361806,
+        "state_auroc:red_light": 0.9877846093258931,
+        "state_auroc:occluded": 0.8410078484082242
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 10.0,
+        "state_auroc:occluded": 17.0,
+        "state_auroc:red_light": 20.0,
+        "state_r2:ego_speed": 14.0,
+        "state_r2:junction_distance": 32.0,
+        "state_r2:lead_distance": 26.0,
+        "state_r2:lead_relative_speed": 20.0,
+        "state_r2:pedestrian_distance": 13.0,
+        "state_r2:time_to_junction": 7.0
+      },
+      "family_ranks": {
+        "failure_auroc": 10.0,
+        "state_probes": 18.625
+      },
+      "combined_rank": 14.3125
+    },
+    {
+      "site": "driving_queries",
+      "layer": 16,
+      "metrics": {
+        "failure_auroc": 0.6909698996655518,
+        "state_r2:ego_speed": 0.980746072234109,
+        "state_r2:lead_distance": 0.6514738854911346,
+        "state_r2:lead_relative_speed": 0.4219148597857677,
+        "state_r2:pedestrian_distance": 0.49306846276258154,
+        "state_r2:junction_distance": 0.49556818038754546,
+        "state_r2:time_to_junction": 0.7751388392080996,
+        "state_auroc:red_light": 0.9573970925779055,
+        "state_auroc:occluded": 0.8270562672720793
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 14.0,
+        "state_auroc:occluded": 26.0,
+        "state_auroc:red_light": 48.0,
+        "state_r2:ego_speed": 13.0,
+        "state_r2:junction_distance": 33.0,
+        "state_r2:lead_distance": 31.0,
+        "state_r2:lead_relative_speed": 19.0,
+        "state_r2:pedestrian_distance": 14.0,
+        "state_r2:time_to_junction": 10.0
+      },
+      "family_ranks": {
+        "failure_auroc": 14.0,
+        "state_probes": 24.25
+      },
+      "combined_rank": 19.125
+    },
+    {
+      "site": "driving_queries",
+      "layer": 17,
+      "metrics": {
+        "failure_auroc": 0.7013181192209325,
+        "state_r2:ego_speed": 0.9770904412825817,
+        "state_r2:lead_distance": 0.6471721362312269,
+        "state_r2:lead_relative_speed": 0.4611993349225084,
+        "state_r2:pedestrian_distance": 0.47660087582818955,
+        "state_r2:junction_distance": 0.43843708928056724,
+        "state_r2:time_to_junction": 0.7573544902803601,
+        "state_auroc:red_light": 0.9828169772753876,
+        "state_auroc:occluded": 0.8124378651025815
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 6.0,
+        "state_auroc:occluded": 33.0,
+        "state_auroc:red_light": 39.0,
+        "state_r2:ego_speed": 16.0,
+        "state_r2:junction_distance": 48.0,
+        "state_r2:lead_distance": 35.0,
+        "state_r2:lead_relative_speed": 14.0,
+        "state_r2:pedestrian_distance": 16.0,
+        "state_r2:time_to_junction": 15.0
+      },
+      "family_ranks": {
+        "failure_auroc": 6.0,
+        "state_probes": 27.0
+      },
+      "combined_rank": 16.5
+    },
+    {
+      "site": "driving_queries",
+      "layer": 18,
+      "metrics": {
+        "failure_auroc": 0.7331103678929767,
+        "state_r2:ego_speed": 0.973465335754642,
+        "state_r2:lead_distance": 0.6359978119847002,
+        "state_r2:lead_relative_speed": 0.465150835993582,
+        "state_r2:pedestrian_distance": 0.45168049447716196,
+        "state_r2:junction_distance": 0.4906613231723941,
+        "state_r2:time_to_junction": 0.752243664115999,
+        "state_auroc:red_light": 0.9514746310603495,
+        "state_auroc:occluded": 0.811206621654325
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 2.0,
+        "state_auroc:occluded": 36.0,
+        "state_auroc:red_light": 49.0,
+        "state_r2:ego_speed": 19.0,
+        "state_r2:junction_distance": 37.0,
+        "state_r2:lead_distance": 42.0,
+        "state_r2:lead_relative_speed": 13.0,
+        "state_r2:pedestrian_distance": 22.0,
+        "state_r2:time_to_junction": 18.0
+      },
+      "family_ranks": {
+        "failure_auroc": 2.0,
+        "state_probes": 29.5
+      },
+      "combined_rank": 15.75
+    },
+    {
+      "site": "driving_queries",
+      "layer": 19,
+      "metrics": {
+        "failure_auroc": 0.7448357269329137,
+        "state_r2:ego_speed": 0.975186427842881,
+        "state_r2:lead_distance": 0.6441132608116175,
+        "state_r2:lead_relative_speed": 0.4664285040073296,
+        "state_r2:pedestrian_distance": 0.46315693404810976,
+        "state_r2:junction_distance": 0.485638694971785,
+        "state_r2:time_to_junction": 0.7428349813119799,
+        "state_auroc:red_light": 0.9682200417596949,
+        "state_auroc:occluded": 0.8038479125288247
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 1.0,
+        "state_auroc:occluded": 39.0,
+        "state_auroc:red_light": 45.0,
+        "state_r2:ego_speed": 17.0,
+        "state_r2:junction_distance": 41.0,
+        "state_r2:lead_distance": 37.0,
+        "state_r2:lead_relative_speed": 12.0,
+        "state_r2:pedestrian_distance": 20.0,
+        "state_r2:time_to_junction": 20.0
+      },
+      "family_ranks": {
+        "failure_auroc": 1.0,
+        "state_probes": 28.875
+      },
+      "combined_rank": 14.9375
+    },
+    {
+      "site": "driving_queries",
+      "layer": 20,
+      "metrics": {
+        "failure_auroc": 0.7095022624434388,
+        "state_r2:ego_speed": 0.9747571593387955,
+        "state_r2:lead_distance": 0.6478330648742461,
+        "state_r2:lead_relative_speed": 0.4779228972421451,
+        "state_r2:pedestrian_distance": 0.5254052043412722,
+        "state_r2:junction_distance": 0.4556539369027912,
+        "state_r2:time_to_junction": 0.7560987635861347,
+        "state_auroc:red_light": 0.9649174332135961,
+        "state_auroc:occluded": 0.8039372422545285
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 3.0,
+        "state_auroc:occluded": 38.0,
+        "state_auroc:red_light": 46.0,
+        "state_r2:ego_speed": 18.0,
+        "state_r2:junction_distance": 46.0,
+        "state_r2:lead_distance": 33.0,
+        "state_r2:lead_relative_speed": 8.0,
+        "state_r2:pedestrian_distance": 8.0,
+        "state_r2:time_to_junction": 17.0
+      },
+      "family_ranks": {
+        "failure_auroc": 3.0,
+        "state_probes": 26.75
+      },
+      "combined_rank": 14.875
+    },
+    {
+      "site": "driving_queries",
+      "layer": 21,
+      "metrics": {
+        "failure_auroc": 0.68254967538855,
+        "state_r2:ego_speed": 0.9669911359235457,
+        "state_r2:lead_distance": 0.6409472692117779,
+        "state_r2:lead_relative_speed": 0.49698191590855256,
+        "state_r2:pedestrian_distance": 0.5308769218821848,
+        "state_r2:junction_distance": 0.4476826396853012,
+        "state_r2:time_to_junction": 0.7400814902182724,
+        "state_auroc:red_light": 0.9628879669178279,
+        "state_auroc:occluded": 0.8154227233296956
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 19.0,
+        "state_auroc:occluded": 30.0,
+        "state_auroc:red_light": 47.0,
+        "state_r2:ego_speed": 20.0,
+        "state_r2:junction_distance": 47.0,
+        "state_r2:lead_distance": 40.0,
+        "state_r2:lead_relative_speed": 3.0,
+        "state_r2:pedestrian_distance": 7.0,
+        "state_r2:time_to_junction": 22.0
+      },
+      "family_ranks": {
+        "failure_auroc": 19.0,
+        "state_probes": 27.0
+      },
+      "combined_rank": 23.0
+    },
+    {
+      "site": "driving_queries",
+      "layer": 22,
+      "metrics": {
+        "failure_auroc": 0.6819201259098957,
+        "state_r2:ego_speed": 0.9664291212885731,
+        "state_r2:lead_distance": 0.6397948709053882,
+        "state_r2:lead_relative_speed": 0.5053811526730192,
+        "state_r2:pedestrian_distance": 0.558204276289642,
+        "state_r2:junction_distance": 0.5695743654508587,
+        "state_r2:time_to_junction": 0.7638236457006653,
+        "state_auroc:red_light": 0.9847581275315549,
+        "state_auroc:occluded": 0.8195567216082916
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 20.0,
+        "state_auroc:occluded": 29.0,
+        "state_auroc:red_light": 30.0,
+        "state_r2:ego_speed": 21.0,
+        "state_r2:junction_distance": 7.0,
+        "state_r2:lead_distance": 41.0,
+        "state_r2:lead_relative_speed": 2.0,
+        "state_r2:pedestrian_distance": 5.0,
+        "state_r2:time_to_junction": 12.0
+      },
+      "family_ranks": {
+        "failure_auroc": 20.0,
+        "state_probes": 18.375
+      },
+      "combined_rank": 19.1875
+    },
+    {
+      "site": "driving_queries",
+      "layer": 23,
+      "metrics": {
+        "failure_auroc": 0.7003344481605351,
+        "state_r2:ego_speed": 0.9635414132463853,
+        "state_r2:lead_distance": 0.6638325865556084,
+        "state_r2:lead_relative_speed": 0.5187756729294852,
+        "state_r2:pedestrian_distance": 0.5419992987990441,
+        "state_r2:junction_distance": 0.5885419576532456,
+        "state_r2:time_to_junction": 0.7897392355353894,
+        "state_auroc:red_light": 0.9861091935642239,
+        "state_auroc:occluded": 0.8122310690938522
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 7.0,
+        "state_auroc:occluded": 34.0,
+        "state_auroc:red_light": 26.0,
+        "state_r2:ego_speed": 22.0,
+        "state_r2:junction_distance": 5.0,
+        "state_r2:lead_distance": 21.0,
+        "state_r2:lead_relative_speed": 1.0,
+        "state_r2:pedestrian_distance": 6.0,
+        "state_r2:time_to_junction": 3.0
+      },
+      "family_ranks": {
+        "failure_auroc": 7.0,
+        "state_probes": 14.75
+      },
+      "combined_rank": 10.875
+    },
+    {
+      "site": "vision_bridge",
+      "layer": 0,
+      "metrics": {
+        "failure_auroc": 0.6460358056265985,
+        "state_r2:ego_speed": 0.5847701041413638,
+        "state_r2:lead_distance": 0.669096102620542,
+        "state_r2:lead_relative_speed": 0.15461092700939227,
+        "state_r2:pedestrian_distance": 0.3122463191116961,
+        "state_r2:junction_distance": 0.5924315269694729,
+        "state_r2:time_to_junction": 0.5530846152358219,
+        "state_auroc:red_light": 0.9869733599626759,
+        "state_auroc:occluded": 0.8435451354967424
+      },
+      "gap_best_k": {},
+      "ranks": {
+        "failure_auroc": 41.0,
+        "state_auroc:occluded": 16.0,
+        "state_auroc:red_light": 23.0,
+        "state_r2:ego_speed": 49.0,
+        "state_r2:junction_distance": 4.0,
+        "state_r2:lead_distance": 18.0,
+        "state_r2:lead_relative_speed": 48.0,
+        "state_r2:pedestrian_distance": 38.0,
+        "state_r2:time_to_junction": 39.0
+      },
+      "family_ranks": {
+        "failure_auroc": 41.0,
+        "state_probes": 29.375
+      },
+      "combined_rank": 35.1875
+    }
+  ]
+}

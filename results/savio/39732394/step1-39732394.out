@@ -1,0 +1,997 @@
+Thu Oct  8 01:46:03 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.173.02             Driver Version: 580.173.02     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A40                     Off |   00000000:41:00.0 Off |                    0 |
+|  0%   61C    P0            128W /  300W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+=== 1.2 off-screen rendering: camera pixels and vehicle control ===
+CARLA versions: {'client': '0.9.15', 'server': '0.9.15'}
+Connected to Carla/Maps/Town10HD_Opt
+Camera started at frame 64
+Synchronous settings applied
+Warmup frame 96
+Warmup frame 97
+Warmup frame 98
+Warmup frame 99
+Warmup frame 100
+Warmup frame 101
+Warmup frame 102
+Warmup frame 103
+Warmup frame 104
+Warmup frame 105
+Tick 1/100: camera frame 106
+Tick 2/100: camera frame 107
+Tick 3/100: camera frame 108
+Tick 4/100: camera frame 109
+Tick 5/100: camera frame 110
+Tick 6/100: camera frame 111
+Tick 7/100: camera frame 112
+Tick 8/100: camera frame 113
+Tick 9/100: camera frame 114
+Tick 10/100: camera frame 115
+Tick 11/100: camera frame 116
+Tick 12/100: camera frame 117
+Tick 13/100: camera frame 118
+Tick 14/100: camera frame 119
+Tick 15/100: camera frame 120
+Tick 16/100: camera frame 121
+Tick 17/100: camera frame 122
+Tick 18/100: camera frame 123
+Tick 19/100: camera frame 124
+Tick 20/100: camera frame 125
+Tick 21/100: camera frame 126
+Tick 22/100: camera frame 127
+Tick 23/100: camera frame 128
+Tick 24/100: camera frame 129
+Tick 25/100: camera frame 130
+Tick 26/100: camera frame 131
+Tick 27/100: camera frame 132
+Tick 28/100: camera frame 133
+Tick 29/100: camera frame 134
+Tick 30/100: camera frame 135
+Tick 31/100: camera frame 136
+Tick 32/100: camera frame 137
+Tick 33/100: camera frame 138
+Tick 34/100: camera frame 139
+Tick 35/100: camera frame 140
+Tick 36/100: camera frame 141
+Tick 37/100: camera frame 142
+Tick 38/100: camera frame 143
+Tick 39/100: camera frame 144
+Tick 40/100: camera frame 145
+Tick 41/100: camera frame 146
+Tick 42/100: camera frame 147
+Tick 43/100: camera frame 148
+Tick 44/100: camera frame 149
+Tick 45/100: camera frame 150
+Tick 46/100: camera frame 151
+Tick 47/100: camera frame 152
+Tick 48/100: camera frame 153
+Tick 49/100: camera frame 154
+Tick 50/100: camera frame 155
+Tick 51/100: camera frame 156
+Tick 52/100: camera frame 157
+Tick 53/100: camera frame 158
+Tick 54/100: camera frame 159
+Tick 55/100: camera frame 160
+Tick 56/100: camera frame 161
+Tick 57/100: camera frame 162
+Tick 58/100: camera frame 163
+Tick 59/100: camera frame 164
+Tick 60/100: camera frame 165
+Tick 61/100: camera frame 166
+Tick 62/100: camera frame 167
+Tick 63/100: camera frame 168
+Tick 64/100: camera frame 169
+Tick 65/100: camera frame 170
+Tick 66/100: camera frame 171
+Tick 67/100: camera frame 172
+Tick 68/100: camera frame 173
+Tick 69/100: camera frame 174
+Tick 70/100: camera frame 175
+Tick 71/100: camera frame 176
+Tick 72/100: camera frame 177
+Tick 73/100: camera frame 178
+Tick 74/100: camera frame 179
+Tick 75/100: camera frame 180
+Tick 76/100: camera frame 181
+Tick 77/100: camera frame 182
+Tick 78/100: camera frame 183
+Tick 79/100: camera frame 184
+Tick 80/100: camera frame 185
+Tick 81/100: camera frame 186
+Tick 82/100: camera frame 187
+Tick 83/100: camera frame 188
+Tick 84/100: camera frame 189
+Tick 85/100: camera frame 190
+Tick 86/100: camera frame 191
+Tick 87/100: camera frame 192
+Tick 88/100: camera frame 193
+Tick 89/100: camera frame 194
+Tick 90/100: camera frame 195
+Tick 91/100: camera frame 196
+Tick 92/100: camera frame 197
+Tick 93/100: camera frame 198
+Tick 94/100: camera frame 199
+Tick 95/100: camera frame 200
+Tick 96/100: camera frame 201
+Tick 97/100: camera frame 202
+Tick 98/100: camera frame 203
+Tick 99/100: camera frame 204
+Tick 100/100: camera frame 205
+{
+  "ticks": 100,
+  "simulated_seconds": 5.0,
+  "wall_seconds": 3.146620462881401,
+  "real_time_factor": 1.5890063828738452,
+  "distance_metres": 4.311911106109619,
+  "camera_pixels": {
+    "0": {
+      "mean": 131.8095240162037,
+      "std": 55.32558512706317
+    },
+    "99": {
+      "mean": 126.99109809027777,
+      "std": 52.00550337195213
+    }
+  },
+  "camera_verified": true,
+  "control_verified": true,
+  "scope": "camera_and_control_smoke",
+  "simlingo_route_verified": false,
+  "versions": {
+    "client": "0.9.15",
+    "server": "0.9.15"
+  },
+  "map": "Carla/Maps/Town10HD_Opt",
+  "environment": "savio",
+  "slurm_job_id": "39732394",
+  "node": "n0214.savio3",
+  "whole_stack_peak_vram": 6.05,
+  "gpus": [
+    {
+      "uuid": "GPU-8344345a-558d-a3d7-bd8a-08a197d8a79d",
+      "name": "NVIDIA A40",
+      "peak_mib": 6198,
+      "mean_utilization_percent": 6.0,
+      "samples": 53
+    }
+  ],
+  "gpu_monitor_error": null,
+  "container": null
+}
+=== 1.3 checkpoint: strict load and finite waypoints ===
+FlashAttention2 is not installed.
+[91mUsing /global/scratch/users/imhaohao/HondaResearchInstitute/.runtime/InternVL2-1B as the image encoder.[0m
+Using PEFT model
+trainable params: 17,596,416 || all params: 647,260,288 || trainable%: 2.7186
+{
+  "scope": "offline_model_dummy_input",
+  "device": "cpu",
+  "checkpoint_strict_load": true,
+  "hidden_size": 896,
+  "decoder_layers": 24,
+  "speed_waypoints_shape": [
+    1,
+    10,
+    2
+  ],
+  "route_shape": [
+    1,
+    20,
+    2
+  ],
+  "finite_outputs": true,
+  "commentary": false,
+  "forward_wall_seconds": 8.413758544949815,
+  "carla_camera_verified": false,
+  "closed_loop_route_verified": false,
+  "source_revision": "743b243afd6cf5ff51b9fa1f8cac86f22d569684",
+  "checkpoint_sha256": "ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28"
+}
+=== 1.4 one route, closed loop ===
+load_world success , attempts=0
+traffic_manager init success, try_time=0
+
+[1m========= Preparing RouteScenario_26956 (repetition 0) =========[0m
+[1m> Loading the world[0m
+[1m> Setting up the agent[0m
+path to conf file: /global/scratch/users/imhaohao/HondaResearchInstitute/checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt+agent+RouteScenario_26956_rep0_Town05_SignalizedJunctionRightTurn_1_26_10_08_01_51_40
+Config path: /global/scratch/users/imhaohao/HondaResearchInstitute/checkpoints/simlingo/checkpoints/epoch=013.ckpt/pytorch_model.pt
+Save path root: agent
+FlashAttention2 is not installed.
+[91mUsing /global/scratch/users/imhaohao/HondaResearchInstitute/.runtime/InternVL2-1B as the image encoder.[0m
+Using PEFT model
+trainable params: 17,596,416 || all params: 647,260,288 || trainable%: 2.7186
+[1m> Running the route[0m
+=== [Agent] -- Wallclock = 2026-10-08 01:52:12.638 -- System time = 0.000 -- Game time = 0.050 -- Ratio = 0.000x
+/global/scratch/users/imhaohao/HondaResearchInstitute/.runtime/simlingo/team_code/agent_simlingo.py:292: RuntimeWarning: The iteration is not making good progress, as measured by the 
+ improvement from the last ten iterations.
+  solution = fsolve(equations, initial_guess)
+SimLingo step 0: speed=0.00 throttle=0.000 steer=0.000 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:14.765 -- System time = 2.127 -- Game time = 0.100 -- Ratio = 0.047x
+SimLingo step 1: speed=0.00 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:37.615 -- System time = 24.977 -- Game time = 0.150 -- Ratio = 0.006x
+SimLingo step 2: speed=0.00 throttle=1.000 steer=0.019 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:38.371 -- System time = 25.733 -- Game time = 0.200 -- Ratio = 0.008x
+SimLingo step 3: speed=0.00 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:38.980 -- System time = 26.342 -- Game time = 0.250 -- Ratio = 0.009x
+SimLingo step 4: speed=0.00 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:39.591 -- System time = 26.953 -- Game time = 0.300 -- Ratio = 0.011x
+SimLingo step 5: speed=0.00 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:40.227 -- System time = 27.588 -- Game time = 0.350 -- Ratio = 0.013x
+SimLingo step 6: speed=0.00 throttle=1.000 steer=0.019 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:40.857 -- System time = 28.219 -- Game time = 0.400 -- Ratio = 0.014x
+SimLingo step 7: speed=0.00 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:41.351 -- System time = 28.713 -- Game time = 0.450 -- Ratio = 0.016x
+SimLingo step 8: speed=0.00 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:41.894 -- System time = 29.256 -- Game time = 0.500 -- Ratio = 0.017x
+SimLingo step 9: speed=0.00 throttle=1.000 steer=0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:42.413 -- System time = 29.775 -- Game time = 0.550 -- Ratio = 0.018x
+SimLingo step 10: speed=0.00 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:43.012 -- System time = 30.374 -- Game time = 0.600 -- Ratio = 0.020x
+SimLingo step 11: speed=0.00 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:43.568 -- System time = 30.930 -- Game time = 0.650 -- Ratio = 0.021x
+SimLingo step 12: speed=0.43 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:44.250 -- System time = 31.612 -- Game time = 0.700 -- Ratio = 0.022x
+SimLingo step 13: speed=0.77 throttle=1.000 steer=0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:44.937 -- System time = 32.299 -- Game time = 0.750 -- Ratio = 0.023x
+SimLingo step 14: speed=1.07 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:45.567 -- System time = 32.929 -- Game time = 0.800 -- Ratio = 0.024x
+SimLingo step 15: speed=1.26 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:46.157 -- System time = 33.519 -- Game time = 0.850 -- Ratio = 0.025x
+SimLingo step 16: speed=1.56 throttle=1.000 steer=0.019 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:46.613 -- System time = 33.975 -- Game time = 0.900 -- Ratio = 0.026x
+SimLingo step 17: speed=1.74 throttle=1.000 steer=0.021 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:47.090 -- System time = 34.452 -- Game time = 0.950 -- Ratio = 0.028x
+SimLingo step 18: speed=2.00 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:47.702 -- System time = 35.064 -- Game time = 1.000 -- Ratio = 0.029x
+SimLingo step 19: speed=2.28 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:48.321 -- System time = 35.683 -- Game time = 1.050 -- Ratio = 0.029x
+SimLingo step 20: speed=2.59 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:49.143 -- System time = 36.505 -- Game time = 1.100 -- Ratio = 0.030x
+SimLingo step 21: speed=2.95 throttle=1.000 steer=0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:49.801 -- System time = 37.163 -- Game time = 1.150 -- Ratio = 0.031x
+SimLingo step 22: speed=3.35 throttle=1.000 steer=0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:50.421 -- System time = 37.783 -- Game time = 1.200 -- Ratio = 0.032x
+SimLingo step 23: speed=3.72 throttle=1.000 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:51.024 -- System time = 38.385 -- Game time = 1.250 -- Ratio = 0.033x
+SimLingo step 24: speed=4.08 throttle=1.000 steer=0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:51.641 -- System time = 39.003 -- Game time = 1.300 -- Ratio = 0.033x
+SimLingo step 25: speed=4.43 throttle=1.000 steer=0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:52.313 -- System time = 39.675 -- Game time = 1.350 -- Ratio = 0.034x
+SimLingo step 26: speed=4.78 throttle=1.000 steer=0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:52.983 -- System time = 40.345 -- Game time = 1.400 -- Ratio = 0.035x
+SimLingo step 27: speed=5.13 throttle=1.000 steer=0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:53.629 -- System time = 40.991 -- Game time = 1.450 -- Ratio = 0.035x
+SimLingo step 28: speed=5.48 throttle=1.000 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:54.143 -- System time = 41.505 -- Game time = 1.500 -- Ratio = 0.036x
+SimLingo step 29: speed=5.76 throttle=1.000 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:54.813 -- System time = 42.175 -- Game time = 1.550 -- Ratio = 0.037x
+SimLingo step 30: speed=5.75 throttle=1.000 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:55.457 -- System time = 42.819 -- Game time = 1.600 -- Ratio = 0.037x
+SimLingo step 31: speed=5.75 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:56.153 -- System time = 43.515 -- Game time = 1.650 -- Ratio = 0.038x
+SimLingo step 32: speed=5.92 throttle=1.000 steer=0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:56.831 -- System time = 44.193 -- Game time = 1.700 -- Ratio = 0.038x
+SimLingo step 33: speed=6.49 throttle=0.155 steer=0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:57.472 -- System time = 44.834 -- Game time = 1.750 -- Ratio = 0.039x
+SimLingo step 34: speed=6.95 throttle=0.313 steer=0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:57.990 -- System time = 45.352 -- Game time = 1.800 -- Ratio = 0.040x
+SimLingo step 35: speed=7.18 throttle=0.000 steer=-0.001 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:58.531 -- System time = 45.893 -- Game time = 1.850 -- Ratio = 0.040x
+SimLingo step 36: speed=7.25 throttle=0.810 steer=0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:59.214 -- System time = 46.576 -- Game time = 1.900 -- Ratio = 0.041x
+SimLingo step 37: speed=7.25 throttle=0.760 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:52:59.849 -- System time = 47.211 -- Game time = 1.950 -- Ratio = 0.041x
+SimLingo step 38: speed=7.24 throttle=0.000 steer=-0.005 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:00.527 -- System time = 47.889 -- Game time = 2.000 -- Ratio = 0.042x
+SimLingo step 39: speed=7.22 throttle=0.000 steer=0.002 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:01.176 -- System time = 48.538 -- Game time = 2.050 -- Ratio = 0.042x
+SimLingo step 40: speed=7.13 throttle=0.000 steer=0.001 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:02.125 -- System time = 49.487 -- Game time = 2.100 -- Ratio = 0.042x
+SimLingo step 41: speed=6.98 throttle=0.000 steer=-0.004 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:02.791 -- System time = 50.153 -- Game time = 2.150 -- Ratio = 0.043x
+SimLingo step 42: speed=6.77 throttle=0.000 steer=-0.003 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:03.428 -- System time = 50.790 -- Game time = 2.200 -- Ratio = 0.043x
+SimLingo step 43: speed=6.53 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:04.375 -- System time = 51.737 -- Game time = 2.250 -- Ratio = 0.043x
+SimLingo step 44: speed=5.86 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:05.057 -- System time = 52.419 -- Game time = 2.300 -- Ratio = 0.044x
+SimLingo step 45: speed=4.74 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:05.586 -- System time = 52.948 -- Game time = 2.350 -- Ratio = 0.044x
+SimLingo step 46: speed=3.56 throttle=1.000 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:06.085 -- System time = 53.447 -- Game time = 2.400 -- Ratio = 0.045x
+SimLingo step 47: speed=2.43 throttle=1.000 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:06.636 -- System time = 53.998 -- Game time = 2.450 -- Ratio = 0.045x
+SimLingo step 48: speed=2.61 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:07.259 -- System time = 54.621 -- Game time = 2.500 -- Ratio = 0.046x
+SimLingo step 49: speed=2.89 throttle=1.000 steer=-0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:07.909 -- System time = 55.271 -- Game time = 2.550 -- Ratio = 0.046x
+SimLingo step 50: speed=3.23 throttle=1.000 steer=-0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:08.566 -- System time = 55.928 -- Game time = 2.600 -- Ratio = 0.046x
+SimLingo step 51: speed=3.60 throttle=1.000 steer=-0.022 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:09.240 -- System time = 56.602 -- Game time = 2.650 -- Ratio = 0.047x
+SimLingo step 52: speed=3.95 throttle=1.000 steer=-0.021 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:09.894 -- System time = 57.256 -- Game time = 2.700 -- Ratio = 0.047x
+SimLingo step 53: speed=4.29 throttle=1.000 steer=-0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:10.566 -- System time = 57.928 -- Game time = 2.750 -- Ratio = 0.047x
+SimLingo step 54: speed=4.64 throttle=0.719 steer=-0.009 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:11.224 -- System time = 58.586 -- Game time = 2.800 -- Ratio = 0.048x
+SimLingo step 55: speed=4.97 throttle=1.000 steer=-0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:11.838 -- System time = 59.200 -- Game time = 2.850 -- Ratio = 0.048x
+SimLingo step 56: speed=5.25 throttle=1.000 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:12.355 -- System time = 59.717 -- Game time = 2.900 -- Ratio = 0.049x
+SimLingo step 57: speed=5.37 throttle=1.000 steer=-0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:12.882 -- System time = 60.244 -- Game time = 2.950 -- Ratio = 0.049x
+SimLingo step 58: speed=5.37 throttle=1.000 steer=-0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:13.529 -- System time = 60.891 -- Game time = 3.000 -- Ratio = 0.049x
+SimLingo step 59: speed=5.39 throttle=0.000 steer=-0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:14.164 -- System time = 61.526 -- Game time = 3.050 -- Ratio = 0.050x
+SimLingo step 60: speed=5.36 throttle=0.000 steer=-0.014 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:15.063 -- System time = 62.425 -- Game time = 3.100 -- Ratio = 0.050x
+SimLingo step 61: speed=5.75 throttle=0.000 steer=-0.012 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:15.728 -- System time = 63.090 -- Game time = 3.150 -- Ratio = 0.050x
+SimLingo step 62: speed=5.79 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:16.353 -- System time = 63.715 -- Game time = 3.200 -- Ratio = 0.050x
+SimLingo step 63: speed=5.76 throttle=0.000 steer=-0.015 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:16.978 -- System time = 64.340 -- Game time = 3.250 -- Ratio = 0.051x
+SimLingo step 64: speed=5.64 throttle=0.000 steer=-0.013 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:17.571 -- System time = 64.933 -- Game time = 3.300 -- Ratio = 0.051x
+SimLingo step 65: speed=4.81 throttle=0.000 steer=-0.015 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:18.182 -- System time = 65.544 -- Game time = 3.350 -- Ratio = 0.051x
+SimLingo step 66: speed=3.47 throttle=0.000 steer=-0.005 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:18.710 -- System time = 66.072 -- Game time = 3.400 -- Ratio = 0.051x
+SimLingo step 67: speed=2.15 throttle=0.483 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:19.334 -- System time = 66.696 -- Game time = 3.450 -- Ratio = 0.052x
+SimLingo step 68: speed=0.85 throttle=1.000 steer=-0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:19.851 -- System time = 67.213 -- Game time = 3.500 -- Ratio = 0.052x
+SimLingo step 69: speed=0.02 throttle=1.000 steer=-0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:20.456 -- System time = 67.818 -- Game time = 3.550 -- Ratio = 0.052x
+SimLingo step 70: speed=-0.00 throttle=1.000 steer=-0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:21.315 -- System time = 68.677 -- Game time = 3.600 -- Ratio = 0.052x
+SimLingo step 71: speed=0.22 throttle=1.000 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:21.992 -- System time = 69.354 -- Game time = 3.650 -- Ratio = 0.053x
+SimLingo step 72: speed=0.54 throttle=1.000 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:22.673 -- System time = 70.035 -- Game time = 3.700 -- Ratio = 0.053x
+SimLingo step 73: speed=0.82 throttle=0.660 steer=-0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:23.271 -- System time = 70.633 -- Game time = 3.750 -- Ratio = 0.053x
+SimLingo step 74: speed=1.09 throttle=1.000 steer=-0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:23.825 -- System time = 71.187 -- Game time = 3.800 -- Ratio = 0.053x
+SimLingo step 75: speed=1.32 throttle=1.000 steer=-0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:24.420 -- System time = 71.782 -- Game time = 3.850 -- Ratio = 0.054x
+SimLingo step 76: speed=1.56 throttle=0.000 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:25.050 -- System time = 72.412 -- Game time = 3.900 -- Ratio = 0.054x
+SimLingo step 77: speed=1.67 throttle=1.000 steer=0.000 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:25.720 -- System time = 73.082 -- Game time = 3.950 -- Ratio = 0.054x
+SimLingo step 78: speed=1.78 throttle=0.280 steer=-0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:26.327 -- System time = 73.689 -- Game time = 4.000 -- Ratio = 0.054x
+SimLingo step 79: speed=1.89 throttle=1.000 steer=0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:26.848 -- System time = 74.210 -- Game time = 4.050 -- Ratio = 0.055x
+SimLingo step 80: speed=1.99 throttle=0.000 steer=-0.001 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:27.615 -- System time = 74.977 -- Game time = 4.100 -- Ratio = 0.055x
+SimLingo step 81: speed=2.03 throttle=0.000 steer=-0.005 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:28.173 -- System time = 75.535 -- Game time = 4.150 -- Ratio = 0.055x
+SimLingo step 82: speed=1.98 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:28.793 -- System time = 76.155 -- Game time = 4.200 -- Ratio = 0.055x
+SimLingo step 83: speed=1.64 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:29.338 -- System time = 76.700 -- Game time = 4.250 -- Ratio = 0.055x
+SimLingo step 84: speed=0.37 throttle=1.000 steer=0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:29.872 -- System time = 77.234 -- Game time = 4.300 -- Ratio = 0.056x
+SimLingo step 85: speed=0.01 throttle=0.499 steer=-0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:30.521 -- System time = 77.883 -- Game time = 4.350 -- Ratio = 0.056x
+SimLingo step 86: speed=0.00 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:31.142 -- System time = 78.504 -- Game time = 4.400 -- Ratio = 0.056x
+SimLingo step 87: speed=-0.00 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:31.811 -- System time = 79.173 -- Game time = 4.450 -- Ratio = 0.056x
+SimLingo step 88: speed=-0.00 throttle=0.000 steer=-0.009 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:32.439 -- System time = 79.801 -- Game time = 4.500 -- Ratio = 0.056x
+SimLingo step 89: speed=-0.00 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:33.063 -- System time = 80.425 -- Game time = 4.550 -- Ratio = 0.057x
+SimLingo step 90: speed=-0.00 throttle=0.000 steer=-0.005 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:33.723 -- System time = 81.085 -- Game time = 4.600 -- Ratio = 0.057x
+SimLingo step 91: speed=-0.00 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:34.366 -- System time = 81.728 -- Game time = 4.650 -- Ratio = 0.057x
+SimLingo step 92: speed=-0.00 throttle=1.000 steer=0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:35.041 -- System time = 82.403 -- Game time = 4.700 -- Ratio = 0.057x
+SimLingo step 93: speed=-0.00 throttle=0.475 steer=-0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:35.677 -- System time = 83.039 -- Game time = 4.750 -- Ratio = 0.057x
+SimLingo step 94: speed=-0.00 throttle=0.000 steer=-0.009 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:36.235 -- System time = 83.597 -- Game time = 4.800 -- Ratio = 0.057x
+SimLingo step 95: speed=-0.00 throttle=0.000 steer=-0.003 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:36.756 -- System time = 84.118 -- Game time = 4.850 -- Ratio = 0.058x
+SimLingo step 96: speed=-0.00 throttle=1.000 steer=0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:37.447 -- System time = 84.809 -- Game time = 4.900 -- Ratio = 0.058x
+SimLingo step 97: speed=-0.00 throttle=1.000 steer=0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:38.100 -- System time = 85.462 -- Game time = 4.950 -- Ratio = 0.058x
+SimLingo step 98: speed=0.09 throttle=1.000 steer=-0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:38.712 -- System time = 86.074 -- Game time = 5.000 -- Ratio = 0.058x
+SimLingo step 99: speed=0.01 throttle=0.000 steer=-0.011 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:39.233 -- System time = 86.595 -- Game time = 5.050 -- Ratio = 0.058x
+SimLingo step 100: speed=0.00 throttle=1.000 steer=-0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:40.043 -- System time = 87.405 -- Game time = 5.100 -- Ratio = 0.058x
+SimLingo step 101: speed=0.07 throttle=1.000 steer=-0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:40.697 -- System time = 88.059 -- Game time = 5.150 -- Ratio = 0.058x
+SimLingo step 102: speed=0.06 throttle=1.000 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:41.309 -- System time = 88.671 -- Game time = 5.200 -- Ratio = 0.059x
+SimLingo step 103: speed=0.08 throttle=1.000 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:41.941 -- System time = 89.303 -- Game time = 5.250 -- Ratio = 0.059x
+SimLingo step 104: speed=0.31 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:42.561 -- System time = 89.923 -- Game time = 5.300 -- Ratio = 0.059x
+SimLingo step 105: speed=0.51 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:43.171 -- System time = 90.533 -- Game time = 5.350 -- Ratio = 0.059x
+SimLingo step 106: speed=0.68 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:43.723 -- System time = 91.085 -- Game time = 5.400 -- Ratio = 0.059x
+SimLingo step 107: speed=0.99 throttle=0.000 steer=-0.017 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:44.224 -- System time = 91.586 -- Game time = 5.450 -- Ratio = 0.060x
+SimLingo step 108: speed=0.18 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:44.711 -- System time = 92.073 -- Game time = 5.500 -- Ratio = 0.060x
+SimLingo step 109: speed=0.01 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:45.342 -- System time = 92.704 -- Game time = 5.550 -- Ratio = 0.060x
+SimLingo step 110: speed=0.00 throttle=0.000 steer=-0.012 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:45.950 -- System time = 93.312 -- Game time = 5.600 -- Ratio = 0.060x
+SimLingo step 111: speed=0.00 throttle=0.000 steer=-0.013 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:46.558 -- System time = 93.920 -- Game time = 5.650 -- Ratio = 0.060x
+SimLingo step 112: speed=-0.00 throttle=1.000 steer=-0.009 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:47.237 -- System time = 94.599 -- Game time = 5.700 -- Ratio = 0.060x
+SimLingo step 113: speed=-0.00 throttle=0.000 steer=-0.015 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:47.864 -- System time = 95.226 -- Game time = 5.750 -- Ratio = 0.060x
+SimLingo step 114: speed=-0.00 throttle=1.000 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:48.401 -- System time = 95.763 -- Game time = 5.800 -- Ratio = 0.061x
+SimLingo step 115: speed=-0.00 throttle=1.000 steer=-0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:48.999 -- System time = 96.361 -- Game time = 5.850 -- Ratio = 0.061x
+SimLingo step 116: speed=0.09 throttle=1.000 steer=-0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:49.585 -- System time = 96.947 -- Game time = 5.900 -- Ratio = 0.061x
+SimLingo step 117: speed=0.01 throttle=1.000 steer=-0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:50.276 -- System time = 97.638 -- Game time = 5.950 -- Ratio = 0.061x
+SimLingo step 118: speed=0.07 throttle=1.000 steer=-0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:50.961 -- System time = 98.323 -- Game time = 6.000 -- Ratio = 0.061x
+SimLingo step 119: speed=0.25 throttle=1.000 steer=0.000 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:51.551 -- System time = 98.912 -- Game time = 6.050 -- Ratio = 0.061x
+SimLingo step 120: speed=0.43 throttle=0.278 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:52.421 -- System time = 99.782 -- Game time = 6.100 -- Ratio = 0.061x
+SimLingo step 121: speed=0.58 throttle=0.737 steer=-0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:53.052 -- System time = 100.414 -- Game time = 6.150 -- Ratio = 0.061x
+SimLingo step 122: speed=0.71 throttle=0.170 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:53.626 -- System time = 100.988 -- Game time = 6.200 -- Ratio = 0.061x
+SimLingo step 123: speed=0.81 throttle=0.801 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:54.110 -- System time = 101.472 -- Game time = 6.250 -- Ratio = 0.062x
+SimLingo step 124: speed=0.87 throttle=0.000 steer=-0.003 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:54.673 -- System time = 102.035 -- Game time = 6.300 -- Ratio = 0.062x
+SimLingo step 125: speed=0.01 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:55.234 -- System time = 102.596 -- Game time = 6.350 -- Ratio = 0.062x
+SimLingo step 126: speed=0.00 throttle=0.000 steer=-0.009 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:55.876 -- System time = 103.238 -- Game time = 6.400 -- Ratio = 0.062x
+SimLingo step 127: speed=0.00 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:56.361 -- System time = 103.723 -- Game time = 6.450 -- Ratio = 0.062x
+SimLingo step 128: speed=-0.00 throttle=0.000 steer=-0.012 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:56.988 -- System time = 104.350 -- Game time = 6.500 -- Ratio = 0.062x
+SimLingo step 129: speed=-0.00 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:57.505 -- System time = 104.867 -- Game time = 6.550 -- Ratio = 0.062x
+SimLingo step 130: speed=-0.00 throttle=0.000 steer=-0.008 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:57.982 -- System time = 105.344 -- Game time = 6.600 -- Ratio = 0.063x
+SimLingo step 131: speed=-0.00 throttle=1.000 steer=-0.000 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:58.492 -- System time = 105.854 -- Game time = 6.650 -- Ratio = 0.063x
+SimLingo step 132: speed=-0.00 throttle=0.000 steer=-0.007 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:59.030 -- System time = 106.392 -- Game time = 6.700 -- Ratio = 0.063x
+SimLingo step 133: speed=-0.00 throttle=1.000 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:53:59.663 -- System time = 107.025 -- Game time = 6.750 -- Ratio = 0.063x
+SimLingo step 134: speed=-0.00 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:00.178 -- System time = 107.540 -- Game time = 6.800 -- Ratio = 0.063x
+SimLingo step 135: speed=-0.00 throttle=0.000 steer=-0.008 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:00.798 -- System time = 108.160 -- Game time = 6.850 -- Ratio = 0.063x
+SimLingo step 136: speed=-0.00 throttle=0.000 steer=-0.010 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:01.415 -- System time = 108.777 -- Game time = 6.900 -- Ratio = 0.063x
+SimLingo step 137: speed=-0.00 throttle=1.000 steer=-0.000 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:02.033 -- System time = 109.395 -- Game time = 6.950 -- Ratio = 0.064x
+SimLingo step 138: speed=-0.00 throttle=0.000 steer=-0.008 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:02.664 -- System time = 110.026 -- Game time = 7.000 -- Ratio = 0.064x
+SimLingo step 139: speed=-0.00 throttle=0.000 steer=-0.011 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:03.239 -- System time = 110.601 -- Game time = 7.050 -- Ratio = 0.064x
+SimLingo step 140: speed=-0.00 throttle=0.000 steer=-0.002 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:04.070 -- System time = 111.432 -- Game time = 7.100 -- Ratio = 0.064x
+SimLingo step 141: speed=-0.00 throttle=0.000 steer=-0.006 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:04.585 -- System time = 111.947 -- Game time = 7.150 -- Ratio = 0.064x
+SimLingo step 142: speed=-0.00 throttle=0.000 steer=-0.005 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:05.194 -- System time = 112.556 -- Game time = 7.200 -- Ratio = 0.064x
+SimLingo step 143: speed=-0.00 throttle=0.000 steer=-0.003 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:05.710 -- System time = 113.072 -- Game time = 7.250 -- Ratio = 0.064x
+SimLingo step 144: speed=-0.00 throttle=1.000 steer=0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:06.326 -- System time = 113.688 -- Game time = 7.300 -- Ratio = 0.064x
+SimLingo step 145: speed=-0.00 throttle=1.000 steer=0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:06.857 -- System time = 114.219 -- Game time = 7.350 -- Ratio = 0.064x
+SimLingo step 146: speed=-0.00 throttle=1.000 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:07.396 -- System time = 114.757 -- Game time = 7.400 -- Ratio = 0.064x
+SimLingo step 147: speed=0.00 throttle=1.000 steer=0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:08.018 -- System time = 115.380 -- Game time = 7.450 -- Ratio = 0.065x
+SimLingo step 148: speed=0.06 throttle=1.000 steer=0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:08.707 -- System time = 116.069 -- Game time = 7.500 -- Ratio = 0.065x
+SimLingo step 149: speed=0.14 throttle=1.000 steer=0.019 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:09.389 -- System time = 116.751 -- Game time = 7.550 -- Ratio = 0.065x
+SimLingo step 150: speed=0.27 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:10.022 -- System time = 117.384 -- Game time = 7.600 -- Ratio = 0.065x
+SimLingo step 151: speed=0.47 throttle=1.000 steer=0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:10.701 -- System time = 118.062 -- Game time = 7.650 -- Ratio = 0.065x
+SimLingo step 152: speed=0.68 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:11.308 -- System time = 118.670 -- Game time = 7.700 -- Ratio = 0.065x
+SimLingo step 153: speed=0.89 throttle=1.000 steer=0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:11.953 -- System time = 119.315 -- Game time = 7.750 -- Ratio = 0.065x
+SimLingo step 154: speed=1.02 throttle=1.000 steer=0.009 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:12.560 -- System time = 119.922 -- Game time = 7.800 -- Ratio = 0.065x
+SimLingo step 155: speed=1.24 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:13.281 -- System time = 120.643 -- Game time = 7.850 -- Ratio = 0.065x
+SimLingo step 156: speed=1.51 throttle=1.000 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:13.794 -- System time = 121.156 -- Game time = 7.900 -- Ratio = 0.065x
+SimLingo step 157: speed=1.70 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:14.443 -- System time = 121.805 -- Game time = 7.950 -- Ratio = 0.065x
+SimLingo step 158: speed=1.95 throttle=1.000 steer=0.018 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:15.070 -- System time = 122.432 -- Game time = 8.000 -- Ratio = 0.065x
+SimLingo step 159: speed=2.18 throttle=1.000 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:15.686 -- System time = 123.048 -- Game time = 8.050 -- Ratio = 0.065x
+SimLingo step 160: speed=2.48 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:16.605 -- System time = 123.967 -- Game time = 8.100 -- Ratio = 0.065x
+SimLingo step 161: speed=2.81 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:17.192 -- System time = 124.554 -- Game time = 8.150 -- Ratio = 0.065x
+SimLingo step 162: speed=3.21 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:17.770 -- System time = 125.132 -- Game time = 8.200 -- Ratio = 0.066x
+SimLingo step 163: speed=3.59 throttle=1.000 steer=0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:18.414 -- System time = 125.776 -- Game time = 8.250 -- Ratio = 0.066x
+SimLingo step 164: speed=3.95 throttle=0.000 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:18.943 -- System time = 126.305 -- Game time = 8.300 -- Ratio = 0.066x
+SimLingo step 165: speed=4.27 throttle=0.674 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:19.508 -- System time = 126.870 -- Game time = 8.350 -- Ratio = 0.066x
+SimLingo step 166: speed=4.51 throttle=0.000 steer=0.017 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:20.123 -- System time = 127.485 -- Game time = 8.400 -- Ratio = 0.066x
+SimLingo step 167: speed=4.66 throttle=0.793 steer=0.012 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:20.686 -- System time = 128.048 -- Game time = 8.450 -- Ratio = 0.066x
+SimLingo step 168: speed=4.71 throttle=0.743 steer=0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:21.282 -- System time = 128.644 -- Game time = 8.500 -- Ratio = 0.066x
+SimLingo step 169: speed=4.78 throttle=0.000 steer=0.015 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:21.806 -- System time = 129.168 -- Game time = 8.550 -- Ratio = 0.066x
+SimLingo step 170: speed=4.84 throttle=0.000 steer=0.013 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:22.366 -- System time = 129.728 -- Game time = 8.600 -- Ratio = 0.066x
+SimLingo step 171: speed=4.77 throttle=0.000 steer=0.012 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:22.935 -- System time = 130.297 -- Game time = 8.650 -- Ratio = 0.066x
+SimLingo step 172: speed=4.56 throttle=0.000 steer=0.006 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:23.539 -- System time = 130.901 -- Game time = 8.700 -- Ratio = 0.066x
+SimLingo step 173: speed=4.27 throttle=0.493 steer=-0.009 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:24.155 -- System time = 131.517 -- Game time = 8.750 -- Ratio = 0.067x
+SimLingo step 174: speed=4.02 throttle=0.000 steer=0.013 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:24.652 -- System time = 132.014 -- Game time = 8.800 -- Ratio = 0.067x
+SimLingo step 175: speed=3.80 throttle=0.000 steer=0.001 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:25.189 -- System time = 132.551 -- Game time = 8.850 -- Ratio = 0.067x
+SimLingo step 176: speed=3.53 throttle=1.000 steer=-0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:25.712 -- System time = 133.074 -- Game time = 8.900 -- Ratio = 0.067x
+SimLingo step 177: speed=3.30 throttle=1.000 steer=-0.022 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:26.206 -- System time = 133.568 -- Game time = 8.950 -- Ratio = 0.067x
+SimLingo step 178: speed=3.18 throttle=1.000 steer=-0.022 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:26.851 -- System time = 134.213 -- Game time = 9.000 -- Ratio = 0.067x
+SimLingo step 179: speed=3.16 throttle=1.000 steer=-0.019 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:27.495 -- System time = 134.857 -- Game time = 9.050 -- Ratio = 0.067x
+SimLingo step 180: speed=3.25 throttle=1.000 steer=-0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:28.445 -- System time = 135.807 -- Game time = 9.100 -- Ratio = 0.067x
+SimLingo step 181: speed=3.45 throttle=1.000 steer=-0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:29.018 -- System time = 136.380 -- Game time = 9.150 -- Ratio = 0.067x
+SimLingo step 182: speed=3.74 throttle=1.000 steer=-0.015 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:29.583 -- System time = 136.945 -- Game time = 9.200 -- Ratio = 0.067x
+SimLingo step 183: speed=4.05 throttle=1.000 steer=-0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:30.107 -- System time = 137.469 -- Game time = 9.250 -- Ratio = 0.067x
+SimLingo step 184: speed=4.38 throttle=1.000 steer=-0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:30.768 -- System time = 138.130 -- Game time = 9.300 -- Ratio = 0.067x
+SimLingo step 185: speed=4.71 throttle=0.896 steer=-0.017 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:31.284 -- System time = 138.646 -- Game time = 9.350 -- Ratio = 0.067x
+SimLingo step 186: speed=5.04 throttle=0.410 steer=-0.006 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:31.837 -- System time = 139.199 -- Game time = 9.400 -- Ratio = 0.068x
+SimLingo step 187: speed=5.33 throttle=0.060 steer=-0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:32.486 -- System time = 139.848 -- Game time = 9.450 -- Ratio = 0.068x
+SimLingo step 188: speed=5.32 throttle=0.714 steer=-0.010 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:33.116 -- System time = 140.478 -- Game time = 9.500 -- Ratio = 0.068x
+SimLingo step 189: speed=5.24 throttle=0.946 steer=-0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:33.740 -- System time = 141.102 -- Game time = 9.550 -- Ratio = 0.068x
+SimLingo step 190: speed=5.12 throttle=1.000 steer=-0.009 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:34.441 -- System time = 141.803 -- Game time = 9.600 -- Ratio = 0.068x
+SimLingo step 191: speed=5.08 throttle=1.000 steer=-0.048 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:35.122 -- System time = 142.484 -- Game time = 9.650 -- Ratio = 0.068x
+SimLingo step 192: speed=5.03 throttle=1.000 steer=-0.036 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:35.741 -- System time = 143.103 -- Game time = 9.700 -- Ratio = 0.068x
+SimLingo step 193: speed=5.07 throttle=1.000 steer=-0.027 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:36.414 -- System time = 143.776 -- Game time = 9.750 -- Ratio = 0.068x
+SimLingo step 194: speed=5.04 throttle=1.000 steer=-0.025 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:36.943 -- System time = 144.305 -- Game time = 9.800 -- Ratio = 0.068x
+SimLingo step 195: speed=5.09 throttle=1.000 steer=-0.035 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:37.596 -- System time = 144.958 -- Game time = 9.850 -- Ratio = 0.068x
+SimLingo step 196: speed=5.84 throttle=1.000 steer=-0.036 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:38.217 -- System time = 145.579 -- Game time = 9.900 -- Ratio = 0.068x
+SimLingo step 197: speed=6.45 throttle=1.000 steer=-0.021 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:38.751 -- System time = 146.113 -- Game time = 9.950 -- Ratio = 0.068x
+SimLingo step 198: speed=6.90 throttle=1.000 steer=-0.034 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:39.334 -- System time = 146.696 -- Game time = 10.000 -- Ratio = 0.068x
+SimLingo step 199: speed=7.18 throttle=1.000 steer=-0.036 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:39.843 -- System time = 147.205 -- Game time = 10.050 -- Ratio = 0.068x
+SimLingo step 200: speed=7.48 throttle=1.000 steer=-0.026 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:40.681 -- System time = 148.042 -- Game time = 10.100 -- Ratio = 0.068x
+SimLingo step 201: speed=7.85 throttle=1.000 steer=-0.029 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:41.229 -- System time = 148.591 -- Game time = 10.150 -- Ratio = 0.068x
+SimLingo step 202: speed=8.23 throttle=1.000 steer=-0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:41.822 -- System time = 149.184 -- Game time = 10.200 -- Ratio = 0.068x
+SimLingo step 203: speed=8.65 throttle=1.000 steer=0.027 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:42.367 -- System time = 149.729 -- Game time = 10.250 -- Ratio = 0.068x
+SimLingo step 204: speed=8.49 throttle=1.000 steer=-0.012 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:42.926 -- System time = 150.288 -- Game time = 10.300 -- Ratio = 0.069x
+SimLingo step 205: speed=8.67 throttle=0.000 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:43.460 -- System time = 150.822 -- Game time = 10.350 -- Ratio = 0.069x
+SimLingo step 206: speed=9.05 throttle=0.699 steer=-0.001 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:43.961 -- System time = 151.323 -- Game time = 10.400 -- Ratio = 0.069x
+SimLingo step 207: speed=9.48 throttle=0.697 steer=-0.061 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:44.587 -- System time = 151.948 -- Game time = 10.450 -- Ratio = 0.069x
+SimLingo step 208: speed=9.79 throttle=0.692 steer=-0.057 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:45.106 -- System time = 152.468 -- Game time = 10.500 -- Ratio = 0.069x
+SimLingo step 209: speed=10.04 throttle=0.684 steer=-0.037 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:45.817 -- System time = 153.179 -- Game time = 10.550 -- Ratio = 0.069x
+SimLingo step 210: speed=10.24 throttle=0.000 steer=-0.066 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:46.460 -- System time = 153.822 -- Game time = 10.600 -- Ratio = 0.069x
+SimLingo step 211: speed=10.34 throttle=0.000 steer=0.072 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:47.065 -- System time = 154.427 -- Game time = 10.650 -- Ratio = 0.069x
+SimLingo step 212: speed=10.30 throttle=0.000 steer=0.096 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:47.715 -- System time = 155.076 -- Game time = 10.700 -- Ratio = 0.069x
+SimLingo step 213: speed=10.10 throttle=0.000 steer=0.158 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:48.301 -- System time = 155.663 -- Game time = 10.750 -- Ratio = 0.069x
+SimLingo step 214: speed=9.84 throttle=0.000 steer=0.286 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:48.938 -- System time = 156.300 -- Game time = 10.800 -- Ratio = 0.069x
+SimLingo step 215: speed=9.49 throttle=0.000 steer=0.333 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:49.445 -- System time = 156.807 -- Game time = 10.850 -- Ratio = 0.069x
+SimLingo step 216: speed=9.07 throttle=0.370 steer=0.369 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:50.095 -- System time = 157.457 -- Game time = 10.900 -- Ratio = 0.069x
+SimLingo step 217: speed=8.46 throttle=0.320 steer=0.434 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:50.629 -- System time = 157.991 -- Game time = 10.950 -- Ratio = 0.069x
+SimLingo step 218: speed=8.03 throttle=0.270 steer=0.508 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:51.125 -- System time = 158.487 -- Game time = 11.000 -- Ratio = 0.069x
+SimLingo step 219: speed=7.70 throttle=0.220 steer=0.362 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:51.785 -- System time = 159.147 -- Game time = 11.050 -- Ratio = 0.069x
+SimLingo step 220: speed=7.55 throttle=0.207 steer=0.428 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:52.672 -- System time = 160.034 -- Game time = 11.100 -- Ratio = 0.069x
+SimLingo step 221: speed=7.34 throttle=0.929 steer=0.380 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:53.227 -- System time = 160.589 -- Game time = 11.150 -- Ratio = 0.069x
+SimLingo step 222: speed=7.22 throttle=0.000 steer=0.396 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:53.886 -- System time = 161.248 -- Game time = 11.200 -- Ratio = 0.069x
+SimLingo step 223: speed=7.08 throttle=0.936 steer=0.325 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:54.546 -- System time = 161.908 -- Game time = 11.250 -- Ratio = 0.069x
+SimLingo step 224: speed=6.99 throttle=0.000 steer=0.357 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:55.209 -- System time = 162.571 -- Game time = 11.300 -- Ratio = 0.070x
+SimLingo step 225: speed=6.85 throttle=1.000 steer=0.231 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:55.828 -- System time = 163.190 -- Game time = 11.350 -- Ratio = 0.070x
+SimLingo step 226: speed=6.78 throttle=0.000 steer=0.291 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:56.445 -- System time = 163.807 -- Game time = 11.400 -- Ratio = 0.070x
+SimLingo step 227: speed=6.63 throttle=1.000 steer=0.384 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:56.985 -- System time = 164.347 -- Game time = 11.450 -- Ratio = 0.070x
+SimLingo step 228: speed=6.46 throttle=0.000 steer=0.326 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:57.592 -- System time = 164.954 -- Game time = 11.500 -- Ratio = 0.070x
+SimLingo step 229: speed=6.31 throttle=1.000 steer=0.365 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:58.144 -- System time = 165.505 -- Game time = 11.550 -- Ratio = 0.070x
+SimLingo step 230: speed=6.21 throttle=0.921 steer=0.412 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:58.825 -- System time = 166.187 -- Game time = 11.600 -- Ratio = 0.070x
+SimLingo step 231: speed=6.14 throttle=1.000 steer=0.465 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:54:59.352 -- System time = 166.714 -- Game time = 11.650 -- Ratio = 0.070x
+SimLingo step 232: speed=5.99 throttle=1.000 steer=0.540 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:00.009 -- System time = 167.371 -- Game time = 11.700 -- Ratio = 0.070x
+SimLingo step 233: speed=5.56 throttle=1.000 steer=0.450 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:00.639 -- System time = 168.001 -- Game time = 11.750 -- Ratio = 0.070x
+SimLingo step 234: speed=5.40 throttle=1.000 steer=0.418 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:01.300 -- System time = 168.662 -- Game time = 11.800 -- Ratio = 0.070x
+SimLingo step 235: speed=5.33 throttle=1.000 steer=0.395 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:01.946 -- System time = 169.308 -- Game time = 11.850 -- Ratio = 0.070x
+SimLingo step 236: speed=5.32 throttle=1.000 steer=0.417 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:02.634 -- System time = 169.996 -- Game time = 11.900 -- Ratio = 0.070x
+SimLingo step 237: speed=5.32 throttle=1.000 steer=0.412 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:03.340 -- System time = 170.702 -- Game time = 11.950 -- Ratio = 0.070x
+SimLingo step 238: speed=5.42 throttle=1.000 steer=0.349 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:03.972 -- System time = 171.334 -- Game time = 12.000 -- Ratio = 0.070x
+SimLingo step 239: speed=5.63 throttle=1.000 steer=0.322 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:04.682 -- System time = 172.044 -- Game time = 12.050 -- Ratio = 0.070x
+SimLingo step 240: speed=5.92 throttle=1.000 steer=0.240 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:05.602 -- System time = 172.964 -- Game time = 12.100 -- Ratio = 0.070x
+SimLingo step 241: speed=5.92 throttle=1.000 steer=0.198 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:06.259 -- System time = 173.621 -- Game time = 12.150 -- Ratio = 0.070x
+SimLingo step 242: speed=5.96 throttle=1.000 steer=0.282 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:06.887 -- System time = 174.249 -- Game time = 12.200 -- Ratio = 0.070x
+SimLingo step 243: speed=6.54 throttle=1.000 steer=0.267 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:07.569 -- System time = 174.931 -- Game time = 12.250 -- Ratio = 0.070x
+SimLingo step 244: speed=7.29 throttle=1.000 steer=0.215 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:08.170 -- System time = 175.532 -- Game time = 12.300 -- Ratio = 0.070x
+SimLingo step 245: speed=7.95 throttle=1.000 steer=0.193 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:08.742 -- System time = 176.103 -- Game time = 12.350 -- Ratio = 0.070x
+SimLingo step 246: speed=8.51 throttle=0.000 steer=0.234 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:09.389 -- System time = 176.751 -- Game time = 12.400 -- Ratio = 0.070x
+SimLingo step 247: speed=8.96 throttle=0.751 steer=0.251 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:09.909 -- System time = 177.271 -- Game time = 12.450 -- Ratio = 0.070x
+SimLingo step 248: speed=9.28 throttle=0.742 steer=0.180 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:10.538 -- System time = 177.900 -- Game time = 12.500 -- Ratio = 0.070x
+SimLingo step 249: speed=9.59 throttle=0.718 steer=0.216 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:11.094 -- System time = 178.456 -- Game time = 12.550 -- Ratio = 0.070x
+SimLingo step 250: speed=9.82 throttle=0.000 steer=0.206 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:11.637 -- System time = 178.999 -- Game time = 12.600 -- Ratio = 0.070x
+SimLingo step 251: speed=9.77 throttle=0.661 steer=0.114 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:12.217 -- System time = 179.579 -- Game time = 12.650 -- Ratio = 0.070x
+SimLingo step 252: speed=9.89 throttle=0.611 steer=0.120 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:12.829 -- System time = 180.191 -- Game time = 12.700 -- Ratio = 0.070x
+SimLingo step 253: speed=9.99 throttle=0.000 steer=0.054 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:13.615 -- System time = 180.976 -- Game time = 12.750 -- Ratio = 0.070x
+SimLingo step 254: speed=10.31 throttle=0.000 steer=0.002 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:14.287 -- System time = 181.649 -- Game time = 12.800 -- Ratio = 0.070x
+SimLingo step 255: speed=10.38 throttle=0.000 steer=0.034 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:14.870 -- System time = 182.232 -- Game time = 12.850 -- Ratio = 0.071x
+SimLingo step 256: speed=10.27 throttle=0.000 steer=0.019 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:15.476 -- System time = 182.838 -- Game time = 12.900 -- Ratio = 0.071x
+SimLingo step 257: speed=10.04 throttle=0.000 steer=0.016 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:16.074 -- System time = 183.436 -- Game time = 12.950 -- Ratio = 0.071x
+SimLingo step 258: speed=9.80 throttle=0.000 steer=0.011 brake=1.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:16.708 -- System time = 184.070 -- Game time = 13.000 -- Ratio = 0.071x
+SimLingo step 259: speed=9.48 throttle=0.261 steer=0.012 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:17.253 -- System time = 184.614 -- Game time = 13.050 -- Ratio = 0.071x
+SimLingo step 260: speed=9.24 throttle=0.211 steer=0.012 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:17.995 -- System time = 185.357 -- Game time = 13.100 -- Ratio = 0.071x
+SimLingo step 261: speed=9.08 throttle=0.161 steer=0.016 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:18.659 -- System time = 186.020 -- Game time = 13.150 -- Ratio = 0.071x
+SimLingo step 262: speed=9.10 throttle=0.111 steer=0.011 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:19.397 -- System time = 186.759 -- Game time = 13.200 -- Ratio = 0.071x
+SimLingo step 263: speed=9.08 throttle=0.061 steer=0.014 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:20.076 -- System time = 187.437 -- Game time = 13.250 -- Ratio = 0.071x
+SimLingo step 264: speed=8.65 throttle=0.031 steer=0.003 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:20.746 -- System time = 188.108 -- Game time = 13.300 -- Ratio = 0.071x
+SimLingo step 265: speed=8.29 throttle=1.000 steer=0.002 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:21.419 -- System time = 188.780 -- Game time = 13.350 -- Ratio = 0.071x
+SimLingo step 266: speed=8.05 throttle=1.000 steer=0.008 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:21.950 -- System time = 189.312 -- Game time = 13.400 -- Ratio = 0.071x
+SimLingo step 267: speed=7.82 throttle=1.000 steer=0.007 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:22.492 -- System time = 189.854 -- Game time = 13.450 -- Ratio = 0.071x
+SimLingo step 268: speed=7.72 throttle=1.000 steer=0.014 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:23.046 -- System time = 190.408 -- Game time = 13.500 -- Ratio = 0.071x
+SimLingo step 269: speed=7.66 throttle=1.000 steer=0.008 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:23.546 -- System time = 190.908 -- Game time = 13.550 -- Ratio = 0.071x
+SimLingo step 270: speed=7.72 throttle=1.000 steer=0.003 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:24.250 -- System time = 191.612 -- Game time = 13.600 -- Ratio = 0.071x
+SimLingo step 271: speed=7.84 throttle=1.000 steer=-0.003 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:24.976 -- System time = 192.338 -- Game time = 13.650 -- Ratio = 0.071x
+SimLingo step 272: speed=8.06 throttle=1.000 steer=-0.021 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:25.623 -- System time = 192.985 -- Game time = 13.700 -- Ratio = 0.071x
+SimLingo step 273: speed=8.18 throttle=1.000 steer=-0.016 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:26.362 -- System time = 193.724 -- Game time = 13.750 -- Ratio = 0.071x
+SimLingo step 274: speed=8.19 throttle=1.000 steer=-0.014 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:26.988 -- System time = 194.350 -- Game time = 13.800 -- Ratio = 0.071x
+SimLingo step 275: speed=8.23 throttle=1.000 steer=-0.009 brake=0.000
+WARNING: Cannot spawn actor vehicle.* at position Location(x=-13.815620, y=2.582955, z=0.200000)
+=== [Agent] -- Wallclock = 2026-10-08 01:55:27.599 -- System time = 194.961 -- Game time = 13.850 -- Ratio = 0.071x
+SimLingo step 276: speed=8.82 throttle=1.000 steer=-0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:28.225 -- System time = 195.587 -- Game time = 13.900 -- Ratio = 0.071x
+SimLingo step 277: speed=9.25 throttle=1.000 steer=-0.016 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:28.805 -- System time = 196.167 -- Game time = 13.950 -- Ratio = 0.071x
+SimLingo step 278: speed=9.63 throttle=0.470 steer=-0.014 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:29.494 -- System time = 196.856 -- Game time = 14.000 -- Ratio = 0.071x
+SimLingo step 279: speed=9.95 throttle=0.106 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:30.131 -- System time = 197.493 -- Game time = 14.050 -- Ratio = 0.071x
+SimLingo step 280: speed=10.16 throttle=1.000 steer=-0.012 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:30.990 -- System time = 198.352 -- Game time = 14.100 -- Ratio = 0.071x
+SimLingo step 281: speed=10.25 throttle=1.000 steer=-0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:31.628 -- System time = 198.990 -- Game time = 14.150 -- Ratio = 0.071x
+SimLingo step 282: speed=10.31 throttle=0.927 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:32.150 -- System time = 199.512 -- Game time = 14.200 -- Ratio = 0.071x
+SimLingo step 283: speed=10.36 throttle=1.000 steer=-0.004 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:32.802 -- System time = 200.164 -- Game time = 14.250 -- Ratio = 0.071x
+SimLingo step 284: speed=10.50 throttle=0.943 steer=0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:33.324 -- System time = 200.685 -- Game time = 14.300 -- Ratio = 0.071x
+SimLingo step 285: speed=10.66 throttle=0.398 steer=0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:33.890 -- System time = 201.252 -- Game time = 14.350 -- Ratio = 0.071x
+SimLingo step 286: speed=10.85 throttle=0.469 steer=0.002 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:34.501 -- System time = 201.863 -- Game time = 14.400 -- Ratio = 0.071x
+SimLingo step 287: speed=10.97 throttle=0.000 steer=0.013 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:35.051 -- System time = 202.413 -- Game time = 14.450 -- Ratio = 0.071x
+SimLingo step 288: speed=11.02 throttle=0.000 steer=0.016 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:35.779 -- System time = 203.141 -- Game time = 14.500 -- Ratio = 0.071x
+SimLingo step 289: speed=10.93 throttle=0.547 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:36.264 -- System time = 203.626 -- Game time = 14.550 -- Ratio = 0.071x
+SimLingo step 290: speed=10.82 throttle=0.497 steer=0.013 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:36.870 -- System time = 204.232 -- Game time = 14.600 -- Ratio = 0.071x
+SimLingo step 291: speed=10.76 throttle=0.500 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:37.528 -- System time = 204.890 -- Game time = 14.650 -- Ratio = 0.072x
+SimLingo step 292: speed=10.75 throttle=0.370 steer=0.007 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:38.084 -- System time = 205.446 -- Game time = 14.700 -- Ratio = 0.072x
+SimLingo step 293: speed=10.72 throttle=0.420 steer=0.008 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:38.622 -- System time = 205.984 -- Game time = 14.750 -- Ratio = 0.072x
+SimLingo step 294: speed=10.72 throttle=0.808 steer=0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:39.268 -- System time = 206.630 -- Game time = 14.800 -- Ratio = 0.072x
+SimLingo step 295: speed=10.71 throttle=1.000 steer=0.003 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:39.904 -- System time = 207.266 -- Game time = 14.850 -- Ratio = 0.072x
+SimLingo step 296: speed=10.77 throttle=0.000 steer=0.005 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:40.500 -- System time = 207.862 -- Game time = 14.900 -- Ratio = 0.072x
+SimLingo step 297: speed=10.86 throttle=1.000 steer=0.011 brake=0.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:41.098 -- System time = 208.460 -- Game time = 14.950 -- Ratio = 0.072x
+SimLingo step 298: speed=10.96 throttle=0.000 steer=0.015 brake=1.000
+=== [Agent] -- Wallclock = 2026-10-08 01:55:41.816 -- System time = 209.178 -- Game time = 15.000 -- Ratio = 0.072x
+SimLingo step 299: speed=11.02 throttle=0.000 steer=0.005 brake=1.000
+[1m> Stopping the route[0m
+
+[1m========= Results of RouteScenario_26956 (repetition 0) ------ [91mFAILURE[0m [1m=========[0m
+
+╒═══════════════════════╤═════════════════════╕
+│ Start Time            │ 2026-10-08 01:52:12 │
+├───────────────────────┼─────────────────────┤
+│ End Time              │ 2026-10-08 01:55:43 │
+├───────────────────────┼─────────────────────┤
+│ System Time           │ 210.44s             │
+├───────────────────────┼─────────────────────┤
+│ Game Time             │ 15.0s               │
+├───────────────────────┼─────────────────────┤
+│ Ratio (Game / System) │ 0.071               │
+╘═══════════════════════╧═════════════════════╛
+
+╒═══════════════════════╤═════════╤══════════╕
+│ Criterion             │ Result  │ Value    │
+├───────────────────────┼─────────┼──────────┤
+│ RouteCompletionTest   │ [92mSUCCESS[0m │ 100 %    │
+├───────────────────────┼─────────┼──────────┤
+│ OutsideRouteLanesTest │ [92mSUCCESS[0m │ 0 %      │
+├───────────────────────┼─────────┼──────────┤
+│ CollisionTest         │ [92mSUCCESS[0m │ 0 times  │
+├───────────────────────┼─────────┼──────────┤
+│ RunningRedLightTest   │ [92mSUCCESS[0m │ 0 times  │
+├───────────────────────┼─────────┼──────────┤
+│ RunningStopTest       │ [92mSUCCESS[0m │ 0 times  │
+├───────────────────────┼─────────┼──────────┤
+│ MinSpeedTest          │ [91mFAILURE[0m │ 669.78 % │
+├───────────────────────┼─────────┼──────────┤
+│ InRouteTest           │ [92mSUCCESS[0m │          │
+├───────────────────────┼─────────┼──────────┤
+│ AgentBlockedTest      │ [92mSUCCESS[0m │          │
+├───────────────────────┼─────────┼──────────┤
+│ ScenarioTimeoutTest   │ [92mSUCCESS[0m │ 0 times  │
+├───────────────────────┼─────────┼──────────┤
+│ Timeout               │ [92mSUCCESS[0m │          │
+╘═══════════════════════╧═════════╧══════════╛
+
+[1m> Registering the route statistics[0m
+False
+cost time=243.19037771224976
+[1m> Registering the global statistics[0m
+{
+  "scope": "savio_step1_single_route",
+  "config": {
+    "name": "step1-single-route",
+    "step": 1,
+    "scope": "savio_step1_single_route",
+    "policy": {
+      "name": "simlingo",
+      "hf_repo": "RenzKa/simlingo",
+      "ckpt_sha256": "ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28",
+      "cot": false,
+      "device": "cuda",
+      "arch": {
+        "hidden_size": 896,
+        "num_decoder_layers": 24,
+        "query_token_module": "adaptors.driving"
+      }
+    },
+    "simulator": {
+      "carla_version": "0.9.15",
+      "carla_build": "stock-linux-release",
+      "bench2drive_version": "0.0.3",
+      "mode": "synchronous",
+      "fixed_delta_seconds": 0.05,
+      "render_offscreen": true,
+      "quality": "Epic",
+      "timeout_seconds": 60
+    },
+    "route": {
+      "id": "26956",
+      "town": "Town05",
+      "scenario": "SignalizedJunctionRightTurn",
+      "seed": 0
+    },
+    "measure": {
+      "wall_clock_seconds": "TBD-STEP1",
+      "simulated_seconds": "TBD-STEP1",
+      "real_time_factor": "TBD-STEP1",
+      "peak_vram_gb": "TBD-STEP1"
+    },
+    "outputs": {
+      "results_dir": "results/savio/",
+      "record_infractions": true
+    }
+  },
+  "versions": {
+    "server": "0.9.15",
+    "client": "0.9.15"
+  },
+  "integration_verified": true,
+  "route_completed": true,
+  "model_steps": 299,
+  "wall_seconds": 210.441,
+  "simulated_seconds": 15.0,
+  "real_time_factor": 0.07127888576845767,
+  "whole_stack_peak_vram": 9.41,
+  "infractions": {
+    "collisions_layout": [],
+    "collisions_pedestrian": [],
+    "collisions_vehicle": [],
+    "red_light": [],
+    "stop_infraction": [],
+    "outside_route_lanes": [],
+    "min_speed_infractions": [
+      "Average speed is 172.52% of the surrounding traffic's one",
+      "Average speed is 173.29% of the surrounding traffic's one",
+      "Average speed is 297.24% of the surrounding traffic's one",
+      "Average speed is 31.74% of the surrounding traffic's one",
+      "Average speed is 217.15% of the surrounding traffic's one",
+      "Average speed is 455.18% of the surrounding traffic's one",
+      "Average speed is 633.31% of the surrounding traffic's one",
+      "Average speed is 548.52% of the surrounding traffic's one",
+      "Average speed is 370.53% of the surrounding traffic's one",
+      "Average speed is 359.03% of the surrounding traffic's one",
+      "Average speed is 776.92% of the surrounding traffic's one",
+      "Average speed is 2537.58% of the surrounding traffic's one",
+      "Average speed is 1287.65% of the surrounding traffic's one",
+      "Average speed is 1209.96% of the surrounding traffic's one",
+      "Average speed is 883.01% of the surrounding traffic's one",
+      "Average speed is 762.89% of the surrounding traffic's one"
+    ],
+    "yield_emergency_vehicle_infractions": [],
+    "scenario_timeouts": [],
+    "route_dev": [],
+    "vehicle_blocked": [],
+    "route_timeout": []
+  },
+  "savio_verified": true,
+  "fail2drive_custom_build_verified": false,
+  "environment": "savio",
+  "slurm_job_id": "39732394",
+  "node": "n0214.savio3",
+  "gpus": [
+    {
+      "uuid": "GPU-8344345a-558d-a3d7-bd8a-08a197d8a79d",
+      "name": "NVIDIA A40",
+      "peak_mib": 9638,
+      "mean_utilization_percent": 15.6,
+      "samples": 277
+    }
+  ],
+  "gpu_monitor_error": null,
+  "container": null
+}
+=== done: results/savio/39732394/route/readiness.json ===
