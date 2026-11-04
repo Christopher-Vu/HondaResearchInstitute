@@ -1,0 +1,35 @@
+# Reproduction screen: does SimLingo fail Fail2Drive's own unseen scenarios on our harness as the paper reports?
+# Fail2Drive (arXiv 2604.08535) Table 2 puts SimLingo's largest drops in Behavior (-64.2%) and Visual-lat (-32.2%);
+# its text gives PedestriansOnRoad 98.50 -> 19.68 HM with collisions in 87% of cases, CustomObstacles 11.90 HM, and
+# Wall near 0 HM for every model. Our own P5 (PedestriansOnRoad appended to Bench2Drive routes) failed 2 of 8.
+# Each Fail2Drive pair is one base: generalization route = slice, its base twin = neighbourhood (fail2drive_pairs.py).
+# Public: these routes and assets are Fail2Drive's and never enter the sealed key; Fail2Drive forbids training on them.
+#   python adapters/simlingo/fail2drive_pairs.py configs/rollout/f2d-repro-screen.yaml PedestriansOnRoad Wall CustomObstacles
+#   CARLA build and evaluator are Fail2Drive's; route markers off (the benchmark's default), unlike every Step 5 pilot.
+#   bash scripts/submit.sh gpu_a40 --time=0-04:00:00 --array=0-13%14 scripts/route_sample.sbatch configs/rollout/f2d-repro-screen.yaml 3
+
+name: f2d-repro-screen
+step: 5
+scope: savio_f2d_repro_screen
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive        # Fail2Drive's server, for its novel assets (configs/cluster/savio.yaml)
+  benchmark: fail2drive          # its leaderboard and scenario runner, pinned in route_run.FAIL2DRIVE_REVISION
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+capture_token_layers: [10, 11]
+
+route:
+  seed: 24                       # traffic manager seed; unused by every earlier pilot
+  routes_file: configs/rollout/f2d-repro-screen.xml
+  manifest: configs/rollout/f2d-repro-screen.manifest.json   # the route list; this config has no `routes` key
