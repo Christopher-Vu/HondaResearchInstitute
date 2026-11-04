@@ -208,7 +208,8 @@ gaps:
     # C24, fixed before the screen runs: at least 99% of the box is black in the saved frames of the first 5 scored slice routes, and the car
     # passes within 5 m of the scenario's trigger with another vehicle within 50 m in the 10 s after, on at least 70% of scored slice routes.
     manipulation_check: {measure: black_box_and_reached_trigger_with_traffic, min_fraction: 0.99, of_first_routes: 5, max_miss_m: 5, within_s: 10, min_fraction_passing: 0.7, of_routes: scored_slices}
-    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10}
+    # min_pairs, H13's amendment of 2026-11-04: fewer scored pairs is no result, not a failed screen.
+    screen_rule: {min_excess_slice_only_failures: 3, of_pairs: 10, min_pairs: 8}
 
   - gap_id: P11_blind_side_crossing
     tier: T2_interactional

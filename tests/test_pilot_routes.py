@@ -1,5 +1,7 @@
 """The Step 5 pilot generator: pairs on distinct base routes that differ only in the planted weather."""
+import importlib.util
 import json
+import math
 import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
@@ -107,9 +109,48 @@ def test_screen_and_full_pilot_never_share_a_base_route():
 
 
 def test_no_two_committed_manifests_share_a_route_id():
-    ids = [entry["id"] for path in (ROOT / "configs/rollout").glob("*.manifest.json")
+    """An amended screen re-lists its original's routes on purpose; its new ids are checked with it."""
+    ids = [entry["id"] for path in (ROOT / "configs/rollout").glob("*.manifest.json") if not path.name.endswith("-amended.manifest.json")
            for entry in json.loads(path.read_text())]
     assert len(ids) == len(set(ids))
+
+
+def amended_p20_screen():
+    original = ROOT / "configs/rollout/step5-pilot-p20-screen"
+    amended = ROOT / "configs/rollout/step5-pilot-p20-screen-amended"
+    return tuple({route.get("id"): route for route in ET.parse(f"{path}.xml").getroot().iter("route")} for path in (original, amended)), tuple(
+        {entry["id"]: entry for entry in json.loads(Path(f"{path}.manifest.json").read_text())} for path in (original, amended))
+
+
+def test_the_amended_p20_screen_changes_only_the_three_recut_pairs():
+    (old_routes, new_routes), (old_entries, new_entries) = amended_p20_screen()
+    kept = set(old_routes) & set(new_routes)
+    assert len(new_routes) == len(new_entries) == 20 and len(kept) == 14
+    assert all(ET.tostring(old_routes[route_id]) == ET.tostring(new_routes[route_id]) and old_entries[route_id] == new_entries[route_id]
+               for route_id in kept)
+    recut = {route_id: entry for route_id, entry in new_entries.items() if "recut_of" in entry}
+    assert {entry["recut_of"] for entry in recut.values()} == {"64155", "64223", "64250"} and len(recut) == 6
+    for route_id, entry in recut.items():
+        old_id = entry["recut_of"] + route_id[-2:]
+        assert {**entry, "id": old_id, "base_id": entry["recut_of"]} == {**old_entries[old_id], "recut_of": entry["recut_of"]}
+        old, new = old_routes[old_id], new_routes[route_id]
+        assert ET.tostring(old.find("scenarios")) == ET.tostring(new.find("scenarios"))
+        assert ET.tostring(old.find("weathers")) == ET.tostring(new.find("weathers"))
+        assert pilot_routes.waypoints(new)[:2] == pilot_routes.waypoints(old) and len(pilot_routes.waypoints(new)) == 3
+
+
+def test_recut_ids_are_new_and_both_arms_drive_one_road_past_the_hazard():
+    (_old, new_routes), (_entries, new_entries) = amended_p20_screen()
+    recut = [route_id for route_id, entry in new_entries.items() if "recut_of" in entry]
+    elsewhere = {entry["id"] for path in (ROOT / "configs/rollout").glob("*.manifest.json") if not path.name.endswith("-amended.manifest.json")
+                 for entry in json.loads(path.read_text())}
+    assert not set(recut) & elsewhere
+    for slice_id in (route_id for route_id in recut if route_id.endswith("39")):
+        arm = new_routes[slice_id]
+        assert pilot_routes.waypoints(arm) == pilot_routes.waypoints(new_routes[slice_id[:-2] + "49"])
+        scenario = next(arm.iter("scenario"))
+        hazard = float(scenario.find("distance").get("value")) + float(getattr(scenario.find("bicycle_drive_distance"), "attrib", {}).get("value", 0))
+        assert math.dist(pilot_routes.waypoints(arm)[-1][:2], cut_routes.trigger_of(scenario)) >= hazard + 60
 
 
 @pytest.mark.parametrize("name", ["step5-pilot-p4-screen", "step5-pilot-p4-main", "step5-pilot-p5-screen",
@@ -197,3 +238,16 @@ def test_a_cut_keeps_one_scenario_and_the_road_around_its_trigger():
     assert cut_routes.cut_bounds(points, (5, 0), lead_m=20, tail_m=60) is None
     assert cut_routes.cut_bounds(points, (150, 0), lead_m=20, tail_m=60) == (1, 3)  # far from every waypoint
     assert not cut_routes.spaced((0, 0), [(50, 0)], 100) and cut_routes.spaced((0, 0), [(150, 0)], 100)
+
+
+def test_recut_script_writes_the_committed_amended_files():
+    if not (ROOT / ".runtime/simlingo/leaderboard/data/routes_training.xml").is_file():
+        pytest.skip("long routes not installed")
+    spec = importlib.util.spec_from_file_location("recut_pairs", ROOT / "docs/research/experiments/h13-cross-family-gap/recut_pairs.py")
+    recut_pairs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(recut_pairs)
+    document, entries = recut_pairs.amended_screen()
+    amended = ROOT / "configs/rollout/step5-pilot-p20-screen-amended"
+    assert Path(f"{amended}.xml").read_text() == document
+    assert json.loads(Path(f"{amended}.manifest.json").read_text()) == entries
+

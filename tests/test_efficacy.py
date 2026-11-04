@@ -66,5 +66,18 @@ def test_a_screen_report_with_no_pairs_is_not_a_failed_screen(tmp_path, capsys):
     report.write_text(json.dumps(efficacy.efficacy(manifest, [], GAP)))
     gaps = tmp_path / "gaps.yaml"
     gaps.write_text(f"gaps:\n- gap_id: {GAP}\n  screen_rule:\n    min_excess_slice_only_failures: 3\n")
-    assert efficacy.screen_verdict(report, gaps) == efficacy.NO_PAIRS_EXIT
+    assert efficacy.screen_verdict(report, gaps) == efficacy.NO_RESULT_EXIT
     assert "on 0 pairs, 2 routes without an outcome; no result" in capsys.readouterr().out
+
+
+def test_a_screen_under_its_pair_floor_is_no_result_even_with_an_excess(tmp_path, capsys):
+    manifest, rows = pilot([(True, False)] * 7)
+    report = tmp_path / "efficacy.json"
+    report.write_text(json.dumps(efficacy.efficacy(manifest, rows, GAP)))
+    gaps = tmp_path / "gaps.yaml"
+    gaps.write_text(f"gaps:\n- gap_id: {GAP}\n  screen_rule:\n    min_excess_slice_only_failures: 3\n    min_pairs: 8\n")
+    assert efficacy.screen_verdict(report, gaps) == efficacy.NO_RESULT_EXIT
+    assert "on 7 pairs" in capsys.readouterr().out
+    manifest, rows = pilot([(True, False)] * 8)
+    report.write_text(json.dumps(efficacy.efficacy(manifest, rows, GAP)))
+    assert efficacy.screen_verdict(report, gaps) == 0

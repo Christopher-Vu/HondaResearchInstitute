@@ -51,3 +51,15 @@ These change no number above. A review of the check and scoring code found them 
 - **Lost routes.** Routes stopped before a driving outcome go to the scorer's `rerun` list. Rerunning them cannot change a route that already has an outcome, because the scorer keeps the first attempt with one.
 - **Limits on reading a null.** C24's traffic clause counts any vehicle within 50 m, parked hazards included, so it does not show oncoming traffic. By arithmetic, the patch covers an oncoming car only in the last 16 to 32 m of a straight road. The mirror patch can cover the hazard, so the neighbourhood arm is not neutral. Night routes can pass the black test with no patch; two of the first five slices run at night.
 
+## Amendment approved by Jerry, 2026-11-04, before any P20 outcome was read
+
+The first screen array and its rerun have finished and been scored by script, but nobody has read an outcome from them. Everything below was fixed before anyone did.
+
+1. **Three pairs are replaced.** 64155, 64223 and 64250 ended before their hazard (`docs/WHAT_BROKE.md`), so a failure there could only come from the patch. They are cut again as 64901, 64902 and 64903: the same road, start, weather and scenario, running at least 60 m past the hazard and past the end of any bicycle ride. Configuration: `configs/rollout/step5-pilot-p20-screen-amended.yaml`, written by `recut_pairs.py`. The first drives of 64155 stay unread and unscored. 64145 is borderline and is kept, because its invaders drive towards the car; read it with that noted.
+2. **Lost routes are rerun.** 2585439, 6408039 and 6423749 were stopped before any driving outcome and rerun as job 40849201. The scorer keeps a route's first driving outcome, so a rerun cannot replace a result.
+3. **The new pairs drive one pair per GPU,** so both arms share a node. The first array split arms unevenly across tasks.
+4. **What counts as no result.** A failed check, or fewer than 8 scored pairs, reads as untested, not failed, and the candidate is not closed by it. `screen_rule.min_pairs` in `gaps/practice/practice_v3.yaml` encodes the floor.
+5. **The rule is unchanged:** at least 3 excess slice-only failures. Reported with it: infractions per arm, how many slice-only failures include a vehicle collision and how many are timeouts only, and discordant pairs by array task and node.
+
+Before any full pilot, the route cutter must measure its tail past the hazard, since the same draw would otherwise repeat this fault.
+
