@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 14:00 (Chris answered; Savio link down; P20 scored and unread)
+Last updated: 2026-11-04 16:30 (Chris: Fail2Drive runs on the harness; its reproduction screen is built and not run)
 
 ---
 
 ## Current position
+
+**2026-11-04 16:30, Chris: Fail2Drive's own routes run on our harness (one pair, measured); the 20-pair reproduction screen is built and not run.** New direction (Chris): keep SimLingo and draw gaps from missing-data shifts, starting with Fail2Drive, whose paper puts SimLingo's worst drops in Behavior (-64.2%) and Visual-lateral (-32.2%). `simulator.benchmark: fail2drive` runs its evaluator at a pinned revision on its CARLA build. One pair drove in 14 min on one A40 (about 3.5 SU a route). **Next:** run `configs/rollout/f2d-repro-screen.yaml`'s other 38 routes (about 150 SU, estimate), then score each `F2D_<name>` gap with `src/harness/efficacy.py`. Stage CARLA and the venv on node-local disk for every array, because scratch is slow (journal). Chris's kinematic decoy screen ran and is read privately. These Fail2Drive gaps are public and never enter the key.
 
 **2026-11-04 14:40, H14 offline, H15, H16 and H17 are built and reviewed, unlocked, nothing run.** On stored H12 data, B7-pool already reads T2 `fires` under H16's stop rule (P19: best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375; measured). That rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label, so Jerry and Chris decide whether it stops Step 8. **Default: H16 (340 to 420 SU, estimate) is held until they do; H15 and H17 and H14's offline test run once Savio is logged in.**
 

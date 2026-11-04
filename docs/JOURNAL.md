@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-04 (Chris): Fail2Drive runs on our harness; the kinematic decoy screen ran
+
+Chris decided to keep SimLingo and change where the gaps come from. Every gap that has passed so far is a camera fault, which an out-of-distribution detector would also flag and which says little about missing training data. [Fail2Drive](https://arxiv.org/abs/2604.08535) is a published benchmark built for exactly this: 100 route pairs where only an unseen scenario or object differs. Its authors report SimLingo's largest drops in the Behavior category (-64.2%) and the Visual-lateral category (-32.2%), including PedestriansOnRoad falling from 98.50 to 19.68. We had never run its own routes. P5 and P6 were our re-implementations on Bench2Drive roads, and neither moved SimLingo.
+
+This session made Fail2Drive's own routes run end to end. A rollout config can now name `simulator.benchmark: fail2drive`, which runs Fail2Drive's evaluator and scenario runner at a pinned revision on its own CARLA build (`adapters/simlingo/route_run.py`). Getting there took four small fixes:
+- [`fail2drive-compat.patch`](../adapters/simlingo/patches/fail2drive-compat.patch) drops a `pkg_resources` version check, as SimLingo's copy of Bench2Drive already does.
+- Fail2Drive's base twins, which carry no scenario, are now runnable routes.
+- The agent gets an empty metric record under Fail2Drive's base agent class.
+- A node-local copy of a named CARLA build can be staged, as the stock server already could.
+
+[`fail2drive_pairs.py`](../adapters/simlingo/fail2drive_pairs.py) turns each Fail2Drive pair into one base: the generalization route is the slice and its base twin the neighbourhood, so `src/harness/efficacy.py` scores it like a planted gap. These routes stay public and never enter the sealed key, and Fail2Drive forbids training on them.
+
+**Measured:** one pair (PedestriansOnRoad 1085 and its twin 85) drove cleanly in 14 minutes on one A40, about 3.5 SU a route. One pair says nothing about rates. Fail2Drive's evaluator places route points 200 m apart where Bench2Drive's places them 50 m apart, so the route SimLingo is given is sparser than in our pilots. These runs use `--debug 0`, the benchmark's default. The 20-pair reproduction screen ([config](../configs/rollout/f2d-repro-screen.yaml); PedestriansOnRoad, Wall, CustomObstacles) is built and has not run.
+
+Separately, Chris's kinematic decoy screen ran and was read privately. The answer key stays sealed, so nothing about it is recorded here.
+
+**Savio was slow:** a CARLA map load timed out after 300 s, and policies importing the venv from scratch sat idle for 20 minutes. Staging CARLA and the venv on node-local disk fixed both, so use `CARLA_LOCAL_TAR` and `POLICY_VENV_LOCAL_TAR` for every array. One launch was cancelled for this, at about 70 SU. Fail2Drive's simulator tarball (`.runtime/downloads/fail2drive_simulator.tar.gz`) can be staged directly with `CARLA_LOCAL_BUILD=fail2drive`.
+
+---
+
 ## 2026-11-04: drafted a protocol to measure what the route markers do to driving
 
 Every SimLingo route has run with `--debug 2`, which draws small coloured route points into the world where the policy camera can see them. Nobody knows whether that changes how the car drives. This session wrote a draft experiment to find out, [H14](research/experiments/h14-route-markers/protocol.md). It ran nothing on Savio and spent no SU. Jerry and Chris approve it before anything runs, and it stays unlocked until then.
