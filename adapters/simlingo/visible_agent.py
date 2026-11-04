@@ -104,6 +104,12 @@ class VisibleAgent(LingoAgent):
               f"throttle={control.throttle:.3f} steer={control.steer:.3f} brake={control.brake:.3f}", flush=True)
         return control
 
+    def get_metric_info(self) -> dict[str, Any]:
+        """Bench2Drive's base agent supplies this and Fail2Drive's does not; only Bench2Drive's efficiency tools read
+        the metric_info.json it feeds, so under Fail2Drive the record is empty."""
+        upstream = getattr(super(), "get_metric_info", None)
+        return upstream() if upstream is not None else {}
+
     def destroy(self, results: Any = None) -> None:
         if self.view is not None and self.view.poll() is None:
             self.view.terminate()
