@@ -2,7 +2,7 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-11-02
+updated: 2026-11-04
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
@@ -70,15 +70,15 @@ steps:
     checks:
       - {text: B1 random baseline, done: true}
       - {text: Human taxonomy baseline, done: true}
-      - {text: Behavioral stratification baseline, done: false}
-      - {text: B7 activation statistics baseline, done: false}
+      - {text: Behavioral stratification baseline, done: true}  # B3 scored in H12
+      - {text: B7 activation statistics baseline, done: false}  # only the pool variant has run; variant A has not
   - id: 7
     title: Discovery on dev
     started: true  # contrastive prototype on catherine-contrastive-discovery
     checks:
       - {text: Contrastive method emits directives, done: true}
-      - {text: SAE method emits directives, done: false}
-      - {text: Probe-residual method emits directives, done: false}
+      - {text: SAE method emits directives, done: true}  # contrastive over SAE latents, H12
+      - {text: Probe-residual method emits directives, done: false}  # M2 runs, and has emitted 0 axes on every real pool
       - {text: Gate run with its shuffle control, done: false}
   - id: 8
     title: Seal, generate, score

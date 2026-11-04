@@ -698,6 +698,22 @@ running them before a commit (`CLAUDE.md`, "Before running anything"). The seale
 re-enable CI, or replace it with a pre-commit hook, before the test pool is sealed. To re-enable, restore
 `on: [push, pull_request]`.
 
+### C34 · How the study's end is read and reported · new, 2026-11-04 (agent, under Jerry's order to finish the study), pending review (Chris)
+Written before the amended P20 screen was read, so the wording cannot be chosen from its result.
+
+**Two end states; the report says which it reached.** A is the dev-only report: P20 read under its locked rule, the route-marker effect measured or stated as unmeasured, tables for every public gap with measured statistics, the candidate count, the list of PRD checks that never ran, and the sentence "the PRD 13.1 test was not run". B is A plus a key committed by hash, frozen tags, a blind pool scored once, causal verdicts for the top axes, and the branch that the preregistered rule names.
+
+**No 13.1 branch is claimed on dev data.** 13.1 is decided on the test pool (`PRD.md` §13), and public predicates cannot enter the key (`PRD.md` §9.1). So the public count toward 13.1's two interactional gaps is 0 by construction. The report may say "no public interactional gap met Step 5 on dev". It may not say any 13.1 branch was reached, including the negative one. A key the agent writes after seeing every method's results is not blind, and it is not called blind.
+
+**Every axis score is reported as best and median across dictionaries**, with "the best axis is chosen using the key" stated beside it. H12 is why: best 0.705, median 0.375. P19 is reported as "passes 9.1, fails Step 5's single-factor condition". Every gap's p value is read with the candidate count beside it.
+
+**P20's screen, by outcome.**
+- *Check fails, or under 8 scored pairs:* "P20 is untested." The candidate stays open and the count does not rise.
+- *Under 3 excess slice-only failures:* "P20 fails its screen: X against Y on N pairs." The count becomes 20. It is not read as SimLingo coping without sight of oncoming traffic, because by arithmetic the patch covers an oncoming car only in the last 16 to 32 m of a straight road.
+- *3 or more:* "P20 passes its screen", which is not a 9.1 verdict. The full pilot runs only after the cutter measures past the hazard. A later pass may mean only that a patch hurts, which is P4 again, so B4's occlusion level is measured with it.
+
+**H13 said a failed screen leaves the remaining SU unspent, when 1041 SU were left.** Jerry has since raised the budget to 10000 and asked for the study to be finished, so a further candidate may run, under its own protocol locked first. Unspent SU stays an acceptable outcome: SU is not spent to fill a gap only Chris can close.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

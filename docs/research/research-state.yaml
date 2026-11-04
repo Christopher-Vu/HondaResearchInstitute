@@ -43,8 +43,8 @@ hypotheses:
          result: "P19 M1 0.705 (A yes, B no; median 0.375, 0 of 6 seeds beat B2 0.857); P4 M1 0.490 (A no, B yes); P7 stale 0.889; B2 breaks Step 5's single-factor condition, so P19 is enumerable on a realistic pool",
          data: [docs/research/data/h12_layer10_plain.json, docs/research/data/h12_layer10_stale.json]}
 
-  H13:  {status: draft_not_locked, kind: pre_check, protocol: docs/research/experiments/h13-cross-family-gap/protocol.md,
-         result: "simulated B2 0.24 to 0.33 for P20; 0.801 on P19 against 0.857 measured; no rollouts run", data: docs/research/data/h13_b2_precheck.json}
+  H13:  {status: screen_running_unread, kind: screen, amended: 2026-11-04, protocol: docs/research/experiments/h13-cross-family-gap/protocol.md,
+         result: "pre-check simulated B2 0.24 to 0.33 for P20; 0.801 on P19 against 0.857 measured; amended screen arrays 40843139, 40849201, 40858449, scoring 40858452, outcome unread", data: docs/research/data/h13_b2_precheck.json}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
@@ -56,6 +56,7 @@ video:
 
 next_actions:
   - decide with Jerry and Chris what P19 counts as, since B2 breaks Step 5's single-factor condition on it (H12), before spending more
-  - H13 locked 2026-11-03: first screen lost to CARLA startup; probe 40829691 at 14:14 gates screen 40829692, scoring 40829693
+  - finish the study (Jerry, 2026-11-04); end states and wording are in CONFLICTS C34, read the P20 check first, then the rule
+  - measure the route-marker effect (WHAT_BROKE 2026-11-03); settle --debug before any frozen pool
   - tell Chris P19 may overlap the sealed pool, since public predicates are excluded from the key
   - P8: lag-alignment probe idea noted (needs state labels); not built
