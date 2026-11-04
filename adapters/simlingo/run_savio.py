@@ -26,7 +26,7 @@ from typing import Any
 import yaml
 from artifacts import verify_artifacts
 from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment, route_environment,
-                       check_external_server_patch, check_route, evaluator_command, expert_command, expert_environment,
+                       benchmark_root, check_benchmark, check_external_server_patch, check_route, evaluator_command, expert_command, expert_environment,
                        policy_environment,
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
@@ -190,6 +190,7 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
           slots: int = 1) -> dict[str, Any]:
     manifest = verify_artifacts(SOURCE, CHECKPOINT)
     check_external_server_patch()
+    check_benchmark(config["simulator"])
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
     agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"))
@@ -198,7 +199,8 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
         root = server_root(config["simulator"].get("carla_build"))
         with carla_server(output, config["simulator"]["quality"], container, slot, root) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
-                                             CARLA_ROOT / "PythonAPI/carla", False, capture)
+                                             CARLA_ROOT / "PythonAPI/carla", False, capture,
+                                             benchmark_root(config["simulator"]))
             command = evaluator_command(output, config, ports, torch_threads(slots), agent)
             run_evaluator(output, command, environment)
     # With several slots the GPU figures cover every route sharing the GPU, not this one alone.

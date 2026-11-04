@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from harness.config import content_hash
-from route_run import AGENT, SOURCE, Ports, evaluator_command, expert_command
+from route_run import AGENT, BENCHMARKS, SOURCE, Ports, evaluator_command, expert_command
 
 PORTS = Ports(rpc=2000, traffic_manager=8000)
 
@@ -59,3 +59,15 @@ def test_the_evaluators_own_step_print_does_not_depend_on_debug():
     if not evaluator_agent.is_file():
         pytest.skip("evaluator not installed")
     assert prints_outside_any_branch(evaluator_agent, "__call__", "[Agent]")
+
+
+def test_fail2drive_runs_its_own_evaluator_without_the_external_server_flag():
+    command = evaluator_command(Path("out"), config_with(benchmark="fail2drive"), PORTS, 4)
+    assert repr(str(BENCHMARKS["fail2drive"] / "leaderboard/leaderboard/leaderboard_evaluator.py")) in command[3]
+    assert "--external-server" not in command
+    assert "--external-server" in evaluator_command(Path("out"), config_with(), PORTS, 4)
+
+
+def test_an_unknown_benchmark_refuses():
+    with pytest.raises(ValueError, match="benchmark"):
+        evaluator_command(Path("out"), config_with(benchmark="carla-leaderboard"), PORTS, 4)

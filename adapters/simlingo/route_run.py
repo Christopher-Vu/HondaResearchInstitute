@@ -33,6 +33,10 @@ VALID_OUTCOMES = {"Completed", "Perfect", "Failed - Agent timed out",
 RUN_ORDER_SEED = 0
 # Every run before simulator.debug_level existed used 2, which draws route markers into the camera (WHAT_BROKE 2026-11-03).
 DEFAULT_DEBUG_LEVEL = 2
+# Leaderboard and scenario-runner trees a config can name in simulator.benchmark. Fail2Drive's ships its 17 unseen
+# scenarios and connects to a running server itself, so it takes no --external-server patch.
+BENCHMARKS = {"bench2drive": SOURCE / "Bench2Drive", "fail2drive": ROOT / ".runtime/fail2drive-src"}
+FAIL2DRIVE_REVISION = "bceb18afb7d62e06e990739e013e750d92ad7a88"
 
 
 @dataclass(frozen=True)
@@ -109,16 +113,32 @@ def wait_for_server(port: int, seconds: float = 90,
     raise TimeoutError(f"CARLA did not become ready within {seconds:.0f} seconds; inspect server.log")
 
 
+def benchmark_root(simulator: dict[str, Any]) -> Path:
+    """The tree `simulator.benchmark` names (default Bench2Drive); Fail2Drive's must sit at its pinned revision."""
+    name = simulator.get("benchmark", "bench2drive")
+    if name not in BENCHMARKS:
+        raise ValueError(f"simulator.benchmark must be one of {sorted(BENCHMARKS)}, not {name!r}")
+    return BENCHMARKS[name]
+
+
+def check_benchmark(simulator: dict[str, Any]) -> None:
+    root = benchmark_root(simulator)
+    if root == BENCHMARKS["fail2drive"]:
+        head = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"], check=True, capture_output=True,
+                              text=True).stdout.strip()
+        if head != FAIL2DRIVE_REVISION:
+            raise RuntimeError(f"{root} is at {head}, expected {FAIL2DRIVE_REVISION}")
+
+
 def policy_environment(output: Path, device: str, carla_pythonapi: Path,
-                       visible: bool, extra: dict[str, str]) -> dict[str, str]:
+                       visible: bool, extra: dict[str, str], benchmark: Path = BENCHMARKS["bench2drive"]) -> dict[str, str]:
     values = os.environ.copy()
-    paths = [SOURCE, SOURCE / "team_code", SOURCE / "Bench2Drive/leaderboard",
-             SOURCE / "Bench2Drive/scenario_runner", carla_pythonapi]
+    paths = [SOURCE, SOURCE / "team_code", benchmark / "leaderboard", benchmark / "scenario_runner", carla_pythonapi]
     values.update({
         "HF_HUB_OFFLINE": "1", "SIMLINGO_DEVICE": device,
         "SIMLINGO_BASE_MODEL": str(BASE_MODEL), "SIMLINGO_EVIDENCE": str(output),
         "SIMLINGO_VISIBLE": "1" if visible else "0", "PYGAME_HIDE_SUPPORT_PROMPT": "1",
-        "WORK_DIR": str(SOURCE), "SCENARIO_RUNNER_ROOT": str(SOURCE / "Bench2Drive/scenario_runner"),
+        "WORK_DIR": str(SOURCE), "SCENARIO_RUNNER_ROOT": str(benchmark / "scenario_runner"),
         "SAVE_PATH": str(output) + "/", "PYTHONPATH": os.pathsep.join(map(str, paths)),
     })
     values.update(extra)
@@ -163,11 +183,13 @@ def debug_level(simulator: dict[str, Any]) -> int:
 
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
                       agent: Path = AGENT) -> list[str]:
-    evaluator = SOURCE / "Bench2Drive/leaderboard/leaderboard/leaderboard_evaluator.py"
+    root = benchmark_root(config["simulator"])
+    evaluator = root / "leaderboard/leaderboard/leaderboard_evaluator.py"
+    server = ["--external-server"] if root == BENCHMARKS["bench2drive"] else []
     bootstrap = ("import runpy,torch; "
                  f"torch.set_num_threads({cpu_threads}); "
                  f"runpy.run_path({str(evaluator)!r},run_name='__main__')")
-    return [sys.executable, "-u", "-c", bootstrap, "--external-server",
+    return [sys.executable, "-u", "-c", bootstrap, *server,
             "--host", "localhost", "--port", str(ports.rpc),
             "--traffic-manager-port", str(ports.traffic_manager),
             "--traffic-manager-seed", str(config["route"]["seed"]),
