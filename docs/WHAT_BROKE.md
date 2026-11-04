@@ -8,6 +8,26 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-03: the camera SimLingo drives from has shown route markers since 2026-10-05
+
+**Expected:** the policy sees the same picture a default Bench2Drive evaluation gives it.
+
+**What happened:** `route_run.py` passes `--debug 2` to the evaluator, since `a134c93` (2026-10-05). The evaluator's default is 0. With debug on, `route_scenario.py` draws the route's waypoints, its start and end, and a red trigger point with the scenario's name into the world for the whole route. Saved policy frames show them: `results/local-ui-check/frames/000180.png` has a bright green dot on the road in the car's lane, and `results/savio/39732394/route/frames-000140.png` has green and cyan marks along the road ahead (viewed by eye). That the marks come from these draw calls is inferred from colour, position and code. Every SimLingo route since 2026-10-05 shares this, on Savio and on the Mac: Steps 1, 2 and 4 and every practice gap, and the captured activations. The expert runs use `--debug 0`, so PDM-Lite is unaffected, though it has no camera anyway.
+
+**What it means:** comparisons between arms of one pilot share the markers, except on bends, where a patch can hide them on one side. Absolute failure rates may differ from a default evaluation, and comparison with published scores (PRD 10.1) is in doubt. **The size of the effect is unmeasured.** Nothing has been changed; moving to `--debug 0` changes the policy's input, so it needs a CONFLICTS entry and Jerry and Chris.
+
+## 2026-11-03: cut routes can end before their hazard
+
+**Expected:** a cut route drives through its scenario.
+
+**What happened:** `cut_routes.py` measures `tail_m` (60 m) in a straight line from the trigger, but a scenario's hazard sits `distance` metres past it, and a route ends once it is over 90% complete and within 10 m of its last point. In the P20 screen, 64155 ends about 69 m past the trigger with its police car at 90 m, 64250 ends about 62 m past with its door car at 65 m, and 64223 ends about 74 m past with bicycles starting at 60 and 69 m and riding away. Those figures come from the XML and a road-map estimate, not from drives. On those roads a failure can come only from the patch. Earlier cut pilots (P14, P19) use the same rule and have not been checked. A review before any P20 outcome was read found this.
+
+## 2026-11-03: the slow-simulation guard counted loading time
+
+**What happened:** `SlowGuard`'s clock started when the evaluator launched, so a route that took close to 10 minutes to load was stopped as "slow simulation" after a few simulated seconds. Six P20 screen routes stopped this way, at 0.05 to 3.55 simulated seconds. They went to `rerun` and were not scored, so no outcome was affected. **Fix:** the clock now starts at the first control row, and the silence guard still covers a route that never loads.
+
+**Also found by the same review:** C24's "another vehicle within 50 m" clause has never failed a route (332 of 332 stored rows in `h7_check.json`, `h9_h10_check.json` and `h11_p19_main.json` have at least 2) and counts parked hazards, so it does not show oncoming traffic. Route order can put one arm in one task: in the P20 screen, task 0 is all slices and task 3 is all neighbourhood, so `run_order`'s promise that role never lines up with a node does not hold there.
+
 ## 2026-11-03: every P20 screen route failed because CARLA took over 300 s to start
 
 **Expected:** CARLA ready in about 18 s, as on 2026-11-02 (route 6308188's `server-ready`).

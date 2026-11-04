@@ -42,3 +42,12 @@ Screen passes, about 30%. PRD 9.1 passes, if screened, about 40%. So about 12% o
 ## Cost (estimates)
 
 Screen, 20 routes at about 6 SU: 120 SU. Pilot, 80 routes at about 8.5 SU (P19's rate): 680 SU. Methods: about 20 SU. Total about 820 of the 1041 SU left, leaving about 220.
+
+## Notes added 2026-11-03, before any P20 outcome was read
+
+These change no number above. A review of the check and scoring code found them while the screen was driving (`docs/WHAT_BROKE.md`).
+
+- **Check, as coded.** It refuses to give an answer when data is missing: no scored slices, fewer than 5, a scored slice with no shard, a first-five slice with no frames, or no task log. A route whose log says `Ignoring scenario` does not count as meeting traffic, because the leaderboard dropped its scenario and the drive holds no planted event. No route had logged this by 20:38.
+- **Lost routes.** Routes stopped before a driving outcome go to the scorer's `rerun` list. Rerunning them cannot change a route that already has an outcome, because the scorer keeps the first attempt with one.
+- **Limits on reading a null.** C24's traffic clause counts any vehicle within 50 m, parked hazards included, so it does not show oncoming traffic. By arithmetic, the patch covers an oncoming car only in the last 16 to 32 m of a straight road. The mirror patch can cover the hazard, so the neighbourhood arm is not neutral. Night routes can pass the black test with no patch; two of the first five slices run at night.
+

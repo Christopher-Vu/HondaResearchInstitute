@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-03: reviewing the P20 screen before reading it found route markers in the camera
+
+The repeating start test opened CARLA's port in 120 seconds at 19:48 and started the screen by itself. A same-node test showed the shared disk is the main cause of the slow starts: CARLA's port opened in 127 seconds from the shared disk and 4 seconds from the node's own disk (measured). Six routes were stopped by the slow-simulation guard before any drive had really begun, because the guard counted loading time. They are listed for rerun and were never scored, and the guard now starts timing at the first control row.
+
+While the screen drove, independent reviewers read the check, scoring and route code, so that any fix would come before anyone saw a result. Two findings matter most. Three of the 10 pairs end before their hazard, because the route cutter measures its 60 m tail from the trigger and ignores how far along the hazard sits. And since 2026-10-05 our evaluator has run with `--debug 2`, which draws route dots into the world that SimLingo's camera sees; I confirmed this by eye on two saved frames. Every SimLingo route shares it, and its effect on driving is unmeasured ([WHAT_BROKE](WHAT_BROKE.md)).
+
+The check now refuses to answer on missing data, a report with no pairs reads as no result, and `route_sample.sbatch` can rerun named routes. No P20 outcome has been read. Jerry decides next whether to amend the screen as [proposed in STATUS](STATUS.md), and nothing about the markers has been changed.
+
+---
+
 ## 2026-11-03: the compute budget rose to 10,000 units while the Savio link was down
 
 Jerry raised the compute budget from 6,000 to 10,000 SU (service units, Savio's measure of compute used). The last measured spend was 5,033, so about 4,967 remain. This does not change P20's locked rules, because a protocol is fixed before its data exists and the only budget condition in it, that the full pilot's 680 SU are available, was already met. The note that the blind test pool needs more SU than the budget is no longer known to be true, so it now says the cost needs rechecking.

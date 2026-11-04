@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-03 19:30 (SU budget raised to 10000; Savio link down, P20 chain state unread)
+Last updated: 2026-11-03 21:00 (P20 screen driving, no outcome read; amendment waits on Jerry; route markers found)
 
 ---
 
 ## Current position
+
+**2026-11-03 21:00, P20 screen driving as array 40843139, scoring 40843140 follows. No outcome has been read. Blocker: Jerry decides whether to amend the screen before anyone reads it.** A review before reading found that 3 of the 10 pairs end before their hazard (64155, 64250, 64223), so failures there can only come from the patch; the proposal is to re-cut those three, rerun the other lost routes, read a failed check or under 8 scored pairs as untested, and report infractions by arm and task. **Separately, every SimLingo route since 2026-10-05 has route markers in its camera (`--debug 2`), effect unmeasured; Jerry and Chris need to know** (`docs/WHAT_BROKE.md`). Do not open `results/savio/step5-pilot-p20-screen/efficacy.json` or `summary.json`'s scores until the check has been read; read only `rerun`, `not_run`, `scenario_skipped` and `jobs` from the summary. Disk test, same node: CARLA's port opened in 127 s from scratch and 4 s from node-local disk (measured); `/global/scratch/users/imhaohao/carla-server.tar` holds a copy for that. Spend about 5200 of 10000 SU.
 
 **2026-11-03 19:30, SU budget raised to 10000 by Jerry; last measured spend 5033, so about 4967 left. Blocker: the Savio login has expired.** Nobody has read the start-test chain since 14:40, and it keeps running without the link: tries were due about 16:38 and 19:38. Log in, then read `/global/scratch/users/imhaohao/carla-chain.log`. H13's locked rules do not change with the budget. Some older entries below quote a 6000 budget, and they stand as written at the time.
 
