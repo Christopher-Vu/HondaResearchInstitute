@@ -16,6 +16,8 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 **What it means:** comparisons between arms of one pilot share the markers, except on bends, where a patch can hide them on one side. Absolute failure rates may differ from a default evaluation, and comparison with published scores (PRD 10.1) is in doubt. **The size of the effect is unmeasured.** Nothing has been changed; moving to `--debug 0` changes the policy's input, so it needs a CONFLICTS entry and Jerry and Chris.
 
+**Correction, 2026-11-04:** the flag is older than this entry says. `cb474a7` (2026-10-02) added `--debug 2` to the first Mac runner, and `a134c93` only moved it into `route_run.py`. Frames from the 2026-10-02 16:09 and 18:27 Mac runs show the same dot (`results/local-mac/20261002-160934/frames/000180.png`, `results/local-mac/20261002-182756/frames/000180.png`, by eye), so I found no marker-free SimLingo run to compare against. Colour alone cannot find the markers either: a threshold on `results/local-ui-check/frames/000180.png` also picks four green traffic lights and parts of a yellow car.
+
 ## 2026-11-03: cut routes can end before their hazard
 
 **Expected:** a cut route drives through its scenario.

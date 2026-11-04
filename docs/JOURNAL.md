@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-04: drafted a protocol to measure what the route markers do to driving
+
+Every SimLingo route has run with `--debug 2`, which draws small coloured route points into the world where the policy camera can see them. Nobody knows whether that changes how the car drives. This session wrote a draft experiment to find out, [H14](research/experiments/h14-route-markers/protocol.md). It ran nothing on Savio and spent no SU. Jerry and Chris approve it before anything runs, and it stays unlocked until then.
+
+The main test drives the same routes twice, with markers and without, and compares success, collisions and route completion. The routes come from a seeded draw of the 213 Bench2Drive routes that Step 2 already drove. A first stage of 80 pairs would cost about 660 SU and all 213 pairs about 1,750 SU (estimates, from Step 2's measured 4.1 SU per route). A simulation shows that even 213 pairs reach a "no effect as large as 8 points" verdict only 54 to 83% of the time when there is no change, so a small effect could stay unresolved. A cheaper offline check paints the markers out of saved frames and compares the policy's plan, at most 29 SU. It can set priorities, and it cannot replace driving the routes.
+
+Reading the code settled two things and corrected a third. The step lines `SilenceGuard` listens for come from our agent and not from the flag, so the guard needs no change at `--debug 0`. SimLingo's own launchers do not draw markers, so its training images probably have none. The flag also dates from 2026-10-02 and not 2026-10-05 as [WHAT_BROKE](WHAT_BROKE.md) first said, so I found no marker-free run to compare against.
+
+A draft [CONFLICTS C35](../CONFLICTS.md) proposes keeping `--debug 2` until H14 reads and running the blind pool at `--debug 0`, pending review. Nothing else changed. Still open: Chris has not been told, the full 212-route repeat-run comparison has not been read, and nobody has confirmed the replay data still exists on scratch.
+
+---
+
 ## 2026-11-03: reviewing the P20 screen before reading it found route markers in the camera
 
 The repeating start test opened CARLA's port in 120 seconds at 19:48 and started the screen by itself. A same-node test showed the shared disk is the main cause of the slow starts: CARLA's port opened in 127 seconds from the shared disk and 4 seconds from the node's own disk (measured). Six routes were stopped by the slow-simulation guard before any drive had really begun, because the guard counted loading time. They are listed for rerun and were never scored, and the guard now starts timing at the first control row.

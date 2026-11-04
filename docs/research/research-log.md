@@ -569,3 +569,7 @@ No outcome exists. Array 40829006 timed out starting CARLA (300 s against about 
 Probe 40829691 failed at 14:17 (not ready after 150 s), so the screen did not run. Scoring 40829693 ran under `afterany` and produced an empty report with 0 pairs, which is not an outcome. Probe 40831451 repeats from 16:38, 5 attempts at most, and submits the screen on success. Spend 5033 of 6000 SU.
 
 Screen array 40843139 started at 19:48 from the repeating probe (port open in 120 s). Same-node disk test 40841695 on n0275: port open in 127 s from scratch, 4 s from node-local disk, `import torch` 158 s from scratch, 20 ms per metadata lookup (measured). Six routes stopped by the slow guard at 0.05 to 3.55 simulated seconds and listed for rerun. A review before reading found 3 of 10 pairs end before their hazard and route markers in the policy camera since 2026-10-05 (`docs/WHAT_BROKE.md`). No outcome read.
+
+## 2026-11-04 01:30 — H14 drafted: what the route markers do to driving
+
+Draft, not locked: `docs/research/experiments/h14-route-markers/protocol.md`. No rollouts and no SU; the sample-size table is simulated (`power.py`, `docs/research/data/h14_power.json`). Repeat-run discordance on `--debug 2` is 6 of 40 with the same seed and weather, and 40 of 199 and 17 of 70 with other seeds and weather (measured). Spend unchanged by this entry. Waits on Jerry and Chris; C35 is the draft for any change to `--debug`.

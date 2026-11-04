@@ -714,6 +714,17 @@ Written before the amended P20 screen was read, so the wording cannot be chosen 
 
 **H13 said a failed screen leaves the remaining SU unspent, when 1041 SU were left.** Jerry has since raised the budget to 10000 and asked for the study to be finished, so a further candidate may run, under its own protocol locked first. Unspent SU stays an acceptable outcome: SU is not spent to fill a gap only Chris can close.
 
+### C35 · Route markers: `--debug 2` against the evaluator's default · new, 2026-11-04, draft, pending review (Jerry, Chris)
+`adapters/simlingo/route_run.py:165` passes `--debug 2`, added in `cb474a7` (2026-10-02) and moved in `a134c93`. It draws route points and scenario trigger points into the world, and the policy camera films them (`docs/WHAT_BROKE.md`, 2026-11-03). `PRD.md` does not mention the flag. The evaluator's default is 0. SimLingo's `start_eval_simlingo.py` passes no `--debug` and its `collect_dataset_slurm.py:28` passes `--debug=0` (read from the pinned source). So §10.1's published scores and the training images probably have no markers; that the published runs used these launchers is inferred. The effect on driving is unmeasured.
+
+**Proposed. Nothing changes until this is reviewed.**
+
+1. `--debug 2` stays for running work, so no pool mixes settings while the question is open.
+2. H14 (`docs/research/experiments/h14-route-markers/protocol.md`) measures the effect first. For it, `evaluator_command` reads `simulator.debug` from the rollout config with a default of 2, which puts the setting into the new configs' hashes and leaves the old configs and hashes alone.
+3. After H14, the blind pool runs at `--debug 0` under every verdict, because that is the benchmark's default and the setting a reader can reproduce. If dev work must carry over to it, H14's offline activation measure or a recapture has to support that first.
+
+**Alternatives.** Moving to 0 now costs no SU, but it leaves every earlier result with an unknown offset and splits the dev pool across two settings. `--debug 1` does not help, because it draws the same markers (`route_scenario.py:93`).
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
