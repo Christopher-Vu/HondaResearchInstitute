@@ -1,6 +1,6 @@
 # H15: a dry run of the scoring path
 
-**Draft, lead locks before submitting. DEV DRY RUN, NOT A VERDICT.** Nothing has run on Savio and no SU has been spent. The key here is public, so it is not blind. No `PRD.md` 13.1 branch can be claimed from this run (`CONFLICTS.md` C34).
+**Locked 2026-11-04 before submission. DEV DRY RUN, NOT A VERDICT.** The key here is public, so it is not blind. No `PRD.md` 13.1 branch can be claimed from this run (`CONFLICTS.md` C34).
 
 Every number is tagged: measured, simulated, estimate, read from the code, or guess. Numbers from earlier runs are expected values for a bug check, and they are not targets.
 

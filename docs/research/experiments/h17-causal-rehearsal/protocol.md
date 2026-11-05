@@ -1,6 +1,6 @@
 # H17: a dev rehearsal of the causal check, on P4's axis
 
-**Draft, lead locks before submitting. Nothing has run on Savio and no SU has been spent.** Dev only (PRD §9.2). **This is a dev rehearsal and it is not Step 9's verdict.** Whatever it finds, every axis card keeps `causal: untested`.
+**Locked 2026-11-04 before submission.** Dev only (PRD §9.2). **This is a dev rehearsal and it is not Step 9's verdict.** Whatever it finds, every axis card keeps `causal: untested`.
 
 Every number is tagged: measured, simulated, estimate, read from the code, or guess. None of the limits or predictions is a result.
 
@@ -64,7 +64,7 @@ Each edit acts on the 30 driving-query tokens at the output of decoder layer 10,
 
 **Equal norm means an equal edit on each token.** Plain removal along a random unit vector has the same vector norm, but in 896 dimensions it removes almost nothing, so any real direction would beat it. Giving the control the axis's own edit length, frame by frame, also means a frame where the axis projects strongly gets a strong control.
 
-**Equal per token is not equal on the frame mean.** A control pushes all 30 tokens along one r, so its frame-mean edit equals its per-token edit. The axis's edit differs by token and partly cancels, so its frame-mean edit is at most its per-token edit (read from the code). The axis was read on frame means, so `effects.npz` holds a fourth column with each condition's frame-mean edit length, and `result.json` reports axis against random per arm. If the plan reads the frame mean, this bias makes the axis harder to show above random. A control that keeps token dependence, such as y' = y − ‖Qᵀy‖ (RRᵀy)/‖Rᵀy‖ with R a random basis of the same rank, was not chosen, and the lead can still change this before locking.
+**Equal per token is not equal on the frame mean.** A control pushes all 30 tokens along one r, so its frame-mean edit equals its per-token edit. The axis's edit differs by token and partly cancels, so its frame-mean edit is at most its per-token edit (read from the code). The axis was read on frame means, so `effects.npz` holds a fourth column with each condition's frame-mean edit length, and `result.json` reports axis against random per arm. If the plan reads the frame mean, this bias makes the axis harder to show above random. A control that keeps token dependence, such as y' = y − ‖Qᵀy‖ (RRᵀy)/‖Rᵀy‖ with R a random basis of the same rank, was not chosen and the lock keeps the chosen control.
 
 Non-failure latents are drawn with seed 17 from latents with support of at least 20 failing rollouts that do not pass contrastive's test (q below 0.05 and a positive effect).
 
