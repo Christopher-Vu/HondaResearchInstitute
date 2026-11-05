@@ -584,5 +584,13 @@ Deleted the superseded shards 6415539 and 6415549 from the amended folder, unrea
 
 ## 2026-11-04 21:20 — H14 offline stops at its mask check
 
-`sheets` ran on the login node. Two viewers per panel: 85 of 118 coloured dots caught (72%, limit 90%), 13 of 50 frames with a ring on a vehicle (limit 0). So `replay` was not submitted, as the protocol says, and the offline test is untested at 0 SU. `docs/research/data/h14_mask_check.json`. No re-tune: the frames are now seen, and whether H14 goes on at all is Chris's decision (issue 8).
+`sheets` ran on the login node. Two model viewers per panel, not a person, with panels 03 and 30 spot-checked by the lead: 85 of 118 coloured dots caught (72%, limit 90%), 13 of 50 frames with a ring on a vehicle by both viewers, 14 by one (limit 0). So `replay` was not submitted, as the protocol says, and the offline test is untested at 0 SU. `docs/research/data/h14_mask_check.json`. No re-tune: the frames are now seen, and whether H14 goes on at all is Chris's decision (issue 8).
+
+## 2026-11-04 22:50 — H15 finds no bug; H17 reads above random, failing frames not shown larger
+
+H15 (job 40906511, 12 SU): DEV DRY RUN, NOT A VERDICT. 0 bugs, all 11 checks clean, first run. Exploratory, with the best axis chosen using the key: action residualization (action-query states minus what vision predicts) puts M1 at or above 0.5 on P19 in 13 of 18 dictionaries, best 0.689, median 0.540, against 5 of 18, best 0.705, median 0.375 plain; B7-pool residualized reads best 0.620, median 0.278. My guess of "at least one dictionary, about 30%" was too low. P4 falls to best 0.316, median 0.201. B2 stays at 0.857 on P19. `docs/research/data/h15_dry_run.json`.
+
+H17 (job 40906512, 49 SU): `above_random_failing_not_shown_larger`, with the fixed sentence in the dev report. Speed clears (0.121 m, excess interval 0.001 to 0.029 m); route does not. Failing minus control is about 0, and the axis does not beat other latents. `docs/research/data/h17_result.json`. Spend 5405 of 10000 SU (measured).
+
+H15 found nothing to fix. The key format change it rests on still needs to reach Chris.
 

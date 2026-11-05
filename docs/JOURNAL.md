@@ -5,6 +5,22 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-04: P20 fails its screen, the scoring path works, and a causal rehearsal gives a mixed answer
+
+Three things that needed no decision from Chris were read tonight, and one stopped early. H15 and H17 cost 61 SU (a unit of cluster compute) on top of the 5344 measured after P20's drives, so spend is 5405 of 10000.
+
+**P20** planted a camera patch that hides oncoming traffic. Its bug check held, and its rule needed at least 3 more failures in the patched arm than in the comparison arm. It got 0 against 4 on 10 road pairs, so it [fails its screen](research/research-log.md). This is not evidence that SimLingo copes without seeing oncoming traffic, because the patch covers an oncoming car only briefly. The count of public candidates is now 20.
+
+**H15** pushed real activations (the policy's internal numbers) through the whole scoring path on a [throwaway public key](research/experiments/h15-scoring-dry-run/protocol.md), and its bug check found 0 bugs on the first run. So the code that would score a blind test has now seen real data. It is not a verdict. It also gave a new exploratory result. Before training, it removed from the policy's action-query numbers whatever the visual features predict. On P19 contrastive diffing then read best 0.689, median 0.540, against best 0.705, median 0.375 without that step (Jaccard overlap with the planted failures, measured, with the best axis chosen using the key). A list of scenario names still scores 0.857.
+
+**H17** [removed one discovered direction](research/experiments/h17-causal-rehearsal/protocol.md) from the activations in offline replay. Removing it shifted the speed plan more than random edits of equal size (0.121 m against 0.105 m, measured). The route plan did not clear the rule, stopping at both its floor and its interval. H17 could not show that it moves the plan more on failing frames than on their clean twins (speed difference interval -0.016 to 0.016 m, measured), and its shift does not exceed the 95th percentile of other dictionary directions. This is a rehearsal on one axis and not Step 9's verdict.
+
+**H14's offline test** did not run. Its route-marker mask caught 72% of dots against a 90% limit, and a ring drawn around a dot touched a vehicle in 13 of 50 frames, so the [protocol's stop](WHAT_BROKE.md) applied. The route-marker effect is still unmeasured.
+
+What is left needs a person. Chris decides the pending conflicts, H14's driving stage, the preregistration and his new direction, and Jerry and Chris decide whether B7-pool's reading on P19 stops the blind pool. The [report](research/dev-report.md) stays a draft.
+
+---
+
 ## 2026-11-04 (Chris): Fail2Drive runs on our harness; the kinematic decoy screen ran
 
 Chris decided to keep SimLingo and change where the gaps come from. Every gap that has passed so far is a camera fault, which an out-of-distribution detector would also flag and which says little about missing training data. [Fail2Drive](https://arxiv.org/abs/2604.08535) is a published benchmark built for exactly this: 100 route pairs where only an unseen scenario or object differs. Its authors report SimLingo's largest drops in the Behavior category (-64.2%) and the Visual-lateral category (-32.2%), including PedestriansOnRoad falling from 98.50 to 19.68. We had never run its own routes. P5 and P6 were our re-implementations on Bench2Drive roads, and neither moved SimLingo.

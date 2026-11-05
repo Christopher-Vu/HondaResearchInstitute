@@ -6,11 +6,19 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 16:30 (Chris: Fail2Drive runs on the harness; its reproduction screen is built and not run)
+Last updated: 2026-11-04 22:55 (P20 failed; H15 clean; H17 read; H14 offline stopped; decisions wait on Chris)
 
 ---
 
 ## Current position
+
+**2026-11-04 22:55, everything that needed no person has run. Next moves are Chris's (Christopher-Vu/HondaResearchInstitute#8 and his new direction).** Spend 5405 of 10000 SU (measured).
+- **P20 fails its screen: 0 against 4 on 10 pairs.** The check held. Count 20. Not read as SimLingo coping (C34). No full pilot.
+- **H15: the scoring path ran end to end on a throwaway public key and found 0 bugs.** Not a verdict. Exploratory: residualized M1 on P19 reads best 0.689, median 0.540, against 0.705 and 0.375 plain, with the best axis chosen using the key.
+- **H17: `above_random_failing_not_shown_larger` on P4's axis.** Speed clears, route does not, and failing frames are not shown larger. Not Step 9's verdict; cards stay `causal: untested`.
+- **H14 offline stopped at its mask check** (85 of 118 dots, 13 of 50 frames touching), 0 SU. The route-marker effect stays unmeasured.
+
+**Waiting on Chris:** C23, C29, C34, P19's label, H14 Stage 1 and C35, the preregistration, his new-direction issue, and with Jerry whether B7-pool's reading on P19 stops Step 8 (H16 held until then; the dev report's H15 table belongs beside it). The key format changed in H15 (a key now needs `neighbourhood_predicate`), and he needs to see that. **Fail2Drive's screen is Chris's line**; his account ran route jobs today, so nothing here duplicates it. **The report stays a draft and the study stays open.**
 
 **2026-11-04 16:30, Chris: Fail2Drive's own routes run on our harness (one pair, measured); the 20-pair reproduction screen is built and not run.** New direction (Chris): keep SimLingo and draw gaps from missing-data shifts, starting with Fail2Drive, whose paper puts SimLingo's worst drops in Behavior (-64.2%) and Visual-lateral (-32.2%). `simulator.benchmark: fail2drive` runs its evaluator at a pinned revision on its CARLA build. One pair drove in 14 min on one A40 (about 3.5 SU a route). **Next:** run `configs/rollout/f2d-repro-screen.yaml`'s other 38 routes (about 150 SU, estimate), then score each `F2D_<name>` gap with `src/harness/efficacy.py`. Stage CARLA and the venv on node-local disk for every array, because scratch is slow (journal). Chris's kinematic decoy screen ran and is read privately. These Fail2Drive gaps are public and never enter the key.
 

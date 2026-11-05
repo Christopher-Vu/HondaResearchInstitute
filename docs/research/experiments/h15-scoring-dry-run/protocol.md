@@ -114,3 +114,7 @@ One A40 job with a 2 hour limit, so at most about 58 SU at 29 SU an hour. About 
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar \
   bash scripts/submit.sh gpu_a40 --time=0-02:00:00 docs/research/experiments/h15-scoring-dry-run/run.sbatch
 ```
+
+## Result, 2026-11-04
+
+Job 40906511, 12 SU (measured). The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs. `docs/research/data/h15_dry_run.json`, read in `docs/research/dev-report.md`.

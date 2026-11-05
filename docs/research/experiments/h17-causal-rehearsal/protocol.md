@@ -172,3 +172,7 @@ Steering on success frames, every top axis and not one, a test pool, closed-loop
 ## Predictions (guesses)
 
 A check fails or `select` refuses, 20%. `not_shown_above_random`, 40%. `above_random_failing_not_shown_larger`, 25%. `above_random_larger_on_failing`, 15%. The speed outcome moves more than the route outcome, 85%, as in Step 4.
+
+## Result, 2026-11-04
+
+Job 40906512, 49 SU (measured). `above_random_failing_not_shown_larger`, with the added sentence on other latents. `docs/research/data/h17_result.json`, read in `docs/research/dev-report.md`. Dev rehearsal in offline replay. Not Step 9's verdict. The control departs from PRD 9.2's line as stated in "The rule": a dev rehearsal decides nothing, so it needs no `CONFLICTS.md` entry. Step 9 must settle that control itself.

@@ -42,7 +42,7 @@ This report claims no 13.1 branch, including the negative one. 13.1 is decided o
 | Frozen-input signal | One extra feature added to B7-pool (`--stale-latent`). It fires when activations do not change between logged frames, and it does not depend on the dictionary. It is a post hoc change to the frozen B7 definition, because H2 added it after the activations were opened. |
 | Check | A manipulation check, fixed before a run, that the planted condition happened (C24). |
 | C23 | A [CONFLICTS](../../CONFLICTS.md) entry, pending review, that proposes a paired test (McNemar's) with a floor of 60 pairs. |
-| H1 to H14 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
+| H1 to H17 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
 | Claims A, A′, B | A: an activation method has an axis with Jaccard at least 0.5 holding at most 50% of failures. A′: the same, with B7-pool allowed. B: the best activation method beats the best baseline and the catch-all by at least 0.15, the margin's interval is above 0, and at least 4 of 6 seeds agree. |
 
 ## Public gaps
@@ -90,7 +90,7 @@ Tiers come from [`practice_v1.yaml`](../../gaps/practice/practice_v1.yaml), [`pr
 | Marked as a decoy in `gaps/practice/` | None |
 | Reached C23's floor of 60 pairs | P4's full pilot only, at [60 pairs](../../results/savio/step5-pilot-p4-main/efficacy.json). C23 is pending review, and PRD 9.1 stays the verdict of record. |
 
-P20's failure is not read as SimLingo coping without sight of oncoming traffic, because by arithmetic its patch covers an oncoming car only in the last 16 to 32 m of a straight road. The reversal, 7 of 10 in the neighbourhood against 3 of 10 in the slice, is not read as an effect either: the protocol noted before the read that the mirror patch can cover the hazard, and 10 pairs cannot separate that from chance (McNemar p 0.125).
+Infractions in P20's screen were 4 vehicle collisions, 2 layout, 1 outside lanes and 1 scenario timeout in the slice, and 5 vehicle collisions, 4 stop and 1 outside lanes in the neighbourhood. With no slice-only failure, 0 include a collision and 0 are timeouts only. P20's failure is not read as SimLingo coping without sight of oncoming traffic, because by arithmetic its patch covers an oncoming car only in the last 16 to 32 m of a straight road. The reversal, 7 of 10 in the neighbourhood against 3 of 10 in the slice, is not read as an effect either: the protocol noted before the read that the mirror patch can cover the hazard, and 10 pairs cannot separate that from chance (McNemar p 0.125).
 
 Screens can mislead in both directions. P14 went from [8 of 10 against 3 of 9](../../results/savio/step5-pilot-p14-screen/efficacy.json) to [30 of 58 against 21 of 58](../../results/savio/step5-pilot-p14-main/efficacy.json), and P19 went from [7 of 10 against 3 of 10](../../results/savio/step5-pilot-p19-screen/efficacy.json) to [42 of 53 against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json).
 
@@ -195,7 +195,7 @@ Two further limits apply. The 9 lost routes of P19's pilot still pass in the [wo
 
 | Item | What is known | Effect on these results | Source |
 |---|---|---|---|
-| Route markers | `route_run.py` has passed `--debug 2` on every SimLingo route, which draws route points and scenario trigger points into the world, and by our reading of the code and frames the policy camera films them. C35 dates the flag to 2026-10-02, and the WHAT_BROKE entry first said 2026-10-05. Expert runs use `--debug 0`. | **Unmeasured.** Every SimLingo row in this report carries the markers. Arms of one pilot share them, except on bends where a patch can hide them on one side. Absolute failure rates and comparison with published scores are in doubt. [H14](experiments/h14-route-markers/protocol.md) is a draft and has not run. | [WHAT_BROKE](../WHAT_BROKE.md), [C35](../../CONFLICTS.md) |
+| Route markers | `route_run.py` has passed `--debug 2` on every SimLingo route, which draws route points and scenario trigger points into the world, and by our reading of the code and frames the policy camera films them. C35 dates the flag to 2026-10-02, and the WHAT_BROKE entry first said 2026-10-05. Expert runs use `--debug 0`. | **Unmeasured.** Every SimLingo row in this report carries the markers. Arms of one pilot share them, except on bends where a patch can hide them on one side. Absolute failure rates and comparison with published scores are in doubt. [H14](experiments/h14-route-markers/protocol.md) is locked, its offline test stopped at the mask check, and its driving stage waits on Chris. | [WHAT_BROKE](../WHAT_BROKE.md), [C35](../../CONFLICTS.md) |
 | Cut-route truncation | A cut route can end before its hazard, because `cut_routes.py` measured its tail from the trigger and a scenario's hazard sits `distance` metres past the trigger. | P19's full pilot reads [42 of 53 against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json). Without the 8 flagged pairs of 55 it reads 40 of 45 against 7 of 42, with uplift 72.2 (d), ratio 5.33 (d) and Fisher p 3.6e-12 (d) (exploratory). The flagged pairs failed 2 of 8 and 0 of 6. Truncation hid effect, and the verdict holds. | No data file. [WHAT_BROKE](../WHAT_BROKE.md) records it. This report reproduced the totals from the [route file](../../configs/rollout/step5-pilot-p19-main.xml) and [outcomes](../../results/savio/step5-pilot-p19-main/routes.jsonl) by flagging a pair when `distance` exceeds the straight line from trigger to last waypoint minus 10 m, because a route ends within 10 m of its last point. The entry's split into 4 ending before and 4 undecided is held only there. |
 | Truncation in other cuts | P14's scenarios have no `distance`, and P18's `distance` is how far behind the emergency vehicle starts. | The same rule (exploratory, this report, no data file) flags 3 of 10 pairs in [P19's screen](../../configs/rollout/step5-pilot-p19-screen.xml), which failed 2 of 3 and 0 of 3, and 1 of 10 in [P17's screen](../../configs/rollout/step5-pilot-p17-screen.xml), which failed 0 of 1 and 0 of 1. It also flags the injected crossing in three more screens: 2 of 10 pairs in P10's (one lost, and the other failed only in the slice), 1 of 10 in P11's (failed only in the slice) and 2 of 10 in P13's (no failures). These are not `cut_routes.py` cuts, and each is flagged only through the 10 m margin. Removing them lowers P10's and P11's excess from 2 to 1 and leaves P13's at 0, so no verdict changes. The rule flags nothing in the T0 pilots and screens (P3, P4, P7, P8), which supports the headline results. P20's three affected pairs were replaced before any outcome was read. | [WHAT_BROKE](../WHAT_BROKE.md), [H13 amendment](experiments/h13-cross-family-gap/protocol.md) |
 | B2 on P19 | B2's `InvadingTurn` stratum holds 42 slice and 7 neighbourhood failures and scores [0.857](data/h12_layer10_plain.json). Step 5 bars a single-factor stratum at 0.4 or above for an interactional gap. | P19 counts as "passes 9.1, fails Step 5's single-factor condition". 9.1's ratio limits neighbourhood failures to half the key, so B2 stays under 0.4 only if the family holds more failures outside the pilot than the key itself (arithmetic). P19 would need more than 56 failures outside the pilot, about 370 routes at the measured 15% ([log](research-log.md)), or about 1,500 to 3,100 SU (estimate, at 4.1 to 8.5 SU a route). Whether such a pool is sensible is for Jerry and Chris to judge. The H13 simulation gives [0.801](data/h13_b2_precheck.json) for P19's real rates (simulated). | [Research log](research-log.md), [C34](../../CONFLICTS.md) |
@@ -207,6 +207,34 @@ Two further limits apply. The 9 lost routes of P19's pilot still pass in the [wo
 | Explained variance labels | `explained_variance` in the data files is measured on the pool's own frames and reads 0.953 to 0.973. The log's 0.904 to 0.93 at layer 10 and 0.900 to 0.937 at layer 14 (H1b) and 0.875 to 0.922 (H3) are held-out values. H12's log line calls its 0.96 to 0.97 held-out, and that range matches the pool value. | All clear the 0.8 floor on either measure, so no dictionary changes status. | [`dev_eval.py`](../../src/discovery/dev_eval.py), [research log](research-log.md) |
 | P3's check | P3's manipulation check failed 3 of 5, the frames showed the fog plainly, and the run resumed before any driving outcome was read. P10 and P12 kept their failed checks, so they read as untested. | P3 fails 9.1 either way. | [WHAT_BROKE](../WHAT_BROKE.md), entry of 2026-10-13 |
 
+## Dry run and rehearsal
+
+Both ran on 2026-11-04 under protocols locked in `fb7b815`, on dev data with a public key. Neither is a verdict.
+
+**H15, scoring path.** The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs ([check and spread](data/h15_dry_run.json)). This is the first time real activations reached PRD 13.1's two conditions. Condition 1 reads invalid and condition 2 is not evaluated, both as the [protocol](experiments/h15-scoring-dry-run/protocol.md) expected: no activation axis reaches 0.5 on P4 or P7, and B4, B4p, B5 and B6 have no directive. Neither is a 13.1 reading.
+
+The run also gave the first scores for action residualization. It fits the action-query states on `vision_bridge`, the visual features, and subtracts what that linear fit predicts before the dictionary is trained, so what stays is the part vision does not explain. Chris still has to confirm `vision_bridge` as the visual pool. These rows are exploratory. The best axis is chosen using the key, and each row covers 18 dictionaries.
+
+| Method and variant | P19 best | P19 median | P19 at 0.5 or above | P4 best | P4 median | P7 best | P7 median |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| M1 raw, plain | 0.705 | 0.375 | 5 of 18 | 0.490 | 0.387 | 0.275 | 0.231 |
+| M1 raw, residualized | 0.689 | 0.540 | 13 of 18 | 0.316 | 0.201 | 0.250 | 0.236 |
+| B7-pool, plain | 0.500 | 0.372 | 1 of 18 | 0.091 | 0.037 | 0.339 | 0.065 |
+| B7-pool, residualized | 0.620 | 0.278 | 3 of 18 | 0.104 | 0.029 | 0.438 | 0.071 |
+
+On P19, residualizing moves M1's median above B7-pool's by 0.262, where the plain medians differ by 0.003. It also lowers M1 on P4, as PRD 9.2 expects. B2's list of scenario names still scores 0.857 on P19, so this does not change P19's standing, and one gap cannot show that the change holds in general. Separately, B7-pool already reads T2 `fires` under [H16's stop rule](experiments/h16-b7-rollout-free/protocol.md) on the plain P19 row above. That reading rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. H16's rule was written on the plain variant, so this table does not settle it. Jerry and Chris decide it, and H16 is held until they do.
+
+**H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
+
+| Outcome | Axis shift (m) | Floor (m) | Random 95th percentile (m) | Excess interval (m) | Failing minus control interval (m) | Other latents' 95th percentile (m) |
+|---|---:|---:|---:|---:|---:|---:|
+| Speed | 0.121 | 0.06 | 0.105 | 0.001 to 0.029 | -0.016 to 0.016 | 0.150 |
+| Route | 0.028 | 0.03 | 0.029 | -0.004 to 0.002 | -0.006 to 0.003 | 0.039 |
+
+Speed clears the rule and route stops at both its floor and its interval. The excess over random on clean frames is 0.017 m on speed, close to the 0.016 m on failing frames. Beside the rule, with no bearing on it: the axis's raw shift on failing frames against clean twins is 0.121 and 0.069 m on speed and 0.028 and 0.013 m on route, the founder latent alone gives 0.121 and 0.028 m, and pairs whose rollout is in the axis shift 0.135 m on speed against 0.105 m for the rest. The twins have no patch, so that raw comparison is confounded, and the rule reads excess over random in each arm. The random control is an equal-length translation, where PRD 9.2 names removal along a random direction. This is a dev rehearsal in offline replay on an axis at P4 best 0.490, median 0.387 across 18 dictionaries, chosen using the key. It is not Step 9's verdict, and every axis card keeps `causal: untested`.
+
+**H14 offline, marker replay.** Untested. Its mask failed the check before any replay (72% of dots caught against a limit of 90%, and a ring on a vehicle in 13 of 50 frames against a limit of 0, [data](data/h14_mask_check.json)). The route-marker effect stays unmeasured.
+
 ## PRD checks that never ran
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04.
@@ -215,24 +243,25 @@ Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PR
 |---|---|---|---|---|
 | 3 | Savio replay within 1e-3 m of the log, in bfloat16 (a 16-bit number format) | Open | Ran, not met | Replays of 331 frames sit 1 to 3 rounding steps (median 1 to 3 cm) from the log, and three replays agree to 0.0 m. C22 proposes replay against replay and is pending. Numbers are in [STATUS](../STATUS.md), and jobs 39784216 and 39784287 have no file in the repo. |
 | 4 | None open | All done | Done | The chosen site is driving queries at layer 10. |
-| 5 | 4 to 6 gaps plus 2 decoys pass 9.1 | Open | Not met | Four public gaps pass, and no practice gap is marked as a decoy. C31 records one decoy that was judged. Its details and the sealed counts are unknown here. The kinematic decoy screen is assigned to Chris ([STATUS](../STATUS.md)). |
+| 5 | 4 to 6 gaps plus 2 decoys pass 9.1 | Open | Not met | Four public gaps pass, and no practice gap is marked as a decoy. Chris reports control 1, enumerable 1 and interactional 0 passing among 9 sealed candidates, and visually novel 1 and kinematic 0 among decoys passing C31 ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)). His kinematic decoy screen ran and is read privately. |
 | 5 | No single-factor stratum at 0.4 with any interactional gap | Open | Ran once, failed | It was measured on P19 only, at [0.857](data/h12_layer10_plain.json). |
 | 5 | Efficacy re-confirmed on the scoring pool | Not listed | Never ran | No scoring pool exists. |
 | 6 | B7 variant A, the rollout-free statistics | Open | Never ran | The code accepts variant A ([`activation_stats.py`](../../src/baselines/activation_stats.py)) and [the spec](../steps/b7-gap-signal.md) drew its sample on 2026-10-15. Every stored B7 result is variant B. |
-| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Never read | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. B7-pool scores above M1 on P7 and P8 and below it on P4 and P19 in the tables above (exploratory), and nobody has read the rule against that. Jerry and Chris should read it before a test pool is built. |
+| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Read on stored data, undecided | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. On stored H12 data B7-pool reads T2 `fires` under H16's rule: P19 best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375. It rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. Jerry and Chris decide it before a test pool is built. |
 | 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. |
 | 7 | Describability gate with its shuffle control | Open | Never ran | `src/gate/` holds only `__init__.py`. [The spec](../steps/describability-gate.md) waits on model pins. |
-| 7 | Residualized and nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for either, so no method has run its residualized variant. |
+| 7 | Residualized preprocessing | Not listed | Ran once, dry run | H15 ran it on dev data, using `vision_bridge` as the visual pool pending Chris. |
+| 7 | Nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for it. |
 | 7 | SAE waypoint error with reconstructions spliced back | Not listed | Never ran | [`sae.py`](../../src/discovery/sae.py) says it is not done there. |
 | 7 | Naming the primary method (D3) | Not listed | Open | [CONFLICTS D3](../../CONFLICTS.md) closes at this step and is still open. |
-| 8 | Preregistration of the 13.1 rule | Not listed | Drafted, unsigned, not in git | [`harness/PREREGISTRATION.md`](../../harness/PREREGISTRATION.md) is a draft with an empty signature table. It takes effect only when Chris and Jerry sign it and `prereg-v1` tags it. |
+| 8 | Preregistration of the 13.1 rule | Not listed | Drafted, unsigned | [`harness/PREREGISTRATION.md`](../../harness/PREREGISTRATION.md) is a draft with an empty signature table. It takes effect only when Chris and Jerry sign it and `prereg-v1` tags it. |
 | 8 | Key sealed and hashed | Open | Never ran | [`seal.py`](../../src/harness/seal.py) and its tests exist. `KEY_COMMITMENT.txt` does not exist, and this checkout has no `gaps/sealed/` folder. |
 | 8 | Frozen tags in order | Not listed | Never ran | `git tag` lists only `b4-factors-v1`. |
 | 8 | Test pool generated | Open | Never ran | No test-pool config exists under `configs/rollout/`. |
 | 8 | Scored once | Open | Never ran | No test pool exists to score. |
 | 8 | Three evaluation seeds, paired by route (PRD 12.4) | Not listed | Never ran | Each stored pilot lists every route once per arm. |
 | 8 | Sealed-key guard in CI, the automatic checks on each push | Not listed | Off | CI runs only by hand under [C33](../../CONFLICTS.md), and C33 asks for it back before sealing. |
-| 9 | Causal verdict for every top axis | Open | Never ran | Directives carry `causal: untested`, and no module computes a verdict against matched controls. |
+| 9 | Causal verdict for every top axis | Open | Never ran | Directives carry `causal: untested`. H17 rehearsed the removal on one axis in replay, which is not Step 9's verdict, and no module writes a verdict onto a card. |
 | 9 | Go or no-go under 13.1 | Open | Never ran | The harness-validity check and route bootstrap exist in [`scoring.py`](../../src/harness/scoring.py) and [`bootstrap.py`](../../src/harness/bootstrap.py), and neither has seen a test pool. |
 | 10 | One full generate and fine-tune cycle | Open | Never ran | Only [the spec](../steps/10-closed-loop.md) exists. A search of `src/` and `scripts/` finds no LoRA or fine-tuning code. |
 | 10 | No-degradation check | Open | Never ran | It depends on the cycle above. |
@@ -261,7 +290,8 @@ SU is Savio's service unit. The research log is the only record of these figures
 | Failed probe and empty scoring | 4 (d), by difference | 5033 | [Log](research-log.md), 2026-11-03 |
 | P20 screen driving and same-node disk tests | About 167 (d), by difference | About 5200 | [STATUS](../STATUS.md), 2026-11-03 21:00. The log has no figure. |
 | P20 rerun and amended pairs | About 144 (d), by difference | 5344 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 20:55. Includes about 37 SU lost in array 40858449. |
-| Sealed work | Unknown here | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
+| H15 and H17 | 61 (d), 12 and 49 | 5405 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 22:49. |
+| Sealed work | About 6,000, Chris's figure ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
 
 The goal's budget was 6000 SU and Jerry raised it to 10000 ([STATUS](../STATUS.md), 2026-11-03 19:30). The log puts H6 at 2.6 SU a route and H7 at about 4 SU a route, and [H13's protocol](experiments/h13-cross-family-gap/protocol.md) uses about 8.5 SU a route for P19's pilot, which is 864 SU over 101 scored routes, or 7.85 over 110 listed.
 

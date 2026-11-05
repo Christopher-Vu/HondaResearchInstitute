@@ -1,0 +1,201 @@
+{
+ "label": "Dev rehearsal in offline replay. Not Step 9's verdict.",
+ "dev_rehearsal": true,
+ "step9_verdict": false,
+ "rule": {
+  "shift_floors_m": {
+   "route_m": 0.03,
+   "speed_m": 0.06
+  },
+  "control_percentile": 95,
+  "interval_percentiles": [
+   1.25,
+   98.75
+  ],
+  "bootstrap_replicates": 5000,
+  "bootstrap_seed": 17,
+  "direction_seed": 17,
+  "pair_order_seed": 17,
+  "min_pairs": 20,
+  "rerun_limit_m": 0.001,
+  "zero_effect_m": 0.1,
+  "site_error_limit": 0.02,
+  "edit_ratio_tolerance": 0.1
+ },
+ "axis": {
+  "axis_id": "contrastive-a6",
+  "best_jaccard": 0.4897959183673469,
+  "axis_size": 27,
+  "share_of_failures": 0.11790393013100436,
+  "in_key": 24,
+  "pilot_slice": 27,
+  "pilot_neighbourhood": 0,
+  "other": 0,
+  "recovers": false,
+  "dictionaries": 18,
+  "median_jaccard": 0.38742964352720455,
+  "note": "The best axis is chosen using the key.",
+  "founder": 699,
+  "latents": [
+   699
+  ],
+  "members": [
+   "2092035",
+   "214335",
+   "220435",
+   "2421135",
+   "2429435",
+   "2475935",
+   "2478135",
+   "2478437",
+   "251335",
+   "2542435",
+   "2585435",
+   "264335",
+   "2809935",
+   "2822935",
+   "2824135",
+   "294335",
+   "307435",
+   "308635",
+   "309935",
+   "324835",
+   "347235",
+   "352035",
+   "356135",
+   "373735",
+   "390537",
+   "493735",
+   "6306178"
+  ]
+ },
+ "gap": "P4_camera_occlusion",
+ "sae": "results/savio/h12/sae/L10_k32_s3",
+ "pairs_expected": 37,
+ "pairs_read": 37,
+ "frames_replayed": 421,
+ "checks": {
+  "pairs": {
+   "value": 37,
+   "limit": 20,
+   "passes": true
+  },
+  "rerun_p90_m": {
+   "value": 0.0,
+   "limit": 0.001,
+   "passes": true
+  },
+  "zeroed_tokens_median_m": {
+   "value": 13.565521240234375,
+   "limit": 0.1,
+   "passes": true
+  },
+  "site_error_median": {
+   "value": 0.010061847046017647,
+   "limit": 0.02,
+   "passes": true
+  },
+  "edit_ratio_worst": {
+   "value": 0.0001430511474609375,
+   "limit": 0.1,
+   "passes": true
+  }
+ },
+ "outcomes": {
+  "route_m": {
+   "axis_mean_m": 0.028179459273815155,
+   "axis_control_frames_mean_m": 0.012744255363941193,
+   "founder_mean_m": 0.028239373117685318,
+   "random_p95_m": 0.02870403043925762,
+   "excess_m": -0.0005245711654424633,
+   "excess_interval": [
+    -0.00439298350480385,
+    0.001869302518898622
+   ],
+   "control_frames_excess_m": 0.00039293649606406654,
+   "control_frames_interval": [
+    -0.0024100466299569233,
+    0.0025577037810580795
+   ],
+   "failing_minus_control_m": -0.0009175076615065298,
+   "difference_interval": [
+    -0.00569274385110475,
+    0.0029865908058127385
+   ],
+   "non_failure_latent_p95_m": 0.03900580815970898,
+   "above_non_failure_latents": false,
+   "floor_m": 0.03,
+   "stopped_by": [
+    "floor",
+    "interval"
+   ],
+   "clears": false,
+   "specific": false,
+   "by_membership": {
+    "axis_members": 0.031671203672885895,
+    "not_axis_members": 0.024071525782346725
+   }
+  },
+  "speed_m": {
+   "axis_mean_m": 0.1210554987192154,
+   "axis_control_frames_mean_m": 0.06934869289398193,
+   "founder_mean_m": 0.12094230949878693,
+   "random_p95_m": 0.10486281774938105,
+   "excess_m": 0.016192680224776268,
+   "excess_interval": [
+    0.0014353547757491555,
+    0.029399158773012454
+   ],
+   "control_frames_excess_m": 0.017171886563301084,
+   "control_frames_interval": [
+    0.006712305876426399,
+    0.024448553097900005
+   ],
+   "failing_minus_control_m": -0.0009792063385248156,
+   "difference_interval": [
+    -0.015718656552489836,
+    0.01640705715399236
+   ],
+   "non_failure_latent_p95_m": 0.14956071823835373,
+   "above_non_failure_latents": false,
+   "floor_m": 0.06,
+   "stopped_by": [],
+   "clears": true,
+   "specific": false,
+   "by_membership": {
+    "axis_members": 0.13491453230381012,
+    "not_axis_members": 0.10475078225135803
+   }
+  }
+ },
+ "axis_edit_norm": {
+  "failing": 0.8273224234580994,
+  "control": 0.6165643930435181
+ },
+ "frame_mean_edit": {
+  "failing": {
+   "axis": 0.6410236358642578,
+   "random_mean": 0.8266255855560303
+  },
+  "control": {
+   "axis": 0.3678585886955261,
+   "random_mean": 0.6157979369163513
+  },
+  "note": "Each control moves the frame mean at least as far as the axis does, because the axis's per-token edits partly cancel in the mean and a control's do not. If the plan reads the frame mean, this makes the axis harder to show above random, not easier."
+ },
+ "outcome": "above_random_failing_not_shown_larger",
+ "reading": "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size.",
+ "provenance": {
+  "at_report": {
+   "commit": "fb7b815e1a679015da95f05f1cf5c091dedc59a4",
+   "code_sha256": "6aecea0a933d4fcbdda69ca8b1b6fb4ae03f9546a3f1b441621bc0debedff43d",
+   "protocol_sha256": "86e112ad2ad7a8558d3c1ea0f3f1a26f187e7ed98cd2aece4441fdbe8cada953"
+  },
+  "at_select": {
+   "commit": "fb7b815e1a679015da95f05f1cf5c091dedc59a4",
+   "code_sha256": "6aecea0a933d4fcbdda69ca8b1b6fb4ae03f9546a3f1b441621bc0debedff43d",
+   "protocol_sha256": "86e112ad2ad7a8558d3c1ea0f3f1a26f187e7ed98cd2aece4441fdbe8cada953"
+  },
+  "changed_since_select": false
+ }
+}
