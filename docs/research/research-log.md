@@ -573,3 +573,12 @@ Screen array 40843139 started at 19:48 from the repeating probe (port open in 12
 ## 2026-11-04 01:30 — H14 drafted: what the route markers do to driving
 
 Draft, not locked: `docs/research/experiments/h14-route-markers/protocol.md`. No rollouts and no SU; the sample-size table is simulated (`power.py`, `docs/research/data/h14_power.json`). Repeat-run discordance on `--debug 2` is 6 of 40 with the same seed and weather, and 40 of 199 and 17 of 70 with other seeds and weather (measured). Spend unchanged by this entry. Waits on Jerry and Chris; C35 is the draft for any change to `--debug`.
+
+## 2026-11-04 21:00 — P20 fails its screen
+
+Check first, from `docs/research/data/h13_p20_amended_check.json`: the box is black on the first 5 slices and 10 of 10 scored slices met traffic, with no scenario dropped. Then the rule: **0 slice-only against 4 neighbourhood-only failures on 10 pairs, exit 3** (measured). Slice failed 3 of 10, neighbourhood 7 of 10, McNemar p 0.125, Fisher p 0.18. Candidate count becomes 20. Per C34 this is not read as SimLingo coping without sight of oncoming traffic, because the patch covers an oncoming car only in the last 16 to 32 m of a straight road. The reversal is not read as an effect either: the protocol noted before the read that the mirror patch can cover the hazard.
+
+Reported with the rule, as H13's amendment requires. Infractions, slice: 4 vehicle collisions, 2 layout, 1 outside lanes, 1 scenario timeout. Neighbourhood: 5 vehicle collisions, 4 stop, 1 outside lanes. Slice-only failures: 0, so 0 with a collision and 0 timeouts only. Discordant pairs by slice and neighbourhood task and node: 64145 task 4 n0217, task 3 n0211; 64181 task 5 n0279, task 3 n0211; 64237 task 6 n0211, rerun task 0 n0275; 64257 task 0 n0212, task 1 n0264. Borderline 64145 is one of the four: its neighbourhood failed on a stop infraction alone. 25854, flagged at the screen's review, passed in both arms.
+
+Deleted the superseded shards 6415539 and 6415549 from the amended folder, unread. Spend 5344 of 10000 SU (measured). P20's full pilot does not run. H15 and H17 locked in `fb7b815` and submitted as 40906511 and 40906512.
+

@@ -1,0 +1,29 @@
+{
+  "gap_id": "P20_oncoming_hidden",
+  "routes_listed": 20,
+  "routes_without_outcome": [],
+  "prd_9_1": {
+    "n_in": 10,
+    "failures_in": 3,
+    "n_neighbourhood": 10,
+    "failures_neighbourhood": 7,
+    "fail_rate_in": 0.3,
+    "fail_rate_neighbourhood": 0.7,
+    "uplift_pp": -40.0,
+    "ratio": 0.4285714285714286,
+    "fisher_p": 0.1788954079975752,
+    "passes": false
+  },
+  "c23_paired": {
+    "pairs": 10,
+    "base_routes": 10,
+    "slice_only_failed": 0,
+    "neighbourhood_only_failed": 4,
+    "fail_rate_in": 0.3,
+    "fail_rate_neighbourhood": 0.7,
+    "uplift_pp": -40.0,
+    "ratio": 0.4285714285714286,
+    "mcnemar_p": 0.125,
+    "passes": false
+  }
+}
