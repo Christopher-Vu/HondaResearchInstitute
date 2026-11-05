@@ -1,0 +1,1115 @@
+{
+ "viewers": "two independent model viewers per panel, not a person; the lead spot-checked panels 03 and 30 by zoomed crop",
+ "mask_check": {
+  "frames_viewed": 50,
+  "coloured_dots_visible": 118,
+  "coloured_dots_caught": 85,
+  "frames_touching_traffic_light_or_vehicle": 13,
+  "white_rings_drawn": 6,
+  "white_rings_not_on_a_block": 4,
+  "white_blocks_visible": 14,
+  "white_blocks_caught": 2
+ },
+ "panels": {
+  "00": [
+   {
+    "panel": "00",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Farthest green dot (blob 285,755) ring sits right under the rear of a vehicle and over a white block; ring edge touches the car. White block at about top 280, left 760 has no orange ring (only magenta around the green dot beside it)."
+   },
+   {
+    "panel": "00",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Third green dot (about 757,285) sits under the white block at about 763,278; its ring overlaps the dark car behind it. White block has no orange ring."
+   }
+  ],
+  "01": [
+   {
+    "panel": "01",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "White block on road about 20px above the green dot, no orange ring. Green ring is clear of the SUV."
+   },
+   {
+    "panel": "01",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "White block at about 514,278 just above the green dot has no orange ring. Faint yellow specks on the road look like lane paint."
+   }
+  ],
+  "02": [
+   {
+    "panel": "02",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot (306,507) sits just below the rear bumper of the blue Mini; ring top edge overlaps the bumper (marginal)."
+   },
+   {
+    "panel": "02",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Ring at about 510,306 sits just under the blue car's rear tyres and overlaps them slightly. A tiny green fragment on the car's bumper at about 512,295 may be a partly hidden second dot; not counted."
+   }
+  ],
+  "03": [
+   {
+    "panel": "03",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots ringed (274,194 and 274,354). A yellow dot near top 274, left ~450 is not ringed. White block at about top 272, left 80 (beside a parked red car) not ringed. A white sign post at left ~280 is a sign, not counted."
+   },
+   {
+    "panel": "03",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots ringed (about 197,276 and 357,277). Missed: yellow dot on the road at about 452,276, and a yellow dot on the green car's rear window at about 516,282. Missed white block at about 87,272. The white sign at 287,250 and the number plate were not counted."
+   }
+  ],
+  "04": [
+   {
+    "panel": "04",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Clean. Crosswalk stripes and lane arrows are not ringed."
+   },
+   {
+    "panel": "04",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at about 301,299 is ringed, clear of the blue car on the left."
+   }
+  ],
+  "05": [
+   {
+    "panel": "05",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Top green blob (261,492) is an elongated green dot with a white block directly above it, both inside one magenta ring; no orange ring. Ring left edge is very close to the red car's right side but looks just clear. Yellow dashes are lane paint, not counted."
+   },
+   {
+    "panel": "05",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Top green blob at about 495,270 is an elongated streak and may be two merged dots, counted as one. A white block directly above it at about 497,260 is inside the magenta ring but has no orange ring. Yellow dashes are lane paint."
+   }
+  ],
+  "06": [
+   {
+    "panel": "06",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Clean. A tiny green speck at the far left edge near top 75 looks like a distant light or sign, not counted."
+   },
+   {
+    "panel": "06",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Single green dot at about 279,300, ringed and clear of cars and lights."
+   }
+  ],
+  "07": [
+   {
+    "panel": "07",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two near green dots ringed. Two small far green specks near the dark car (about top 255, left 500 and top 260, left 535 in full frame) have no ring; uncertain whether they are route dots or reflections, so 4 may be 2."
+   },
+   {
+    "panel": "07",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Dark foggy frame. Two large green dots (about 515,272 and 515,294) are ringed. Two tiny green dots are not ringed: about 472,262 on a car's roof and about 499,263. The two ringed dots are clear of the car at left."
+   }
+  ],
+  "08": [
+   {
+    "panel": "08",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot (274,735) is directly on the roofline of a distant dark car; ring overlaps that vehicle. Green foliage far top right not counted."
+   },
+   {
+    "panel": "08",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at about 740,277 is ringed, but it lies on the lower body of a distant dark blue car and the ring overlaps the car."
+   }
+  ],
+  "09": [
+   {
+    "panel": "09",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Clean. Dot sits on road, clear of the blue Mustang."
+   },
+   {
+    "panel": "09",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Same scene as panel 06. Green dot at about 279,300 is ringed and clear of cars and lights."
+   }
+  ],
+  "10": [
+   {
+    "panel": "10",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two small green dots, far right of road, both ringed. Rings near but not on the dark parked cars. The white car is a vehicle, not a block."
+   },
+   {
+    "panel": "10",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots at (741,275) and (681,277), both ringed. Left ring sits just right of far parked dark cars and next to a lamp post, but does not touch them."
+   }
+  ],
+  "11": [
+   {
+    "panel": "11",
+    "coloured_dots_visible": 0,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 1,
+    "note": "Orange ring (top 284, left 509) sits on a crosswalk stripe. The big white shape just below it is a painted road arrow, not a block. I see no block."
+   },
+   {
+    "panel": "11",
+    "coloured_dots_visible": 0,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 1,
+    "note": "The only ring (orange, about 509,284) sits on a crosswalk stripe just above the white road arrow. That stripe looks the same as its neighbours, so I see no separate block."
+   }
+  ],
+  "12": [
+   {
+    "panel": "12",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two overlapping green squares near (top 265, left 480) share one ring; the lower green at (293, 475) has its own. A solid white rectangle (about 12x8 px) sits just above the upper green dot, with no orange ring. It could be a white block or a white vehicle part; I lean block. The magenta ring overlaps its lower edge but does not touch a car."
+   },
+   {
+    "panel": "12",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Upper blob (480,265) is two overlapping green dots, plus a lower dot at (475,293); two magenta rings cover all three. A flat near-white block of about 15x10 px (pixel value 248, around x 481-495, y 258-267) sits right behind the upper green dots. It has no orange ring, so I count it as missed. The upper ring is close to a dark car on the left but does not touch it."
+   }
+  ],
+  "13": [
+   {
+    "panel": "13",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Night frame. Three green dots, all ringed. The upper two dots sit at the left edge of a dark car, so the top ring may just touch that car's edge (marginal). A small white upright rectangle (about 5x9 px) lies left and above the top dot with no orange ring. It could be a far white block or a tail light; uncertain."
+   },
+   {
+    "panel": "13",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Three green dots in a column (501,267), (502,275), (501,304), all ringed. The second ring's right edge overlaps the left edge of the very dark car by a few pixels, so the touch is borderline. A small pale blob of about 5x9 px (peak value 210, near x 492-496, y 258-266) sits above the column. It has no ring. I am not sure whether it is a white block dimmed by fog or a vehicle or sign light, so I counted it as one missed block."
+   }
+  ],
+  "14": [
+   {
+    "panel": "14",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two yellow dots (292,416) and (340,508), both ringed. The second sits on a crosswalk stripe but is clearly a yellow square."
+   },
+   {
+    "panel": "14",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two yellow dots, (416,292) and (508,340), both ringed, on wet road. Neither ring is on a vehicle or traffic light."
+   }
+  ],
+  "15": [
+   {
+    "panel": "15",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Ring at (268,507) sits on a green dot at the edge of a taxi and a dark car, so it touches vehicles. A second green sliver lower down, beside the grey car's rear bumper at about top 311, left 505, has no ring. It is partly hidden by the car."
+   },
+   {
+    "panel": "15",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "The ringed blob (507,268, area 6) is a tiny green dot at the edge of a dark car beyond the yellow taxi, so the ring touches a vehicle. A second green sliver sits at the left edge of the black car in front, near x 505, y 305-312. It is mostly hidden by the car and has no ring. This one is uncertain."
+   }
+  ],
+  "16": [
+   {
+    "panel": "16",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot on the road (289,563), ringed. It is near the blue car but clear of it."
+   },
+   {
+    "panel": "16",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (563,289), ringed, on the road to the right of the blue car. It touches nothing."
+   }
+  ],
+  "17": [
+   {
+    "panel": "17",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot (290,509), ringed and clear of vehicles."
+   },
+   {
+    "panel": "17",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (509,290), ringed, just right of the blue car and clear of it."
+   }
+  ],
+  "18": [
+   {
+    "panel": "18",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green and two yellow dots, all ringed and none on a vehicle or traffic light."
+   },
+   {
+    "panel": "18",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dots at (331,275) and (513,338), yellow dots at (451,278) and (511,293). All four are ringed. The yellow ring near 511,293 overlaps the crosswalk stripes but not a vehicle."
+   }
+  ],
+  "19": [
+   {
+    "panel": "19",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 1,
+    "note": "Two green dots, both ringed. The orange ring at (289,397) sits on a bright headlight glare beside the navy car, not on a block. The nearest magenta ring, at (276,447), sits close to a dark car but does not touch it."
+   },
+   {
+    "panel": "19",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 1,
+    "note": "Green dots at (447,276) and (509,290), both ringed and clear of cars. The orange ring at (397,289) is on a soft white headlight glare beside the dark blue car, not a block."
+   }
+  ],
+  "20": [
+   {
+    "panel": "20",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Uncaught: yellow dot at about x432,y279 (far road, no ring). Magenta ring at about x326,y276 sits on the front of a parked or distant grey car, so it touches a vehicle. Crosswalk stripes are not blocks."
+   },
+   {
+    "panel": "20",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Missed: yellow dot at about (432,280) on the far road, no ring. Green ring at (326,276) sits on the front edge of a dark parked car, so the ring touches a vehicle. Yellow (508,285) and green (509,302) are caught."
+   }
+  ],
+  "21": [
+   {
+    "panel": "21",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One faint, pale, low-contrast near-white rectangle at about x470-485,y304-312 on the bright road, left of the cyclist. Not opaque-looking, so uncertain it counts. No orange ring on it. Green dot ring at x474,y324 is clear of the cyclist."
+   },
+   {
+    "panel": "21",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Faint opaque near-white block at about (470-482, 304-312), just above the green dot on a bright wet road, no ring (only ~5 grey levels above the road). Green ring at (474,324) is clear of the cyclist."
+   }
+  ],
+  "22": [
+   {
+    "panel": "22",
+    "coloured_dots_visible": 0,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No route dots found at full size or in crops. Dense traffic and small yellow street-pole lights are not dots. No rings drawn."
+   },
+   {
+    "panel": "22",
+    "coloured_dots_visible": 0,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No rings, no route dots. Yellow items at (40,296) and (790,298) are parking meters on the sidewalk, not route dots."
+   }
+  ],
+  "23": [
+   {
+    "panel": "23",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two yellow dots on wet road at about (395,289) and (483,316), both ringed. Rings are clear of the traffic light and cars. White road paint at the bottom is lane marking, not blocks."
+   },
+   {
+    "panel": "23",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Both yellow dots on wet road ringed. Small yellow spot on the pole base at about (275,290) is a pole fitting, not a route dot. Bottom white marks are lane paint."
+   }
+  ],
+  "24": [
+   {
+    "panel": "24",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Tiny green dot at about (802,276), partly hidden behind a lamp post, directly under the rear of a grey car on the far road. The ring overlaps that car's underside, so touches a vehicle. Small (area 9)."
+   },
+   {
+    "panel": "24",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green blob at (802,276) is a small solid green rectangle at the bottom of a distant grey car, partly behind a lamp post. The ring overlaps that car. Unsure if it is a route dot or a vehicle reflection; it looks like a solid dot."
+   }
+  ],
+  "25": [
+   {
+    "panel": "25",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Dark foggy night. Clear dot caught at about (588,291). Uncaught green pieces in the distance beside the cars: a blob on a grey sign at about (536,262), a green sliver at about (545,268), and a green sliver at the bottom edge near x707,y358. Count of the distant ones is uncertain, they may be one dot split by occlusion. The grey sign rectangle at (536,262) is a sign, not an opaque white block."
+   },
+   {
+    "panel": "25",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Caught: bright green dot at (588,291), whose ring touches the lower-right corner of the dark car ahead (marginal). Not ringed: green sliver beside that car at about (549,270), and a green sliver at the bottom edge of the top half at about (708,358). A green smear on a white road sign at about (535,258) is a sign, not counted. Fog makes the slivers uncertain."
+   }
+  ],
+  "26": [
+   {
+    "panel": "26",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at about (301,298) on the road near the yellow centre line. Ring is clear of the blue car and the traffic lights. Crosswalk stripes are not blocks."
+   },
+   {
+    "panel": "26",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at (303,298) caught, clear of the blue car. The green traffic light at (670,157) is not ringed, correctly."
+   }
+  ],
+  "27": [
+   {
+    "panel": "27",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Same scene as 24, tiny green dot at about (802,276) just under the rear of a grey car beside a lamp post. Ring overlaps that car. Hard to see at full size, visible only in the upscaled crop."
+   },
+   {
+    "panel": "27",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Same distant green rectangle as panel 24 at (802,276), at the bottom of a distant grey car behind a lamp post. The ring overlaps the car."
+   }
+  ],
+  "28": [
+   {
+    "panel": "28",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No rings at all. Green blob at about (495,266) overlapping a bright white rectangle (about 15x11 at x487,y261, looks like a near-white block or an overhead sign), and a small green dot at about (508,299) just above a car's tail light, over a bright spot. Uncertain whether the white rectangle is a block or a sign."
+   },
+   {
+    "panel": "28",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No rings at all. Bright green blob at about (493,265) overlapping an opaque white rectangle at about (485-498, 258-267); I count the white rectangle as a white block. A second green bar at about (508,299) sits on top of the lead car's rear light and may be a partly hidden dot or a reflection (uncertain)."
+   }
+  ],
+  "29": [
+   {
+    "panel": "29",
+    "coloured_dots_visible": 5,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Clear dot caught at about (448,285). Uncaught: a cluster of green marks far ahead around (478-510, 258-265) beside a dark car, about four pieces (a blob at about (500,265), slivers at about (478,258), (493,258), (508,260)). Count uncertain, some may be fragments of the same dot."
+   },
+   {
+    "panel": "29",
+    "coloured_dots_visible": 5,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Caught: green dot at (448,285). Not ringed: a cluster of distant green dots around a far car at about (479,257), (495,259), (507,260) and a solid one at about (499,264). The first three are small fragments, so the total of 5 is uncertain."
+   }
+  ],
+  "30": [
+   {
+    "panel": "30",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots at (508,273) and (509,286), both ringed. The upper dot sits on the rear of a dark distant car (red tail lights either side), and the lower ring's edge touches a grey part of the nearer car's left side, so I marked touches true. A faint blurred green glow at about (508,356) at the bottom edge is not a crisp dot and is uncounted. A tiny green pixel at about (492,242) looks like a distant traffic light."
+   },
+   {
+    "panel": "30",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots at (508,273) and (509,286) are ringed. The upper dot (top 273) sits on a distant dark vehicle with red tail lights, so that ring touches a vehicle. A third green dot is half cut off at the bottom edge (about x 507, y 355) with no ring."
+   }
+  ],
+  "31": [
+   {
+    "panel": "31",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green (508,287), cyan (523,278) and green (603,276), all ringed. Crosswalk stripes are lane paint, not blocks."
+   },
+   {
+    "panel": "31",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots and one cyan dot, all ringed. The cyan ring (523,278) sits next to white lane dashes, which are paint and not ringed. The traffic light up the road is not ringed."
+   }
+  ],
+  "32": [
+   {
+    "panel": "32",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (531,289), ringed. The blue car to the left is not touched."
+   },
+   {
+    "panel": "32",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Single green dot on the road at (531,289), ringed. Crosswalk stripes and the red traffic light are not ringed."
+   }
+  ],
+  "33": [
+   {
+    "panel": "33",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dots at (513,256), (513,267) and (514,310), all ringed. The first two sit on an orange road-works sign trailer, so the magenta rings touch a vehicle. A white patch about 15x7 px sits just above the top green dot at about (515,252) with no orange ring. It could be a white block or part of the trailer, so I am unsure."
+   },
+   {
+    "panel": "33",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Dots at (513,256) and (513,267) are drawn over a yellow-orange construction sign trailer, which is a vehicle-like object, so those two rings touch it. The third dot at (514,310) is on open road. The top dot has a faint yellow tint. The white box behind the trailer is part of the trailer and has no ring."
+   }
+  ],
+  "34": [
+   {
+    "panel": "34",
+    "coloured_dots_visible": 7,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Dark foggy frame. Clear squares: green (511,285) unringed, green (511,321) ringed, green (612,279) unringed, cyan pair (538,278) unringed. Three tiny green dashes at about (714,280), (817,282) and (924,285) are also unringed. I count them as far dots but they are small and uncertain, so 4 are clear and 3 are doubtful. The white headlights at (945,283) are a vehicle, not a block."
+   },
+   {
+    "panel": "34",
+    "coloured_dots_visible": 7,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Dark foggy frame. Only the near green dot at (507,317) is ringed. Visible and unringed: a green dot at about (511,285), a cyan dot at (539,278), a green dot at (612,278), and a green pair of bars at (924,284) next to white vehicle lights. Two small green slivers at about (713,280) and (816,282) are probably distant dots, so the count of 7 is uncertain by two. None of the unringed ones could be mistaken for a traffic light or a vehicle."
+   }
+  ],
+  "35": [
+   {
+    "panel": "35",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (299,297), ringed. The ring is clear of the blue car. The green light at (670,158) is a traffic light and is not counted."
+   },
+   {
+    "panel": "35",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (299,297), ringed. The red and green traffic lights are not ringed."
+   }
+  ],
+  "36": [
+   {
+    "panel": "36",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 2,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Small image: a road-works sign trailer at about (510,270-300). Two green dots at (508,266) and (508,276) are ringed and overlap the trailer, so touches is true. A third, partly hidden green dot at about (511,295) behind the trailer's lower bar has no ring. Two tiny near-white squares at about (505,259) and (514,259), above the dots, have no orange ring. They could be trailer parts, so I am unsure."
+   },
+   {
+    "panel": "36",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two green dots at (508,266) and (508,276) are ringed, and both rings sit on a yellow construction sign trailer. A third green sliver is partly hidden behind the trailer's lower yellow bar at about (509,295) and has no ring. The white boxes on the trailer are trailer lights, not route blocks."
+   }
+  ],
+  "37": [
+   {
+    "panel": "37",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green (452,291) and yellow (599,340), both ringed. Crosswalk stripes are not blocks. The traffic lights are not touched."
+   },
+   {
+    "panel": "37",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot (452,291) and yellow dot (599,340), both ringed. The green traffic light at upper right is not ringed. The green ring is near a dark car but does not touch it."
+   }
+  ],
+  "38": [
+   {
+    "panel": "38",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green (254,291), yellow (416,293) and green (501,334), all ringed. The third sits on a white stop line; the ring is on the green dot, not the line."
+   },
+   {
+    "panel": "38",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green (254,291), yellow (416,293) and green (501,334) are all ringed. The bottom green ring overlaps a white crosswalk stop line but is on the dot. The yellow-green parking meter at the right edge is not ringed."
+   }
+  ],
+  "39": [
+   {
+    "panel": "39",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 1,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at (507,296) with magenta ring. Opaque white block at about (504,287), about 15x11 px, with orange ring. Both sit just behind a blue car's bumper. The magenta ring's top edge comes very close to the car's rear tyres but I see no contact."
+   },
+   {
+    "panel": "39",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 1,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at (507,296) is ringed in magenta, and one opaque white block directly above it at (504,287) is ringed in orange. The orange ring touches the bumper of the blue car just ahead. The magenta ring does not touch the car. The white square on the dark car's front is its licence plate area and is not ringed."
+   }
+  ],
+  "40": [
+   {
+    "panel": "40",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two small green dots (~676,277 and ~735,275), both ringed; rings clear of the white car and lamp posts."
+   },
+   {
+    "panel": "40",
+    "coloured_dots_visible": 2,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Two small green dots at (735,275) and (676,277), both ringed. Ring at 676 is next to a lamp post, not touching it. Nothing missed."
+   }
+  ],
+  "41": [
+   {
+    "panel": "41",
+    "coloured_dots_visible": 6,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green at ~125,285 / ~229,283 / ~335,283 / ~508,304 and yellow at ~434,281 / ~506,287. Rings only on 335, 506 and 508. 125, 229 and 434 are missed. A tiny faint yellow speck at ~456,333 is uncertain and not counted. White block at ~18,285 on the left (with a small green speck on it) has no orange ring."
+   },
+   {
+    "panel": "41",
+    "coloured_dots_visible": 6,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Caught: green (333,281), yellow (502,285), green (504,301). Missed: green ~(125,285), green ~(229,283), yellow ~(434,281). Also a white block ~(18,284) with a green strip under it has no orange ring. A tiny yellow fleck near (456,334) is uncertain and not counted."
+   }
+  ],
+  "42": [
+   {
+    "panel": "42",
+    "coloured_dots_visible": 5,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green at ~242,269 / ~353,271 / ~402,272 / ~450,280 (dim, sits on the red car) / ~510,321. Rings on 353 and 402 only. The ring at ~402,272 touches the roofline of the dark car, marginal. The dot at ~450,280 is dim and over a red car, so uncertain. A small white thing at ~162,267 on a banner pole looks like a sign and was not counted."
+   },
+   {
+    "panel": "42",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 2,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Caught: green (354,271) and (403,272). The ring at 403 overlaps the roof of the dark car, and the dot there is partly hidden behind the car, so the magenta ring touches a vehicle. Missed: green ~(242,269) and green ~(510,320). A small green sliver at ~(450,280) on the orange car is uncertain and not counted. White sign at ~(160,270) is not a block."
+   }
+  ],
+  "43": [
+   {
+    "panel": "43",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Yellow at ~366,293, yellow at ~514,334 and red at ~514,351 at the stop line. No rings at all. The red dot is a solid square on the road, not a tail light."
+   },
+   {
+    "panel": "43",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No rings at all. Missed: yellow (366,293), yellow ~(514,335), red ~(514,350) at the bottom edge. Crosswalk stripes are not blocks. Faint green specks near ~(514,282) are uncertain and not counted."
+   }
+  ],
+  "44": [
+   {
+    "panel": "44",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green at ~156,286, yellow at ~305,285 and yellow at ~428,290. No rings at all. A glint near ~502,328 in the sun reflection was not counted."
+   },
+   {
+    "panel": "44",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 0,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "No rings at all. Missed: green (156,285), yellow (306,284), yellow (428,290). A faint yellow smear in the sun glare near ~(503,328) is uncertain and not counted."
+   }
+  ],
+  "45": [
+   {
+    "panel": "45",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dots at ~698,349, ~846,309 and ~907,293, all ringed. Rings clear of the blue car. The green traffic light at ~97,91 is not ringed."
+   },
+   {
+    "panel": "45",
+    "coloured_dots_visible": 3,
+    "coloured_dots_caught": 3,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dots at (696,348), (846,311) and (906,294), all ringed. The ring at (696,348) sits about 3 px below the blue car's rear bumper, and the one at 846 is about 7 px right of the blue car. Neither touches it. The traffic lights are not ringed."
+   }
+  ],
+  "46": [
+   {
+    "panel": "46",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Four green dots in a line at ~409-458,270-296, all ringed. Rings are clear of the vehicles."
+   },
+   {
+    "panel": "46",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Four green dots in a curve at (406,268), (423,272), (440,279), (454,295), all ringed. The dark SUV starts about 30 px to the right of the nearest ring."
+   }
+  ],
+  "47": [
+   {
+    "panel": "47",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 1,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot at ~514,340 and a white block at ~513,302, both ringed and clean."
+   },
+   {
+    "panel": "47",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 1,
+    "white_blocks_caught": 1,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot (510,335) has a magenta ring. White block (505,297) has an orange ring. Nothing else seen. The yellow object at the far left is a parking meter, not a dot."
+   }
+  ],
+  "48": [
+   {
+    "panel": "48",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 2,
+    "note": "Green at ~57,284 and ~222,285, yellow at ~385,288 and ~510,313, all ringed. The ring at ~222,285 overlaps the front wheel and body of the grey car. The ring at ~57,285 is below a blue bus and touches only a parking meter. The two orange rings at ~481,313 and ~516,312 sit on crosswalk stripes. The yellow dot sits between those stripes, so there is no white block."
+   },
+   {
+    "panel": "48",
+    "coloured_dots_visible": 4,
+    "coloured_dots_caught": 4,
+    "touches_traffic_light_or_vehicle": true,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 2,
+    "note": "Caught: green (56,283), green (218,282), yellow (382,285), yellow (507,310). The ring at (218,282) overlaps the rear wheel and bumper of the grey car, so it touches a vehicle. Both orange rings, at about (481,313) and (516,312), sit on crosswalk stripes. I see no separate opaque white block, only the stripes on either side of the yellow dot."
+   }
+  ],
+  "49": [
+   {
+    "panel": "49",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "One green dot at ~510,291, ringed. Ring is clear of the nearby black car and of the traffic lights."
+   },
+   {
+    "panel": "49",
+    "coloured_dots_visible": 1,
+    "coloured_dots_caught": 1,
+    "touches_traffic_light_or_vehicle": false,
+    "white_blocks_visible": 0,
+    "white_blocks_caught": 0,
+    "white_rings_not_on_a_block": 0,
+    "note": "Green dot (509,290) ringed and clear of the cars. A green smear on a dark car's windshield at about (985,283) is a reflection, not counted. Traffic lights are not ringed."
+   }
+  ]
+ }
+}

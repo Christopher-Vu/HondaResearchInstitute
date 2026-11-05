@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-04: H14's marker mask failed its check on Savio frames
+
+**What happened:** the mask rule was tuned on local Mac frames. On 50 seeded Savio frames it caught 85 of 118 coloured dots (72%, limit 90%) and a ring touched a vehicle in 13 of 50 frames (limit 0), both by two independent viewers. **Why it matters:** markers are drawn over distant cars, so a colour mask cannot paint them out without editing the car. The offline marker test stopped before any replay, at 0 SU, and stays untested. Stage 1 drives with and without markers, so it does not depend on the mask.
+
 ## 2026-11-03: the camera SimLingo drives from has shown route markers since 2026-10-05
 
 **Expected:** the policy sees the same picture a default Bench2Drive evaluation gives it.

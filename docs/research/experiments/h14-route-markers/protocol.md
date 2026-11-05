@@ -265,7 +265,9 @@ The `--debug 0` arm is half the spend. Once both stages have run, it is also a o
 
 Run these on Savio from `/global/scratch/users/imhaohao/HondaResearchInstitute`, after `git fetch origin main && git merge --ff-only origin/main`. Confirm first that no P20 array is still running.
 
-**Offline, cleared to run now.** Run the real-model path once on one route with `--limit` first, because `Replayer` and `Probe` have not run in this form. The first command runs on the login node for 0 SU. View `results/savio/h14-offline/mask-check/*.png` and fill in `mask-check.json` before the second.
+**Offline, stopped 2026-11-04: the mask check failed, so `replay` was not submitted.** Two independent viewers agree on 85 of 118 coloured dots caught (72%, limit 90%), and on 13 of 50 frames where a ring touches a vehicle (limit 0). Four of 6 white rings are off a block and 2 of 11 to 14 white blocks are caught, so white blocks stay unpainted. Missed dots are mostly far, small or yellow, and markers are often drawn over a distant car, so painting one out edits that car. Rings are drawn 6 pixels wider than the mask, so some touches overstate what the mask itself covers. The locked rule counts rings, and 72% fails alone. No effect was measured; offline is untested. A new mask needs an amendment and frames it has not seen. Data: `docs/research/data/h14_mask_check.json`. Stage 1 does not use the mask.
+
+**Offline; the original plan.** Run the real-model path once on one route with `--limit` first, because `Replayer` and `Probe` have not run in this form. The first command runs on the login node for 0 SU. View `results/savio/h14-offline/mask-check/*.png` and fill in `mask-check.json` before the second.
 
 ```bash
 .runtime/policy-venv/bin/python adapters/simlingo/marker_replay.py sheets results/savio/40715498 --output results/savio/h14-offline

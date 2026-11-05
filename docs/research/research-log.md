@@ -582,3 +582,7 @@ Reported with the rule, as H13's amendment requires. Infractions, slice: 4 vehic
 
 Deleted the superseded shards 6415539 and 6415549 from the amended folder, unread. Spend 5344 of 10000 SU (measured). P20's full pilot does not run. H15 and H17 locked in `fb7b815` and submitted as 40906511 and 40906512.
 
+## 2026-11-04 21:20 — H14 offline stops at its mask check
+
+`sheets` ran on the login node. Two viewers per panel: 85 of 118 coloured dots caught (72%, limit 90%), 13 of 50 frames with a ring on a vehicle (limit 0). So `replay` was not submitted, as the protocol says, and the offline test is untested at 0 SU. `docs/research/data/h14_mask_check.json`. No re-tune: the frames are now seen, and whether H14 goes on at all is Chris's decision (issue 8).
+
