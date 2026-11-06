@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-06: H19's planted group was mostly planted on blank frames
+
+**What happened:** H19 shifted `lead_distance` on 25 failures to give M2 a group it should find. That state is blank whenever no car is ahead, and M2 scores a blank frame's error as 0, so the shift reached 129 of 293 planted frames. Only 11 of the 25 failures carried it on half their frames, below M2's support floor of 20, so the positive control could not pass. **Fix:** the amended plant draws only failures that know the state on at least 60% of their window frames. **Lesson:** before planting a signal, check that the method can see it on the rows you plant.
+
 ## 2026-11-04: H14's marker mask failed its check on Savio frames
 
 **What happened:** the mask rule was tuned on local Mac frames. On 50 seeded Savio frames it caught 85 of 118 coloured dots (72%, limit 90%) and a ring touched a vehicle in 13 of 50 frames (limit 0, 13 marked by both viewers and 14 by at least one), read by two independent model viewers with two panels spot-checked by the lead. **Why it matters:** markers are drawn over distant cars, so a colour mask cannot paint them out without editing the car. The offline marker test stopped before any replay, at 0 SU, and stays untested. Stage 1 drives with and without markers, so it does not depend on the mask.

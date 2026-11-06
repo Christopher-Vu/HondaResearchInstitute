@@ -34,6 +34,9 @@ KEY = "results/savio/h15/throwaway/as-labelled/key.json"
 LAYER, SITE = 10, "driving_queries"
 GRID = {"min_cluster_size": (20, 60), "min_samples": (None, 5, 10, 30), "allow_single_cluster": (False, True)}
 PLANTED, PLANT_STATE, PLANT_SHIFT, PLANT_SEED = 25, "lead_distance", 2.3, 19
+# Amendment of 2026-11-06: lead_distance is NaN without a lead vehicle, and a NaN frame's error is 0, so a planted failure
+# must know the state on at least this share of its window frames for the shift to reach it.
+PLANT_MIN_KNOWN = 0.6
 DEFAULTS = {"min_cluster_size": 60, "min_samples": None, "allow_single_cluster": False}
 
 
@@ -46,13 +49,21 @@ def load_rollouts() -> list:
     return [rollout for path in sidecars if (rollout := load_shard(path, SITE, LAYER)) is not None]
 
 
+def known_share(rollout) -> float:
+    values = rollout.states.get(PLANT_STATE)
+    if values is None:
+        return 0.0
+    return float(np.mean(~np.isnan(values[window_rows(rollout, ProbeResidualConfig())])))
+
+
 def plant(rollouts: list, gap_members: set[str]) -> tuple[list, set[str]]:
     """Shift the true state on the window frames of 25 seeded failures outside every gap, so their decode error moves
     by PLANT_SHIFT standard deviations of that state on success frames."""
     sigma = fit_probes([r for r in rollouts if not r.failed])[PLANT_STATE].sigma
     candidates = sorted(r.rollout_id for r in rollouts if r.failed and r.rollout_id not in gap_members
-                        and PLANT_STATE in r.states)
-    chosen = set(np.random.default_rng(PLANT_SEED).choice(candidates, size=PLANTED, replace=False).tolist())
+                        and known_share(r) >= PLANT_MIN_KNOWN)
+    size = min(PLANTED, len(candidates))
+    chosen = set(np.random.default_rng(PLANT_SEED).choice(candidates, size=size, replace=False).tolist())
     planted = []
     for rollout in rollouts:
         if rollout.rollout_id in chosen:
@@ -77,13 +88,17 @@ SENTENCES = {
                              "is not a settings blind spot for a group this strong.",
     "settings_hide_signal": "M2's default settings miss a planted group of 25 failures that another tried setting "
                             "recovers, so its zero on real pools can come from its settings.",
+    "untested": "H19 is untested: fewer than 20 failures outside the key gaps know lead_distance on enough window "
+                "frames to carry the plant.",
     "planted_not_recovered": "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools "
                              "says little about whether the gaps are there.",
 }
 RECOVERED = 0.5
 
 
-def outcome(planted_runs: list[dict]) -> str:
+def outcome(planted_runs: list[dict], planted: int) -> str:
+    if planted < ProbeResidualConfig().min_support:
+        return "untested"
     default = next(row for row in planted_runs if all(row[k] == v for k, v in DEFAULTS.items()))
     if default["planted_best_jaccard"] >= RECOVERED:
         return "default_finds_planted"
@@ -113,7 +128,9 @@ def main() -> None:
               "note": "Any best setting is chosen using the key.", "rollouts": len(rollouts),
               "failures": sum(r.failed for r in rollouts), "key_sizes": {g.gap_id: len(g.failing_rollouts) for g in gaps},
               "planted": PLANTED, "real": real, "planted_runs": with_plant}
-    record["outcome"] = outcome(with_plant)
+    record["planted"] = len(planted)
+    record["planted_known_share"] = sorted(round(known_share(r), 2) for r in rollouts if r.rollout_id in planted)
+    record["outcome"] = outcome(with_plant, len(planted))
     record["reading"] = SENTENCES[record["outcome"]]
     record["gaps_at_or_above_0_5"] = gap_reading(real)
     args.output.parent.mkdir(parents=True, exist_ok=True)
