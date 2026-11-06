@@ -6,11 +6,32 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 16:30 (Chris: Fail2Drive runs on the harness; its reproduction screen is built and not run)
+Last updated: 2026-11-05 (Chris: Fail2Drive track opened; full screen running; TransFuser++ wired, not run)
 
 ---
 
 ## Current position
+
+**2026-11-05, Chris: parallel Fail2Drive track (`docs/prd-fail2drive.md`).** The reproduction screen is scored, on one seed (measured):
+
+- PedestriansOnRoad 4/5 against 1/5.
+- Wall 5/5 against 0/5.
+- CustomObstacles 9/10 against 3/10.
+
+Each clears §9.1's 20-point and 2× bars; none passes, because §9.1 needs 30 or more slice runs.
+
+**Running:** the full screen of the other 14 types, array 40950230 (160 routes, about 560 SU, estimate), then scoring 40950231. When it ends:
+
+- Run `src.harness.efficacy` once per `F2D_<type>` gap into `results/savio/f2d-screen-full/`.
+- Draft F2 (`docs/prd-fail2drive.md` §5) before reading the outcomes.
+
+**TransFuser++:** `policy.name: tfpp` and `adapters/tfpp/tfpp_agent.py` are committed and tested on CPU, never run. Its environment and checkpoint are being built on Savio by setup job 40950303. Before a smoke run:
+
+- Write a smoke config with the checkpoint sha256 from `.runtime/tfpp-setup-40950303.out`.
+- Copy the code to `hri-dev`, which is still at 8e27d9a.
+- Stage with `POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/tfpp-venv.tar`.
+
+**Track cap:** 2,500 SU for F1–F4. The closed loop (F5) and TransFuser++ runs need Chris's go. **Not pushed:** sharing is decided at the 2026-11-06 meeting.
 
 **2026-11-04 16:30, Chris: Fail2Drive's own routes run on our harness (one pair, measured); the 20-pair reproduction screen is built and not run.** New direction (Chris): keep SimLingo and draw gaps from missing-data shifts, starting with Fail2Drive, whose paper puts SimLingo's worst drops in Behavior (-64.2%) and Visual-lateral (-32.2%). `simulator.benchmark: fail2drive` runs its evaluator at a pinned revision on its CARLA build. One pair drove in 14 min on one A40 (about 3.5 SU a route). **Next:** run `configs/rollout/f2d-repro-screen.yaml`'s other 38 routes (about 150 SU, estimate), then score each `F2D_<name>` gap with `src/harness/efficacy.py`. Stage CARLA and the venv on node-local disk for every array, because scratch is slow (journal). Chris's kinematic decoy screen ran and is read privately. These Fail2Drive gaps are public and never enter the key.
 

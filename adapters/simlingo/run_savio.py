@@ -27,7 +27,7 @@ import yaml
 from artifacts import verify_artifacts
 from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment, route_environment,
                        benchmark_root, check_benchmark, check_external_server_patch, check_route, evaluator_command, expert_command, expert_environment,
-                       policy_environment,
+                       policy_environment, policy_name, verify_tfpp,
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
@@ -193,19 +193,28 @@ def render(output: Path, config: dict[str, Any], container: str | None) -> dict[
 
 def route(output: Path, config: dict[str, Any], container: str | None, slot: int = 0,
           slots: int = 1) -> dict[str, Any]:
-    manifest = verify_artifacts(SOURCE, CHECKPOINT)
-    check_external_server_patch()
+    policy = policy_name(config)
+    if policy == "simlingo":
+        manifest = verify_artifacts(SOURCE, CHECKPOINT)
+        check_external_server_patch()
+    else:
+        manifest = verify_tfpp(config)
     check_benchmark(config["simulator"])
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"))
-    capture |= route_environment(config)
+    agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"),
+                                                   policy)
+    knobs = route_environment(config)
+    if policy == "tfpp" and knobs:
+        # Knock-outs, chase cameras and camera faults live in SimLingo's agents only, so they would silently not apply.
+        raise ValueError(f"The TransFuser++ agent does not apply {sorted(knobs)}")
+    capture |= knobs
     with GpuMonitor() as gpu:
         root = server_root(config["simulator"].get("carla_build"))
         with carla_server(output, config["simulator"]["quality"], container, slot, root) as (ports, versions):
             environment = policy_environment(output, config["policy"]["device"],
                                              CARLA_ROOT / "PythonAPI/carla", False, capture,
-                                             benchmark_root(config["simulator"]))
+                                             benchmark_root(config["simulator"]), policy)
             command = evaluator_command(output, config, ports, torch_threads(slots), agent)
             run_evaluator(output, command, environment)
     # With several slots the GPU figures cover every route sharing the GPU, not this one alone.

@@ -5,6 +5,32 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-05 (Chris): a parallel Fail2Drive track — its PRD, the reproduction result, the full screen, TransFuser++ wiring
+
+Fail2Drive's 3-type reproduction screen is scored, and SimLingo fails its unseen scenarios far more often than their in-distribution twins. The figures below are measured on one seed (`results/savio/f2d-repro-screen/`, arrays 40882834, 40883276 and 40887233):
+
+- PedestriansOnRoad: 4 of 5 against 1 of 5 (uplift 60 points, Fisher p 0.21).
+- Wall: 5 of 5 against 0 of 5 (100 points, p 0.008).
+- CustomObstacles: 9 of 10 against 3 of 10 (60 points, p 0.02).
+
+Each clears `PRD.md` §9.1's size bars, 20 points and 2×. None passes, because §9.1 needs 30 or more slice runs. One route (99) lost its CARLA server to a startup segfault, which is an infrastructure fault, not a driving result, so it was rerun; nothing else was lost.
+
+Chris opened a parallel track: find failure axes for a public benchmark's documented failure modes instead of gaps we make up, and migrate the project if it meets a bar fixed in advance. It is written up in `docs/prd-fail2drive.md`. Two design points matter:
+
+- The B4 factor list, tagged on 2026-10-15 before this track existed, splits Fail2Drive's types into ones it names and ones it does not. The headline rests on the unnamed ones.
+- Scenario labels are hidden from every method. The human-taxonomy baseline (B2), run with labels, would recover each gap by construction, so it is reported only as an oracle ceiling.
+
+The full screen of the other 14 types runs as array 40950230: 160 routes, about 560 SU, estimate. Scoring (40950231) follows it.
+
+TransFuser++, Fail2Drive's own camera-and-LiDAR model and the planned second policy, is wired in but not yet run:
+
+- `policy.name: tfpp` selects `adapters/tfpp/tfpp_agent.py`. It writes the same controls and `capture/steps.pt` layout as SimLingo's capture agent, so scoring and activation export read it unchanged.
+- The capture sites are the decoder layer outputs, plus the fused backbone grid in the vision-bridge slot.
+- Its environment and checkpoint are being built on Savio by job 40950303, which is not committed.
+- Before a smoke run: read the checkpoint's sha256 from that job's log into a config, and copy this commit's code to `hri-dev`.
+
+These commits are local and unpushed, because Chris decides how to share the track at the 2026-11-06 meeting.
+
 ## 2026-11-04 (Chris): Fail2Drive runs on our harness; the kinematic decoy screen ran
 
 Chris decided to keep SimLingo and change where the gaps come from. Every gap that has passed so far is a camera fault, which an out-of-distribution detector would also flag and which says little about missing training data. [Fail2Drive](https://arxiv.org/abs/2604.08535) is a published benchmark built for exactly this: 100 route pairs where only an unseen scenario or object differs. Its authors report SimLingo's largest drops in the Behavior category (-64.2%) and the Visual-lateral category (-32.2%), including PedestriansOnRoad falling from 98.50 to 19.68. We had never run its own routes. P5 and P6 were our re-implementations on Bench2Drive roads, and neither moved SimLingo.

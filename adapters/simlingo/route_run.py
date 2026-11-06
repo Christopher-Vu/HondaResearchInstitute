@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from artifacts import ROOT, load_manifest
+from artifacts import ROOT, load_manifest, sha256
 
 SOURCE = ROOT / ".runtime/simlingo"
 BASE_MODEL = ROOT / ".runtime/InternVL2-1B"
@@ -40,6 +40,12 @@ NO_SCENARIO = "none"
 BENCHMARKS = {"bench2drive": SOURCE / "Bench2Drive", "fail2drive": ROOT / ".runtime/fail2drive-src"}
 FAIL2DRIVE_REVISION = "bceb18afb7d62e06e990739e013e750d92ad7a88"
 FAIL2DRIVE_PATCH = ROOT / "adapters/simlingo/patches/fail2drive-compat.patch"
+# The Fail2Drive track's second policy (docs/prd-fail2drive.md, F6): Fail2Drive's own TransFuser++ code, run under
+# Fail2Drive's benchmark only, from the checkpoint its README names (huggingface.co/SimonGer/TFv5, all_towns).
+POLICIES = ("simlingo", "tfpp")
+TFPP_AGENT = ROOT / "adapters/tfpp/tfpp_agent.py"
+TFPP_CHECKPOINT = ROOT / ".runtime/tfpp-ckpt"
+TFPP_WEIGHTS = "model_0030_0.pth"
 
 
 @dataclass(frozen=True)
@@ -136,9 +142,39 @@ def check_benchmark(simulator: dict[str, Any]) -> None:
         subprocess.run(["git", "-C", str(root), "apply", "--reverse", "--check", str(FAIL2DRIVE_PATCH)], check=True)
 
 
+def policy_name(config: dict[str, Any]) -> str:
+    name = (config.get("policy") or {}).get("name", "simlingo")
+    if name not in POLICIES:
+        raise ValueError(f"Unknown policy {name!r}; expected one of {POLICIES}")
+    if name == "tfpp" and (config.get("simulator") or {}).get("benchmark") != "fail2drive":
+        raise ValueError("TransFuser++ runs from Fail2Drive's team_code, so it needs simulator.benchmark: fail2drive")
+    return name
+
+
+def verify_tfpp(config: dict[str, Any]) -> dict[str, Any]:
+    """The checkpoint's hash must match the config's `policy.ckpt_sha256`, as SimLingo's does its manifest."""
+    weights = TFPP_CHECKPOINT / TFPP_WEIGHTS
+    found = sha256(weights)
+    if found != config["policy"]["ckpt_sha256"]:
+        raise RuntimeError(f"{weights} has sha256 {found}, and the config names {config['policy']['ckpt_sha256']}")
+    return {"policy": "tfpp", "weights": str(weights), "sha256": found}
+
+
 def policy_environment(output: Path, device: str, carla_pythonapi: Path,
-                       visible: bool, extra: dict[str, str], benchmark: Path = BENCHMARKS["bench2drive"]) -> dict[str, str]:
+                       visible: bool, extra: dict[str, str], benchmark: Path = BENCHMARKS["bench2drive"],
+                       policy: str = "simlingo") -> dict[str, str]:
     values = os.environ.copy()
+    if policy == "tfpp":
+        # Its team_code shares module names (config, model, data) with SimLingo's, so SimLingo's tree stays off the
+        # path; adapters/simlingo supplies world_state. Without SAVE_PATH its agent writes no debug logs.
+        values.pop("SAVE_PATH", None)
+        paths = [benchmark / "team_code", ROOT / "adapters/simlingo", benchmark / "leaderboard",
+                 benchmark / "scenario_runner", carla_pythonapi]
+        values.update({"SIMLINGO_EVIDENCE": str(output), "PYGAME_HIDE_SUPPORT_PROMPT": "1", "WORK_DIR": str(benchmark),
+                       "SCENARIO_RUNNER_ROOT": str(benchmark / "scenario_runner"),
+                       "PYTHONPATH": os.pathsep.join(map(str, paths))})
+        values.update(extra)
+        return values
     paths = [SOURCE, SOURCE / "team_code", benchmark / "leaderboard", benchmark / "scenario_runner", carla_pythonapi]
     values.update({
         "HF_HUB_OFFLINE": "1", "SIMLINGO_DEVICE": device,
@@ -151,10 +187,15 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
     return values
 
 
-def agent_and_capture_environment(capture_every: int | None,
-                                  token_layers: list[int] | None = None) -> tuple[Path, dict[str, str]]:
+def agent_and_capture_environment(capture_every: int | None, token_layers: list[int] | None = None,
+                                  policy: str = "simlingo") -> tuple[Path, dict[str, str]]:
     """The capture agent records Step 3 activations each step and replay inputs every Nth step, plus every
-    driving-query token at `token_layers` (PRD 12.2's per-token SAE input)."""
+    driving-query token at `token_layers` (PRD 12.2's per-token SAE input). TransFuser++'s agent always captures,
+    with no tokens or replay inputs."""
+    if policy == "tfpp":
+        if token_layers:
+            raise ValueError("The TransFuser++ agent captures no per-token activations; drop capture_token_layers")
+        return TFPP_AGENT, {"SIMLINGO_CAPTURE_EVERY": str(capture_every or 0)}
     if not capture_every:
         return AGENT, {}
     environment = {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
@@ -202,7 +243,8 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--timeout", str(config["simulator"]["timeout_seconds"]),
             "--debug", str(debug_level(config["simulator"])),
             "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
-            "--agent", str(agent), "--agent-config", str(CHECKPOINT) + "+agent",
+            "--agent", str(agent),
+            "--agent-config", str(TFPP_CHECKPOINT) if policy_name(config) == "tfpp" else str(CHECKPOINT) + "+agent",
             "--checkpoint", str(output / "result.json"),
             "--debug-checkpoint", str(output / "live.txt")]
 
