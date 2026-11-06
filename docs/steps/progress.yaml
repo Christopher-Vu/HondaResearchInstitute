@@ -18,11 +18,12 @@ week:
     - {text: "Scoring path ran end to end on a throwaway public key with 0 bugs (dry run)", who: Imhaohao}
     - {text: "Causal rehearsal on P4's axis: above random on speed; failing frames not shown larger", who: Imhaohao}
     - {text: "Fail2Drive's own routes run on our harness; sealed counts answered in issue 8", who: Christopher-Vu}
+    - {text: "Removing the mean moves method and B7 scores on two pools; probe-residual misses a planted group", who: Imhaohao}
   next:
     - {text: "Run and score the Fail2Drive reproduction screen", who: Christopher-Vu}
     - {text: "Decide C23, C29, C34, C35, P19's label and the preregistration", who: Christopher-Vu}
     - {text: "Decide with Chris whether B7-pool's P19 reading stops the blind pool", who: Imhaohao}
-    - {text: "Control the residualization gain on P19; find why probe-residual emits no axes", who: Imhaohao}
+    - {text: "Settle preprocessing and probe-residual before the methods freeze (C37)", who: Christopher-Vu}
 
 steps:
   - id: 0
