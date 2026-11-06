@@ -1,0 +1,32 @@
+# Fail2Drive track step F6 (docs/prd-fail2drive.md): TransFuser++ on every Fail2Drive pair, one seed (Chris, 2026-11-05).
+# The second policy's per-type picture, read beside SimLingo's two screens (f2d-repro-screen, f2d-screen-full).
+# Same seed and simulator settings; checkpoint and environment as f2d-tfpp-smoke.yaml. Runs from the hri-tfpp clone.
+#   python adapters/simlingo/fail2drive_pairs.py configs/rollout/f2d-tfpp-screen.yaml Animals BadParking \
+#     ConstructionPedestrian ConstructionPermutations CustomObstacles FullyBlocked HardBrake ImageOnObject ObscuredStop \
+#     OppositeConstruction PassableObstacles PedestrianCrowd PedestrianOtherBlocker PedestriansOnRoad RightConstruction \
+#     RightOfWay Wall
+#   100 pairs, 200 routes, 3 per A40: --array=0-66, about 380 SU (estimate, 1.9 SU a route on smoke run 40951957).
+
+name: f2d-tfpp-screen
+step: F6
+scope: savio_f2d_tfpp_screen
+
+policy:
+  name: tfpp
+  ckpt_sha256: d6fbdc28f7398354beadc7cf6765d866457c957f7b470c88ba206e73311a3b44
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+
+route:
+  seed: 24
+  routes_file: configs/rollout/f2d-tfpp-screen.xml
+  manifest: configs/rollout/f2d-tfpp-screen.manifest.json
