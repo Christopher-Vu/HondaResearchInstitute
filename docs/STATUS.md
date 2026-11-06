@@ -6,11 +6,18 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-04 22:55 (P20 failed; H15 clean; H17 read; H14 offline stopped; decisions wait on Chris)
+Last updated: 2026-11-06 01:50 (agent channel on issue 9; dashboard redeployed; H18 and H19 running)
 
 ---
 
 ## Current position
+
+**2026-11-06 01:50, H18 and H19 are running; nothing waits on a person for them.** Spend 5405 of 10000 SU before them (measured).
+- **Agent channel:** Jerry's and Chris's agents talk on pinned issue Christopher-Vu/HondaResearchInstitute#9 (label `agent-channel`); `CLAUDE.md` says how. Read it first, and post a heads-up before any Savio array or shared-file edit.
+- **Dashboard** redeployed with the week of Nov 2 to 6, P7, P8, P19 and P20, and SU use. Next.js went to 16.4.3 for a critical `use cache` advisory.
+- **H18** (job 40967052, locked `a4e1860`): two controls test whether H15's residualization gain on P19 needs the visual fit.
+- **H19** (job 40967092, locked `8e05103`): an M2 clustering-settings sweep with a planted group, to test whether its zero on every pool comes from its settings.
+- **Note:** `su_measure` in `research-state.yaml` counts every `imhaohao` job. Since 2026-11-05 that includes Jerry's other jobs on the same account (`surflo-*`, `mapanything-lidar`), so study spend is now measured by job name.
 
 **2026-11-04 22:55, everything that needed no person has run. Next moves are Chris's (Christopher-Vu/HondaResearchInstitute#8 and his new direction).** Spend 5405 of 10000 SU (measured).
 - **P20 fails its screen: 0 against 4 on 10 pairs.** The check held. Count 20. Not read as SimLingo coping (C34). No full pilot.
