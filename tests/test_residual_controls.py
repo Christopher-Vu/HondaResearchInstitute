@@ -92,3 +92,12 @@ def test_the_match_uses_the_variance_weighted_share_the_real_fit_removes(tmp_pat
     assert real.explained_on_fit > 0.5 and share < 0.2
     model = top_variance_fit([source], LAYER, share)
     assert share <= model.explained_on_fit < real.explained_on_fit
+
+
+def test_centre_removes_the_success_mean_and_nothing_else(pool, tmp_path):
+    from discovery.residual_controls import centre_fit
+    model = centre_fit([pool], LAYER)
+    queries = np.random.default_rng(5).normal(size=(6, model.mean.size))
+    assert np.allclose(model.residual(queries, None), queries - model.mean)
+    write_control_shards([pool], model, "centre", tmp_path / "centre")
+    assert json.loads((tmp_path / "centre" / "ok1.json").read_text())["residual_control"] == "centre"

@@ -3,13 +3,15 @@
     PYTHONPATH=src python -m discovery.residual_controls shuffle SHARD_DIR [...] --layer 10 --seed 18 --output OUT_DIR
     PYTHONPATH=src python -m discovery.residual_controls top-variance SHARD_DIR [...] --layer 10 \
         --match MODEL.npz --output OUT_DIR
+    PYTHONPATH=src python -m discovery.residual_controls centre SHARD_DIR [...] --layer 10 --output OUT_DIR
 
 `shuffle` fits the same ridge as `residualize`, with the visual frames permuted against the query frames, so it keeps the
 fit's form and removes nearly nothing that vision predicts. `top-variance` removes the leading principal components of
 the success frames' query states, as many as it takes to reach the share of total variance the real fit removes from
 those frames, so it removes as much variance as residualization does with no reference to vision. That share is
 variance-weighted; the fit's own `explained_on_fit` is sklearn's per-unit average R squared, a different number. Both write shards the way `residualize` does,
-tagged `residual_control` beside `preprocessing`, so the same downstream code reads them.
+tagged `residual_control` beside `preprocessing`, so the same downstream code reads them. `centre` removes only the
+success frames' mean, the part of `shuffle` that H18 found carries much of the residualization gain.
 
 Must never read the answer key. CI-enforced; see scripts/check_sealed_imports.py.
 """
@@ -75,6 +77,12 @@ def top_variance_fit(shard_dirs: list[Path], layer: int, target: float) -> TopVa
     return TopVarianceRemoval(layer, mean, rows[:count], float(shares[count - 1]))
 
 
+def centre_fit(shard_dirs: list[Path], layer: int) -> TopVarianceRemoval:
+    """Removes the success frames' mean and nothing else."""
+    targets, _ = success_sites(shard_dirs, layer)
+    return TopVarianceRemoval(layer, targets.mean(axis=0), np.zeros((0, targets.shape[1])), 0.0)
+
+
 def write_control_shards(shard_dirs: list[Path], model, control: str, output: Path) -> int:
     output.mkdir(parents=True, exist_ok=True)
     written = 0
@@ -88,14 +96,17 @@ def write_control_shards(shard_dirs: list[Path], model, control: str, output: Pa
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("control", choices=["shuffle", "top-variance"])
+    parser.add_argument("control", choices=["shuffle", "top-variance", "centre"])
     parser.add_argument("shards", type=Path, nargs="+")
     parser.add_argument("--layer", type=int, required=True)
     parser.add_argument("--seed", type=int, default=18, help="shuffle only: the permutation's seed")
     parser.add_argument("--match", type=Path, help="top-variance only: the residualize fit whose explained share to match")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    if args.control == "shuffle":
+    if args.control == "centre":
+        model = centre_fit(args.shards, args.layer)
+        summary = {"removed": "success-frame mean"}
+    elif args.control == "shuffle":
         model = shuffled_fit(args.shards, args.layer, args.seed)
         summary = {"alpha": model.alpha, "explained_on_fit": model.explained_on_fit}
     else:
