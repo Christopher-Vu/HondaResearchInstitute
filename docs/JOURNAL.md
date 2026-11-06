@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-06 — SimLingo's Fail2Drive test pool launched, with staging paid once per nine routes
+
+Chris approved the pre-registration (`docs/prereg-fail2drive.md`) and asked for the SimLingo test pool to run as fast
+and cheaply as possible. This is the pool that decides which Fail2Drive scenario types are real failure gaps for
+SimLingo: every pair at six fresh traffic seeds, 1,200 routes. It is six arrays (40983223 to 40983228), and one scoring
+job (40983231) runs after all of them.
+
+The full screen's logs showed that each GPU task spent 214 s of a roughly 12 minute run copying the simulator and the
+policy's Python onto the node (measured), before any route started. Two changes cut that:
+- `scripts/route_sample.sbatch` takes `ROUNDS`. A task now drives 9 routes, three at a time, so it copies once for 9
+  routes, not 3. A slot that finishes early starts its next route, so short routes no longer wait for the slowest one
+  sharing their GPU. A test checks the order and the overlap, and it passed on Savio (b38b3d7).
+- The simulator archive was unzipped once on scratch. Reading it took 2 s per 4 GB against 29 s to unzip
+  (login node, measured).
+
+Three routes per GPU stays: the 2026-10-20 profiling found a fourth route slows the forward pass sixfold. Rendering
+quality and capture stay as in the screens, so test and screen rollouts are comparable. The arrays were waiting for
+A40s when this entry was written.
+
 ## 2026-11-05 (Chris): a parallel Fail2Drive track — its PRD, the reproduction result, the full screen, TransFuser++ wiring
 
 Fail2Drive's 3-type reproduction screen is scored, and SimLingo fails its unseen scenarios far more often than their in-distribution twins. The figures below are measured on one seed (`results/savio/f2d-repro-screen/`, arrays 40882834, 40883276 and 40887233):
