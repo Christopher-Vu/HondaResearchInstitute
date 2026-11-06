@@ -47,6 +47,8 @@ class ProbeResidualConfig:
     window_s: float = 3.0
     min_cluster_size: int = 60
     min_support: int = 20
+    min_samples: int | None = None
+    allow_single_cluster: bool = False
 
     def validate(self) -> None:
         if self.budget_m <= 0 or self.min_cluster_size < 2 or self.min_support < 1:
@@ -143,7 +145,8 @@ def probe_residual_directive(rollouts: list[Rollout], config: ProbeResidualConfi
     if sum(len(b) for b in blocks) < config.min_cluster_size:
         return empty
     vectors = np.concatenate(blocks)
-    labels = HDBSCAN(min_cluster_size=config.min_cluster_size).fit_predict(vectors)
+    labels = HDBSCAN(min_cluster_size=config.min_cluster_size, min_samples=config.min_samples,
+                     allow_single_cluster=config.allow_single_cluster).fit_predict(vectors)
     owner = np.concatenate([np.full(len(b), i) for i, b in enumerate(blocks)])
 
     members: dict[int, list[tuple[int, float]]] = {}
