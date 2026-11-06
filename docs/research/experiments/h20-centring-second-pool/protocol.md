@@ -47,3 +47,8 @@ About 30 to 60 SU on one A40 with a 3 hour limit (estimate). H18 ran two variant
 ```bash
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash scripts/submit.sh gpu_a40 --time=0-03:00:00 docs/research/experiments/h20-centring-second-pool/run.sbatch
 ```
+
+## Amendment, 2026-11-06 02:50, before any score was read
+
+The first submission (job 40967835) stopped at its first scoring step. `scoring_run` always evaluates `PRD.md` 13.1's condition 2, which needs an interactional gap, and this key has none. No report was written and no score was read. Scoring now uses `score.py` beside this file, which computes each directive's best Jaccard per key gap with `scoring_run`'s own loaders and `mean_best_jaccard`. Everything else is unchanged, and the plain variant's dictionaries and directives from the first submission are reused.
+

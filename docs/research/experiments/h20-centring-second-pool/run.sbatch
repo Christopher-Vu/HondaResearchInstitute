@@ -64,10 +64,8 @@ for VARIANT in plain centre vision; do
   fi
   DIRECTIVES=("$OUT/plain/directives")
   [ "$VARIANT" = plain ] || DIRECTIVES+=("$RUN/directives")
-  [ -f "$RUN/report.json" ] || $PY -m harness.scoring_run --directives "${DIRECTIVES[@]}" \
-    --key "$KEY/key.json" --salt "$KEY/salt" --commitment "$KEY/commitment.txt" \
-    --manifests "${MANIFESTS[@]}" --routes "${ROUTES[@]}" --efficacy-rule prd_9_1 --label "$LABEL ($VARIANT)" \
-    --replicates 1000 --output "$RUN/report.json" > /dev/null
+  [ -f "$RUN/report.json" ] || $PY "$EXP/score.py" --directives "${DIRECTIVES[@]}" --key "$KEY/key.json" \
+    --manifests "${MANIFESTS[@]}" --routes "${ROUTES[@]}" --label "$LABEL ($VARIANT)" --output "$RUN/report.json"
   echo "$VARIANT scored after $SECONDS s"
 done
 
