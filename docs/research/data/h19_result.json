@@ -1,0 +1,494 @@
+{
+ "label": "DEV DRY RUN, NOT A VERDICT: H19 M2 settings sweep on H12's pool",
+ "note": "Any best setting is chosen using the key.",
+ "rollouts": 536,
+ "failures": 229,
+ "key_sizes": {
+  "P4_camera_occlusion": 46,
+  "P7_camera_freeze": 54,
+  "P19_wide_invading_turn": 42
+ },
+ "planted": 25,
+ "real": [
+  {
+   "min_cluster_size": 20,
+   "min_samples": null,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    221
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18666666666666668,
+    "P7_camera_freeze": 0.23318385650224216,
+    "P19_wide_invading_turn": 0.19004524886877827
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": null,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    221
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18666666666666668,
+    "P7_camera_freeze": 0.23318385650224216,
+    "P19_wide_invading_turn": 0.19004524886877827
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 5,
+   "allow_single_cluster": false,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 5,
+   "allow_single_cluster": true,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 10,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    221
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18666666666666668,
+    "P7_camera_freeze": 0.23318385650224216,
+    "P19_wide_invading_turn": 0.19004524886877827
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 10,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    221
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18666666666666668,
+    "P7_camera_freeze": 0.23318385650224216,
+    "P19_wide_invading_turn": 0.19004524886877827
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 30,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    220
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18222222222222223,
+    "P7_camera_freeze": 0.23423423423423423,
+    "P19_wide_invading_turn": 0.19090909090909092
+   }
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 30,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    220
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.18222222222222223,
+    "P7_camera_freeze": 0.23423423423423423,
+    "P19_wide_invading_turn": 0.19090909090909092
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": null,
+   "allow_single_cluster": false,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": null,
+   "allow_single_cluster": true,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 5,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    40
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.08860759493670886,
+    "P7_camera_freeze": 0.044444444444444446,
+    "P19_wide_invading_turn": 0.36666666666666664
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 5,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    53
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.1,
+    "P7_camera_freeze": 0.09183673469387756,
+    "P19_wide_invading_turn": 0.37681159420289856
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 10,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    39
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0759493670886076,
+    "P7_camera_freeze": 0.0449438202247191,
+    "P19_wide_invading_turn": 0.3728813559322034
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 10,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    46
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.08235294117647059,
+    "P7_camera_freeze": 0.06382978723404255,
+    "P19_wide_invading_turn": 0.3968253968253968
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 30,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    23
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.045454545454545456,
+    "P7_camera_freeze": 0.02666666666666667,
+    "P19_wide_invading_turn": 0.32653061224489793
+   }
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 30,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    34
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.06666666666666667,
+    "P7_camera_freeze": 0.03529411764705882,
+    "P19_wide_invading_turn": 0.3333333333333333
+   }
+  }
+ ],
+ "planted_runs": [
+  {
+   "min_cluster_size": 20,
+   "min_samples": null,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    169
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13756613756613756,
+    "P7_camera_freeze": 0.26704545454545453,
+    "P19_wide_invading_turn": 0.21965317919075145
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": null,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    169
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13756613756613756,
+    "P7_camera_freeze": 0.26704545454545453,
+    "P19_wide_invading_turn": 0.21965317919075145
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 5,
+   "allow_single_cluster": false,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 5,
+   "allow_single_cluster": true,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 10,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    169
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13756613756613756,
+    "P7_camera_freeze": 0.26704545454545453,
+    "P19_wide_invading_turn": 0.22674418604651161
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 10,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    169
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13756613756613756,
+    "P7_camera_freeze": 0.26704545454545453,
+    "P19_wide_invading_turn": 0.22674418604651161
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 30,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    168
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13829787234042554,
+    "P7_camera_freeze": 0.26857142857142857,
+    "P19_wide_invading_turn": 0.22093023255813954
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 20,
+   "min_samples": 30,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    168
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.13829787234042554,
+    "P7_camera_freeze": 0.26857142857142857,
+    "P19_wide_invading_turn": 0.22093023255813954
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": null,
+   "allow_single_cluster": false,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": null,
+   "allow_single_cluster": true,
+   "axes": 0,
+   "supports": [],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0,
+    "P7_camera_freeze": 0.0,
+    "P19_wide_invading_turn": 0.0
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 5,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    40
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.08860759493670886,
+    "P7_camera_freeze": 0.044444444444444446,
+    "P19_wide_invading_turn": 0.36666666666666664
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 5,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    53
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.1,
+    "P7_camera_freeze": 0.09183673469387756,
+    "P19_wide_invading_turn": 0.37681159420289856
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 10,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    39
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.0759493670886076,
+    "P7_camera_freeze": 0.0449438202247191,
+    "P19_wide_invading_turn": 0.3728813559322034
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 10,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    46
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.08235294117647059,
+    "P7_camera_freeze": 0.06382978723404255,
+    "P19_wide_invading_turn": 0.3968253968253968
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 30,
+   "allow_single_cluster": false,
+   "axes": 1,
+   "supports": [
+    23
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.045454545454545456,
+    "P7_camera_freeze": 0.02666666666666667,
+    "P19_wide_invading_turn": 0.32653061224489793
+   },
+   "planted_best_jaccard": 0.0
+  },
+  {
+   "min_cluster_size": 60,
+   "min_samples": 30,
+   "allow_single_cluster": true,
+   "axes": 1,
+   "supports": [
+    34
+   ],
+   "best_jaccard": {
+    "P4_camera_occlusion": 0.06666666666666667,
+    "P7_camera_freeze": 0.03529411764705882,
+    "P19_wide_invading_turn": 0.3333333333333333
+   },
+   "planted_best_jaccard": 0.0
+  }
+ ],
+ "planted_known_share": [
+  0.67,
+  0.67,
+  0.67,
+  0.75,
+  0.75,
+  0.83,
+  0.83,
+  0.83,
+  0.83,
+  0.92,
+  0.92,
+  0.92,
+  0.92,
+  0.92,
+  0.92,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0
+ ],
+ "outcome": "planted_not_recovered",
+ "reading": "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools says little about whether the gaps are there.",
+ "gaps_at_or_above_0_5": []
+}

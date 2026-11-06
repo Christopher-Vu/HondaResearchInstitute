@@ -239,6 +239,13 @@ On P19, residualizing moves M1's median above B7-pool's by 0.262, where the plai
 
 So the plain variant's scores move a lot with the dataset mean and the leading directions, and neither is fixed by the PRD. Every row here is exploratory and dev only, and the best axis is chosen using the key. B2 still scores 0.857 on P19. This needs Chris before any preprocessing is frozen.
 
+**H19, why M2 finds no axes.** Locked in `8e05103`, amended in `f9bcbb0` after the first plant failed (see below), job 40967739, 3 SU (measured). The fixed sentence is: "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools says little about whether the gaps are there." ([result](data/h19_result.json), [protocol](experiments/h19-m2-settings/protocol.md)).
+
+- **Defaults:** M2's default settings again give 0 axes on H12's pool. No setting of the 16 reaches 0.5 on P4, P7 or P19. The best is 0.397 on P19, and those settings were chosen using the key.
+- **Plant:** the plant shifted the lead-distance error by 2.3 standard deviations for 25 failures, each knowing the state on 67% to 100% of its window frames. It moved them out of the large catch-all cluster, which shrank from 221 failures to 169, but no setting grouped them: their best Jaccard is 0.0 under every setting.
+- **What this means:** M2 as configured cannot find a strong single-state group on this pool, so its zero is not evidence that the gaps are absent from its residuals.
+- **The first plant was invalid.** Lead distance is blank when no car is ahead, so most of the shift never reached a residual ([WHAT_BROKE](../WHAT_BROKE.md), 2026-11-06). Its reading was withdrawn before the rerun.
+
 **H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
 
 | Outcome | Axis shift (m) | Floor (m) | Random 95th percentile (m) | Excess interval (m) | Failing minus control interval (m) | Other latents' 95th percentile (m) |

@@ -53,8 +53,10 @@ hypotheses:
          result: "not run; held for Jerry and Chris because B7-pool already reads T2 fires on stored P19 data"}
   H18:  {status: done, kind: dry_run_control, protocol: docs/research/experiments/h18-residual-controls/protocol.md,
          result: "needs_vision on M1 raw P19: shuffle 0.447, variance-matched 0.436, halfway 0.4575; mean removal alone gives 44% of the gain and lifts B7-pool on P19 to median 0.666; exploratory", data: docs/research/data/h18_result.json}
-  H19:  {status: rerunning_amended, kind: dry_run_diagnosis, protocol: docs/research/experiments/h19-m2-settings/protocol.md,
-         result: "default M2 settings give 0 axes; no setting reaches 0.5 on a key gap; first plant invalid (blank lead_distance), amended rerun job 40967739", data: docs/research/data/h19_first_plant.json}
+  H19:  {status: done, kind: dry_run_diagnosis, protocol: docs/research/experiments/h19-m2-settings/protocol.md,
+         result: "planted_not_recovered: M2 groups a planted 25-failure lead-distance shift under none of 16 settings, so its zero is uninformative; default 0 axes; first plant invalid and withdrawn", data: [docs/research/data/h19_result.json, docs/research/data/h19_first_plant.json]}
+  H20:  {status: running, kind: dry_run_control, protocol: docs/research/experiments/h20-centring-second-pool/protocol.md,
+         result: "job 40967835: does removing the mean move method medians on H1's pool"}
   H17:  {status: done, kind: replay_rehearsal, protocol: docs/research/experiments/h17-causal-rehearsal/protocol.md,
          result: "above_random_failing_not_shown_larger on P4's axis; speed clears, route does not; not Step 9's verdict", data: docs/research/data/h17_result.json}
 

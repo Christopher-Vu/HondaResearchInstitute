@@ -38,3 +38,6 @@ The first run (job 40967092, `docs/research/data/h19_first_plant.json`) read `pl
 
 The amended plant draws its failures only from those outside every key gap that know `lead_distance` on at least 60% of their window frames, with the same seed, shift and grid. If fewer than 25 qualify, all of them are planted. If fewer than 20 qualify, the result is `untested`: "H19 is untested: fewer than 20 failures outside the key gaps know lead_distance on enough window frames to carry the plant." The other fixed sentences are unchanged. The planted failures' known shares are reported.
 
+## Result, 2026-11-06
+
+Amended job 40967739, 3 SU (measured). `planted_not_recovered`. `docs/research/data/h19_result.json`, read in `docs/research/dev-report.md`.

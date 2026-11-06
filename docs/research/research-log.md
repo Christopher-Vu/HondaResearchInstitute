@@ -600,3 +600,7 @@ Job 40967052, 16 SU. Rule outcome `needs_vision`: shuffle median 0.447 and varia
 
 H19 first run (job 40967092, 3 SU): default 0 axes again, and no setting reaches 0.5 on a key gap. Its planted control was invalid (WHAT_BROKE 2026-11-06), so its reading is withdrawn. The amended plant runs as job 40967739.
 
+## 2026-11-06 02:35 — H19: M2 cannot recover a planted group under any tried setting
+
+Amended job 40967739, 3 SU. `planted_not_recovered`. 25 planted failures (known share 0.67 to 1.0) left the catch-all cluster (221 to 169) but formed no cluster; planted Jaccard 0.0 under all 16 settings. Real runs: default 0 axes; best gap Jaccard 0.397 on P19 (chosen using the key). M2's zero on real pools is uninformative about the gaps. Changing M2 is a method decision for Chris; no setting changed here. `docs/research/data/h19_result.json`.
+
