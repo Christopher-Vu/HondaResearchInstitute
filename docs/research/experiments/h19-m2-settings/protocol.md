@@ -40,4 +40,4 @@ The amended plant draws its failures only from those outside every key gap that 
 
 ## Result, 2026-11-06
 
-Amended job 40967739, 3 SU (measured). `planted_not_recovered`. `docs/research/data/h19_result.json`, read in `docs/research/dev-report.md`.
+Amended job 40967739, 3 SU (measured); with the first run and the plant check, 6.4 SU in all. `planted_not_recovered`. `docs/research/data/h19_result.json`, read in `docs/research/dev-report.md`.

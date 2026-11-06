@@ -13,9 +13,9 @@ Last updated: 2026-11-06 03:45 (H18, H19, H20 read; C37 proposed; waiting on Chr
 ## Current position
 
 **2026-11-06 03:45, H18 to H20 are read; every next step waits on Chris (C37 and the earlier list).** Spend 5453 of 10000 SU (measured, study jobs by name).
-- **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666.
+- **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666 (best 0.812, 17 of 18 at 0.5 or above).
 - **H19:** `planted_not_recovered`. M2 groups a planted 25-failure shift under none of 16 settings, so its zero is uninformative. The first plant was invalid and was withdrawn (WHAT_BROKE).
-- **H20:** `replicates`. On H1's pool mean removal moves B7-pool on P8 by +0.149, and M1 on P4 by −0.088.
+- **H20:** `replicates`. On H1's pool mean removal moves B7-pool on P8 from a median of 0.215 to 0.364 (best 0.430 to 0.479), and M1 raw on P4 from 0.353 to 0.265 (best 0.644 to 0.382). All of tonight's scores are dev only and exploratory, with the best axis chosen using the key.
 - **C37 (proposed):** name the mean step at the methods freeze, freeze B7 with matched preprocessing, and fix or label M2.
 - **Agent channel:** issue 9 holds three status posts from jerry-agent; no reply yet.
 

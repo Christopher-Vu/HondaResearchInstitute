@@ -1,13 +1,13 @@
 # Dev report v0
 
-Written 2026-11-04 from stored files. Every number below is dev data. A number with no data file says so.
+Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below is dev data. A number with no data file says so.
 
 ## Plain answer
 
 1. Three planted camera faults make SimLingo fail far more often: P4, P7 and P8 pass PRD 9.1 with uplifts of [51.7](../../results/savio/step5-pilot-p4-main/efficacy.json), [69.6](../../results/savio/step5-pilot-p7-main/efficacy.json) and [80.0](../../results/savio/step5-pilot-p8-main/efficacy.json) points, and P4 and P7 pass again on fresh drives ([62.7](../../results/savio/step5-confirm-p4/efficacy.json) and [61.4](../../results/savio/step5-confirm-p7/efficacy.json)).
 2. One interactional gap, P19, passes PRD 9.1 with [42 of 53 failures against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json), but it fails Step 5's single-factor condition because a list of scenario names scores Jaccard [0.857](data/h12_layer10_plain.json) against a limit of 0.4, so no public interactional gap met Step 5 on dev.
-3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key.
-4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8, where the best score is [0.444](data/h1b_layer10.json) and the median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). Both axes are chosen using the key.
+3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key. These are plain-variant scores, and they move with preprocessing the PRD does not fix. On the H12 pool, H18's variance-matched control puts M1 raw on P4 at best 0.672, median 0.500 (10 of 18), and vision residualization lifts its P19 median to 0.540 (13 of 18). See [H18, H20 and C37](#dry-run-and-rehearsal). All of this is exploratory and dev only.
+4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8. Plain B7-pool gives best [0.444](data/h1b_layer10.json), median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). With vision residualized it gives best 0.483, median 0.395, and removing only the mean moves its median by +0.149 ([H20](data/h20_result.json)). Both axes are chosen using the key.
 5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md).
 
 No answer key is committed in this repo and no test pool exists, so the PRD 13.1 test was not run.
@@ -36,13 +36,13 @@ This report claims no 13.1 branch, including the negative one. 13.1 is decided o
 | Catch-all | An axis holding every failure. Its Jaccard is the key's share of failures, which sets the bar. |
 | Dictionary | One trained sparse autoencoder, a small model that rewrites activations as a few active features. Each pool has 18 (k of 32, 48 and 64, seeds 0 to 5). |
 | M1 | Contrastive diffing, which compares features in the 3 s before failures with successes. The capped version drops features firing in over half of the failures. |
-| M2 | Probe-residual, which clusters what probes fail to predict from activations. It returned no axes on every real pool. |
+| M2 | Probe-residual, which clusters what probes fail to predict from activations. With its default settings it returned no axes on every real pool. In H19, no setting of 16 grouped a planted 25-failure group, so that zero says little about whether the gaps are there. |
 | B2, B3 | B2 groups failures by human factor names such as the scenario name. B3 groups them by the car's behaviour. |
 | B7, B7-pool | An activation-statistics baseline that counts feature onsets over a whole rollout. B7 proper (variant A) reads SimLingo's training data and has not run. B7-pool (variant B) reads the rollout pool, and every B7 number here is B7-pool. |
 | Frozen-input signal | One extra feature added to B7-pool (`--stale-latent`). It fires when activations do not change between logged frames, and it does not depend on the dictionary. It is a post hoc change to the frozen B7 definition, because H2 added it after the activations were opened. |
 | Check | A manipulation check, fixed before a run, that the planted condition happened (C24). |
 | C23 | A [CONFLICTS](../../CONFLICTS.md) entry, pending review, that proposes a paired test (McNemar's) with a floor of 60 pairs. |
-| H1 to H17 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
+| H1 to H20 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
 | Claims A, A′, B | A: an activation method has an axis with Jaccard at least 0.5 holding at most 50% of failures. A′: the same, with B7-pool allowed. B: the best activation method beats the best baseline and the catch-all by at least 0.15, the margin's interval is above 0, and at least 4 of 6 seeds agree. |
 
 ## Public gaps
@@ -133,9 +133,9 @@ The first dev evaluation of 2026-10-15 ([`results/savio/dev-eval/`](../../result
 | Reading (exploratory) | Evidence |
 |---|---|
 | H12 is why C34 demands medians: P19's best is 0.705 and its median is 0.375. | [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
-| P4's best moves with the dictionaries and the pool, from 0.557 (median 0.405) in H3 to 0.490 (median 0.387) in H12, so Claim A misses by 0.010 in H12 while Claim B holds. | [`h3_layer10_plain.json`](data/h3_layer10_plain.json), [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
+| P4's best moves with the dictionaries and the pool, from 0.557 (median 0.405) in H3 to 0.490 (median 0.387) in H12, so Claim A misses by 0.010 in H12 while Claim B holds. Under H18's variance-matched control on the H12 pool it reads best 0.672, median 0.500. | [`h3_layer10_plain.json`](data/h3_layer10_plain.json), [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
 | B2 beats M1 on P19, by a margin of -0.153. | [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
-| B7-pool scores above M1 on P7 and P8 in every run above, and M1 scores above B7-pool on P4 and P19. | The four files above |
+| Under plain preprocessing, B7-pool scores above M1 on P7 and P8 in every run above, and M1 scores above B7-pool on P4 and P19. Under H18's shuffle control, which removes about the mean, B7-pool scores above M1 on P19 (median 0.666 against 0.447), so the ordering depends on the mean step ([C37](../../CONFLICTS.md)). | The four files above |
 
 ### The frozen-input signal
 
@@ -239,7 +239,7 @@ On P19, residualizing moves M1's median above B7-pool's by 0.262, where the plai
 
 So the plain variant's scores move a lot with the dataset mean and the leading directions, and neither is fixed by the PRD. Every row here is exploratory and dev only, and the best axis is chosen using the key. B2 still scores 0.857 on P19. This needs Chris before any preprocessing is frozen.
 
-**H19, why M2 finds no axes.** Locked in `8e05103`, amended in `f9bcbb0` after the first plant failed (see below), job 40967739, 3 SU (measured). The fixed sentence is: "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools says little about whether the gaps are there." ([result](data/h19_result.json), [protocol](experiments/h19-m2-settings/protocol.md)).
+**H19, why M2 finds no axes.** Locked in `8e05103`, amended in `f9bcbb0` after the first plant failed (see below), jobs 40967092 (first plant, withdrawn), 40967692 (plant check) and 40967739, 6.4 SU in all (measured). The fixed sentence is: "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools says little about whether the gaps are there." ([result](data/h19_result.json), [protocol](experiments/h19-m2-settings/protocol.md)).
 
 - **Defaults:** M2's default settings again give 0 axes on H12's pool. No setting of the 16 reaches 0.5 on P4, P7 or P19. The best is 0.397 on P19, and those settings were chosen using the key.
 - **Plant:** the plant shifted the lead-distance error by 2.3 standard deviations for 25 failures, each knowing the state on 67% to 100% of its window frames. It moved them out of the large catch-all cluster, which shrank from 221 failures to 169, but no setting grouped them: their best Jaccard is 0.0 under every setting.
@@ -253,11 +253,14 @@ So the plain variant's scores move a lot with the dataset mean and the leading d
 | M1 raw on P4 | 0.353 (0.644) | 0.265 (0.382) | 0.155 (0.205) |
 | M1 raw on P7 | 0.191 (0.208) | 0.208 (0.236) | 0.191 (0.217) |
 | M1 raw on P8 | 0.213 (0.292) | 0.227 (0.250) | 0.221 (0.264) |
+| M1 capped on P4 | 0.366 (0.644) | 0.302 (0.667) | 0.139 (0.205) |
+| M1 capped on P7 | 0.171 (0.211) | 0.203 (0.236) | 0.159 (0.217) |
+| M1 capped on P8 | 0.200 (0.292) | 0.227 (0.250) | 0.221 (0.264) |
 | B7-pool on P4 | 0.042 (0.077) | 0.081 (0.147) | 0.044 (0.133) |
 | B7-pool on P7 | 0.206 (0.287) | 0.230 (0.270) | 0.217 (0.254) |
 | B7-pool on P8 | 0.215 (0.430) | 0.364 (0.479) | 0.395 (0.483) |
 
-The same pattern shows on both pools. Removing the mean lifts B7-pool, by 0.149 on P8 here and 0.294 on P19 in H18, and it lowers M1 on P4, by 0.088 here and 0.074 in H18. Vision residualization lowers M1 on P4 further, to a median of 0.155, as PRD 9.2 expects for a perceptual gap. No cell here reaches 0.5 in its median. The vision fit's `explained_on_fit` is 0.786. All of this is exploratory, and the best axis is chosen using the key. [C37](../../CONFLICTS.md) proposes what to fix before the methods are frozen.
+The same pattern shows on both pools. Removing the mean lifts B7-pool, by 0.149 on P8 here and 0.294 on P19 in H18, and it lowers M1 on P4, by 0.088 here and 0.074 in H18. Vision residualization lowers M1 on P4 further, to a median of 0.155, as PRD 9.2 expects for a perceptual gap. No cell here reaches 0.5 in its median. H20's plain column retrains H1b's grid on the same pool and reads differently from it, for example M1 raw on P4 at 0.644 and 0.353 against H1b's 0.553 and 0.405, so a retrain alone moves these cells. The vision fit's `explained_on_fit` is 0.786. All of this is exploratory, and the best axis is chosen using the key. [C37](../../CONFLICTS.md) proposes what to fix before the methods are frozen.
 
 **H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
 
@@ -272,7 +275,7 @@ Speed clears the rule and route stops at both its floor and its interval. The ex
 
 ## PRD checks that never ran
 
-Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04.
+Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
 
 | Step | Check | `progress.yaml` | State | What the repo shows |
 |---|---|---|---|---|
@@ -282,10 +285,11 @@ Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PR
 | 5 | No single-factor stratum at 0.4 with any interactional gap | Open | Ran once, failed | It was measured on P19 only, at [0.857](data/h12_layer10_plain.json). |
 | 5 | Efficacy re-confirmed on the scoring pool | Not listed | Never ran | No scoring pool exists. |
 | 6 | B7 variant A, the rollout-free statistics | Open | Never ran | The code accepts variant A ([`activation_stats.py`](../../src/baselines/activation_stats.py)) and [the spec](../steps/b7-gap-signal.md) drew its sample on 2026-10-15. Every stored B7 result is variant B. |
-| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Read on stored data, undecided | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. On stored H12 data B7-pool reads T2 `fires` under H16's rule: P19 best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375. It rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. Jerry and Chris decide it before a test pool is built. |
+| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Read on stored data, undecided | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. On stored H12 data B7-pool reads T2 `fires` under H16's rule: P19 best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375. It rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. Under H18's shuffle control, which removes little more than the mean, B7-pool on P19 reads best 0.812, median 0.666, with 17 of 18 at 0.5 or above, above every M1 row (exploratory, best axis chosen using the key). C37 proposes freezing B7 with the same preprocessing as the method it is compared against. Jerry and Chris decide it before a test pool is built. |
 | 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. H19 found that no tried setting recovers a planted group, so the zero says little about whether the gaps are there. |
 | 7 | Describability gate with its shuffle control | Open | Never ran | `src/gate/` holds only `__init__.py`. [The spec](../steps/describability-gate.md) waits on model pins. |
-| 7 | Residualized preprocessing | Not listed | Ran once, dry run | H15 ran it on dev data, using `vision_bridge` as the visual pool pending Chris. |
+| 7 | Residualized preprocessing | Not listed | Ran on two pools, dev only | H15 and H18 on H12's pool, H20 on H1's pool, using `vision_bridge` as the visual pool pending Chris. |
+| 7 | Dataset-mean step named before the methods freeze | Not listed | Open, C37 proposed | Removing only the success-frame mean moved B7-pool's P8 median by +0.149 (H20), and H18's shuffle control moved its P19 median by +0.294. |
 | 7 | Nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for it. |
 | 7 | SAE waypoint error with reconstructions spliced back | Not listed | Never ran | [`sae.py`](../../src/discovery/sae.py) says it is not done there. |
 | 7 | Naming the primary method (D3) | Not listed | Open | [CONFLICTS D3](../../CONFLICTS.md) closes at this step and is still open. |

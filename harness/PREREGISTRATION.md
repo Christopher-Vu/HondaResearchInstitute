@@ -39,7 +39,7 @@ How those words are computed:
 
 **Five code gaps to close before `scoring-frozen-v1`.**
 
-1. `harness_is_valid` counts any method's match, so it must receive only non-residualized reports for condition 1.
+1. `harness_is_valid` counts any method's match, so it must receive only non-residualized reports for condition 1. Which variant counts as non-residualized, with or without the dataset-mean step, is open (C37, pending), because H18 and H20 measured median shifts of up to +0.294 from the mean step alone (dev, best axis chosen using the key).
 2. `harness_is_valid` reads efficacy through `Gap.passes_efficacy`, which is Fisher, so it must read C23's rule if C23 is accepted.
 3. C31's decoy rule is not coded under `src/`, `scripts/` or `adapters/`.
 4. `outcome_pairs` in `efficacy.py` keys on `base_id`, so a second pair on one base overwrites the first, and `paired` sets `base_routes` equal to the pair count. A slice built as 60 pairs on 30 bases would score as 30 pairs and fail. Either the code changes or each slice uses at least 60 distinct bases, and section 5 assumes the second.
@@ -122,7 +122,7 @@ Score once, and label any later run post hoc. Reveal the key and salt only after
 
 H3 is the central figure because its mix of background and pilots with per-token capture is closest to this pool, though it predates the 2026-11-02 speed-up. Step 8's spec uses 4.1 SU per route, which is Step 2's rate.
 
-**Budget.** 5,405 of Jerry's 10,000 SU are spent (measured 2026-11-04 22:49), so about 4,595 remain. That allows 4.63 SU per route, so the pool fits at H6's, H7's and Step 2's rates and at none of the other five. H14's first stage (about 660 SU, estimate) would leave about 3,935, or 3.97 SU per route, and only H6's rate still fits. Re-measure before tag 6.
+**Budget.** 5,453 of Jerry's 10,000 SU are spent (measured 2026-11-06 03:30, study jobs by name), so about 4,547 remain. That allows 4.58 SU per route, so the pool fits at H6's, H7's and Step 2's rates and at none of the other five. H14's first stage (about 660 SU, estimate) would leave about 3,887, or 3.92 SU per route, and only H6's rate still fits. Re-measure before tag 6.
 
 **Not in that figure:**
 
@@ -156,7 +156,7 @@ C34 applies. The report says which ending it reached, and no 13.1 branch is clai
 3. **One dictionary per activation method.** Proposed: `methods-frozen-v1` names one dictionary for each method, chosen without the test pool, and the verdict uses that one. If each of 18 dictionaries could count as a method, the maximum would decide, and on dev the gap between best and median was 0.705 against 0.375 (measured, H12).
 4. **The 60-pair floor.** Section 1 drops a gap that ends under 60 pairs, and section 5 states the chance of that at 66 and at 70 draws. Chris may prefer to accept a smaller count at the same p value, or to draw 70.
 5. **Step 8's own questions.** Is G = 4 right? Is 66 drawn per slice acceptable against Step 8's 90, which gives its 1,500 rollouts? Does the camouflage rule stay? Ray or the job array? Section 5 assumes G = 4, 66 and camouflage. Camouflage leaves the rollout count alone, but its sub-gap perturbations can raise neighbourhood failures, which lowers the power in section 5 and changes the failure shares there.
-6. **B4's cost.** B4 is one of the baselines condition 2 must beat. Before reuse, its renders and the pool together exceed the remaining budget at every measured rate, at 5,449 SU or more against about 4,595, and the amount reuse saves has not been counted.
+6. **B4's cost.** B4 is one of the baselines condition 2 must beat. Before reuse, its renders and the pool together exceed the remaining budget at every measured rate, at 5,449 SU or more against about 4,547, and the amount reuse saves has not been counted.
 7. **The shuffle.** `run_order` left one arm alone in a task in the P20 screen (`docs/WHAT_BROKE.md`), so the key holder checks the pool's layout before `pool-v1`.
 8. **Condition 2 when a required baseline did not run.** `PRD.md` 13.1 has three branches, and none covers this case. Item 6 makes it the likely case at the current budget. Proposed wording: the report states validity's outcome and that the advantage test was not evaluated, and no closed loop runs. This stays open until the file is signed.
 9. **C23 for re-confirmation.** C23 is pending, so section 1's McNemar rule and its 60-pair rule are conditional on Chris accepting it. If he does not, section 1 has to state `PRD.md` 9.1's Fisher rule before signing.
