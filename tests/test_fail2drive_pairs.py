@@ -31,3 +31,14 @@ def test_a_base_twin_without_a_scenario_is_a_runnable_route(tmp_path):
     config["route"].update(route_from_xml("95", config))
     assert config["route"]["scenario"] == NO_SCENARIO
     check_route(config)
+
+
+def test_each_seed_gets_its_own_ids_and_pairs_stay_within_a_seed(tmp_path):
+    # score_routes keeps one result per id, so a route repeated across seeds needs a distinct id per seed.
+    write(tmp_path, "Base_Wall_0095.xml", 95)
+    write(tmp_path, "Generalization_Wall_1095.xml", 1095, '<scenario name="RoadBlocked" type="RoadBlocked"/>')
+    root, manifest = build(["Wall"], tmp_path, seeds=[101, 102])
+    assert [item["id"] for item in manifest] == ["10101095", "10100095", "10201095", "10200095"]
+    assert [route.get("id") for route in root.iter("route")] == [item["id"] for item in manifest]
+    assert manifest[0]["base_id"] == manifest[1]["base_id"] == "f2d-95-s101" != manifest[2]["base_id"]
+    assert {item["pair"] for item in manifest} == {"f2d-95"} and manifest[2]["seed"] == 102

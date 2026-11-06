@@ -1,0 +1,31 @@
+# Fail2Drive track step F3 (docs/prd-fail2drive.md, docs/prereg-fail2drive.md): SimLingo test pool, traffic seed 106 of 101-106.
+# Every Fail2Drive pair, each copied once per seed under id seed*100000+id (fail2drive_pairs.py --seeds); this config
+# drives only seed 106's 200 ids (ROUTE_IDS), and one scoring run reads all six arrays.
+#   python adapters/simlingo/fail2drive_pairs.py configs/rollout/f2d-test-simlingo-s101.yaml <all 17 types> --seeds 101 102 103 104 105 106
+# Settings copied from f2d-screen-full.yaml; seed differs.
+
+name: f2d-test-simlingo-s106
+step: F3
+scope: savio_f2d_test_simlingo
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+capture_token_layers: [10, 11]
+
+route:
+  seed: 106
+  routes_file: configs/rollout/f2d-test-simlingo.xml
+  manifest: configs/rollout/f2d-test-simlingo.manifest.json

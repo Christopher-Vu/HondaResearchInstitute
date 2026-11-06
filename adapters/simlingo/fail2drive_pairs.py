@@ -7,10 +7,16 @@ twin, id N) and `Generalization_<name>_<1000 + N>.xml` (the same road with the u
 base: the generalization route is the slice of gap `F2D_<name>` and the base route its neighbourhood, so
 `src/harness/efficacy.py` scores it as it scores a planted gap. Routes are copied unchanged; weather comes from the file.
 The config's `route.routes_file` and `route.manifest` name the outputs.
+
+With `--seeds`, every route is copied once per traffic seed under its own id, `seed * 100000 + id`. That is
+needed because `score_routes.py` keeps one result per id. Each copy's base is its pair within that seed, and
+`pair` names the Fail2Drive pair across seeds, which is what the bootstrap resamples. One rollout config per seed
+then runs its own ids (`ROUTE_IDS`), and a single scoring run reads all of them.
 """
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -21,6 +27,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 SPLIT = ROOT / ".runtime/fail2drive-src/fail2drive_split"
 GENERALIZATION_OFFSET = 1000
+SEED_STRIDE = 100000
 
 
 def pairs(split: Path, name: str) -> list[tuple[Path, Path]]:
@@ -51,15 +58,30 @@ def entry(route: ET.Element, base_id: str, name: str, slice_: bool) -> dict:
             "source": "fail2drive"}
 
 
-def build(names: list[str], split: Path = SPLIT) -> tuple[ET.Element, list[dict]]:
+def seeded(route: ET.Element, seed: int) -> ET.Element:
+    copied = copy.deepcopy(route)
+    original = int(route.get("id"))
+    if original >= SEED_STRIDE:
+        raise ValueError(f"route id {original} does not fit under the seed stride {SEED_STRIDE}")
+    copied.set("id", str(seed * SEED_STRIDE + original))
+    return copied
+
+
+def build(names: list[str], split: Path = SPLIT, seeds: list[int] | None = None) -> tuple[ET.Element, list[dict]]:
     root, manifest = ET.Element("routes"), []
-    for name in names:
-        for base_file, twin_file in pairs(split, name):
-            base, twin = only_route(base_file), only_route(twin_file)
-            base_id = f"f2d-{base.get('id')}"
-            for route, slice_ in ((twin, True), (base, False)):
-                root.append(route)
-                manifest.append(entry(route, base_id, name, slice_))
+    for seed in seeds or [None]:
+        for name in names:
+            for base_file, twin_file in pairs(split, name):
+                base, twin = only_route(base_file), only_route(twin_file)
+                pair = f"f2d-{base.get('id')}"
+                base_id = pair if seed is None else f"{pair}-s{seed}"
+                for route, slice_ in ((twin, True), (base, False)):
+                    route = route if seed is None else seeded(route, seed)
+                    root.append(route)
+                    item = entry(route, base_id, name, slice_)
+                    if seed is not None:
+                        item |= {"pair": pair, "seed": seed}
+                    manifest.append(item)
     ids = [item["id"] for item in manifest]
     if len(ids) != len(set(ids)):
         raise ValueError("route ids repeat across the chosen pairs")
@@ -70,9 +92,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("config", type=Path)
     parser.add_argument("names", nargs="+", help="Fail2Drive scenario names, e.g. PedestriansOnRoad")
+    parser.add_argument("--seeds", type=int, nargs="+", help="copy every route once per traffic seed, under its own id")
     args = parser.parse_args()
     route = yaml.safe_load(args.config.read_text())["route"]
-    root, manifest = build(args.names)
+    root, manifest = build(args.names, seeds=args.seeds)
     ET.indent(root)
     ET.ElementTree(root).write(ROOT / route["routes_file"])
     (ROOT / route["manifest"]).write_text(json.dumps(manifest, indent=1) + "\n")
