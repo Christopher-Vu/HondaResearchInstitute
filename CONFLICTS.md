@@ -728,6 +728,20 @@ Written before the amended P20 screen was read, so the wording cannot be chosen 
 ### C36 · Step 8's tag order, with one tag already placed · new, 2026-11-04 (agent), pending review (Chris and Jerry)
 `docs/steps/08-seal-generate-score.md` asks for its tags in order. `b4-factors-v1`, its third, already exists ahead of the first two, because the B4 factor list was committed before any sealed gap was designed (C30). `harness/PREREGISTRATION.md` therefore reads "in this order, except tag 3". Moving the tag would date the factor list later and weaken what C30 protects, so it stays.
 
+### C37 · Preprocessing and M2 before `methods-frozen-v1` · new, 2026-11-06 (agent), pending review (Chris)
+Four dev runs on public throwaway keys show that method scores move with preprocessing that `PRD.md` §9.2 leaves open, and that M2 as configured cannot find even a planted group. These are measured, but they are dev only, and the best axis is chosen using the key.
+
+- **Mean removal moves scores on both pools.** On H12's pool (H18), removing only the success-frame mean lifts B7-pool on P19 from a median of 0.372 to 0.666 and M1 raw on P19 from 0.375 to 0.447. On H1's pool (H20), it lifts B7-pool on P8 from 0.215 to 0.364 and lowers M1 raw on P4 from 0.353 to 0.265. `sae.py` already centres each frame on its own features, so the dataset mean is a separate step.
+- **Vision residualization helps P19 and hurts P4.** M1 raw on P19 goes from a median of 0.375 to 0.540 (H15), and H18's controls show the full gain needs the visual fit. M1 raw on P4 goes from 0.353 to 0.155 on H1's pool (H20), as PRD 9.2 expects for a perceptual gap.
+- **M2 recovers nothing it should.** A planted 25-failure group is found under none of 16 HDBSCAN settings (H19), so M2's zero on every pool is uninformative.
+
+**Proposed. Nothing changes until this is reviewed.**
+1. `methods-frozen-v1` names the dataset-mean step explicitly, with or without it, before any test-pool outcome is read, and reports both variants as PRD 9.2 already asks for residualization.
+2. B7-pool is frozen with the same preprocessing as the method it is compared against, so condition 2 cannot be won or lost by a centring choice.
+3. M2 is either fixed and shown to recover a planted group on dev, or named as a method with no verified power, beside its scores.
+
+**Alternatives.** Freezing the plain variant as it is, which leaves both a known lever and B7's sensitivity to it unreported. Dropping M2, which loses PRD 9.2's third method.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

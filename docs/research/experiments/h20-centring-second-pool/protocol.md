@@ -52,3 +52,6 @@ POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash script
 
 The first submission (job 40967835) stopped at its first scoring step. `scoring_run` always evaluates `PRD.md` 13.1's condition 2, which needs an interactional gap, and this key has none. No report was written and no score was read. Scoring now uses `score.py` beside this file, which computes each directive's best Jaccard per key gap with `scoring_run`'s own loaders and `mean_best_jaccard`. Everything else is unchanged, and the plain variant's dictionaries and directives from the first submission are reused.
 
+## Result, 2026-11-06
+
+Job 40968012, with 40967835's plain dictionaries; 25 SU in all (measured). `replicates`: B7-pool on P8 moved by +0.149. `docs/research/data/h20_result.json`, read in `docs/research/dev-report.md`.

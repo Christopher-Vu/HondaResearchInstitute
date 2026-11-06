@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 5405               # 2026-11-04 22:49, measured with su_measure
+su_spent: 5453               # 2026-11-06 03:30, the study's named jobs; su_measure now also counts Jerry's other jobs
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -55,8 +55,8 @@ hypotheses:
          result: "needs_vision on M1 raw P19: shuffle 0.447, variance-matched 0.436, halfway 0.4575; mean removal alone gives 44% of the gain and lifts B7-pool on P19 to median 0.666; exploratory", data: docs/research/data/h18_result.json}
   H19:  {status: done, kind: dry_run_diagnosis, protocol: docs/research/experiments/h19-m2-settings/protocol.md,
          result: "planted_not_recovered: M2 groups a planted 25-failure lead-distance shift under none of 16 settings, so its zero is uninformative; default 0 axes; first plant invalid and withdrawn", data: [docs/research/data/h19_result.json, docs/research/data/h19_first_plant.json]}
-  H20:  {status: running, kind: dry_run_control, protocol: docs/research/experiments/h20-centring-second-pool/protocol.md,
-         result: "job 40967835: does removing the mean move method medians on H1's pool"}
+  H20:  {status: done, kind: dry_run_control, protocol: docs/research/experiments/h20-centring-second-pool/protocol.md,
+         result: "replicates: mean removal moves B7-pool on P8 by +0.149 and M1 raw on P4 by -0.088 on H1's pool; see C37", data: docs/research/data/h20_result.json}
   H17:  {status: done, kind: replay_rehearsal, protocol: docs/research/experiments/h17-causal-rehearsal/protocol.md,
          result: "above_random_failing_not_shown_larger on P4's axis; speed clears, route does not; not Step 9's verdict", data: docs/research/data/h17_result.json}
 

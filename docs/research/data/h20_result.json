@@ -1,0 +1,202 @@
+{
+ "label": "DEV DRY RUN, NOT A VERDICT: H20 centring on H1's pool",
+ "note": "The best axis is chosen using the key.",
+ "fits": {
+  "centre": {
+   "control": "centre",
+   "layer": 10,
+   "removed": "success-frame mean",
+   "shards_written": 738
+  },
+  "vision": {
+   "layer": 10,
+   "alpha": 1.0,
+   "success_frames": 58518,
+   "explained_on_fit": 0.7858285880012101,
+   "shards_written": 738
+  }
+ },
+ "table": {
+  "plain": {
+   "M1_raw|P4_camera_occlusion": {
+    "best": 0.6444444444444445,
+    "median": 0.3529512697323267,
+    "at_or_above_0_5": 1,
+    "dictionaries": 18
+   },
+   "M1_raw|P7_camera_freeze": {
+    "best": 0.20833333333333334,
+    "median": 0.19133898305084746,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_raw|P8_camera_latency": {
+    "best": 0.2916666666666667,
+    "median": 0.21272054638588503,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P4_camera_occlusion": {
+    "best": 0.6444444444444445,
+    "median": 0.365731043150398,
+    "at_or_above_0_5": 2,
+    "dictionaries": 18
+   },
+   "M1_capped|P7_camera_freeze": {
+    "best": 0.21052631578947367,
+    "median": 0.17079523092950571,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P8_camera_latency": {
+    "best": 0.2916666666666667,
+    "median": 0.2,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P4_camera_occlusion": {
+    "best": 0.07692307692307693,
+    "median": 0.04196009389671361,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P7_camera_freeze": {
+    "best": 0.2871287128712871,
+    "median": 0.20592688730261735,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P8_camera_latency": {
+    "best": 0.43023255813953487,
+    "median": 0.21458183129055514,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   }
+  },
+  "centre": {
+   "M1_raw|P4_camera_occlusion": {
+    "best": 0.38181818181818183,
+    "median": 0.265266243282853,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_raw|P7_camera_freeze": {
+    "best": 0.23648648648648649,
+    "median": 0.20773809523809525,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_raw|P8_camera_latency": {
+    "best": 0.25,
+    "median": 0.22654088050314464,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P4_camera_occlusion": {
+    "best": 0.6666666666666666,
+    "median": 0.3015973630831643,
+    "at_or_above_0_5": 1,
+    "dictionaries": 18
+   },
+   "M1_capped|P7_camera_freeze": {
+    "best": 0.23648648648648649,
+    "median": 0.20328352702453423,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P8_camera_latency": {
+    "best": 0.25,
+    "median": 0.22654088050314464,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P4_camera_occlusion": {
+    "best": 0.14666666666666667,
+    "median": 0.08116554054054054,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P7_camera_freeze": {
+    "best": 0.27049180327868855,
+    "median": 0.2295437639474337,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P8_camera_latency": {
+    "best": 0.4787234042553192,
+    "median": 0.3636497208345577,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   }
+  },
+  "vision": {
+   "M1_raw|P4_camera_occlusion": {
+    "best": 0.2054794520547945,
+    "median": 0.15467625899280577,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_raw|P7_camera_freeze": {
+    "best": 0.21678321678321677,
+    "median": 0.1906474820143885,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_raw|P8_camera_latency": {
+    "best": 0.2638888888888889,
+    "median": 0.22069565217391304,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P4_camera_occlusion": {
+    "best": 0.2054794520547945,
+    "median": 0.13933823529411765,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P7_camera_freeze": {
+    "best": 0.21678321678321677,
+    "median": 0.15858011634056055,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "M1_capped|P8_camera_latency": {
+    "best": 0.2638888888888889,
+    "median": 0.22069565217391304,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P4_camera_occlusion": {
+    "best": 0.13333333333333333,
+    "median": 0.044444444444444446,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P7_camera_freeze": {
+    "best": 0.25396825396825395,
+    "median": 0.21722178165477135,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   },
+   "B7_pool|P8_camera_latency": {
+    "best": 0.4827586206896552,
+    "median": 0.3951520367183018,
+    "at_or_above_0_5": 0,
+    "dictionaries": 18
+   }
+  }
+ },
+ "centre_minus_plain_median": {
+  "M1_raw|P4_camera_occlusion": -0.08768502644947374,
+  "M1_raw|P7_camera_freeze": 0.016399112187247794,
+  "M1_raw|P8_camera_latency": 0.013820334117259608,
+  "M1_capped|P4_camera_occlusion": -0.06413368006723369,
+  "M1_capped|P7_camera_freeze": 0.03248829609502851,
+  "M1_capped|P8_camera_latency": 0.026540880503144626,
+  "B7_pool|P4_camera_occlusion": 0.03920544664382693,
+  "B7_pool|P7_camera_freeze": 0.023616876644816348,
+  "B7_pool|P8_camera_latency": 0.14906788954400257
+ },
+ "outcome": "replicates",
+ "reading": "On H1's pool, removing only the mean moves a method's median Jaccard on a planted gap by at least 0.1, so method readings depend on a preprocessing step the PRD does not fix."
+}

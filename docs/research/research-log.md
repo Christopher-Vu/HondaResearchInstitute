@@ -604,3 +604,7 @@ H19 first run (job 40967092, 3 SU): default 0 axes again, and no setting reaches
 
 Amended job 40967739, 3 SU. `planted_not_recovered`. 25 planted failures (known share 0.67 to 1.0) left the catch-all cluster (221 to 169) but formed no cluster; planted Jaccard 0.0 under all 16 settings. Real runs: default 0 axes; best gap Jaccard 0.397 on P19 (chosen using the key). M2's zero on real pools is uninformative about the gaps. Changing M2 is a method decision for Chris; no setting changed here. `docs/research/data/h19_result.json`.
 
+## 2026-11-06 03:30 — H20: mean removal moves scores on H1's pool too
+
+Jobs 40967835 (stopped at scoring, since `scoring_run` needs a T2 gap; nothing read) and 40968012, 25 SU together. `replicates`: B7-pool on P8 +0.149 (0.215 to 0.364); M1 raw on P4 −0.088 (0.353 to 0.265); 7 other cells within 0.064. Vision residual: M1 raw P4 0.155. Same direction as H18 on both B7 and M1-P4. Wrote C37 (pending Chris): name the mean step at `methods-frozen-v1`, freeze B7 with matched preprocessing, and fix or label M2. Spend 5453 of 10000 SU, measured by study job name. `docs/research/data/h20_result.json`.
+

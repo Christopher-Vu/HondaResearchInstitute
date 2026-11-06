@@ -209,7 +209,7 @@ Two further limits apply. The 9 lost routes of P19's pilot still pass in the [wo
 
 ## Dry run and rehearsal
 
-H15 and H17 ran on 2026-11-04 under protocols locked in `fb7b815`. H18 and H19 ran on 2026-11-06 under the locks named in their entries. All four ran on dev data with a public key, and none is a verdict.
+H15 and H17 ran on 2026-11-04 under protocols locked in `fb7b815`. H18, H19 and H20 ran on 2026-11-06 under the locks named in their entries. All five ran on dev data with a public key, and none is a verdict.
 
 **H15, scoring path.** The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs ([check and spread](data/h15_dry_run.json)). This is the first time real activations reached PRD 13.1's two conditions. Condition 1 reads invalid and condition 2 is not evaluated, both as the [protocol](experiments/h15-scoring-dry-run/protocol.md) expected: no activation axis reaches 0.5 on P4 or P7, and B4, B4p, B5 and B6 have no directive. Neither is a 13.1 reading.
 
@@ -245,6 +245,19 @@ So the plain variant's scores move a lot with the dataset mean and the leading d
 - **Plant:** the plant shifted the lead-distance error by 2.3 standard deviations for 25 failures, each knowing the state on 67% to 100% of its window frames. It moved them out of the large catch-all cluster, which shrank from 221 failures to 169, but no setting grouped them: their best Jaccard is 0.0 under every setting.
 - **What this means:** M2 as configured cannot find a strong single-state group on this pool, so its zero is not evidence that the gaps are absent from its residuals.
 - **The first plant was invalid.** Lead distance is blank when no car is ahead, so most of the shift never reached a residual ([WHAT_BROKE](../WHAT_BROKE.md), 2026-11-06). Its reading was withdrawn before the rerun.
+
+**H20, mean removal on a second pool.** Locked in `4811f76`, amended in `bf8c810` to score per gap because its key has no interactional gap, jobs 40967835 and 40968012, 28 SU (measured). The fixed sentence is: "On H1's pool, removing only the mean moves a method's median Jaccard on a planted gap by at least 0.1, so method readings depend on a preprocessing step the PRD does not fix." ([result](data/h20_result.json), [protocol](experiments/h20-centring-second-pool/protocol.md)). One cell of 9 moved: B7-pool on P8.
+
+| Median (best) over 18 dictionaries | Plain | Mean removed | Vision residualized |
+|---|---:|---:|---:|
+| M1 raw on P4 | 0.353 (0.644) | 0.265 (0.382) | 0.155 (0.205) |
+| M1 raw on P7 | 0.191 (0.208) | 0.208 (0.236) | 0.191 (0.217) |
+| M1 raw on P8 | 0.213 (0.292) | 0.227 (0.250) | 0.221 (0.264) |
+| B7-pool on P4 | 0.042 (0.077) | 0.081 (0.147) | 0.044 (0.133) |
+| B7-pool on P7 | 0.206 (0.287) | 0.230 (0.270) | 0.217 (0.254) |
+| B7-pool on P8 | 0.215 (0.430) | 0.364 (0.479) | 0.395 (0.483) |
+
+The same pattern shows on both pools. Removing the mean lifts B7-pool, by 0.149 on P8 here and 0.294 on P19 in H18, and it lowers M1 on P4, by 0.088 here and 0.074 in H18. Vision residualization lowers M1 on P4 further, to a median of 0.155, as PRD 9.2 expects for a perceptual gap. No cell here reaches 0.5 in its median. The vision fit's `explained_on_fit` is 0.786. All of this is exploratory, and the best axis is chosen using the key. [C37](../../CONFLICTS.md) proposes what to fix before the methods are frozen.
 
 **H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
 
@@ -313,6 +326,7 @@ SU is Savio's service unit. The research log is the only record of these figures
 | P20 screen driving and same-node disk tests | About 167 (d), by difference | About 5200 | [STATUS](../STATUS.md), 2026-11-03 21:00. The log has no figure. |
 | P20 rerun and amended pairs | About 144 (d), by difference | 5344 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 20:55. Includes about 37 SU lost in array 40858449. |
 | H15 and H17 | 61 (d), 12 and 49 | 5405 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 22:49. |
+| H18, H19 and H20 | 48 (d): 16, 6 and 25 | 5453 | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
 | Sealed work | About 6,000, Chris's figure ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
 
 The goal's budget was 6000 SU and Jerry raised it to 10000 ([STATUS](../STATUS.md), 2026-11-03 19:30). The log puts H6 at 2.6 SU a route and H7 at about 4 SU a route, and [H13's protocol](experiments/h13-cross-family-gap/protocol.md) uses about 8.5 SU a route for P19's pilot, which is 864 SU over 101 scored routes, or 7.85 over 110 listed.
