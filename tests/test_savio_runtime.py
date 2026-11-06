@@ -354,3 +354,17 @@ def test_route_sample_removes_the_stage_when_the_job_is_cancelled(route_sample):
     finally:
         with contextlib.suppress(ProcessLookupError):
             os.killpg(job.pid, signal.SIGKILL)
+
+
+def test_route_sample_rounds_queue_each_slots_routes_and_overlap_the_slots(route_sample):
+    """ROUNDS=2 with 2 per GPU: one task drives 4 routes, routes k and k+2 in slot k, and the start lock is released
+    once a server is ready, so slot 1 starts while slot 0's first route is still running."""
+    environment = {**route_sample.environment, "ROUTE_IDS": "1 2 3 4", "ROUNDS": "2"}
+    route_sample.fake_python('out=${8}; touch "$out/server-ready"; echo "$@"; date +%s.%N; sleep 1; date +%s.%N\n')
+    finished = subprocess.run(route_sample.command + ["2"], env=environment, capture_output=True, text=True, timeout=60)
+    assert finished.returncode == 0, finished.stderr
+    logs = {route: (route_sample.output.parent / f"route-{route}/run.log").read_text().split("\n") for route in "1234"}
+    assert all(f"--slot {int(route) - 1 - 2 * (route in '34')}" in logs[route][0] for route in "1234")
+    starts = {route: float(logs[route][1]) for route in logs}
+    ends = {route: float(logs[route][2]) for route in logs}
+    assert starts["2"] < ends["1"] and starts["3"] >= ends["1"] and starts["4"] >= ends["2"]

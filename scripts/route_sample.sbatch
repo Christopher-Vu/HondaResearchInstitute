@@ -21,6 +21,8 @@
 # Each route's own output goes to results/savio/<array job>/route-<id>/run.log.
 # ROUTE_MODE=expert runs PDM-Lite on the same routes instead of the policy.
 # ROUTE_IDS="a b c d" reruns those routes (score_routes' rerun list) instead, K per GPU: pass K and --array=0-<ceil(routes / K) - 1>.
+# ROUNDS=R gives each array task K*R routes, K at a time, so the stage below is paid once per K*R routes
+# (it took 214 s of a ~12 min task, 2026-11-05) and the array needs ceil(routes / (K*R)) tasks.
 # CARLA_LOCAL_TAR=<tar> runs the server, and POLICY_VENV_LOCAL_TAR=<tar> the policy's Python, from a copy on node-local disk,
 # CARLA_LOCAL_BUILD=<name> says the tar holds that carla.builds entry (e.g. fail2drive) instead of the stock server,
 # for when slow scratch makes a route miss its start limits (docs/WHAT_BROKE.md, 2026-11-03). The first tar holds CarlaUE4,
@@ -51,17 +53,18 @@ if [ -n "${POLICY_VENV_LOCAL_TAR:-}" ]; then
 fi
 CONFIG=${1:-configs/rollout/savio-mac-paired.yaml}
 PER_GPU=${2:-1}
+PER_TASK=$((PER_GPU * ${ROUNDS:-1}))
 if [ -n "${ROUTE_IDS+x}" ]; then
   read -ra NAMED_ROUTES <<< "${ROUTE_IDS//$'\n'/ }"
   [ "${#NAMED_ROUTES[@]}" -gt 0 ] || { echo "ROUTE_IDS names no route" >&2; exit 2; }
-  ROUTES=("${NAMED_ROUTES[@]:SLURM_ARRAY_TASK_ID*PER_GPU:PER_GPU}")
+  ROUTES=("${NAMED_ROUTES[@]:SLURM_ARRAY_TASK_ID*PER_TASK:PER_TASK}")
 else
   mapfile -t ROUTES < <(PYTHONPATH=adapters/simlingo "$PY" -c '
 import sys, yaml
 from route_run import configured_route_ids, run_order
 routes = run_order(configured_route_ids(yaml.safe_load(open(sys.argv[1]))))
 first = int(sys.argv[2]) * int(sys.argv[3])
-print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_GPU")
+print("\n".join(routes[first:first + int(sys.argv[3])]))' "$CONFIG" "$SLURM_ARRAY_TASK_ID" "$PER_TASK")
 fi
 
 # GPU_LOG=1 samples the GPU's utilisation and memory every 2 s next to the routes (rollout profiling).
@@ -72,23 +75,39 @@ if [ -n "${GPU_LOG:-}" ]; then
   GPU_LOGGER=$!
 fi
 
+# Each slot drives its routes one after another (route k goes to slot k mod PER_GPU), so with ROUNDS > 1 a task
+# stages once for PER_GPU * ROUNDS routes and a slot whose route ends early starts its next one.
+# Two CARLA servers starting together crashed one with a segfault (2026-10-08), so a server
+# starts only while it holds the start lock, released once it accepts clients or its route ends.
+START_LOCK=$(mktemp "/tmp/route-start-$SLURM_JOB_ID.XXXXXX")
+run_slot() {
+  local SLOT=$1 STATUS=0 ROUTE OUT PID LOCK
+  shift
+  for ROUTE in "$@"; do
+    OUT=results/savio/$SLURM_ARRAY_JOB_ID/route-$ROUTE
+    mkdir -p "$OUT"
+    exec {LOCK}>"$START_LOCK"
+    flock "$LOCK"
+    echo "=== route $ROUTE (array task $SLURM_ARRAY_TASK_ID, slot $SLOT of $PER_GPU, job $SLURM_JOB_ID) ==="
+    "$PY" adapters/simlingo/run_savio.py "${ROUTE_MODE:-route}" --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
+      --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 {LOCK}>&- &
+    PID=$!
+    while kill -0 "$PID" 2>/dev/null && [ ! -f "$OUT/server-ready" ]; do sleep 5; done
+    exec {LOCK}>&-
+    if wait "$PID"; then echo "route $ROUTE: readiness written"
+    else echo "route $ROUTE: failed, see its run.log"; STATUS=1; fi
+  done
+  return $STATUS
+}
 PIDS=()
-for SLOT in "${!ROUTES[@]}"; do
-  ROUTE=${ROUTES[$SLOT]}
-  OUT=results/savio/$SLURM_ARRAY_JOB_ID/route-$ROUTE
-  mkdir -p "$OUT"
-  echo "=== route $ROUTE (array task $SLURM_ARRAY_TASK_ID, slot $SLOT of ${#ROUTES[@]}, job $SLURM_JOB_ID) ==="
-  "$PY" adapters/simlingo/run_savio.py "${ROUTE_MODE:-route}" --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
-    --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 &
+for ((SLOT = 0; SLOT < PER_GPU && SLOT < ${#ROUTES[@]}; SLOT++)); do
+  SLOT_ROUTES=()
+  for ((INDEX = SLOT; INDEX < ${#ROUTES[@]}; INDEX += PER_GPU)); do SLOT_ROUTES+=("${ROUTES[$INDEX]}"); done
+  run_slot "$SLOT" "${SLOT_ROUTES[@]}" &
   PIDS+=($!)
-  # Two CARLA servers starting together crashed one with a segfault (2026-10-08),
-  # so the next slot starts only once this server accepts clients or the route ends.
-  while kill -0 "$!" 2>/dev/null && [ ! -f "$OUT/server-ready" ]; do sleep 5; done
 done
 STATUS=0
-for INDEX in "${!PIDS[@]}"; do
-  if wait "${PIDS[$INDEX]}"; then echo "route ${ROUTES[$INDEX]}: readiness written"
-  else echo "route ${ROUTES[$INDEX]}: failed, see its run.log"; STATUS=1; fi
-done
+for PID in "${PIDS[@]}"; do wait "$PID" || STATUS=1; done
+rm -f "$START_LOCK"
 [ -n "${GPU_LOGGER:-}" ] && kill "$GPU_LOGGER"
 exit $STATUS
