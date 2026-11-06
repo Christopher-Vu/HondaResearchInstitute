@@ -224,6 +224,21 @@ The run also gave the first scores for action residualization. It fits the actio
 
 On P19, residualizing moves M1's median above B7-pool's by 0.262, where the plain medians differ by 0.003. It also lowers M1 on P4, as PRD 9.2 expects. B2's list of scenario names still scores 0.857 on P19, so this does not change P19's standing, and one gap cannot show that the change holds in general. Separately, B7-pool already reads T2 `fires` under [H16's stop rule](experiments/h16-b7-rollout-free/protocol.md) on the plain P19 row above. That reading rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. H16's rule was written on the plain variant, so this table does not settle it. Jerry and Chris decide it, and H16 is held until they do.
 
+**H18, controls for the residualization gain.** Locked in `a4e1860`, job 40967052, 16 SU (measured). The fixed sentence is: "On P19, neither control reaches halfway to the residualization gain, so the gain needs the visual fit." ([result](data/h18_result.json), [protocol](experiments/h18-residual-controls/protocol.md)). The rule is binary, and the numbers beside it qualify it.
+
+| M1 raw on P19 | Best | Median | At 0.5 or above | What it removes |
+|---|---:|---:|---:|---|
+| Plain | 0.705 | 0.375 | 5 of 18 | Nothing |
+| Residualized on vision | 0.689 | 0.540 | 13 of 18 | What `vision_bridge` predicts, 0.808 of the variance |
+| Shuffle control | 0.649 | 0.447 | 8 of 18 | Almost only the mean (fit explains 0.008) |
+| Variance-matched control | 0.661 | 0.436 | 5 of 18 | 15 leading components, 0.814 of the variance |
+
+- **Part of the gain needs no vision.** The shuffle control removes little more than the average activation, yet it recovers 0.072 of the 0.165 gain (44%). It misses the halfway line by 0.011. Both controls stay below the real residual: the median-minus-real intervals are -0.197 to -0.019 (shuffle) and -0.218 to -0.021 (variance-matched).
+- **Removing the mean lifts the baseline more than the method.** Under the shuffle control, B7-pool on P19 reads best 0.812, median 0.666, with 17 of 18 dictionaries at 0.5 or above. That is above every M1 row in this report. It bears on H16's stop rule, which Jerry and Chris still have to decide.
+- **Removing the top variance helps P4.** Under the variance-matched control, M1 on P4 reads best 0.672, median 0.500, with 10 of 18 at 0.5 or above. Plain gives 0.490 and 0.387, and the real residual gives 0.316 and 0.201.
+
+So the plain variant's scores move a lot with the dataset mean and the leading directions, and neither is fixed by the PRD. Every row here is exploratory and dev only, and the best axis is chosen using the key. B2 still scores 0.857 on P19. This needs Chris before any preprocessing is frozen.
+
 **H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
 
 | Outcome | Axis shift (m) | Floor (m) | Random 95th percentile (m) | Excess interval (m) | Failing minus control interval (m) | Other latents' 95th percentile (m) |

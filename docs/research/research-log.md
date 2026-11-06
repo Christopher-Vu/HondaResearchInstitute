@@ -594,3 +594,9 @@ H17 (job 40906512, 49 SU): `above_random_failing_not_shown_larger`, with the fix
 
 H15 found nothing to fix. The key format change it rests on still needs to reach Chris.
 
+## 2026-11-06 02:30 — H18: the gain needs the visual fit, but mean removal alone gets 44% of it
+
+Job 40967052, 16 SU. Rule outcome `needs_vision`: shuffle median 0.447 and variance-matched 0.436, against halfway 0.4575 (plain 0.375, real residual 0.540; M1 raw on P19 over 18 dictionaries; best axis chosen using the key; DEV DRY RUN). Shuffle explains 0.008, so it removes about the mean, and it misses halfway by 0.011. Beside the rule: under shuffle, B7-pool on P19 reads best 0.812, median 0.666, 17 of 18 at or above 0.5; under the variance-matched control (15 components, 0.814 against the real 0.808), M1 on P4 reads median 0.500. Preprocessing moves these scores a lot. `docs/research/data/h18_result.json`.
+
+H19 first run (job 40967092, 3 SU): default 0 axes again, and no setting reaches 0.5 on a key gap. Its planted control was invalid (WHAT_BROKE 2026-11-06), so its reading is withdrawn. The amended plant runs as job 40967739.
+

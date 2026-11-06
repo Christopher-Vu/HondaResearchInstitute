@@ -53,3 +53,7 @@ On Savio, after `git fetch origin main && git merge --ff-only origin/main`:
 ```bash
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash scripts/submit.sh gpu_a40 --time=0-02:00:00 docs/research/experiments/h18-residual-controls/run.sbatch
 ```
+
+## Result, 2026-11-06
+
+Job 40967052, 16 SU (measured). `needs_vision`. Shuffle 0.447 and variance-matched 0.436, against halfway 0.4575. `docs/research/data/h18_result.json`, read in `docs/research/dev-report.md`.
