@@ -1,0 +1,31 @@
+# Fail2Drive track step F6 (docs/prd-fail2drive.md): first TransFuser++ drive on our harness, one Fail2Drive pair.
+# Same pair as SimLingo's first Fail2Drive drive (40882834): PedestriansOnRoad 1085 and its base twin 85, from the
+# reproduction screen's routes file. Checkpoint: Fail2Drive README's all_towns TFv5 (huggingface.co/SimonGer/TFv5),
+# hash measured on Savio by the setup job 40950303. Its own environment, staged from node-local disk:
+#   ROUTE_IDS="1085 85" CARLA_LOCAL_TAR=$PWD/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive \
+#   POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/tfpp-venv.tar \
+#   bash scripts/submit.sh gpu_a40 --export=ALL --time=0-01:30:00 --array=0-0 scripts/route_sample.sbatch configs/rollout/f2d-tfpp-smoke.yaml 2
+
+name: f2d-tfpp-smoke
+step: F6
+scope: savio_f2d_tfpp_smoke
+
+policy:
+  name: tfpp
+  ckpt_sha256: d6fbdc28f7398354beadc7cf6765d866457c957f7b470c88ba206e73311a3b44
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+
+route:
+  seed: 24                       # same as both SimLingo Fail2Drive screens
+  routes_file: configs/rollout/f2d-repro-screen.xml
+  manifest: configs/rollout/f2d-repro-screen.manifest.json
