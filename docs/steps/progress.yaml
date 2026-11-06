@@ -123,8 +123,11 @@ compute:
   allowance_su: 200000
   window: [2026-09-18, 2026-12-18]
   # check_usage.sh -a ic_cdss170fall; the whole program, not just this project.
-  program_used_su: 18581.68
-  program_used_as_of: 2026-10-15
+  program_used_su: 49668.3
+  program_used_as_of: 2026-11-06
+  # Measured project spend not held in a step config: sacct CPU time x 3.67 / 3600 for the study's jobs.
+  spent:
+    - {item: "Gap pilots, methods and checks since Oct 31", su: 5405}
   # PRD.md 17.3 estimates at the measured 4.1 SU per rollout, low and high.
   planned:
     - {item: Bench2Drive-220 three seeds, su: [2700, 2700]}
