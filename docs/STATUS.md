@@ -25,11 +25,12 @@ Each clears §9.1's 20-point and 2× bars; none passes, because §9.1 needs 30 o
 - Run `src.harness.efficacy` once per `F2D_<type>` gap into `results/savio/f2d-screen-full/`.
 - F2 is drafted (`docs/prereg-fail2drive.md`) before any outcome was read. It is tagged `f2d-prereg-v1` once Chris approves.
 
-**TransFuser++:** `policy.name: tfpp` and `adapters/tfpp/tfpp_agent.py` are committed and tested on CPU, never run. Its environment and checkpoint are being built on Savio by setup job 40950303. Before a smoke run:
+**TransFuser++ runs on the harness (Chris approved the smoke, 2026-11-05).** Rerun 40951957, measured on one pair, seed 24:
 
-- The environment and checkpoint are done. `configs/rollout/f2d-tfpp-smoke.yaml` holds the checkpoint's sha256 and the launch line.
-- Copy the code to `hri-dev`, which is still at 8e27d9a, only after array 40950230 ends: its pending tasks read that tree.
-- Stage with `POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/tfpp-venv.tar`.
+- PedestriansOnRoad 1085 hit the pedestrian (score 48.1), and so did the first attempt 40951567. Its twin 85 had no collision (92.6).
+- Capture works: 6 decoder layers × 256, plus a fused backbone of 1,512 dimensions. `export_activations.py` reads it unchanged.
+- It runs from its own clone `/global/scratch/users/christophervu/hri-tfpp`, whose `.runtime` is linked to `hri-dev`'s. Stage it with `POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/tfpp-venv.tar`.
+- About 9 SU across the two smoke runs. Any further TransFuser++ runs (F1 on it) need Chris's go.
 
 **Track cap:** 2,500 SU for F1–F4. The closed loop (F5) and TransFuser++ runs need Chris's go. **Not pushed:** sharing is decided at the 2026-11-06 meeting.
 

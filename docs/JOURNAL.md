@@ -31,6 +31,8 @@ TransFuser++, Fail2Drive's own camera-and-LiDAR model and the planned second pol
 
 These commits are local and unpushed, because Chris decides how to share the track at the 2026-11-06 meeting.
 
+*Later the same day.* Chris approved a TransFuser++ smoke run. It drove one Fail2Drive pair on our harness. The first attempt drove, but its capture agent recorded nothing, because Fail2Drive's agent calls the network's `forward` directly (`docs/WHAT_BROKE.md`, 2026-11-05). After the fix, rerun 40951957 hit the pedestrian on PedestriansOnRoad route 1085 and drove its twin, route 85, without a collision. That is SimLingo's pattern, on one pair (measured). The activation export reads its capture unchanged, so the methods can run on a second, non-VLA policy with no new code. The draft pre-registration for gap selection (`docs/prereg-fail2drive.md`) was written before any full-screen outcome was read.
+
 ## 2026-11-04 (Chris): Fail2Drive runs on our harness; the kinematic decoy screen ran
 
 Chris decided to keep SimLingo and change where the gaps come from. Every gap that has passed so far is a camera fault, which an out-of-distribution detector would also flag and which says little about missing training data. [Fail2Drive](https://arxiv.org/abs/2604.08535) is a published benchmark built for exactly this: 100 route pairs where only an unseen scenario or object differs. Its authors report SimLingo's largest drops in the Behavior category (-64.2%) and the Visual-lateral category (-32.2%), including PedestriansOnRoad falling from 98.50 to 19.68. We had never run its own routes. P5 and P6 were our re-implementations on Bench2Drive roads, and neither moved SimLingo.

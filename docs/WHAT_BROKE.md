@@ -8,6 +8,16 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-05: TransFuser++ drove a route, and the capture agent recorded no model step
+
+**Expected:** forward hooks registered on Fail2Drive's TransFuser++ network fire on every model step, as they do on SimLingo's.
+
+**What happened:** smoke run 40951567 drove both routes to "Completed", but every row of `controls.jsonl` said `model_inference: false` and `capture/steps.pt` was never written. So `summarize` refused both routes ("No model-driven throttle was recorded"). `team_code/sensor_agent.py` calls `self.nets[i].forward(...)` directly. Calling `forward` skips the hooks PyTorch runs from `__call__`, so the network's own hooks never fired. Hooks on its submodules (backbone, decoder layers) did fire, because the network calls those normally.
+
+**What we did:** `adapters/tfpp/tfpp_agent.py` wraps `net.forward` itself (`adebcd1`). Rerun 40951957 recorded every model step on both routes, and `export_activations.py` read them unchanged. About 5 SU lost.
+
+---
+
 ## 2026-11-03: the camera SimLingo drives from has shown route markers since 2026-10-05
 
 **Expected:** the policy sees the same picture a default Bench2Drive evaluation gives it.
