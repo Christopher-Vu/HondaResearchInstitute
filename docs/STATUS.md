@@ -6,11 +6,25 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-05 (Chris: Fail2Drive track opened; full screen running; TransFuser++ wired, not run)
+Last updated: 2026-11-06 (Chris: Fail2Drive pre-registration approved and tagged; SimLingo test pool built, not launched)
 
 ---
 
 ## Current position
+
+**2026-11-06, Chris approved the Fail2Drive pre-registration (`docs/prereg-fail2drive.md`, tag `f2d-prereg-v1`, local) and the SimLingo test pool.** The pool covers all 17 types, every pair, at seeds 101–106: 1,200 routes, about 3,300 SU (estimate).
+
+**Blocker: the Savio login expired before launch.** After `ssh savio`:
+
+1. Fast-forward `/global/scratch/users/christophervu/hri-tfpp` to `main`, using a bundle from `a59d026..main`.
+2. Link SimLingo's checkpoint: `ln -sfn ../hri-dev/checkpoints checkpoints`.
+3. For each seed s in 101–106, take `ROUTE_IDS` from the manifest entries with `seed == s` and run:
+   `CARLA_LOCAL_TAR=…/hri-dev/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash scripts/submit.sh gpu_a40 --export=ALL --time=0-03:00:00 --array=0-66%12 scripts/route_sample.sbatch configs/rollout/f2d-test-simlingo-s<s>.yaml 3`
+4. Run one `step5_pilot.sbatch` over all six arrays, then efficacy once per `F2D_<type>`.
+
+**Unread, waiting on that login:**
+- SimLingo full-screen reruns 40954789, and their scoring 40954792.
+- The TransFuser++ screen 40954768, and its scoring 40954769.
 
 **2026-11-05, Chris: parallel Fail2Drive track (`docs/prd-fail2drive.md`).** The reproduction screen is scored, on one seed (measured):
 
