@@ -209,7 +209,7 @@ Two further limits apply. The 9 lost routes of P19's pilot still pass in the [wo
 
 ## Dry run and rehearsal
 
-Both ran on 2026-11-04 under protocols locked in `fb7b815`, on dev data with a public key. Neither is a verdict.
+H15 and H17 ran on 2026-11-04 under protocols locked in `fb7b815`. H18 and H19 ran on 2026-11-06 under the locks named in their entries. All four ran on dev data with a public key, and none is a verdict.
 
 **H15, scoring path.** The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs ([check and spread](data/h15_dry_run.json)). This is the first time real activations reached PRD 13.1's two conditions. Condition 1 reads invalid and condition 2 is not evaluated, both as the [protocol](experiments/h15-scoring-dry-run/protocol.md) expected: no activation axis reaches 0.5 on P4 or P7, and B4, B4p, B5 and B6 have no directive. Neither is a 13.1 reading.
 
@@ -270,7 +270,7 @@ Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PR
 | 5 | Efficacy re-confirmed on the scoring pool | Not listed | Never ran | No scoring pool exists. |
 | 6 | B7 variant A, the rollout-free statistics | Open | Never ran | The code accepts variant A ([`activation_stats.py`](../../src/baselines/activation_stats.py)) and [the spec](../steps/b7-gap-signal.md) drew its sample on 2026-10-15. Every stored B7 result is variant B. |
 | 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Read on stored data, undecided | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. On stored H12 data B7-pool reads T2 `fires` under H16's rule: P19 best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375. It rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. Jerry and Chris decide it before a test pool is built. |
-| 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. |
+| 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. H19 found that no tried setting recovers a planted group, so the zero says little about whether the gaps are there. |
 | 7 | Describability gate with its shuffle control | Open | Never ran | `src/gate/` holds only `__init__.py`. [The spec](../steps/describability-gate.md) waits on model pins. |
 | 7 | Residualized preprocessing | Not listed | Ran once, dry run | H15 ran it on dev data, using `vision_bridge` as the visual pool pending Chris. |
 | 7 | Nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for it. |
