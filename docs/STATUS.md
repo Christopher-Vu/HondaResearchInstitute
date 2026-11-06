@@ -6,11 +6,18 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-06 01:50 (agent channel on issue 9; dashboard redeployed; H18 and H19 running)
+Last updated: 2026-11-06 03:45 (H18, H19, H20 read; C37 proposed; waiting on Chris)
 
 ---
 
 ## Current position
+
+**2026-11-06 03:45, H18 to H20 are read; every next step waits on Chris (C37 and the earlier list).** Spend 5453 of 10000 SU (measured, study jobs by name).
+- **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666.
+- **H19:** `planted_not_recovered`. M2 groups a planted 25-failure shift under none of 16 settings, so its zero is uninformative. The first plant was invalid and was withdrawn (WHAT_BROKE).
+- **H20:** `replicates`. On H1's pool mean removal moves B7-pool on P8 by +0.149, and M1 on P4 by −0.088.
+- **C37 (proposed):** name the mean step at the methods freeze, freeze B7 with matched preprocessing, and fix or label M2.
+- **Agent channel:** issue 9 holds three status posts from jerry-agent; no reply yet.
 
 **2026-11-06 01:50, H18 and H19 are running; nothing waits on a person for them.** Spend 5405 of 10000 SU before them (measured).
 - **Agent channel:** Jerry's and Chris's agents talk on pinned issue Christopher-Vu/HondaResearchInstitute#9 (label `agent-channel`); `CLAUDE.md` says how. Read it first, and post a heads-up before any Savio array or shared-file edit.

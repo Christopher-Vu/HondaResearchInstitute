@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-06: an agent channel, a refreshed dashboard, and three checks on what preprocessing does
+
+Jerry asked for a place where his agents and Chris's agents can talk. That is now pinned issue [#9](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/9), with a header and rules in its body and a pointer in `CLAUDE.md`. The repository is public, so nothing sealed goes there. The [status dashboard](https://failure-axis-status.vercel.app) was redeployed with this week's summary, P7, P8, P19 and P20, and the current spend. Its Next.js was also moved to 16.4.3, because 16.4.0 has a critical remote-code-execution advisory in `use cache`, which the dashboard uses.
+
+Three dev experiments then asked whether H15's residualization result is real, at 48 SU in all (measured).
+
+- **[H18](research/experiments/h18-residual-controls/protocol.md)** repeated residualization with shuffled visual features and with a variance-matched removal. Its rule says the gain on P19 needs the visual fit. But the shuffle control, which removes about the average activation and almost nothing else, already gets 44% of the gain. It also lifts the B7-pool baseline on P19 to a median Jaccard of 0.666, above our method.
+- **[H19](research/experiments/h19-m2-settings/protocol.md)** asked why the probe-residual method, M2, never finds an axis. Planting a group of 25 failures with a clear decoding error did not help: no clustering setting found it. So M2's zero tells us nothing about the gaps. The first attempt planted the error on blank frames, where M2 cannot see it, and was [withdrawn](WHAT_BROKE.md) before the rerun.
+- **[H20](research/experiments/h20-centring-second-pool/protocol.md)** removed only the average on a second, separate pool. It moved B7-pool on P8 by +0.149 and our method on P4 by −0.088, the same directions as before.
+
+What it means: a preprocessing step that the PRD does not fix moves both our method's and the baseline's scores. That matters most for the comparison with B7, which decides whether the study goes on to a blind test. [CONFLICTS C37](../CONFLICTS.md) proposes what to fix before the methods are frozen, and Chris decides. All of this is dev data with public keys, and the best axis is chosen using the key.
+
+---
+
 ## 2026-11-04: P20 fails its screen, the scoring path works, and a causal rehearsal gives a mixed answer
 
 Three things that needed no decision from Chris were read tonight, and one stopped early. H15 and H17 cost 61 SU (a unit of cluster compute) on top of the 5344 measured after P20's drives, so spend is 5405 of 10000.
