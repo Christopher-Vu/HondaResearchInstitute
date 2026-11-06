@@ -2,26 +2,27 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-11-04
+updated: 2026-11-06
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
-  start: 2026-10-19
-  end: 2026-10-23
+  start: 2026-11-02
+  end: 2026-11-06
   done:
-    - {text: "Rollouts almost twice as fast: a per-step viewer PNG nobody read cost a third of each step", who: Christopher-Vu}
-    - {text: "One decoy rule for every decoy: uplift within 10 points, McNemar p above 0.2 (C31)", who: Christopher-Vu}
-    - {text: "P7 camera freeze, P8 latency and P9 light glare screens run; left-crossing patch on the runtime", who: Imhaohao}
-    - {text: "IEEE IV 2026 sweep: nothing changes the method; four more gap families to consider", who: Imhaohao}
-    - {text: "Resampling stability check for the contrastive method, reported by the dev evaluation", who: cattayw}
+    - {text: "P19 wide invading turn passes 9.1: 42 of 53 against 7 of 48, but a scenario list also finds it", who: Imhaohao}
+    - {text: "Methods on P19: contrastive diffing best 0.705, median 0.375 over 18 dictionaries", who: Imhaohao}
+    - {text: "P20 oncoming traffic hidden fails its screen, 0 against 4; 20 public candidates tried", who: Imhaohao}
+    - {text: "Scoring path ran end to end on a throwaway public key with 0 bugs (dry run)", who: Imhaohao}
+    - {text: "Causal rehearsal on P4's axis: above random on speed; failing frames not shown larger", who: Imhaohao}
+    - {text: "Fail2Drive's own routes run on our harness; sealed counts answered in issue 8", who: Christopher-Vu}
   next:
-    - {text: "Push the P7 to P9 screen numbers; full pilots for the ones that pass", who: Imhaohao}
-    - {text: "Screen the remaining decoy at 3 routes per GPU", who: Christopher-Vu}
-    - {text: "Run B3, B7 and probe-residual on the dev pool once P7 to P9 are in", who: Christopher-Vu}
-    - {text: "Clear C20 to C30 and commit the preregistration", who: Christopher-Vu}
+    - {text: "Run and score the Fail2Drive reproduction screen", who: Christopher-Vu}
+    - {text: "Decide C23, C29, C34, C35, P19's label and the preregistration", who: Christopher-Vu}
+    - {text: "Decide with Chris whether B7-pool's P19 reading stops the blind pool", who: Imhaohao}
+    - {text: "Control the residualization gain on P19; find why probe-residual emits no axes", who: Imhaohao}
 
 steps:
   - id: 0

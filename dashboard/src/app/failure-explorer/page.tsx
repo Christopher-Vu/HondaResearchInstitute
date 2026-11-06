@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import AxisImporter from "./AxisImporter";
 import { useMemo, useState } from "react";
 
@@ -75,9 +76,9 @@ export default function FailureExplorer() {
   return (
     <main className="min-h-screen bg-gray-50 px-8 py-12 text-gray-900">
       <div className="mx-auto max-w-7xl">
-        <a href="/" className="text-sm text-gray-500 hover:text-gray-900">
+        <Link href="/" className="text-sm text-gray-500 hover:text-gray-900">
           ← Back to Dashboard
-        </a>
+        </Link>
 
         <div className="mt-8">
           <h1 className="text-4xl font-semibold">
