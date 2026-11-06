@@ -246,7 +246,7 @@ So the plain variant's scores move a lot with the dataset mean and the leading d
 - **What this means:** M2 as configured cannot find a strong single-state group on this pool, so its zero is not evidence that the gaps are absent from its residuals.
 - **The first plant was invalid.** Lead distance is blank when no car is ahead, so most of the shift never reached a residual ([WHAT_BROKE](../WHAT_BROKE.md), 2026-11-06). Its reading was withdrawn before the rerun.
 
-**H20, mean removal on a second pool.** Locked in `4811f76`, amended in `bf8c810` to score per gap because its key has no interactional gap, jobs 40967835 and 40968012, 28 SU (measured). The fixed sentence is: "On H1's pool, removing only the mean moves a method's median Jaccard on a planted gap by at least 0.1, so method readings depend on a preprocessing step the PRD does not fix." ([result](data/h20_result.json), [protocol](experiments/h20-centring-second-pool/protocol.md)). One cell of 9 moved: B7-pool on P8.
+**H20, mean removal on a second pool.** Locked in `4811f76`, amended in `bf8c810` to score per gap because its key has no interactional gap, jobs 40967835 and 40968012, 25 SU (measured). The fixed sentence is: "On H1's pool, removing only the mean moves a method's median Jaccard on a planted gap by at least 0.1, so method readings depend on a preprocessing step the PRD does not fix." ([result](data/h20_result.json), [protocol](experiments/h20-centring-second-pool/protocol.md)). One cell of 9 moved: B7-pool on P8.
 
 | Median (best) over 18 dictionaries | Plain | Mean removed | Vision residualized |
 |---|---:|---:|---:|
@@ -326,7 +326,7 @@ SU is Savio's service unit. The research log is the only record of these figures
 | P20 screen driving and same-node disk tests | About 167 (d), by difference | About 5200 | [STATUS](../STATUS.md), 2026-11-03 21:00. The log has no figure. |
 | P20 rerun and amended pairs | About 144 (d), by difference | 5344 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 20:55. Includes about 37 SU lost in array 40858449. |
 | H15 and H17 | 61 (d), 12 and 49 | 5405 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 22:49. |
-| H18, H19 and H20 | 48 (d): 16, 6 and 25 | 5453 | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
+| H18, H19 and H20 | 47.7 (d): 16.3, 6.4 and 25.0 | 5453 | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
 | Sealed work | About 6,000, Chris's figure ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
 
 The goal's budget was 6000 SU and Jerry raised it to 10000 ([STATUS](../STATUS.md), 2026-11-03 19:30). The log puts H6 at 2.6 SU a route and H7 at about 4 SU a route, and [H13's protocol](experiments/h13-cross-family-gap/protocol.md) uses about 8.5 SU a route for P19's pilot, which is 864 SU over 101 scored routes, or 7.85 over 110 listed.
