@@ -23,12 +23,12 @@ Each clears §9.1's 20-point and 2× bars; none passes, because §9.1 needs 30 o
 **Running:** the full screen of the other 14 types, array 40950230 (160 routes, about 560 SU, estimate), then scoring 40950231. When it ends:
 
 - Run `src.harness.efficacy` once per `F2D_<type>` gap into `results/savio/f2d-screen-full/`.
-- Draft F2 (`docs/prd-fail2drive.md` §5) before reading the outcomes.
+- F2 is drafted (`docs/prereg-fail2drive.md`) before any outcome was read. It is tagged `f2d-prereg-v1` once Chris approves.
 
 **TransFuser++:** `policy.name: tfpp` and `adapters/tfpp/tfpp_agent.py` are committed and tested on CPU, never run. Its environment and checkpoint are being built on Savio by setup job 40950303. Before a smoke run:
 
-- Write a smoke config with the checkpoint sha256 from `.runtime/tfpp-setup-40950303.out`.
-- Copy the code to `hri-dev`, which is still at 8e27d9a.
+- The environment and checkpoint are done. `configs/rollout/f2d-tfpp-smoke.yaml` holds the checkpoint's sha256 and the launch line.
+- Copy the code to `hri-dev`, which is still at 8e27d9a, only after array 40950230 ends: its pending tasks read that tree.
 - Stage with `POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/tfpp-venv.tar`.
 
 **Track cap:** 2,500 SU for F1–F4. The closed loop (F5) and TransFuser++ runs need Chris's go. **Not pushed:** sharing is decided at the 2026-11-06 meeting.
