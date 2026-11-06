@@ -72,8 +72,16 @@ class TfppCaptureAgent(SensorAgent):
         net.join.register_forward_pre_hook(self._join_started)
         net.join.register_forward_hook(self._join_done)
         net.backbone.register_forward_hook(self._backbone_hook)
-        net.register_forward_pre_hook(self._forward_started)
-        net.register_forward_hook(self._forward_done)
+        # sensor_agent.py calls `net.forward(...)` directly, which skips module hooks on the net itself (smoke run
+        # 40951567 recorded no model step), so the forward method is wrapped instead. Submodules are called normally.
+        forward = net.forward
+
+        def captured_forward(*args: Any, **kwargs: Any) -> Any:
+            self._forward_started()
+            output = forward(*args, **kwargs)
+            self._forward_done()
+            return output
+        net.forward = captured_forward
 
     def run_step(self, input_data: Any, timestamp: float, sensors: Any = None) -> Any:
         if self.world_state is None:
@@ -118,7 +126,7 @@ class TfppCaptureAgent(SensorAgent):
         self.collisions.append({"step": self.step, "frame": event.frame, "other": event.other_actor.type_id,
                                 "intensity": vector_length(event.normal_impulse)})
 
-    def _forward_started(self, _module: nn.Module, _inputs: Any) -> None:
+    def _forward_started(self) -> None:
         self.join_calls.clear()
         self.fused = None
 
@@ -138,7 +146,7 @@ class TfppCaptureAgent(SensorAgent):
     def _join_done(self, _module: nn.Module, _inputs: Any, _output: Any) -> None:
         self.join_calls.append(self.layer_outputs)
 
-    def _forward_done(self, _module: nn.Module, _inputs: Any, _output: Any) -> None:
+    def _forward_done(self) -> None:
         self.forwarded = True
         if not self.join_calls or self.fused is None:
             raise RuntimeError("TransFuser++ ran without its decoder or backbone hooks firing")
