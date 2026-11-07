@@ -18,7 +18,7 @@ Last updated: 2026-11-07 05:05 (H21, all of Fail2Drive, queued; A40 start estima
 - **Setup on Jerry's checkout:** Fail2Drive is cloned at `bceb18af` in `.runtime/fail2drive-src` with `fail2drive-compat.patch` applied. The simulator tarball is `/global/scratch/users/imhaohao/fail2drive_simulator.tar.gz` (12.8 GB, size checked), staged with `CARLA_LOCAL_BUILD=fail2drive`.
 - **Read:** check that the arrays ran, then the pooled McNemar result, then per-category screens, per the H21 protocol. Rerun lost routes once with `ROUTE_IDS`.
 - **Cost:** about 700 SU (estimate). Spend before this run is 5453 of 10000.
-- **Guard (C38, proposed):** no discovery method reads `results/savio/f2d-all/shards` until `methods-frozen-v1` exists. Driving outcomes may be read before then.
+- **Guard (C38, proposed):** no discovery method reads `results/savio/f2d-all/shards` until a tag `methods-frozen-f2d-v1` exists. Driving outcomes may be read before then.
 
 **2026-11-06 03:45, H18 to H20 are read; every next step waits on Chris (C37 and the earlier list).** Spend 5453 of 10000 SU (measured, study jobs by name).
 - **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666 (best 0.812, 17 of 18 at 0.5 or above).
