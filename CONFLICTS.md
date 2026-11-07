@@ -742,6 +742,20 @@ Four dev runs on public throwaway keys show that method scores move with preproc
 
 **Alternatives.** Freezing the plain variant as it is, which leaves both a known lever and B7's sensitivity to it unreported. Dropping M2, which loses PRD 9.2's third method.
 
+### C38 · An evaluation built on Fail2Drive's pairs · new, 2026-11-07 (agent, at Jerry's request), pending review (Chris and Jerry)
+Step 5 has not closed on 20 public candidates. The one interactional gap that passed PRD 9.1 (P19) fails the single-factor condition. The sealed set has no passing interactional gap (Chris, issue 8). The Step 8 pool at the PRD's scale costs about 6,950 SU at the low end (PRD §17.3), more than the 4,547 left (measured 2026-11-06). H21 drives all 100 Fail2Drive pairs with activation capture for about 700 SU (estimate). Fail2Drive is a published benchmark where each generalization route adds one unseen scenario to its base twin's road.
+
+**Proposed. Nothing changes until this is reviewed.**
+1. **Gaps.** The gaps are Fail2Drive categories that pass a screen on H21: at least 3 excess slice-only failures. Their efficacy is then re-read at PRD 9.1 on any pairs added. They are public, so this is a frozen-method evaluation, not a blind one. The report says so beside every result.
+2. **Freeze first.** No discovery method reads H21's shards until `methods-frozen-v1` exists. That tag names the preprocessing, including C37's mean step, the dictionaries, the primary method and this scoring rule. Driving outcomes can be read before then, because they choose the gaps, not the methods.
+3. **Score per pair.** For each passing category, take the pairs where the generalization route failed and its base twin did not. A pair is a hit for a method when that failure sits in one of the method's M axes, chosen by the method's own rank and never by the key. The method's hit rate is compared with B1's random axes of matched sizes, and with B7, by a paired bootstrap over pairs. Jaccard recovery stays as a secondary reading.
+4. **B2 is a ceiling, not a rival.** Fail2Drive's scenario names are the labels, so the scenario-list baseline recovers every category by construction. The claim becomes that activations find these failures without being told the scenario.
+5. **Chris's sealed gaps** stay as a held-out check, scored once with the same frozen methods.
+
+**What this gives up.** Blindness: the categories are known in advance, and the freeze limits that without removing it. Discovery of unknown failures: this tests recovery of known ones. PRD 13.1's two-interactional-gap branch: it cannot be read on public gaps, so the report claims no 13.1 branch (C34).
+
+**Alternatives.** Keep the current Step 5 and wait for Chris's new sealed candidates. Stop at end state A, the dev-only report.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**
