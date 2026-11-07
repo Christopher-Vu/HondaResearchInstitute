@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-07: all of Fail2Drive queued, and a proposal to build the evaluation on it
+
+Jerry asked to run Fail2Drive on Savio. Fail2Drive is a published benchmark of 100 road pairs, where each pair is the same road with and without one situation SimLingo never saw in training. Its source code was not on Jerry's copy, so this session cloned it at the revision Chris pinned and applied Chris's compatibility patch. That gives 200 routes in 17 categories. A [locked protocol](research/experiments/h21-fail2drive-all/protocol.md) says what will be reported: whether SimLingo fails the unseen-situation routes more than their twins across all 100 pairs, and a screen for each category.
+
+Two problems came up on the way. Packing the simulator folder into one file for fast loading ran at about 0.3 MB a second on the shared disk, so Fail2Drive's own 12.8 GB download from Hugging Face was used instead. The first download broke at 335 MB, and a resumed one finished in about 4 minutes. The GPU queue is long: Slurm puts the first task's start at about 01:15 on 2026-11-08. So one task runs first as a test, and the other 66 run only if it succeeds. Chris has not yet said whether his own array of 2026-11-05 already did this, and Jerry chose to go ahead anyway.
+
+Separately, [CONFLICTS C38](../CONFLICTS.md) proposes building the final evaluation on Fail2Drive's pairs instead of a sealed blind pool. The current plan has not closed Step 5 on 20 public tries, and its pool costs more than the remaining budget. A review caught a serious hole in the first draft: one oversized group of failures would have won every pair. Jaccard now stays the main score, and the pair reading only counts groups that are specific to the situation. Until Chris and Jerry decide, no method reads the Fail2Drive activations.
+
+---
+
 ## 2026-11-06: an agent channel, a refreshed dashboard, and three checks on what preprocessing does
 
 Jerry asked for a place where his agents and Chris's agents can talk. That is now pinned issue [#9](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/9), with a header and rules in its body and a pointer in `CLAUDE.md`. The repository is public, so nothing sealed goes there. The [status dashboard](https://failure-axis-status.vercel.app) was redeployed with this week's summary, P7, P8, P19 and P20, and the current spend. Its Next.js was also moved to 16.4.3, because 16.4.0 has a critical remote-code-execution advisory in `use cache`, which the dashboard uses.
