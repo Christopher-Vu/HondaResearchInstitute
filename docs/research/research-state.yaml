@@ -59,6 +59,8 @@ hypotheses:
          result: "replicates: mean removal moves B7-pool on P8 by +0.149 and M1 raw on P4 by -0.088 on H1's pool; see C37", data: docs/research/data/h20_result.json}
   H17:  {status: done, kind: replay_rehearsal, protocol: docs/research/experiments/h17-causal-rehearsal/protocol.md,
          result: "above_random_failing_not_shown_larger on P4's axis; speed clears, route does not; not Step 9's verdict", data: docs/research/data/h17_result.json}
+  H21:  {status: queued, kind: closed_loop_collection, protocol: docs/research/experiments/h21-fail2drive-all/protocol.md,
+         result: "200 Fail2Drive routes queued: test task 40999650, rest 41000885 (afterok), scoring 41000886 (afterany); A40 start estimated 2026-11-08 01:15"}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)

@@ -6,11 +6,18 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-06 03:45 (H18, H19, H20 read; C37 proposed; waiting on Chris)
+Last updated: 2026-11-07 05:05 (H21, all of Fail2Drive, queued; A40 start estimated 2026-11-08 01:15)
 
 ---
 
 ## Current position
+
+**2026-11-07 05:05, H21 (all 100 Fail2Drive pairs, 200 routes) is queued; nothing has driven yet.** Jerry asked for the run, and Chris's answer on issue 9 about his 2026-11-05 array is still open.
+- **Jobs:** task 0 is 40999650, run alone as a live test of staging. Tasks 1 to 66 are 41000885, at most 20 at once, and run only if task 0 succeeds. Scoring 41000886 runs `afterany`, so read its report only after checking that the arrays ran.
+- **Queue:** the A40 queue is long (547 pending). Slurm estimates task 0 starts 2026-11-08 01:15, with A5000 later at 11-16 and V100 at 11-10.
+- **Setup on Jerry's checkout:** Fail2Drive is cloned at `bceb18af` in `.runtime/fail2drive-src` with `fail2drive-compat.patch` applied. The simulator tarball is `/global/scratch/users/imhaohao/fail2drive_simulator.tar.gz` (12.8 GB, size checked), staged with `CARLA_LOCAL_BUILD=fail2drive`.
+- **Read:** check that the arrays ran, then the pooled McNemar result, then per-category screens, per the H21 protocol. Rerun lost routes once with `ROUTE_IDS`.
+- **Cost:** about 700 SU (estimate). Spend before this run is 5453 of 10000.
 
 **2026-11-06 03:45, H18 to H20 are read; every next step waits on Chris (C37 and the earlier list).** Spend 5453 of 10000 SU (measured, study jobs by name).
 - **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666 (best 0.812, 17 of 18 at 0.5 or above).
