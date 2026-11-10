@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-09 — SimLingo's Fail2Drive test pool: three gaps, one ceiling, six decoys
+
+The rerun recovered 385 of 397 lost routes, with no memory or load failures, so the cleanup fix held. The export
+was split 12 ways and took 71 minutes. Of 1,200 routes, 1,188 are scored. The pool cost 4,227 SU (measured).
+
+On fresh seeds, the pre-registered rule (`PRD.md` §9.1) confirms three of Fail2Drive's 17 types as SimLingo gaps
+(measured): PedestriansOnRoad, FullyBlocked and BadParking. Wall is a ceiling, failing 30 of 30 against 1 of 30.
+Six types act as decoys, where SimLingo copes about as well as on the base routes. Of the four types predicted not
+to be named by our factor list B4, only BadParking is a gap. Whether it really is unnamed is the next computation.
+Full table: `docs/STATUS.md`.
+
 ## 2026-11-09 — The test pool's first pass lost a third of its routes; the cause is fixed and the rest rerun
 
 SimLingo's Fail2Drive test pool finished its first pass with 803 of 1,200 routes scored, against the usual few percent

@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-09 (SimLingo Fail2Drive test pool: 803/1,200 scored, 397 rerunning, scoring chained)
+Last updated: 2026-11-09 (SimLingo Fail2Drive test pool scored: 3 gaps, 1 ceiling, 6 decoys)
 
 ---
 
@@ -14,12 +14,19 @@ Last updated: 2026-11-09 (SimLingo Fail2Drive test pool: 803/1,200 scored, 397 r
 
 **2026-11-06, Chris approved the Fail2Drive pre-registration (`docs/prereg-fail2drive.md`, tag `f2d-prereg-v1`, local) and the SimLingo test pool.** The pool covers all 17 types, every pair, at seeds 101–106: 1,200 routes, about 3,300 SU (estimate).
 
-**2026-11-09: first pass done, rerun running.** The first arrays (40983223–40983228, 3,419 SU measured) scored 803 of
-1,200 routes. The losses were a cluster slowdown plus a process-cleanup bug of ours, now fixed (`docs/WHAT_BROKE.md`,
-2026-11-09). The 397 lost routes are rerunning once (41069572–41069578, seed by seed, ids in
-`hri-tfpp/.runtime/rerun-s<seed>.ids`). Then `hri-tfpp/.runtime/f2d-test-simlingo-score.sbatch` (job 41076042, on a whole savio2 node, export split 12 ways) scores
-all six first arrays plus the reruns into `results/savio/f2d-test-simlingo/`. It exports accepted attempts only and
-writes one efficacy file per `F2D_<type>` under `efficacy/`. Routes still lost after that are listed and excluded.
+**2026-11-09: SimLingo's test pool is scored** (`hri-tfpp/results/savio/f2d-test-simlingo/`, measured). 1,188 of
+1,200 routes have an outcome. 12 were lost twice and are excluded. Cost: 3,419 + 808 = 4,227 SU.
+
+Per pre-registered classification (§9.1 on six seeds; 17 types tested):
+- **Gaps:** PedestriansOnRoad 22/30 vs 1/30; FullyBlocked 17/30 vs 5/30; BadParking 24/58 vs 6/60.
+- **Ceiling:** Wall 30/30 vs 1/30.
+- **Decoys:** Animals, ConstructionPermutations, ImageOnObject, ObscuredStop, PassableObstacles, RightOfWay.
+- **Background:** the other 7. CustomObstacles (46/57 vs 27/60) misses only the 2× ratio.
+
+BadParking was predicted B4-unnamed. The measured B4 split is not computed yet. With one possible B4-unnamed unit,
+the migration bar (≥2 units, ≥2 types) needs TransFuser++.
+
+Next: compute the B4 split; read the TransFuser++ screen (40954768); launch its test pool on Chris's go.
 
 Two speed-ups, first used here:
 - **Rounds:** each task now unpacks CARLA and the venv once for 9 routes, not 3. That unpacking took 214 s of a
