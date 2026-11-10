@@ -17,7 +17,7 @@ Last updated: 2026-11-09 (SimLingo Fail2Drive test pool: 803/1,200 scored, 397 r
 **2026-11-09: first pass done, rerun running.** The first arrays (40983223–40983228, 3,419 SU measured) scored 803 of
 1,200 routes. The losses were a cluster slowdown plus a process-cleanup bug of ours, now fixed (`docs/WHAT_BROKE.md`,
 2026-11-09). The 397 lost routes are rerunning once (41069572–41069578, seed by seed, ids in
-`hri-tfpp/.runtime/rerun-s<seed>.ids`). Then `hri-tfpp/.runtime/f2d-test-simlingo-score.sbatch` (job 41069589) scores
+`hri-tfpp/.runtime/rerun-s<seed>.ids`). Then `hri-tfpp/.runtime/f2d-test-simlingo-score.sbatch` (job 41076042, on a whole savio2 node, export split 12 ways) scores
 all six first arrays plus the reruns into `results/savio/f2d-test-simlingo/`. It exports accepted attempts only and
 writes one efficacy file per `F2D_<type>` under `efficacy/`. Routes still lost after that are listed and excluded.
 
