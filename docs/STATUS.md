@@ -23,6 +23,11 @@ Per pre-registered classification (§9.1 on six seeds; 17 types tested):
 - **Decoys:** Animals, ConstructionPermutations, ImageOnObject, ObscuredStop, PassableObstacles, RightOfWay.
 - **Background:** the other 7. CustomObstacles (46/57 vs 27/60) misses only the 2× ratio.
 
+**Open decision (Chris, 2026-11-09, for later): count CustomObstacles as a gap?** It fails 46/57 vs 27/60
+(36 points, Fisher p 1e-4, McNemar 2e-5) and misses §9.1 only on the 2× ratio (1.8×). Chris's reasons: a high
+failure rate, very diverse obstacles, a reasonable ratio, strong significance. Taking it would be a post hoc
+amendment to `docs/prereg-fail2drive.md`, labelled as such and reported beside the pre-registered classification.
+
 BadParking was predicted B4-unnamed. The measured B4 split is not computed yet. With one possible B4-unnamed unit,
 the migration bar (≥2 units, ≥2 types) needs TransFuser++.
 
