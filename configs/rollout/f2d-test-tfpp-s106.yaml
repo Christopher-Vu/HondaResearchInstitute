@@ -1,0 +1,28 @@
+# Fail2Drive track step F3/F6 (docs/prd-fail2drive.md, docs/prereg-fail2drive.md): TransFuser++ test pool, traffic seed 106 of 101-106.
+# The same 1,200 routes and ids as SimLingo's test pool (f2d-test-simlingo.xml and its manifest), so the two models
+# share routes and the bootstrap resamples pairs jointly. This config drives only seed 106's 200 ids (ROUTE_IDS).
+# Policy settings copied from f2d-tfpp-screen.yaml; seed differs. Runs from the hri-tfpp clone.
+
+name: f2d-test-tfpp-s106
+step: F3
+scope: savio_f2d_test_tfpp
+
+policy:
+  name: tfpp
+  ckpt_sha256: d6fbdc28f7398354beadc7cf6765d866457c957f7b470c88ba206e73311a3b44
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+
+route:
+  seed: 106
+  routes_file: configs/rollout/f2d-test-simlingo.xml
+  manifest: configs/rollout/f2d-test-simlingo.manifest.json
