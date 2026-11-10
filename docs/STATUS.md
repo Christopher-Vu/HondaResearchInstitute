@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-09 (SimLingo Fail2Drive test pool scored: 3 gaps, 1 ceiling, 6 decoys)
+Last updated: 2026-11-09 (SimLingo test pool scored; TransFuser++ test pool running)
 
 ---
 
@@ -26,7 +26,11 @@ Per pre-registered classification (§9.1 on six seeds; 17 types tested):
 BadParking was predicted B4-unnamed. The measured B4 split is not computed yet. With one possible B4-unnamed unit,
 the migration bar (≥2 units, ≥2 types) needs TransFuser++.
 
-Next: compute the B4 split; read the TransFuser++ screen (40954768); launch its test pool on Chris's go.
+**Running (2026-11-09, Chris's go): TransFuser++ test pool**, the same 1,200 routes (`configs/rollout/f2d-test-tfpp-s101..s106.yaml`).
+Arrays 41086122 (seed 101) to 41086127 (106): `ROUNDS=3`, 3 per A40, up to 8 tasks each at once. Scoring
+41086129 (`hri-tfpp/.runtime/f2d-test-tfpp-score.sbatch`) writes `results/savio/f2d-test-tfpp/`. Lost routes are
+then rerun once by seed, with job ids in `.runtime/f2d-test-tfpp-rerun.jobs`, and scoring is rerun. The TransFuser++
+screen scored 200 of 200 routes (373.6 SU, measured). Next: the B4 split for both models.
 
 Two speed-ups, first used here:
 - **Rounds:** each task now unpacks CARLA and the venv once for 9 routes, not 3. That unpacking took 214 s of a
