@@ -8,6 +8,31 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-09: a third of SimLingo's Fail2Drive test pool was lost, partly to our own queueing change
+
+**Expected:** about 3% of the 1,200 routes lost, as in earlier arrays.
+
+**What happened (measured, arrays 40983223–40983228):** 803 of 1,200 routes have an outcome. Of the routes whose
+agent could not be set up:
+- 178 took longer than 600 s to load SimLingo. All fell between 11-06 16:00 and 11-07 06:00, so this was a
+  cluster-wide slowdown. Later hours had almost no load timeouts.
+- About 117 ran out of GPU memory at load, at about 10% of routes throughout. One such GPU held 7 other processes,
+  more than three active routes account for.
+
+The cause of the second group is ours. `stop_process_group` returned early when a group's leader had already exited,
+so children it left behind kept their GPU memory. When each array task drove one round of routes, Slurm killed them
+at the task's end. With `ROUNDS=3` (b38b3d7), the next route in the same slot started beside them.
+
+The scoring job (40983231) then stopped in the export, on a cut-off `steps.pt` from one failed attempt, after
+576 routes.
+
+**What we did:**
+- `stop_process_group` now always signals the whole group (ea6d5f4). A test leaves an orphaned child and checks
+  that it is killed; it passes on Savio.
+- The 397 lost or unrun routes are rerun once, split by seed (41069572–41069578).
+- The new scoring job (41069589) exports only the attempts the scorer accepted.
+- Cost: the first arrays used 3,419 SU (measured), about 4.3 SU per scored route, against 2.8 in the screen.
+
 ## 2026-11-05: TransFuser++ drove a route, and the capture agent recorded no model step
 
 **Expected:** forward hooks registered on Fail2Drive's TransFuser++ network fire on every model step, as they do on SimLingo's.

@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-09 — The test pool's first pass lost a third of its routes; the cause is fixed and the rest rerun
+
+SimLingo's Fail2Drive test pool finished its first pass with 803 of 1,200 routes scored, against the usual few percent
+lost. There were two causes:
+- A cluster-wide slowdown from 11-06 16:00 to 11-07 06:00 made 178 routes time out loading the model.
+- A cleanup bug of ours let processes from finished routes keep their GPU memory, so about 117 later routes on the same
+  GPU ran out of it. The bug was old, but it only mattered once a task ran several rounds of routes (the 11-06 speed-up).
+
+It is fixed and tested (ea6d5f4). The first pass cost 3,419 SU (measured), about 4.3 SU per scored route against 2.8 in
+the screen. The pre-registration allows one rerun of lost routes, so all 397 are running again. Scoring, export and a
+gap check per Fail2Drive type follow without anyone needing to log in. The details are in `docs/WHAT_BROKE.md`.
+No outcomes from the pool have been read.
+
 ## 2026-11-06 — SimLingo's Fail2Drive test pool launched, with staging paid once per nine routes
 
 Chris approved the pre-registration (`docs/prereg-fail2drive.md`) and asked for the SimLingo test pool to run as fast

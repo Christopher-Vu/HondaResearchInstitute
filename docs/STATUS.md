@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-06 (SimLingo Fail2Drive test pool running: 1,200 routes over six seeds)
+Last updated: 2026-11-09 (SimLingo Fail2Drive test pool: 803/1,200 scored, 397 rerunning, scoring chained)
 
 ---
 
@@ -14,10 +14,12 @@ Last updated: 2026-11-06 (SimLingo Fail2Drive test pool running: 1,200 routes ov
 
 **2026-11-06, Chris approved the Fail2Drive pre-registration (`docs/prereg-fail2drive.md`, tag `f2d-prereg-v1`, local) and the SimLingo test pool.** The pool covers all 17 types, every pair, at seeds 101–106: 1,200 routes, about 3,300 SU (estimate).
 
-**Running (launched 2026-11-06 from `hri-tfpp` at b38b3d7):** six arrays, one per seed: 40983223 (101) to 40983228 (106).
-Each is 23 tasks of 9 routes, 3 at a time per A40 (`ROUNDS=3`), with at most 6 tasks per array at once. Scoring
-40983231 follows all six (`results/savio/f2d-test-simlingo-s101/`, which covers all 1,200 routes). Then run efficacy
-once per `F2D_<type>`, rerun lost routes once by `ROUTE_IDS`, and list what is still lost.
+**2026-11-09: first pass done, rerun running.** The first arrays (40983223–40983228, 3,419 SU measured) scored 803 of
+1,200 routes. The losses were a cluster slowdown plus a process-cleanup bug of ours, now fixed (`docs/WHAT_BROKE.md`,
+2026-11-09). The 397 lost routes are rerunning once (41069572–41069578, seed by seed, ids in
+`hri-tfpp/.runtime/rerun-s<seed>.ids`). Then `hri-tfpp/.runtime/f2d-test-simlingo-score.sbatch` (job 41069589) scores
+all six first arrays plus the reruns into `results/savio/f2d-test-simlingo/`. It exports accepted attempts only and
+writes one efficacy file per `F2D_<type>` under `efficacy/`. Routes still lost after that are listed and excluded.
 
 Two speed-ups, first used here:
 - **Rounds:** each task now unpacks CARLA and the venv once for 9 routes, not 3. That unpacking took 214 s of a
