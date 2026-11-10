@@ -2,6 +2,7 @@
 import Link from "next/link";
 import AxisImporter from "./AxisImporter";
 import { useMemo, useState } from "react";
+import ExperimentComparison from "./ExperimentComparison";
 
 type FailureAxis = {
   id: string;
@@ -317,6 +318,8 @@ export default function FailureExplorer() {
     Source: {layerSweepData.source}
   </p>
   </section>
+  <ExperimentComparison />
+<AxisImporter />
   <AxisImporter />
       </div>
     </main>
