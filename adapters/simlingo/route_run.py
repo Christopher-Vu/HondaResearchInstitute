@@ -272,14 +272,23 @@ def expert_command(output: Path, config: dict[str, Any], ports: Ports) -> list[s
 
 
 def stop_process_group(process: subprocess.Popen[Any], grace_seconds: float = 10) -> None:
-    if process.poll() is not None:
+    """Stop the whole group, even when its leader has already exited: children it left behind kept their GPU memory
+    and made later routes in the same array task run out of it (docs/WHAT_BROKE.md, 2026-11-09)."""
+    def signal_group(number: int) -> bool:
+        try:
+            os.killpg(process.pid, number)
+            return True
+        except ProcessLookupError:
+            return False
+    if not signal_group(signal.SIGTERM):
+        process.poll()
         return
-    os.killpg(process.pid, signal.SIGTERM)
-    try:
-        process.wait(timeout=grace_seconds)
-    except subprocess.TimeoutExpired:
-        os.killpg(process.pid, signal.SIGKILL)
-        process.wait()
+    deadline = time.monotonic() + grace_seconds
+    while time.monotonic() < deadline and signal_group(0):
+        process.poll()
+        time.sleep(0.2)
+    signal_group(signal.SIGKILL)
+    process.wait()
 
 
 class SilenceGuard:

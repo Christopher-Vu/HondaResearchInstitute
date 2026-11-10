@@ -1,7 +1,9 @@
 """The slow-simulation watchdog: a crawling route is stopped and listed for rerun, never scored."""
 import json
+import os
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -100,3 +102,17 @@ def test_slow_stop_records_a_reason_and_the_route_goes_to_rerun(tmp_path, monkey
     assert marker["reason"] == SLOW_STOP_REASON and marker["simulated_seconds"] == 0.01
     assert score_routes.stop_reason_of(output) == SLOW_STOP_REASON
     assert score_routes.chosen_attempt([output]) is None
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="process groups are POSIX")
+def test_stopping_a_group_kills_children_its_exited_leader_left_behind(tmp_path):
+    """A leader that exits leaving a child must not leave the child running: on Savio such children kept their GPU
+    memory and later routes in the same task ran out of it (2026-11-09)."""
+    child = tmp_path / "child.pid"
+    process = subprocess.Popen(["bash", "-c", f"sleep 60 & echo $! > {child}"], start_new_session=True)
+    process.wait()
+    pid = int(child.read_text())
+    route_run.stop_process_group(process, grace_seconds=2)
+    time.sleep(0.2)
+    with pytest.raises(ProcessLookupError):
+        os.kill(pid, 0)
