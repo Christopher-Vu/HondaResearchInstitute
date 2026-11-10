@@ -1,0 +1,151 @@
+{
+  "label": "DEV DRY RUN, NOT A VERDICT: H19 M2 settings sweep",
+  "real": [
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190045
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190045
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190045
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190045
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190909
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.190909
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.366667
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.376812
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.372881
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.396825
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.326531
+      }
+    },
+    {
+      "axes": 1,
+      "best_jaccard": {
+        "P19_wide_invading_turn": 0.333333
+      }
+    }
+  ],
+  "planted_runs": [
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    },
+    {
+      "planted_best_jaccard": 0
+    }
+  ]
+}
