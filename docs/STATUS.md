@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-09 (SimLingo test pool scored; TransFuser++ test pool running)
+Last updated: 2026-11-10 (both test pools scored; TransFuser++ rerun of 4 routes running)
 
 ---
 
@@ -31,11 +31,18 @@ amendment to `docs/prereg-fail2drive.md`, labelled as such and reported beside t
 BadParking was predicted B4-unnamed. The measured B4 split is not computed yet. With one possible B4-unnamed unit,
 the migration bar (≥2 units, ≥2 types) needs TransFuser++.
 
-**Running (2026-11-09, Chris's go): TransFuser++ test pool**, the same 1,200 routes (`configs/rollout/f2d-test-tfpp-s101..s106.yaml`).
-Arrays 41086122 (seed 101) to 41086127 (106): `ROUNDS=3`, 3 per A40, up to 8 tasks each at once. Scoring
-41086129 (`hri-tfpp/.runtime/f2d-test-tfpp-score.sbatch`) writes `results/savio/f2d-test-tfpp/`. Lost routes are
-then rerun once by seed, with job ids in `.runtime/f2d-test-tfpp-rerun.jobs`, and scoring is rerun. The TransFuser++
-screen scored 200 of 200 routes (373.6 SU, measured). Next: the B4 split for both models.
+**2026-11-10: TransFuser++'s test pool is scored** (first pass; `hri-tfpp/results/savio/f2d-test-tfpp/`, measured).
+The same 1,200 routes (`configs/rollout/f2d-test-tfpp-s101..s106.yaml`), arrays 41086122–41086127: 1,196 have an
+outcome, 0 out-of-memory. Cost: 54.1 GPU-h, about 1,590 SU. Classification (same rules):
+- **Gaps:** FullyBlocked 15/30 vs 1/30 (p 6e-5); PedestriansOnRoad 10/30 vs 0/30 (p 8e-4).
+- **Ceiling:** Wall 30/30 vs 0/30.
+- **Not replicated:** BadParking 23/60 vs 15/60 (p 0.17) and CustomObstacles 45/60 vs 36/60 (p 0.12) are background.
+- **Decoys:** 9 types; background: the other 5.
+
+Both models share two gaps (FullyBlocked, PedestriansOnRoad) and the Wall ceiling.
+
+**Running (2026-11-10):** a rerun of the 4 lost routes (41173524–41173526, ids in `.runtime/f2d-test-tfpp-rerun.jobs`)
+and rescoring 41173527 after them. Up to 4 more routes cannot change any class above. Next: the B4 split for both models.
 
 Two speed-ups, first used here:
 - **Rounds:** each task now unpacks CARLA and the venv once for 9 routes, not 3. That unpacking took 214 s of a

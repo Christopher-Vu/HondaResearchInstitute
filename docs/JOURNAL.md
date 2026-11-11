@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-10 — TransFuser++'s Fail2Drive test pool: two gaps, both shared with SimLingo
+
+TransFuser++, the second driving model, ran the same 1,200 test routes as SimLingo, at the same seeds. It finished
+at 04:35 and was scored in a 4-minute job: 1,196 routes have an outcome, with no out-of-memory failures, so the
+process-group cleanup fix held. It used 54.1 GPU-hours, about 1,590 SU (measured).
+
+By the pre-registered rules (`docs/prereg-fail2drive.md`), TransFuser++ has two gaps:
+- FullyBlocked: 15/30 failures on the slice against 1/30 in its neighbourhood.
+- PedestriansOnRoad: 10/30 against 0/30.
+
+Wall is a ceiling for both models; a ceiling is a slice that fails almost always while its neighbourhood rarely
+does. Both models therefore share two gaps, which is the model-agnostic result the track was after. SimLingo's third
+gap, BadParking, does not replicate (23/60 against 15/60, p 0.17), and neither does CustomObstacles' near-miss
+(45/60 against 36/60). Nine types are decoys.
+
+The 4 lost routes are being rerun once (41173524–41173526), with rescoring 41173527 after them. Four routes cannot
+change any class. Not done yet: the B4 split, which says which gaps a language-model baseline could name.
+
 ## 2026-11-09 — SimLingo's Fail2Drive test pool: three gaps, one ceiling, six decoys
 
 The rerun recovered 385 of 397 lost routes, with no memory or load failures, so the cleanup fix held. The export
