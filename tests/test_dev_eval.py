@@ -291,3 +291,24 @@ def test_claim_b_needs_the_margin_over_baseline_and_catch_all_a_clear_interval_a
 def test_stale_frames_mark_only_repeats_of_the_previous_frame():
     means = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0005], [0.0, 1.0]])
     assert dev_eval.stale_frames(means).tolist() == [0.0, 1.0, 0.0, 1.0, 1.0]
+
+
+def test_m1_group_floor_is_passed_through_to_both_variants():
+    """H23: a 5-failure group is below M1's default floor of 20, and found once the floor is lowered."""
+    from discovery.contrastive import ContrastiveConfig, Rollout
+    rng = np.random.default_rng(0)
+    steps = np.arange(0, 400, 10)
+
+    def rollout(i, failed, fires):
+        latents = rng.random((len(steps), 2)) * 0.01
+        if fires:
+            latents[:, 0] = 1.0
+        return Rollout(f"r{i}", latents.astype(np.float32), steps, failed, 390 if failed else None)
+
+    rollouts = [rollout(i, True, i < 5) for i in range(12)] + [rollout(100 + i, False, False) for i in range(60)]
+    default_raw, default_capped = dev_eval.contrastive_variants(rollouts, 10)
+    low_raw, low_capped = dev_eval.contrastive_variants(rollouts, 10, ContrastiveConfig(min_support=3))
+    assert not default_raw.axes and not default_capped.axes
+    group = {f"r{i}" for i in range(5)}
+    assert any(axis.rollouts == group for axis in low_raw.axes)
+    assert any(axis.rollouts == group for axis in low_capped.axes)

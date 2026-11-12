@@ -21,7 +21,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -182,15 +182,17 @@ def encode_frames(model: sae.TopKSae, frames: list[Frames], device: torch.device
     return rollouts, tally.explained
 
 
-def contrastive_variants(rollouts: list[Rollout], layer: int) -> tuple[Directive, Directive]:
+def contrastive_variants(rollouts: list[Rollout], layer: int,
+                         contrastive: ContrastiveConfig = ContrastiveConfig()) -> tuple[Directive, Directive]:
     label = f"driving_queries_L{layer}"
-    raw, _ = contrastive_directive(rollouts, ContrastiveConfig(), layer=label)
-    capped, _ = contrastive_directive(rollouts, ContrastiveConfig(max_failure_share=CATCH_ALL_CAP), layer=label)
+    raw, _ = contrastive_directive(rollouts, contrastive, layer=label)
+    capped, _ = contrastive_directive(rollouts, replace(contrastive, max_failure_share=CATCH_ALL_CAP), layer=label)
     return raw, capped
 
 
-def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int) -> list[MethodRun]:
-    raw, capped = contrastive_variants(rollouts, layer)
+def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int,
+                contrastive: ContrastiveConfig = ContrastiveConfig()) -> list[MethodRun]:
+    raw, capped = contrastive_variants(rollouts, layer, contrastive)
     episodes = {rollout.rollout_id: rollout.latents for rollout in rollouts}
     failing = {rollout.rollout_id for rollout in rollouts if rollout.failed}
     pool = activation_stats_directive(episodes, episodes, failing, ActivationStatsConfig(variant="B"))
@@ -198,8 +200,8 @@ def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int) -> list[Meth
             MethodRun("B7_pool", BASELINE, pool, info)]
 
 
-def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device, stale_latent: bool = False
-             ) -> tuple[list[MethodRun], list[SaeInfo], list[dict[str, str]]]:
+def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device, stale_latent: bool = False,
+             contrastive: ContrastiveConfig = ContrastiveConfig()) -> tuple[list[MethodRun], list[SaeInfo], list[dict[str, str]]]:
     methods, infos, skipped = [], [], []
     for run in runs:
         if not (run / "sae.pt").is_file():
@@ -212,7 +214,7 @@ def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.d
         rollouts, explained = encode_frames(model, frames, device, stale_latent)
         info = SaeInfo(str(run), config["layer"], config["k"], config["seed"], explained)
         infos.append(info)
-        methods += sae_methods(rollouts, info, layer)
+        methods += sae_methods(rollouts, info, layer, contrastive)
     return methods, infos, skipped
 
 
