@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-12 — B4 split: every Fail2Drive gap is outside B4's named factors
+
+The B4 split asks, for each gap type, whether one of B4's named factor levels (`configs/baselines/b4_factors_v1.yaml`)
+already picks out the gap's failing routes, scored by Jaccard overlap with a 0.4 threshold (`docs/prereg-fail2drive.md`).
+`scripts/b4_split.py` (1ec2c51) decides levels from logged driving states and route weather only. Job 41176558 ran
+it on both test pools after TransFuser++'s 4 lost routes were rerun (all 1,200 now scored, no class changed).
+
+Measured: every gap on both models is B4-unnamed. The best overlaps are 0.319 (SimLingo PedestriansOnRoad, with
+"pedestrian near") and 0.204 (TransFuser++ FullyBlocked, with "low traffic"); the best pair of levels reaches 0.353.
+Animals, not a gap, matches its "animal" level exactly, which shows the split can name a type when B4 has a word
+for it. The migration bar's count of B4-unnamed units across types is therefore met.
+
+Meanwhile Jerry ran his own Fail2Drive evaluation on origin/main (H21, H22): on 100 pairs the frozen methods were
+not ahead of the baselines, because M1 needs 20 failing routes per axis and his categories had 3–8. Left for Chris:
+review C38, decide sharing, approve F4.
+
+---
+
 ## 2026-11-10 — TransFuser++'s Fail2Drive test pool: two gaps, both shared with SimLingo
 
 TransFuser++, the second driving model, ran the same 1,200 test routes as SimLingo, at the same seeds. It finished

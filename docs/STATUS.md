@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-10 (both test pools scored; TransFuser++ rerun of 4 routes running)
+Last updated: 2026-11-12 (B4 split measured: every gap is B4-unnamed on both models; Jerry's H22 is on origin/main)
 
 ---
 
@@ -28,8 +28,10 @@ Per pre-registered classification (§9.1 on six seeds; 17 types tested):
 failure rate, very diverse obstacles, a reasonable ratio, strong significance. Taking it would be a post hoc
 amendment to `docs/prereg-fail2drive.md`, labelled as such and reported beside the pre-registered classification.
 
-BadParking was predicted B4-unnamed. The measured B4 split is not computed yet. With one possible B4-unnamed unit,
-the migration bar (≥2 units, ≥2 types) needs TransFuser++.
+**B4 split (job 41176558, `scripts/b4_split.py`, `results/savio/f2d-test-<model>/b4-split.json`, measured):** every
+gap on both models is B4-unnamed (best single-level Jaccard < 0.4): SimLingo PedestriansOnRoad 0.319, FullyBlocked
+0.179, BadParking 0.111; TransFuser++ FullyBlocked 0.204, PedestriansOnRoad 0.164. Best pairwise conjunction 0.353.
+Animals is B4-named (1.000), the expected sanity check. The migration bar's unit count (≥2 units, ≥2 types) is met.
 
 **2026-11-10: TransFuser++'s test pool is scored** (first pass; `hri-tfpp/results/savio/f2d-test-tfpp/`, measured).
 The same 1,200 routes (`configs/rollout/f2d-test-tfpp-s101..s106.yaml`), arrays 41086122–41086127: 1,196 have an
@@ -41,8 +43,11 @@ outcome, 0 out-of-memory. Cost: 54.1 GPU-h, about 1,590 SU. Classification (same
 
 Both models share two gaps (FullyBlocked, PedestriansOnRoad) and the Wall ceiling.
 
-**Running (2026-11-10):** a rerun of the 4 lost routes (41173524–41173526, ids in `.runtime/f2d-test-tfpp-rerun.jobs`)
-and rescoring 41173527 after them. Up to 4 more routes cannot change any class above. Next: the B4 split for both models.
+The 4 lost routes were rerun (41173524–41173526, about 8 SU) and rescored (41173527): 1,200/1,200, no class changed.
+
+**Next (Chris):** review C38 and Jerry's H22 on origin/main (frozen M1 emitted nothing on 3–8-failure categories
+because of `min_support` 20); decide whether to share these unpushed commits; approve F4 (score the frozen methods on
+this pool, after deciding how to handle `min_support` against gaps of 10–24 failures). GPUs idle until then.
 
 Two speed-ups, first used here:
 - **Rounds:** each task now unpacks CARLA and the venv once for 9 routes, not 3. That unpacking took 214 s of a
