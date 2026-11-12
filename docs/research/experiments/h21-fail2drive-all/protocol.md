@@ -52,3 +52,7 @@ About 700 SU (estimate). Chris's one measured pair drove in 14 minutes on one A4
 ## Predictions (guesses)
 
 `reproduces`, 75%. `not_reproduced`, 15%. `untested`, 10%. At least 3 categories reach 3 excess slice-only failures, 60%.
+
+## Result, 2026-11-11
+
+All 200 routes have an outcome after one rerun of 2 routes. `reproduces`: 28 slice-only against 4 on 100 pairs, McNemar p 1.9e-5. Screen candidates: CustomObstacles, Wall and PedestriansOnRoad. About 570 SU. `docs/research/data/h21_result.json`, read in `docs/research/dev-report.md`.

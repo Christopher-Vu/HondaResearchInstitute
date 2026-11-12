@@ -273,6 +273,28 @@ Speed clears the rule and route stops at both its floor and its interval. The ex
 
 **H14 offline, marker replay.** Untested. Its mask failed the check before any replay (72% of dots caught against a limit of 90%, and a ring on a vehicle in 13 of 50 frames against a limit of 0, [data](data/h14_mask_check.json)). The route-marker effect stays unmeasured.
 
+## Fail2Drive on our harness
+
+H21 drove all 100 of Fail2Drive's route pairs, which are 200 routes in 17 categories, under a [locked protocol](experiments/h21-fail2drive-all/protocol.md). Each pair is one road driven twice, once with a situation SimLingo never saw in training and once without it. The routes are public, so none of them can enter the sealed key. The fixed sentence is: "On our harness, SimLingo fails Fail2Drive's generalization routes more often than their base twins." ([result](data/h21_result.json), [outcomes](data/h21_routes.jsonl)).
+
+| Pooled over 100 pairs (measured) | Value |
+|---|---|
+| Unseen-situation routes failed | 38 of 100 |
+| Base twins failed | 14 of 100 |
+| Pairs where only the unseen route failed | 28 |
+| Pairs where only the twin failed | 4 |
+| McNemar p | 1.9e-5 |
+
+Three categories pass the screen of at least 3 excess slice-only failures. With 5 or 10 pairs each they are screens, not PRD 9.1 verdicts.
+
+| Category | Pairs | Unseen failed | Twin failed | Excess |
+|---|---:|---:|---:|---:|
+| CustomObstacles | 10 | 8 | 3 | 5 |
+| Wall | 5 | 5 | 0 | 5 |
+| PedestriansOnRoad | 5 | 3 | 0 | 3 |
+
+Of the other 14 categories, none reaches an excess of 3. ConstructionPedestrian and FullyBlocked reach 2. ImageOnObject, ObscuredStop, PassableObstacles and PedestrianOtherBlocker had no failure in either arm. Collisions with pedestrians rose from 2 in the twins to 12 in the unseen routes, and collisions with the road layout from 7 to 31. Two routes were lost on node n0273 and rerun once, so all 200 have an outcome. These runs used `--debug 0`, unlike every Step 5 pilot. Under the C38 guard no discovery method has read H21's activations.
+
 ## PRD checks that never ran
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
@@ -330,7 +352,8 @@ SU is Savio's service unit. The research log is the only record of these figures
 | P20 screen driving and same-node disk tests | About 167 (d), by difference | About 5200 | [STATUS](../STATUS.md), 2026-11-03 21:00. The log has no figure. |
 | P20 rerun and amended pairs | About 144 (d), by difference | 5344 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 20:55. Includes about 37 SU lost in array 40858449. |
 | H15 and H17 | 61 (d), 12 and 49 | 5405 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 22:49. |
-| H18, H19 and H20 | 47.7 (d): 16.3, 6.4 and 25.0 | 5453 | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
+| H18, H19 and H20 | 47.7 (d): 16.3, 6.4 and 25.0 | 5453 |
+| H21, all of Fail2Drive, with its rerun, staging and download jobs | About 570 (d), by difference | 6023 | `sacct` CPU time of the study's named jobs, 2026-11-11 17:00. | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
 | Sealed work | About 6,000, Chris's figure ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
 
 The goal's budget was 6000 SU and Jerry raised it to 10000 ([STATUS](../STATUS.md), 2026-11-03 19:30). The log puts H6 at 2.6 SU a route and H7 at about 4 SU a route, and [H13's protocol](experiments/h13-cross-family-gap/protocol.md) uses about 8.5 SU a route for P19's pilot, which is 864 SU over 101 scored routes, or 7.85 over 110 listed.

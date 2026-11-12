@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-07 05:05 (H21, all of Fail2Drive, queued; task 0 now estimated to start 2026-11-07 18:52)
+Last updated: 2026-11-11 17:05 (H21 read: SimLingo fails Fail2Drive's unseen routes more than their twins)
 
 ---
 
 ## Current position
+
+**2026-11-11 17:05, H21 is read: on all 100 Fail2Drive pairs SimLingo failed 38 unseen-situation routes against 14 twins, with 28 slice-only against 4 (McNemar p 1.9e-5, measured).** Three categories pass the screen: CustomObstacles, Wall and PedestriansOnRoad. These are public routes, so none can enter the sealed key. Spend is about 6023 of 10000 SU. **Next, waiting on Chris and Jerry:** decide C38. If it is accepted, freeze the methods under `methods-frozen-f2d-v1`, then score the three categories. Until then no method reads `results/savio/f2d-all/shards`. C37 and the earlier list are still open.
 
 **2026-11-07 05:05, H21 (all 100 Fail2Drive pairs, 200 routes) is queued; nothing has driven yet.** Jerry asked for the run, and Chris's answer on issue 9 about his 2026-11-05 array is still open.
 - **Jobs:** task 0 is 40999650, run alone as a live test of staging. Tasks 1 to 66 are 41000885, at most 20 at once, and run only if task 0 succeeds. Scoring 41000886 runs `afterany`, so read its report only after checking that the arrays ran.

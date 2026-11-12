@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-11: SimLingo fails Fail2Drive's unseen situations on our harness
+
+All 200 Fail2Drive routes have now driven on Savio. Two were lost to one bad node and were rerun. The [locked reading](research/experiments/h21-fail2drive-all/protocol.md) is that SimLingo fails the routes with an unseen situation more often than their plain twins. It failed 38 of 100 against 14 of 100. In 28 pairs only the unseen route failed, against 4 the other way round, so chance alone is very unlikely (p = 0.00002, measured).
+
+Three categories stand out: custom obstacles, a wall on the road, and pedestrians on the road. In these the unseen route failed and its twin did not, 5, 5 and 3 times. That matches the Fail2Drive paper, which names these as SimLingo's worst. Pedestrian collisions went from 2 to 12. This is the first time our harness has found non-camera failures that clearly pass a screen. Every earlier passing gap was a camera fault, apart from P19.
+
+What it does not show: whether our discovery methods can find these failures. That is [C38](../CONFLICTS.md)'s proposal, and it waits on Chris and Jerry. Until they decide, no method reads the recorded activations, so the scoring cannot be tuned to the answer. The study has now spent about 6,023 of its 10,000 units.
+
+---
+
 ## 2026-11-07: all of Fail2Drive queued, and a proposal to build the evaluation on it
 
 Jerry asked to run Fail2Drive on Savio. Fail2Drive is a published benchmark of 100 road pairs, where each pair is the same road with and without one situation SimLingo never saw in training. Its source code was not on Jerry's copy, so this session cloned it at the revision Chris pinned and applied Chris's compatibility patch. That gives 200 routes in 17 categories. A [locked protocol](research/experiments/h21-fail2drive-all/protocol.md) says what will be reported: whether SimLingo fails the unseen-situation routes more than their twins across all 100 pairs, and a screen for each category.

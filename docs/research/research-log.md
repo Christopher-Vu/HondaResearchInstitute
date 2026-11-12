@@ -608,3 +608,7 @@ Amended job 40967739, 3 SU. `planted_not_recovered`. 25 planted failures (known 
 
 Jobs 40967835 (stopped at scoring, since `scoring_run` needs a T2 gap; nothing read) and 40968012, 25 SU together. `replicates`: B7-pool on P8 +0.149 (0.215 to 0.364); M1 raw on P4 −0.088 (0.353 to 0.265); 7 other cells within 0.064. Vision residual: M1 raw P4 0.155. Same direction as H18 on both B7 and M1-P4. Wrote C37 (pending Chris): name the mean step at `methods-frozen-v1`, freeze B7 with matched preprocessing, and fix or label M2. Spend 5453 of 10000 SU, measured by study job name. `docs/research/data/h20_result.json`.
 
+## 2026-11-11 17:00 — H21: SimLingo fails Fail2Drive's unseen routes more than their twins
+
+Arrays 40999650, 41000885 and rerun 41081885 (routes 31 and 67, lost on n0273), scoring 41081886. All 200 routes have an outcome. `reproduces`: 38 of 100 against 14 of 100; 28 slice-only against 4, McNemar p 1.9e-5 (measured). Screen candidates: CustomObstacles 5 of 0, Wall 5 of 0, PedestriansOnRoad 3 of 0 excess. Pedestrian collisions 12 against 2, layout collisions 31 against 7. No discovery method has read the shards (C38 guard). Spend about 6023 of 10000 SU, by study job name. `docs/research/data/h21_result.json`.
+
