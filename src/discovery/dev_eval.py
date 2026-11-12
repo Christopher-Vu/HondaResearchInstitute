@@ -234,7 +234,8 @@ def non_sae_methods(shards: list[Shard], layer: int, records: list[dict[str, Any
 def taxonomy_records(manifest_paths: list[str], failed: dict[str, bool]) -> list[dict[str, Any]]:
     """B2 sees scenario, weather and town only; the manifests also carry the key and the sensor fault."""
     entries = {str(entry["id"]): entry for path in manifest_paths for entry in json.loads(Path(path).read_text())}
-    return [{**{name: entries[route_id][name] for name in TAXONOMY_FIELDS}, "id": route_id, "failed": did_fail}
+    return [{**{name: entries[route_id][name] for name in TAXONOMY_FIELDS if name in entries[route_id]},
+             "id": route_id, "failed": did_fail}
             for route_id, did_fail in sorted(failed.items()) if route_id in entries]
 
 

@@ -59,3 +59,9 @@ About 20 to 50 SU on one A40 with a 3 hour limit (estimate). H20 trained three v
 ```bash
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash scripts/submit.sh gpu_a40 --time=0-03:00:00 docs/research/experiments/h22-f2d-frozen-eval/run.sbatch
 ```
+
+## Amendment, 2026-11-12, before any score was read
+
+The first submission (job 41226034, 3.5 minutes, measured) trained the plain variant's 18 dictionaries and stopped while emitting directives: B2's records read a `weather` field that Fail2Drive's manifests do not carry. No directive or report was written, so nothing was read. B2 now stratifies only on the fields a manifest carries (`baselines/taxonomy.py`, `dev_eval.taxonomy_records`), with a test. This touches B2 alone, which never enters the comparison. Everything else is unchanged, and the plain dictionaries from the first submission are reused.
+
+B2's ranking needs at least 20 routes in a stratum (`min_support`), and no Fail2Drive scenario has more than 10. So B2 as frozen cannot isolate a category, and item 4's "ceiling" does not hold on this pool. B2's scores are still reported, with this sentence beside them.
