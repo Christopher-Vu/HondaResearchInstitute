@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-11 17:05 (H21 read: SimLingo fails Fail2Drive's unseen routes more than their twins)
+Last updated: 2026-11-12 (C38 accepted by Jerry; methods frozen; H22 queued)
 
 ---
 
 ## Current position
+
+**2026-11-12, Jerry accepted C38; the methods are frozen and H22 is queued.** Tag `methods-frozen-f2d-v1` (066c995) fixes M1 raw as the primary method, the plain variant as the primary preprocessing, 18 layer-10 dictionaries and the scoring rule, before any method read H21's shards. H22 (job 41226034, one A40, about 20 to 50 SU, estimate) trains the dictionaries on H21's 200 shards and scores CustomObstacles, Wall and PedestriansOnRoad under `docs/research/experiments/h22-f2d-frozen-eval/protocol.md`. **Next:** read `results/savio/h22/plain/report.json` under the locked rule, then centre and vision beside it. Chris has not reviewed C38.
 
 **2026-11-11 17:05, H21 is read: on all 100 Fail2Drive pairs SimLingo failed 38 unseen-situation routes against 14 twins, with 28 slice-only against 4 (McNemar p 1.9e-5, measured).** Three categories pass the screen: CustomObstacles, Wall and PedestriansOnRoad. These are public routes, so none can enter the sealed key. Spend is about 6023 of 10000 SU. **Next, waiting on Chris and Jerry:** decide C38. If it is accepted, freeze the methods under `methods-frozen-f2d-v1`, then score the three categories. Until then no method reads `results/savio/f2d-all/shards`. C37 and the earlier list are still open.
 
