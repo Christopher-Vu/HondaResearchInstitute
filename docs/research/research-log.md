@@ -612,3 +612,7 @@ Jobs 40967835 (stopped at scoring, since `scoring_run` needs a T2 gap; nothing r
 
 Arrays 40999650, 41000885 and rerun 41081885 (routes 31 and 67, lost on n0273), scoring 41081886. All 200 routes have an outcome. `reproduces`: 38 of 100 against 14 of 100; 28 slice-only against 4, McNemar p 1.9e-5 (measured). Screen candidates: CustomObstacles 5 of 0, Wall 5 of 0, PedestriansOnRoad 3 of 0 excess. Pedestrian collisions 12 against 2, layout collisions 31 against 7. No discovery method has read the shards (C38 guard). Spend about 6023 of 10000 SU, by study job name. `docs/research/data/h21_result.json`.
 
+
+## 2026-11-12 — C38 accepted by Jerry; H22: frozen methods are not ahead on Fail2Drive
+
+Jerry accepted C38. Freeze tagged `methods-frozen-f2d-v1` (066c995) before any method read H21's shards: M1 raw primary, plain preprocessing primary, 18 L10 dictionaries. Job 41226034 stopped at B2 (no `weather` in Fail2Drive manifests; nothing read); B2 now skips missing fields (fa78ee2, amendment). Job 41226176: `not_ahead`, median delta -0.471 (interval -0.600 to -0.357). Plain M1 emitted 0 axes on all 18 dictionaries; centre and vision M1 best mean 0.190 and 0.172. B3 behavioral 0.471 with 12 of 13 pair hits. M1's `min_support` of 20 caps its Jaccard on categories of 8, 5 and 3 failures at a mean of 0.27, so H22 could not read `ahead` for M1 whatever the activations held. About 5 SU; spend about 6028 of 10000. `docs/research/data/h22_*.json`.

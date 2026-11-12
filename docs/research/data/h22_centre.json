@@ -1,0 +1,238 @@
+{
+ "label": "DEV ONLY, NOT BLIND: H22, frozen methods on Fail2Drive's public categories (C38) (centre)",
+ "variant": "centre",
+ "outcome": "secondary",
+ "reading": "Secondary variant, reported beside the primary with no bearing on it.",
+ "note": "The best axis is chosen using the category's failing set; the categories were chosen on these pairs.",
+ "pool": {
+  "rollouts": 200,
+  "failures": 52
+ },
+ "categories": {
+  "F2D_CustomObstacles": {
+   "failing": 8,
+   "slice_only_pairs": 5,
+   "catch_all_jaccard": 0.15384615384615385
+  },
+  "F2D_PedestriansOnRoad": {
+   "failing": 3,
+   "slice_only_pairs": 3,
+   "catch_all_jaccard": 0.057692307692307696
+  },
+  "F2D_Wall": {
+   "failing": 5,
+   "slice_only_pairs": 5,
+   "catch_all_jaccard": 0.09615384615384616
+  }
+ },
+ "counted": {
+  "M1_raw": 18,
+  "M1_capped": 18,
+  "M2_probe_residual": 1,
+  "B1_random": 1,
+  "B3_behavioral": 1,
+  "B7_pool": 18
+ },
+ "comparison": {
+  "median_delta": -0.3748837582170916,
+  "best_delta": -0.28080808080808084,
+  "interval": [
+   -0.5599999999999999,
+   -0.19642857142857145
+  ],
+  "dictionaries": 18,
+  "replicates": 10000,
+  "unit": "category"
+ },
+ "families": {
+  "B1_random": {
+   "directives": 1,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.18181818181818182,
+     "median": 0.18181818181818182,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.14285714285714285,
+     "median": 0.14285714285714285,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_Wall": {
+     "best": 0.25,
+     "median": 0.25,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.19155844155844157,
+    "median": 0.19155844155844157
+   }
+  },
+  "B2_taxonomy": {
+   "directives": 1,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.15384615384615385,
+     "median": 0.15384615384615385,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.057692307692307696,
+     "median": 0.057692307692307696,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_Wall": {
+     "best": 0.09615384615384616,
+     "median": 0.09615384615384616,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.10256410256410257,
+    "median": 0.10256410256410257
+   }
+  },
+  "B3_behavioral": {
+   "directives": 1,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.35714285714285715,
+     "median": 0.35714285714285715,
+     "pair_hits_best": 4,
+     "pair_hits_median": 4
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.6,
+     "median": 0.6,
+     "pair_hits_best": 3,
+     "pair_hits_median": 3
+    },
+    "F2D_Wall": {
+     "best": 0.45454545454545453,
+     "median": 0.45454545454545453,
+     "pair_hits_best": 5,
+     "pair_hits_median": 5
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.47056277056277057,
+    "median": 0.47056277056277057
+   }
+  },
+  "B7_pool": {
+   "directives": 18,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.2222222222222222,
+     "median": 0.125,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.25,
+     "median": 0.12916666666666665,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    },
+    "F2D_Wall": {
+     "best": 0.25,
+     "median": 0.05756578947368421,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.15674603174603174,
+    "median": 0.1146774421230943
+   }
+  },
+  "M1_capped": {
+   "directives": 18,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.3333333333333333,
+     "median": 0.11126373626373626,
+     "pair_hits_best": 4,
+     "pair_hits_median": 0.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.08695652173913043,
+     "median": 0.04,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    },
+    "F2D_Wall": {
+     "best": 0.19047619047619047,
+     "median": 0.07870370370370369,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.18975468975468976,
+    "median": 0.09019288432706724
+   }
+  },
+  "M1_raw": {
+   "directives": 18,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.3333333333333333,
+     "median": 0.14955357142857142,
+     "pair_hits_best": 4,
+     "pair_hits_median": 0.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.08695652173913043,
+     "median": 0.039230769230769236,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    },
+    "F2D_Wall": {
+     "best": 0.19047619047619047,
+     "median": 0.09005376344086022,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.18975468975468976,
+    "median": 0.09538654918359218
+   }
+  },
+  "M2_probe_residual": {
+   "directives": 1,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.0,
+     "median": 0.0,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.0,
+     "median": 0.0,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    },
+    "F2D_Wall": {
+     "best": 0.0,
+     "median": 0.0,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.0,
+    "median": 0.0
+   }
+  }
+ }
+}

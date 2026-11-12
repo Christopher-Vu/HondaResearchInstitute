@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-12: the frozen methods do not find Fail2Drive's failures better than the baselines
+
+Jerry accepted [C38](../CONFLICTS.md), the plan to test our methods on Fail2Drive's pairs. Before any method looked at the recorded activations, this session froze the methods under the git tag `methods-frozen-f2d-v1`. The freeze names contrastive diffing (M1 raw) as the main method and the activations as recorded as the main input, and it fixes the scoring rule. The [protocol](research/experiments/h22-f2d-frozen-eval/protocol.md) says where it departs from C38. The first job crashed before scoring because one baseline wanted a weather field the Fail2Drive route list lacks. That was fixed and noted in the protocol before any score existed.
+
+The locked reading is `not_ahead` (measured). On the three categories, the best activation method scored a median of 0.47 below the best baseline in Jaccard, which measures the overlap between a found group and the true failing routes. On the main input, M1 found no group at all. The winning baseline, B3, looks only at how the car drove, such as its speed and braking. It singles out the unseen route without its twin in 12 of the 13 pairs where only the unseen route failed.
+
+Much of this was fixed before the run. M1 only forms a group from at least 20 failing routes, and these categories have 8, 5 and 3. So M1's best possible score was 0.27, below what B3 then measured, and the test could not have favoured M1 ([WHAT_BROKE](WHAT_BROKE.md)). That should have been caught before freezing. Changing M1 for small groups would be a new method decision for Jerry and Chris, under its own locked test. The run cost about 5 SU, and the study has spent about 6,028 of 10,000.
+
+---
+
 ## 2026-11-11: SimLingo fails Fail2Drive's unseen situations on our harness
 
 All 200 Fail2Drive routes have now driven on Savio. Two were lost to one bad node and were rerun. The [locked reading](research/experiments/h21-fail2drive-all/protocol.md) is that SimLingo fails the routes with an unseen situation more often than their plain twins. It failed 38 of 100 against 14 of 100. In 28 pairs only the unseen route failed, against 4 the other way round, so chance alone is very unlikely (p = 0.00002, measured).

@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-12: the frozen M1 could not score well on Fail2Drive's categories, by its own floor
+
+**Expected:** H22 would test whether activation methods find Fail2Drive's three screened categories. **What happened:** M1 keeps only latents that fire in at least 20 failing routes, so every axis holds 20 or more. The categories have 8, 5 and 3 failures, which caps M1's Jaccard at a mean of 0.27, under B3's measured 0.47. B2 has the same floor, so it could not be the ceiling C38 assumed. Separately, the first job stopped because B2 read a `weather` field that Fail2Drive's manifests lack. **What we did:** fixed B2 to skip missing fields before any score was read, and reported H22 under its locked rule. **Lesson:** before freezing a method for a set of gaps, check the method's minimum group size against the gap sizes. This was knowable from the code and the H21 counts before anything ran.
+
 ## 2026-11-06: H19's planted group was mostly planted on blank frames
 
 **What happened:** H19 shifted `lead_distance` on 25 failures to give M2 a group it should find. That state is blank whenever no car is ahead, and M2 scores a blank frame's error as 0, so the shift reached 129 of 293 planted frames. Only 11 of the 25 failures carried it on half their frames, below M2's support floor of 20, so the positive control could not pass. **Fix:** the amended plant draws only failures that know the state on at least 60% of their window frames. **Lesson:** before planting a signal, check that the method can see it on the rows you plant.

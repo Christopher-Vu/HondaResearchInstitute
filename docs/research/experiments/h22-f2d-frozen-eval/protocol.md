@@ -65,3 +65,7 @@ POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash script
 The first submission (job 41226034, 3.5 minutes, measured) trained the plain variant's 18 dictionaries and stopped while emitting directives: B2's records read a `weather` field that Fail2Drive's manifests do not carry. No directive or report was written, so nothing was read. B2 now stratifies only on the fields a manifest carries (`baselines/taxonomy.py`, `dev_eval.taxonomy_records`), with a test. This touches B2 alone, which never enters the comparison. Everything else is unchanged, and the plain dictionaries from the first submission are reused.
 
 B2's ranking needs at least 20 routes in a stratum (`min_support`), and no Fail2Drive scenario has more than 10. So B2 as frozen cannot isolate a category, and item 4's "ceiling" does not hold on this pool. B2's scores are still reported, with this sentence beside them.
+
+## Result, 2026-11-12
+
+Job 41226176, with 41226034's plain dictionaries; about 5 SU in all (measured). `not_ahead`: median delta -0.471, interval -0.600 to -0.357. Plain M1 raw and M1 capped emitted no axis on any of the 18 dictionaries, and B3 behavioral scores a mean of 0.471 with 12 of 13 pair hits. `docs/research/data/h22_plain.json`, `h22_centre.json` and `h22_vision.json`, read in `docs/research/dev-report.md`.

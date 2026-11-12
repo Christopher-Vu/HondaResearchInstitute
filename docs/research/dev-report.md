@@ -293,9 +293,34 @@ Three categories pass the screen of at least 3 excess slice-only failures. With 
 | Wall | 5 | 5 | 0 | 5 |
 | PedestriansOnRoad | 5 | 3 | 0 | 3 |
 
-Of the other 14 categories, none reaches an excess of 3. ConstructionPedestrian and FullyBlocked reach 2. ImageOnObject, ObscuredStop, PassableObstacles and PedestrianOtherBlocker had no failure in either arm. Collisions with pedestrians rose from 2 in the twins to 12 in the unseen routes, and collisions with the road layout from 7 to 31. Two routes were lost on node n0273 and rerun once, so all 200 have an outcome. These runs used `--debug 0`, unlike every Step 5 pilot. Under the C38 guard no discovery method has read H21's activations.
+Of the other 14 categories, none reaches an excess of 3. ConstructionPedestrian and FullyBlocked reach 2. ImageOnObject, ObscuredStop, PassableObstacles and PedestrianOtherBlocker had no failure in either arm. Collisions with pedestrians rose from 2 in the twins to 12 in the unseen routes, and collisions with the road layout from 7 to 31. Two routes were lost on node n0273 and rerun once, so all 200 have an outcome. These runs used `--debug 0`, unlike every Step 5 pilot. Under the C38 guard no discovery method read H21's activations until the freeze described in the next section.
 
-## PRD checks that never ran
+## Frozen methods on Fail2Drive
+
+H22 scored the three screened categories under a freeze tagged `methods-frozen-f2d-v1` before any method read H21's activations ([protocol](experiments/h22-f2d-frozen-eval/protocol.md), CONFLICTS C38, accepted by Jerry, not yet reviewed by Chris). This is dev only and not blind: the categories are public and were picked on the same pairs. The fixed sentence is: "On Fail2Drive's three screened categories, activation methods are not shown to recover the failing routes better than the activation-free and pooled baselines." ([plain](data/h22_plain.json), [centre](data/h22_centre.json), [vision](data/h22_vision.json)).
+
+Mean best Jaccard over the three categories, best and median across dictionaries, with the best axis chosen using each category's failing set (measured). Pair hits count the 13 pairs where only the unseen route failed.
+
+| Method | Plain | Centre | Vision | Pair hits, plain |
+|---|---|---|---|---:|
+| M1 raw (primary) | 0, 0 | 0.190, 0.095 | 0.172, 0.107 | 0 |
+| M1 capped | 0, 0 | 0.190, 0.090 | 0.172, 0 | 0 |
+| M2 (no verified power) | 0 | 0 | 0 | 0 |
+| B7-pool | 0.220, 0.109 | 0.157, 0.115 | 0.125, 0.067 | 2 at best |
+| B3 behavioral | 0.471 | (shared) | (shared) | 12 |
+| B1 random | 0.192 | (shared) | (shared) | 0 |
+| B2 taxonomy | 0.103 | (shared) | (shared) | 0 |
+
+Delta, the best activation method minus the best rival, has a median across dictionaries of -0.471 in plain (interval -0.600 to -0.357, over 10 possible category resamples), -0.375 in centre and -0.363 in vision. B3 is the best rival in every variant.
+
+Two facts explain most of this, and both come from the frozen method, not from the data:
+
+- **Plain M1 emitted no axis at all.** No latent passed its gate of a false-discovery q below 0.05 together with firing in at least 20 failing routes. After the mean or the vision fit was removed, some did.
+- **M1 cannot score well on groups this small.** Every M1 axis holds at least 20 failing routes (`min_support`), and the categories have 8, 5 and 3. So the highest Jaccard M1 can reach is 0.40, 0.25 and 0.15, a mean of 0.27, under B3's 0.47 before any method runs. B2 has the same floor of 20 routes, so it is not the ceiling that C38 expected.
+
+B3 reads only driving behaviour, such as speed and braking, and no activations. It holds the unseen route without its twin in 12 of the 13 pairs. On these categories, how SimLingo drove separates its failures better than anything our methods found inside the model.
+
+
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
 

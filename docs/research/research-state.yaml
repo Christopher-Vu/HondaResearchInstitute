@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 6023               # 2026-11-11 17:00, the study's named jobs
+su_spent: 6028               # 2026-11-12, the study's named jobs
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -60,7 +60,9 @@ hypotheses:
   H17:  {status: done, kind: replay_rehearsal, protocol: docs/research/experiments/h17-causal-rehearsal/protocol.md,
          result: "above_random_failing_not_shown_larger on P4's axis; speed clears, route does not; not Step 9's verdict", data: docs/research/data/h17_result.json}
   H21:  {status: done, kind: closed_loop_collection, protocol: docs/research/experiments/h21-fail2drive-all/protocol.md,
-         result: "reproduces: 28 slice-only against 4 on 100 Fail2Drive pairs, p 1.9e-5; screen candidates CustomObstacles, Wall, PedestriansOnRoad; shards unread (C38)", data: docs/research/data/h21_result.json}
+         result: "reproduces: 28 slice-only against 4 on 100 Fail2Drive pairs, p 1.9e-5; screen candidates CustomObstacles, Wall, PedestriansOnRoad; shards unread until the C38 freeze", data: docs/research/data/h21_result.json}
+  H22:  {status: done, kind: frozen_method_eval, protocol: docs/research/experiments/h22-f2d-frozen-eval/protocol.md,
+         result: "not_ahead: median delta -0.471; plain M1 emitted 0 axes; B3 behavioral 0.471 with 12 of 13 pair hits; M1 min_support 20 caps it at a mean of 0.27 on these categories; dev only, not blind", data: [docs/research/data/h22_plain.json, docs/research/data/h22_centre.json, docs/research/data/h22_vision.json]}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)
