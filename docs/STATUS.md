@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-13 (H24 and H25 read: neither ahead; each wins where its input carries the category)
+Last updated: 2026-11-13 (H26 read: activation grouping replicates on P4, not P7)
 
 ---
 
 ## Current position
+
+**2026-11-13, H26 is read: `not_replicated` (measured).** H24's activation grouping, unchanged, on fresh drives (H3's pool): P4's occlusion patch is found again (median 0.374 against B3 0.194 and random 0.182), P7's freeze is not (0.181, under random 0.206 and B3 0.367). Across two pools, activations find the visible patch and not the freeze. Spend about 6036 of 10000 SU, nothing queued. **Next, for Jerry and Chris:** what the study reports as its activation finding, and whether anything more is worth running.
 
 **2026-11-13, H24 and H25 are read: both `not_ahead` on both pools (measured).** H24 groups routes with a Gaussian mixture on activations: on H1's camera-fault pool it beats B3 and random groups on every category (median +0.109, route bootstrap above 0) but misses the 0.15 margin; on Fail2Drive it loses (-0.227). H25 has Claude describe each failure's last 4 camera frames and group the descriptions: on Fail2Drive it is the first method above B3 (0.510 against 0.471) but loses PedestriansOnRoad; on H1's pool it loses. Spend about 6034 of 10000 SU, nothing queued. **Next, for Jerry and Chris:** whether the H1 activation result, the strongest activation reading so far, is worth a locked test on a fresh pool. Savio's login has expired.
 

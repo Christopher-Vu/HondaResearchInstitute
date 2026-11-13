@@ -624,3 +624,7 @@ Jerry asked for the follow-up. Locked under `methods-frozen-f2d-v2` (04140b8): M
 ## 2026-11-13 — H24 and H25: both not ahead; each wins where its input carries the category
 
 Locked under `h24-h25-locked` (3efa946) after a pre-lock review that confirmed 11 problems and rejected 2 (fixed: category leak through id order, mapping beside frames, outcome weight 10 merging failures, a 3-category "interval" that only checked the worst category, a crash between workflow and converter, and more). Export job 41255052, about 4 SU. H24 (laptop) and H25 (342 agents, audit clean) ran in parallel. All `not_ahead`. H24 `act` on H1's pool: +0.109, every category positive, bootstrap +0.017 to +0.143; on Fail2Drive -0.227. H25 on Fail2Drive: 0.510 against B3 0.471, delta +0.039, PedestriansOnRoad -0.10; on H1's pool -0.023. Spend about 6034 of 10000. `docs/research/data/h24_*`, `h25_*`.
+
+## 2026-11-13 — H26: the activation grouping replicates on P4, not on P7
+
+Locked under `h26-locked` (a1e31c4) after a review that moved the reference to H1's two-fault reading (`ahead`, +0.155) and stated B3's known H3 scores. Export job 41272603, about 2.4 SU. `not_replicated`: median delta -0.006 (bootstrap -0.093 to +0.080). P4 0.374 (+0.180 over the better rival; H1 +0.270). P7 0.181, under random 0.206 and B3 0.367 (H1 +0.038). Spend about 6036 of 10000. `docs/research/data/h26_result.json`.

@@ -68,3 +68,14 @@ PYTHONPATH=src python docs/research/experiments/h24-error-aware-grouping/mixture
 PYTHONPATH=src python docs/research/experiments/h24-error-aware-grouping/score_sets.py --axes results/savio/h26/h26-axes.json --manifests configs/rollout/step5-background-wave3.manifest.json configs/rollout/step5-confirm-p4.manifest.json configs/rollout/step5-confirm-p7.manifest.json --routes results/savio/h26/h3-routes.jsonl --categories P4_camera_occlusion P7_camera_freeze --b3 results/savio/h26/h3-b3.json --min-runs 12 --pool "H3's pool (P4, P7)" --label "H26 on H3's pool" --output results/savio/h26/h26-report.json
 python docs/research/experiments/h26-activation-grouping-replication/read.py results/savio/h26/h26-report.json --output docs/research/data/h26_result.json
 ```
+
+## Result, 2026-11-13
+
+Export job 41272603, about 2.4 SU (measured, 2,384 CPU seconds). The fresh B3 matched its known scores (P4 0.194, P7 0.367). `not_replicated` (measured): H24_act's median delta is -0.006, route bootstrap -0.093 to +0.080.
+
+| Fault | H24_act median (H1 reference) | Random, matched | B3 | Delta (H1 reference) |
+|---|---:|---:|---:|---:|
+| P4 occlusion | 0.374 (0.447) | 0.182 | 0.194 | **+0.180** (+0.270) |
+| P7 freeze | 0.181 (0.214) | 0.206 | 0.367 | -0.186 (+0.038) |
+
+P4 holds on new drives; P7 does not, and on this pool the activation groups score below random groups on P7. No other arm reads `ahead`; `act+kin` comes closest (+0.074, bootstrap -0.015 to +0.158). `docs/research/data/h26_result.json`, `h26_report.json`.

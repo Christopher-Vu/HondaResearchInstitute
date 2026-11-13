@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 6034               # 2026-11-13, the study's named jobs (export job estimated from elapsed time)
+su_spent: 6036               # 2026-11-13, the study's named jobs
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -69,6 +69,8 @@ hypotheses:
          result: "not_ahead on both pools; act on H1's pool +0.109 with every category positive and bootstrap above 0, missing only the margin; on Fail2Drive -0.227; error-aware term inert", data: [docs/research/data/h24_f2d_report.json, docs/research/data/h24_h1_report.json]}
   H25:  {status: done, kind: new_method, protocol: docs/research/experiments/h25-caption-cluster/protocol.md,
          result: "not_ahead on both pools; Fail2Drive 0.510 vs B3 0.471 (delta +0.039, PedestriansOnRoad -0.10); H1's pool -0.023; audit clean", data: [docs/research/data/h25_f2d_report.json, docs/research/data/h25_h1_report.json, docs/research/data/h25_groups.json, docs/research/data/h25_audit.json]}
+  H26:  {status: done, kind: replication, protocol: docs/research/experiments/h26-activation-grouping-replication/protocol.md,
+         result: "not_replicated: H24_act on H3's pool median delta -0.006; P4 holds (0.374, +0.180), P7 fails (0.181, under random 0.206 and B3 0.367)", data: [docs/research/data/h26_result.json, docs/research/data/h26_report.json]}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)

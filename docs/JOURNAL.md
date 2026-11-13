@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: the activation result holds for one camera fault, not the other
+
+Jerry asked to check H24's best result on drives it had not seen. H3's pool has fresh drives of the black-patch fault (P4) and the frozen-picture fault (P7), mostly on roads the H1 pool also used. Before the lock, a review caught that my bar was too low: on just those two faults, H1's own result already cleared the 0.15 margin, so a true replication had to clear it again. It also found that B3 was already known to score well on P7 in this pool, which the protocol now says.
+
+The method did not replicate overall (measured). It found the black patch again, about as well as on H1 (median 0.374 against 0.194 for B3). It did not find the frozen picture: there it scored below random groups of the same size. So across two separate sets of drives, grouping by activations reliably picks out one visible camera fault and nothing else we tested. The run cost about 2.4 SU.
+
+---
+
 ## 2026-11-13: a refinement and a new method, run side by side
 
 After a [literature review](research/literature-review.md), Jerry asked for both directions at once. H24 refines our approach: it groups routes by their activations with a Gaussian mixture, the way Domino does for images. H25 is new: Claude looks at the last four camera frames of each failure, describes what went wrong, and six separate runs sort those descriptions into failure types. Both were tested on Fail2Drive and on the older H1 pool of camera faults (P4, P7, P8), which none of the choices were tuned on.
