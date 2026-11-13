@@ -109,10 +109,17 @@ def test_screen_and_full_pilot_never_share_a_base_route():
 
 
 def test_no_two_committed_manifests_share_a_route_id():
-    """An amended screen re-lists its original's routes on purpose; its new ids are checked with it."""
-    ids = [entry["id"] for path in (ROOT / "configs/rollout").glob("*.manifest.json") if not path.name.endswith("-amended.manifest.json")
-           for entry in json.loads(path.read_text())]
-    assert len(ids) == len(set(ids))
+    """An amended screen re-lists its original's routes on purpose; its new ids are checked with it. Fail2Drive's routes
+    keep Fail2Drive's own ids, so its screen and its full set share them by design and are checked one manifest at a time."""
+    manifests = [json.loads(path.read_text()) for path in (ROOT / "configs/rollout").glob("*.manifest.json")
+                 if not path.name.endswith("-amended.manifest.json")]
+    ours = [entry["id"] for manifest in manifests for entry in manifest if entry.get("source") != "fail2drive"]
+    assert len(ours) == len(set(ours))
+    for manifest in manifests:
+        theirs = [entry["id"] for entry in manifest if entry.get("source") == "fail2drive"]
+        assert len(theirs) == len(set(theirs))
+    fail2drive = {entry["id"] for manifest in manifests for entry in manifest if entry.get("source") == "fail2drive"}
+    assert not fail2drive & set(ours)
 
 
 def amended_p20_screen():

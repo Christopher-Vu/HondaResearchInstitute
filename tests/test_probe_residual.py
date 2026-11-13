@@ -99,3 +99,14 @@ def test_load_shard_reads_one_layer_of_one_site(tmp_path):
     r = load_shard(tmp_path / "7.json", "driving_queries", 2)
     assert r.activations.shape == (len(STEPS), HIDDEN) and r.activations.min() == 1.0
     assert not r.failed and set(r.states) == {"lead_distance"}
+
+
+def test_one_misperceiving_population_is_all_noise_under_the_defaults():
+    """The blind spot H19 measures on real pools: 40 failures that misperceive alike, and nothing else, give no axis."""
+    rollouts = corpus(groups={"far": (40, {"lead_distance": 30.0})})
+    assert probe_residual_directive(rollouts, ProbeResidualConfig()).axes == []
+
+
+def test_new_settings_default_to_the_old_behaviour():
+    config = ProbeResidualConfig()
+    assert config.min_samples is None and config.allow_single_cluster is False

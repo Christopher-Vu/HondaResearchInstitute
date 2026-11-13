@@ -36,6 +36,7 @@ export type Progress = {
     window: [string, string];
     program_used_su: number;
     program_used_as_of: string;
+    spent?: { item: string; su: number }[];
     planned: { item: string; su: [number, number] }[];
   };
 };

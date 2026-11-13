@@ -1,0 +1,36 @@
+# Fail2Drive, all pairs: every Base/Generalization pair in fail2drive_split, driven on our harness with activation capture.
+# Fail2Drive (arXiv 2604.08535) is a paired benchmark: each generalization route adds one unseen scenario or object to
+# its base twin's road. Each pair is one base: generalization route = slice, base twin = neighbourhood
+# (fail2drive_pairs.py), so efficacy.py scores every F2D_<name> gap like a planted gap. Protocol:
+# docs/research/experiments/h21-fail2drive-all/protocol.md.
+# Public: these routes and assets are Fail2Drive's and never enter the sealed key; Fail2Drive forbids training on them.
+#   python adapters/simlingo/fail2drive_pairs.py configs/rollout/f2d-all.yaml <every name in fail2drive_split>
+#   CARLA build and evaluator are Fail2Drive's; route markers off (the benchmark's default), unlike every Step 5 pilot.
+#   CARLA_LOCAL_TAR=<fail2drive simulator tar> CARLA_LOCAL_BUILD=fail2drive POLICY_VENV_LOCAL_TAR=... \
+#     bash scripts/submit.sh gpu_a40 --time=0-04:00:00 --array=0-<tasks-1>%20 scripts/route_sample.sbatch configs/rollout/f2d-all.yaml 3
+
+name: f2d-all
+step: 5
+scope: savio_f2d_all
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive        # Fail2Drive's server, for its novel assets (configs/cluster/savio.yaml)
+  benchmark: fail2drive          # its leaderboard and scenario runner, pinned in route_run.FAIL2DRIVE_REVISION
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+capture_token_layers: [10, 11]
+
+route:
+  seed: 24                       # traffic manager seed; unused by every earlier pilot
+  routes_file: configs/rollout/f2d-all.xml
+  manifest: configs/rollout/f2d-all.manifest.json   # the route list; this config has no `routes` key

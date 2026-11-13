@@ -1,6 +1,6 @@
 # H15: a dry run of the scoring path
 
-**Draft, lead locks before submitting. DEV DRY RUN, NOT A VERDICT.** Nothing has run on Savio and no SU has been spent. The key here is public, so it is not blind. No `PRD.md` 13.1 branch can be claimed from this run (`CONFLICTS.md` C34).
+**Locked 2026-11-04 before submission. DEV DRY RUN, NOT A VERDICT.** The key here is public, so it is not blind. No `PRD.md` 13.1 branch can be claimed from this run (`CONFLICTS.md` C34).
 
 Every number is tagged: measured, simulated, estimate, read from the code, or guess. Numbers from earlier runs are expected values for a bug check, and they are not targets.
 
@@ -114,3 +114,7 @@ One A40 job with a 2 hour limit, so at most about 58 SU at 29 SU an hour. About 
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar \
   bash scripts/submit.sh gpu_a40 --time=0-02:00:00 docs/research/experiments/h15-scoring-dry-run/run.sbatch
 ```
+
+## Result, 2026-11-04
+
+Job 40906511, 12 SU (measured). The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs. `docs/research/data/h15_dry_run.json`, read in `docs/research/dev-report.md`.

@@ -111,6 +111,7 @@ async function Compute() {
     { item: "Step 2, all 220 routes", su: step2.value.service_units },
     { item: "Per-ability scoring", su: step2.value.ability_job_service_units },
     { item: "Step 1, one route", su: step1.value.service_units },
+    ...(progress.value.compute.spent ?? []),
   ];
   return <ComputeSummary compute={progress.value.compute} spent={spent} perRoute={step2.value.service_units / routes.length} />;
 }

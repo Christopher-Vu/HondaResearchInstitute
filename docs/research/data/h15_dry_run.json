@@ -1,0 +1,330 @@
+{
+ "label": "DEV DRY RUN, NOT A VERDICT: H15, throwaway key of public practice gaps on H12's dev pool (as-labelled)",
+ "pool": {
+  "rollouts": 536,
+  "failures": 229,
+  "manifest_entries": 550,
+  "variants": [
+   "action_residual",
+   "non_residualized"
+  ]
+ },
+ "spread": {
+  "B7_pool@action_residual": {
+   "P4_camera_occlusion": {
+    "best": 0.10416666666666667,
+    "median": 0.02938808373590982,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.4375,
+    "median": 0.07059800664451826,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.62,
+    "median": 0.2782978723404256,
+    "dictionaries": 18
+   }
+  },
+  "M1_capped@action_residual": {
+   "P4_camera_occlusion": {
+    "best": 0.3157894736842105,
+    "median": 0.1872459349593496,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.2602739726027397,
+    "median": 0.19904692082111436,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.6888888888888889,
+    "median": 0.5400641025641025,
+    "dictionaries": 18
+   }
+  },
+  "M1_raw@action_residual": {
+   "P4_camera_occlusion": {
+    "best": 0.3157894736842105,
+    "median": 0.20131387420516356,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.25,
+    "median": 0.23580786026200873,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.6888888888888889,
+    "median": 0.5400641025641025,
+    "dictionaries": 18
+   }
+  },
+  "B7_pool@non_residualized": {
+   "P4_camera_occlusion": {
+    "best": 0.09090909090909091,
+    "median": 0.036663712893221095,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.3389830508474576,
+    "median": 0.06534914361001318,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.5,
+    "median": 0.37234042553191493,
+    "dictionaries": 18
+   }
+  },
+  "M1_capped@non_residualized": {
+   "P4_camera_occlusion": {
+    "best": 0.4897959183673469,
+    "median": 0.38742964352720455,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.27522935779816515,
+    "median": 0.20842474769635805,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.7045454545454546,
+    "median": 0.36818181818181817,
+    "dictionaries": 18
+   }
+  },
+  "M1_raw@non_residualized": {
+   "P4_camera_occlusion": {
+    "best": 0.4897959183673469,
+    "median": 0.38742964352720455,
+    "dictionaries": 18
+   },
+   "P7_camera_freeze": {
+    "best": 0.27522935779816515,
+    "median": 0.23058252427184467,
+    "dictionaries": 18
+   },
+   "P19_wide_invading_turn": {
+    "best": 0.7045454545454546,
+    "median": 0.375,
+    "dictionaries": 18
+   }
+  },
+  "uncounted": {}
+ },
+ "spread_reading": "the best axis is chosen using the key",
+ "condition_1": {
+  "by_rule": {
+   "prd_9_1": {
+    "valid": false,
+    "reason": "no T0 control gap recovered by any non-residualized method: the harness is broken, not the methods (PRD 9.1)",
+    "t2_reconfirming": [
+     "P19_wide_invading_turn"
+    ]
+   },
+   "c23": {
+    "valid": false,
+    "reason": "no T0 control gap recovered by any non-residualized method: the harness is broken, not the methods (PRD 9.1)",
+    "t2_reconfirming": []
+   }
+  },
+  "t0_recovered_by": {
+   "B3_behavioral@none@non_residualized": [
+    "P7_camera_freeze"
+   ]
+  }
+ },
+ "condition_2_evaluated": false,
+ "missing_baselines": [
+  "B4_enumerated",
+  "B4p_enumerated_pairs",
+  "B5_domino",
+  "B6_detector"
+ ],
+ "reach_0_5": {
+  "B1_random|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B1_random|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B1_random|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B2_taxonomy|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 1,
+   "counted": 1,
+   "all": 1
+  },
+  "B2_taxonomy|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B2_taxonomy|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B3_behavioral|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B3_behavioral|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "B3_behavioral|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 1,
+   "counted": 1,
+   "all": 1
+  },
+  "B7_pool|action_residual|P19_wide_invading_turn": {
+   "counted_at_or_above": 3,
+   "counted": 18,
+   "all": 18
+  },
+  "B7_pool|action_residual|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "B7_pool|action_residual|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "B7_pool|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 1,
+   "counted": 18,
+   "all": 18
+  },
+  "B7_pool|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "B7_pool|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|action_residual|P19_wide_invading_turn": {
+   "counted_at_or_above": 13,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|action_residual|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|action_residual|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 5,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_capped|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|action_residual|P19_wide_invading_turn": {
+   "counted_at_or_above": 13,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|action_residual|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|action_residual|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 5,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M1_raw|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 18,
+   "all": 18
+  },
+  "M2_probe_residual|action_residual|P19_wide_invading_turn": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "M2_probe_residual|action_residual|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "M2_probe_residual|action_residual|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "M2_probe_residual|non_residualized|P19_wide_invading_turn": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "M2_probe_residual|non_residualized|P4_camera_occlusion": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  },
+  "M2_probe_residual|non_residualized|P7_camera_freeze": {
+   "counted_at_or_above": 0,
+   "counted": 1,
+   "all": 1
+  }
+ },
+ "check": {
+  "label": "DEV DRY RUN, NOT A VERDICT",
+  "bugs_found": false,
+  "checks": {
+   "pool_and_key_sizes_match_h12": [],
+   "efficacy_matches_stored_pilots": [],
+   "jaccards_match_h12": [],
+   "every_h12_row_was_scored": [],
+   "delta_agrees_with_the_table": [],
+   "only_non_residualized_validates": [],
+   "reports_labelled_and_clean": [],
+   "decoy_path_ran": [],
+   "residual_shards_sound": [],
+   "outcomes_agree": [],
+   "no_real_commitment_written": []
+  }
+ }
+}

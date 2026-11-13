@@ -1,20 +1,20 @@
 # Dev report v0
 
-Written 2026-11-04 from stored files. Every number below is dev data. A number with no data file says so.
+Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below is dev data. A number with no data file says so.
 
 ## Plain answer
 
 1. Three planted camera faults make SimLingo fail far more often: P4, P7 and P8 pass PRD 9.1 with uplifts of [51.7](../../results/savio/step5-pilot-p4-main/efficacy.json), [69.6](../../results/savio/step5-pilot-p7-main/efficacy.json) and [80.0](../../results/savio/step5-pilot-p8-main/efficacy.json) points, and P4 and P7 pass again on fresh drives ([62.7](../../results/savio/step5-confirm-p4/efficacy.json) and [61.4](../../results/savio/step5-confirm-p7/efficacy.json)).
 2. One interactional gap, P19, passes PRD 9.1 with [42 of 53 failures against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json), but it fails Step 5's single-factor condition because a list of scenario names scores Jaccard [0.857](data/h12_layer10_plain.json) against a limit of 0.4, so no public interactional gap met Step 5 on dev.
-3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key.
-4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8, where the best score is [0.444](data/h1b_layer10.json) and the median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). Both axes are chosen using the key.
-5. These results cover [19 public candidates](research-log.md), all on dev data, and Chris holds the count of sealed candidates, which is unknown here. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md).
+3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key. These are plain-variant scores, and they move with preprocessing the PRD does not fix. On the H12 pool, H18's variance-matched control puts M1 raw on P4 at best 0.672, median 0.500 (10 of 18), and vision residualization lifts its P19 median to 0.540 (13 of 18). See [H18, H20 and C37](#dry-run-and-rehearsal). All of this is exploratory and dev only.
+4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8. Plain B7-pool gives best [0.444](data/h1b_layer10.json), median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). With vision residualized it gives best 0.483, median 0.395, and removing only the mean moves its median by +0.149 ([H20](data/h20_result.json)). Both axes are chosen using the key.
+5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md).
 
 No answer key is committed in this repo and no test pool exists, so the PRD 13.1 test was not run.
 
 | End state ([C34](../../CONFLICTS.md)) | Where it stands |
 |---|---|
-| A, the dev-only report | Not complete. P20 is pending, because its amended screen is unread. The route-marker effect is stated here as unmeasured, which A allows. |
+| A, the dev-only report | P20 is read, and the route-marker effect is stated here as unmeasured, which A allows. The study does not close here, because Chris asked that it not close at A on his counts ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) and more sealed candidates are coming. |
 | B, A plus a blind pool | Not reached. No key is committed in this repo, no test pool exists, and of the frozen tags only `b4-factors-v1` exists. The [preregistration](../../harness/PREREGISTRATION.md) is an unsigned draft. |
 
 This report claims no 13.1 branch, including the negative one. 13.1 is decided on the test pool, and [PRD 9.1](../../PRD.md) excludes any predicate in a shared document from the sealed key, so the public count toward 13.1's two interactional gaps is 0 by construction.
@@ -36,20 +36,20 @@ This report claims no 13.1 branch, including the negative one. 13.1 is decided o
 | Catch-all | An axis holding every failure. Its Jaccard is the key's share of failures, which sets the bar. |
 | Dictionary | One trained sparse autoencoder, a small model that rewrites activations as a few active features. Each pool has 18 (k of 32, 48 and 64, seeds 0 to 5). |
 | M1 | Contrastive diffing, which compares features in the 3 s before failures with successes. The capped version drops features firing in over half of the failures. |
-| M2 | Probe-residual, which clusters what probes fail to predict from activations. It returned no axes on every real pool. |
+| M2 | Probe-residual, which clusters what probes fail to predict from activations. With its default settings it returned no axes on every real pool. In H19, no setting of 16 grouped a planted 25-failure group, so that zero says little about whether the gaps are there. |
 | B2, B3 | B2 groups failures by human factor names such as the scenario name. B3 groups them by the car's behaviour. |
 | B7, B7-pool | An activation-statistics baseline that counts feature onsets over a whole rollout. B7 proper (variant A) reads SimLingo's training data and has not run. B7-pool (variant B) reads the rollout pool, and every B7 number here is B7-pool. |
 | Frozen-input signal | One extra feature added to B7-pool (`--stale-latent`). It fires when activations do not change between logged frames, and it does not depend on the dictionary. It is a post hoc change to the frozen B7 definition, because H2 added it after the activations were opened. |
 | Check | A manipulation check, fixed before a run, that the planted condition happened (C24). |
 | C23 | A [CONFLICTS](../../CONFLICTS.md) entry, pending review, that proposes a paired test (McNemar's) with a floor of 60 pairs. |
-| H1 to H14 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
+| H1 to H20 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
 | Claims A, A′, B | A: an activation method has an axis with Jaccard at least 0.5 holding at most 50% of failures. A′: the same, with B7-pool allowed. B: the best activation method beats the best baseline and the catch-all by at least 0.15, the margin's interval is above 0, and at least 4 of 6 seeds agree. |
 
 ## Public gaps
 
-Measured means a full pilot or the Step 4 pilot. Screen means a first stage on about 10 pairs, which is also measured but is weak evidence. A value marked (d) is not in a data file: this report derived it from the stored counts with the formula in [`src/harness/efficacy.py`](../../src/harness/efficacy.py). Read every p value here beside the candidate count: 19 public candidates were tried, and the sealed count is unknown here.
+Measured means a full pilot or the Step 4 pilot. Screen means a first stage on about 10 pairs, which is also measured but is weak evidence. A value marked (d) is not in a data file: this report derived it from the stored counts with the formula in [`src/harness/efficacy.py`](../../src/harness/efficacy.py). Read every p value here beside the candidate count: 20 public candidates were tried, and Chris reports 9 sealed candidates and 3 decoys on top of them.
 
-| Gap | Tier | Run | Evidence | Verdict | Slice failed | Neighbourhood failed | Uplift (points) | Ratio | Fisher p (19 public candidates tried) | Pairs | Data |
+| Gap | Tier | Run | Evidence | Verdict | Slice failed | Neighbourhood failed | Uplift (points) | Ratio | Fisher p (20 public candidates tried) | Pairs | Data |
 |---|---|---|---|---|---:|---:|---:|---:|---:|---:|---|
 | P1 dust storm at night | T0 | Step 4 pilot | measured, 30 and 29 scored | Fails 9.1. On Savio it tested a very dark night, because [the dust renders as darkness](../WHAT_BROKE.md) (entry of 2026-10-09). | 7 of 30 | 5 of 29 | 6.1 (d) | 1.35 (d) | 0.75 | not in file | [sweep.json](../../results/savio/step4-dev-pool/sweep.json) |
 | P2 pedestrian behind a container, night | T2 | Step 4 pilot | measured, 30 per arm | Fails 9.1 | 2 of 30 | 0 of 30 | 6.7 (d) | undefined, 0 neighbourhood failures | 0.49 | not in file | [sweep.json](../../results/savio/step4-dev-pool/sweep.json) |
@@ -77,7 +77,7 @@ Measured means a full pilot or the Step 4 pilot. Screen means a first stage on a
 | P18 close emergency vehicle | T1 | Screen | screen | Fails screen, excess 1 of 3. [Check](data/h9_h10_check.json) holds. | 8 of 10 | 6 of 9 | 13.3 | 1.20 | 0.63 | 9 | [efficacy.json](../../results/savio/step5-pilot-p18-screen/efficacy.json) |
 | P19 wide invading turn | T2 | Screen | screen | Passes screen, excess 4 of 3. [Check](data/h9_h10_check.json) holds. | 7 of 10 | 3 of 10 | 40.0 | 2.33 | 0.18 | 10 | [efficacy.json](../../results/savio/step5-pilot-p19-screen/efficacy.json) |
 | P19 wide invading turn | T2 | Full pilot | measured, full pilot | Passes 9.1, fails Step 5's single-factor condition. [Check](data/h11_p19_main.json) holds. | 42 of 53 | 7 of 48 | 64.7 | 5.43 | 4.0e-11 | 46 | [efficacy.json](../../results/savio/step5-pilot-p19-main/efficacy.json) |
-| P20 oncoming traffic hidden | T2 | Amended screen | pending | pending | pending | pending | pending | pending | pending | pending | pending |
+| P20 oncoming traffic hidden | T2 | Amended screen | screen | P20 fails its screen: 0 against 4 on 10 pairs. [Check](data/h13_p20_amended_check.json) holds. | 3 of 10 | 7 of 10 | -40.0 | 0.43 | 0.18 | 10 | [efficacy](data/h13_p20_amended_efficacy.json) |
 
 Tiers come from [`practice_v1.yaml`](../../gaps/practice/practice_v1.yaml), [`practice_v2.yaml`](../../gaps/practice/practice_v2.yaml) and [`practice_v3.yaml`](../../gaps/practice/practice_v3.yaml). The tier field inside `docs/research/data/*.json` reads T0 for every gap, including P19, so this report does not use it.
 
@@ -89,6 +89,8 @@ Tiers come from [`practice_v1.yaml`](../../gaps/practice/practice_v1.yaml), [`pr
 | T2 gaps meeting Step 5 on dev | 0 |
 | Marked as a decoy in `gaps/practice/` | None |
 | Reached C23's floor of 60 pairs | P4's full pilot only, at [60 pairs](../../results/savio/step5-pilot-p4-main/efficacy.json). C23 is pending review, and PRD 9.1 stays the verdict of record. |
+
+Infractions in P20's screen were 4 vehicle collisions, 2 layout, 1 outside lanes and 1 scenario timeout in the slice, and 5 vehicle collisions, 4 stop and 1 outside lanes in the neighbourhood. With no slice-only failure, 0 include a collision and 0 are timeouts only. P20's failure is not read as SimLingo coping without sight of oncoming traffic, because by arithmetic its patch covers an oncoming car only in the last 16 to 32 m of a straight road. The reversal, 7 of 10 in the neighbourhood against 3 of 10 in the slice, is not read as an effect either: the protocol noted before the read that the mirror patch can cover the hazard, and 10 pairs cannot separate that from chance (McNemar p 0.125).
 
 Screens can mislead in both directions. P14 went from [8 of 10 against 3 of 9](../../results/savio/step5-pilot-p14-screen/efficacy.json) to [30 of 58 against 21 of 58](../../results/savio/step5-pilot-p14-main/efficacy.json), and P19 went from [7 of 10 against 3 of 10](../../results/savio/step5-pilot-p19-screen/efficacy.json) to [42 of 53 against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json).
 
@@ -131,9 +133,9 @@ The first dev evaluation of 2026-10-15 ([`results/savio/dev-eval/`](../../result
 | Reading (exploratory) | Evidence |
 |---|---|
 | H12 is why C34 demands medians: P19's best is 0.705 and its median is 0.375. | [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
-| P4's best moves with the dictionaries and the pool, from 0.557 (median 0.405) in H3 to 0.490 (median 0.387) in H12, so Claim A misses by 0.010 in H12 while Claim B holds. | [`h3_layer10_plain.json`](data/h3_layer10_plain.json), [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
+| P4's best moves with the dictionaries and the pool, from 0.557 (median 0.405) in H3 to 0.490 (median 0.387) in H12, so Claim A misses by 0.010 in H12 while Claim B holds. Under H18's variance-matched control on the H12 pool it reads best 0.672, median 0.500. | [`h3_layer10_plain.json`](data/h3_layer10_plain.json), [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
 | B2 beats M1 on P19, by a margin of -0.153. | [`h12_layer10_plain.json`](data/h12_layer10_plain.json) |
-| B7-pool scores above M1 on P7 and P8 in every run above, and M1 scores above B7-pool on P4 and P19. | The four files above |
+| Under plain preprocessing, B7-pool scores above M1 on P7 and P8 in every run above, and M1 scores above B7-pool on P4 and P19. Under H18's shuffle control, which removes about the mean, B7-pool scores above M1 on P19 (median 0.666 against 0.447), so the ordering depends on the mean step ([C37](../../CONFLICTS.md)). | The four files above |
 
 ### The frozen-input signal
 
@@ -172,20 +174,20 @@ The length audit matters because plain B7-pool's best of 0.541 on P7 in H3 (medi
 
 ## Candidate count
 
-**19 public candidates have been tried, P1 to P19** ([research log](research-log.md), entry of 2026-11-02 11:09). This count covers public candidates only. Sealed candidates exist outside it ([journal](../JOURNAL.md), entry of 2026-11-02), Chris holds their count and their SU, and both are unknown here, so 19 is a lower bound on what PRD 9.1 means by candidates tried.
+**20 public candidates have been tried, P1 to P20** ([research log](research-log.md)). Chris reports 9 sealed candidates and 3 decoys on top of these, at about 6,000 SU ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)), and one of them overlaps P20's region and is counted there as tried and not passed. The public count alone is therefore a lower bound on what PRD 9.1 means by candidates tried.
 
-P20 is not in the count. Under C34 the count becomes 20 if P20 fails its screen, and it stays at 19 if P20 is untested. C34 gives no count for a P20 screen pass, so that branch needs a decision. The 19 includes P10 and P12 although they read as untested after failed checks, because the log counted them and a higher count is the cautious direction.
+P20 entered the count when it failed its screen, as C34 fixed before the read. The 20 includes P10 and P12 although they read as untested after failed checks, because the log counted them and a higher count is the cautious direction.
 
-**Selection warning from C34: every gap's p value is read with the candidate count beside it.** The table shows the p values of the runs that pass 9.1 next to that count. Multiplying by 19 is the crude correction the log used for P19. It is an illustration and not a PRD rule, and 19 counts gaps, while the stored and logged efficacy runs number 26 (21 `efficacy.json` files, 2 entries in `sweep.json` and 3 screens with no file).
+**Selection warning from C34: every gap's p value is read with the candidate count beside it.** The table shows the p values of the runs that pass 9.1 next to that count. Multiplying by the count is the crude correction the log used for P19. It is an illustration and not a PRD rule, and 20 counts gaps, while the stored and logged efficacy runs number 27 (22 `efficacy.json` files, 2 entries in `sweep.json` and 3 screens with no file).
 
-| Gap and run | Fisher p | Fisher p times 19 (public candidates only) | Data |
+| Gap and run | Fisher p | Fisher p times 20 (public candidates only) | Data |
 |---|---:|---:|---|
-| P4 full pilot | 1.9e-8 | 3.6e-7 (d) | [efficacy.json](../../results/savio/step5-pilot-p4-main/efficacy.json) |
+| P4 full pilot | 1.9e-8 | 3.8e-7 (d) | [efficacy.json](../../results/savio/step5-pilot-p4-main/efficacy.json) |
 | P4 confirm pilot | 5.7e-12 | 1.1e-10 (d) | [efficacy.json](../../results/savio/step5-confirm-p4/efficacy.json) |
-| P7 full pilot | 1.6e-15 | 3.1e-14 (d) | [efficacy.json](../../results/savio/step5-pilot-p7-main/efficacy.json) |
+| P7 full pilot | 1.6e-15 | 3.2e-14 (d) | [efficacy.json](../../results/savio/step5-pilot-p7-main/efficacy.json) |
 | P7 confirm pilot | 1.1e-12 | 2.2e-11 (d) | [efficacy.json](../../results/savio/step5-confirm-p7/efficacy.json) |
-| P8 full pilot | 4.6e-22 | 8.8e-21 (d) | [efficacy.json](../../results/savio/step5-pilot-p8-main/efficacy.json) |
-| P19 full pilot | 4.0e-11 | 7.5e-10 (d) | [efficacy.json](../../results/savio/step5-pilot-p19-main/efficacy.json) |
+| P8 full pilot | 4.6e-22 | 9.2e-21 (d) | [efficacy.json](../../results/savio/step5-pilot-p8-main/efficacy.json) |
+| P19 full pilot | 4.0e-11 | 8.0e-10 (d) | [efficacy.json](../../results/savio/step5-pilot-p19-main/efficacy.json) |
 
 Two further limits apply. The 9 lost routes of P19's pilot still pass in the [worst case](research-log.md), at uplift 50.9 and ratio 3.0 (log only). PRD 9.1 also requires efficacy to be re-confirmed on the scoring pool because pilot estimates are subject to the winner's curse, and that has not run.
 
@@ -193,44 +195,159 @@ Two further limits apply. The 9 lost routes of P19's pilot still pass in the [wo
 
 | Item | What is known | Effect on these results | Source |
 |---|---|---|---|
-| Route markers | `route_run.py` has passed `--debug 2` on every SimLingo route, which draws route points and scenario trigger points into the world, and by our reading of the code and frames the policy camera films them. C35 dates the flag to 2026-10-02, and the WHAT_BROKE entry first said 2026-10-05. Expert runs use `--debug 0`. | **Unmeasured.** Every SimLingo row in this report carries the markers. Arms of one pilot share them, except on bends where a patch can hide them on one side. Absolute failure rates and comparison with published scores are in doubt. [H14](experiments/h14-route-markers/protocol.md) is a draft and has not run. | [WHAT_BROKE](../WHAT_BROKE.md), [C35](../../CONFLICTS.md) |
+| Route markers | `route_run.py` has passed `--debug 2` on every SimLingo route, which draws route points and scenario trigger points into the world, and by our reading of the code and frames the policy camera films them. C35 dates the flag to 2026-10-02, and the WHAT_BROKE entry first said 2026-10-05. Expert runs use `--debug 0`. | **Unmeasured.** Every SimLingo row in this report carries the markers. Arms of one pilot share them, except on bends where a patch can hide them on one side. Absolute failure rates and comparison with published scores are in doubt. [H14](experiments/h14-route-markers/protocol.md) is locked, its offline test stopped at the mask check, and its driving stage waits on Chris. | [WHAT_BROKE](../WHAT_BROKE.md), [C35](../../CONFLICTS.md) |
 | Cut-route truncation | A cut route can end before its hazard, because `cut_routes.py` measured its tail from the trigger and a scenario's hazard sits `distance` metres past the trigger. | P19's full pilot reads [42 of 53 against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json). Without the 8 flagged pairs of 55 it reads 40 of 45 against 7 of 42, with uplift 72.2 (d), ratio 5.33 (d) and Fisher p 3.6e-12 (d) (exploratory). The flagged pairs failed 2 of 8 and 0 of 6. Truncation hid effect, and the verdict holds. | No data file. [WHAT_BROKE](../WHAT_BROKE.md) records it. This report reproduced the totals from the [route file](../../configs/rollout/step5-pilot-p19-main.xml) and [outcomes](../../results/savio/step5-pilot-p19-main/routes.jsonl) by flagging a pair when `distance` exceeds the straight line from trigger to last waypoint minus 10 m, because a route ends within 10 m of its last point. The entry's split into 4 ending before and 4 undecided is held only there. |
 | Truncation in other cuts | P14's scenarios have no `distance`, and P18's `distance` is how far behind the emergency vehicle starts. | The same rule (exploratory, this report, no data file) flags 3 of 10 pairs in [P19's screen](../../configs/rollout/step5-pilot-p19-screen.xml), which failed 2 of 3 and 0 of 3, and 1 of 10 in [P17's screen](../../configs/rollout/step5-pilot-p17-screen.xml), which failed 0 of 1 and 0 of 1. It also flags the injected crossing in three more screens: 2 of 10 pairs in P10's (one lost, and the other failed only in the slice), 1 of 10 in P11's (failed only in the slice) and 2 of 10 in P13's (no failures). These are not `cut_routes.py` cuts, and each is flagged only through the 10 m margin. Removing them lowers P10's and P11's excess from 2 to 1 and leaves P13's at 0, so no verdict changes. The rule flags nothing in the T0 pilots and screens (P3, P4, P7, P8), which supports the headline results. P20's three affected pairs were replaced before any outcome was read. | [WHAT_BROKE](../WHAT_BROKE.md), [H13 amendment](experiments/h13-cross-family-gap/protocol.md) |
 | B2 on P19 | B2's `InvadingTurn` stratum holds 42 slice and 7 neighbourhood failures and scores [0.857](data/h12_layer10_plain.json). Step 5 bars a single-factor stratum at 0.4 or above for an interactional gap. | P19 counts as "passes 9.1, fails Step 5's single-factor condition". 9.1's ratio limits neighbourhood failures to half the key, so B2 stays under 0.4 only if the family holds more failures outside the pilot than the key itself (arithmetic). P19 would need more than 56 failures outside the pilot, about 370 routes at the measured 15% ([log](research-log.md)), or about 1,500 to 3,100 SU (estimate, at 4.1 to 8.5 SU a route). Whether such a pool is sensible is for Jerry and Chris to judge. The H13 simulation gives [0.801](data/h13_b2_precheck.json) for P19's real rates (simulated). | [Research log](research-log.md), [C34](../../CONFLICTS.md) |
 | Public predicates | PRD 9.1 excludes any predicate written in a shared document from the sealed key. P1 to P20 are all in `gaps/practice/`. | None of these gaps can enter the key, so their public count toward 13.1 is 0 by construction, whatever their verdicts. A blind pool needs new predicates recorded only in `gaps/sealed/`. | [PRD 9.1](../../PRD.md), [C34](../../CONFLICTS.md) |
 | Slow disk in the P20 run | CARLA took over 300 s to start, against about 18 s on 2026-11-02, and the first array lost 19 of 20 routes. On one node its port opened in 127 s from scratch and 4 s from node-local disk, `import torch` took 158 s, and a metadata lookup took 20 ms. Slow scratch metadata is the likely cause and is not confirmed. | About 69 SU were lost. Six later routes were stopped by the slow guard at 0.05 to 3.55 simulated seconds and went to rerun without being scored, and the guard was then fixed. Six re-cut routes first attempted 2026-11-04 01:20 to 01:47 (array 40858449) were lost to CARLA startup and evaluator silence before any drive. Whether the slow disk changed any route that did drive is unmeasured. | [WHAT_BROKE](../WHAT_BROKE.md), [research log](research-log.md). No data file. |
-| Arm order in the P20 run | The first array placed all of one arm in one task for some tasks, so role can line up with a node there. | The amendment drives each new pair on one GPU. No outcome has been read. | [WHAT_BROKE](../WHAT_BROKE.md), [H13 amendment](experiments/h13-cross-family-gap/protocol.md) |
+| Arm order in the P20 run | The first array placed all of one arm in one task for some tasks, so role can line up with a node there. | The amendment drove each new pair on one GPU. The four discordant pairs all split across tasks and nodes: their neighbourhood routes ran on n0211 twice, n0264 and n0275, and their slice routes on n0217, n0279, n0211 and n0212. Task 3 on n0211 held only neighbourhood routes and both failed, so role and node cannot be separated there. No failure was slice-only, so this changes no verdict. | [WHAT_BROKE](../WHAT_BROKE.md), [H13 amendment](experiments/h13-cross-family-gap/protocol.md) |
 | C24's traffic clause | The "another vehicle within 50 m" clause has held on [332 of 332 stored rows](../WHAT_BROKE.md) and counts parked hazards. | The clause does not show oncoming traffic, so it adds little to the P14 to P19 checks. | [WHAT_BROKE](../WHAT_BROKE.md). The count comes from [`h7_check.json`](data/h7_check.json), [`h9_h10_check.json`](data/h9_h10_check.json) and [`h11_p19_main.json`](data/h11_p19_main.json). |
 | P19's offset and expert | P19 uses a 1.2 m offset, outside the routes' 0.15 to 0.6 m. The expert PDM-Lite had no vehicle collision on [9 of 9 slice routes](data/h11_expert_p19.json), but it reads the exact offset. | The result may be mainly an out-of-range failure. No camera-only driver has been shown to avoid this traffic, and no dose-response was measured. | [Research log](research-log.md), entries of 2026-11-02 |
 | Explained variance labels | `explained_variance` in the data files is measured on the pool's own frames and reads 0.953 to 0.973. The log's 0.904 to 0.93 at layer 10 and 0.900 to 0.937 at layer 14 (H1b) and 0.875 to 0.922 (H3) are held-out values. H12's log line calls its 0.96 to 0.97 held-out, and that range matches the pool value. | All clear the 0.8 floor on either measure, so no dictionary changes status. | [`dev_eval.py`](../../src/discovery/dev_eval.py), [research log](research-log.md) |
 | P3's check | P3's manipulation check failed 3 of 5, the frames showed the fog plainly, and the run resumed before any driving outcome was read. P10 and P12 kept their failed checks, so they read as untested. | P3 fails 9.1 either way. | [WHAT_BROKE](../WHAT_BROKE.md), entry of 2026-10-13 |
 
-## PRD checks that never ran
+## Dry run and rehearsal
 
-Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04.
+H15 and H17 ran on 2026-11-04 under protocols locked in `fb7b815`. H18, H19 and H20 ran on 2026-11-06 under the locks named in their entries. All five ran on dev data with a public key, and none is a verdict.
+
+**H15, scoring path.** The scoring path ran end to end on a throwaway key of public gaps and found 0 bugs ([check and spread](data/h15_dry_run.json)). This is the first time real activations reached PRD 13.1's two conditions. Condition 1 reads invalid and condition 2 is not evaluated, both as the [protocol](experiments/h15-scoring-dry-run/protocol.md) expected: no activation axis reaches 0.5 on P4 or P7, and B4, B4p, B5 and B6 have no directive. Neither is a 13.1 reading.
+
+The run also gave the first scores for action residualization. It fits the action-query states on `vision_bridge`, the visual features, and subtracts what that linear fit predicts before the dictionary is trained, so what stays is the part vision does not explain. Chris still has to confirm `vision_bridge` as the visual pool. These rows are exploratory. The best axis is chosen using the key, and each row covers 18 dictionaries.
+
+| Method and variant | P19 best | P19 median | P19 at 0.5 or above | P4 best | P4 median | P7 best | P7 median |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| M1 raw, plain | 0.705 | 0.375 | 5 of 18 | 0.490 | 0.387 | 0.275 | 0.231 |
+| M1 raw, residualized | 0.689 | 0.540 | 13 of 18 | 0.316 | 0.201 | 0.250 | 0.236 |
+| B7-pool, plain | 0.500 | 0.372 | 1 of 18 | 0.091 | 0.037 | 0.339 | 0.065 |
+| B7-pool, residualized | 0.620 | 0.278 | 3 of 18 | 0.104 | 0.029 | 0.438 | 0.071 |
+
+On P19, residualizing moves M1's median above B7-pool's by 0.262, where the plain medians differ by 0.003. It also lowers M1 on P4, as PRD 9.2 expects. B2's list of scenario names still scores 0.857 on P19, so this does not change P19's standing, and one gap cannot show that the change holds in general. Separately, B7-pool already reads T2 `fires` under [H16's stop rule](experiments/h16-b7-rollout-free/protocol.md) on the plain P19 row above. That reading rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. H16's rule was written on the plain variant, so this table does not settle it. Jerry and Chris decide it, and H16 is held until they do.
+
+**H18, controls for the residualization gain.** Locked in `a4e1860`, job 40967052, 16 SU (measured). The fixed sentence is: "On P19, neither control reaches halfway to the residualization gain, so the gain needs the visual fit." ([result](data/h18_result.json), [protocol](experiments/h18-residual-controls/protocol.md)). The rule is binary, and the numbers beside it qualify it.
+
+| M1 raw on P19 | Best | Median | At 0.5 or above | What it removes |
+|---|---:|---:|---:|---|
+| Plain | 0.705 | 0.375 | 5 of 18 | Nothing |
+| Residualized on vision | 0.689 | 0.540 | 13 of 18 | What `vision_bridge` predicts, 0.808 of the variance |
+| Shuffle control | 0.649 | 0.447 | 8 of 18 | Almost only the mean (fit explains 0.008) |
+| Variance-matched control | 0.661 | 0.436 | 5 of 18 | 15 leading components, 0.814 of the variance |
+
+- **Part of the gain needs no vision.** The shuffle control removes little more than the average activation, yet it recovers 0.072 of the 0.165 gain (44%). It misses the halfway line by 0.011. Both controls stay below the real residual: the median-minus-real intervals are -0.197 to -0.019 (shuffle) and -0.218 to -0.021 (variance-matched).
+- **Removing the mean lifts the baseline more than the method.** Under the shuffle control, B7-pool on P19 reads best 0.812, median 0.666, with 17 of 18 dictionaries at 0.5 or above. That is above every M1 row in this report. It bears on H16's stop rule, which Jerry and Chris still have to decide.
+- **Removing the top variance helps P4.** Under the variance-matched control, M1 on P4 reads best 0.672, median 0.500, with 10 of 18 at 0.5 or above. Plain gives 0.490 and 0.387, and the real residual gives 0.316 and 0.201.
+
+So the plain variant's scores move a lot with the dataset mean and the leading directions, and neither is fixed by the PRD. Every row here is exploratory and dev only, and the best axis is chosen using the key. B2 still scores 0.857 on P19. This needs Chris before any preprocessing is frozen.
+
+**H19, why M2 finds no axes.** Locked in `8e05103`, amended in `f9bcbb0` after the first plant failed (see below), jobs 40967092 (first plant, withdrawn), 40967692 (plant check) and 40967739, 6.4 SU in all (measured). The fixed sentence is: "No tried setting recovers a planted group of 25 failures, so M2's zero on real pools says little about whether the gaps are there." ([result](data/h19_result.json), [protocol](experiments/h19-m2-settings/protocol.md)).
+
+- **Defaults:** M2's default settings again give 0 axes on H12's pool. No setting of the 16 reaches 0.5 on P4, P7 or P19. The best is 0.397 on P19, and those settings were chosen using the key.
+- **Plant:** the plant shifted the lead-distance error by 2.3 standard deviations for 25 failures, each knowing the state on 67% to 100% of its window frames. It moved them out of the large catch-all cluster, which shrank from 221 failures to 169, but no setting grouped them: their best Jaccard is 0.0 under every setting.
+- **What this means:** M2 as configured cannot find a strong single-state group on this pool, so its zero is not evidence that the gaps are absent from its residuals.
+- **The first plant was invalid.** Lead distance is blank when no car is ahead, so most of the shift never reached a residual ([WHAT_BROKE](../WHAT_BROKE.md), 2026-11-06). Its reading was withdrawn before the rerun.
+
+**H20, mean removal on a second pool.** Locked in `4811f76`, amended in `bf8c810` to score per gap because its key has no interactional gap, jobs 40967835 and 40968012, 25 SU (measured). The fixed sentence is: "On H1's pool, removing only the mean moves a method's median Jaccard on a planted gap by at least 0.1, so method readings depend on a preprocessing step the PRD does not fix." ([result](data/h20_result.json), [protocol](experiments/h20-centring-second-pool/protocol.md)). One cell of 9 moved: B7-pool on P8.
+
+| Median (best) over 18 dictionaries | Plain | Mean removed | Vision residualized |
+|---|---:|---:|---:|
+| M1 raw on P4 | 0.353 (0.644) | 0.265 (0.382) | 0.155 (0.205) |
+| M1 raw on P7 | 0.191 (0.208) | 0.208 (0.236) | 0.191 (0.217) |
+| M1 raw on P8 | 0.213 (0.292) | 0.227 (0.250) | 0.221 (0.264) |
+| M1 capped on P4 | 0.366 (0.644) | 0.302 (0.667) | 0.139 (0.205) |
+| M1 capped on P7 | 0.171 (0.211) | 0.203 (0.236) | 0.159 (0.217) |
+| M1 capped on P8 | 0.200 (0.292) | 0.227 (0.250) | 0.221 (0.264) |
+| B7-pool on P4 | 0.042 (0.077) | 0.081 (0.147) | 0.044 (0.133) |
+| B7-pool on P7 | 0.206 (0.287) | 0.230 (0.270) | 0.217 (0.254) |
+| B7-pool on P8 | 0.215 (0.430) | 0.364 (0.479) | 0.395 (0.483) |
+
+The same pattern shows on both pools. Removing the mean lifts B7-pool, by 0.149 on P8 here and 0.294 on P19 in H18, and it lowers M1 on P4, by 0.088 here and 0.074 in H18. Vision residualization lowers M1 on P4 further, to a median of 0.155, as PRD 9.2 expects for a perceptual gap. No cell here reaches 0.5 in its median. H20's plain column retrains H1b's grid on the same pool and reads differently from it, for example M1 raw on P4 at 0.644 and 0.353 against H1b's 0.553 and 0.405, so a retrain alone moves these cells. The vision fit's `explained_on_fit` is 0.786. All of this is exploratory, and the best axis is chosen using the key. [C37](../../CONFLICTS.md) proposes what to fix before the methods are frozen.
+
+**H17, causal rehearsal on P4's axis.** The fixed sentence is: "In replay, removing the axis moves the plan more than random edits of equal size. H17 could not show that it moves the plan more on failing frames than on their clean twins. Its mean shift does not exceed the 95th percentile of other latents of the same dictionary at that size." ([result](data/h17_result.json)). All five checks held, on 37 pairs and 421 frames.
+
+| Outcome | Axis shift (m) | Floor (m) | Random 95th percentile (m) | Excess interval (m) | Failing minus control interval (m) | Other latents' 95th percentile (m) |
+|---|---:|---:|---:|---:|---:|---:|
+| Speed | 0.121 | 0.06 | 0.105 | 0.001 to 0.029 | -0.016 to 0.016 | 0.150 |
+| Route | 0.028 | 0.03 | 0.029 | -0.004 to 0.002 | -0.006 to 0.003 | 0.039 |
+
+Speed clears the rule and route stops at both its floor and its interval. The excess over random on clean frames is 0.017 m on speed, close to the 0.016 m on failing frames. Beside the rule, with no bearing on it: the axis's raw shift on failing frames against clean twins is 0.121 and 0.069 m on speed and 0.028 and 0.013 m on route, the founder latent alone gives 0.121 and 0.028 m, and pairs whose rollout is in the axis shift 0.135 m on speed against 0.105 m for the rest. The twins have no patch, so that raw comparison is confounded, and the rule reads excess over random in each arm. The random control is an equal-length translation, where PRD 9.2 names removal along a random direction. This is a dev rehearsal in offline replay on an axis at P4 best 0.490, median 0.387 across 18 dictionaries, chosen using the key. It is not Step 9's verdict, and every axis card keeps `causal: untested`.
+
+**H14 offline, marker replay.** Untested. Its mask failed the check before any replay (72% of dots caught against a limit of 90%, and a ring on a vehicle in 13 of 50 frames against a limit of 0, [data](data/h14_mask_check.json)). The route-marker effect stays unmeasured.
+
+## Fail2Drive on our harness
+
+H21 drove all 100 of Fail2Drive's route pairs, which are 200 routes in 17 categories, under a [locked protocol](experiments/h21-fail2drive-all/protocol.md). Each pair is one road driven twice, once with a situation SimLingo never saw in training and once without it. The routes are public, so none of them can enter the sealed key. The fixed sentence is: "On our harness, SimLingo fails Fail2Drive's generalization routes more often than their base twins." ([result](data/h21_result.json), [outcomes](data/h21_routes.jsonl)).
+
+| Pooled over 100 pairs (measured) | Value |
+|---|---|
+| Unseen-situation routes failed | 38 of 100 |
+| Base twins failed | 14 of 100 |
+| Pairs where only the unseen route failed | 28 |
+| Pairs where only the twin failed | 4 |
+| McNemar p | 1.9e-5 |
+
+Three categories pass the screen of at least 3 excess slice-only failures. With 5 or 10 pairs each they are screens, not PRD 9.1 verdicts.
+
+| Category | Pairs | Unseen failed | Twin failed | Excess |
+|---|---:|---:|---:|---:|
+| CustomObstacles | 10 | 8 | 3 | 5 |
+| Wall | 5 | 5 | 0 | 5 |
+| PedestriansOnRoad | 5 | 3 | 0 | 3 |
+
+Of the other 14 categories, none reaches an excess of 3. ConstructionPedestrian and FullyBlocked reach 2. ImageOnObject, ObscuredStop, PassableObstacles and PedestrianOtherBlocker had no failure in either arm. Collisions with pedestrians rose from 2 in the twins to 12 in the unseen routes, and collisions with the road layout from 7 to 31. Two routes were lost on node n0273 and rerun once, so all 200 have an outcome. These runs used `--debug 0`, unlike every Step 5 pilot. Under the C38 guard no discovery method read H21's activations until the freeze described in the next section.
+
+## Frozen methods on Fail2Drive
+
+H22 scored the three screened categories under a freeze tagged `methods-frozen-f2d-v1` before any method read H21's activations ([protocol](experiments/h22-f2d-frozen-eval/protocol.md), CONFLICTS C38, accepted by Jerry, not yet reviewed by Chris). This is dev only and not blind: the categories are public and were picked on the same pairs. The fixed sentence is: "On Fail2Drive's three screened categories, activation methods are not shown to recover the failing routes better than the activation-free and pooled baselines." ([plain](data/h22_plain.json), [centre](data/h22_centre.json), [vision](data/h22_vision.json)).
+
+Mean best Jaccard over the three categories, best and median across dictionaries, with the best axis chosen using each category's failing set (measured). Pair hits count the 13 pairs where only the unseen route failed.
+
+| Method | Plain | Centre | Vision | Pair hits, plain |
+|---|---|---|---|---:|
+| M1 raw (primary) | 0, 0 | 0.190, 0.095 | 0.172, 0.107 | 0 |
+| M1 capped | 0, 0 | 0.190, 0.090 | 0.172, 0 | 0 |
+| M2 (no verified power) | 0 | 0 | 0 | 0 |
+| B7-pool | 0.220, 0.109 | 0.157, 0.115 | 0.125, 0.067 | 2 at best |
+| B3 behavioral | 0.471 | (shared) | (shared) | 12 |
+| B1 random | 0.192 | (shared) | (shared) | 0 |
+| B2 taxonomy | 0.103 | (shared) | (shared) | 0 |
+
+Delta, the best activation method minus the best rival, has a median across dictionaries of -0.471 in plain (interval -0.600 to -0.357, over 10 possible category resamples), -0.375 in centre and -0.363 in vision. B3 is the best rival in every variant.
+
+Two facts explain most of this, and both come from the frozen method, not from the data:
+
+- **Plain M1 emitted no axis at all.** No latent passed its gate of a false-discovery q below 0.05 together with firing in at least 20 failing routes. After the mean or the vision fit was removed, some did.
+- **M1 cannot score well on groups this small.** Every M1 axis holds at least 20 failing routes (`min_support`), and the categories have 8, 5 and 3. So the highest Jaccard M1 can reach is 0.40, 0.25 and 0.15, a mean of 0.27, under B3's 0.47 before any method runs. B2 has the same floor of 20 routes, so it is not the ceiling that C38 expected.
+
+B3 reads only driving behaviour, such as speed and braking, and no activations. It holds the unseen route without its twin in 12 of the 13 pairs. On these categories, how SimLingo drove separates its failures better than anything our methods found inside the model.
+
+
+
+Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
 
 | Step | Check | `progress.yaml` | State | What the repo shows |
 |---|---|---|---|---|
 | 3 | Savio replay within 1e-3 m of the log, in bfloat16 (a 16-bit number format) | Open | Ran, not met | Replays of 331 frames sit 1 to 3 rounding steps (median 1 to 3 cm) from the log, and three replays agree to 0.0 m. C22 proposes replay against replay and is pending. Numbers are in [STATUS](../STATUS.md), and jobs 39784216 and 39784287 have no file in the repo. |
 | 4 | None open | All done | Done | The chosen site is driving queries at layer 10. |
-| 5 | 4 to 6 gaps plus 2 decoys pass 9.1 | Open | Not met | Four public gaps pass, and no practice gap is marked as a decoy. C31 records one decoy that was judged. Its details and the sealed counts are unknown here. The kinematic decoy screen is assigned to Chris ([STATUS](../STATUS.md)). |
+| 5 | 4 to 6 gaps plus 2 decoys pass 9.1 | Open | Not met | Four public gaps pass, and no practice gap is marked as a decoy. Chris reports control 1, enumerable 1 and interactional 0 passing among 9 sealed candidates, and visually novel 1 and kinematic 0 among decoys passing C31 ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)). His kinematic decoy screen ran and is read privately. |
 | 5 | No single-factor stratum at 0.4 with any interactional gap | Open | Ran once, failed | It was measured on P19 only, at [0.857](data/h12_layer10_plain.json). |
 | 5 | Efficacy re-confirmed on the scoring pool | Not listed | Never ran | No scoring pool exists. |
 | 6 | B7 variant A, the rollout-free statistics | Open | Never ran | The code accepts variant A ([`activation_stats.py`](../../src/baselines/activation_stats.py)) and [the spec](../steps/b7-gap-signal.md) drew its sample on 2026-10-15. Every stored B7 result is variant B. |
-| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Never read | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. B7-pool scores above M1 on P7 and P8 and below it on P4 and P19 in the tables above (exploratory), and nobody has read the rule against that. Jerry and Chris should read it before a test pool is built. |
-| 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. |
+| 6 | The stop-and-re-plan rule if B7 matches our methods | Not listed | Read on stored data, undecided | [The spec](../steps/b7-gap-signal.md) fires this rule if either variant recovers the practice gaps as well as our methods do. On stored H12 data B7-pool reads T2 `fires` under H16's rule: P19 best 0.500 on 1 of 18 dictionaries, median 0.372, against M1 0.705 and 0.375. It rests on one dictionary at exactly 0.5, C34's pending median clause and P19's pending label. Under H18's shuffle control, which removes little more than the mean, B7-pool on P19 reads best 0.812, median 0.666, with 17 of 18 at 0.5 or above, above every M1 row (exploratory, best axis chosen using the key). C37 proposes freezing B7 with the same preprocessing as the method it is compared against. Jerry and Chris decide it before a test pool is built. |
+| 7 | Probe-residual emits directives | Open | Ran, no axes | M2 scores 0 on every real pool in the data files. The [log's audit](research-log.md) of 2026-10-31 23:26 calls this a valid null. H19 found that no tried setting recovers a planted group, so the zero says little about whether the gaps are there. |
 | 7 | Describability gate with its shuffle control | Open | Never ran | `src/gate/` holds only `__init__.py`. [The spec](../steps/describability-gate.md) waits on model pins. |
-| 7 | Residualized and nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for either, so no method has run its residualized variant. |
+| 7 | Residualized preprocessing | Not listed | Ran on two pools, dev only | H15 and H18 on H12's pool, H20 on H1's pool, using `vision_bridge` as the visual pool pending Chris. |
+| 7 | Dataset-mean step named before the methods freeze | Not listed | Open, C37 proposed | Removing only the success-frame mean moved B7-pool's P8 median by +0.149 (H20), and H18's shuffle control moved its P19 median by +0.294. |
+| 7 | Nuisance-projected preprocessing | Not listed | Never ran | A search of `src/` finds no code for it. |
 | 7 | SAE waypoint error with reconstructions spliced back | Not listed | Never ran | [`sae.py`](../../src/discovery/sae.py) says it is not done there. |
 | 7 | Naming the primary method (D3) | Not listed | Open | [CONFLICTS D3](../../CONFLICTS.md) closes at this step and is still open. |
-| 8 | Preregistration of the 13.1 rule | Not listed | Drafted, unsigned, not in git | [`harness/PREREGISTRATION.md`](../../harness/PREREGISTRATION.md) is a draft with an empty signature table. It takes effect only when Chris and Jerry sign it and `prereg-v1` tags it. |
+| 8 | Preregistration of the 13.1 rule | Not listed | Drafted, unsigned | [`harness/PREREGISTRATION.md`](../../harness/PREREGISTRATION.md) is a draft with an empty signature table. It takes effect only when Chris and Jerry sign it and `prereg-v1` tags it. |
 | 8 | Key sealed and hashed | Open | Never ran | [`seal.py`](../../src/harness/seal.py) and its tests exist. `KEY_COMMITMENT.txt` does not exist, and this checkout has no `gaps/sealed/` folder. |
 | 8 | Frozen tags in order | Not listed | Never ran | `git tag` lists only `b4-factors-v1`. |
 | 8 | Test pool generated | Open | Never ran | No test-pool config exists under `configs/rollout/`. |
 | 8 | Scored once | Open | Never ran | No test pool exists to score. |
 | 8 | Three evaluation seeds, paired by route (PRD 12.4) | Not listed | Never ran | Each stored pilot lists every route once per arm. |
 | 8 | Sealed-key guard in CI, the automatic checks on each push | Not listed | Off | CI runs only by hand under [C33](../../CONFLICTS.md), and C33 asks for it back before sealing. |
-| 9 | Causal verdict for every top axis | Open | Never ran | Directives carry `causal: untested`, and no module computes a verdict against matched controls. |
+| 9 | Causal verdict for every top axis | Open | Never ran | Directives carry `causal: untested`. H17 rehearsed the removal on one axis in replay, which is not Step 9's verdict, and no module writes a verdict onto a card. |
 | 9 | Go or no-go under 13.1 | Open | Never ran | The harness-validity check and route bootstrap exist in [`scoring.py`](../../src/harness/scoring.py) and [`bootstrap.py`](../../src/harness/bootstrap.py), and neither has seen a test pool. |
 | 10 | One full generate and fine-tune cycle | Open | Never ran | Only [the spec](../steps/10-closed-loop.md) exists. A search of `src/` and `scripts/` finds no LoRA or fine-tuning code. |
 | 10 | No-degradation check | Open | Never ran | It depends on the cycle above. |
@@ -258,8 +375,11 @@ SU is Savio's service unit. The research log is the only record of these figures
 | First P20 screen lost to CARLA start, with probes | 70 (d), by difference | 5029 | [Log](research-log.md), 2026-11-03. [WHAT_BROKE](../WHAT_BROKE.md) says about 69. |
 | Failed probe and empty scoring | 4 (d), by difference | 5033 | [Log](research-log.md), 2026-11-03 |
 | P20 screen driving and same-node disk tests | About 167 (d), by difference | About 5200 | [STATUS](../STATUS.md), 2026-11-03 21:00. The log has no figure. |
-| P20 rerun and amended pairs | No figure stored | Unknown | Nothing records it yet. |
-| Sealed work | Unknown here | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
+| P20 rerun and amended pairs | About 144 (d), by difference | 5344 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 20:55. Includes about 37 SU lost in array 40858449. |
+| H15 and H17 | 61 (d), 12 and 49 | 5405 | `sacct` CPU time at 3.67 SU per core hour, 2026-11-04 22:49. |
+| H18, H19 and H20 | 47.7 (d): 16.3, 6.4 and 25.0 | 5453 |
+| H21, all of Fail2Drive, with its rerun, staging and download jobs | About 570 (d), by difference | 6023 | `sacct` CPU time of the study's named jobs, 2026-11-11 17:00. | `sacct` CPU time of the study's named jobs, 2026-11-06 03:30. Jerry's other jobs on the account are left out. |
+| Sealed work | About 6,000, Chris's figure ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) | Not in this table | Chris holds the figure ([ask](chris-ask.md)). |
 
 The goal's budget was 6000 SU and Jerry raised it to 10000 ([STATUS](../STATUS.md), 2026-11-03 19:30). The log puts H6 at 2.6 SU a route and H7 at about 4 SU a route, and [H13's protocol](experiments/h13-cross-family-gap/protocol.md) uses about 8.5 SU a route for P19's pilot, which is 864 SU over 101 scored routes, or 7.85 over 110 listed.
 

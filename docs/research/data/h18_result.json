@@ -1,0 +1,167 @@
+{
+ "label": "DEV DRY RUN, NOT A VERDICT: H18 residualization controls on H12's pool",
+ "note": "The best axis is chosen using the key.",
+ "plain_median": 0.375,
+ "real_residual_median": 0.5400641025641025,
+ "halfway": 0.45753205128205127,
+ "control_medians": {
+  "shuffle": 0.4468164794007491,
+  "top-variance": 0.43552742616033757
+ },
+ "outcome": "needs_vision",
+ "reading": "On P19, neither control reaches halfway to the residualization gain, so the gain needs the visual fit.",
+ "controls": {
+  "shuffle": {
+   "fit": {
+    "control": "shuffle",
+    "layer": 10,
+    "alpha": 1000.0,
+    "explained_on_fit": 0.008216210856027308,
+    "shards_written": 536
+   },
+   "scores": {
+    "M1_raw": {
+     "P19_wide_invading_turn": {
+      "best": 0.6491228070175439,
+      "median": 0.4468164794007491,
+      "at_or_above_0_5": 8,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.5571428571428572,
+      "median": 0.3131632653061225,
+      "at_or_above_0_5": 2,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.29770992366412213,
+      "median": 0.26624084748403176,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    },
+    "M1_capped": {
+     "P19_wide_invading_turn": {
+      "best": 0.8043478260869565,
+      "median": 0.5,
+      "at_or_above_0_5": 10,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.5571428571428572,
+      "median": 0.3165791068902809,
+      "at_or_above_0_5": 2,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.3023255813953488,
+      "median": 0.27204932472108045,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    },
+    "B7_pool": {
+     "P19_wide_invading_turn": {
+      "best": 0.8125,
+      "median": 0.6661220043572985,
+      "at_or_above_0_5": 17,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.13385826771653545,
+      "median": 0.08888888888888889,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.3103448275862069,
+      "median": 0.10084745762711865,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    }
+   },
+   "median_minus_real_interval": [
+    -0.19662764771460423,
+    -0.018523503000870467
+   ]
+  },
+  "top-variance": {
+   "fit": {
+    "control": "top-variance",
+    "layer": 10,
+    "components": 15,
+    "removed_share": 0.8139808566443908,
+    "real_removed_share": 0.808226431777382,
+    "real_explained_on_fit": 0.7727993597655114,
+    "shards_written": 536
+   },
+   "scores": {
+    "M1_raw": {
+     "P19_wide_invading_turn": {
+      "best": 0.6607142857142857,
+      "median": 0.43552742616033757,
+      "at_or_above_0_5": 5,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.6721311475409836,
+      "median": 0.5,
+      "at_or_above_0_5": 10,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.2658959537572254,
+      "median": 0.24097267404033834,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    },
+    "M1_capped": {
+     "P19_wide_invading_turn": {
+      "best": 0.5909090909090909,
+      "median": 0.4113924050632911,
+      "at_or_above_0_5": 4,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.6721311475409836,
+      "median": 0.5028735632183908,
+      "at_or_above_0_5": 12,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.25,
+      "median": 0.21261160714285715,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    },
+    "B7_pool": {
+     "P19_wide_invading_turn": {
+      "best": 0.78,
+      "median": 0.5990035358405656,
+      "at_or_above_0_5": 17,
+      "dictionaries": 18
+     },
+     "P4_camera_occlusion": {
+      "best": 0.4166666666666667,
+      "median": 0.10073260073260074,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     },
+     "P7_camera_freeze": {
+      "best": 0.3387096774193548,
+      "median": 0.14665471923536438,
+      "at_or_above_0_5": 0,
+      "dictionaries": 18
+     }
+    }
+   },
+   "median_minus_real_interval": [
+    -0.21805763007219314,
+    -0.02128073109194384
+   ]
+  }
+ }
+}

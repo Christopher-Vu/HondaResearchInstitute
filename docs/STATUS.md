@@ -6,11 +6,49 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-12 (B4 split measured: every gap is B4-unnamed on both models; Jerry's H22 is on origin/main)
+Last updated: 2026-11-12 (Chris and Jerry Fail2Drive lines merged; F4 locked test on our pool next)
 
 ---
 
 ## Current position
+
+**2026-11-12 evening, Chris: the Fail2Drive test pool is the deciding test, and method search on it is open.** Chris and Jerry's Fail2Drive lines are merged. Chris reviewed C38 and scoped it to H21's pool. On Chris's test pool (`docs/prereg-fail2drive.md`; gaps on SimLingo PedestriansOnRoad, FullyBlocked and BadParking, on TransFuser++ FullyBlocked and PedestriansOnRoad; every gap B4-unnamed, measured): iterate methods freely on SimLingo, log every variant in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`, report what we have at any point; working target is an activation method ahead of B3 on the B4-unnamed gaps; TransFuser++ is scored once after a freeze. Budget 800 SU. **Session ended mid-task (2026-11-12):** merge of origin/main f6483eb committed locally, not pushed; origin/main's H23 commits (to f612131) not yet merged; full pytest not yet green on Windows (one failure seen is cp1252 decoding, rerun with PYTHONUTF8=1). **Next:** merge f612131, test, push, sync hri-tfpp, submit v1 (`docs/research/experiments/f2d-dev-simlingo/run.sbatch`, VARIANT_ID=v1).
+
+**2026-11-12, H22 is read: `not_ahead`. On Fail2Drive's three screened categories the frozen activation methods do not beat the baselines (median delta -0.471, interval -0.600 to -0.357, measured).** Plain M1 emitted no axis on any of 18 dictionaries. B3, which reads only driving behaviour, scores 0.471 and holds 12 of the 13 slice-only pairs. M1's floor of 20 failing routes per axis caps it at a mean Jaccard of 0.27 on categories of 8, 5 and 3 failures, so this test could not favour M1 by design (WHAT_BROKE). Spend about 6028 of 10000 SU. **Next, for Jerry and Chris:** whether a method change for small groups is worth a new, separately locked test, or whether the report states this result and closes on Fail2Drive. No method change is made without them. Chris has not reviewed C38.
+
+**2026-11-12 (earlier), Jerry accepted C38; the methods are frozen and H22 is queued.** Tag `methods-frozen-f2d-v1` (066c995) fixes M1 raw as the primary method, the plain variant as the primary preprocessing, 18 layer-10 dictionaries and the scoring rule, before any method read H21's shards. H22 (job 41226034, one A40, about 20 to 50 SU, estimate) trains the dictionaries on H21's 200 shards and scores CustomObstacles, Wall and PedestriansOnRoad under `docs/research/experiments/h22-f2d-frozen-eval/protocol.md`. **Next:** read `results/savio/h22/plain/report.json` under the locked rule, then centre and vision beside it. Chris has not reviewed C38.
+
+**2026-11-11 17:05, H21 is read: on all 100 Fail2Drive pairs SimLingo failed 38 unseen-situation routes against 14 twins, with 28 slice-only against 4 (McNemar p 1.9e-5, measured).** Three categories pass the screen: CustomObstacles, Wall and PedestriansOnRoad. These are public routes, so none can enter the sealed key. Spend is about 6023 of 10000 SU. **Next, waiting on Chris and Jerry:** decide C38. If it is accepted, freeze the methods under `methods-frozen-f2d-v1`, then score the three categories. Until then no method reads `results/savio/f2d-all/shards`. C37 and the earlier list are still open.
+
+**2026-11-07 05:05, H21 (all 100 Fail2Drive pairs, 200 routes) is queued; nothing has driven yet.** Jerry asked for the run, and Chris's answer on issue 9 about his 2026-11-05 array is still open.
+- **Jobs:** task 0 is 40999650, run alone as a live test of staging. Tasks 1 to 66 are 41000885, at most 20 at once, and run only if task 0 succeeds. Scoring 41000886 runs `afterany`, so read its report only after checking that the arrays ran.
+- **Queue:** the A40 queue is long (547 pending). Slurm first estimated task 0 at 2026-11-08 01:15; by 10:26 on 11-07 it estimated 18:52 that day. A5000 and V100 estimates were later (11-16 and 11-10).
+- **Setup on Jerry's checkout:** Fail2Drive is cloned at `bceb18af` in `.runtime/fail2drive-src` with `fail2drive-compat.patch` applied. The simulator tarball is `/global/scratch/users/imhaohao/fail2drive_simulator.tar.gz` (12.8 GB, size checked), staged with `CARLA_LOCAL_BUILD=fail2drive`.
+- **Read:** check that the arrays ran, then the pooled McNemar result, then per-category screens, per the H21 protocol. Rerun lost routes once with `ROUTE_IDS`.
+- **Cost:** about 700 SU (estimate). Spend before this run is 5453 of 10000.
+- **Guard (C38, proposed):** no discovery method reads `results/savio/f2d-all/shards` until a tag `methods-frozen-f2d-v1` exists. Driving outcomes may be read before then.
+
+**2026-11-06 03:45, H18 to H20 are read; every next step waits on Chris (C37 and the earlier list).** Spend 5453 of 10000 SU (measured, study jobs by name).
+- **H18:** `needs_vision`. But the shuffle control, which removes about the mean, gets 44% of the residualization gain on P19, and lifts B7-pool on P19 to a median of 0.666 (best 0.812, 17 of 18 at 0.5 or above).
+- **H19:** `planted_not_recovered`. M2 groups a planted 25-failure shift under none of 16 settings, so its zero is uninformative. The first plant was invalid and was withdrawn (WHAT_BROKE).
+- **H20:** `replicates`. On H1's pool mean removal moves B7-pool on P8 from a median of 0.215 to 0.364 (best 0.430 to 0.479), and M1 raw on P4 from 0.353 to 0.265 (best 0.644 to 0.382). All of tonight's scores are dev only and exploratory, with the best axis chosen using the key.
+- **C37 (proposed):** name the mean step at the methods freeze, freeze B7 with matched preprocessing, and fix or label M2.
+- **Agent channel:** issue 9 holds three status posts from jerry-agent; no reply yet.
+
+**2026-11-06 01:50, H18 and H19 are running; nothing waits on a person for them.** Spend 5405 of 10000 SU before them (measured).
+- **Agent channel:** Jerry's and Chris's agents talk on pinned issue Christopher-Vu/HondaResearchInstitute#9 (label `agent-channel`); `CLAUDE.md` says how. Read it first, and post a heads-up before any Savio array or shared-file edit.
+- **Dashboard** redeployed with the week of Nov 2 to 6, P7, P8, P19 and P20, and SU use. Next.js went to 16.4.3 for a critical `use cache` advisory.
+- **H18** (job 40967052, locked `a4e1860`): two controls test whether H15's residualization gain on P19 needs the visual fit.
+- **H19** (job 40967092, locked `8e05103`): an M2 clustering-settings sweep with a planted group, to test whether its zero on every pool comes from its settings.
+- **Note:** `su_measure` in `research-state.yaml` counts every `imhaohao` job. Since 2026-11-05 that includes Jerry's other jobs on the same account (`surflo-*`, `mapanything-lidar`), so study spend is now measured by job name.
+
+**2026-11-04 22:55, everything that needed no person has run. Next moves are Chris's (Christopher-Vu/HondaResearchInstitute#8 and his new direction).** Spend 5405 of 10000 SU (measured).
+- **P20 fails its screen: 0 against 4 on 10 pairs.** The check held. Count 20. Not read as SimLingo coping (C34). No full pilot.
+- **H15: the scoring path ran end to end on a throwaway public key and found 0 bugs.** Not a verdict. Exploratory: residualized M1 on P19 reads best 0.689, median 0.540, against 0.705 and 0.375 plain, with the best axis chosen using the key.
+- **H17: `above_random_failing_not_shown_larger` on P4's axis.** Speed clears, route does not, and failing frames are not shown larger. Not Step 9's verdict; cards stay `causal: untested`.
+- **H14 offline stopped at its mask check** (85 of 118 dots, 13 of 50 frames touching), 0 SU. The route-marker effect stays unmeasured.
+
+**Waiting on Chris:** C23, C29, C34, P19's label, H14 Stage 1 and C35, the preregistration, his new-direction issue, and with Jerry whether B7-pool's reading on P19 stops Step 8 (H16 held until then; the dev report's H15 table belongs beside it). The key format changed in H15 (a key now needs `neighbourhood_predicate`), and he needs to see that. **Fail2Drive's screen is Chris's line**; his account ran route jobs today, so nothing here duplicates it. **The report stays a draft and the study stays open.**
 
 **2026-11-06, Chris approved the Fail2Drive pre-registration (`docs/prereg-fail2drive.md`, tag `f2d-prereg-v1`, local) and the SimLingo test pool.** The pool covers all 17 types, every pair, at seeds 101–106: 1,200 routes, about 3,300 SU (estimate).
 

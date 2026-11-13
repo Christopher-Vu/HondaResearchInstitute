@@ -160,6 +160,8 @@ def _values_for(record: Record, field: str,
                 weather_name: Callable[[dict], str]) -> list[str]:
     if field == "ability":
         return abilities_of(str(record["scenario"]))
+    if field not in record:
+        return []
     if field == "weather":
         return [weather_name(dict(record["weather"]))]
     return [str(record[field])]

@@ -1,5 +1,5 @@
 {
-  "source": "Step 5 efficacy pilots on Savio: results/savio/step5-pilot-*/efficacy.json; gaps/practice/practice_v2.yaml",
+  "source": "Step 5 efficacy pilots and screens on Savio: results/savio/step5-pilot-*/efficacy.json; gaps/practice/practice_v2.yaml and practice_v3.yaml; docs/research/dev-report.md",
   "gaps": [
     {
       "id": "P4",
@@ -16,6 +16,60 @@
         "label": "Without",
         "failed": 12,
         "routes": 60
+      },
+      "photos": []
+    },
+    {
+      "id": "P7",
+      "name": "Camera freeze",
+      "change": "The camera image stalls for 2 s of every 3 s, so the policy keeps seeing an old frame",
+      "passed": true,
+      "stage": "56 paired routes",
+      "with": {
+        "label": "Frozen",
+        "failed": 53,
+        "routes": 56
+      },
+      "without": {
+        "label": "Live",
+        "failed": 15,
+        "routes": 60
+      },
+      "photos": []
+    },
+    {
+      "id": "P8",
+      "name": "Camera latency",
+      "change": "Every frame the policy sees is 1 s old",
+      "passed": true,
+      "stage": "58 paired routes",
+      "with": {
+        "label": "Delayed 1 s",
+        "failed": 58,
+        "routes": 58
+      },
+      "without": {
+        "label": "Live",
+        "failed": 12,
+        "routes": 60
+      },
+      "photos": []
+    },
+    {
+      "id": "P19",
+      "name": "Wide invading turn",
+      "change": "Oncoming traffic on a bend comes 1.2 m into the car's half of the road. A list of scenario names also finds it, so it fails Step 5's single-factor check",
+      "passed": true,
+      "stage": "46 paired routes",
+      "with": {
+        "label": "Cuts in 1.2 m",
+        "failed": 42,
+        "routes": 53
+      },
+      "without": {
+        "label": "Cuts in 0.2 m",
+        "failed": 7,
+        "routes": 48
       },
       "photos": []
     },
@@ -84,6 +138,24 @@
           "caption": "Fail2Drive's animals, on its simulator"
         }
       ]
+    },
+    {
+      "id": "P20",
+      "name": "Oncoming traffic hidden",
+      "change": "The left of the camera is blacked out where cars come the other way; the comparison arm has the mirror patch on the right",
+      "passed": false,
+      "stage": "10-pair screen",
+      "with": {
+        "label": "Left patch",
+        "failed": 3,
+        "routes": 10
+      },
+      "without": {
+        "label": "Right patch",
+        "failed": 7,
+        "routes": 10
+      },
+      "photos": []
     }
   ]
 }

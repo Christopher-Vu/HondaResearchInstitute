@@ -573,3 +573,46 @@ Screen array 40843139 started at 19:48 from the repeating probe (port open in 12
 ## 2026-11-04 01:30 — H14 drafted: what the route markers do to driving
 
 Draft, not locked: `docs/research/experiments/h14-route-markers/protocol.md`. No rollouts and no SU; the sample-size table is simulated (`power.py`, `docs/research/data/h14_power.json`). Repeat-run discordance on `--debug 2` is 6 of 40 with the same seed and weather, and 40 of 199 and 17 of 70 with other seeds and weather (measured). Spend unchanged by this entry. Waits on Jerry and Chris; C35 is the draft for any change to `--debug`.
+
+## 2026-11-04 21:00 — P20 fails its screen
+
+Check first, from `docs/research/data/h13_p20_amended_check.json`: the box is black on the first 5 slices and 10 of 10 scored slices met traffic, with no scenario dropped. Then the rule: **0 slice-only against 4 neighbourhood-only failures on 10 pairs, exit 3** (measured). Slice failed 3 of 10, neighbourhood 7 of 10, McNemar p 0.125, Fisher p 0.18. Candidate count becomes 20. Per C34 this is not read as SimLingo coping without sight of oncoming traffic, because the patch covers an oncoming car only in the last 16 to 32 m of a straight road. The reversal is not read as an effect either: the protocol noted before the read that the mirror patch can cover the hazard.
+
+Reported with the rule, as H13's amendment requires. Infractions, slice: 4 vehicle collisions, 2 layout, 1 outside lanes, 1 scenario timeout. Neighbourhood: 5 vehicle collisions, 4 stop, 1 outside lanes. Slice-only failures: 0, so 0 with a collision and 0 timeouts only. Discordant pairs by slice and neighbourhood task and node: 64145 task 4 n0217, task 3 n0211; 64181 task 5 n0279, task 3 n0211; 64237 task 6 n0211, rerun task 0 n0275; 64257 task 0 n0212, task 1 n0264. Borderline 64145 is one of the four: its neighbourhood failed on a stop infraction alone. 25854, flagged at the screen's review, passed in both arms.
+
+Deleted the superseded shards 6415539 and 6415549 from the amended folder, unread. Spend 5344 of 10000 SU (measured). P20's full pilot does not run. H15 and H17 locked in `fb7b815` and submitted as 40906511 and 40906512.
+
+## 2026-11-04 21:20 — H14 offline stops at its mask check
+
+`sheets` ran on the login node. Two model viewers per panel, not a person, with panels 03 and 30 spot-checked by the lead: 85 of 118 coloured dots caught (72%, limit 90%), 13 of 50 frames with a ring on a vehicle by both viewers, 14 by one (limit 0). So `replay` was not submitted, as the protocol says, and the offline test is untested at 0 SU. `docs/research/data/h14_mask_check.json`. No re-tune: the frames are now seen, and whether H14 goes on at all is Chris's decision (issue 8).
+
+## 2026-11-04 22:50 — H15 finds no bug; H17 reads above random, failing frames not shown larger
+
+H15 (job 40906511, 12 SU): DEV DRY RUN, NOT A VERDICT. 0 bugs, all 11 checks clean, first run. Exploratory, with the best axis chosen using the key: action residualization (action-query states minus what vision predicts) puts M1 at or above 0.5 on P19 in 13 of 18 dictionaries, best 0.689, median 0.540, against 5 of 18, best 0.705, median 0.375 plain; B7-pool residualized reads best 0.620, median 0.278. My guess of "at least one dictionary, about 30%" was too low. P4 falls to best 0.316, median 0.201. B2 stays at 0.857 on P19. `docs/research/data/h15_dry_run.json`.
+
+H17 (job 40906512, 49 SU): `above_random_failing_not_shown_larger`, with the fixed sentence in the dev report. Speed clears (0.121 m, excess interval 0.001 to 0.029 m); route does not. Failing minus control is about 0, and the axis does not beat other latents. `docs/research/data/h17_result.json`. Spend 5405 of 10000 SU (measured).
+
+H15 found nothing to fix. The key format change it rests on still needs to reach Chris.
+
+## 2026-11-06 02:30 — H18: the gain needs the visual fit, but mean removal alone gets 44% of it
+
+Job 40967052, 16 SU. Rule outcome `needs_vision`: shuffle median 0.447 and variance-matched 0.436, against halfway 0.4575 (plain 0.375, real residual 0.540; M1 raw on P19 over 18 dictionaries; best axis chosen using the key; DEV DRY RUN). Shuffle explains 0.008, so it removes about the mean, and it misses halfway by 0.011. Beside the rule: under shuffle, B7-pool on P19 reads best 0.812, median 0.666, 17 of 18 at or above 0.5; under the variance-matched control (15 components, 0.814 against the real 0.808), M1 on P4 reads median 0.500. Preprocessing moves these scores a lot. `docs/research/data/h18_result.json`.
+
+H19 first run (job 40967092, 3 SU): default 0 axes again, and no setting reaches 0.5 on a key gap. Its planted control was invalid (WHAT_BROKE 2026-11-06), so its reading is withdrawn. The amended plant runs as job 40967739.
+
+## 2026-11-06 02:35 — H19: M2 cannot recover a planted group under any tried setting
+
+Amended job 40967739, 3 SU. `planted_not_recovered`. 25 planted failures (known share 0.67 to 1.0) left the catch-all cluster (221 to 169) but formed no cluster; planted Jaccard 0.0 under all 16 settings. Real runs: default 0 axes; best gap Jaccard 0.397 on P19 (chosen using the key). M2's zero on real pools is uninformative about the gaps. Changing M2 is a method decision for Chris; no setting changed here. `docs/research/data/h19_result.json`.
+
+## 2026-11-06 03:30 — H20: mean removal moves scores on H1's pool too
+
+Jobs 40967835 (stopped at scoring, since `scoring_run` needs a T2 gap; nothing read) and 40968012, 25 SU together. `replicates`: B7-pool on P8 +0.149 (0.215 to 0.364); M1 raw on P4 −0.088 (0.353 to 0.265); 7 other cells within 0.064. Vision residual: M1 raw P4 0.155. Same direction as H18 on both B7 and M1-P4. Wrote C37 (pending Chris): name the mean step at `methods-frozen-v1`, freeze B7 with matched preprocessing, and fix or label M2. Spend 5453 of 10000 SU, measured by study job name. `docs/research/data/h20_result.json`.
+
+## 2026-11-11 17:00 — H21: SimLingo fails Fail2Drive's unseen routes more than their twins
+
+Arrays 40999650, 41000885 and rerun 41081885 (routes 31 and 67, lost on n0273), scoring 41081886. All 200 routes have an outcome. `reproduces`: 38 of 100 against 14 of 100; 28 slice-only against 4, McNemar p 1.9e-5 (measured). Screen candidates: CustomObstacles 5 of 0, Wall 5 of 0, PedestriansOnRoad 3 of 0 excess. Pedestrian collisions 12 against 2, layout collisions 31 against 7. No discovery method has read the shards (C38 guard). Spend about 6023 of 10000 SU, by study job name. `docs/research/data/h21_result.json`.
+
+
+## 2026-11-12 — C38 accepted by Jerry; H22: frozen methods are not ahead on Fail2Drive
+
+Jerry accepted C38. Freeze tagged `methods-frozen-f2d-v1` (066c995) before any method read H21's shards: M1 raw primary, plain preprocessing primary, 18 L10 dictionaries. Job 41226034 stopped at B2 (no `weather` in Fail2Drive manifests; nothing read); B2 now skips missing fields (fa78ee2, amendment). Job 41226176: `not_ahead`, median delta -0.471 (interval -0.600 to -0.357). Plain M1 emitted 0 axes on all 18 dictionaries; centre and vision M1 best mean 0.190 and 0.172. B3 behavioral 0.471 with 12 of 13 pair hits. M1's `min_support` of 20 caps its Jaccard on categories of 8, 5 and 3 failures at a mean of 0.27, so H22 could not read `ahead` for M1 whatever the activations held. About 5 SU; spend about 6028 of 10000. `docs/research/data/h22_*.json`.

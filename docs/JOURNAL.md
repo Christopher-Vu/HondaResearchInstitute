@@ -112,6 +112,66 @@ These commits are local and unpushed, because Chris decides how to share the tra
 
 *Later the same day.* Chris approved a TransFuser++ smoke run. It drove one Fail2Drive pair on our harness. The first attempt drove, but its capture agent recorded nothing, because Fail2Drive's agent calls the network's `forward` directly (`docs/WHAT_BROKE.md`, 2026-11-05). After the fix, rerun 40951957 hit the pedestrian on PedestriansOnRoad route 1085 and drove its twin, route 85, without a collision. That is SimLingo's pattern, on one pair (measured). The activation export reads its capture unchanged, so the methods can run on a second, non-VLA policy with no new code. The draft pre-registration for gap selection (`docs/prereg-fail2drive.md`) was written before any full-screen outcome was read.
 
+## 2026-11-12: the frozen methods do not find Fail2Drive's failures better than the baselines
+
+Jerry accepted [C38](../CONFLICTS.md), the plan to test our methods on Fail2Drive's pairs. Before any method looked at the recorded activations, this session froze the methods under the git tag `methods-frozen-f2d-v1`. The freeze names contrastive diffing (M1 raw) as the main method and the activations as recorded as the main input, and it fixes the scoring rule. The [protocol](research/experiments/h22-f2d-frozen-eval/protocol.md) says where it departs from C38. The first job crashed before scoring because one baseline wanted a weather field the Fail2Drive route list lacks. That was fixed and noted in the protocol before any score existed.
+
+The locked reading is `not_ahead` (measured). On the three categories, the best activation method scored a median of 0.47 below the best baseline in Jaccard, which measures the overlap between a found group and the true failing routes. On the main input, M1 found no group at all. The winning baseline, B3, looks only at how the car drove, such as its speed and braking. It singles out the unseen route without its twin in 12 of the 13 pairs where only the unseen route failed.
+
+Much of this was fixed before the run. M1 only forms a group from at least 20 failing routes, and these categories have 8, 5 and 3. So M1's best possible score was 0.27, below what B3 then measured, and the test could not have favoured M1 ([WHAT_BROKE](WHAT_BROKE.md)). That should have been caught before freezing. Changing M1 for small groups would be a new method decision for Jerry and Chris, under its own locked test. The run cost about 5 SU, and the study has spent about 6,028 of 10,000.
+
+---
+
+## 2026-11-11: SimLingo fails Fail2Drive's unseen situations on our harness
+
+All 200 Fail2Drive routes have now driven on Savio. Two were lost to one bad node and were rerun. The [locked reading](research/experiments/h21-fail2drive-all/protocol.md) is that SimLingo fails the routes with an unseen situation more often than their plain twins. It failed 38 of 100 against 14 of 100. In 28 pairs only the unseen route failed, against 4 the other way round, so chance alone is very unlikely (p = 0.00002, measured).
+
+Three categories stand out: custom obstacles, a wall on the road, and pedestrians on the road. In these the unseen route failed and its twin did not, 5, 5 and 3 times. That matches the Fail2Drive paper, which names these as SimLingo's worst. Pedestrian collisions went from 2 to 12. This is the first time our harness has found non-camera failures that clearly pass a screen. Every earlier passing gap was a camera fault, apart from P19.
+
+What it does not show: whether our discovery methods can find these failures. That is [C38](../CONFLICTS.md)'s proposal, and it waits on Chris and Jerry. Until they decide, no method reads the recorded activations, so the scoring cannot be tuned to the answer. The study has now spent about 6,023 of its 10,000 units.
+
+---
+
+## 2026-11-07: all of Fail2Drive queued, and a proposal to build the evaluation on it
+
+Jerry asked to run Fail2Drive on Savio. Fail2Drive is a published benchmark of 100 road pairs, where each pair is the same road with and without one situation SimLingo never saw in training. Its source code was not on Jerry's copy, so this session cloned it at the revision Chris pinned and applied Chris's compatibility patch. That gives 200 routes in 17 categories. A [locked protocol](research/experiments/h21-fail2drive-all/protocol.md) says what will be reported: whether SimLingo fails the unseen-situation routes more than their twins across all 100 pairs, and a screen for each category.
+
+Two problems came up on the way. Packing the simulator folder into one file for fast loading ran at about 0.3 MB a second on the shared disk, so Fail2Drive's own 12.8 GB download from Hugging Face was used instead. The first download broke at 335 MB, and a resumed one finished in about 4 minutes. The GPU queue is long: Slurm puts the first task's start at about 01:15 on 2026-11-08. So one task runs first as a test, and the other 66 run only if it succeeds. Chris has not yet said whether his own array of 2026-11-05 already did this, and Jerry chose to go ahead anyway.
+
+Separately, [CONFLICTS C38](../CONFLICTS.md) proposes building the final evaluation on Fail2Drive's pairs instead of a sealed blind pool. The current plan has not closed Step 5 on 20 public tries, and its pool costs more than the remaining budget. A review caught a serious hole in the first draft: one oversized group of failures would have won every pair. Jaccard now stays the main score, and the pair reading only counts groups that are specific to the situation. Until Chris and Jerry decide, no method reads the Fail2Drive activations.
+
+---
+
+## 2026-11-06: an agent channel, a refreshed dashboard, and three checks on what preprocessing does
+
+Jerry asked for a place where his agents and Chris's agents can talk. That is now pinned issue [#9](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/9), with a header and rules in its body and a pointer in `CLAUDE.md`. The repository is public, so nothing sealed goes there. The [status dashboard](https://failure-axis-status.vercel.app) was redeployed with this week's summary, P7, P8, P19 and P20, and the current spend. Its Next.js was also moved to 16.4.3, because 16.4.0 has a critical remote-code-execution advisory in `use cache`, which the dashboard uses.
+
+Three dev experiments then asked whether H15's residualization result is real, at 48 SU in all (measured).
+
+- **[H18](research/experiments/h18-residual-controls/protocol.md)** repeated residualization with shuffled visual features and with a variance-matched removal. Its rule says the gain on P19 needs the visual fit. But the shuffle control, which removes about the average activation and almost nothing else, already gets 44% of the gain. It also lifts the B7-pool baseline on P19 to a median Jaccard of 0.666, above our method.
+- **[H19](research/experiments/h19-m2-settings/protocol.md)** asked why the probe-residual method, M2, never finds an axis. Planting a group of 25 failures with a clear decoding error did not help: no clustering setting found it. So M2's zero tells us nothing about the gaps. The first attempt planted the error on blank frames, where M2 cannot see it, and was [withdrawn](WHAT_BROKE.md) before the rerun.
+- **[H20](research/experiments/h20-centring-second-pool/protocol.md)** removed only the average on a second, separate pool. It moved B7-pool on P8 by +0.149 and our method on P4 by −0.088, the same directions as before.
+
+What it means: a preprocessing step that the PRD does not fix moves both our method's and the baseline's scores. That matters most for the comparison with B7, which decides whether the study goes on to a blind test. [CONFLICTS C37](../CONFLICTS.md) proposes what to fix before the methods are frozen, and Chris decides. All of this is dev data with public keys, and the best axis is chosen using the key.
+
+---
+
+## 2026-11-04: P20 fails its screen, the scoring path works, and a causal rehearsal gives a mixed answer
+
+Three things that needed no decision from Chris were read tonight, and one stopped early. H15 and H17 cost 61 SU (a unit of cluster compute) on top of the 5344 measured after P20's drives, so spend is 5405 of 10000.
+
+**P20** planted a camera patch that hides oncoming traffic. Its bug check held, and its rule needed at least 3 more failures in the patched arm than in the comparison arm. It got 0 against 4 on 10 road pairs, so it [fails its screen](research/research-log.md). This is not evidence that SimLingo copes without seeing oncoming traffic, because the patch covers an oncoming car only briefly. The count of public candidates is now 20.
+
+**H15** pushed real activations (the policy's internal numbers) through the whole scoring path on a [throwaway public key](research/experiments/h15-scoring-dry-run/protocol.md), and its bug check found 0 bugs on the first run. So the code that would score a blind test has now seen real data. It is not a verdict. It also gave a new exploratory result. Before training, it removed from the policy's action-query numbers whatever the visual features predict. On P19 contrastive diffing then read best 0.689, median 0.540, against best 0.705, median 0.375 without that step (Jaccard overlap with the planted failures, measured, with the best axis chosen using the key). A list of scenario names still scores 0.857.
+
+**H17** [removed one discovered direction](research/experiments/h17-causal-rehearsal/protocol.md) from the activations in offline replay. Removing it shifted the speed plan more than random edits of equal size (0.121 m against 0.105 m, measured). The route plan did not clear the rule, stopping at both its floor and its interval. H17 could not show that it moves the plan more on failing frames than on their clean twins (speed difference interval -0.016 to 0.016 m, measured), and its shift does not exceed the 95th percentile of other dictionary directions. This is a rehearsal on one axis and not Step 9's verdict.
+
+**H14's offline test** did not run. Its route-marker mask caught 72% of dots against a 90% limit, and a ring drawn around a dot touched a vehicle in 13 of 50 frames, so the [protocol's stop](WHAT_BROKE.md) applied. The route-marker effect is still unmeasured.
+
+What is left needs a person. Chris decides the pending conflicts, H14's driving stage, the preregistration and his new direction, and Jerry and Chris decide whether B7-pool's reading on P19 stops the blind pool. The [report](research/dev-report.md) stays a draft.
+
+---
+
 ## 2026-11-04 (Chris): Fail2Drive runs on our harness; the kinematic decoy screen ran
 
 Chris decided to keep SimLingo and change where the gaps come from. Every gap that has passed so far is a camera fault, which an out-of-distribution detector would also flag and which says little about missing training data. [Fail2Drive](https://arxiv.org/abs/2604.08535) is a published benchmark built for exactly this: 100 route pairs where only an unseen scenario or object differs. Its authors report SimLingo's largest drops in the Behavior category (-64.2%) and the Visual-lateral category (-32.2%), including PedestriansOnRoad falling from 98.50 to 19.68. We had never run its own routes. P5 and P6 were our re-implementations on Bench2Drive roads, and neither moved SimLingo.

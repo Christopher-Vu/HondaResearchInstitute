@@ -64,3 +64,7 @@ The first screen array and its rerun have finished and been scored by script, bu
 Before any full pilot, the route cutter must measure its tail past the hazard, since the same draw would otherwise repeat this fault.
 
 **Note, 2026-11-04, before P20 was read.** Chris reports that a sealed candidate overlaps P20's region (issue 8), and that candidate is counted as tried and not passed. The screen is still read. A screen pass does not start the full pilot without Chris's say.
+
+## Result, 2026-11-04
+
+P20 fails its screen: 0 against 4 on 10 pairs. The check held. The count becomes 20. `docs/research/data/h13_p20_amended_check.json`, `docs/research/data/h13_p20_amended_efficacy.json`, read in `docs/research/dev-report.md`.

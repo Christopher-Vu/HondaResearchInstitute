@@ -728,6 +728,36 @@ Written before the amended P20 screen was read, so the wording cannot be chosen 
 ### C36 · Step 8's tag order, with one tag already placed · new, 2026-11-04 (agent), pending review (Chris and Jerry)
 `docs/steps/08-seal-generate-score.md` asks for its tags in order. `b4-factors-v1`, its third, already exists ahead of the first two, because the B4 factor list was committed before any sealed gap was designed (C30). `harness/PREREGISTRATION.md` therefore reads "in this order, except tag 3". Moving the tag would date the factor list later and weaken what C30 protects, so it stays.
 
+### C37 · Preprocessing and M2 before `methods-frozen-v1` · new, 2026-11-06 (agent), pending review (Chris)
+Four dev runs on public throwaway keys show that method scores move with preprocessing that `PRD.md` §9.2 leaves open, and that M2 as configured cannot find even a planted group. These are measured, but they are dev only, and the best axis is chosen using the key.
+
+- **Mean removal moves scores on both pools.** On H12's pool, H18's shuffle control, which removes little more than the success-frame mean (its fit explains 0.008), lifts B7-pool on P19 from a median of 0.372 to 0.666 and M1 raw on P19 from 0.375 to 0.447. On H1's pool (H20), it lifts B7-pool on P8 from 0.215 to 0.364 and lowers M1 raw on P4 from 0.353 to 0.265. `sae.py` already centres each frame on its own features, so the dataset mean is a separate step.
+- **Vision residualization helps P19 and hurts P4.** M1 raw on P19 goes from a median of 0.375 to 0.540 (H15), and H18's controls show the full gain needs the visual fit. M1 raw on P4 goes from 0.353 to 0.155 on H1's pool (H20), as PRD 9.2 expects for a perceptual gap.
+- **M2 recovers nothing it should.** A planted 25-failure group is found under none of 16 HDBSCAN settings (H19), so M2's zero on every pool is uninformative.
+
+**Proposed. Nothing changes until this is reviewed.**
+1. `methods-frozen-v1` names the dataset-mean step explicitly, with or without it, before any test-pool outcome is read, and reports both variants as PRD 9.2 already asks for residualization.
+2. B7-pool is frozen with the same preprocessing as the method it is compared against, so condition 2 cannot be won or lost by a centring choice.
+3. M2 is either fixed and shown to recover a planted group on dev, or named as a method with no verified power, beside its scores.
+
+**Alternatives.** Freezing the plain variant as it is, which leaves both a known lever and B7's sensitivity to it unreported. Dropping M2, which loses PRD 9.2's third method.
+
+### C38 · An evaluation built on Fail2Drive's pairs · new, 2026-11-07 (agent, at Jerry's request), accepted by Jerry 2026-11-12, reviewed and scoped by Chris 2026-11-12
+Step 5 has not closed on 20 public candidates. The one interactional gap that passed PRD 9.1 (P19) fails the single-factor condition. The sealed set has no passing interactional gap (Chris, issue 8). The Step 8 pool at the PRD's scale costs about 6,950 SU at the low end (PRD §17.3), more than the 4,547 left (measured 2026-11-06). H21 drives all 100 Fail2Drive pairs with activation capture for about 700 SU (estimate). Fail2Drive is a published benchmark where each generalization route adds one unseen scenario to its base twin's road.
+
+**Accepted by Jerry on 2026-11-12 ("Accept C38"). Chris has not reviewed it.**
+
+**Chris, 2026-11-12:** reviewed, accepted for H21's pool, and scoped to it: "yes keep own rules for my test set". Chris's Fail2Drive test pool (1,200 routes per model, SimLingo and TransFuser++) runs under `docs/prereg-fail2drive.md` (tag `f2d-prereg-v1`), not C38. On that pool Chris asked for open method iteration on SimLingo with every variant logged (`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`), no success criterion fixed in advance, and TransFuser++ held out for one confirmation after a freeze. The freeze is `docs/research/experiments/h22-f2d-frozen-eval/protocol.md`, tagged `methods-frozen-f2d-v1`, which lists where it departs from the text below.
+1. **Gaps.** The gaps are Fail2Drive categories that pass a screen on H21: at least 3 excess slice-only failures. With 5 or 10 pairs per category they stay screens. No category is called a PRD 9.1 gap, and the report says the gaps were chosen on the same pairs it scores. They are public, so this is a frozen-method evaluation, not a blind one, and the report says so beside every result.
+2. **Freeze first.** No discovery method reads H21's shards until a tag `methods-frozen-f2d-v1` exists, kept apart from Step 8's `methods-frozen-v1` (C36). It names the primary method, the primary preprocessing including C37's mean step, the dictionaries and this scoring rule. Driving outcomes can be read before then, because they choose the gaps, not the methods.
+3. **Score.** Jaccard recovery against each passing category's failing set stays the primary reading, as in PRD 10.2 and 13.1, because it is the only measure that penalises an axis too broad to mean anything. A per-pair reading goes beside it. For pairs where the generalization route failed and its twin did not, a pair is a hit when an axis holds the generalization route and not its twin, and that axis's Jaccard with the category's failing set is at least 0.3. Axes are chosen by the method's own rank, never by the key. B1 and B7 are both matched to the method's axis sizes. Comparisons bootstrap over categories, re-select the best method and best baseline in every replicate as 13.1 does, and report best and median across dictionaries (C34).
+4. **B2 is a ceiling, not a rival.** Fail2Drive's scenario names are the labels, so the scenario-list baseline recovers every category by construction. The claim becomes that activations find these failures without being told the scenario.
+5. **Chris's sealed gaps** are a held-out check only if a pool for them is funded, since generating one is the cost this proposal avoids. Without that funding they are not scored.
+
+**What this gives up.** Blindness: the categories are known in advance, and the freeze limits that without removing it. Discovery of unknown failures: this tests recovery of known ones. PRD 13.1's two-interactional-gap branch: it cannot be read on public gaps, so the report claims no 13.1 branch (C34).
+
+**Alternatives.** Keep the current Step 5 and wait for Chris's new sealed candidates. Stop at end state A, the dev-only report.
+
 ## D. Open contradictions
 
 ### D1 · SAE expansion ratio · **CLOSED 2026-10-01**

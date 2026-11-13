@@ -173,3 +173,12 @@ def test_ability_table_copy_matches_bench2drive_script():
         pytest.fail("Ability dict not found")
     assert taxonomy.ABILITY_SCENARIOS == {
         ability: tuple(dict.fromkeys(scenarios)) for ability, scenarios in upstream.items()}
+
+
+def test_a_record_without_weather_forms_no_weather_stratum():
+    """Fail2Drive's manifests carry no weather (H22): B2 must still stratify on the fields they do carry."""
+    records = [{k: v for k, v in r.items() if k != "weather"} for r in make_records("a", 40, 32, scenario="Wall")]
+    records += [{k: v for k, v in r.items() if k != "weather"} for r in make_records("b", 40, 0)]
+    directive = taxonomy_directive(records, TaxonomyConfig(fields=("scenario", "weather", "town")))
+    assert names(directive)[0] == "scenario = Wall"
+    assert not any(name.startswith("weather") for name in names(directive))

@@ -1,6 +1,6 @@
 # H14: how much the route markers change SimLingo's driving
 
-**Locked in two parts on 2026-11-04. Nothing has run and no SU has been spent.** The offline test may run now. Stage 1 waits for Chris's decision on H14 (Christopher-Vu/HondaResearchInstitute#8), and Stage 2 needs its own approval from Jerry and Chris. If Chris changes anything in the paired test, the change is recorded here before any pair is driven. Dev only (PRD §9.2).
+**Locked in two parts on 2026-11-04. No replay or rollout has run.** The offline test stopped at its mask check on 2026-11-04 at 0 SU. Stage 1 waits for Chris's decision on H14 (Christopher-Vu/HondaResearchInstitute#8), and Stage 2 needs its own approval from Jerry and Chris. If Chris changes anything in the paired test, the change is recorded here before any pair is driven. Dev only (PRD §9.2).
 
 Every number below is tagged: measured, simulated, estimate, read from the code, or guess. None of the margins or predictions is a result.
 
@@ -239,11 +239,11 @@ The task column below uses a different model, because H14 runs 3 routes per A40 
 
 The offline figure assumes three forward passes on each of about 1,350 frames at 0.13 s (measured, Step 4 Part B: 8,232 s for 63,600 passes), about 9 minutes, plus the reproduction pass and the unpacking. The longest Step 2 route took 85 minutes (measured), so a 3-hour limit on route tasks leaves room for slowdown.
 
-About 4,700 of 10,000 SU remain (re-measure before locking). Stage 1 takes about 14% of that and everything about 31%, or 49% at the top of the range. Step 8's worked blind pool, about 6,200 SU, already exceeds what is left, so approving Stage 2 is also a decision about that pool.
+About 4,595 of 10,000 SU remain (measured 2026-11-04 22:49). Stage 1 takes about 14% of that and everything about 32%, or 50% at the top of the range. Step 8's worked blind pool, about 6,200 SU, already exceeds what is left, so approving Stage 2 is also a decision about that pool.
 
 The `--debug 0` arm is half the spend. Once both stages have run, it is also a one-seed Step 2 at the default setting with activations captured. Disk is about 210 to 430 GB on scratch, at the 0.5 to 1 GB per route seen on the Mac.
 
-**Order.** Offline first, which may run now. Stage 1 runs only after Chris's decision (issue 8). Stage 2 runs only with its own approval from Jerry and Chris.
+**Order.** Offline stopped at its mask check. Stage 1 runs only after Chris's decision (issue 8). Stage 2 runs only with its own approval from Jerry and Chris.
 
 ## What each outcome means
 
@@ -265,7 +265,9 @@ The `--debug 0` arm is half the spend. Once both stages have run, it is also a o
 
 Run these on Savio from `/global/scratch/users/imhaohao/HondaResearchInstitute`, after `git fetch origin main && git merge --ff-only origin/main`. Confirm first that no P20 array is still running.
 
-**Offline, cleared to run now.** Run the real-model path once on one route with `--limit` first, because `Replayer` and `Probe` have not run in this form. The first command runs on the login node for 0 SU. View `results/savio/h14-offline/mask-check/*.png` and fill in `mask-check.json` before the second.
+**Offline, stopped 2026-11-04: the mask check failed, so `replay` was not submitted.** Two independent model viewers, not a person, with two panels spot-checked by the lead, agree on 85 caught of 118 coloured dots in total (72%, limit 90%). They mark 13 and 14 of 50 frames where a ring touches a vehicle (limit 0), and 13 is the count both mark. Four of 6 white rings are off a block and 2 of 11 to 14 white blocks are caught, so white blocks stay unpainted. Missed dots are mostly far, small or yellow, and markers are often drawn over a distant car, so painting one out edits that car. Rings are drawn 6 pixels wider than the mask, so some touches overstate what the mask itself covers. The locked rule counts rings, and 72% fails alone. No effect was measured; offline is untested. A new mask needs an amendment and frames it has not seen. Data: `docs/research/data/h14_mask_check.json`. Stage 1 does not use the mask.
+
+**Offline; the original plan.** Run the real-model path once on one route with `--limit` first, because `Replayer` and `Probe` have not run in this form. The first command runs on the login node for 0 SU. View `results/savio/h14-offline/mask-check/*.png` and fill in `mask-check.json` before the second.
 
 ```bash
 .runtime/policy-venv/bin/python adapters/simlingo/marker_replay.py sheets results/savio/40715498 --output results/savio/h14-offline
