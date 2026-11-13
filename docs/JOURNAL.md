@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: make the status dashboard match the final dev summary
+
+The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
+
+No experiment, result, dashboard code, sealed path, or Savio job changed. `scripts/check_configs.py` validates all 53 configs with no unresolved placeholders. The next scheduled run should check for Chris's decision before making any new study change.
+
 ## 2026-11-13: the final summary
 
 Jerry asked for the study's final summary, and it now opens the [dev report](research/dev-report.md). In plain words: the planted camera faults and Fail2Drive's unseen situations really do make SimLingo fail, but reading its activations without labels finds only one of those failures well, the black patch over the camera, and it found that on two separate sets of drives. On Fail2Drive the best baseline wins because it reads the simulator's exact distances to nearby objects. Every number in the summary was checked against its data file before it went in. The study has not built a blind test pool, so the PRD's final test was never run, and Chris still has to say whether the study closes here.
