@@ -1,0 +1,205 @@
+{
+ "label": "H24 on H1's pool, P4 and P7 only (H26 reference)",
+ "pool": {
+  "name": "H1's pool (P4, P7)",
+  "failures_scored": 278,
+  "restricted": false
+ },
+ "note": "The best axis is chosen using each category's failing set.",
+ "categories": {
+  "P4_camera_occlusion": 43,
+  "P7_camera_freeze": 53
+ },
+ "b3": {
+  "P4_camera_occlusion": 0.17647058823529413,
+  "P7_camera_freeze": 0.17567567567567569,
+  "mean": 0.1760731319554849
+ },
+ "methods": {
+  "H24_act": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": 0.1550897440533192,
+   "median_delta_vs_random_only": 0.1904933672977896,
+   "route_bootstrap": [
+    0.04521059666932136,
+    0.2214339101749201
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.5,
+     "median": 0.44680851063829785,
+     "random_median": 0.13365247208562958,
+     "median_delta": 0.2703379224030037
+    },
+    "P7_camera_freeze": {
+     "best": 0.21739130434782608,
+     "median": 0.21381922675026122,
+     "random_median": 0.1467965549123201,
+     "median_delta": 0.038143551074585544
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.3524590163934426,
+    "median": 0.3311628760088041,
+    "random_median": 0.1402788778369127
+   },
+   "axis_sizes": {
+    "count": 162,
+    "median": 25.0,
+    "max": 107
+   },
+   "outcome": "ahead",
+   "reading": "On H1's pool (P4, P7), H24_act recovers the categories' failing routes better than B3 and random groups of the same sizes, by a median of at least 0.15 Jaccard, on every category."
+  },
+  "H24_act+kin": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": 0.0952290145397855,
+   "median_delta_vs_random_only": 0.1271086449106993,
+   "route_bootstrap": [
+    0.016021473404110156,
+    0.143920354503183
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.27586206896551724,
+     "median": 0.2631578947368421,
+     "random_median": 0.13428520508148944,
+     "median_delta": 0.08668730650154796
+    },
+    "P7_camera_freeze": {
+     "best": 0.28,
+     "median": 0.2698412698412698,
+     "random_median": 0.15119397016933023,
+     "median_delta": 0.09416559416559414
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.27285166940339356,
+    "median": 0.2713021464952704,
+    "random_median": 0.1422627794819818
+   },
+   "axis_sizes": {
+    "count": 162,
+    "median": 21.0,
+    "max": 108
+   },
+   "outcome": "not_ahead",
+   "reading": "On H1's pool (P4, P7), H24_act+kin is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_act_gamma0": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": 0.15124874675104713,
+   "median_delta_vs_random_only": 0.18228876744251704,
+   "route_bootstrap": [
+    0.04875376878152001,
+    0.21667819188558368
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.6363636363636364,
+     "median": 0.44680851063829785,
+     "random_median": 0.13169906052965755,
+     "median_delta": 0.2703379224030037
+    },
+    "P7_camera_freeze": {
+     "best": 0.23333333333333334,
+     "median": 0.2098114054782218,
+     "random_median": 0.1483618827512249,
+     "median_delta": 0.03413572980254613
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.4323550465282749,
+    "median": 0.32732187870653207,
+    "random_median": 0.13972774760327303
+   },
+   "axis_sizes": {
+    "count": 162,
+    "median": 28.5,
+    "max": 117
+   },
+   "outcome": "ahead",
+   "reading": "On H1's pool (P4, P7), H24_act_gamma0 recovers the categories' failing routes better than B3 and random groups of the same sizes, by a median of at least 0.15 Jaccard, on every category."
+  },
+  "H24_full": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": 0.029801261116244718,
+   "median_delta_vs_random_only": 0.06460486693385632,
+   "route_bootstrap": [
+    -0.01819885573398267,
+    0.05299266916282065
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.2336448598130841,
+     "median": 0.1694915254237288,
+     "random_median": 0.1333269188261909,
+     "median_delta": -0.006979062811565323
+    },
+    "P7_camera_freeze": {
+     "best": 0.2894736842105263,
+     "median": 0.23771730914588057,
+     "random_median": 0.1499120639581238,
+     "median_delta": 0.06204163347020489
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.2610531991373113,
+    "median": 0.2058743930717296,
+    "random_median": 0.14178511348321
+   },
+   "axis_sizes": {
+    "count": 172,
+    "median": 23.0,
+    "max": 114
+   },
+   "outcome": "not_ahead",
+   "reading": "On H1's pool (P4, P7), H24_full is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_kin": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": 0.03985782617656017,
+   "median_delta_vs_random_only": 0.08385220634883354,
+   "route_bootstrap": [
+    -0.016369633517882898,
+    0.09715512155453795
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.16,
+     "median": 0.14285714285714285,
+     "random_median": 0.1290457171967656,
+     "median_delta": -0.03361344537815128
+    },
+    "P7_camera_freeze": {
+     "best": 0.3181818181818182,
+     "median": 0.2819509650495566,
+     "random_median": 0.1388942747661053,
+     "median_delta": 0.1062752893738809
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.22951344430217668,
+    "median": 0.21593095813204508,
+    "random_median": 0.13364225182178607
+   },
+   "axis_sizes": {
+    "count": 179,
+    "median": 17.0,
+    "max": 90
+   },
+   "outcome": "not_ahead",
+   "reading": "On H1's pool (P4, P7), H24_kin is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  }
+ }
+}
