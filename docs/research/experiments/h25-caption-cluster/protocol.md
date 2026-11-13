@@ -60,3 +60,14 @@ Then H24's two `score_sets.py` commands with `--axes` set to these files, `--min
 ## Review before the lock
 
 The same review as H24's found these H25 problems, all fixed before the tag: route ids sorted by category would have set the order of descriptions (now sorted by hash); the mapping sat next to the frames (now separated, with an audit that voids a breach); `to_axes.py` could not read the workflow's output (now `--pool`); a route could sit in two modes (now kept in its first only); runs with failed agents were dropped (now scored as no axes); the frames show the defining fault or object (now stated); and there was no rule for missing frames (now 20%).
+
+## Result, 2026-11-13
+
+342 agents, none failed. Every grouping run assigned every route, with no invented ids and no repeats. The audit found 2,678 frame reads and 0 touches outside an agent's own frame folder (`docs/research/data/h25_audit.json`). No route lacked frames, so no restriction applies. `not_ahead` on both pools (measured). `docs/research/data/h25_f2d_report.json`, `h25_h1_report.json`, `h25_groups.json`.
+
+| Pool | Mean best Jaccard (median of 6 runs) | B3 | Random, matched | Median delta | Route bootstrap | Per category delta |
+|---|---:|---:|---:|---:|---|---|
+| Fail2Drive | 0.510 | 0.471 | 0.208 | +0.039 | -0.123 to +0.185 | CustomObstacles +0.07, Wall +0.15, PedestriansOnRoad -0.10 |
+| H1's pool | 0.161 | 0.184 | 0.127 | -0.023 | -0.071 to +0.013 | P4 -0.03, P7 +0.03, P8 -0.06 |
+
+Reported beside it, with no bearing: on H1's pool the descriptions mention a black patch or blocked view in 38 of 278 and frozen or identical frames in 51, but the grouping runs grouped by what went wrong on the road (for example "Did not brake for vehicle ahead"), never by the camera fault, because the prompt asks why the driving failed.

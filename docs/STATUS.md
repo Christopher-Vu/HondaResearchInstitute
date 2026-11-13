@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-12 (Fail2Drive line closed and written up)
+Last updated: 2026-11-13 (H24 and H25 read: neither ahead; each wins where its input carries the category)
 
 ---
 
 ## Current position
+
+**2026-11-13, H24 and H25 are read: both `not_ahead` on both pools (measured).** H24 groups routes with a Gaussian mixture on activations: on H1's camera-fault pool it beats B3 and random groups on every category (median +0.109, route bootstrap above 0) but misses the 0.15 margin; on Fail2Drive it loses (-0.227). H25 has Claude describe each failure's last 4 camera frames and group the descriptions: on Fail2Drive it is the first method above B3 (0.510 against 0.471) but loses PedestriansOnRoad; on H1's pool it loses. Spend about 6034 of 10000 SU, nothing queued. **Next, for Jerry and Chris:** whether the H1 activation result, the strongest activation reading so far, is worth a locked test on a fresh pool. Savio's login has expired.
 
 **2026-11-12, literature review written** (`docs/research/literature-review.md`): no published method has been tested on a driving policy's known failure groups. Methods that use the failure label while grouping (Domino, FACTS, InfEmbed) and vision-language caption-then-cluster have the best support elsewhere. **Next, for Jerry:** which option to lock first; any next test also runs on a second pool (H1's or H12's), since Fail2Drive's three categories have been read twice.
 

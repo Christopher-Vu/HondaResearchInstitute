@@ -1,0 +1,74 @@
+{
+ "label": "H25 on Fail2Drive",
+ "pool": {
+  "name": "Fail2Drive's three screened categories",
+  "failures_scored": 52,
+  "restricted": false
+ },
+ "note": "The best axis is chosen using each category's failing set.",
+ "categories": {
+  "F2D_CustomObstacles": 8,
+  "F2D_Wall": 5,
+  "F2D_PedestriansOnRoad": 3
+ },
+ "b3": {
+  "F2D_CustomObstacles": 0.35714285714285715,
+  "F2D_Wall": 0.45454545454545453,
+  "F2D_PedestriansOnRoad": 0.6,
+  "mean": 0.47056277056277057
+ },
+ "methods": {
+  "H25_caption_cluster": {
+   "runs": 6,
+   "runs_with_axes": 6,
+   "median_delta": 0.03896103896103892,
+   "median_delta_vs_random_only": 0.30502560076089485,
+   "route_bootstrap": [
+    -0.1234375,
+    0.1854929792429791
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.42857142857142855,
+     "median": 0.42857142857142855,
+     "random_median": 0.2112782119840943,
+     "median_delta": 0.0714285714285714,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 4.0
+    },
+    "F2D_Wall": {
+     "best": 0.6,
+     "median": 0.6,
+     "random_median": 0.20019172494172494,
+     "median_delta": 0.14545454545454545,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 3,
+     "pair_hits_median": 3.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.75,
+     "median": 0.5,
+     "random_median": 0.2095579975579975,
+     "median_delta": -0.09999999999999998,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 3,
+     "pair_hits_median": 3.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.5888888888888889,
+    "median": 0.5095238095238095,
+    "random_median": 0.20790785697790337
+   },
+   "axis_sizes": {
+    "count": 58,
+    "median": 5.0,
+    "max": 13
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H25_caption_cluster is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "label": "H25 on H1's pool",
+ "pool": {
+  "name": "H1's pool (P4, P7, P8)",
+  "failures_scored": 278,
+  "restricted": false
+ },
+ "note": "The best axis is chosen using each category's failing set.",
+ "categories": {
+  "P4_camera_occlusion": 43,
+  "P7_camera_freeze": 53,
+  "P8_camera_latency": 58
+ },
+ "b3": {
+  "P4_camera_occlusion": 0.17647058823529413,
+  "P7_camera_freeze": 0.17567567567567569,
+  "P8_camera_latency": 0.2,
+  "mean": 0.18404875463698991
+ },
+ "methods": {
+  "H25_caption_cluster": {
+   "runs": 6,
+   "runs_with_axes": 6,
+   "median_delta": -0.023184258501675117,
+   "median_delta_vs_random_only": 0.03475122181489383,
+   "route_bootstrap": [
+    -0.07101047021989201,
+    0.013341091932107337
+   ],
+   "replicates": 1000,
+   "categories": {
+    "P4_camera_occlusion": {
+     "best": 0.14666666666666667,
+     "median": 0.14570175438596492,
+     "random_median": 0.12318235076042215,
+     "median_delta": -0.030768833849329214
+    },
+    "P7_camera_freeze": {
+     "best": 0.22727272727272727,
+     "median": 0.20454545454545453,
+     "random_median": 0.12767045177954633,
+     "median_delta": 0.02886977886977886
+    },
+    "P8_camera_latency": {
+     "best": 0.1702127659574468,
+     "median": 0.14292618098344811,
+     "random_median": 0.12859655299899492,
+     "median_delta": -0.05707381901655191
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.17633354824844186,
+    "median": 0.16086449613531478,
+    "random_median": 0.12663100333967714
+   },
+   "axis_sizes": {
+    "count": 60,
+    "median": 28.5,
+    "max": 52
+   },
+   "outcome": "not_ahead",
+   "reading": "On H1's pool (P4, P7, P8), H25_caption_cluster is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  }
+ }
+}

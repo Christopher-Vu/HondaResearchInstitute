@@ -620,3 +620,7 @@ Jerry accepted C38. Freeze tagged `methods-frozen-f2d-v1` (066c995) before any m
 ## 2026-11-12 — H23: M1 with a floor of 3 is still not ahead on Fail2Drive
 
 Jerry asked for the follow-up. Locked under `methods-frozen-f2d-v2` (04140b8): M1's `min_support` 20 to 3, matching B7-pool's floor; H22's dictionaries reused. Job 41250943, about 2 SU. `not_ahead`: median delta -0.385 (interval -0.500 to -0.266). Plain M1 raw best 0.142, median 0.085, under B1 random 0.186; centre M1 raw best 0.250; vision 0.172; B3 0.471 throughout. The floor was why H22's M1 was empty, not why it lost. H22's edit to the dev report had dropped the "PRD checks that never ran" heading; restored here. Spend about 6030 of 10000. `docs/research/data/h23_*.json`.
+
+## 2026-11-13 — H24 and H25: both not ahead; each wins where its input carries the category
+
+Locked under `h24-h25-locked` (3efa946) after a pre-lock review that confirmed 11 problems and rejected 2 (fixed: category leak through id order, mapping beside frames, outcome weight 10 merging failures, a 3-category "interval" that only checked the worst category, a crash between workflow and converter, and more). Export job 41255052, about 4 SU. H24 (laptop) and H25 (342 agents, audit clean) ran in parallel. All `not_ahead`. H24 `act` on H1's pool: +0.109, every category positive, bootstrap +0.017 to +0.143; on Fail2Drive -0.227. H25 on Fail2Drive: 0.510 against B3 0.471, delta +0.039, PedestriansOnRoad -0.10; on H1's pool -0.023. Spend about 6034 of 10000. `docs/research/data/h24_*`, `h25_*`.

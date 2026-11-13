@@ -81,3 +81,17 @@ Features: one CPU job shared with H25, under 2 hours (estimate, a few SU). The m
 ## Review before the lock
 
 Four reviewers with separate lenses read this protocol and its code, and three skeptics checked each major finding. Eleven held and two were rejected. The fixes: the outcome weight went from 10 to 1, because 10 merged failures on pools shaped like ours; the `act_gamma0` arm was added; the three-category interval was replaced by the explicit every-category check plus a route bootstrap; the random control became a partition; a misspelt category now stops the run; and these commands were fixed. H25's fixes are listed in its own protocol.
+
+## Result, 2026-11-13
+
+Export job 41255052 (about 4 SU, estimated from 1,042 s on 4 cores); mixtures and scoring on a laptop. Every arm reads `not_ahead` on both pools (measured). `docs/research/data/h24_f2d_report.json`, `h24_h1_report.json`.
+
+| Arm | Fail2Drive median delta | Route bootstrap | H1's pool median delta | Route bootstrap |
+|---|---:|---|---:|---|
+| `act` (primary) | -0.227 | -0.269 to -0.146 | +0.109 | +0.017 to +0.143 |
+| `act_gamma0` | -0.218 | -0.262 to -0.139 | +0.117 | +0.032 to +0.154 |
+| `act+kin` | -0.050 | -0.184 to +0.160 | +0.096 | +0.019 to +0.125 |
+| `full` | -0.043 | -0.097 to -0.030 | +0.072 | +0.015 to +0.082 |
+| `kin` | -0.127 | -0.232 to +0.042 | +0.046 | -0.009 to +0.079 |
+
+On H1's pool `act` beats both rivals on every category (P4 +0.27, P7 +0.04, P8 +0.02) and its route bootstrap stays above 0. It misses only the 0.15 margin, so the reading is `not_ahead`. `act` and `act_gamma0` read alike, so this is reported as a plain Gaussian mixture, not as evidence about error-aware grouping.

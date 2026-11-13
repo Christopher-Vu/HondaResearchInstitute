@@ -325,6 +325,18 @@ B3 reads no activations. It reads the car's speed in the 3 s before the end, whi
 
 **H23, post hoc, with M1's group floor at 3** ([protocol](experiments/h23-f2d-m1-floor/protocol.md), tag `methods-frozen-f2d-v2`). Jerry asked for this after H22. Only the floor changed, to B7-pool's own floor of 3, and H22's dictionaries were reused. The reading is again `not_ahead`: median delta -0.385, with an interval of -0.500 to -0.266 (measured). With the floor no longer a limit, plain M1 raw emits axes on every dictionary. Its mean best Jaccard is 0.142 at best and 0.085 at median, under B1 random at 0.186. Centre M1 raw reaches 0.250 at best, with 5 pair hits on CustomObstacles in its best dictionary. Vision reaches 0.172. B3 stays at 0.471. So the floor explained why M1 emitted nothing in H22, but not why it lost: once it can emit small groups, they do not line up with these categories better than random groups of the same sizes ([plain](data/h23_plain.json), [centre](data/h23_centre.json), [vision](data/h23_vision.json)).
 
+**H24 and H25, after a literature review** ([review](literature-review.md); protocols [H24](experiments/h24-error-aware-grouping/protocol.md), [H25](experiments/h25-caption-cluster/protocol.md); tag `h24-h25-locked`). Jerry asked for a refinement and a new method, run in parallel, each read on Fail2Drive and on H1's pool (P4, P7, P8). A 4-lens review with 3 skeptics per finding fixed 11 problems before the lock, including a leak: Fail2Drive's route ids sort by category, so the order of descriptions would have told the grouping agent the answer. A win needs a median lead of 0.15 over the better of B3 and matched random groups, a lead on every category, and a route bootstrap above 0. Both read `not_ahead` on both pools (measured):
+
+| Method | Fail2Drive mean (median run) | Delta | H1's pool mean | Delta |
+|---|---:|---:|---:|---:|
+| H24 `act`: Gaussian mixture on activations | 0.244 | -0.227 | 0.293 | **+0.109**, every category positive, bootstrap above 0 |
+| H24 `act+kin`: activations and speed | 0.421 | -0.050 | 0.280 | +0.096 |
+| H24 `kin`: speed only | 0.343 | -0.127 | 0.230 | +0.046 |
+| H25: Claude describes 4 frames, then groups | **0.510** | +0.039 | 0.161 | -0.023 |
+| B3 | 0.471 | | 0.184 | |
+
+Three findings come out of the numbers. On H1's camera-fault pool, grouping routes by their activations beats B3 and random groups on all three faults, robustly but by less than the margin. That is the first activation reading in this study to clear both rivals on a whole pool. On Fail2Drive, describing the camera frames is the first method to score above B3 (0.510 against 0.471), and it loses only on PedestriansOnRoad, which has 3 failures. Each method does best where its input carries the category: the frames show Fail2Drive's inserted objects, and the activations carry the camera faults, while the describers group by what went wrong on the road and not by the fault they often noticed. Every score here picks the best axis using the answer, the categories are public, and Fail2Drive's have now been read four times.
+
 ## PRD checks that never ran
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
