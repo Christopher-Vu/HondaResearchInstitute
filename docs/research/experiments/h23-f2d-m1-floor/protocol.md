@@ -41,3 +41,7 @@ About 2 to 5 SU on one A40, under a 1 hour limit (estimate). H22 emitted and sco
 ```bash
 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar bash scripts/submit.sh gpu_a40 --time=0-01:00:00 docs/research/experiments/h23-f2d-m1-floor/run.sbatch
 ```
+
+## Result, 2026-11-12
+
+Job 41250943, about 2 SU (measured). `not_ahead`: median delta -0.385, interval -0.500 to -0.266. Plain M1 raw now emits axes on all 18 dictionaries, and its mean best Jaccard is 0.142 at best and 0.085 at median, under B1 random (0.186) and B3 behavioral (0.471). Centre M1 raw reaches 0.250 at best. `docs/research/data/h23_plain.json`, `h23_centre.json` and `h23_vision.json`, read in `docs/research/dev-report.md`.
