@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+
+## 2026-11-12: restore the Failure Explorer's development report import
+
+Reviewed main through `4d9e749`, recent experiment results, open pull requests and the agent channel. The only open pull request (#1) is contrastive discovery; the channel's latest entry closes the Fail2Drive line and leaves study decisions to Chris. The dashboard already has the H18–H20 comparison view. Chose a separate dashboard bug that needs no method decision: the importer advertised current development reports but required an obsolete format, rejecting the committed H12 report.
+
+The [importer](../dashboard/src/app/failure-explorer/AxisImporter.tsx) now validates current `dev_eval.py` reports, lists all method/run summaries, and displays each gap's best axis, support, overlap and recovery flag. Excluded runs, empty summaries and absent axes have explicit labels. All processing stays local. A version check prevents a slower previous upload from replacing a newer selection. The view explains that best axes are selected with the development key and recovery may refer to another axis. The [README](../dashboard/src/app/failure-explorer/README.md) documents the format and checks, and [WHAT_BROKE](WHAT_BROKE.md) records the mismatch.
+
+Validation: 14 dashboard parser regression tests pass against the committed H12 fixture and malformed/empty inputs. Focused ESLint, Next route type generation, TypeScript checking and `git diff --check` pass. The sealed-import guard passes; 53 configs have no unresolved placeholders. Full Python collection is blocked by missing Pillow; with only `test_h13_check.py` excluded, 617 tests passed, 44 skipped and 8 failed. Two failures cannot bind local ports in this sandbox; the six submission-test failures were resolved by placing the existing Python environment on PATH and rerunning that test file (see PR validation). Production build is blocked by Turbopack's local port binding after a network-enabled retry fetched fonts. Available local dashboard dependencies use Next 16.4.0 while main declares 16.4.3, so a clean locked-dependency build remains necessary in CI or a fully configured checkout.
+
+No research methods or experiments changed. Full axis inventories and cross-report comparisons remain future work; the supported producer only exports best-axis summaries. Study closure and the existing research decisions remain Chris and Jerry's work. Changes are isolated on `feat/explorer-import-validation`; no merge or deployment is performed.
+
 ## 2026-11-12: the Fail2Drive line is closed and written up
 
 Jerry chose to close the Fail2Drive line after H23. The [dev report](research/dev-report.md)'s short answer at the top now has a sixth point that says what the line found. SimLingo really does fail Fail2Drive's unseen situations more often on our harness. But neither the frozen methods nor the post hoc rerun found those failures better than a baseline that only watches how the car drove. [CONFLICTS C38](../CONFLICTS.md) now records that outcome under its proposal, which stays as written, so the record shows what was planned and what happened. The status dashboard's week block now covers 9 to 13 November, and its spend line shows 6,030 SU. Nothing is running on Savio. Whether the whole study closes at the dev-only report is still Chris's call, because he asked earlier that it not close there.
