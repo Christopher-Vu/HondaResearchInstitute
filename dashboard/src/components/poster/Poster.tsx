@@ -25,12 +25,25 @@ function Region({ area, className = "", children }: { area: Area; className?: st
   );
 }
 
-function Panel({ area, title, children }: { area: Area; title: string; children: React.ReactNode }) {
+function Panel({ area, title, claim, children }: { area: Area; title: string; claim?: string; children: React.ReactNode }) {
   return (
-    <Region area={area} className="flex flex-col gap-[40px] bg-b-wash p-[64px]">
-      <h2 className="p-head">{title}</h2>
+    <Region area={area} className="flex flex-col gap-[36px] bg-b-wash p-[64px]">
+      <div className="flex flex-col gap-[16px]">
+        <h2 className="p-head">{title}</h2>
+        {claim && <p className="p-claim">{claim}</p>}
+      </div>
       {children}
     </Region>
+  );
+}
+
+function Bullets({ items, className = "" }: { items: React.ReactNode[]; className?: string }) {
+  return (
+    <ul className={`p-bullets ${className}`}>
+      {items.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
   );
 }
 
@@ -57,12 +70,17 @@ function Hero() {
     <Region area="hero" className="flex flex-col gap-[40px]">
       <div className="flex items-start gap-[80px]">
         <div className="flex flex-1 flex-col gap-[28px]">
-          <h2 className="p-head">Test lists only catch the crashes someone imagined</h2>
-          <p className="p-body">
-            Driving models are checked against failures people already thought of. We find new ones by reading the
-            model&rsquo;s own internal signals, with no list. To prove it works, we plant a failure on purpose: we
-            block the centre of the camera.
-          </p>
+          <div className="flex flex-col gap-[16px]">
+            <h2 className="p-head">Problem</h2>
+            <p className="p-claim">Test lists only catch the crashes someone imagined</p>
+          </div>
+          <Bullets
+            items={[
+              "Driving models are tested on failures people already thought of.",
+              "We find new ones from the model\u2019s own internal signals, with no list.",
+              "To check this works, we plant a failure: we block the centre of the camera.",
+            ]}
+          />
         </div>
         <figure className="flex w-[820px] shrink-0 flex-col gap-[14px]">
           <img
@@ -138,21 +156,25 @@ function QrCode({ size }: { size: number }) {
 function Demo() {
   return (
     <Region area="demo" className="flex flex-col gap-[36px] bg-b-blue p-[64px]">
-      <h2 className="p-head text-b-gold">Can you stop in time?</h2>
-      <p className="p-body text-b-paper">
-        Scan, then hold Brake when someone steps out. Compare yourself with the model alone and with our SDK.
-      </p>
+      <div className="flex flex-col gap-[16px]">
+        <h2 className="p-head text-b-gold">Demo</h2>
+        <p className="p-claim text-b-paper">Can you stop in time?</p>
+      </div>
+      <Bullets
+        className="text-b-paper"
+        items={["Scan the code.", "Hold Brake when someone steps out.", "Compare yourself with the model and our SDK."]}
+      />
       <div className="mt-auto flex items-end justify-between gap-[36px]">
         <div className="flex flex-col gap-[20px]">
           <div className="rounded-[32px] bg-b-paper p-[36px]">
-            <QrCode size={420} />
+            <QrCode size={380} />
           </div>
           <p className="p-note text-b-paper">failure-axis-status.vercel.app/drive</p>
         </div>
         <img
           src="/poster/drive-phone.png"
           alt="The demo on a phone: a 3D street with three lanes, you, the model alone, and the model with our SDK, after a pedestrian steps out"
-          className="h-[600px] w-auto rounded-[40px] shadow-[0_24px_60px_rgb(0_0_0/0.35)]"
+          className="h-[520px] w-auto rounded-[40px] shadow-[0_24px_60px_rgb(0_0_0/0.35)]"
         />
       </div>
     </Region>
@@ -161,13 +183,19 @@ function Demo() {
 
 function Method() {
   return (
-    <Panel area="method" title="How discovery works">
+    <Panel area="method" title="Methodology" claim="How we find failure axes">
       <PipelineFigure />
-      <p className="p-body mt-auto">
-        We run SimLingo on Bench2Drive routes and record layer 10 on every drive; our two reproductions scored{" "}
-        {reproduction.scores[0]} and {reproduction.scores[1]} of 100 over {reproduction.routes} routes. A plane that
-        separates failing drives from clean ones in those signals is a failure axis, and it names the scenarios to
-        train on next.
+      <Bullets
+        className="mt-auto"
+        items={[
+          "Run SimLingo on Bench2Drive routes and record layer 10 on every drive.",
+          "A plane that separates failing drives from clean ones is a failure axis.",
+          "Each axis names scenarios to train on next.",
+        ]}
+      />
+      <p className="p-note">
+        Our two reproductions scored {reproduction.scores[0]} and {reproduction.scores[1]} of 100 over{" "}
+        {reproduction.routes} routes.
       </p>
     </Panel>
   );
@@ -175,11 +203,14 @@ function Method() {
 
 function Gaps() {
   return (
-    <Panel area="gaps" title="Planted failures must really fail">
-      <p className="p-body">
-        We plant failures whose identity is sealed in an answer key, and keep only those that raise failures. Fog and
-        animals look unusual but did not, so they are decoys that discovery must not flag.
-      </p>
+    <Panel area="gaps" title="Validation" claim="Planted failures must really fail">
+      <Bullets
+        items={[
+          "Each planted failure is sealed in an answer key.",
+          "We keep only those that raise failures.",
+          "Fog and animals did not fail, so they are decoys.",
+        ]}
+      />
       <div className="mt-auto">
         <GapGallery />
       </div>
@@ -217,7 +248,7 @@ function Footer() {
     <Region area="footer" className="flex items-center justify-between gap-[64px]">
       <BuiltWith />
       <p className="p-note max-w-[1300px] text-right">
-        SimLingo: Renz et al., CVPR 2025. Bench2Drive: Jia et al., NeurIPS 2024. CARLA: Dosovitskiy et al., CoRL 2017.
+        <strong>References.</strong> SimLingo: Renz et al., CVPR 2025. Bench2Drive: Jia et al., NeurIPS 2024. CARLA: Dosovitskiy et al., CoRL 2017.
         Overlap is Jaccard similarity: shared failures over combined failures.
       </p>
     </Region>

@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: poster text cut to bullets with plain section labels
+
+The poster was dense, and a reader with no background could not tell what each block was for. Each block now carries a plain label as its heading (Problem, Results, Demo, Methodology, Validation) with the old claim underneath as a short line. The paragraphs in Problem, Demo, Methodology and Validation became two or three short bullets, and the reference line in the footer starts with "References." The bullet and claim styles are defined once in `dashboard/src/app/globals.css`.
+
+Checked in the browser: no region overflows its box. The committed PDF and PowerPoint in `dashboard/public/poster/exports` were not regenerated because `scripts/render_poster.py` needs a Playwright browser that is not installed here (`playwright install`), so they still show the old poster until that is run.
+
+---
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.

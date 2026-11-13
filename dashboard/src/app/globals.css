@@ -176,7 +176,12 @@ body {
   .p-authors { font-size: 46px; line-height: 1.3; font-weight: 500; color: var(--b-paper); }
   .p-head { font-size: 78px; line-height: 1.08; font-weight: 700; color: var(--b-blue); text-wrap: balance; }
   .p-body { font-size: 46px; line-height: 1.34; font-weight: 400; color: var(--b-ink-2); text-wrap: pretty; }
+  .p-note strong { font-weight: 600; color: var(--b-ink-2); }
   .p-body strong { font-weight: 600; color: var(--b-ink); }
+  .p-claim { font-size: 56px; line-height: 1.15; font-weight: 600; color: var(--b-ink); text-wrap: balance; }
+  .p-bullets { display: flex; flex-direction: column; gap: 14px; font-size: 46px; line-height: 1.25; font-weight: 400; color: var(--b-ink-2); }
+  .p-bullets li { padding-inline-start: 44px; position: relative; text-wrap: pretty; }
+  .p-bullets li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.5em; width: 18px; height: 18px; background: var(--b-gold); }
   .p-label { font-size: 40px; line-height: 1.2; font-weight: 500; color: var(--b-ink-2); }
   .p-label-strong { font-size: 44px; line-height: 1.15; font-weight: 600; color: var(--b-ink); }
   .p-note { font-size: 32px; line-height: 1.3; font-weight: 400; color: var(--b-ink-3); }
