@@ -1,17 +1,17 @@
 import localFont from "next/font/local";
 
-// Static TTFs (IBM's release, OFL) rather than Google's variable font: Chromium embeds static
+// Static TTFs (Alegreya release, OFL) rather than a variable font: Chromium embeds static
 // TrueType as real text in the print PDF, which Canva can import as editable type.
-const plex = localFont({
-  variable: "--font-plex",
+const alegreya = localFont({
+  variable: "--font-alegreya",
   src: [
-    { path: "../../fonts/IBMPlexSans-Regular.ttf", weight: "400" },
-    { path: "../../fonts/IBMPlexSans-Medium.ttf", weight: "500" },
-    { path: "../../fonts/IBMPlexSans-SemiBold.ttf", weight: "600" },
-    { path: "../../fonts/IBMPlexSans-Bold.ttf", weight: "700" },
+    { path: "../../fonts/Alegreya-Regular.ttf", weight: "400" },
+    { path: "../../fonts/Alegreya-Medium.ttf", weight: "500" },
+    { path: "../../fonts/Alegreya-SemiBold.ttf", weight: "600" },
+    { path: "../../fonts/Alegreya-Bold.ttf", weight: "700" },
   ],
 });
 
 export default function BerkeleyLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${plex.variable} theme-berkeley min-h-dvh`}>{children}</div>;
+  return <div className={`${alegreya.variable} theme-berkeley min-h-dvh`}>{children}</div>;
 }
