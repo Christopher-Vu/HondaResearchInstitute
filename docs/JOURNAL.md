@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: make H25's frame-transcript audit reject lookalike paths
+
+H24 and H25 were locked before any of their inputs are read. H25 deliberately separates opaque camera-frame folders from the route-id mapping, then voids a reading if a captioning or grouping agent touches anything outside its allowed frame inputs. I found that the audit used a string-prefix check for frame paths. A sibling such as `h25-frames-secret/...` would therefore look as though it sat below `h25-frames/...`, even though it is outside the permitted tree.
+
+The audit now resolves paths and requires both that a read be inside the configured frames root and that it have the exact `pool/opaque-id/frame.png` shape. It continues to require one frame folder per captioning transcript; all other tool calls remain breaches. The new synthetic checks cover a valid frame read, the former shared-prefix bypass, and a nested path below an otherwise valid opaque folder. All three pass with `python3 -m pytest tests/test_h25_caption_cluster.py -q`.
+
+No frames, results, sealed data, experiment settings or Savio jobs were touched. I tried to post the required heads-up to issue #9 before updating these shared records, but the GitHub connector returned HTTP 403 (`Resource not accessible by integration`); no alternate credential path was used. The isolated branch is `codex/h24-h25-validation`. Next: with the normal Savio shared login, run the already locked CPU export once, then execute and read H24 and H25 exactly as their protocols specify.
+
 
 ## 2026-11-12: export and inspect the complete development axis inventory
 

@@ -33,14 +33,20 @@ def main() -> None:
     parser.add_argument("frames_root", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    root = str(args.frames_root.resolve())
+    root = args.frames_root.resolve()
     breaches, opened = [], 0
     for transcript in sorted(args.transcripts.rglob("agent-*.jsonl")):
         calls = list(tool_calls(transcript))
-        folders = {str(Path(v["file_path"]).parent) for name, v in calls if name == "Read" and "file_path" in v}
+        folders = {Path(v["file_path"]).resolve().parent for name, v in calls if name == "Read" and "file_path" in v}
         for name, values in calls:
             path = values.get("file_path", "")
-            if name == "Read" and path.startswith(root) and len(folders) == 1:
+            candidate = Path(path).resolve() if name == "Read" and path else None
+            # `str.startswith` would accept a sibling such as ``frames-secret``.
+            # Caption inputs are exactly ROOT/<pool>/<opaque-id>/fN.png, so require
+            # that shape as well as one folder per describing agent.
+            is_frame = candidate is not None and candidate.is_relative_to(root) and \
+                len(candidate.relative_to(root).parts) == 3 and candidate.suffix == ".png"
+            if name == "Read" and is_frame and len(folders) == 1:
                 opened += 1
                 continue
             breaches.append({"transcript": transcript.name, "tool": name, "input": values})

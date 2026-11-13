@@ -6,13 +6,15 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-12 (Fail2Drive line closed and written up)
+Last updated: 2026-11-13 (H24/H25 export audit tightened before any data read)
 
 ---
 
 ## Current position
 
-**2026-11-12, literature review written** (`docs/research/literature-review.md`): no published method has been tested on a driving policy's known failure groups. Methods that use the failure label while grouping (Domino, FACTS, InfEmbed) and vision-language caption-then-cluster have the best support elsewhere. **Next, for Jerry:** which option to lock first; any next test also runs on a second pool (H1's or H12's), since Fail2Drive's three categories have been read twice.
+**2026-11-13, H24 and H25 are locked; their CPU export has not run.** H24 is an error-aware mixture over activations, kinematics and B3's features; H25 captions each failed route's last camera frames then groups the captions. Both will read Fail2Drive's three screened categories and the independent H1 pool, and neither changes the Step 5 or blind-test decision. Before any frame is exported, H25's transcript audit now rejects sibling paths that merely share the frames-root prefix and reads outside the required `pool/opaque-id/frame.png` layout. Three synthetic checks cover the allowed and rejected paths. **Next:** obtain the normal Savio shared login, run the locked CPU export once, and read H24/H25 only under their protocols. No GPU job is queued.
+
+**2026-11-12, literature review written** (`docs/research/literature-review.md`): no published method has been tested on a driving policy's known failure groups. Methods that use the failure label while grouping (Domino, FACTS, InfEmbed) and vision-language caption-then-cluster have the best support elsewhere.
 
 **2026-11-12, the Fail2Drive line is closed and written up (Jerry).** The dev report's plain answer now has item 6: SimLingo fails Fail2Drive's unseen situations on our harness (28 pairs against 4), and our frozen methods do not find those failures better than a behaviour-only baseline (H22 and H23, both `not_ahead`). CONFLICTS C38 records the outcome. Spend about 6030 of 10000 SU, nothing queued. **Waiting on Chris:** review of C38's outcome, whether the study closes at end state A, and the earlier list (C23, C29, C34, C35, C37, P19's label, the preregistration).
 
