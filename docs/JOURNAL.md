@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: a refinement and a new method, run side by side
+
+After a [literature review](research/literature-review.md), Jerry asked for both directions at once. H24 refines our approach: it groups routes by their activations with a Gaussian mixture, the way Domino does for images. H25 is new: Claude looks at the last four camera frames of each failure, describes what went wrong, and six separate runs sort those descriptions into failure types. Both were tested on Fail2Drive and on the older H1 pool of camera faults (P4, P7, P8), which none of the choices were tuned on.
+
+Before anything ran, four reviewers and three skeptics per finding checked both tests and found eleven real problems. The worst was a leak: Fail2Drive's route numbers sort by category, so the descriptions would have reached the grouping step already sorted by the answer. Everything was fixed, then locked with a git tag. Reading the B3 code also showed that B3 is not just "how the car drove". It reads the simulator's exact distances to nearby objects, which the earlier write-up said wrongly, and that is now corrected.
+
+Neither method met the bar (measured). But each did best where its input carries the answer. Grouping by activations beat B3 and random groups on every camera fault in H1's pool, by a median of 0.109 Jaccard against a bar of 0.15. That is the closest any activation method has come in this study. Describing the frames beat B3 on Fail2Drive (0.510 against 0.471), because the frames show the inserted wall or obstacle, but it lost on pedestrians and on the camera faults. The describers often noticed the black patch or the frozen picture, yet they grouped by what went wrong on the road. The run used about 4 SU and 342 agents, and the blinding audit was clean.
+
+---
+
 
 ## 2026-11-12: export and inspect the complete development axis inventory
 
