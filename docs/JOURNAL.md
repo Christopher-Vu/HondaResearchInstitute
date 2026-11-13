@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: make the public poster match the final development result
+
+The dashboard's poster was designed around the early camera-block control, but its wording still implied that discovery had already produced a general next-training direction. That no longer matches the final development summary: the camera control is real, while the internal-signal methods did not consistently beat simpler baselines across broader tests. The public poster now has numbered reader-facing stages (problem, method, planted-control evidence, and controls/decoys), explicitly calls the camera result a development control rather than a final result, and describes a failure axis as a hypothesis that must be checked on fresh routes against baselines. The process diagram no longer says to generate scenarios and retrain.
+
+A small dashboard regression test protects those labels and prevents the old unmeasured-retraining claim from returning. Focused dashboard tests, ESLint and TypeScript checks pass. No experiment, result file, sealed material, protocol, deployment or dashboard data changed. The next safe task is review this copy correction alongside the newer standalone poster files on main, then merge the non-overlapping implementation chosen by the team.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.

@@ -215,7 +215,7 @@ export function PipelineFigure() {
         </g>
       ))}
       <Arrow d="M1421 540 L1421 590 L536 590 L536 548" dashed />
-      <text x={980} y={576} textAnchor="middle" className="p-label" fill="var(--b-ink-2)">Next: generate those scenarios and retrain</text>
+      <text x={980} y={576} textAnchor="middle" className="p-label" fill="var(--b-ink-2)">Next: test the candidate on fresh routes against simple baselines</text>
     </svg>
   );
 }

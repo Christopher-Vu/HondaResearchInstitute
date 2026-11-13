@@ -39,8 +39,8 @@ function Header() {
     <Region area="header" className="flex items-center gap-[80px] bg-b-blue px-[96px]">
       <img src="/poster/berkeley-seal.png" alt="University of California, Berkeley seal" className="size-[420px] shrink-0" />
       <div className="flex min-w-0 flex-1 flex-col gap-[28px]">
-        <h1 className="p-title">Finding the Edge Cases That Crash Self-Driving Cars</h1>
-        <p className="p-subtitle">Failure discovery read from inside a vision-language-action driving model, built to work with any VLA</p>
+        <h1 className="p-title">Where Does a Self-Driving AI Fail?</h1>
+        <p className="p-subtitle">Testing whether a driving model&apos;s internal signals can help find failures that ordinary test lists miss</p>
         <p className="p-authors">
           Catherine Wang, Christopher Vu, Jason He, Hiram Lannes, Jerry Yan<span className="ml-[48px] text-b-gold">Mentor: Ryan Lingo</span>
         </p>
@@ -57,11 +57,10 @@ function Hero() {
     <Region area="hero" className="flex flex-col gap-[40px]">
       <div className="flex items-start gap-[80px]">
         <div className="flex flex-1 flex-col gap-[28px]">
-          <h2 className="p-head">Test lists only catch the crashes someone imagined</h2>
+          <h2 className="p-head">1. The problem: test lists catch what people already imagined</h2>
           <p className="p-body">
-            Driving models are checked against failures people already thought of. We find new ones by reading the
-            model&rsquo;s own internal signals, with no list. To prove it works, we plant a failure on purpose: we
-            block the centre of the camera.
+            A driving model can look safe on familiar tests and still fail in a new setting. We test whether internal
+            signals can point to the next scenario worth checking. First, we plant a known camera failure as a control.
           </p>
         </div>
         <figure className="flex w-[820px] shrink-0 flex-col gap-[14px]">
@@ -91,7 +90,7 @@ function ResultBlock({ title, children }: { title: string; children: React.React
 
 function Results() {
   return (
-    <Panel area="results" title="Results">
+    <Panel area="results" title="3. Evidence from a planted control">
       <ResultBlock title="Blocking the camera centre is a real failure">
         <div className="flex items-start gap-[64px]">
           <div className="w-[800px] shrink-0">
@@ -109,15 +108,15 @@ function Results() {
         </div>
       </ResultBlock>
       <div className="grid grid-cols-2 gap-[64px]">
-        <ResultBlock title={`Layer ${layers.chosen} flags failures best`}>
+        <ResultBlock title={`Layer ${layers.chosen} is strongest on this control`}>
           <LayerChart />
         </ResultBlock>
-        <ResultBlock title="Every method finds the easy control">
+        <ResultBlock title="Several methods find this easy control">
           <ControlBars />
         </ResultBlock>
       </div>
       <p className="p-note mt-auto">
-        Measured in CARLA simulation on Bench2Drive routes. Repair by targeted training is next and not measured yet.
+        This is a development control, not a final result: broader tests must still beat simple baselines on fresh routes.
       </p>
     </Panel>
   );
@@ -161,13 +160,13 @@ function Demo() {
 
 function Method() {
   return (
-    <Panel area="method" title="How discovery works">
+    <Panel area="method" title="2. What the method does">
       <PipelineFigure />
       <p className="p-body mt-auto">
         We run SimLingo on Bench2Drive routes and record layer 10 on every drive; our two reproductions scored{" "}
         {reproduction.scores[0]} and {reproduction.scores[1]} of 100 over {reproduction.routes} routes. A plane that
-        separates failing drives from clean ones in those signals is a failure axis, and it names the scenarios to
-        train on next.
+        separates failing drives from clean ones in those signals is a failure axis. It is a hypothesis for a new test,
+        not proof that the model has found a general explanation.
       </p>
     </Panel>
   );
@@ -175,10 +174,10 @@ function Method() {
 
 function Gaps() {
   return (
-    <Panel area="gaps" title="Planted failures must really fail">
+    <Panel area="gaps" title="4. Controls and decoys">
       <p className="p-body">
         We plant failures whose identity is sealed in an answer key, and keep only those that raise failures. Fog and
-        animals look unusual but did not, so they are decoys that discovery must not flag.
+        animals look unusual but did not, so they are decoys that a reliable discovery method should not flag.
       </p>
       <div className="mt-auto">
         <GapGallery />
