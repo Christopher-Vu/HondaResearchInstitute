@@ -312,3 +312,44 @@ def test_m1_group_floor_is_passed_through_to_both_variants():
     group = {f"r{i}" for i in range(5)}
     assert any(axis.rollouts == group for axis in low_raw.axes)
     assert any(axis.rollouts == group for axis in low_capped.axes)
+
+
+def test_axis_inventory_preserves_every_card_and_support_without_using_gap_keys():
+    directive = axis_directive("contrastive", {"failed", "successful"}, {"other_failure"})
+    directive.axes[1].causal = {"verdict": "correlational_only"}
+    before = directive.to_dict()
+    inventory = dev_eval.axis_inventory(directive, {"failed", "other_failure", "outside_axis"})
+    assert len(inventory) == 2
+    for card, row in zip(directive.axes, inventory):
+        assert row == {**card.to_dict(), "axis_size": len(card.rollouts), "share_of_failures": 1 / 3}
+        assert AxisCard.from_dict(json.loads(json.dumps(row))).to_dict() == card.to_dict()
+    assert directive.to_dict() == before
+    assert dev_eval.axis_inventory(axis_directive("contrastive"), set()) == []
+    assert dev_eval.axis_inventory(directive, set())[0]["share_of_failures"] == 0
+
+
+def test_inventory_is_additive_and_retains_axes_that_are_not_best_for_any_gap(spiked, monkeypatch):
+    result = run_evaluate(spiked, [spiked / "exact", spiked / "random"])
+    for method in result["methods"].values():
+        assert len(method["axes"]) == method["score"]["n_axes"]
+        for axis in method["axes"]:
+            assert axis["axis_size"] == len(axis["supporting_episodes"])
+            assert axis["causal"].get("verdict", "untested") == "untested"
+    assert any(not method["counts"] for method in result["methods"].values())
+    assert any(len(method["axes"]) > len(method["gaps"]) for method in result["methods"].values())
+    # Replacing only the export must leave every existing score, gap verdict and
+    # bootstrap interval unchanged, including the random baseline.
+    monkeypatch.setattr(dev_eval, "axis_inventory", lambda *_args: [])
+    without_inventory = run_evaluate(spiked, [spiked / "exact", spiked / "random"])
+    for report in (result, without_inventory):
+        for method in report["methods"].values():
+            method.pop("axes")
+    assert result == without_inventory
+
+
+def test_dashboard_inventory_fixture_matches_the_python_export_contract():
+    fixture = json.loads((ROOT / "dashboard/tests/fixtures/dev-eval-inventory.json").read_text())
+    method = fixture["methods"]["synthetic_method"]
+    directive = Directive("contrastive", [AxisCard.from_dict(axis) for axis in method["axes"]])
+    assert dev_eval.axis_inventory(directive, {"synthetic-failed", "synthetic-other"}) == method["axes"]
+    assert len(method["axes"]) == method["score"]["n_axes"]

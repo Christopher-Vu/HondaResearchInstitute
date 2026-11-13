@@ -1,3 +1,18 @@
+export type InventoryAxis = {
+  axis_id: string;
+  name: string;
+  description: string;
+  rank: number;
+  axis_size: number;
+  share_of_failures: number;
+  causal: { verdict?: "causal" | "correlational_only" | "untested" };
+  supporting_episodes: {
+    episode_id: string;
+    activation: number;
+    timesteps: [number, number];
+  }[];
+};
+
 export type GapSummary = {
   axis_id: string | null;
   best_jaccard: number;
@@ -14,6 +29,7 @@ export type EvaluationReport = {
     kind: string;
     counts: boolean;
     score: { n_axes: number };
+    axes?: InventoryAxis[];
     gaps: Record<string, GapSummary>;
   }>;
 };
@@ -34,6 +50,37 @@ const count = (value: unknown): value is number =>
 const fraction = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
 
+function validateInventory(value: unknown, path: string, nAxes: number, rollouts: number): void {
+  requireValue(Array.isArray(value) && value.length === nAxes, path);
+  const ids = new Set<string>();
+  for (const [index, item] of value.entries()) {
+    const axisPath = `${path}[${index}]`;
+    const axis = record(item, axisPath);
+    requireValue(typeof axis.axis_id === "string" && !ids.has(axis.axis_id), `${axisPath}.axis_id`);
+    ids.add(axis.axis_id);
+    requireValue(typeof axis.name === "string", `${axisPath}.name`);
+    requireValue(typeof axis.description === "string", `${axisPath}.description`);
+    requireValue(count(axis.rank) && axis.rank > 0, `${axisPath}.rank`);
+    requireValue(count(axis.axis_size) && axis.axis_size <= rollouts, `${axisPath}.axis_size`);
+    requireValue(fraction(axis.share_of_failures), `${axisPath}.share_of_failures`);
+    const causal = record(axis.causal, `${axisPath}.causal`);
+    requireValue(causal.verdict === undefined ||
+      ["causal", "correlational_only", "untested"].includes(causal.verdict as string), `${axisPath}.causal.verdict`);
+    requireValue(Array.isArray(axis.supporting_episodes) &&
+      axis.supporting_episodes.length === axis.axis_size, `${axisPath}.supporting_episodes`);
+    const episodes = new Set<string>();
+    for (const [epIndex, item] of axis.supporting_episodes.entries()) {
+      const epPath = `${axisPath}.supporting_episodes[${epIndex}]`;
+      const episode = record(item, epPath);
+      requireValue(typeof episode.episode_id === "string" && !episodes.has(episode.episode_id), `${epPath}.episode_id`);
+      episodes.add(episode.episode_id);
+      requireValue(typeof episode.activation === "number" && Number.isFinite(episode.activation), `${epPath}.activation`);
+      const steps = episode.timesteps;
+      requireValue(Array.isArray(steps) && steps.length === 2 && steps.every(count) && steps[0] <= steps[1], `${epPath}.timesteps`);
+    }
+  }
+}
+
 /** Validate every field used by the UI; tolerate extra producer metadata. */
 export function parseEvaluationReport(value: unknown): EvaluationReport {
   const report = record(value, "report");
@@ -50,6 +97,7 @@ export function parseEvaluationReport(value: unknown): EvaluationReport {
     requireValue(typeof method.counts === "boolean", `${path}.counts`);
     const score = record(method.score, `${path}.score`);
     requireValue(count(score.n_axes), `${path}.score.n_axes`);
+    if ("axes" in method) validateInventory(method.axes, `${path}.axes`, score.n_axes, corpus.rollouts);
     for (const [gap, value] of Object.entries(record(method.gaps, `${path}.gaps`))) {
       const rowPath = `${path}.gaps.${gap}`;
       const row = record(value, rowPath);

@@ -54,3 +54,44 @@ test("rejects null, arrays, and obsolete runs reports with actionable errors", (
     assert.throws(() => parseEvaluationReport(input), /Invalid evaluation report:/);
   }
 });
+
+const inventoryFixture = () => JSON.parse(readFileSync(new URL("./fixtures/dev-eval-inventory.json", import.meta.url), "utf8"));
+
+test("accepts the Python-produced synthetic inventory without filtering or reordering axes", () => {
+  const report = inventoryFixture();
+  assert.equal(parseEvaluationReport(report), report);
+  assert.deepEqual(report.methods.synthetic_method.axes.map((axis) => axis.axis_id), ["synthetic-a", "synthetic-b"]);
+  assert.equal(report.methods.synthetic_method.axes[1].supporting_episodes[0].timesteps[1], 20);
+  assert.deepEqual(report.methods.synthetic_method.gaps, {});
+});
+
+test("distinguishes an older missing inventory from an empty exported inventory", () => {
+  const old = fixture();
+  assert.equal(Object.values(parseEvaluationReport(old).methods)[0].axes, undefined);
+  const report = inventoryFixture();
+  report.methods.synthetic_method.axes = [];
+  report.methods.synthetic_method.score.n_axes = 0;
+  assert.deepEqual(parseEvaluationReport(report).methods.synthetic_method.axes, []);
+});
+
+for (const [name, mutate, path] of [
+  ["null inventory", (m) => m.axes = null, ".axes"],
+  ["truncated inventory", (m) => m.axes.pop(), ".axes"],
+  ["duplicate axis IDs", (m) => m.axes[1].axis_id = m.axes[0].axis_id, "axis_id"],
+  ["invalid rank", (m) => m.axes[0].rank = 0, "rank"],
+  ["invalid description", (m) => m.axes[0].description = {}, "description"],
+  ["nonfinite failure share", (m) => m.axes[0].share_of_failures = NaN, "share_of_failures"],
+  ["invalid causal verdict", (m) => m.axes[0].causal.verdict = "proven", "causal.verdict"],
+  ["missing episodes", (m) => delete m.axes[0].supporting_episodes, "supporting_episodes"],
+  ["support count mismatch", (m) => m.axes[0].axis_size = 2, "supporting_episodes"],
+  ["duplicate episode IDs", (m) => { m.axes[0].axis_size = 2; m.axes[0].supporting_episodes.push(m.axes[0].supporting_episodes[0]); }, "episode_id"],
+  ["nonfinite activation", (m) => m.axes[0].supporting_episodes[0].activation = Infinity, "activation"],
+  ["reversed timestep window", (m) => m.axes[0].supporting_episodes[0].timesteps = [20, 10], "timesteps"],
+  ["fractional timestep", (m) => m.axes[0].supporting_episodes[0].timesteps = [0, 1.5], "timesteps"],
+]) {
+  test(`rejects ${name} in an inventory with a field-specific error`, () => {
+    const report = inventoryFixture();
+    mutate(report.methods.synthetic_method);
+    assert.throws(() => parseEvaluationReport(report), (err) => err.message.includes(path));
+  });
+}

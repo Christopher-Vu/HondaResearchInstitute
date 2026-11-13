@@ -14,7 +14,8 @@ Scoring is the only code that reads the sidecars' practice_gaps and role: the an
 rollouts listing it. Methods receive rollouts built from activations, state, infractions and outcome, and B2 receives
 only scenario, weather and town. Per gap and method the output holds the best axis's Jaccard with the key, its size,
 its share of all failures and how many of its members are pilot slice versus pilot neighbourhood routes, then Claim A
-and Claim B of the protocol with a base-route cluster bootstrap. Dev only: nothing here is a result (PRD 9.2).
+and Claim B of the protocol with a base-route cluster bootstrap. Each method also exports every emitted axis
+card, in directive order, with rollout support and failure share for the development dashboard. Dev only: nothing here is a result (PRD 9.2).
 """
 from __future__ import annotations
 
@@ -258,6 +259,17 @@ def axis_record(axis: Any, key: set[str], context: ScoringContext) -> dict[str, 
             "other": sum(role not in (SLICE_ROLE, NEIGHBOURHOOD_ROLE) for role in roles)}
 
 
+def axis_inventory(directive: Directive, failing: set[str]) -> list[dict[str, Any]]:
+    """All emitted cards, independent of gap keys, including axes that win no gap.
+
+    Preserve the method's order, provenance, supporting episodes and untested causal
+    status. These descriptive fields do not feed back into scores or verdicts.
+    """
+    return [{**axis.to_dict(), "axis_size": len(axis.rollouts),
+             "share_of_failures": len(axis.rollouts & failing) / max(1, len(failing))}
+            for axis in directive.axes]
+
+
 def gap_record(directive: Directive, gap: Gap, context: ScoringContext) -> dict[str, Any]:
     """The best axis against one gap's key, and whether any axis recovers it (Claim A's test)."""
     axes = [axis_record(axis, gap.failing_rollouts, context) for axis in directive.axes]
@@ -385,6 +397,7 @@ def evaluate(shard_dirs: list[Path], layer: int, sae_runs: list[Path], gap_ids: 
                              {s.route_id: s.meta.get("role") for s in shards})
     results = {run.label: {"family": run.family, "kind": run.kind, "counts": run.counts,
                            "sae": run.sae.run if run.sae else None, "score": summary(score(run.directive, gaps)),
+                           "axes": axis_inventory(run.directive, context.failing),
                            "gaps": {gap.gap_id: gap_record(run.directive, gap, context) for gap in gaps}}
                for run in runs}
     deltas = bootstrap_deltas([run for run in runs if run.counts], gaps,

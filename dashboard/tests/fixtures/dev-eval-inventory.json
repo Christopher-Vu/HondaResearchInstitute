@@ -1,0 +1,85 @@
+{
+  "fixture": "Synthetic producer/consumer contract test; not research results.",
+  "layer": 10,
+  "corpus": {
+    "rollouts": 4,
+    "failures": 2
+  },
+  "methods": {
+    "synthetic_method": {
+      "family": "M1_raw",
+      "kind": "activation",
+      "counts": true,
+      "score": {
+        "n_axes": 2
+      },
+      "axes": [
+        {
+          "axis_id": "synthetic-a",
+          "name": "Synthetic first axis",
+          "description": "Synthetic fixture only; not a research finding.",
+          "rank": 1,
+          "score": 1.0,
+          "provenance": {
+            "method": "contrastive",
+            "config_hash": "",
+            "layer": null,
+            "aggregation": null,
+            "preprocessing": []
+          },
+          "supporting_episodes": [
+            {
+              "episode_id": "synthetic-failed",
+              "activation": 0.0,
+              "timesteps": [
+                0,
+                0
+              ]
+            }
+          ],
+          "generality": {},
+          "causal": {
+            "verdict": "untested"
+          },
+          "gate": {},
+          "parameterization": {},
+          "axis_size": 1,
+          "share_of_failures": 0.5
+        },
+        {
+          "axis_id": "synthetic-b",
+          "name": "Synthetic second axis",
+          "description": "An emitted axis that wins no gap in this fixture.",
+          "rank": 2,
+          "score": 0.5,
+          "provenance": {
+            "method": "contrastive",
+            "config_hash": "",
+            "layer": null,
+            "aggregation": null,
+            "preprocessing": []
+          },
+          "supporting_episodes": [
+            {
+              "episode_id": "synthetic-other",
+              "activation": 0.0,
+              "timesteps": [
+                10,
+                20
+              ]
+            }
+          ],
+          "generality": {},
+          "causal": {
+            "verdict": "untested"
+          },
+          "gate": {},
+          "parameterization": {},
+          "axis_size": 1,
+          "share_of_failures": 0.5
+        }
+      ],
+      "gaps": {}
+    }
+  }
+}
