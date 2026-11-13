@@ -11,6 +11,8 @@ The repository's manually dispatched CI gate required `mypy adapters/simlingo`, 
 
 Validation passed: mypy reports no errors in all 25 SimLingo adapter modules; the marker replay, camera-fault, and Fail2Drive-pair regression suites pass (71 tests); sealed-import and configuration checks pass; and the diff has no whitespace errors. CI remains manual-only under C33, pending Chris's decision to restore automatic workflow triggers. The next safe task is to review the other stale adapter-type PR against this branch and close or supersede it once this focused repair is reviewed.
 
+The repair is committed as `b7a7fcc` on pushed branch `codex/ci-audit`. The connected GitHub integration can push but returned 403 when opening a pull request, so the review page must be opened from GitHub's branch-comparison URL.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
