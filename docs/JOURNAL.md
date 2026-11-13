@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-12: the Fail2Drive line is closed and written up
+
+Jerry chose to close the Fail2Drive line after H23. The [dev report](research/dev-report.md)'s short answer at the top now has a sixth point that says what the line found. SimLingo really does fail Fail2Drive's unseen situations more often on our harness. But neither the frozen methods nor the post hoc rerun found those failures better than a baseline that only watches how the car drove. [CONFLICTS C38](../CONFLICTS.md) now records that outcome under its proposal, which stays as written, so the record shows what was planned and what happened. The status dashboard's week block now covers 9 to 13 November, and its spend line shows 6,030 SU. Nothing is running on Savio. Whether the whole study closes at the dev-only report is still Chris's call, because he asked earlier that it not close there.
+
+---
+
 ## 2026-11-12: lowering M1's group floor does not change the answer
 
 After H22, Jerry asked for one more test with the setting that had capped M1 removed. M1 had needed at least 20 failing routes to form a group, and now it needs 3, the same as the B7 baseline it is compared with. Nothing else changed, and the [protocol](research/experiments/h23-f2d-m1-floor/protocol.md) was locked before the run. It says plainly that this test is post hoc, because the setting was picked after seeing H22.

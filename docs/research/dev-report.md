@@ -1,6 +1,6 @@
 # Dev report v0
 
-Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below is dev data. A number with no data file says so.
+Written 2026-11-04 and updated 2026-11-12 from stored files. Every number below is dev data. A number with no data file says so.
 
 ## Plain answer
 
@@ -8,13 +8,14 @@ Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below 
 2. One interactional gap, P19, passes PRD 9.1 with [42 of 53 failures against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json), but it fails Step 5's single-factor condition because a list of scenario names scores Jaccard [0.857](data/h12_layer10_plain.json) against a limit of 0.4, so no public interactional gap met Step 5 on dev.
 3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key. These are plain-variant scores, and they move with preprocessing the PRD does not fix. On the H12 pool, H18's variance-matched control puts M1 raw on P4 at best 0.672, median 0.500 (10 of 18), and vision residualization lifts its P19 median to 0.540 (13 of 18). See [H18, H20 and C37](#dry-run-and-rehearsal). All of this is exploratory and dev only.
 4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8. Plain B7-pool gives best [0.444](data/h1b_layer10.json), median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). With vision residualized it gives best 0.483, median 0.395, and removing only the mean moves its median by +0.149 ([H20](data/h20_result.json)). Both axes are chosen using the key.
-5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md).
+5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md). The Fail2Drive runs below are the exception: they used `--debug 0`.
+6. **Fail2Drive gave real, non-camera failures, and our methods do not find them better than the baselines.** On all 100 of Fail2Drive's public route pairs, SimLingo failed the route with an unseen situation more often than its plain twin: [28 pairs against 4](data/h21_result.json) (McNemar p 1.9e-5). Three categories pass a screen: CustomObstacles, Wall and PedestriansOnRoad. Under a freeze placed before any method read their activations (C38, `methods-frozen-f2d-v1`), the activation methods trail the best baseline by a median of [0.471 Jaccard](data/h22_plain.json). A post hoc rerun with M1's group floor lowered from 20 to 3 trails by [0.385](data/h23_plain.json), and M1's groups then score below random groups of the same sizes (0.142 against 0.186 at best). The best baseline, B3, reads only how the car drove and scores 0.471. This line is closed (Jerry, 2026-11-12). It is dev only and not blind, because the categories are public and were chosen on the same pairs. See [Fail2Drive on our harness](#fail2drive-on-our-harness) and [Frozen methods on Fail2Drive](#frozen-methods-on-fail2drive).
 
 No answer key is committed in this repo and no test pool exists, so the PRD 13.1 test was not run.
 
 | End state ([C34](../../CONFLICTS.md)) | Where it stands |
 |---|---|
-| A, the dev-only report | P20 is read, and the route-marker effect is stated here as unmeasured, which A allows. The study does not close here, because Chris asked that it not close at A on his counts ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) and more sealed candidates are coming. |
+| A, the dev-only report | P20 is read, the route-marker effect is stated here as unmeasured, which A allows, and the Fail2Drive line (H21 to H23) is closed with a negative reading for the methods. The study does not close here, because Chris asked that it not close at A on his counts ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) and more sealed candidates are coming. |
 | B, A plus a blind pool | Not reached. No key is committed in this repo, no test pool exists, and of the frozen tags only `b4-factors-v1` exists. The [preregistration](../../harness/PREREGISTRATION.md) is an unsigned draft. |
 
 This report claims no 13.1 branch, including the negative one. 13.1 is decided on the test pool, and [PRD 9.1](../../PRD.md) excludes any predicate in a shared document from the sealed key, so the public count toward 13.1's two interactional gaps is 0 by construction.
@@ -42,7 +43,9 @@ This report claims no 13.1 branch, including the negative one. 13.1 is decided o
 | Frozen-input signal | One extra feature added to B7-pool (`--stale-latent`). It fires when activations do not change between logged frames, and it does not depend on the dictionary. It is a post hoc change to the frozen B7 definition, because H2 added it after the activations were opened. |
 | Check | A manipulation check, fixed before a run, that the planted condition happened (C24). |
 | C23 | A [CONFLICTS](../../CONFLICTS.md) entry, pending review, that proposes a paired test (McNemar's) with a floor of 60 pairs. |
-| H1 to H20 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
+| Fail2Drive | A published benchmark (arXiv 2604.08535) of 100 route pairs in 17 categories. Each pair drives one road twice, with and without one situation SimLingo did not see in training. |
+| McNemar's test | A test for pairs: it compares pairs where only the first arm failed with pairs where only the second did, ignoring pairs where both or neither failed. |
+| H1 to H23 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
 | Claims A, A′, B | A: an activation method has an axis with Jaccard at least 0.5 holding at most 50% of failures. A′: the same, with B7-pool allowed. B: the best activation method beats the best baseline and the catch-all by at least 0.15, the margin's interval is above 0, and at least 4 of 6 seeds agree. |
 
 ## Public gaps
