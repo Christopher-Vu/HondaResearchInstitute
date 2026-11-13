@@ -72,6 +72,7 @@ class Knockout:
                 self.sum_c[index] = self.sum_c.get(index, 0) + c.sum(dim=0)
                 self.count_c[index] = self.count_c.get(index, 0) + c.shape[0]
                 return None
+            assert self.target is not None
             site, layer = self.target
             if layer != index or site in ("vision_bridge", "none"):
                 return None
@@ -90,13 +91,14 @@ class Knockout:
             flat = output.float().reshape(-1, output.shape[-1])
             self.bridge_sum = flat.sum(dim=0) if self.bridge_sum is None else self.bridge_sum + flat.sum(dim=0)
             self.bridge_count += flat.shape[0]
-        elif self.mode == "ablate" and self.target[0] == "vision_bridge":
+        elif self.mode == "ablate" and self.target is not None and self.target[0] == "vision_bridge":
             mean = self.means["bridge"].to(output.device, output.dtype)
             return mean.expand_as(output).clone()
         return None
 
     def finish_calibration(self) -> dict[str, Any]:
         """Mean updates from the collected sums; `ablate` mode reads these, as does the live agent."""
+        assert self.bridge_sum is not None
         self.means = {"q": {i: (self.sum_q[i] / self.frames).cpu() for i in self.sum_q},
                       "c": {i: (self.sum_c[i] / self.count_c[i]).cpu() for i in self.sum_c},
                       "bridge": (self.bridge_sum / self.bridge_count).cpu(), "frames": self.frames}
@@ -182,7 +184,7 @@ def main() -> None:
     # ("none", -1) reruns the intact model: the floor that GPU nondeterminism sets under every effect.
     conditions = ([(site, layer) for site in SITES for layer in range(len(knock.layers))]
                   + [("vision_bridge", -1), ("none", -1)])
-    effects = np.zeros((len(frames), len(conditions), 2), dtype=np.float32)
+    effects: np.ndarray = np.zeros((len(frames), len(conditions), 2), dtype=np.float32)
     (args.output / "frames.json").write_text(json.dumps({"scoring": [str(p) for p in frames],
                                                          "calibration": [str(p) for p in calibration]}) + "\n")
     started = time.monotonic()

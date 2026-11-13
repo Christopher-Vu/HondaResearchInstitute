@@ -148,11 +148,11 @@ def surround_is_plain(saturation: np.ndarray, labels: np.ndarray, label: int, st
 def find_markers(rgb: np.ndarray) -> list[Blob]:
     """A marker colour, in the policy's crop below the horizon, as a small compact blob on plain surroundings."""
     rows = policy_rows(rgb.shape[0])
-    channels = [rgb[..., index].astype(np.int16) for index in range(3)]
+    channels: list[np.ndarray] = [rgb[..., index].astype(np.int16) for index in range(3)]
     saturation = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV)[..., 1]
     blobs = []
     for colour, test in MARKER_COLOURS.items():
-        candidates = test(*channels).astype(np.uint8)
+        candidates: np.ndarray = test(*channels).astype(np.uint8)
         candidates[:HORIZON_ROW] = 0
         candidates[rows:] = 0
         count, labels, stats, _ = cv2.connectedComponentsWithStats(candidates, connectivity=8)
@@ -164,7 +164,7 @@ def find_markers(rgb: np.ndarray) -> list[Blob]:
 
 
 def blob_mask(frame_shape: tuple[int, ...], blobs: list[Blob]) -> np.ndarray:
-    mask = np.zeros(frame_shape[:2], dtype=np.uint8)
+    mask: np.ndarray = np.zeros(frame_shape[:2], dtype=np.uint8)
     for blob in blobs:
         height, width = blob.shape.shape
         mask[blob.top:blob.top + height, blob.left:blob.left + width] |= blob.shape.astype(np.uint8)
@@ -192,7 +192,7 @@ def empty_road(rgb: np.ndarray, markers: list[Blob]) -> np.ndarray:
     rows = policy_rows(rgb.shape[0])
     plain[:HORIZON_ROW] = False
     plain[rows:] = False
-    clearance = np.ones((2 * PLACEBO_CLEARANCE + 1, 2 * PLACEBO_CLEARANCE + 1), np.uint8)
+    clearance: np.ndarray = np.ones((2 * PLACEBO_CLEARANCE + 1, 2 * PLACEBO_CLEARANCE + 1), np.uint8)
     free = cv2.dilate(blob_mask(rgb.shape, markers), clearance) == 0
     plain &= free
     _, labels = cv2.connectedComponents(plain.astype(np.uint8), connectivity=4)
@@ -296,7 +296,7 @@ def white_rule_holds(report: dict[str, Any]) -> bool:
     """White rings sit on real blocks at least 90% of the time and catch 90% of them. Otherwise white blocks stay unpainted."""
     rings, wrong = report.get("white_rings_drawn"), report.get("white_rings_not_on_a_block")
     visible, caught = report.get("white_blocks_visible"), report.get("white_blocks_caught")
-    if None in (rings, wrong, visible, caught):
+    if rings is None or wrong is None or visible is None or caught is None:
         return False
     return wrong <= MAX_WRONG_WHITE_RING_SHARE * rings and caught >= MASK_CHECK_MIN_CAUGHT * visible
 
@@ -307,7 +307,7 @@ def mask_check_passes(report: dict[str, Any] | None) -> bool:
         return False
     viewed, visible = report.get("frames_viewed"), report.get("coloured_dots_visible")
     caught, touched = report.get("coloured_dots_caught"), report.get("frames_touching_traffic_light_or_vehicle")
-    if None in (viewed, visible, caught, touched) or not visible:
+    if viewed is None or visible is None or caught is None or touched is None or not visible:
         return False
     if white_rule_holds(report):
         visible, caught = visible + report["white_blocks_visible"], caught + report["white_blocks_caught"]
@@ -344,14 +344,15 @@ def write_sheets(frames: list[FrameRef], output: Path) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     chosen = random.Random(SEED).sample(frames, min(MASK_CHECK_FRAMES, len(frames)))
     listed = []
+    white_rings = 0
     for index, frame in enumerate(chosen):
         rgb = read_rgb(frame.png)
         blobs = find_markers(rgb)
+        white_rings += sum(blob.colour == WHITE for blob in blobs)
         name = f"{index:02d}-route-{frame.route}-{frame.step:06d}.png"
         Image.fromarray(mask_panel(rgb, blobs)).save(folder / name)
         listed.append({"panel": name, "blobs": [{"colour": blob.colour, "area": int(blob.shape.sum()), "top": blob.top,
                                                  "left": blob.left} for blob in blobs]})
-    white_rings = sum(blob["colour"] == WHITE for entry in listed for blob in entry["blobs"])
     template = {"frames_viewed": None, "coloured_dots_visible": None, "coloured_dots_caught": None,
                 "frames_touching_traffic_light_or_vehicle": None, "white_rings_drawn": white_rings,
                 "white_rings_not_on_a_block": None, "white_blocks_visible": None, "white_blocks_caught": None}
@@ -376,9 +377,10 @@ def route_bootstrap(rows: list[dict[str, Any]], statistic: Callable[[np.ndarray]
     """90% percentile interval of a statistic over row indices, resampling whole routes."""
     routes = by_route(rows)
     rng = np.random.default_rng(SEED)
-    draws = [statistic(np.concatenate([routes[pick] for pick in rng.integers(len(routes), size=len(routes))]))
+    draws = [statistic(np.concatenate([routes[int(pick)] for pick in rng.integers(len(routes), size=len(routes))]))
              for _ in range(BOOTSTRAP_DRAWS)]
-    return [float(value) for value in np.percentile(draws, [5, 95])]
+    percentiles: np.ndarray = np.percentile(draws, [5, 95])
+    return [float(value) for value in percentiles]
 
 
 def shift_summary(rows: list[dict[str, Any]], field: str) -> dict[str, Any]:
@@ -386,9 +388,15 @@ def shift_summary(rows: list[dict[str, Any]], field: str) -> dict[str, Any]:
     placebo = np.array([row["placebo"][field] for row in rows])
     report: dict[str, Any] = {}
     for name, values in (("painted", painted), ("placebo", placebo)):
+        def median_statistic(picks: np.ndarray, values: np.ndarray = values) -> float:
+            return float(np.median(values[picks]))
+
+        def p90_statistic(picks: np.ndarray, values: np.ndarray = values) -> float:
+            return float(np.percentile(values[picks], 90))
+
         report[name] = {"median": float(np.median(values)), "p90": float(np.percentile(values, 90)),
-                        "median_interval_90": route_bootstrap(rows, lambda picks, v=values: float(np.median(v[picks]))),
-                        "p90_interval_90": route_bootstrap(rows, lambda picks, v=values: float(np.percentile(v[picks], 90)))}
+                        "median_interval_90": route_bootstrap(rows, median_statistic),
+                        "p90_interval_90": route_bootstrap(rows, p90_statistic)}
     report["excess_median"] = report["painted"]["median"] - report["placebo"]["median"]
     report["excess_median_interval_90"] = route_bootstrap(
         rows, lambda picks: float(np.median(painted[picks]) - np.median(placebo[picks])))
@@ -409,10 +417,12 @@ def frame_groups(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
 
 def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     fields = ("route_m", "speed_m", "layer_driving_mean")
-    groups = {name: {"frames": len(members), "routes": len({row["route"] for row in members}),
-                     **{field: shift_summary(members, field) for field in fields}}
-              for name, members in frame_groups(rows).items()}
-    excess = groups["all"]["route_m"]["excess_median"]
+    groups: dict[str, dict[str, Any]] = {
+        name: {"frames": len(members), "routes": len({row["route"] for row in members}),
+               **{field: shift_summary(members, field) for field in fields}}
+        for name, members in frame_groups(rows).items()
+    }
+    excess = float(groups["all"]["route_m"]["excess_median"])
     return {"excess_route_m": excess, "reading": excess_reading(excess), "groups": groups}
 
 
@@ -421,7 +431,10 @@ def read_rows(output: Path) -> list[dict[str, Any]]:
 
 
 def spread(values: list[float]) -> dict[str, float] | None:
-    return dict(zip(("p10", "median", "p90"), (float(v) for v in np.percentile(values, [10, 50, 90])))) if values else None
+    if not values:
+        return None
+    percentiles: np.ndarray = np.percentile(values, [10, 50, 90])
+    return dict(zip(("p10", "median", "p90"), (float(value) for value in percentiles)))
 
 
 def census_summary(census: list[dict[str, Any]]) -> dict[str, Any]:
@@ -528,6 +541,7 @@ def replay_frames(replayer: Replayer, frames: list[FrameRef], output: Path, pain
             placebo = placebo_blobs(rgb, markers, frame.route, frame.step) if markers else None
             fate = NO_MARKER if not markers else NO_PLACEBO_SPOT if placebo is None else REPLAYED
             if fate == REPLAYED:
+                assert placebo is not None
                 rows.write(json.dumps(replayer.replay(frame, rgb, markers, placebo)) + "\n")
                 rows.flush()
             facts = marker_facts(rgb, markers) if markers else {"marker_pixels": 0, "lowest_marker_row": 0}
@@ -562,6 +576,7 @@ def run_replay(args: argparse.Namespace, frames: list[FrameRef], header: dict[st
     mask_check = load_mask_check(args.output)
     if not mask_check_passes(mask_check):
         raise SystemExit(f"{args.output / 'mask-check.json'} does not pass: view the sheets first, or the offline work stops")
+    assert mask_check is not None
     paint_white = white_rule_holds(mask_check)
     replayer = Replayer(args.device)
     kept = reproduction_gate(replayer, frames, args.output)

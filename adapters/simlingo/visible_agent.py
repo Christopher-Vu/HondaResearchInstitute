@@ -58,6 +58,7 @@ class VisibleAgent(LingoAgent):
                 for box in light.get_light_boxes()])
         location = ego.get_location()
         here = np.array([location.x, location.y])
+        assert self.light_boxes is not None
         nearby = [corners for corners in self.light_boxes.boxes(self.lights)
                   if np.linalg.norm(corners.mean(axis=0)[:2] - here) < GLARE_RANGE_M]
         camera = camera_to_world(np.array(ego.get_transform().get_matrix()), tuple(self.config.camera_pos_0))

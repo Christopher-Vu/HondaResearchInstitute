@@ -26,7 +26,9 @@ GENERALIZATION_OFFSET = 1000
 def pairs(split: Path, name: str) -> list[tuple[Path, Path]]:
     found = []
     for base in sorted(split.glob(f"Base_{name}_*.xml")):
-        number = int(re.fullmatch(rf"Base_{name}_(\d+)\.xml", base.name).group(1))
+        match = re.fullmatch(rf"Base_{name}_(\d+)\.xml", base.name)
+        assert match is not None
+        number = int(match.group(1))
         twin = split / f"Generalization_{name}_{number + GENERALIZATION_OFFSET:04d}.xml"
         if not twin.is_file():
             raise FileNotFoundError(f"{base.name} has no generalization twin {twin.name}")

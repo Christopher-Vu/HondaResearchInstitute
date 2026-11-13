@@ -75,11 +75,13 @@ class CameraFault:
         return self._frozen(bgra, step)
 
     def _delayed(self, bgra: np.ndarray, step: int) -> np.ndarray:
+        assert self.fault is not None
         self.history.append(bgra.copy())
         self.age_steps = min(step, self.fault["delay_steps"])
         return self.history[0]
 
     def _frozen(self, bgra: np.ndarray, step: int) -> np.ndarray:
+        assert self.fault is not None
         phase = step - self.fault.get("offset_steps", 0)
         frozen = phase >= 0 and phase % self.fault["period_steps"] < self.fault["duration_steps"]
         if not frozen or self.held is None:
