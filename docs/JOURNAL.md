@@ -11,6 +11,8 @@ The dashboard's poster was designed around the early camera-block control, but i
 
 A small dashboard regression test protects those labels and prevents the old unmeasured-retraining claim from returning. Focused dashboard tests, ESLint and TypeScript checks pass. No experiment, result file, sealed material, protocol, deployment or dashboard data changed. The next safe task is review this copy correction alongside the newer standalone poster files on main, then merge the non-overlapping implementation chosen by the team.
 
+The correction is committed as `ddd1438` on pushed branch `codex/poster-final-summary`. The GitHub integration again returned 403 when asked to create a pull request; use the branch-comparison URL to open the review.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
