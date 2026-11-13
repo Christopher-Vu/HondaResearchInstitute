@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: make dashboard validation reproducible
+
+The dashboard had a committed pnpm lockfile for Next 16.4.3, but no single validation command and its generic production build selected Turbopack. In this checkout the stale installed dependencies were Next 16.4.0, and Turbopack cannot run because the sandbox prohibits its CSS worker's local process port. A fresh `pnpm install --frozen-lockfile` now restores the locked 16.4.3 release. `dashboard/package.json` has a `check` command for linting, generated route types, TypeScript and importer regression tests, and its production build uses Next's supported Webpack backend. This makes the documented clean install, verification and build repeatable in CI and locally without hiding a Turbopack-specific check; the README says to invoke `next build` directly when testing Turbopack.
+
+Validation passed on the locked install: `pnpm run check` (29 importer tests) and `pnpm run build` both pass, producing all static dashboard pages and API routes. The dashboard's data, research claims, deployment and experiments are unchanged. The next safe task is review and merge this dashboard reproducibility branch; CI remains manual-only under C33 until Chris authorizes automatic triggers.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.

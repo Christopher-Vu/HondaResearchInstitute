@@ -57,12 +57,14 @@ JSON files are curated, display-only extracts of the public H18/H19/H20 research
 From `dashboard/`, run:
 
 ```sh
-node --test tests/evaluation-report.test.mjs  # Node 22.18+ for native TypeScript
-npx next typegen
-npx tsc --noEmit
-npx eslint src/app/failure-explorer/AxisImporter.tsx src/app/failure-explorer/AxisInventory.tsx src/app/failure-explorer/evaluation-report.ts tests/evaluation-report.test.mjs
-npm run build
+pnpm install --frozen-lockfile
+pnpm run check  # Node 22.18+ for native TypeScript tests
+pnpm run build
 ```
+
+`build` uses Next's supported Webpack backend. This keeps the production check
+independent of Turbopack's local process-port requirement; use `next build`
+directly when specifically testing Turbopack.
 
 The parser tests use the committed H12 report as a producer-format regression
 fixture and a Python-produced synthetic inventory fixture. They cover malformed
