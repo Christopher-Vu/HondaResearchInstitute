@@ -1,18 +1,24 @@
 # Honda Failure-Axis Explorer — Experiment Comparison
 
-## Install
+## Development report importer
 
-Copy `ExperimentComparison.tsx`, `h18_result.json`, `h19_result.json`, and `h20_result.json` into:
+Open `/failure-explorer` and select a JSON report produced by
+`src/discovery/dev_eval.py`, for example `docs/research/data/h12_layer10_plain.json`.
+Processing stays in the browser. Select a method/run to inspect its best axis per
+gap, overlap, support and recovery flag. Excluded runs remain visible and are
+labelled; their scores do not count toward the evaluation rule.
 
-`dashboard/src/app/failure-explorer/`
+The supported format has `layer`, `corpus` and a `methods` map. All fields used
+by the view are validated before rendering, with a field path in errors.
+The obsolete `runs`/`contrastive_axes` format and experiment-specific aggregate
+files such as H18/H20 are not supported by this importer. Those experiments have
+their own comparison view. Reports with no methods or no gap summaries show an
+empty state; a null axis is displayed as “No axis”.
 
-Then add to `dashboard/src/app/failure-explorer/page.tsx`:
-
-```tsx
-import ExperimentComparison from "./ExperimentComparison";
-```
-
-Within the page JSX, add `<ExperimentComparison />` above `<AxisImporter />`.
+These are exploratory development summaries with axes chosen using the key,
+not full axis inventories. The recovery flag is copied from the method’s gap
+summary: it can refer to another axis than the displayed best-overlap axis.
+No score or research rule is recomputed in the dashboard.
 
 ## Data provenance
 
@@ -20,7 +26,18 @@ JSON files are curated, display-only extracts of the public H18/H19/H20 research
 
 ## Validation
 
-Run `cd dashboard && npm run build` (or `pnpm build`) after copying. The build has not been run against the full repository in this environment.
+From `dashboard/`, run:
+
+```sh
+node --test tests/evaluation-report.test.mjs  # Node 22.18+ for native TypeScript
+npx next typegen
+npx tsc --noEmit
+npx eslint src/app/failure-explorer/AxisImporter.tsx src/app/failure-explorer/evaluation-report.ts tests/evaluation-report.test.mjs
+npm run build
+```
+
+The parser tests use the committed H12 report as a producer-format regression
+fixture and cover malformed fields, excluded runs, null axes and empty reports.
 
 ## Research limitations
 
