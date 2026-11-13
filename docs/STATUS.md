@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-13 (H26 read: activation grouping replicates on P4, not P7)
+Last updated: 2026-11-13 (final summary written at the top of the dev report)
 
 ---
 
 ## Current position
+
+**2026-11-13, the final summary is written** at the top of `docs/research/dev-report.md`. Bottom line (dev only, best axis chosen using the answer): reading SimLingo's activations reliably finds one visible camera fault (P4) and nothing else we tested better than the baselines; on Fail2Drive the strongest baseline, B3, wins because it reads the simulator's object distances. End state A is written; B is not reached. **Waiting on Chris:** review of C34 to C38 and H22 to H26, and whether the study closes at A. Spend about 6036 of 10000 SU, nothing queued.
 
 **2026-11-13, H26 is read: `not_replicated` (measured).** H24's activation grouping, unchanged, on fresh drives (H3's pool): P4's occlusion patch is found again (median 0.374 against B3 0.194 and random 0.182), P7's freeze is not (0.181, under random 0.206 and B3 0.367). Across two pools, activations find the visible patch and not the freeze. Spend about 6036 of 10000 SU, nothing queued. **Next, for Jerry and Chris:** what the study reports as its activation finding, and whether anything more is worth running.
 

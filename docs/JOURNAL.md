@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: the final summary
+
+Jerry asked for the study's final summary, and it now opens the [dev report](research/dev-report.md). In plain words: the planted camera faults and Fail2Drive's unseen situations really do make SimLingo fail, but reading its activations without labels finds only one of those failures well, the black patch over the camera, and it found that on two separate sets of drives. On Fail2Drive the best baseline wins because it reads the simulator's exact distances to nearby objects. Every number in the summary was checked against its data file before it went in. The study has not built a blind test pool, so the PRD's final test was never run, and Chris still has to say whether the study closes here.
+
+---
+
 ## 2026-11-13: the activation result holds for one camera fault, not the other
 
 Jerry asked to check H24's best result on drives it had not seen. H3's pool has fresh drives of the black-patch fault (P4) and the frozen-picture fault (P7), mostly on roads the H1 pool also used. Before the lock, a review caught that my bar was too low: on just those two faults, H1's own result already cleared the 0.15 margin, so a true replication had to clear it again. It also found that B3 was already known to score well on P7 in this pool, which the protocol now says.
