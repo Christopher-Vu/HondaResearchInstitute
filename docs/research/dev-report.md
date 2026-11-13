@@ -320,7 +320,9 @@ Two facts explain most of this, and both come from the frozen method, not from t
 
 B3 reads only driving behaviour, such as speed and braking, and no activations. It holds the unseen route without its twin in 12 of the 13 pairs. On these categories, how SimLingo drove separates its failures better than anything our methods found inside the model.
 
+**H23, post hoc, with M1's group floor at 3** ([protocol](experiments/h23-f2d-m1-floor/protocol.md), tag `methods-frozen-f2d-v2`). Jerry asked for this after H22. Only the floor changed, to B7-pool's own floor of 3, and H22's dictionaries were reused. The reading is again `not_ahead`: median delta -0.385, with an interval of -0.500 to -0.266 (measured). With the floor no longer a limit, plain M1 raw emits axes on every dictionary. Its mean best Jaccard is 0.142 at best and 0.085 at median, under B1 random at 0.186. Centre M1 raw reaches 0.250 at best, with 5 pair hits on CustomObstacles in its best dictionary. Vision reaches 0.172. B3 stays at 0.471. So the floor explained why M1 emitted nothing in H22, but not why it lost: once it can emit small groups, they do not line up with these categories better than random groups of the same sizes ([plain](data/h23_plain.json), [centre](data/h23_centre.json), [vision](data/h23_vision.json)).
 
+## PRD checks that never ran
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
 

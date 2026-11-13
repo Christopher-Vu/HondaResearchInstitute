@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-12 (H22 read: frozen methods not ahead on Fail2Drive)
+Last updated: 2026-11-12 (H23 read: M1 with a floor of 3 is still not ahead)
 
 ---
 
 ## Current position
+
+**2026-11-12, H23 is read: `not_ahead` again.** Jerry asked for M1 with its group floor lowered from 20 to 3 (post hoc, tag `methods-frozen-f2d-v2`). Plain M1 raw now emits axes, but scores a mean best Jaccard of 0.142 at best and 0.085 at median, under random groups of the same sizes (0.186) and far under B3, which reads only driving behaviour (0.471). Median delta -0.385 (measured). Spend about 6030 of 10000 SU. **Next, for Jerry and Chris:** on Fail2Drive's screened categories, how SimLingo drove separates its failures better than anything our methods find in its activations. Decide whether the report closes on that reading (end state A with this section), or whether another method question is worth a new locked test. Nothing is queued. Chris has not reviewed C38.
 
 **2026-11-12, H22 is read: `not_ahead`. On Fail2Drive's three screened categories the frozen activation methods do not beat the baselines (median delta -0.471, interval -0.600 to -0.357, measured).** Plain M1 emitted no axis on any of 18 dictionaries. B3, which reads only driving behaviour, scores 0.471 and holds 12 of the 13 slice-only pairs. M1's floor of 20 failing routes per axis caps it at a mean Jaccard of 0.27 on categories of 8, 5 and 3 failures, so this test could not favour M1 by design (WHAT_BROKE). Spend about 6028 of 10000 SU. **Next, for Jerry and Chris:** whether a method change for small groups is worth a new, separately locked test, or whether the report states this result and closes on Fail2Drive. No method change is made without them. Chris has not reviewed C38.
 

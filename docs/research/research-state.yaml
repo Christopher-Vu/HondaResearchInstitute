@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 6028               # 2026-11-12, the study's named jobs
+su_spent: 6030               # 2026-11-12, the study's named jobs
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
@@ -63,6 +63,8 @@ hypotheses:
          result: "reproduces: 28 slice-only against 4 on 100 Fail2Drive pairs, p 1.9e-5; screen candidates CustomObstacles, Wall, PedestriansOnRoad; shards unread until the C38 freeze", data: docs/research/data/h21_result.json}
   H22:  {status: done, kind: frozen_method_eval, protocol: docs/research/experiments/h22-f2d-frozen-eval/protocol.md,
          result: "not_ahead: median delta -0.471; plain M1 emitted 0 axes; B3 behavioral 0.471 with 12 of 13 pair hits; M1 min_support 20 caps it at a mean of 0.27 on these categories; dev only, not blind", data: [docs/research/data/h22_plain.json, docs/research/data/h22_centre.json, docs/research/data/h22_vision.json]}
+  H23:  {status: done, kind: frozen_method_eval_post_hoc, protocol: docs/research/experiments/h23-f2d-m1-floor/protocol.md,
+         result: "not_ahead: M1 floor 3; median delta -0.385; plain M1 raw best 0.142 median 0.085 under B1 0.186 and B3 0.471; post hoc after H22", data: [docs/research/data/h23_plain.json, docs/research/data/h23_centre.json, docs/research/data/h23_vision.json]}
 
 local:
   slim_shards: scratchpad h1-slim (750 shards, 7.8 GB); h3-slim/{wave3,p4c,p7c} (439 shards)

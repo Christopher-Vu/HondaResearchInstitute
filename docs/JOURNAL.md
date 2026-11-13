@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-12: lowering M1's group floor does not change the answer
+
+After H22, Jerry asked for one more test with the setting that had capped M1 removed. M1 had needed at least 20 failing routes to form a group, and now it needs 3, the same as the B7 baseline it is compared with. Nothing else changed, and the [protocol](research/experiments/h23-f2d-m1-floor/protocol.md) was locked before the run. It says plainly that this test is post hoc, because the setting was picked after seeing H22.
+
+The answer is the same (measured). M1 now finds groups, but they match the three Fail2Drive categories worse than random groups of the same sizes: 0.142 at best against 0.186 for random. The behaviour-only baseline stays at 0.471. So the floor explained why M1 found nothing in H22, but not why it lost. On these failures, how the car drove is a better clue than what our methods find inside the model. The run cost about 2 SU. Separately, the H22 edit to the dev report had deleted one section heading, and it is restored. What comes next is a decision for Jerry and Chris, not another run.
+
+---
+
 ## 2026-11-12: the frozen methods do not find Fail2Drive's failures better than the baselines
 
 Jerry accepted [C38](../CONFLICTS.md), the plan to test our methods on Fail2Drive's pairs. Before any method looked at the recorded activations, this session froze the methods under the git tag `methods-frozen-f2d-v1`. The freeze names contrastive diffing (M1 raw) as the main method and the activations as recorded as the main input, and it fixes the scoring rule. The [protocol](research/experiments/h22-f2d-frozen-eval/protocol.md) says where it departs from C38. The first job crashed before scoring because one baseline wanted a weather field the Fail2Drive route list lacks. That was fixed and noted in the protocol before any score existed.
