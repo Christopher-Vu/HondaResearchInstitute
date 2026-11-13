@@ -11,6 +11,8 @@ The dashboard had a committed pnpm lockfile for Next 16.4.3, but no single valid
 
 Validation passed on the locked install: `pnpm run check` (29 importer tests) and `pnpm run build` both pass, producing all static dashboard pages and API routes. The dashboard's data, research claims, deployment and experiments are unchanged. The next safe task is review and merge this dashboard reproducibility branch; CI remains manual-only under C33 until Chris authorizes automatic triggers.
 
+The work is committed as `fbc2c10` on pushed branch `codex/dashboard-repro-check`. The GitHub integration can push branches but returned 403 when asked to open its pull request; use the branch-comparison URL to create the review instead.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
