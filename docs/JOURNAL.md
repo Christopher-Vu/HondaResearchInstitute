@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-13: deploy the status dashboard for team sharing
+
+The dashboard is now deployed from `dashboard/` on Vercel at https://dashboard-cattayw.vercel.app. The production deployment (`dpl_9Q4a3MzuY5krDha94gt6uwj9PT9R`) built successfully from this branch. Vercel initially protected the deployment with sign-in-only access, so the project’s SSO deployment protection was disabled at the user’s request. Both the home page and `/failure-explorer` return HTTP 200 without authentication.
+
+This is a hosting change only: no experiment, result, source code, sealed path or Savio job changed. The existing `failure-axis-status.vercel.app` deployment remains separate.
+
 ## 2026-11-13: make the status dashboard match the final dev summary
 
 The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
