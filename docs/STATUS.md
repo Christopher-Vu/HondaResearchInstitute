@@ -6,11 +6,13 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-14 (Jerry's H23 to H26 and final summary merged; SimLingo dev search v1 next)
+Last updated: 2026-11-14 (dev v1 and v2 read, both not ahead; B7 leads on two gaps)
 
 ---
 
 ## Current position
+
+**2026-11-14, Chris's SimLingo dev search: v1 and v2 read, both `not_ahead` (dev, best axis chosen using the answer, measured).** v1 is H22's methods on our 1,188-route pool: M1 mean best 0.13 to 0.16 against B3 0.317. v2 is H24's activation mixture: median delta -0.074. The one lead is B7, a simple activation-statistics baseline, which beats B3 on FullyBlocked (0.458 vs 0.188) and BadParking (0.269 vs 0.188) and nearly ties on PedestriansOnRoad. B2 scores 1.000 on PedestriansOnRoad because a route field names the type. Log: `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`. Next: decide v3 (build on B7, layer sweep, or approach-window M1). Nothing queued.
 
 **2026-11-12 evening, Chris: the Fail2Drive test pool is the deciding test, and method search on it is open.** Chris and Jerry's Fail2Drive lines are merged. Chris reviewed C38 and scoped it to H21's pool. On Chris's test pool (`docs/prereg-fail2drive.md`; gaps on SimLingo PedestriansOnRoad, FullyBlocked and BadParking, on TransFuser++ FullyBlocked and PedestriansOnRoad; every gap B4-unnamed, measured): iterate methods freely on SimLingo, log every variant in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`, report what we have at any point; working target is an activation method ahead of B3 on the B4-unnamed gaps; TransFuser++ is scored once after a freeze. Budget 800 SU. **Session ended mid-task (2026-11-12):** merge of origin/main f6483eb committed locally, not pushed; origin/main's H23 commits (to f612131) not yet merged; full pytest not yet green on Windows (one failure seen is cp1252 decoding, rerun with PYTHONUTF8=1). **Next:** merge f612131, test, push, sync hri-tfpp, submit v1 (`docs/research/experiments/f2d-dev-simlingo/run.sbatch`, VARIANT_ID=v1).
 
