@@ -8,6 +8,17 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-14: the full test suite hangs on Windows
+
+**Expected:** `python -m pytest -q` finishes on a Windows laptop, as `CLAUDE.md` says it needs no GPU.
+**What happened:** it stalled for over 30 minutes twice. The tests that stop process groups (`tests/test_savio_runtime.py`,
+`tests/test_slow_watchdog.py`) call `os.killpg`, which Windows lacks; they fail, and one leaves a child running, so
+the run hangs. A spec file read as cp1252 failed too until `PYTHONUTF8=1` was set.
+**What we did:** on Windows, run `PYTHONUTF8=1 python -m pytest -q --ignore=tests/test_savio_runtime.py
+--ignore=tests/test_slow_watchdog.py`; those two files need Linux and should be run on Savio. Everything else passed (2026-11-14, measured).
+
+---
+
 ## 2026-11-09: a third of SimLingo's Fail2Drive test pool was lost, partly to our own queueing change
 
 **Expected:** about 3% of the 1,200 routes lost, as in earlier arrays.
