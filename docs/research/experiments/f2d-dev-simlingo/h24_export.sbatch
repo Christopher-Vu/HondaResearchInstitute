@@ -8,6 +8,6 @@ set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 OUT=results/savio/f2d-dev/simlingo/v2
 mkdir -p "$OUT"
-PYTHONPATH=src .runtime/policy-venv/bin/python docs/research/experiments/h24-error-aware-grouping/export_features.py \
+PYTHONPATH=src .runtime/analysis-venv/bin/python docs/research/experiments/h24-error-aware-grouping/export_features.py \
   results/savio/f2d-test-simlingo/shards --output "$OUT/features.npz"
 echo "export done after $SECONDS s"
