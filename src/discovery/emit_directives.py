@@ -27,6 +27,7 @@ import torch
 
 from baselines.random_baseline import RandomBaselineConfig, draw_directive
 from discovery import dev_eval
+from discovery.contrastive import ContrastiveConfig
 from discovery.dev_eval import BASELINE, MethodRun, Shard
 from harness.schema import ACTION_RESIDUAL, NON_RESIDUALIZED, Directive
 
@@ -56,9 +57,9 @@ def random_run(runs: list[MethodRun], failing: list[str], primary: str | None) -
 
 
 def method_runs(shards: list[Shard], layer: int, sae_runs: list[Path], manifests: list[str], device: torch.device,
-                primary: str | None) -> list[MethodRun]:
+                primary: str | None, contrastive: ContrastiveConfig = ContrastiveConfig()) -> list[MethodRun]:
     frames = [dev_eval.read_frames(shard, layer) for shard in shards]
-    runs, _infos, _skipped = dev_eval.run_saes(sae_runs, frames, layer, device)
+    runs, _infos, _skipped = dev_eval.run_saes(sae_runs, frames, layer, device, contrastive=contrastive)
     if variant_of(shards) == ACTION_RESIDUAL:
         return [*runs, dev_eval.probe_run(shards, layer)]
     records = dev_eval.taxonomy_records(manifests, {s.route_id: not s.meta["success"] for s in shards})
@@ -79,6 +80,8 @@ def main() -> None:
     parser.add_argument("--sae", type=Path, nargs="*", default=[])
     parser.add_argument("--manifests", nargs="*", default=[], help="manifests (globs allowed) for B2's metadata")
     parser.add_argument("--primary-dictionary", help="SAE run directory name that sizes B1's draw")
+    parser.add_argument("--m1-min-support", type=int, default=ContrastiveConfig.min_support,
+                        help="failing rollouts a latent must fire in to found an M1 axis")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -86,7 +89,8 @@ def main() -> None:
     variant = variant_of(shards)
     manifests = sorted({path for pattern in args.manifests for path in glob.glob(pattern)})
     args.output.mkdir(parents=True, exist_ok=True)
-    for run in method_runs(shards, args.layer, args.sae, manifests, device, args.primary_dictionary):
+    contrastive = ContrastiveConfig(min_support=args.m1_min_support)
+    for run in method_runs(shards, args.layer, args.sae, manifests, device, args.primary_dictionary, contrastive):
         item = record(run, variant)
         name = f"{item['family']}@{item['dictionary'] or 'none'}@{variant}.json"
         (args.output / name).write_text(json.dumps(item, indent=1) + "\n")

@@ -14,14 +14,15 @@ Scoring is the only code that reads the sidecars' practice_gaps and role: the an
 rollouts listing it. Methods receive rollouts built from activations, state, infractions and outcome, and B2 receives
 only scenario, weather and town. Per gap and method the output holds the best axis's Jaccard with the key, its size,
 its share of all failures and how many of its members are pilot slice versus pilot neighbourhood routes, then Claim A
-and Claim B of the protocol with a base-route cluster bootstrap. Dev only: nothing here is a result (PRD 9.2).
+and Claim B of the protocol with a base-route cluster bootstrap. Each method also exports every emitted axis
+card, in directive order, with rollout support and failure share for the development dashboard. Dev only: nothing here is a result (PRD 9.2).
 """
 from __future__ import annotations
 
 import argparse
 import glob
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -182,15 +183,17 @@ def encode_frames(model: sae.TopKSae, frames: list[Frames], device: torch.device
     return rollouts, tally.explained
 
 
-def contrastive_variants(rollouts: list[Rollout], layer: int) -> tuple[Directive, Directive]:
+def contrastive_variants(rollouts: list[Rollout], layer: int,
+                         contrastive: ContrastiveConfig = ContrastiveConfig()) -> tuple[Directive, Directive]:
     label = f"driving_queries_L{layer}"
-    raw, _ = contrastive_directive(rollouts, ContrastiveConfig(), layer=label)
-    capped, _ = contrastive_directive(rollouts, ContrastiveConfig(max_failure_share=CATCH_ALL_CAP), layer=label)
+    raw, _ = contrastive_directive(rollouts, contrastive, layer=label)
+    capped, _ = contrastive_directive(rollouts, replace(contrastive, max_failure_share=CATCH_ALL_CAP), layer=label)
     return raw, capped
 
 
-def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int) -> list[MethodRun]:
-    raw, capped = contrastive_variants(rollouts, layer)
+def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int,
+                contrastive: ContrastiveConfig = ContrastiveConfig()) -> list[MethodRun]:
+    raw, capped = contrastive_variants(rollouts, layer, contrastive)
     episodes = {rollout.rollout_id: rollout.latents for rollout in rollouts}
     failing = {rollout.rollout_id for rollout in rollouts if rollout.failed}
     pool = activation_stats_directive(episodes, episodes, failing, ActivationStatsConfig(variant="B"))
@@ -198,8 +201,8 @@ def sae_methods(rollouts: list[Rollout], info: SaeInfo, layer: int) -> list[Meth
             MethodRun("B7_pool", BASELINE, pool, info)]
 
 
-def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device, stale_latent: bool = False
-             ) -> tuple[list[MethodRun], list[SaeInfo], list[dict[str, str]]]:
+def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.device, stale_latent: bool = False,
+             contrastive: ContrastiveConfig = ContrastiveConfig()) -> tuple[list[MethodRun], list[SaeInfo], list[dict[str, str]]]:
     methods, infos, skipped = [], [], []
     for run in runs:
         if not (run / "sae.pt").is_file():
@@ -212,7 +215,7 @@ def run_saes(runs: list[Path], frames: list[Frames], layer: int, device: torch.d
         rollouts, explained = encode_frames(model, frames, device, stale_latent)
         info = SaeInfo(str(run), config["layer"], config["k"], config["seed"], explained)
         infos.append(info)
-        methods += sae_methods(rollouts, info, layer)
+        methods += sae_methods(rollouts, info, layer, contrastive)
     return methods, infos, skipped
 
 
@@ -254,6 +257,17 @@ def axis_record(axis: Any, key: set[str], context: ScoringContext) -> dict[str, 
             "in_key": len(members & key), "pilot_slice": roles.count(SLICE_ROLE),
             "pilot_neighbourhood": roles.count(NEIGHBOURHOOD_ROLE),
             "other": sum(role not in (SLICE_ROLE, NEIGHBOURHOOD_ROLE) for role in roles)}
+
+
+def axis_inventory(directive: Directive, failing: set[str]) -> list[dict[str, Any]]:
+    """All emitted cards, independent of gap keys, including axes that win no gap.
+
+    Preserve the method's order, provenance, supporting episodes and untested causal
+    status. These descriptive fields do not feed back into scores or verdicts.
+    """
+    return [{**axis.to_dict(), "axis_size": len(axis.rollouts),
+             "share_of_failures": len(axis.rollouts & failing) / max(1, len(failing))}
+            for axis in directive.axes]
 
 
 def gap_record(directive: Directive, gap: Gap, context: ScoringContext) -> dict[str, Any]:
@@ -383,6 +397,7 @@ def evaluate(shard_dirs: list[Path], layer: int, sae_runs: list[Path], gap_ids: 
                              {s.route_id: s.meta.get("role") for s in shards})
     results = {run.label: {"family": run.family, "kind": run.kind, "counts": run.counts,
                            "sae": run.sae.run if run.sae else None, "score": summary(score(run.directive, gaps)),
+                           "axes": axis_inventory(run.directive, context.failing),
                            "gaps": {gap.gap_id: gap_record(run.directive, gap, context) for gap in gaps}}
                for run in runs}
     deltas = bootstrap_deltas([run for run in runs if run.counts], gaps,

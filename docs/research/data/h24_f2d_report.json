@@ -1,0 +1,282 @@
+{
+ "label": "H24 on Fail2Drive",
+ "pool": {
+  "name": "Fail2Drive's three screened categories",
+  "failures_scored": 52,
+  "restricted": false
+ },
+ "note": "The best axis is chosen using each category's failing set.",
+ "categories": {
+  "F2D_CustomObstacles": 8,
+  "F2D_Wall": 5,
+  "F2D_PedestriansOnRoad": 3
+ },
+ "b3": {
+  "F2D_CustomObstacles": 0.35714285714285715,
+  "F2D_Wall": 0.45454545454545453,
+  "F2D_PedestriansOnRoad": 0.6,
+  "mean": 0.47056277056277057
+ },
+ "methods": {
+  "H24_act": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": -0.2267167473049826,
+   "median_delta_vs_random_only": 0.06760534712890352,
+   "route_bootstrap": [
+    -0.26895674690663085,
+    -0.14614589979092688
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.5,
+     "median": 0.3205128205128205,
+     "random_median": 0.19533736248094105,
+     "median_delta": -0.03663003663003664,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 2.5
+    },
+    "F2D_Wall": {
+     "best": 0.5,
+     "median": 0.26969696969696966,
+     "random_median": 0.17134744667097604,
+     "median_delta": -0.18484848484848485,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 0.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.2222222222222222,
+     "median": 0.08333333333333333,
+     "random_median": 0.15328736949325186,
+     "median_delta": -0.5166666666666666,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.3611111111111111,
+    "median": 0.24384602325778798,
+    "random_median": 0.17254368105712276
+   },
+   "axis_sizes": {
+    "count": 104,
+    "median": 10.0,
+    "max": 27
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H24_act is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_act+kin": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": -0.04992784992784993,
+   "median_delta_vs_random_only": 0.2369653743086406,
+   "route_bootstrap": [
+    -0.18351686507936513,
+    0.15960331335331332
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.5,
+     "median": 0.42857142857142855,
+     "random_median": 0.20233534228928968,
+     "median_delta": 0.0714285714285714,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 4.0
+    },
+    "F2D_Wall": {
+     "best": 0.5714285714285714,
+     "median": 0.5,
+     "random_median": 0.1789463036963037,
+     "median_delta": 0.04545454545454547,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 4.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.3333333333333333,
+     "median": 0.3333333333333333,
+     "random_median": 0.17473237873237876,
+     "median_delta": -0.26666666666666666,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 1,
+     "pair_hits_median": 1.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.4682539682539682,
+    "median": 0.42063492063492064,
+    "random_median": 0.1851370753429577
+   },
+   "axis_sizes": {
+    "count": 123,
+    "median": 7.0,
+    "max": 20
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H24_act+kin is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_act_gamma0": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": -0.218001443001443,
+   "median_delta_vs_random_only": 0.07235541221764133,
+   "route_bootstrap": [
+    -0.2623523127199598,
+    -0.1388333041549954
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.5,
+     "median": 0.32884615384615384,
+     "random_median": 0.19776137068289815,
+     "median_delta": -0.028296703296703307,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 2.5
+    },
+    "F2D_Wall": {
+     "best": 0.5,
+     "median": 0.30952380952380953,
+     "random_median": 0.1678231970927624,
+     "median_delta": -0.14502164502164502,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 1.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.3333333333333333,
+     "median": 0.08333333333333333,
+     "random_median": 0.15777378708248274,
+     "median_delta": -0.5166666666666666,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 1,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.3611111111111111,
+    "median": 0.25256132756132754,
+    "random_median": 0.17397426332983612
+   },
+   "axis_sizes": {
+    "count": 107,
+    "median": 10.0,
+    "max": 25
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H24_act_gamma0 is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_full": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": -0.04289392524686647,
+   "median_delta_vs_random_only": 0.23499905114378794,
+   "route_bootstrap": [
+    -0.09739583333333325,
+    -0.02982202982202986
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.3888888888888889,
+     "median": 0.3888888888888889,
+     "random_median": 0.19712888242648302,
+     "median_delta": 0.031746031746031744,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 5,
+     "pair_hits_median": 5.0
+    },
+    "F2D_Wall": {
+     "best": 0.29411764705882354,
+     "median": 0.29411764705882354,
+     "random_median": 0.18678696741854633,
+     "median_delta": -0.160427807486631,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 0,
+     "pair_hits_median": 0.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.6,
+     "median": 0.6,
+     "random_median": 0.19513682396035342,
+     "median_delta": 0.0,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 3,
+     "pair_hits_median": 3.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.4276688453159041,
+    "median": 0.4276688453159041,
+    "random_median": 0.19266979417211616
+   },
+   "axis_sizes": {
+    "count": 147,
+    "median": 4.0,
+    "max": 17
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H24_full is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  },
+  "H24_kin": {
+   "runs": 18,
+   "runs_with_axes": 18,
+   "median_delta": -0.12738095238095237,
+   "median_delta_vs_random_only": 0.14293157768157772,
+   "route_bootstrap": [
+    -0.23163121600621597,
+    0.041648629148629025
+   ],
+   "replicates": 1000,
+   "categories": {
+    "F2D_CustomObstacles": {
+     "best": 0.45454545454545453,
+     "median": 0.45454545454545453,
+     "random_median": 0.20758336108336106,
+     "median_delta": 0.09740259740259738,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 3,
+     "pair_hits_median": 3.0
+    },
+    "F2D_Wall": {
+     "best": 0.5,
+     "median": 0.375,
+     "random_median": 0.20792099567099565,
+     "median_delta": -0.07954545454545453,
+     "slice_only_pairs": 5,
+     "pair_hits_best": 4,
+     "pair_hits_median": 3.0
+    },
+    "F2D_PedestriansOnRoad": {
+     "best": 0.3333333333333333,
+     "median": 0.2,
+     "random_median": 0.1976111111111111,
+     "median_delta": -0.39999999999999997,
+     "slice_only_pairs": 3,
+     "pair_hits_best": 1,
+     "pair_hits_median": 0.0
+    }
+   },
+   "mean_over_categories": {
+    "best": 0.3876262626262626,
+    "median": 0.3431818181818182,
+    "random_median": 0.20446484996484998
+   },
+   "axis_sizes": {
+    "count": 180,
+    "median": 4.0,
+    "max": 12
+   },
+   "outcome": "not_ahead",
+   "reading": "On Fail2Drive's three screened categories, H24_kin is not shown to recover the categories' failing routes better than B3 and random groups of the same sizes."
+  }
+ }
+}

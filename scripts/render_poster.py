@@ -7,7 +7,7 @@ Prints the smallest text size in points and any region whose content overflows.
 
 The PowerPoint is one 48 x 36 in slide: the poster captured at 144 dpi with its HTML text made
 transparent, under native text boxes holding that text in place. Text drawn inside SVG figures stays
-in the picture. The boxes name IBM Plex Sans, which PowerPoint substitutes where it is not installed.
+in the picture. The boxes name Alegreya, which PowerPoint substitutes where it is not installed; install Alegreya from Google Fonts.
 """
 import asyncio
 import re
@@ -26,9 +26,9 @@ HIDE_DEV = "nextjs-portal{display:none!important}[data-screen-only]{display:none
 POSTER_PX = (4608, 3456)
 EMU_PER_PX = 914400 // 96
 PT_PER_PX = 0.75
-# The layout loads IBM's static TTFs, whose family names carry the weight.
-PLEX_BY_WEIGHT = {400: ("IBM Plex Sans", False), 500: ("IBM Plex Sans Medium", False),
-                  600: ("IBM Plex Sans SemiBold", False), 700: ("IBM Plex Sans", True)}
+# The layout loads Alegreya static TTFs, whose family names carry the weight.
+FONT_BY_WEIGHT = {400: ("Alegreya", False), 500: ("Alegreya Medium", False),
+                  600: ("Alegreya SemiBold", False), 700: ("Alegreya", True)}
 ALIGN = {"right": PP_ALIGN.RIGHT, "end": PP_ALIGN.RIGHT, "center": PP_ALIGN.CENTER}
 
 # Every HTML text block outside SVG figures, as positioned runs; each is then marked so CSS can blank it.
@@ -140,7 +140,7 @@ def rgb(css_color):
 
 
 def style_run(run, spec):
-    family, bold = PLEX_BY_WEIGHT.get(spec["weight"], PLEX_BY_WEIGHT[400])
+    family, bold = FONT_BY_WEIGHT.get(spec["weight"], FONT_BY_WEIGHT[400])
     run.text = spec["text"]
     run.font.name = family
     run.font.bold = bold

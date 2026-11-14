@@ -111,6 +111,81 @@ TransFuser++, Fail2Drive's own camera-and-LiDAR model and the planned second pol
 These commits are local and unpushed, because Chris decides how to share the track at the 2026-11-06 meeting.
 
 *Later the same day.* Chris approved a TransFuser++ smoke run. It drove one Fail2Drive pair on our harness. The first attempt drove, but its capture agent recorded nothing, because Fail2Drive's agent calls the network's `forward` directly (`docs/WHAT_BROKE.md`, 2026-11-05). After the fix, rerun 40951957 hit the pedestrian on PedestriansOnRoad route 1085 and drove its twin, route 85, without a collision. That is SimLingo's pattern, on one pair (measured). The activation export reads its capture unchanged, so the methods can run on a second, non-VLA policy with no new code. The draft pre-registration for gap selection (`docs/prereg-fail2drive.md`) was written before any full-screen outcome was read.
+## 2026-11-13: poster text cut to bullets with plain section labels
+
+The poster was dense, and a reader with no background could not tell what each block was for. Each block now carries a plain label as its heading (Problem, Results, Demo, Methodology, Validation) with the old claim underneath as a short line. The paragraphs in Problem, Demo, Methodology and Validation became two or three short bullets, and the reference line in the footer starts with "References." The bullet and claim styles are defined once in `dashboard/src/app/globals.css`.
+
+Checked in the browser: no region overflows its box. The committed PDF and PowerPoint in `dashboard/public/poster/exports` were not regenerated because `scripts/render_poster.py` needs a Playwright browser that is not installed here (`playwright install`), so they still show the old poster until that is run.
+
+---
+
+## 2026-11-13: make the status dashboard match the final dev summary
+
+The status dashboard reads `docs/steps/progress.yaml`, but its weekly card still stopped at H23 and 6,030 SU after H24, H25, H26 and the final dev-report summary had landed. It now records the final state accurately: H24 and H25 did not clear their bar; the H26 fresh-pool check holds for P4 but not P7; the final report is dev-only and no blind pool or Step 8 freeze exists. The measured study spend is updated to 6,036 SU. The next card is reduced to the one remaining decision: Chris reviews C34 to C38 and H22 to H26, then decides whether the study closes at end state A.
+
+No experiment, result, dashboard code, sealed path, or Savio job changed. `scripts/check_configs.py` validates all 53 configs with no unresolved placeholders. The next scheduled run should check for Chris's decision before making any new study change.
+
+## 2026-11-13: the final summary
+
+Jerry asked for the study's final summary, and it now opens the [dev report](research/dev-report.md). In plain words: the planted camera faults and Fail2Drive's unseen situations really do make SimLingo fail, but reading its activations without labels finds only one of those failures well, the black patch over the camera, and it found that on two separate sets of drives. On Fail2Drive the best baseline wins because it reads the simulator's exact distances to nearby objects. Every number in the summary was checked against its data file before it went in. The study has not built a blind test pool, so the PRD's final test was never run, and Chris still has to say whether the study closes here.
+
+---
+
+## 2026-11-13: the activation result holds for one camera fault, not the other
+
+Jerry asked to check H24's best result on drives it had not seen. H3's pool has fresh drives of the black-patch fault (P4) and the frozen-picture fault (P7), mostly on roads the H1 pool also used. Before the lock, a review caught that my bar was too low: on just those two faults, H1's own result already cleared the 0.15 margin, so a true replication had to clear it again. It also found that B3 was already known to score well on P7 in this pool, which the protocol now says.
+
+The method did not replicate overall (measured). It found the black patch again, about as well as on H1 (median 0.374 against 0.194 for B3). It did not find the frozen picture: there it scored below random groups of the same size. So across two separate sets of drives, grouping by activations reliably picks out one visible camera fault and nothing else we tested. The run cost about 2.4 SU.
+
+---
+
+## 2026-11-13: a refinement and a new method, run side by side
+
+After a [literature review](research/literature-review.md), Jerry asked for both directions at once. H24 refines our approach: it groups routes by their activations with a Gaussian mixture, the way Domino does for images. H25 is new: Claude looks at the last four camera frames of each failure, describes what went wrong, and six separate runs sort those descriptions into failure types. Both were tested on Fail2Drive and on the older H1 pool of camera faults (P4, P7, P8), which none of the choices were tuned on.
+
+Before anything ran, four reviewers and three skeptics per finding checked both tests and found eleven real problems. The worst was a leak: Fail2Drive's route numbers sort by category, so the descriptions would have reached the grouping step already sorted by the answer. Everything was fixed, then locked with a git tag. Reading the B3 code also showed that B3 is not just "how the car drove". It reads the simulator's exact distances to nearby objects, which the earlier write-up said wrongly, and that is now corrected.
+
+Neither method met the bar (measured). But each did best where its input carries the answer. Grouping by activations beat B3 and random groups on every camera fault in H1's pool, by a median of 0.109 Jaccard against a bar of 0.15. That is the closest any activation method has come in this study. Describing the frames beat B3 on Fail2Drive (0.510 against 0.471), because the frames show the inserted wall or obstacle, but it lost on pedestrians and on the camera faults. The describers often noticed the black patch or the frozen picture, yet they grouped by what went wrong on the road. The run used about 4 SU and 342 agents, and the blinding audit was clean.
+
+---
+
+
+## 2026-11-12: export and inspect the complete development axis inventory
+
+Reviewed the README, working conventions, PRD, status, journal, dev report, progress file, recent commits, open pull requests and issue #9. Main at `65786f4` includes the importer fix through merged PR #11, so this work builds on it. The only open pull request is the earlier contrastive-discovery prototype. The latest coordination entry closes the Fail2Drive line and leaves study decisions with Chris. Posting the required heads-up returned HTTP 403 through the connector; the user explicitly authorized proceeding on an isolated branch without posting. An attempted credential-helper fallback was rejected by automatic approval review and was not executed or retried.
+
+The [development evaluator](../src/discovery/dev_eval.py) now adds every emitted axis card to each method/run's report, including excluded runs and axes that are not the best match for any gap. It preserves the existing card serialization, order, provenance, supporting episodes, gate and causal metadata, and adds support count and failure share. No gap key is used to select the inventory. Scores, thresholds, methods, protocols and verdicts are unchanged. No stored research report was regenerated, and no compute job or sealed path was accessed.
+
+The [Explorer inventory view](../dashboard/src/app/failure-explorer/AxisInventory.tsx) lists those cards, supports search by identifier/name/description, and expands supporting episode IDs and timestep windows. It labels method descriptions as unverified explanations, retains untested causal status, and explains the 0–0 placeholder windows used by some methods. Older reports still load their summaries; “not exported” and “zero axes” have distinct states. The [parser](../dashboard/src/app/failure-explorer/evaluation-report.ts) checks all rendered fields and rejects incomplete inventories. The [README](../dashboard/src/app/failure-explorer/README.md) documents the additive format and its limitations.
+
+Validation: 63 relevant Python tests passed (development evaluation, contrastive discovery, scoring and sealed guard), including a synthetic regression showing identical existing report content after removing only the new inventory field. All 29 dashboard parser tests passed. The explicitly synthetic fixture is checked against both the Python exporter and TypeScript consumer. Three manual static-render smoke checks passed for an older report, an empty inventory and a populated inventory with supporting episodes. Focused Ruff and ESLint, Next route type generation, TypeScript and diff checks passed. The sealed-import guard passed; all 53 configs have no unresolved placeholders. The full Python suite and production build were not repeated: the previous run already identified missing Pillow, sandbox port restrictions, and locally installed Next 16.4.0 versus the declared 16.4.3. A clean locked-dependency build and interactive browser check remain required.
+
+Work is on `feat/dev-eval-axis-inventory`. Cross-report comparison remains the next Explorer feature. Existing reports cannot supply an inventory they never exported; obtaining real inventories needs a separately authorized dev evaluation. Recommended immediate engineering follow-up is a reproducible locked dashboard install and successful production build. No research decision is needed for this change; C38's outcome, study closure and the other decisions in STATUS remain Chris and Jerry's work.
+
+
+## 2026-11-12: restore the Failure Explorer's development report import
+
+Reviewed main through `4d9e749`, recent experiment results, open pull requests and the agent channel. The only open pull request (#1) is contrastive discovery; the channel's latest entry closes the Fail2Drive line and leaves study decisions to Chris. The dashboard already has the H18–H20 comparison view. Chose a separate dashboard bug that needs no method decision: the importer advertised current development reports but required an obsolete format, rejecting the committed H12 report.
+
+The [importer](../dashboard/src/app/failure-explorer/AxisImporter.tsx) now validates current `dev_eval.py` reports, lists all method/run summaries, and displays each gap's best axis, support, overlap and recovery flag. Excluded runs, empty summaries and absent axes have explicit labels. All processing stays local. A version check prevents a slower previous upload from replacing a newer selection. The view explains that best axes are selected with the development key and recovery may refer to another axis. The [README](../dashboard/src/app/failure-explorer/README.md) documents the format and checks, and [WHAT_BROKE](WHAT_BROKE.md) records the mismatch.
+
+Validation: 14 dashboard parser regression tests pass against the committed H12 fixture and malformed/empty inputs. Focused ESLint, Next route type generation, TypeScript checking and `git diff --check` pass. The sealed-import guard passes; 53 configs have no unresolved placeholders. Full Python collection is blocked by missing Pillow; with only `test_h13_check.py` excluded, 617 tests passed, 44 skipped and 8 failed. Two failures cannot bind local ports in this sandbox; the six submission-test failures were resolved by placing the existing Python environment on PATH and rerunning that test file (see PR validation). Production build is blocked by Turbopack's local port binding after a network-enabled retry fetched fonts. Available local dashboard dependencies use Next 16.4.0 while main declares 16.4.3, so a clean locked-dependency build remains necessary in CI or a fully configured checkout.
+
+No research methods or experiments changed. Full axis inventories and cross-report comparisons remain future work; the supported producer only exports best-axis summaries. Study closure and the existing research decisions remain Chris and Jerry's work. Changes are isolated on `feat/explorer-import-validation`; no merge or deployment is performed. The branch was pushed, but PR creation returned HTTP 403 (`Resource not accessible by integration`), and the browser is signed out of GitHub. A review description and comparison link are prepared for the user; opening the PR remains blocked by authentication/connector permissions.
+
+## 2026-11-12: the Fail2Drive line is closed and written up
+
+Jerry chose to close the Fail2Drive line after H23. The [dev report](research/dev-report.md)'s short answer at the top now has a sixth point that says what the line found. SimLingo really does fail Fail2Drive's unseen situations more often on our harness. But neither the frozen methods nor the post hoc rerun found those failures better than a baseline that only watches how the car drove. [CONFLICTS C38](../CONFLICTS.md) now records that outcome under its proposal, which stays as written, so the record shows what was planned and what happened. The status dashboard's week block now covers 9 to 13 November, and its spend line shows 6,030 SU. Nothing is running on Savio. Whether the whole study closes at the dev-only report is still Chris's call, because he asked earlier that it not close there.
+
+---
+
+## 2026-11-12: lowering M1's group floor does not change the answer
+
+After H22, Jerry asked for one more test with the setting that had capped M1 removed. M1 had needed at least 20 failing routes to form a group, and now it needs 3, the same as the B7 baseline it is compared with. Nothing else changed, and the [protocol](research/experiments/h23-f2d-m1-floor/protocol.md) was locked before the run. It says plainly that this test is post hoc, because the setting was picked after seeing H22.
+
+The answer is the same (measured). M1 now finds groups, but they match the three Fail2Drive categories worse than random groups of the same sizes: 0.142 at best against 0.186 for random. The behaviour-only baseline stays at 0.471. So the floor explained why M1 found nothing in H22, but not why it lost. On these failures, how the car drove is a better clue than what our methods find inside the model. The run cost about 2 SU. Separately, the H22 edit to the dev report had deleted one section heading, and it is restored. What comes next is a decision for Jerry and Chris, not another run.
+
+---
 
 ## 2026-11-12: the frozen methods do not find Fail2Drive's failures better than the baselines
 

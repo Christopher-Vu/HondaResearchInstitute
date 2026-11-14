@@ -1,6 +1,27 @@
 # Dev report v0
 
-Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below is dev data. A number with no data file says so.
+Written 2026-11-04 and updated 2026-11-13 from stored files. Every number below is dev data. A number with no data file says so.
+
+## Final summary
+
+**The question.** Can methods that read SimLingo's internal activations, with no labels, find the groups of situations where it fails, better than simple baselines? We tested this in CARLA on failure groups we planted ourselves and on Fail2Drive's published ones. Every number here is dev data on public gaps, and every score picks each method's best group using the answer. No blind test pool was built, so PRD 13.1's test was not run and no 13.1 branch is claimed.
+
+**The answer, as of 2026-11-13: mostly no.** Reading activations reliably finds one kind of failure, a visible patch over the camera (P4), and nothing else we tested better than the baselines.
+
+| What was tested | Result (measured) | Data |
+|---|---|---|
+| Do planted faults make SimLingo fail? | Yes for camera faults: P4, P7 and P8 pass PRD 9.1 (uplifts 51.7, 69.6 and 80.0 points), and P4 and P7 pass again on fresh drives. One interactional gap, P19, passes 9.1 but a list of scenario names finds it (0.857), so no public interactional gap met Step 5 in 20 candidates | Plain answer, items 1, 2 and 5 |
+| Do Fail2Drive's unseen situations make SimLingo fail? | Yes: 28 pairs fail only on the unseen route against 4 the other way (McNemar p 1.9e-5). Three categories pass a screen: custom obstacles, a wall, pedestrians on the road | [H21](data/h21_result.json) |
+| Contrastive diffing (M1) on activations | Partial on planted gaps (P19 best 0.705 but median 0.375; P4 median 0.39 to 0.41). On Fail2Drive, frozen before reading, it trails the best baseline by 0.47, and by 0.39 with its group floor lowered | [H12](data/h12_layer10_plain.json), [H22](data/h22_plain.json), [H23](data/h23_plain.json) |
+| Grouping routes by activations (a Gaussian mixture) | On H1's camera faults it beats B3 and random groups on all three, by a median of 0.109 (bar 0.15). On fresh drives it holds for P4 (0.374 against 0.194 for B3) and fails for P7 (below random). On Fail2Drive it trails by 0.23 | [H24](data/h24_h1_report.json), [H26](data/h26_result.json) |
+| Describing camera frames with Claude, then grouping | First method above B3 on Fail2Drive (0.510 against 0.471), but it loses on pedestrians and on camera faults, so it does not clear the bar | [H25](data/h25_f2d_report.json) |
+
+**What this means.**
+- **The strongest baseline cheats a little, and that is informative.** B3 reads the simulator's exact distances to nearby objects and the penalties the car incurred, ground truth SimLingo never sees. It wins on Fail2Drive because those distances name the inserted object.
+- **Each input wins where it carries the answer.** Camera frames show Fail2Drive's inserted objects, so describing them works there. Activations carry a visible camera patch, so grouping them finds P4 twice. Neither carries a frozen frame or a pedestrian failure in a form these methods use.
+- **Our result matches the field.** The reference slice-discovery method recovers 36% of planted groups on its own benchmark ([review](literature-review.md)). No published method has been tested on a driving policy's known failures.
+
+**What is not done.** No blind pool, no sealed key and no methods freeze for Step 8 (end state B was not reached). The route-marker effect on every non-Fail2Drive drive is unmeasured. Chris has not reviewed C34 to C38 or anything after H21, and he asked that the study not close at end state A. Spend: about 6,036 of 10,000 SU.
 
 ## Plain answer
 
@@ -8,13 +29,14 @@ Written 2026-11-04 and updated 2026-11-06 from stored files. Every number below 
 2. One interactional gap, P19, passes PRD 9.1 with [42 of 53 failures against 7 of 48](../../results/savio/step5-pilot-p19-main/efficacy.json), but it fails Step 5's single-factor condition because a list of scenario names scores Jaccard [0.857](data/h12_layer10_plain.json) against a limit of 0.4, so no public interactional gap met Step 5 on dev.
 3. Contrastive diffing (M1) reaches 0.5 on P19 in 5 of 18 dictionaries on the [H12 pool](data/h12_layer10_plain.json) (best 0.705, median 0.375). On P4 it reaches 0.5 in 3 of 18 in [H3](data/h3_layer10_plain.json) (best 0.557, median 0.405) and in none on the H12 pool (best 0.490, median 0.387). The best axis is chosen using the key. These are plain-variant scores, and they move with preprocessing the PRD does not fix. On the H12 pool, H18's variance-matched control puts M1 raw on P4 at best 0.672, median 0.500 (10 of 18), and vision residualization lifts its P19 median to 0.540 (13 of 18). See [H18, H20 and C37](#dry-run-and-rehearsal). All of this is exploratory and dev only.
 4. A frozen-input signal read from activations, added post hoc to B7-pool, finds P7 at [0.889](data/h12_layer10_stale.json) in every dictionary (best and median 0.889), and that signal is a detector for one fault. No method has recovered P8. Plain B7-pool gives best [0.444](data/h1b_layer10.json), median 0.235 (H1b, exploratory, beside H1's confirmatory verdict below). With vision residualized it gives best 0.483, median 0.395, and removing only the mean moves its median by +0.149 ([H20](data/h20_result.json)). Both axes are chosen using the key.
-5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md).
+5. These results cover [20 public candidates](research-log.md), all on dev data, and Chris reports 9 sealed candidates and 3 decoys on top of them. Every SimLingo drive in this report had route markers in its camera with an effect [nobody has measured](../WHAT_BROKE.md). The Fail2Drive runs below are the exception: they used `--debug 0`.
+6. **Fail2Drive gave real, non-camera failures, and our methods do not find them better than the baselines.** On all 100 of Fail2Drive's public route pairs, SimLingo failed the route with an unseen situation more often than its plain twin: [28 pairs against 4](data/h21_result.json) (McNemar p 1.9e-5). Three categories pass a screen: CustomObstacles, Wall and PedestriansOnRoad. Under a freeze placed before any method read their activations (C38, `methods-frozen-f2d-v1`), the activation methods trail the best baseline by a median of [0.471 Jaccard](data/h22_plain.json). A post hoc rerun with M1's group floor lowered from 20 to 3 trails by [0.385](data/h23_plain.json), and M1's groups then score below random groups of the same sizes (0.142 against 0.186 at best). The best baseline, B3, reads speeds, penalties and the simulator's exact distances to nearby objects, and scores 0.471. This line is closed (Jerry, 2026-11-12). It is dev only and not blind, because the categories are public and were chosen on the same pairs. See [Fail2Drive on our harness](#fail2drive-on-our-harness) and [Frozen methods on Fail2Drive](#frozen-methods-on-fail2drive).
 
 No answer key is committed in this repo and no test pool exists, so the PRD 13.1 test was not run.
 
 | End state ([C34](../../CONFLICTS.md)) | Where it stands |
 |---|---|
-| A, the dev-only report | P20 is read, and the route-marker effect is stated here as unmeasured, which A allows. The study does not close here, because Chris asked that it not close at A on his counts ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) and more sealed candidates are coming. |
+| A, the dev-only report | P20 is read, the route-marker effect is stated here as unmeasured, which A allows, the Fail2Drive line (H21 to H23) is closed with a negative reading for the methods, and the follow-ups H24 to H26 are read (see the final summary). The study does not close here, because Chris asked that it not close at A on his counts ([issue 8](https://github.com/Christopher-Vu/HondaResearchInstitute/issues/8)) and more sealed candidates are coming. |
 | B, A plus a blind pool | Not reached. No key is committed in this repo, no test pool exists, and of the frozen tags only `b4-factors-v1` exists. The [preregistration](../../harness/PREREGISTRATION.md) is an unsigned draft. |
 
 This report claims no 13.1 branch, including the negative one. 13.1 is decided on the test pool, and [PRD 9.1](../../PRD.md) excludes any predicate in a shared document from the sealed key, so the public count toward 13.1's two interactional gaps is 0 by construction.
@@ -42,7 +64,9 @@ This report claims no 13.1 branch, including the negative one. 13.1 is decided o
 | Frozen-input signal | One extra feature added to B7-pool (`--stale-latent`). It fires when activations do not change between logged frames, and it does not depend on the dictionary. It is a post hoc change to the frozen B7 definition, because H2 added it after the activations were opened. |
 | Check | A manipulation check, fixed before a run, that the planted condition happened (C24). |
 | C23 | A [CONFLICTS](../../CONFLICTS.md) entry, pending review, that proposes a paired test (McNemar's) with a floor of 60 pairs. |
-| H1 to H20 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
+| Fail2Drive | A published benchmark (arXiv 2604.08535) of 100 route pairs in 17 categories. Each pair drives one road twice, with and without one situation SimLingo did not see in training. |
+| McNemar's test | A test for pairs: it compares pairs where only the first arm failed with pairs where only the second did, ignoring pairs where both or neither failed. |
+| H1 to H23 | Numbered experiments in the [research log](research-log.md). Each has a protocol under `experiments/`. |
 | Claims A, A′, B | A: an activation method has an axis with Jaccard at least 0.5 holding at most 50% of failures. A′: the same, with B7-pool allowed. B: the best activation method beats the best baseline and the catch-all by at least 0.15, the margin's interval is above 0, and at least 4 of 6 seeds agree. |
 
 ## Public gaps
@@ -318,9 +342,25 @@ Two facts explain most of this, and both come from the frozen method, not from t
 - **Plain M1 emitted no axis at all.** No latent passed its gate of a false-discovery q below 0.05 together with firing in at least 20 failing routes. After the mean or the vision fit was removed, some did.
 - **M1 cannot score well on groups this small.** Every M1 axis holds at least 20 failing routes (`min_support`), and the categories have 8, 5 and 3. So the highest Jaccard M1 can reach is 0.40, 0.25 and 0.15, a mean of 0.27, under B3's 0.47 before any method runs. B2 has the same floor of 20 routes, so it is not the ceiling that C38 expected.
 
-B3 reads only driving behaviour, such as speed and braking, and no activations. It holds the unseen route without its twin in 12 of the 13 pairs. On these categories, how SimLingo drove separates its failures better than anything our methods found inside the model.
+B3 reads no activations. It reads the car's speed in the 3 s before the end, which penalties it incurred (such as hitting a pedestrian), and the simulator's exact distances to the nearest obstacle, pedestrian, animal, two-wheeler, lead car and junction. Those distances are ground truth the policy never receives (corrected 2026-11-12; earlier text here said B3 reads only speed and braking). It holds the unseen route without its twin in 12 of the 13 pairs. On these categories, what B3 reads, mostly how close the car came to which kind of object and what it hit, separates the failures better than anything our methods found inside the model.
 
+**H23, post hoc, with M1's group floor at 3** ([protocol](experiments/h23-f2d-m1-floor/protocol.md), tag `methods-frozen-f2d-v2`). Jerry asked for this after H22. Only the floor changed, to B7-pool's own floor of 3, and H22's dictionaries were reused. The reading is again `not_ahead`: median delta -0.385, with an interval of -0.500 to -0.266 (measured). With the floor no longer a limit, plain M1 raw emits axes on every dictionary. Its mean best Jaccard is 0.142 at best and 0.085 at median, under B1 random at 0.186. Centre M1 raw reaches 0.250 at best, with 5 pair hits on CustomObstacles in its best dictionary. Vision reaches 0.172. B3 stays at 0.471. So the floor explained why M1 emitted nothing in H22, but not why it lost: once it can emit small groups, they do not line up with these categories better than random groups of the same sizes ([plain](data/h23_plain.json), [centre](data/h23_centre.json), [vision](data/h23_vision.json)).
 
+**H24 and H25, after a literature review** ([review](literature-review.md); protocols [H24](experiments/h24-error-aware-grouping/protocol.md), [H25](experiments/h25-caption-cluster/protocol.md); tag `h24-h25-locked`). Jerry asked for a refinement and a new method, run in parallel, each read on Fail2Drive and on H1's pool (P4, P7, P8). A 4-lens review with 3 skeptics per finding fixed 11 problems before the lock, including a leak: Fail2Drive's route ids sort by category, so the order of descriptions would have told the grouping agent the answer. A win needs a median lead of 0.15 over the better of B3 and matched random groups, a lead on every category, and a route bootstrap above 0. Both read `not_ahead` on both pools (measured):
+
+| Method | Fail2Drive mean (median run) | Delta | H1's pool mean | Delta |
+|---|---:|---:|---:|---:|
+| H24 `act`: Gaussian mixture on activations | 0.244 | -0.227 | 0.293 | **+0.109**, every category positive, bootstrap above 0 |
+| H24 `act+kin`: activations and speed | 0.421 | -0.050 | 0.280 | +0.096 |
+| H24 `kin`: speed only | 0.343 | -0.127 | 0.230 | +0.046 |
+| H25: Claude describes 4 frames, then groups | **0.510** | +0.039 | 0.161 | -0.023 |
+| B3 | 0.471 | | 0.184 | |
+
+Three findings come out of the numbers. On H1's camera-fault pool, grouping routes by their activations beats B3 and random groups on all three faults, robustly but by less than the margin. That is the first activation reading in this study to clear both rivals on a whole pool. On Fail2Drive, describing the camera frames is the first method to score above B3 (0.510 against 0.471), and it loses only on PedestriansOnRoad, which has 3 failures. Each method does best where its input carries the category: the frames show Fail2Drive's inserted objects, and the activations carry the camera faults, while the describers group by what went wrong on the road and not by the fault they often noticed. Every score here picks the best axis using the answer, the categories are public, and Fail2Drive's have now been read four times.
+
+**H26, the replication** ([protocol](experiments/h26-activation-grouping-replication/protocol.md), tag `h26-locked`). H24's activation grouping, unchanged, on H3's pool: fresh drives of P4 and P7, mostly on roads H1 also used. Scored on P4 and P7 alone, H1's own reading was `ahead` (+0.155), so that was the bar. The reading is `not_replicated` (median delta -0.006, measured). The occlusion patch holds: P4 scores a median of 0.374 against 0.194 for B3 and 0.182 for random groups, close to H1's 0.447. The frozen frame does not: P7 scores 0.181, under random groups (0.206) and well under B3 (0.367). So across two pools of drives, grouping by activations finds one camera fault, the visible patch, and not the freeze.
+
+## PRD checks that never ran
 
 Sources are [`progress.yaml`](../steps/progress.yaml), [PRD section 13](../../PRD.md) and a search of the code on 2026-11-04, with rows 6 and 7 rechecked on 2026-11-06.
 

@@ -616,3 +616,15 @@ Arrays 40999650, 41000885 and rerun 41081885 (routes 31 and 67, lost on n0273), 
 ## 2026-11-12 — C38 accepted by Jerry; H22: frozen methods are not ahead on Fail2Drive
 
 Jerry accepted C38. Freeze tagged `methods-frozen-f2d-v1` (066c995) before any method read H21's shards: M1 raw primary, plain preprocessing primary, 18 L10 dictionaries. Job 41226034 stopped at B2 (no `weather` in Fail2Drive manifests; nothing read); B2 now skips missing fields (fa78ee2, amendment). Job 41226176: `not_ahead`, median delta -0.471 (interval -0.600 to -0.357). Plain M1 emitted 0 axes on all 18 dictionaries; centre and vision M1 best mean 0.190 and 0.172. B3 behavioral 0.471 with 12 of 13 pair hits. M1's `min_support` of 20 caps its Jaccard on categories of 8, 5 and 3 failures at a mean of 0.27, so H22 could not read `ahead` for M1 whatever the activations held. About 5 SU; spend about 6028 of 10000. `docs/research/data/h22_*.json`.
+
+## 2026-11-12 — H23: M1 with a floor of 3 is still not ahead on Fail2Drive
+
+Jerry asked for the follow-up. Locked under `methods-frozen-f2d-v2` (04140b8): M1's `min_support` 20 to 3, matching B7-pool's floor; H22's dictionaries reused. Job 41250943, about 2 SU. `not_ahead`: median delta -0.385 (interval -0.500 to -0.266). Plain M1 raw best 0.142, median 0.085, under B1 random 0.186; centre M1 raw best 0.250; vision 0.172; B3 0.471 throughout. The floor was why H22's M1 was empty, not why it lost. H22's edit to the dev report had dropped the "PRD checks that never ran" heading; restored here. Spend about 6030 of 10000. `docs/research/data/h23_*.json`.
+
+## 2026-11-13 — H24 and H25: both not ahead; each wins where its input carries the category
+
+Locked under `h24-h25-locked` (3efa946) after a pre-lock review that confirmed 11 problems and rejected 2 (fixed: category leak through id order, mapping beside frames, outcome weight 10 merging failures, a 3-category "interval" that only checked the worst category, a crash between workflow and converter, and more). Export job 41255052, about 4 SU. H24 (laptop) and H25 (342 agents, audit clean) ran in parallel. All `not_ahead`. H24 `act` on H1's pool: +0.109, every category positive, bootstrap +0.017 to +0.143; on Fail2Drive -0.227. H25 on Fail2Drive: 0.510 against B3 0.471, delta +0.039, PedestriansOnRoad -0.10; on H1's pool -0.023. Spend about 6034 of 10000. `docs/research/data/h24_*`, `h25_*`.
+
+## 2026-11-13 — H26: the activation grouping replicates on P4, not on P7
+
+Locked under `h26-locked` (a1e31c4) after a review that moved the reference to H1's two-fault reading (`ahead`, +0.155) and stated B3's known H3 scores. Export job 41272603, about 2.4 SU. `not_replicated`: median delta -0.006 (bootstrap -0.093 to +0.080). P4 0.374 (+0.180 over the better rival; H1 +0.270). P7 0.181, under random 0.206 and B3 0.367 (H1 +0.038). Spend about 6036 of 10000. `docs/research/data/h26_result.json`.

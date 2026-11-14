@@ -2,28 +2,22 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-11-06
+updated: 2026-11-13
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
 # The dashboard's weekly TL;DR. Rewrite it each Friday; one line per item, 20 words at most.
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
-  start: 2026-11-02
-  end: 2026-11-06
+  start: 2026-11-09
+  end: 2026-11-13
   done:
-    - {text: "P19 wide invading turn passes 9.1: 42 of 53 against 7 of 48, but a scenario list also finds it", who: Imhaohao}
-    - {text: "Methods on P19: contrastive diffing best 0.705, median 0.375 over 18 dictionaries", who: Imhaohao}
-    - {text: "P20 oncoming traffic hidden fails its screen, 0 against 4; 20 public candidates tried", who: Imhaohao}
-    - {text: "Scoring path ran end to end on a throwaway public key with 0 bugs (dry run)", who: Imhaohao}
-    - {text: "Causal rehearsal on P4's axis: above random on speed; failing frames not shown larger", who: Imhaohao}
-    - {text: "Fail2Drive's own routes run on our harness; sealed counts answered in issue 8", who: Christopher-Vu}
-    - {text: "Removing the mean moves method and B7 scores on two pools; probe-residual misses a planted group", who: Imhaohao}
+    - {text: "All 100 Fail2Drive pairs driven: unseen routes fail more, 28 pairs against 4", who: Imhaohao}
+    - {text: "Methods frozen before reading Fail2Drive activations; they trail a behaviour baseline, 0.47 Jaccard", who: Imhaohao}
+    - {text: "H24 and H25 are not ahead; H26 replicates P4 but not P7", who: Imhaohao}
+    - {text: "Final dev-report summary written; no blind pool or Step 8 freeze", who: Imhaohao}
   next:
-    - {text: "Run and score the Fail2Drive reproduction screen", who: Christopher-Vu}
-    - {text: "Decide C23, C29, C34, C35, P19's label and the preregistration", who: Christopher-Vu}
-    - {text: "Decide with Chris whether B7-pool's P19 reading stops the blind pool", who: Imhaohao}
-    - {text: "Settle preprocessing and probe-residual before the methods freeze (C37)", who: Christopher-Vu}
+    - {text: "Review C34 to C38 and H22 to H26; decide whether the study closes at end state A", who: Christopher-Vu}
 
 steps:
   - id: 0
@@ -128,7 +122,7 @@ compute:
   program_used_as_of: 2026-11-06
   # Measured project spend not held in a step config: sacct CPU time x 3.67 / 3600 for the study's jobs.
   spent:
-    - {item: "Gap pilots, methods and checks since Oct 31", su: 5405}
+    - {item: "Gap pilots, Fail2Drive, methods and checks since Oct 31", su: 6036}
   # PRD.md 17.3 estimates at the measured 4.1 SU per rollout, low and high.
   planned:
     - {item: Bench2Drive-220 three seeds, su: [2700, 2700]}
