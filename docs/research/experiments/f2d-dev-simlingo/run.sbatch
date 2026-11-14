@@ -53,14 +53,8 @@ for PREP in $PREPS; do
       touch "$RUN/shards.done"
     fi
   fi
-  for SEED in $SEEDS; do
-    for K in $KS; do
-      SAE=$RUN/sae/L${LAYER}_k${K}_s${SEED}
-      [ -f "$SAE/metrics.json" ] && continue
-      $PY -m discovery.sae "$INPUT" --layer "$LAYER" --k "$K" --seed "$SEED" --frame-means --output "$SAE" \
-        | grep -E '"(explained_variance|train_tokens)"'
-    done
-  done
+  $PY "$EXP/train_saes.py" "$INPUT" --layer "$LAYER" --ks $KS --seeds $SEEDS --output "$RUN/sae"
+  echo "$PREP dictionaries after $SECONDS s"
   for FLOOR in $FLOORS; do
     DIR=$RUN/directives-ms$FLOOR
     if [ ! -f "$DIR.done" ]; then
