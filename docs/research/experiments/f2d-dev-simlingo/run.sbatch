@@ -2,8 +2,9 @@
 # Resource flags come from configs/cluster/savio.yaml via scripts/submit.sh.
 #SBATCH --job-name=f2d-dev
 #SBATCH --output=f2d-dev-%j.out
-#   VARIANT_ID=v1 LAYER=10 POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/policy-venv.tar \
+#   VARIANT_ID=v1 LAYER=10 POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar \
 #     bash scripts/submit.sh gpu_a40 --time=0-04:00:00 docs/research/experiments/f2d-dev-simlingo/run.sbatch
+# Our policy-venv.tar lacks sklearn, which dev_eval imports; Jerry's (H22's) has it.
 # DEV ONLY. H22's pipeline on the Fail2Drive test pool; one VARIANT_ID per row of VARIANTS.md.
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
