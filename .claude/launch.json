@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dashboard",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "dashboard", "dev", "--port", "3123"],
+      "port": 3123
+    },
+    {
+      "name": "dashboard-utc",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["TZ=UTC", "pnpm", "--dir", "dashboard", "dev", "--port", "3124"],
+      "port": 3124
+    }
+  ]
+}
