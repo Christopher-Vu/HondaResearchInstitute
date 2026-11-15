@@ -42,10 +42,17 @@ FAIL2DRIVE_REVISION = "bceb18afb7d62e06e990739e013e750d92ad7a88"
 FAIL2DRIVE_PATCH = ROOT / "adapters/simlingo/patches/fail2drive-compat.patch"
 # The Fail2Drive track's second policy (docs/prd-fail2drive.md, F6): Fail2Drive's own TransFuser++ code, run under
 # Fail2Drive's benchmark only, from the checkpoint its README names (huggingface.co/SimonGer/TFv5, all_towns).
-POLICIES = ("simlingo", "tfpp")
+POLICIES = ("simlingo", "tfpp", "uniad")
 TFPP_AGENT = ROOT / "adapters/tfpp/tfpp_agent.py"
 TFPP_CHECKPOINT = ROOT / ".runtime/tfpp-ckpt"
 TFPP_WEIGHTS = "model_0030_0.pth"
+# The third policy (docs/prd-discovery-sprint.md §7): Bench2DriveZoo's UniAD-Base, also under Fail2Drive's benchmark.
+# Its agent imports itself as the package `Bench2DriveZoo`, so the clone's parent goes on the path.
+UNIAD_AGENT = ROOT / "adapters/uniad/uniad_agent.py"
+UNIAD_ZOO_PARENT = ROOT / ".runtime"
+UNIAD_CONFIG = UNIAD_ZOO_PARENT / "Bench2DriveZoo/adzoo/uniad/configs/stage2_e2e/base_e2e_b2d.py"
+UNIAD_WEIGHTS = ROOT / ".runtime/uniad-ckpt/uniad_base_b2d.pth"
+POLICY_WEIGHTS = {"tfpp": TFPP_CHECKPOINT / TFPP_WEIGHTS, "uniad": UNIAD_WEIGHTS}
 
 
 @dataclass(frozen=True)
@@ -146,18 +153,19 @@ def policy_name(config: dict[str, Any]) -> str:
     name = (config.get("policy") or {}).get("name", "simlingo")
     if name not in POLICIES:
         raise ValueError(f"Unknown policy {name!r}; expected one of {POLICIES}")
-    if name == "tfpp" and (config.get("simulator") or {}).get("benchmark") != "fail2drive":
-        raise ValueError("TransFuser++ runs from Fail2Drive's team_code, so it needs simulator.benchmark: fail2drive")
+    if name != "simlingo" and (config.get("simulator") or {}).get("benchmark") != "fail2drive":
+        raise ValueError(f"{name} runs under Fail2Drive's leaderboard only, so it needs simulator.benchmark: fail2drive")
     return name
 
 
-def verify_tfpp(config: dict[str, Any]) -> dict[str, Any]:
-    """The checkpoint's hash must match the config's `policy.ckpt_sha256`, as SimLingo's does its manifest."""
-    weights = TFPP_CHECKPOINT / TFPP_WEIGHTS
+def verify_weights(config: dict[str, Any]) -> dict[str, Any]:
+    """A non-SimLingo checkpoint's hash must match the config's `policy.ckpt_sha256`, as SimLingo's does its manifest."""
+    policy = policy_name(config)
+    weights = POLICY_WEIGHTS[policy]
     found = sha256(weights)
     if found != config["policy"]["ckpt_sha256"]:
         raise RuntimeError(f"{weights} has sha256 {found}, and the config names {config['policy']['ckpt_sha256']}")
-    return {"policy": "tfpp", "weights": str(weights), "sha256": found}
+    return {"policy": policy, "weights": str(weights), "sha256": found}
 
 
 def policy_environment(output: Path, device: str, carla_pythonapi: Path,
@@ -171,6 +179,16 @@ def policy_environment(output: Path, device: str, carla_pythonapi: Path,
         paths = [benchmark / "team_code", ROOT / "adapters/simlingo", benchmark / "leaderboard",
                  benchmark / "scenario_runner", carla_pythonapi]
         values.update({"SIMLINGO_EVIDENCE": str(output), "PYGAME_HIDE_SUPPORT_PROMPT": "1", "WORK_DIR": str(benchmark),
+                       "SCENARIO_RUNNER_ROOT": str(benchmark / "scenario_runner"),
+                       "PYTHONPATH": os.pathsep.join(map(str, paths))})
+        values.update(extra)
+        return values
+    if policy == "uniad":
+        values.pop("SAVE_PATH", None)
+        paths = [UNIAD_ZOO_PARENT, ROOT / "adapters/simlingo", benchmark / "leaderboard", benchmark / "scenario_runner",
+                 carla_pythonapi]
+        values.update({"SIMLINGO_EVIDENCE": str(output), "UNIAD_ZOO_PARENT": str(UNIAD_ZOO_PARENT),
+                       "PYGAME_HIDE_SUPPORT_PROMPT": "1", "WORK_DIR": str(benchmark),
                        "SCENARIO_RUNNER_ROOT": str(benchmark / "scenario_runner"),
                        "PYTHONPATH": os.pathsep.join(map(str, paths))})
         values.update(extra)
@@ -196,6 +214,10 @@ def agent_and_capture_environment(capture_every: int | None, token_layers: list[
         if token_layers:
             raise ValueError("The TransFuser++ agent captures no per-token activations; drop capture_token_layers")
         return TFPP_AGENT, {"SIMLINGO_CAPTURE_EVERY": str(capture_every or 0)}
+    if policy == "uniad":
+        if token_layers:
+            raise ValueError("The UniAD agent captures no per-token activations; drop capture_token_layers")
+        return UNIAD_AGENT, {"SIMLINGO_CAPTURE_EVERY": str(capture_every or 0)}
     if not capture_every:
         return AGENT, {}
     environment = {"SIMLINGO_CAPTURE_EVERY": str(capture_every)}
@@ -228,6 +250,15 @@ def debug_level(simulator: dict[str, Any]) -> int:
     return simulator.get("debug_level", DEFAULT_DEBUG_LEVEL)
 
 
+def agent_config(policy: str) -> str:
+    """What the evaluator hands the agent's setup(): UniAD's agent splits `<model config>+<weights>` on the '+'."""
+    if policy == "tfpp":
+        return str(TFPP_CHECKPOINT)
+    if policy == "uniad":
+        return f"{UNIAD_CONFIG}+{UNIAD_WEIGHTS}"
+    return str(CHECKPOINT) + "+agent"
+
+
 def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_threads: int,
                       agent: Path = AGENT) -> list[str]:
     root = benchmark_root(config["simulator"])
@@ -244,7 +275,7 @@ def evaluator_command(output: Path, config: dict[str, Any], ports: Ports, cpu_th
             "--debug", str(debug_level(config["simulator"])),
             "--routes", str(routes_file(config)), "--routes-subset", config["route"]["id"],
             "--agent", str(agent),
-            "--agent-config", str(TFPP_CHECKPOINT) if policy_name(config) == "tfpp" else str(CHECKPOINT) + "+agent",
+            "--agent-config", agent_config(policy_name(config)),
             "--checkpoint", str(output / "result.json"),
             "--debug-checkpoint", str(output / "live.txt")]
 

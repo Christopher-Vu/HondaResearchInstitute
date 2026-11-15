@@ -27,7 +27,7 @@ import yaml
 from artifacts import verify_artifacts
 from route_run import (CHECKPOINT, ROOT, SOURCE, Ports, agent_and_capture_environment, route_environment,
                        benchmark_root, check_benchmark, check_external_server_patch, check_route, evaluator_command, expert_command, expert_environment,
-                       policy_environment, policy_name, verify_tfpp,
+                       policy_environment, policy_name, verify_weights,
                        route_from_xml, run_evaluator, stop_process_group, summarize, wait_for_server)
 
 CARLA_ROOT = ROOT / ".runtime/carla-linux"
@@ -198,16 +198,16 @@ def route(output: Path, config: dict[str, Any], container: str | None, slot: int
         manifest = verify_artifacts(SOURCE, CHECKPOINT)
         check_external_server_patch()
     else:
-        manifest = verify_tfpp(config)
+        manifest = verify_weights(config)
     check_benchmark(config["simulator"])
     check_route(config)
     (output / "artifacts.json").write_text(json.dumps(manifest, indent=2) + "\n")
     agent, capture = agent_and_capture_environment(config.get("capture_every"), config.get("capture_token_layers"),
                                                    policy)
     knobs = route_environment(config)
-    if policy == "tfpp" and knobs:
+    if policy != "simlingo" and knobs:
         # Knock-outs, chase cameras and camera faults live in SimLingo's agents only, so they would silently not apply.
-        raise ValueError(f"The TransFuser++ agent does not apply {sorted(knobs)}")
+        raise ValueError(f"The {policy} agent does not apply {sorted(knobs)}")
     capture |= knobs
     with GpuMonitor() as gpu:
         root = server_root(config["simulator"].get("carla_build"))

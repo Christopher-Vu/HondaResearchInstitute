@@ -23,7 +23,7 @@ def agent_config(command):
 def test_policy_defaults_to_simlingo_and_refuses_unknown_names():
     assert policy_name({"simulator": {}}) == "simlingo"
     with pytest.raises(ValueError, match="Unknown policy"):
-        policy_name(config_for("uniad"))
+        policy_name(config_for("vad"))
 
 
 def test_tfpp_needs_fail2drive():
