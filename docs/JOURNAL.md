@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-14 — make the route-start lock work in the local runtime tests
+
+The route launcher used Bash 4's named-file-descriptor syntax and Linux's
+`flock` command to serialize CARLA startup. The maintainer's macOS Bash 3.2
+has neither, so the local Savio-runtime tests stopped before exercising the
+route path. The launcher now uses an atomic `mkdir` lock directory instead;
+each background route slot releases it after its server is ready and removes it
+on exit. This keeps the existing one-server-at-a-time guard while using only
+shell primitives available on both macOS and Savio.
+
+A regression check rejects the unavailable lock primitives. The route-launcher
+tests for normal staging, staged Python, cleanup after failure, and the lock
+compatibility check pass, as do the Fail2Drive helper tests, sealed-import
+guard, and configuration validation. The port-allocation and nanosecond-timing
+tests remain host-limited on this macOS sandbox; no Savio job, result, or
+experiment configuration changed.
+
+---
+
 ## 2026-11-12 — B4 split: every Fail2Drive gap is outside B4's named factors
 
 The B4 split asks, for each gap type, whether one of B4's named factor levels (`configs/baselines/b4_factors_v1.yaml`)

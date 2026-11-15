@@ -81,19 +81,23 @@ fi
 # starts only while it holds the start lock, released once it accepts clients or its route ends.
 START_LOCK=$(mktemp "/tmp/route-start-$SLURM_JOB_ID.XXXXXX")
 run_slot() {
-  local SLOT=$1 STATUS=0 ROUTE OUT PID LOCK
+  local SLOT=$1 STATUS=0 ROUTE OUT PID
   shift
   for ROUTE in "$@"; do
     OUT=results/savio/$SLURM_ARRAY_JOB_ID/route-$ROUTE
     mkdir -p "$OUT"
-    exec {LOCK}>"$START_LOCK"
-    flock "$LOCK"
+    # macOS's Bash 3.2 and stock macOS do not provide the Bash-4 descriptor
+    # syntax or `flock`.  `mkdir` is atomic on both the test host and Savio,
+    # so use its directory as the short-lived server-start lock instead.
+    while ! mkdir "${START_LOCK}.lock" 2>/dev/null; do sleep 1; done
+    trap 'rmdir "${START_LOCK}.lock" 2>/dev/null || true' EXIT
     echo "=== route $ROUTE (array task $SLURM_ARRAY_TASK_ID, slot $SLOT of $PER_GPU, job $SLURM_JOB_ID) ==="
     "$PY" adapters/simlingo/run_savio.py "${ROUTE_MODE:-route}" --config "$CONFIG" --route "$ROUTE" --output "$OUT" \
-      --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 {LOCK}>&- &
+      --slot "$SLOT" --slots "$PER_GPU" > "$OUT/run.log" 2>&1 &
     PID=$!
     while kill -0 "$PID" 2>/dev/null && [ ! -f "$OUT/server-ready" ]; do sleep 5; done
-    exec {LOCK}>&-
+    rmdir "${START_LOCK}.lock" 2>/dev/null || true
+    trap - EXIT
     if wait "$PID"; then echo "route $ROUTE: readiness written"
     else echo "route $ROUTE: failed, see its run.log"; STATUS=1; fi
   done

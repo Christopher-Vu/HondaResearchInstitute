@@ -124,6 +124,16 @@ def test_route_sample_ids_exist_in_the_pinned_routes_file():
         assert route_from_xml(route_id)["id"] == route_id
 
 
+def test_route_sample_start_lock_avoids_bash4_and_linux_only_primitives():
+    """The local runtime tests use macOS's Bash 3.2, as does the maintainer's shell."""
+    from pathlib import Path
+
+    script = (Path(__file__).resolve().parents[1] / "scripts/route_sample.sbatch").read_text()
+    assert 'mkdir "${START_LOCK}.lock"' in script
+    assert "exec {LOCK}" not in script
+    assert "flock 9" not in script
+
+
 def test_step2_config_runs_every_pinned_route_once_in_file_order():
     import xml.etree.ElementTree as ET
     from pathlib import Path
