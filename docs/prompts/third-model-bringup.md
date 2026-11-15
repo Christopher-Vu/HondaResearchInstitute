@@ -38,7 +38,7 @@ You are bringing up a **third driving policy** on Fail2Drive for the HRI failure
    No method reads this pool before that file exists.
 6. **Fast-loop cache.** Run the same per-route cache pass the method loop uses: route mean, approach-window mean and
    early-route mean, for every layer and site, in one file. A frozen method can then be scored on this model in
-   minutes. Ask the method-loop agent, through the journal or Chris, where the cache script lives.
+   minutes. The cache script is `docs/research/experiments/f2d-dev-simlingo/cache_pool.py`: run it, do not edit it.
 
 ## Non-interference rules (the method loop always wins)
 
