@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — discovery-sprint unit tests and method-architecture audit on explore
+
+This session started the `autoresearch/explore` loop while waiting for SimLingo's Fail2Drive test-pool cache (`results/savio/f2d-dev/simlingo/` and `results/savio/f2d-test-simlingo/`) to be copied from Savio. The discovery-sprint scripts (`docs/research/experiments/f2d-dev-simlingo/`) had no automated tests yet, so `tests/test_sprint_tools.py` (`ec8237e`) now tests top-10 rank truncation in `sprint_score.py`, Hungarian recall without double-counting, decoy hit rates, salted route ordering and label stripping in `cache_pool.py`, and zero-variance-column safety in `cache_methods.py`. Reading all three policy adapters (`SimLingo` 24 decoder layers, `TransFuser++` 6 decoder layers, `UniAD` multi-stage layers) and `VARIANTS.md` (`m01`–`m13`, 71 prior Savio configs) also exposed why `m09` lost its `cut 5` axes and why hardcoded layer indices would fail on `TransFuser++` and `UniAD`.
+
+---
+
 ## 2026-11-14 — third-model bring-up started, paused on a dropped Savio connection
 
 This session starts bringing up a third driving policy on Fail2Drive: UniAD or VAD, two camera-only models from Bench2DriveZoo. It runs in parallel with the SimLingo method loop and must never delay it (`docs/prompts/third-model-bringup.md`). The bring-up prompt's line on the cache script was out of date, so it now names `docs/research/experiments/f2d-dev-simlingo/cache_pool.py` (02a1daa). The required reading is done, and a heads-up is posted on the agent channel (issue 9).
