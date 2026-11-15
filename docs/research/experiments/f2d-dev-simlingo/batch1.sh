@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Sprint batch 1 on SimLingo (VARIANTS.md): the cache methods, then one scoring run against the rivals.
 #   CMD='bash docs/research/experiments/f2d-dev-simlingo/batch1.sh m03 m04 m07' bash scripts/submit.sh cpu ... cpu.sbatch
-# Each argument is a method run: a preset name below. TRIED is the methods-tried count after this batch.
+# Each argument is a method run: a preset name below, or cache_methods.py options. MORE adds method files already
+# written (pool_axes.py, b7_error_aware.py); CACHE replaces the cache. TRIED is the methods-tried count after this batch.
 set -euo pipefail
 E=docs/research/experiments/f2d-dev-simlingo
 S=results/savio/f2d-dev/simlingo
@@ -19,8 +20,11 @@ METHODS=()
 for RUN in "$@"; do
   read -r -a OPTS <<< "${PRESET[$RUN]:-$RUN}"
   NAME=${RUN// /_}; NAME=${NAME//--/}
-  python "$E/cache_methods.py" "$S/cache.npz" "${OPTS[@]}" ${EXTRA:-} --name "$NAME" --output "$OUT/$NAME.json"
+  python "$E/cache_methods.py" "${CACHE:-$S/cache.npz}" "${OPTS[@]}" ${EXTRA:-} --name "$NAME" --output "$OUT/$NAME.json"
   METHODS+=(--method "$OUT/$NAME.json")
+done
+for SPEC in ${MORE:-}; do
+  METHODS+=(--method "$SPEC")
 done
 python "$E/sprint_score.py" "${METHODS[@]}" \
   --rival B3_behaviour="$S/sprint/b3_behaviour.json" --rival B7_pool="$V:B7_pool:L10_k64_s0" \

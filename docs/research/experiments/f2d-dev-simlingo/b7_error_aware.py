@@ -9,6 +9,9 @@ z(log enrichment), where enrichment is the failing share of the latent's fire se
 pass/fail outcome is a fleet signal; the failure type stays hidden. Then B7's own merge and axes. m02 runs the same on
 the approach window only: the last 6 captured frames before the failure step, or before the end when it passed.
 The shards are read once for every dictionary and both windows; one file per method and dictionary.
+
+m14 (`--train-window K ...`, batch 2): a fresh top-K dictionary trained on the approach-window frames only (all
+routes, seed 0, no held-out split), then plain B7-pool and the error-aware ranking on those window latents.
 """
 from __future__ import annotations
 
@@ -20,7 +23,8 @@ import numpy as np
 import torch
 
 from baselines.activation_stats import (ActivationStatsConfig, LatentScores, _fire_sets, _zscore, build_axes,
-                                        latent_scores, merge_latents)
+                                        activation_stats_directive, latent_scores, merge_latents)
+from discovery import sae
 from discovery.dev_eval import encode_frames, load_sae, load_shards, read_frames
 
 WINDOW = 6
@@ -49,7 +53,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("shards", type=Path)
     parser.add_argument("--layer", type=int, default=10)
-    parser.add_argument("--sae", type=Path, nargs="+", required=True)
+    parser.add_argument("--sae", type=Path, nargs="*", default=[])
+    parser.add_argument("--train-window", type=int, nargs="*", default=[], help="m14: k values")
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -57,6 +62,21 @@ def main() -> None:
     failing = {f.rollout_id for f in frames if f.failed}
     cfg = ActivationStatsConfig(variant="B")
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    for k in args.train_window:
+        rows = [(f, window(f.means, f.steps, f.failure_step)) for f in frames]
+        x = sae.normalise(torch.from_numpy(np.concatenate([w for _, w in rows])).float())
+        model, curve = sae.train(x.to(device), sae.SaeConfig(layer=args.layer, k=k, seed=0, inputs="window_frames"),
+                                 device)
+        with torch.no_grad():
+            episodes = {f.rollout_id: model(sae.normalise(torch.from_numpy(w).float().to(device)))[1].cpu().numpy()
+                        for f, w in rows}
+        pool = activation_stats_directive(episodes, episodes, failing, cfg)
+        for name, axes in ((f"m14-B7pool-win-k{k}", [a.rollouts for a in pool.axes]),
+                           (f"m14-erraware-win-k{k}", error_aware(episodes, failing, cfg))):
+            out = {"method": name, "dead_fraction": curve[-1]["dead_fraction"],
+                   "axes": [{"name": f"{name} axis {i + 1}", "rollouts": sorted(a)} for i, a in enumerate(axes)]}
+            (args.output_dir / f"{name}.json").write_text(json.dumps(out, indent=1) + "\n")
+            print(json.dumps({"method": name, "axes": [len(a) for a in axes]}), flush=True)
     for run in args.sae:
         model, _ = load_sae(run, device)
         rollouts, explained = encode_frames(model, frames, device)

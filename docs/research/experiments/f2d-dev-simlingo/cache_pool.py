@@ -31,12 +31,12 @@ def order_key(route_id: str) -> str:
     return hashlib.sha256((SALT + route_id).encode()).hexdigest()
 
 
-def summaries(frames: np.ndarray, steps: np.ndarray, failed_at: int | None) -> np.ndarray:
+def summaries(frames: np.ndarray, steps: np.ndarray, failed_at: int | None, window: int = WINDOW) -> np.ndarray:
     """(3, ...) float32: route mean, approach-window mean, early mean."""
     before = frames[steps < failed_at] if failed_at is not None else frames
     if len(before) == 0:
         before = frames[:1]
-    return np.stack([frames.mean(0), before[-WINDOW:].mean(0), frames[:WINDOW].mean(0)])
+    return np.stack([frames.mean(0), before[-window:].mean(0), frames[:window].mean(0)])
 
 
 def main() -> None:
@@ -44,6 +44,7 @@ def main() -> None:
     parser.add_argument("shards", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--max-frames", type=int, default=100)
+    parser.add_argument("--window", type=int, default=WINDOW, help="frames in the approach and early windows")
     args = parser.parse_args()
     sidecars = sorted(args.shards.glob("*.json"), key=lambda p: order_key(p.stem))
     ids, meta, sites, speed, step = [], [], {}, [], []
@@ -58,7 +59,7 @@ def main() -> None:
         failed_at = failure_step(info, arrays)
         for site in (*LAYERED, "vision_bridge"):
             if site in arrays:
-                sites.setdefault(site, []).append(summaries(arrays[site].astype(np.float32), steps, failed_at)
+                sites.setdefault(site, []).append(summaries(arrays[site].astype(np.float32), steps, failed_at, args.window)
                                                   .astype(np.float16))
         pad = np.full(args.max_frames, np.nan, np.float32)
         s = pad.copy(); s[:len(steps)] = arrays["ego_speed"][:args.max_frames]

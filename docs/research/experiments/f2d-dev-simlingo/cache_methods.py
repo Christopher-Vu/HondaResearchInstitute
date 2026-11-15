@@ -13,6 +13,8 @@ Inputs are one site and layer of the cache: `--summary window` (the approach win
 - m06: --base m03|m04|m07 plus fleet-observable kinematics (B3-behaviour's features), both blocks standardised and
   weighted equally.
 Axes, as B3-behaviour: the clusters at cuts k = 2, 3 and 5 (10 axes), in that order, largest first within a cut.
+Batch 2 options: several --layer values are concatenated, each layer standardised and weighted equally (m08);
+--cluster average|complete|spectral replaces Ward (m12); --cuts replaces 2 3 5 (m13). Only the first 10 axes score.
 Route order is the cache's salted order; route ids are only written to the output.
 """
 from __future__ import annotations
@@ -24,6 +26,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.cluster.hierarchy import fcluster, linkage
+from sklearn.cluster import SpectralClustering
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 
@@ -36,21 +39,26 @@ def standardise(x: np.ndarray) -> np.ndarray:
     return (x - x.mean(0)) / np.where(sd > 0, sd, 1.0)
 
 
-def axes_from(features: np.ndarray, failing: np.ndarray, ids: list[str], label: str) -> list[dict]:
-    tree = linkage(features[failing], method="ward")
+def axes_from(features: np.ndarray, failing: np.ndarray, ids: list[str], label: str, cluster: str = "ward",
+              cuts: tuple[int, ...] = CUTS, seed: int = 0) -> list[dict]:
     rows = np.flatnonzero(failing)
+    tree = None if cluster == "spectral" else linkage(features[failing], method=cluster)
     axes = []
-    for k in CUTS:
-        labels = fcluster(tree, t=k, criterion="maxclust")
+    for k in cuts:
+        labels = (SpectralClustering(n_clusters=k, random_state=seed, affinity="nearest_neighbors")
+                  .fit_predict(features[failing]) if tree is None else fcluster(tree, t=k, criterion="maxclust"))
         groups = sorted(({ids[rows[j]] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len,
                         reverse=True)
         axes += [{"name": f"{label} cut {k} group {n + 1}", "rollouts": sorted(g)} for n, g in enumerate(groups)]
     return axes
 
 
-def activations(cache, site: str, layer: int, summary: str) -> np.ndarray:
+def activations(cache, site: str, layers: list[int], summary: str) -> np.ndarray:
     block = cache[site][:, SUMMARY[summary]]
-    return (block[:, layer] if block.ndim == 3 else block).astype(np.float32)
+    if block.ndim == 2:
+        return block.astype(np.float32)
+    parts = [standardise(block[:, layer].astype(np.float32)) for layer in layers]
+    return np.hstack(parts) / np.sqrt(len(parts))
 
 
 def kinematic_block(cache, meta) -> np.ndarray:
@@ -79,11 +87,13 @@ def main() -> None:
     parser.add_argument("--method", choices=("m03", "m04", "m06", "m07"), required=True)
     parser.add_argument("--base", choices=("m03", "m04", "m07"), default="m03", help="m06 only")
     parser.add_argument("--site", default="driving_queries")
-    parser.add_argument("--layer", type=int, default=10)
+    parser.add_argument("--layer", type=int, nargs="+", default=[10])
     parser.add_argument("--summary", choices=tuple(SUMMARY), default="window")
     parser.add_argument("--dims", type=int, default=32)
     parser.add_argument("--keep", type=int, default=16)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--cluster", choices=("ward", "average", "complete", "spectral"), default="ward")
+    parser.add_argument("--cuts", type=int, nargs="+", default=list(CUTS))
     parser.add_argument("--name", help="method name in the output; default from the settings")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -99,9 +109,9 @@ def main() -> None:
         if args.method == "m06":
             kin = standardise(kinematic_block(cache, meta))
             features = np.hstack([features / np.sqrt(features.shape[1]), kin / np.sqrt(kin.shape[1])])
-    name = args.name or f"{args.method}{'-' + args.base if args.method == 'm06' else ''}-{args.site}-L{args.layer}-{args.summary}"
+    name = args.name or f"{args.method}{'-' + args.base if args.method == 'm06' else ''}-{args.site}-L{'+'.join(map(str, args.layer))}-{args.summary}"
     out = {"method": name, "settings": vars(args) | {"cache": str(args.cache), "output": str(args.output)},
-           "axes": axes_from(features, failing, ids, name)}
+           "axes": axes_from(features, failing, ids, name, args.cluster, tuple(args.cuts), args.seed)[:10]}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({"method": name, "axes": [len(a["rollouts"]) for a in out["axes"]]}))
