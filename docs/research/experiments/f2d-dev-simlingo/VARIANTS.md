@@ -66,5 +66,9 @@ Rivals under the sprint rule (measured, same pool): **B3-behaviour 0.093** (0.08
 approach-window summary, PCA to 32 dimensions and Ward cuts 2, 3 and 5. The cache (job 41320891, 13 min on 4 CPUs,
 about 1 SU) holds 1,185 routes, 357 failing. B3-behaviour ran in job 41325903.
 
-Queued: m05 (m03 at all 24 layers of `driving_queries` and `all_tokens`, plus `vision_bridge`: 49 configurations, so the
-count of tried methods goes to 55; job 41325979) and m01 and m02 on `L10_k64_s0` and `L10_k32_s0` (job 41325980).
+| m05 | 2026-11-14 | 41325979 | <0.5 | m03 at 49 site and layer settings. Best: `driving_queries` L7 and L8 **0.253** (PedestriansOnRoad 0.59, FullyBlocked 0.07, BadParking 0.09); most even: L20 0.209 (0.31 / 0.14 / 0.18) and L5 0.189 (0.23 / 0.16 / 0.18); best on FullyBlocked: `all_tokens` L1 0.195 (0.14 / **0.35** / 0.10) | L8 vs B3-behaviour p 0.048; L20 p 0.002; L5 p 0.0005 (exploratory, 55 tried) | 55 |
+| m01 | 2026-11-14 | 41325980 | ~0.7 | `L10_k64_s0` 0.187 (0.200 / 0.333 / 0.026), the same axes as B7-pool in effect: enrichment did not reorder the latents that matter; `L10_k32_s0` 0.109 | k64: +0.093 [−0.073, 0.236], p 0.16 | 59 |
+| m02 | 2026-11-14 | 41325980 | (same job) | `L10_k64_s0` 0.010; `L10_k32_s0` 0.070. B7's firing statistics need whole routes; 6 frames are too few | k64: p 1.0 | 59 |
+
+Batch 1 is finished and scored (measured, dev, 59 configurations tried). Different layers carry different gaps, so
+batch 2 starts from combining layers.
