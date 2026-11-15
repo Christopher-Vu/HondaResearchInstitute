@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-14: UniAD's setup job reinstalled the numpy pin it had just relaxed
+
+**Expected:** with `numpy==1.20.0` and `numba==0.48.0` relaxed in a copy of Bench2DriveZoo's requirements (neither has a Python 3.10 build, and Fail2Drive's CARLA client is 3.10 only), the editable install of Bench2DriveZoo would only compile its CUDA ops.
+
+**What happened:** setup job 41326034 installed the relaxed requirements, then failed after 17 minutes in `pip install -e .`. Bench2DriveZoo's `setup.py` reads the original `requirements.txt` as its install requirements, so pip tried to build numpy 1.20.0 from source on Python 3.10 (`No module named 'distutils.msvccompiler'`). About 2 SU (estimate).
+
+**What we did:** the editable install now runs with `--no-deps` (rerun 41326676). **Lesson:** relaxing a pin in a copied requirements file does not relax it if the package's own `setup.py` reads the original.
+
 ## 2026-11-14: the full test suite hangs on Windows
 
 **Expected:** `python -m pytest -q` finishes on a Windows laptop, as `CLAUDE.md` says it needs no GPU.
