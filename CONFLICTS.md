@@ -780,3 +780,23 @@ closed-loop target rule both key off it. Closes at **Step 7**. `PRD.md` §16.5.
 Partition names are now known (`configs/cluster/savio.yaml`, from `sacctmgr`). SU charging rate for GPU jobs, max wall time, storage quota. The
 brief flagged all four; the handoff's cost estimates were sized for NRP hardware
 and do not transfer. Ask the program contact. `PRD.md` §17.4.
+
+### C39 · The discovery sprint's rivals, scoring and statistics · new, 2026-11-14 (agent, from Chris's sprint PRD), accepted by Chris 2026-11-14
+
+**What changes.**
+- Full B3 is retired for B3-behaviour, and H25 is dropped.
+- Picking the best axis with the key is replaced by each method's own top 10.
+- The pass/fail margin of prereg §4 is replaced by effect size, interval and p value against B3-behaviour, with the
+  best rival secondary.
+- The held-out score pools TransFuser++ and a third model, stratified results beside it.
+- The full text is `docs/prereg-fail2drive.md` §7, tagged `f2d-sprint-a1`.
+
+**Why.**
+- Full B3 won by reading simulator ground truth that no deployed fleet has.
+- The old dev scoring chose each method's best axis using the key, which flatters every method, and flatters most the
+  methods that emit the most axes.
+- A fixed margin before any method works was hindering the search (Chris, 2026-11-12).
+
+**What it costs.** It is post hoc: v1 and v2 were seen first. The held-out pools are the defence, since no method
+has read them. Chris, 2026-11-14: "b3 and best rival secondary, more drives on held out pools is fine, pool both models
+into one test is good but keep stratified data/results too, effect size good but interval and p value also".

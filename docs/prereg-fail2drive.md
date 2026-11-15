@@ -120,3 +120,43 @@ What is reported if it fails is decided after the first run, and labelled as suc
    2026-11-06.
 2. TransFuser++'s test pool runs after its screen is read.
 3. Lost routes are rerun once, then listed and excluded.
+
+## 7. Amendment A1: the discovery sprint (post hoc, 2026-11-14)
+
+**Post hoc.** Written after v1 and v2 had been scored on SimLingo's test pool, and before any sprint method is scored.
+It governs `docs/prd-discovery-sprint.md`, and `CONFLICTS.md` C39 records why. TransFuser++'s test-pool shards are
+still unread by any method. Tagged `f2d-sprint-a1`.
+
+**Rivals.**
+- **B3-behaviour** replaces full B3. Full B3 read the simulator's distances to objects, which no fleet logs.
+  - Features and grouping are fixed in `docs/research/experiments/f2d-dev-simlingo/b3_behaviour.py` at the tag.
+  - It uses ego speed and its derivatives (whole route and the 3 s before the failure) and infraction counts.
+  - It excludes distances, scenario and route fields, and expert action error (Chris: out). Steering and braking are
+    not logged in these shards.
+- **B7 and B7-pool** use one dictionary: the primary dictionary `L10_k64_s0` on the plain preparation. Taking the
+  best of 18 would flatter them.
+- **B4** is unchanged; it is still the factor list that decides the gap split.
+- **B1** is random axes of the same sizes as the method's own, averaged over 50 draws.
+- **B2 with labels** is reported as an oracle ceiling only, never as a rival.
+- **H25 and the other caption methods** are dropped: neither test pool saved camera frames.
+
+**Scoring.** `docs/research/experiments/f2d-dev-simlingo/sprint_score.py`.
+- Every method and rival ranks its own axes, and only its first M = 10 count.
+- Primary: mean over gaps of the best Jaccard among those 10.
+- Beside it: recall at Jaccard 0.5 under one Hungarian assignment, decoy hit rate, and the B1 chance level.
+
+**Statistics.** No pass/fail bar.
+- Every comparison reports the delta (effect size), a 95% percentile interval and a one-sided p.
+- These come from a paired bootstrap of 2,000 replicates that resamples Fail2Drive pairs, each carrying all its seeds.
+- The primary comparison is against **B3-behaviour**. The comparison against the best rival, re-taken in every
+  replicate, is secondary.
+- Dev p values are exploratory, and every dev table states how many methods have been tried.
+
+**Held-out confirmation.**
+- At most 3 finalists are frozen, tagged and scored once on each held-out model.
+- One of them is declared **primary** in the freeze tag, so the headline needs no correction for multiple
+  comparisons. The other two are reported with the count stated.
+- The headline test pools TransFuser++ and the third model into one bootstrap: gaps weighted equally, pairs resampled
+  jointly across models. Per-model and per-gap results are always reported beside it.
+- Before the freeze, the held-out pools may get more traffic seeds. Gap classification stays as measured on seeds
+  101–106. Added seeds only add routes to the same units.
