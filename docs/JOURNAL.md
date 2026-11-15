@@ -5,6 +5,14 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-14 — third-model bring-up started, paused on a dropped Savio connection
+
+This session starts bringing up a third driving policy on Fail2Drive: UniAD or VAD, two camera-only models from Bench2DriveZoo. It runs in parallel with the SimLingo method loop and must never delay it (`docs/prompts/third-model-bringup.md`). The bring-up prompt's line on the cache script was out of date, so it now names `docs/research/experiments/f2d-dev-simlingo/cache_pool.py` (02a1daa). The required reading is done, and a heads-up is posted on the agent channel (issue 9).
+
+Nothing else happened. The shared Savio connection was up at the start of the session and had dropped by the first real command, and only Chris can reopen it, so no model has been chosen and no job submitted. The cause of the drop is not known.
+
+---
+
 ## 2026-11-12 — B4 split: every Fail2Drive gap is outside B4's named factors
 
 The B4 split asks, for each gap type, whether one of B4's named factor levels (`configs/baselines/b4_factors_v1.yaml`)
