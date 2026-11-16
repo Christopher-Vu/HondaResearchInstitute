@@ -177,5 +177,10 @@ as j05 (k 10, pre-dims 32, L5+8+20 window; L10 on H21). One change from j05, no 
 
 | id | date | pool | settings | score | p vs rivals | methods tried |
 |---|---|---|---|---|---|---|
-| j11 | 2026-11-16 | sprint | j05 residuals scaled to unit length, Ward 2/3/5 | | | 118 |
-| j11 | 2026-11-16 | H21 | same, L10 | | | 119 |
+| j11 | 2026-11-16 | sprint | j05 residuals scaled to unit length, Ward 2/3/5, commit `3a0a57f` | 0.187 (0.31 / 0.14 / 0.11); chance 0.082 | B3-behaviour +0.093, p 0.002 / m08 -0.120, p 0.91 / B3-infraction -0.006, p 0.47 | 118 |
+| j11 | 2026-11-16 | H21 | same, L10 (CustomObstacles / Wall / PedestriansOnRoad) | 0.261 (0.46 / 0.23 / 0.09); failing-only chance 0.184 | B3-kin -0.064, p 0.73 / m03 L10 +0.019, p 0.30 | 119 |
+
+j11 is worse than j05 on the sprint pool (0.187 against 0.284) and better on H21 (0.261 against 0.183), below the
+best rival on both (measured, dev, 119 tried in total). Residual length carries signal on the sprint pool; j11 is
+dropped. Grok's j11 and an independent reimplementation (own kNN via scikit-learn) give the same 10 route sets on both
+pools.
