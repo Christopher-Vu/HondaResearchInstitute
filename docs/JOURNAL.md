@@ -5,6 +5,31 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — Stratifying by speed first (j07) does not help either
+
+`j07` (`3046624`) was the one try the previous entry allowed on the H21 pool. It splits the failing routes into two
+groups by their four speed features (the same 39 / 13 split the speed-only rival makes first), then clusters the
+layer-10 activations separately inside each group. The idea was that two of the target failure kinds both end with
+a stopped car, so speed cannot tell them apart, but the scene in the activations might once speed is held roughly
+fixed. Grok built it with tests; Gemini wrote an independent version from the same spec, and the two give identical
+axes on H21 (I ran both). The row was logged (`a755333`) before the score was read.
+
+Measured on H21 under amendment a1 (each method's own top 10 axes): `j07` scores 0.241 (CustomObstacles 0.31, Wall
+0.27, PedestriansOnRoad 0.14), against 0.326 for the speed-only rival (p 0.72) and 0.192 for random axes of the same
+sizes drawn from failing routes. That is the same per category as plain `j01` within noise. Seven `j` methods have
+now been scored on H21, 78 methods tried in total across both teams (`98711c1`).
+
+What it means: removing speed linearly (`j06`) and conditioning on it with a hard split (`j07`) both leave layer-10
+activation clusters at about 0.24, roughly 0.05 above random. On this one-layer pool the activations do not seem to
+carry the category signal in a form clustering can find, beyond what speed already gives. More H21 tries of
+activation embeddings would mostly add to the multiple-testing count. A Gemini literature read (citations
+unverified, copy in `results/h21/lit-nuisance-gemini.txt`, not tracked) ranks kernel residualisation on speed
+first; `j07`'s result weakens that case on H21, so it waits for the multi-layer cache.
+
+Still blocked: the multi-layer cache for H21 or Chris's pool (the Savio job is in the loop journal's round-5 entry).
+
+---
+
 ## 2026-11-15 — H21 activations are mostly speed; removing speed (j06) does not help
 
 A diagnostic that reads no gap label asked what dominates the H21 pool's layer-10 window activations. Grok wrote it
