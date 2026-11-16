@@ -275,5 +275,13 @@ rule fixed now: dropped if its sprint score is below j05's 0.284. One setting, n
 
 | id | date | pool | settings | score | p vs rivals | methods tried |
 |---|---|---|---|---|---|---|
-| j15 | 2026-11-16 | sprint | j05 residual, HDBSCAN condensed tree (min_samples 5, min_cluster_size 5), all clusters ranked by stability, top 10 | | | 125 |
-| j15 | 2026-11-16 | H21 | same, L10 (CustomObstacles / Wall / PedestriansOnRoad) | | | 126 |
+| j15 | 2026-11-16 | sprint | j05 residual, HDBSCAN condensed tree (min_samples 5, min_cluster_size 5), all clusters ranked by stability, top 10 | 0.063 (0.06 / 0.06 / 0.07); failing-only chance 0.071 | B3-behaviour -0.030, p 0.96 / m08 -0.243, p 1.00 / B3-infraction -0.129, p 1.00 | 125 |
+| j15 | 2026-11-16 | H21 | same, L10 (CustomObstacles / Wall / PedestriansOnRoad) | no axes: the tree never splits into two clusters of 5 or more on 52 failing routes; the scorer refuses an empty method (0 by construction) | not scored | 126 |
+
+j15 is below chance and every rival on the sprint pool, and empty on H21 (measured, dev, 126 tried in total: 104 Chris
++ 22 `j`). Its fixed kill rule fires; dropped. The stability ranking picks near-root clusters that single linkage builds
+by peeling points off one at a time (316, 339, 295 and 278 of 357 routes) and a few 6-route clusters; nothing at the
+20 to 100 route scale where the gaps are. Grok's j15 (own Prim tree and condense walk) and the orchestrator's
+independent version (scikit-learn's internal single-linkage and condense code, own stability) find the same 44
+clusters with the same stabilities; nine of the ten axes are identical and the tenth differs by one route that sits on
+a three-way tie in mutual reachability (both choices valid). Both score 0.063.
