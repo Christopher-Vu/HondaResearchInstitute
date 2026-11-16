@@ -5,6 +5,32 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — j09 built: a hidden Markov model over the frames before failure, and the exporter it needs
+
+No SimLingo cache from Chris's pool has reached the loop machine yet, so no method was scored (111 tried in total:
+104 Chris, 7 `j`). Chris's agreed lane split leaves temporal models over the frame sequence to Jerry's loop, and
+every method so far, ours and Chris's, summarises the last frames before failure by their mean. A mean cannot tell
+"A then B" from "B then A", and it blurs a long wait (a blocked road) into the same number as a short approach.
+
+- **`frames_pool.py`** (`32296b6`) writes, for one site and four layers (fractions of depth, so 5, 8, 10 and 20 on
+  SimLingo), each route's last 50 frames before its failure step. It keeps `cache_pool.py`'s salted row order and
+  skip rule and writes no scenario field. On Chris's pool it would be about 425 MB (arithmetic).
+- **`j09_hmm.py`** (`f41f1ca`) fits one Gaussian hidden Markov model (a few hidden states, each a Gaussian, with
+  transition probabilities) on all routes' frames at layer 8, after an unwhitened 16-dimension PCA. The number of
+  states (4, 6 or 8) is chosen by BIC. Each failing route is then described by how long it spends in each state
+  and which transitions it makes, and those descriptions are cut with Ward 2/3/5 as in m03.
+- Checks (synthetic, measured): forward–backward matches a brute-force sum over state paths. On a plant where two
+  failure groups share the same mean and differ only in order, j09 recovers both (Jaccard 1.0, 5 seeds) and the
+  mean-based baseline scores 0.28–0.35. Gemini wrote an independent version; on two harder synthetic caches with
+  routes of different lengths the two give identical axes and BIC to about 1e-10 relative. It takes about 16 s at
+  the real pool's shape.
+- **j08 is held.** It pools axes across layers and the behaviour view, which is Chris's lane under the split. It
+  stays committed but out of the scoring queue unless Chris asks for it.
+- HMM citations checked against Crossref and OpenAlex (`df53ee2`). Gemini gave three wrong DOIs and one paper
+  that neither database could find. They are listed as do-not-use.
+
+Open: j09 needs per-frame data, which only Savio has. The export jobs are in the loop journal under NEEDS SAVIO.
+
 ## 2026-11-15 — j08 built: let cluster stability choose between speed and activation clusters; scoring queue ready
 
 Still no multi-layer cache, so no method try was spent (78 tried in total: 71 Chris, 7 `j`). The round did two
