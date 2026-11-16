@@ -10,7 +10,8 @@ order. A rival can also be read from a discovery.emit_directives directory as DI
 their own rank order. Only the first M = 10 axes count: nobody picks an axis with the key.
 
 Per method: mean over gaps of the best Jaccard among its top 10 (primary); recall at Jaccard 0.5 under one Hungarian
-assignment; decoy hit rate; chance (B1: random axes of the same sizes, mean of 50 draws). Against each rival and the
+assignment; decoy hit rate; chance (B1: random axes of the same sizes drawn from the failing routes, mean of 50 draws; before 2026-11-15
+it drew from all routes and read too low, found by Jerry's agent). Against each rival and the
 best rival (re-taken in every replicate): delta, 95% percentile interval and one-sided p from a paired bootstrap that
 resamples Fail2Drive pairs, each pair carrying all its seeds.
 """
@@ -88,6 +89,7 @@ def main() -> None:
     gaps = {c: {r for r in slices(c) if failed.get(r)} for c in args.gaps}
     decoys = {c: slices(c) & failed.keys() for c in args.decoys}
     pool = sorted(failed)
+    failing_pool = [r for r in pool if failed[r]]  # B1 draws failing routes only, as every method's axes do
     pair_of = {str(e["id"]): e["pair"] for e in manifest}
     pairs = sorted({pair_of[r] for r in pool})
     index = {p: i for i, p in enumerate(pairs)}
@@ -99,7 +101,7 @@ def main() -> None:
     for name, axes in {**methods, **rivals}.items():
         rows[name] = {"role": "method" if name in methods else "rival", "axes": len(axes),
                       "mean_best": mean_best(axes, gaps), "recall_at_0.5": recall(axes, gaps),
-                      "decoy_hit_rate": decoy_rate(axes, decoys), "chance_B1": chance(axes, gaps, pool, rng),
+                      "decoy_hit_rate": decoy_rate(axes, decoys), "chance_B1": chance(axes, gaps, failing_pool, rng),
                       "per_gap": {c: best(axes, g) for c, g in gaps.items()}}
 
     draws = np.zeros((args.replicates, len(methods) + len(rivals)))

@@ -32,6 +32,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 **What we did:** left the Savio scripts alone. They are written for the cluster's bash. The four new method tests were run on their own and passed (9 tests, measured).
 
+## 2026-11-15: UniAD's CUDA ops were built without CUDA on a CPU node
+
+**Expected:** `FORCE_CUDA=1` and `TORCH_CUDA_ARCH_LIST=8.6` would make setup job 41326676 compile Bench2DriveZoo's CUDA ops on a CPU node, as they do for upstream mmcv.
+
+**What happened:** the job completed, but its import check failed, first on the CARLA client (`libjpeg.so.8` missing: Fail2Drive's local wheel bundles no libraries, PyPI's `carla==0.9.15` does, which is the one `tfpp-venv` uses). With that fixed, job 41370175 failed importing mmcv: `roiaware_pool3d_ext` had no `points_in_boxes_gpu`. Bench2DriveZoo's `setup.py` tests only `torch.cuda.is_available()` and ignores `FORCE_CUDA`, so every op was built CPU-only. About 3 SU of CPU time lost (estimate).
+
+**What we did:** the setup script switches to PyPI's CARLA wheel and patches the two checks in the clone's `setup.py` to accept `FORCE_CUDA=1`, then rebuilds from a fresh build directory (41370397). **Lesson:** check that a CUDA extension build actually ran nvcc, not just that it finished.
+
 ## 2026-11-14: UniAD's setup job reinstalled the numpy pin it had just relaxed
 
 **Expected:** with `numpy==1.20.0` and `numba==0.48.0` relaxed in a copy of Bench2DriveZoo's requirements (neither has a Python 3.10 build, and Fail2Drive's CARLA client is 3.10 only), the editable install of Bench2DriveZoo would only compile its CUDA ops.

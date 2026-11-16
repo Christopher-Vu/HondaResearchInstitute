@@ -30,10 +30,10 @@ from discovery.dev_eval import encode_frames, load_sae, load_shards, read_frames
 WINDOW = 6
 
 
-def window(latents: np.ndarray, steps: np.ndarray, failure_step: int | None) -> np.ndarray:
+def window(latents: np.ndarray, steps: np.ndarray, failure_step: int | None, length: int = WINDOW) -> np.ndarray:
     keep = steps < failure_step if failure_step is not None else np.ones(len(steps), bool)
     rows = latents[keep] if keep.any() else latents[:1]
-    return rows[-WINDOW:]
+    return rows[-length:]
 
 
 def error_aware(episodes: dict[str, np.ndarray], failing: set[str], cfg: ActivationStatsConfig) -> list[set[str]]:
@@ -56,6 +56,8 @@ def main() -> None:
     parser.add_argument("--sae", type=Path, nargs="*", default=[])
     parser.add_argument("--train-window", type=int, nargs="*", default=[], help="m14: k values")
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--b7-windows", type=int, nargs="*", default=[],
+                        help="m18: plain B7-pool on each --sae dictionary over the last N frames before the failure")
     args = parser.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     frames = [read_frames(shard, args.layer) for shard in load_shards([args.shards])]
@@ -80,6 +82,16 @@ def main() -> None:
     for run in args.sae:
         model, _ = load_sae(run, device)
         rollouts, explained = encode_frames(model, frames, device)
+        for length in args.b7_windows:
+            episodes = {r.rollout_id: window(r.latents, r.steps, r.failure_step, length) for r in rollouts}
+            name = f"m18-B7pool-w{length}-{run.name}"
+            pool = activation_stats_directive(episodes, episodes, failing, cfg)
+            out = {"method": name, "axes": [{"name": f"{name} axis {i + 1}", "rollouts": sorted(a.rollouts)}
+                                            for i, a in enumerate(pool.axes)]}
+            (args.output_dir / f"{name}.json").write_text(json.dumps(out, indent=1) + "\n")
+            print(json.dumps({"method": name, "axes": [len(a.rollouts) for a in pool.axes]}), flush=True)
+        if args.b7_windows:
+            continue
         views = {"m01": {r.rollout_id: r.latents for r in rollouts},
                  "m02": {r.rollout_id: window(r.latents, r.steps, r.failure_step) for r in rollouts}}
         for method, episodes in views.items():

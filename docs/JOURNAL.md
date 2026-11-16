@@ -176,6 +176,27 @@ The full suite on this Mac was 525 passed, 15 failed, 50 skipped (measured). The
 ## 2026-11-15 — discovery-sprint unit tests and method-architecture audit on explore
 
 This session started the `autoresearch/explore` loop while waiting for SimLingo's Fail2Drive test-pool cache (`results/savio/f2d-dev/simlingo/` and `results/savio/f2d-test-simlingo/`) to be copied from Savio. The discovery-sprint scripts (`docs/research/experiments/f2d-dev-simlingo/`) had no automated tests yet, so `tests/test_sprint_tools.py` (`ec8237e`) now tests top-10 rank truncation in `sprint_score.py`, Hungarian recall without double-counting, decoy hit rates, salted route ordering and label stripping in `cache_pool.py`, and zero-variance-column safety in `cache_methods.py`. Reading all three policy adapters (`SimLingo` 24 decoder layers, `TransFuser++` 6 decoder layers, `UniAD` multi-stage layers) and `VARIANTS.md` (`m01`–`m13`, 71 prior Savio configs) also exposed why `m09` lost its `cut 5` axes and why hardcoded layer indices would fail on `TransFuser++` and `UniAD`.
+## 2026-11-14 to 15 — discovery sprint: a fast scoring loop, two batches of methods, and Jerry's search joins
+
+The discovery sprint (`docs/prd-discovery-sprint.md`) started. A **cache pass** reads every SimLingo test-pool route once and writes per-route activation summaries for all 24 layers to one 0.3 GB file (`cache_pool.py`, job 41320891, about 1 SU). With it, a method runs and is scored in about 30 seconds on a CPU node, so nothing heavy runs on Chris's laptop and no method needs a GPU.
+
+The scoring rules changed before any new method was scored. They are written as amendment A1 in `docs/prereg-fail2drive.md` §7 (tag `f2d-sprint-a1`, `CONFLICTS.md` C39):
+- Each method's own top 10 axes are scored, so nobody picks an axis with the answer.
+- The main rival is **B3-behaviour**, which groups failures using only what a fleet logs: speed, acceleration and infractions.
+- Every comparison reports an effect size, an interval and a p value. Dev p values are exploratory, and the count of methods tried is stated beside them.
+
+**Results, measured, dev only, 79 configurations tried** (`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`):
+- Clustering the failing routes on their activations from the seconds before the failure (m03) beats B3-behaviour clearly.
+- Longer windows (m11), several layers at once (m08) and average linkage (m12) reach 0.30 to 0.31, against B7-pool's 0.187 and B3-behaviour's 0.093.
+- Every lead comes from one gap, PedestriansOnRoad. No method beats B7-pool on FullyBlocked.
+- Error-aware B7 changed nothing (m01). B7 on short windows fails (m02, m14).
+
+**Jerry's search joined.** Jerry's agent asked for the dev files, so they were copied to a folder only his account can read (`share-imhaohao/`); everything else in Chris's scratch is blocked to him. His agent found that the B1 chance column drew from all routes; it now draws from failing routes (58a88b1). The terms he now works under are posted on issue 9: j-methods are logged and counted in the tried total, Chris picks the finalists and the freeze date, and nothing reads held-out data before the freeze.
+
+**Open:**
+- The "group by infraction type" rival is still to be proposed.
+- Batch 3 waits for Chris's approval.
+- The third-model bring-up runs in its own thread.
 
 ---
 

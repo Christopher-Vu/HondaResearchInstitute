@@ -15,6 +15,8 @@ Inputs are one site and layer of the cache: `--summary window` (the approach win
 Axes, as B3-behaviour: the clusters at cuts k = 2, 3 and 5 (10 axes), in that order, largest first within a cut.
 Batch 2 options: several --layer values are concatenated, each layer standardised and weighted equally (m08);
 --cluster average|complete|spectral replaces Ward (m12); --cuts replaces 2 3 5 (m13). Only the first 10 axes score.
+Batch 3: --auto-layers N (m19) keeps the N layers whose 5-fold pass/fail probe AUROC is highest, weighting each by
+AUROC - 0.5; it uses the outcome only, as a fleet could.
 Route order is the cache's salted order; route ids are only written to the output.
 """
 from __future__ import annotations
@@ -29,6 +31,7 @@ from scipy.cluster.hierarchy import fcluster, linkage
 from sklearn.cluster import SpectralClustering
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
 
 CUTS = (2, 3, 5)
 SUMMARY = {"route": 0, "window": 1, "early": 2}
@@ -59,6 +62,19 @@ def activations(cache, site: str, layers: list[int], summary: str) -> np.ndarray
         return block.astype(np.float32)
     parts = [standardise(block[:, layer].astype(np.float32)) for layer in layers]
     return np.hstack(parts) / np.sqrt(len(parts))
+
+
+def auto_layers(cache, site: str, summary: str, failing: np.ndarray, n: int, seed: int) -> tuple[np.ndarray, list]:
+    block = cache[site][:, SUMMARY[summary]]
+    picks = []
+    for layer in range(block.shape[1]):
+        z = PCA(n_components=32, random_state=seed).fit_transform(standardise(block[:, layer].astype(np.float32)))
+        auc = cross_val_score(LogisticRegression(class_weight="balanced", max_iter=2000, C=0.1), z, failing, cv=5,
+                              scoring="roc_auc").mean()
+        picks.append((auc, layer))
+    top = sorted(picks, reverse=True)[:n]
+    parts = [standardise(block[:, layer].astype(np.float32)) * max(auc - 0.5, 1e-3) for auc, layer in top]
+    return np.hstack(parts), [(layer, round(float(auc), 3)) for auc, layer in top]
 
 
 def kinematic_block(cache, meta) -> np.ndarray:
@@ -94,6 +110,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--cluster", choices=("ward", "average", "complete", "spectral"), default="ward")
     parser.add_argument("--cuts", type=int, nargs="+", default=list(CUTS))
+    parser.add_argument("--auto-layers", type=int, default=0)
     parser.add_argument("--name", help="method name in the output; default from the settings")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -102,7 +119,11 @@ def main() -> None:
         meta = [json.loads(m) for m in cache["meta"]]
         failing = np.array([not m["success"] for m in meta])
         core = args.base if args.method == "m06" else args.method
-        x = activations(cache, args.site, args.layer, args.summary)
+        chosen = None
+        if args.auto_layers:
+            x, chosen = auto_layers(cache, args.site, args.summary, failing, args.auto_layers, args.seed)
+        else:
+            x = activations(cache, args.site, args.layer, args.summary)
         if core == "m07":
             x = x - activations(cache, args.site, args.layer, "early")
         features = standardise(embed(core, x, failing, args.dims, args.keep, args.seed))
@@ -110,7 +131,7 @@ def main() -> None:
             kin = standardise(kinematic_block(cache, meta))
             features = np.hstack([features / np.sqrt(features.shape[1]), kin / np.sqrt(kin.shape[1])])
     name = args.name or f"{args.method}{'-' + args.base if args.method == 'm06' else ''}-{args.site}-L{'+'.join(map(str, args.layer))}-{args.summary}"
-    out = {"method": name, "settings": vars(args) | {"cache": str(args.cache), "output": str(args.output)},
+    out = {"method": name, "settings": vars(args) | {"cache": str(args.cache), "output": str(args.output), "auto_layers_chosen": chosen},
            "axes": axes_from(features, failing, ids, name, args.cluster, tuple(args.cuts), args.seed)[:10]}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(out, indent=1) + "\n")
