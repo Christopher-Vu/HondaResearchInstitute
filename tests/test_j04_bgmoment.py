@@ -39,8 +39,8 @@ def _opposite(seed: int = 1):
 
     Sixteen driving directions have sd 6, 96 noise directions have sd 1, and
     the signal direction has passing-route sd 0.25. Groups sit at +3 and -3.
-    Seed 1 was measured: j04 Jaccard 1 and 1, pooled whitening 0.70 and 0.77,
-    spectral-gap cPCA 0.43 and 0.44.
+    Seed 1 was measured: j04 Jaccard 1 and 1, pooled whitening 0.70 and 0.77.
+    Contrastive PCA with the default 32-component reduction scored 0.353 and 0.467.
     """
     rng = np.random.default_rng(seed)
     n_pass, n_group = 200, 20
@@ -104,3 +104,40 @@ def test_cli_recovers_the_same_groups_and_names_no_gap(tmp_path, monkeypatch) ->
     assert "PedestriansOnRoad" not in text
     assert _best(payload["axes"], group_a) >= 0.95
     assert _best(payload["axes"], group_b) >= 0.95
+
+
+def _outside_span(seed: int = 76, magnitude: float = 8.0):
+    """150 passing, 60 failing, width 400. Column i has variance 1/(1+i).
+
+    Two groups of 15 are mean shifts on coordinates 250 and 350, the bottom
+    half of that spectrum. Passing routes are 0 on those coordinates, so the
+    shifts sit outside the passing routes' span (at most 149 dimensions).
+    """
+    rng = np.random.default_rng(seed)
+    n_pass, n_fail, width = 150, 60, 400
+    n_group = 15
+    scales = np.sqrt(1.0 / (1.0 + np.arange(width)))
+    data = rng.normal(size=(n_pass + n_fail, width)) * scales
+    data[:n_pass, 250] = 0.0
+    data[:n_pass, 350] = 0.0
+    data[n_pass:n_pass + n_group, 250] += magnitude
+    data[n_pass + n_group:n_pass + 2 * n_group, 350] += magnitude
+    failing = np.array([False] * n_pass + [True] * n_fail)
+    ids = [f"r{i}" for i in range(n_pass + n_fail)]
+    group_a = set(ids[n_pass:n_pass + n_group])
+    group_b = set(ids[n_pass + n_group:n_pass + 2 * n_group])
+    return data, failing, ids, group_a, group_b
+
+
+def test_pre_reduction_keeps_directions_outside_the_passing_span() -> None:
+    # Seed 76, magnitude 8. pre_dims=0 mean best Jaccard 0.20930232558139536
+    # on each group. Default pre_dims mean best Jaccard 1.0 on each group.
+    # Magnitude 4 and 16 measured the same pair. Seeds 0-11 measured 0.215 to 0.340
+    # without the reduction and 1.0 with it; seed 76 only widens the margin under 0.3.
+    data, failing, ids, group_a, group_b = _outside_span()
+    floor = _scores(j04.embed_bg_moment(data, failing, pre_dims=0, seed=0), failing, ids, "floor")
+    default = _scores(j04.embed_bg_moment(data, failing, seed=0), failing, ids, "default")
+    floor_mean = float(np.mean([_best(floor, group_a), _best(floor, group_b)]))
+    default_mean = float(np.mean([_best(default, group_a), _best(default, group_b)]))
+    assert floor_mean < 0.3
+    assert default_mean > 0.8

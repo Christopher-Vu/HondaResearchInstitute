@@ -20,6 +20,15 @@ tensor has (5, 8 and 20 when there are 24 layers). Columns are not
 standardised. Each layer is divided by its root-mean-square before
 concatenation so one layer's magnitude does not dominate.
 
+There are 828 passing routes and the width is 896 or 2,688, so the passing
+span has at most 827 dimensions and cannot hold every failure direction. On
+synthetic data of that shape the passing-span projection scored 0.08, the
+no-signal floor, where unwhitened PCA scored 0.88, and reducing to 32
+components first scored 0.95 to 1.0 in every cell. embed_bg_moment therefore
+reduces all routes with unwhitened PCA to 32 components before the background
+whitening; 0 turns that off. The width 32 was measured on synthetic data
+only, five seeds, and chosen before any SimLingo score.
+
     PYTHONPATH=src python docs/research/experiments/f2d-dev-simlingo/j04_bgmoment.py CACHE \
         --output OUT.json
 """
@@ -35,6 +44,7 @@ from sklearn.decomposition import PCA
 
 RIDGE_FRAC = 0.02
 DIMS = 8
+PRE_DIMS = 32
 FRACS = (5 / 23, 8 / 23, 20 / 23)
 SUMMARY = {"route": 0, "window": 1, "early": 2}
 
@@ -67,11 +77,13 @@ def _unwhitened(x: np.ndarray, dims: int, seed: int) -> np.ndarray:
 
 
 def embed_bg_moment(x: np.ndarray, failing: np.ndarray, dims: int = DIMS, ridge_frac: float = RIDGE_FRAC,
-                    seed: int = 0) -> np.ndarray:
+                    seed: int = 0, pre_dims: int = PRE_DIMS) -> np.ndarray:
     """Background-whitened coordinates with the largest failure second moment.
 
     Falls back to unwhitened PCA when there are too few passing or failing
     routes for a covariance, or when the passing routes have no variance.
+    When pre_dims is positive and narrower than the matrix, all routes are
+    reduced with unwhitened PCA to that width first.
     """
     data = np.asarray(x, dtype=np.float64)
     failing = np.asarray(failing, dtype=bool)
@@ -79,6 +91,10 @@ def embed_bg_moment(x: np.ndarray, failing: np.ndarray, dims: int = DIMS, ridge_
     n_pass = int((~failing).sum())
     if data.ndim != 2 or data.shape[0] < 3 or n_pass < 3 or n_fail < 2:
         return _unwhitened(data, dims, seed)
+    n_routes, d = data.shape
+    if 0 < pre_dims < min(n_routes - 1, d):
+        data = PCA(n_components=pre_dims, whiten=False, random_state=seed).fit_transform(
+            data - data.mean(axis=0))
     background = data[~failing]
     centered = data - background.mean(axis=0)
     background = background - background.mean(axis=0)
@@ -131,6 +147,8 @@ def main() -> None:
     parser.add_argument("--summary", choices=tuple(SUMMARY), default="window")
     parser.add_argument("--dims", type=int, default=DIMS)
     parser.add_argument("--ridge", type=float, default=RIDGE_FRAC)
+    parser.add_argument("--pre-dims", type=int, default=PRE_DIMS,
+                        help="unwhitened PCA width on all routes before background whitening; 0 disables")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -145,7 +163,7 @@ def main() -> None:
         n_layers = 1 if block.ndim == 2 else int(block.shape[1])
         layers = resolve_layers(n_layers, args.layer)
         features = embed_bg_moment(layer_matrix(cache, args.site, layers, args.summary), failing,
-                                   dims=args.dims, ridge_frac=args.ridge, seed=args.seed)
+                                   dims=args.dims, ridge_frac=args.ridge, seed=args.seed, pre_dims=args.pre_dims)
     name = f"j04-{args.site}-L{'+'.join(map(str, layers))}-{args.summary}"
     axes = cache_methods.axes_from(features, failing, ids, name, "ward", cache_methods.CUTS, args.seed)[:10]
     payload = {
@@ -156,6 +174,7 @@ def main() -> None:
             "layer": layers,
             "summary": args.summary,
             "dims": args.dims,
+            "pre_dims": args.pre_dims,
             "ridge": args.ridge,
             "seed": args.seed,
         },

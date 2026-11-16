@@ -103,8 +103,10 @@ def band_axes(features, failing, ids, cuts: tuple[int, ...] = CUTS) -> list[dict
                 "rollouts": member_ids,
                 "cohesion": cohesion(data[members]),
                 "size": size,
+                "cut": int(kk),
+                "label": int(label),
             })
-    kept.sort(key=lambda axis: (axis["cohesion"], axis["rollouts"]))
+    kept.sort(key=lambda axis: (axis["cohesion"], -axis["size"], axis["cut"], axis["label"]))
     return kept
 
 

@@ -92,3 +92,20 @@ def test_cli_recovers_the_planted_groups(tmp_path, monkeypatch) -> None:
     assert len(payload["axes"]) <= 10
     assert _best(payload["axes"], group_a) >= 0.95
     assert _best(payload["axes"], group_b) >= 0.95
+
+
+def test_default_layers_name_depth_six(tmp_path, monkeypatch) -> None:
+    """No --layer on a 6-layer tensor. Fractions 5/23, 8/23, 20/23 land on 1, 2 and 4."""
+    j02 = _load("j02_cpca")
+    n = 8
+    rng = np.random.default_rng(0)
+    frames = rng.normal(size=(n, 3, 6, 8))
+    meta = np.array([json.dumps({"success": i >= 3}) for i in range(n)])
+    cache = tmp_path / "cache.npz"
+    np.savez(cache, route_id=np.array([f"r{i}" for i in range(n)]), meta=meta, driving_queries=frames)
+    for module, script in ((j01, "j01_unwhite.py"), (j02, "j02_cpca.py")):
+        out = tmp_path / f"{script}.json"
+        monkeypatch.setattr(sys, "argv", [script, str(cache), "--output", str(out)])
+        module.main()
+        payload = json.loads(out.read_text())
+        assert "L1+2+4" in payload["method"], payload["method"]

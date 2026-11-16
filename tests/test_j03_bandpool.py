@@ -98,3 +98,36 @@ def test_band_axes_keeps_the_tight_cluster_coarse_cuts_split() -> None:
         "cohesion": ranked[0]["cohesion"],
         "band": j03.size_band(int(failing.sum())),
     }
+
+
+def test_equal_cohesion_orders_by_size_not_by_route_ids() -> None:
+    """Two zero-radius clusters tie on cohesion. The smaller one's ids sort first.
+
+    size_band(48) is (5, 6), so both sizes are kept. Sorting the route-id lists
+    would have emitted the size-5 cluster first.
+    """
+    n_small, n_large, n_noise = 5, 6, 37
+    n = n_small + n_large + n_noise
+    features = np.zeros((n, 2), dtype=np.float64)
+    features[n_small:n_small + n_large, 0] = 200.0
+    grid = np.arange(n_noise, dtype=np.float64)
+    features[n_small + n_large:, 0] = 1000.0 + (grid % 10) * 5.0
+    features[n_small + n_large:, 1] = 1000.0 + (grid // 10) * 5.0
+    ids = (
+        [f"a{i:02d}" for i in range(n_small)]
+        + [f"z{i:02d}" for i in range(n_large)]
+        + [f"n{i:02d}" for i in range(n_noise)]
+    )
+    failing = np.ones(n, dtype=bool)
+    small_ids = sorted(ids[:n_small])
+    large_ids = sorted(ids[n_small:n_small + n_large])
+    assert small_ids < large_ids
+    lo, hi = j03.size_band(n)
+    assert lo <= n_small < n_large <= hi
+    ranked = j03.band_axes(features, failing, ids)
+    assert ranked[0]["rollouts"] == large_ids
+    assert ranked[0]["size"] == n_large
+    small_axes = [axis for axis in ranked if axis["rollouts"] == small_ids]
+    assert small_axes
+    assert small_axes[0]["cohesion"] == ranked[0]["cohesion"]
+    assert ranked.index(small_axes[0]) > 0

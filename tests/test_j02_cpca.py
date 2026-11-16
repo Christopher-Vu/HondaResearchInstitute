@@ -46,7 +46,11 @@ def test_spectral_gap_cpca_recovers_both_buried_groups() -> None:
     group_a = {f"r{i}" for i in range(180, 200)}
     group_b = {f"r{i}" for i in range(200, 220)}
 
-    scores, info = j02.embed_cpca(x, failing, dims=4, seed=0)
+    # The default 32-component reduction drops this column: 40 shared directions
+    # have variance 16 and the signal column is below them. Measured with the
+    # default: alpha 1, Jaccard 0.690 and 0.550. pre_dims=0 keeps the contrast:
+    # alpha 100, Jaccard 1 and 1.
+    scores, info = j02.embed_cpca(x, failing, dims=4, seed=0, pre_dims=0)
     assert "fallback" not in info
     assert info["alpha"] in (10, 30, 100)
     assert all(not isinstance(value, str) for value in info.values())
@@ -62,3 +66,14 @@ def test_spectral_gap_cpca_recovers_both_buried_groups() -> None:
     pca_b = _best_jaccard(pca_axes, group_b)
     assert pca_a <= 0.75
     assert pca_b <= 0.75
+
+
+def test_one_failing_route_returns_finite_scores() -> None:
+    rng = np.random.default_rng(0)
+    x = rng.normal(size=(30, 80))
+    failing = np.zeros(30, dtype=bool)
+    failing[0] = True
+    scores, info = j02.embed_cpca(x, failing, dims=4, seed=0)
+    assert scores.shape == (30, 4)
+    assert np.isfinite(scores).all()
+    assert info["fallback"] == "unwhitened_pca"
