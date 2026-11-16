@@ -143,3 +143,21 @@ B1 drawn from failing routes only, as `src/baselines/random_baseline.py` defines
 On H21's one layer (L10), every activation method so far, `j` or m03, scores between failing-only chance (0.18) and 0.30, and the four-number kin rival scores 0.326 (measured, 6 `j` methods scored on H21, 77 tried in total; j06 removes the speed-linear part first and still scores 0.246). L10 was a middling layer on Chris's pool too (m05 sweep), so H21 at L10 is a weak test of an activation method.
 
 j07 (stratify on kin, then cluster activations within each stratum) scores 0.241, the same per category as j01 within noise (0.31 / 0.27 / 0.14 against 0.31 / 0.27 / 0.11), and below B3-kin (measured, 7 `j` methods scored on H21, 78 tried in total). Linear (j06) and hard nonlinear (j07) conditioning on speed both leave L10 activation clusters at 0.24 to 0.25, about 0.05 above failing-only chance.
+
+### Jerry's explore loop (`j` methods), Chris's sprint pool (2026-11-16)
+
+Chris's SimLingo sprint cache (`cache.npz`, 6-frame window, 1185 routes), gaps PedestriansOnRoad, FullyBlocked,
+BadParking, decoys as batch 1, scored with `sprint_score.py` under amendment a1 against B3-behaviour, B7-pool, m08 and
+B3-infraction. Run by `~/autoresearch/queue/queue.sh` from commit `db3b0a0`, each method at its file's defaults
+(`driving_queries`, layers at fractions 5/23, 8/23, 20/23 of depth = L5, L8, L20, window summary). j06 and j07 run
+only if the kin diagnostic's max R² is at least 0.25; otherwise they are not tried here. Rows are written before the
+scores are read.
+
+| id | date | pool | settings | score (PedestriansOnRoad / FullyBlocked / BadParking) | p vs B3-behaviour / B7-pool / m08 / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| j04 | 2026-11-16 | sprint | passing-covariance whitening, pre-dims 32, dims 8, ridge default, Ward 2/3/5 | | | 112 |
+| j02 | 2026-11-16 | sprint | cPCA, pre-dims 32, dims 8, alpha by eigengap, Ward 2/3/5 | | | 113 |
+| j03 | 2026-11-16 | sprint | m03 embedding at L5, L8, L20 and `all_tokens` L1, Ward 8/12/16, size band, ranked by cohesion, round-robin | | | 114 |
+| j05 | 2026-11-16 | sprint | unwhitened PCA 32, minus mean of 10 nearest passing routes, Ward 2/3/5 | | | 115 |
+| j06 | 2026-11-16 | sprint | gated: OLS residual on behaviour features, then j01 | | | 116 if run |
+| j07 | 2026-11-16 | sprint | gated: 2 behaviour strata, then j01 within each, cuts 2/3 | | | 117 if run |
