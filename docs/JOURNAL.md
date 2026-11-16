@@ -5,6 +5,41 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — Even with the labels, layer 10 on H21 says less than speed: H21 stops taking method tries
+
+No new data arrived, so this session spent no method try. Instead it ran a check that reads the gap labels on
+purpose: given the answers, how well can a simple classifier tell the H21 failure categories apart, using the
+four speed features, the layer-10 activations, or both? If the activations cannot do it even with labels, no
+label-free method on them can be expected to beat the speed-only rival on this pool. The check is a diagnostic,
+not a method, and gets no `VARIANTS.md` row. It must not be used to tune any method. Grok and Gemini each wrote
+it from the same spec (leave-one-out k-nearest-neighbours and logistic regression over the 52 failing routes,
+balanced accuracy, 200-shuffle permutation null). I ran both, and all 105 cells agree. Outputs are in
+`results/h21/ceil/` (not tracked).
+
+Measured, H21 only. Category sizes are 8 / 5 / 3, plus 36 other failures, so one route moves a score by 0.1 to 0.2:
+- **CustomObstacles against Wall (13 routes):** speed gets balanced accuracy 0.84 to 0.94 with every classifier
+  (permutation p ≤ 0.02). Layer 10 gets 0.31 to 0.78 and clears its permutation 95th percentile in 1 of 14
+  cells (p 0.05). Across that many cells, one at p 0.05 is what chance gives. The previous
+  entry's premise, that speed cannot tell these two apart because both end with a stopped car, was wrong.
+- **The three gap categories (16 routes):** speed 0.53 to 0.74, layer 10 0.29 to 0.66.
+- **All four classes:** speed 0.45 to 0.60, layer 10 0.26 to 0.65, both together 0.41 to 0.73. With logistic
+  regression, "both" is at or above speed alone at every regularisation strength tried.
+
+What it means: on H21 the categories are told apart mainly by speed. Layer 10 adds something only next to speed,
+and mostly for telling gap failures from other failures. So H21 favours the behaviour rival by construction. That
+explains why every activation method tried on it (`j01`–`j07`) lost to the speed-only rival, and it says more
+H21 tries cannot tell activation methods apart. H21 takes no more method tries. The obvious follow-up, clustering
+speed and activations together, is Chris's `m06`. It scored 0.145 on his pool, below `m03`'s 0.180, so it is
+not repeated.
+
+Also this session: a Grok worker checked the seven citations from the earlier Gemini literature read. Two were
+verified, four only partly (wrong year, wrong author list or wrong title), and one does not exist: "Niu, Dy,
+Jordan, AISTATS 2010". The checked entries are now in `docs/research/literature-review.md`, with the wrong ones
+listed as do-not-use.
+
+Still blocked: the multi-layer cache for H21 or Chris's pool. 78 methods tried in total, 7 of them `j` methods
+scored on H21.
+
 ## 2026-11-15 — Stratifying by speed first (j07) does not help either
 
 `j07` (`3046624`) was the one try the previous entry allowed on the H21 pool. It splits the failing routes into two

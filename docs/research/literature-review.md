@@ -36,6 +36,21 @@
 
 **Not found:** any method tested on recovering known failure groups of a closed-loop driving policy, any SAE failure-discovery work on a driving model, and any planted-group benchmark for driving.
 
+### Clustering around a known nuisance (added 2026-11-15, autoresearch loop)
+
+Proposed by a Gemini literature read (`results/h21/lit-nuisance-gemini.txt`). A Grok worker then checked each item against DBLP, Crossref, arXiv and publisher pages (`results/h21/cite-check.md` on the loop machine, not tracked), and I re-read the Crossref records for Gondek, Bae and Gretton. Check levels are the same as above.
+
+| Work | What it does | Check |
+|---|---|---|
+| cPCA. Abid, Zhang, Bagaria, Zou, *Nature Communications* 9:2134 (2018), [doi:10.1038/s41467-018-04608-8](https://doi.org/10.1038/s41467-018-04608-8) | Directions where the target data varies more than the background, from `C_X − α C_Y` (paper text, figure 1 caption). Basis of `j02` | Abstract and text |
+| HSIC. Gretton, Bousquet, Smola, Schölkopf, ALT 2005, LNCS 3734, [doi:10.1007/11564089_7](https://doi.org/10.1007/11564089_7) | Kernel dependence measure (Hilbert-Schmidt norm of the cross-covariance operator) | Abstract |
+| Non-redundant clustering. Gondek, Hofmann, ICDM 2004, [doi:10.1109/ICDM.2004.10104](https://doi.org/10.1109/ICDM.2004.10104); journal version KAIS 12(1), 2007 | "Coordinated conditional information bottleneck": a clustering that avoids redundancy with a known grouping | Abstract (via OpenAlex) |
+| COALA. Bae, Bailey, ICDM 2006, [doi:10.1109/ICDM.2006.37](https://doi.org/10.1109/ICDM.2006.37) | An alternative clustering of high quality that is dissimilar to a given one. The agglomerative and cannot-link details are not in the abstract and were not checked | Abstract (via OpenAlex) |
+| Niu, Dy, Jordan, "Multiple Non-Redundant Spectral Clustering Views", ICML 2010 | Learns several subspaces at once and penalises dependence between them. It does not take a given clustering as input | Abstract |
+| Spotlight. d'Eon, d'Eon, Wright, Leyton-Brown, FAccT 2022, [doi:10.1145/3531146.3533240](https://doi.org/10.1145/3531146.3533240) | Replaces the Snippet-level row above: it finds contiguous regions of the final hidden layer where loss is high | Abstract and text |
+
+**Wrong citations, do not use:** "Niu, Dy, Jordan (2010), *Dimensionality Reduction for Alternative Clustering using Information Theoretic Divergence*, AISTATS 2010" does not exist; the nearest real paper is the ICML 2010 entry above. COALA is by two authors, not by "Bae, Bailey, Leckie, PAKDD 2006". Gondek and Hofmann's 2003 item is a workshop paper titled "Conditional information bottleneck clustering", and it was not retrieved.
+
 ## What this means for us
 
 1. **Our negative result is ordinary for this field.** The reference method recovers about a third of planted groups on its own benchmark, and people gain only a little from these tools. A behaviour baseline beating activations on 16 failures does not show that activations are useless, and it does not suggest a quick fix either.
