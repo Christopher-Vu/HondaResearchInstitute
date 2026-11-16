@@ -8,6 +8,7 @@ Writes, under --output:
 - cache.npz in cache_pool.py's format. `driving_queries` is (routes, 3, 1, 896): only the approach-window slot (1)
   holds data, H24's layer-10 window mean; the route and early slots are NaN, so a method that reads them fails
   loudly. There are no per-frame speeds and no infraction counts. Rows are in cache_pool's salted order.
+  `kin` is stored beside them: H24's speed features, float64, already in that salted order.
 - b3_kin.json: the B3-behaviour stand-in. H24's `kin` block only (window speed mean, min and max, and the route's
   stationary share), standardised over all routes, Ward on the failing routes, cuts 2, 3 and 5, largest first.
 - manifest.json: the f2d-all manifest with `pair` = `base_id`, which sprint_score.py resamples.
@@ -41,7 +42,8 @@ def main() -> None:
     block[:, 1, 0] = act.astype(np.float16)
     meta = [json.dumps({"success": not f, "failure_step": None, "n_steps": None, "infractions": {}}) for f in failed]
     args.output.mkdir(parents=True, exist_ok=True)
-    np.savez(args.output / "cache.npz", route_id=np.array(ids), meta=np.array(meta), driving_queries=block)
+    np.savez(args.output / "cache.npz", route_id=np.array(ids), meta=np.array(meta), driving_queries=block,
+             kin=np.asarray(kin, dtype=np.float64))
 
     z = (kin - kin.mean(0)) / np.where(kin.std(0) > 0, kin.std(0), 1.0)
     rows = np.flatnonzero(failed)
