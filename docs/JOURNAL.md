@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — j02 and j04 fixed before scoring; scoring order set
+
+SimLingo's development cache is still not on this machine, so nothing here is a development score or a candidate. Every number below comes from synthetic data (measured).
+
+A stress test built at the real development shapes found a design flaw in two of the four unscored methods. The pool has 1,185 routes, 828 of them passing and 357 failing, and the activation width is 896 for one layer or 2,688 for three. With more columns than passing routes, the passing routes' covariance is singular. `j04` worked only inside the span of the passing routes, so any failure direction outside that span was lost. It scored 0.08, the no-signal floor, where plain unwhitened PCA scored 0.88. `j02`'s rule for choosing its contrast strength picked the weakest value (0.1) every time the signal was weak. A Gemini code review reached the same conclusion from the code alone. An independent Gemini rewrite of `j04` agreed with ours to 1e-8, so the code was right and the design was wrong. Both methods now reduce all routes to 32 principal components (unwhitened) first (`b8a3e5a`). After that, `j04` scored 0.95 to 1.0 on the same test. The surprise is logged in `docs/WHAT_BROKE.md`. The same commit makes `j01` and `j02` choose layers as fractions of depth, as `j04` already did, so they cannot crash on a 6-layer model. It also stops `j03` from breaking ties by route id, because raw ids sort by category.
+
+A second, harder set of generators showed that no embedding wins everywhere. The fixed `j04` wins or ties on most of them. On a background of eight scenario-like clusters, though, the existing column-standardised embedding (`m03`-style) beat it by 0.65 at a middling signal strength, and `j01` failed there altogether. So `j04` goes to development scoring first and `j03` second. `j01` and `j02` stay unscored unless there is a new reason, which saves two tries from the multiple-testing count. A smoke run on a synthetic cache in the real file formats confirmed that all four methods run and score through `sprint_score.py`. Scoring the real cache needs no new script: run the method, then pass its output to `batch1.sh` through `MORE=`.
+
+---
+
 ## 2026-11-15 — four explore methods, checked on synthetic data only
 
 Chris's SimLingo cache is still not on this machine, so none of these numbers is a development score and none is a candidate. Three workers finished the methods sketched at 16:10. Two of their checks did not describe the method that would actually run, and both mismatches were measured before the tests were changed.
