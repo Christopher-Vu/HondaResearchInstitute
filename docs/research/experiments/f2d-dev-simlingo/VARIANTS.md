@@ -205,3 +205,18 @@ background modes do not do what j05's 10 nearest passing routes do, so j05's gai
 dropped. Grok's j12 and Gemini's independent reimplementation (own PCA and mixture code) give the same K and the same
 10 ordered route sets on both pools. A no-try check: j05's axes at k 5 and 20 match its k 10 axes with mean best-match
 Jaccard 0.87 / 0.86 (sprint) and 0.94 / 0.89 (H21) (measured, route ids only), so k 10 is not a fragile choice.
+
+j13 (rows written before scoring; density lane, builds on j05): local tangent residual. Same unwhitened PCA 32 on all
+routes and the same 10 nearest passing routes per failing route as j05 (k 10, Euclidean in score space). j05's residual
+(score minus the neighbours' mean) then has its projection on the top 2 principal directions of those 10 neighbours
+(centred on their own mean, SVD) removed, so what is left is the deviation off the local passing manifold rather than
+along it. Not whitened, not normalised (residual size kept, as j11 and j12 showed it matters). Ward 2/3/5. Reason:
+j12 showed j05's gain needs a local background; local tangent-space methods (Zhang and Zha 2004, LTSA, SIAM J. Sci.
+Comput. 26:313-338, verified via Crossref) model the passing neighbourhood as a low-dimensional tangent plane, and
+movement along that plane is ordinary scene variation. Kill rule fixed now: dropped if its sprint PedestriansOnRoad is
+below j05's 0.45. Same layers as j05 (L5+8+20 window; L10 on H21). One setting (2 directions), no sweep.
+
+| id | date | pool | settings | score | p vs rivals | methods tried |
+|---|---|---|---|---|---|---|
+| j13 | 2026-11-16 | sprint | j05 residual minus its projection on the top 2 local PCs of its 10 nearest passing routes, PCA 32, Ward 2/3/5 | pending | pending | 122 |
+| j13 | 2026-11-16 | H21 | same, L10 | pending | pending | 123 |
