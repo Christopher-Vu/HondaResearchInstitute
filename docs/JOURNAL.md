@@ -5,6 +5,30 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-14 to 15 — discovery sprint: a fast scoring loop, two batches of methods, and Jerry's search joins
+
+The discovery sprint (`docs/prd-discovery-sprint.md`) started. A **cache pass** reads every SimLingo test-pool route once and writes per-route activation summaries for all 24 layers to one 0.3 GB file (`cache_pool.py`, job 41320891, about 1 SU). With it, a method runs and is scored in about 30 seconds on a CPU node, so nothing heavy runs on Chris's laptop and no method needs a GPU.
+
+The scoring rules changed before any new method was scored. They are written as amendment A1 in `docs/prereg-fail2drive.md` §7 (tag `f2d-sprint-a1`, `CONFLICTS.md` C39):
+- Each method's own top 10 axes are scored, so nobody picks an axis with the answer.
+- The main rival is **B3-behaviour**, which groups failures using only what a fleet logs: speed, acceleration and infractions.
+- Every comparison reports an effect size, an interval and a p value. Dev p values are exploratory, and the count of methods tried is stated beside them.
+
+**Results, measured, dev only, 79 configurations tried** (`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`):
+- Clustering the failing routes on their activations from the seconds before the failure (m03) beats B3-behaviour clearly.
+- Longer windows (m11), several layers at once (m08) and average linkage (m12) reach 0.30 to 0.31, against B7-pool's 0.187 and B3-behaviour's 0.093.
+- Every lead comes from one gap, PedestriansOnRoad. No method beats B7-pool on FullyBlocked.
+- Error-aware B7 changed nothing (m01). B7 on short windows fails (m02, m14).
+
+**Jerry's search joined.** Jerry's agent asked for the dev files, so they were copied to a folder only his account can read (`share-imhaohao/`); everything else in Chris's scratch is blocked to him. His agent found that the B1 chance column drew from all routes; it now draws from failing routes (58a88b1). The terms he now works under are posted on issue 9: j-methods are logged and counted in the tried total, Chris picks the finalists and the freeze date, and nothing reads held-out data before the freeze.
+
+**Open:**
+- The "group by infraction type" rival is still to be proposed.
+- Batch 3 waits for Chris's approval.
+- The third-model bring-up runs in its own thread.
+
+---
+
 ## 2026-11-14 — third-model bring-up started, paused on a dropped Savio connection
 
 This session starts bringing up a third driving policy on Fail2Drive: UniAD or VAD, two camera-only models from Bench2DriveZoo. It runs in parallel with the SimLingo method loop and must never delay it (`docs/prompts/third-model-bringup.md`). The bring-up prompt's line on the cache script was out of date, so it now names `docs/research/experiments/f2d-dev-simlingo/cache_pool.py` (02a1daa). The required reading is done, and a heads-up is posted on the agent channel (issue 9).
