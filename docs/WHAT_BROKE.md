@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-15: j04 and j02 passed their tests but could not work at the real shapes
+
+**Expected:** `j04` (whiten with the passing routes' covariance, keep the coordinates with the largest failure second moment) and `j02` (contrastive PCA) would behave on the SimLingo dev cache as they did in their unit tests.
+
+**What happened:** the unit tests used fewer columns than passing routes. The dev cache has 828 passing routes, and the width is 896 for one layer or 2,688 for three. So the passing covariance is singular. `j04` projects onto the passing routes' span (at most 827 directions) and loses any failure direction outside it. In a synthetic test at the real shapes (5 seeds, measured, not kept), `j04` scored 0.08 at width 2,688 with modes in the low-variance half of the spectrum. That is the no-signal floor. Unwhitened PCA scored 0.88 on the same data. `j02` kept picking alpha 0.1 on weak signals, so its contrast did nothing. A Gemini code review found the same problem from the code alone. An independent Gemini rewrite of `j04` matched ours to 1e-8, so the code did what it said; the design was wrong.
+
+**What we did:** before any SimLingo score, both methods now first reduce all routes to 32 components with unwhitened PCA (`b8a3e5a`). On the same synthetic test `j04` then scored 0.95 to 1.0 in every cell. **Lesson:** a unit test for a covariance method must use more columns than rows, as the real cache does.
+
 ## 2026-11-15: the full suite fails on macOS bash 3.2, it does not skip
 
 **Expected:** `python -m pytest -q` on this Mac would skip the Savio launch tests. The explore note from 16:10 described a non-Linux run as 493 passed and 48 skipped, with `tests/test_savio_runtime.py` and `tests/test_slow_watchdog.py` needing Linux.
