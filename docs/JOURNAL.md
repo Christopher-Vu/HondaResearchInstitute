@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — lock the sprint chance-pool fix with a regression test
+
+The discovery sprint's B1 chance control was corrected to draw only from failing
+routes (58a88b1), matching the population a method can describe. This session
+adds a small synthetic end-to-end regression test: when exactly one route fails,
+a size-matched random axis must recover that route every time. The test prevents
+a future simplification from quietly restoring the all-route pool. It uses only
+synthetic route IDs and does not read any development cache or held-out data.
+
+---
+
 ## 2026-11-14 to 15 — discovery sprint: a fast scoring loop, two batches of methods, and Jerry's search joins
 
 The discovery sprint (`docs/prd-discovery-sprint.md`) started. A **cache pass** reads every SimLingo test-pool route once and writes per-route activation summaries for all 24 layers to one 0.3 GB file (`cache_pool.py`, job 41320891, about 1 SU). With it, a method runs and is scored in about 30 seconds on a CPU node, so nothing heavy runs on Chris's laptop and no method needs a GPU.
