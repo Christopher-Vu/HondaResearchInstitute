@@ -296,3 +296,17 @@ would drop almost nothing: j16 is not run and costs no try. Reading: almost ever
 passing neighbours, consistent with m19's note that failing windows are told apart from passing ones by where they end,
 so residual size marks "failing", not which failure. Script `/tmp/ar-r75/diag.py`; it asserts its failing residual
 lengths equal j05's embedding.
+
+j09 and j10 (rows written before scoring; temporal lane, the first `j` methods on the frame sequence rather than a
+window mean). The H21 per-frame file `results/savio/f2d-all/frames.npz` landed 2026-11-16 (Savio job 41402579, Jerry's
+H21 shards, `frames_pool.py`: `driving_queries`, layers 5/8/10/20, last 50 frames before failure, 200 routes, 52
+failing). Both at their defaults, no sweep: layer 8, every valid frame scaled by one root-mean-square, unwhitened PCA 16,
+one diagonal Gaussian HMM fit on all routes with S chosen by BIC from {4, 6, 8}. j09 embeds each failing route by the
+Hellinger map of its state occupancy and transitions (`j09_hmm.py`); j10 by the emission-mean Fisher score
+(Jaakkola and Haussler 1998; `j10_hmmfisher.py`, `080120a`). Both Ward 2/3/5, top 10 in the method's own order.
+No-try diagnostic first (`frames_diag.py`, frames file only, label-free beyond pass/fail; measured): BIC picks S 8 (the
+top of the grid), largest state share 0.22, longest expected dwell 34 frames, |Spearman rho| of each embedding's
+length and first PC against stop length 0.15 to 0.28 (flag at 0.5), so neither is flagged as a stop-length detector.
+Rule fixed now: each is carried to the sprint pool when Chris's `frames.npz` lands unless its H21 score is below
+failing-only chance; H21 alone cannot make a candidate. Scored with `frames_queue.sh` (POOL h21), rivals B3-kin and
+m03 L10.
