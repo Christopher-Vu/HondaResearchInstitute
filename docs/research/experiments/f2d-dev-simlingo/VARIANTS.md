@@ -243,4 +243,18 @@ now: dropped if its sprint score is below j05's 0.284. One setting (k 10), no sw
 
 | id | date | pool | settings | score | p vs rivals | methods tried |
 |---|---|---|---|---|---|---|
-| j14 | 2026-11-16 | sprint | window PCA 32 score minus mean window score of the 10 nearest passing routes in early-route PCA 32, Ward 2/3/5 | not yet scored | | 124 |
+| j14 | 2026-11-16 | sprint | window PCA 32 score minus mean window score of the 10 nearest passing routes in early-route PCA 32, Ward 2/3/5, commit `3f53e08` | 0.133 (0.14 / 0.11 / 0.15); failing-only chance 0.080 | B3-behaviour +0.040, p 0.058 / m08 -0.173, p 0.96 / B3-infraction -0.059, p 0.88 | 124 |
+
+j14 is below every activation rival and its fixed kill rule fires (0.133 against j05's 0.284; measured, dev, 124 tried
+in total: 104 Chris + 20 `j`). Dropped. The early-route neighbours share 0.87 of 10 with j05's window neighbours on
+average, and subtracting them barely shrinks the residual (mean length 14.9, against 15.3 for the plain distance to
+the passing mean and 8.5 for j05; measured). The first 6 frames of a route say little about its approach window, so
+j14 is close to plain unwhitened PCA. j05's gain needs neighbours matched on the window itself. Grok's j14 and the
+orchestrator's independent reimplementation (scikit-learn neighbours, scipy Ward) give the same 10 ordered route sets.
+
+No-try check (label-free, route ids only, no gap read): refitting on 20 random 80% subsets of the passing routes
+(failing routes kept), j05's original top-10 axes are recovered with mean best-match Jaccard 0.90 (share of
+axis-resamples at 0.8 or more: 0.89), against m08's 0.78 (0.64) (measured, sprint pool, orchestrator's recompute).
+m08's cut-5 groups move most (mean 0.36 to 0.64 on four axes). So j05's axes are stable to the passing background;
+j13's reading above (a fragile Ward split) holds only for changes to the residual itself, not to the background
+sample.
