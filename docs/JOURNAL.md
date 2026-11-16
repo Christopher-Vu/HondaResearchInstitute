@@ -5,6 +5,34 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — the j methods scored on Jerry's H21 pool; none beats four speed numbers
+
+The H21 pool is real Fail2Drive data already on this machine: SimLingo on all 100 Fail2Drive pairs, seed 24, 200
+routes, 52 failing. It holds one layer of activations only (driving-query layer 10, averaged over the 3 s before the
+end), so every layer setting lands on that one layer. Its three scored categories are small (CustomObstacles 8
+failing routes, Wall 5, PedestriansOnRoad 3) and were already read by H22 to H25. It can rank and kill methods; it
+cannot make a candidate. `h21_cache.py` turns it into the sprint's cache format, with a rival built from the four
+kinematic numbers only ("B3-kin": window speed mean, min and max, and the share of the route spent stopped).
+
+Scores under amendment A1, where each method ranks its own axes and only its top 10 count (measured, dev; 5 `j`
+methods scored on H21, 76 tried in total across both teams): B3-kin 0.326, j02 0.297, m03 at layer 10 (Chris's
+leading method reduced to one layer) 0.242, j01 0.231, j04 0.193, j05 0.183, j03 0.108. No `j` method leads, so
+there is no candidate. j03 emits only two axes at this pool size and is dead on small pools by construction. Scores
+and p values per rival are in `VARIANTS.md`.
+
+A review found that the sprint scorer's random-axes chance level ("B1") draws from passing routes as well as failing
+ones, unlike the project's own B1. Drawn from failing routes only, chance on H21 is about 0.18 (measured), so most
+activation methods here sit barely above random. Logged in `WHAT_BROKE.md`; the scorer is Chris's and was left
+alone. The rival comparisons do not use that column.
+
+j05 is new this session (`675c706`): from each failing route, subtract the average of its 10 nearest passing routes,
+to remove scene content before clustering. Two engines implemented it independently and agree to 1e-12. On synthetic
+data it is the most robust embedding when the background is clustered; on H21 it scored at chance. Next: a
+multi-layer H21 cache needs a Savio job (written in the loop journal under `NEEDS SAVIO`), and until it or Chris's
+cache arrives, no more activation methods are worth a try on the one-layer pool.
+
+---
+
 ## 2026-11-15 — j02 and j04 fixed before scoring; scoring order set
 
 SimLingo's development cache is still not on this machine, so nothing here is a development score or a candidate. Every number below comes from synthetic data (measured).
