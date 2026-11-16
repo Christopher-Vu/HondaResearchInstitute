@@ -254,7 +254,8 @@ orchestrator's independent reimplementation (scikit-learn neighbours, scipy Ward
 
 No-try check (label-free, route ids only, no gap read): refitting on 20 random 80% subsets of the passing routes
 (failing routes kept), j05's original top-10 axes are recovered with mean best-match Jaccard 0.90 (share of
-axis-resamples at 0.8 or more: 0.89), against m08's 0.78 (0.64) (measured, sprint pool, orchestrator's recompute).
-m08's cut-5 groups move most (mean 0.36 to 0.64 on four axes). So j05's axes are stable to the passing background;
+axis-resamples at 0.8 or more: 0.89), against m08's 0.78 (0.64) and m11's 0.85 (0.76) (measured, sprint pool; Grok's run and the orchestrator's
+independent recompute agree to three decimals for j05 and m08). On H21: j05 0.91 (0.83), m03 L10 0.78 (0.56)
+(measured, Grok's run). m08's cut-5 groups move most (mean 0.36 to 0.64 on four axes). So j05's axes are stable to the passing background;
 j13's reading above (a fragile Ward split) holds only for changes to the residual itself, not to the background
 sample.
