@@ -51,6 +51,16 @@ Proposed by a Gemini literature read (`results/h21/lit-nuisance-gemini.txt`). A 
 
 **Wrong citations, do not use:** "Niu, Dy, Jordan (2010), *Dimensionality Reduction for Alternative Clustering using Information Theoretic Divergence*, AISTATS 2010" does not exist; the nearest real paper is the ICML 2010 entry above. COALA is by two authors, not by "Bae, Bailey, Leckie, PAKDD 2006". Gondek and Hofmann's 2003 item is a workshop paper titled "Conditional information bottleneck clustering", and it was not retrieved.
 
+### Cluster stability under resampling (added 2026-11-15, autoresearch loop)
+
+Basis of `j08`, which ranks candidate clusters from several views by how stable each one is on subsamples of the failing routes. A Grok worker read the records listed below; I re-read the Crossref records for all three and the ScienceDirect abstract text for Hennig.
+
+| Work | What it does | Check |
+|---|---|---|
+| Hennig, "Cluster-wise assessment of cluster stability", *Computational Statistics & Data Analysis* 52(1):258–271 (2007), [doi:10.1016/j.csda.2006.11.025](https://doi.org/10.1016/j.csda.2006.11.025) | Stability of each single cluster: the Jaccard coefficient against the most similar cluster in resampled data, averaged over the resamples. Uses the bootstrap, and also subsetting, jittering and noise points. The abstract warns that clusters are sometimes stable only because of the inflexibility of the clustering method | Abstract |
+| Ben-Hur, Elisseeff, Guyon, "A stability based method for discovering structure in clustered data", Pacific Symposium on Biocomputing 7:6–17 (2002), [doi:10.1142/9789812799623_0002](https://doi.org/10.1142/9789812799623_0002) | Stability of a whole clustering under subsampling, used to choose the number of clusters | Metadata and PDF header only |
+| Lange, Roth, Braun, Buhmann, "Stability-based validation of clustering solutions", *Neural Computation* 16(6):1299–1323 (2004), [doi:10.1162/089976604773717621](https://doi.org/10.1162/089976604773717621) | Stability as how well a clustering reproduces on a second sample, read as a classification risk | Abstract |
+
 ## What this means for us
 
 1. **Our negative result is ordinary for this field.** The reference method recovers about a third of planted groups on its own benchmark, and people gain only a little from these tools. A behaviour baseline beating activations on 16 failures does not show that activations are useless, and it does not suggest a quick fix either.
