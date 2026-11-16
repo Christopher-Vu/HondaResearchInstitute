@@ -229,3 +229,18 @@ j05's PedestriansOnRoad. Reading: j05's PedestriansOnRoad gain rests on a Ward s
 residual undoes, not on a robust direction. Grok's j13, Gemini's independent reimplementation (scikit-learn
 neighbours, its own PCA) and a rerun by the orchestrator give the same 10 ordered route sets on both pools.
 
+
+j14 (row written before scoring; density/matching lane, builds on j05): matched-control residual. Same layers and
+scaling as j05 (L5+8+20, each layer divided by its root-mean-square). Two unwhitened PCA 32 fits on all routes: one on
+the approach-window summary (the score space, as j05) and one on the early-route summary (the route's first 6 frames,
+before the approach window). Each failing route's 10 nearest passing routes are found in the early-route space, and
+their mean window score is subtracted from the failing route's window score. Not whitened, not normalised. Ward
+2/3/5. Reason: j05 picks neighbours by the window itself, which already holds the failure, so its neighbours partly
+match the failure and subtract some of it; matching on context measured before the failure, as matching estimators
+pick controls on pre-treatment covariates (Abadie and Imbens 2006, Econometrica 74:235-267, verified via Crossref),
+should remove the scene and keep the failure. Sprint pool only: H21's cache has no early slot (NaN). Kill rule fixed
+now: dropped if its sprint score is below j05's 0.284. One setting (k 10), no sweep.
+
+| id | date | pool | settings | score | p vs rivals | methods tried |
+|---|---|---|---|---|---|---|
+| j14 | 2026-11-16 | sprint | window PCA 32 score minus mean window score of the 10 nearest passing routes in early-route PCA 32, Ward 2/3/5 | not yet scored | | 124 |
