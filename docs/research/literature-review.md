@@ -61,6 +61,21 @@ Basis of `j08`, which ranks candidate clusters from several views by how stable 
 | Ben-Hur, Elisseeff, Guyon, "A stability based method for discovering structure in clustered data", Pacific Symposium on Biocomputing 7:6–17 (2002), [doi:10.1142/9789812799623_0002](https://doi.org/10.1142/9789812799623_0002) | Stability of a whole clustering under subsampling, used to choose the number of clusters | Metadata and PDF header only |
 | Lange, Roth, Braun, Buhmann, "Stability-based validation of clustering solutions", *Neural Computation* 16(6):1299–1323 (2004), [doi:10.1162/089976604773717621](https://doi.org/10.1162/089976604773717621) | Stability as how well a clustering reproduces on a second sample, read as a classification risk | Abstract |
 
+### Clustering sequences with hidden Markov models (added 2026-11-15, autoresearch loop)
+
+Background for `j09`, which fits one Gaussian hidden Markov model (HMM: a small set of hidden states, each with its own Gaussian, plus state-to-state transition probabilities) on every route's frame sequence and clusters failing routes by state occupancy and transitions. A Gemini worker proposed the list from memory; a Grok worker checked each against Crossref or OpenAlex, and I re-read the Crossref records for Alon, both Bicego papers and Celeux. Only metadata was checked, not the papers' contents, so the "what it does" column is the common description, unverified.
+
+| Work | What it does (unverified) | Check |
+|---|---|---|
+| Smyth, "Clustering sequences with hidden Markov models", NIPS 9:648–654 (1996) | Clusters sequences by fitting HMMs and grouping by cross-likelihood | OpenAlex W2132875213 only; no DOI |
+| Alon, Sclaroff, Kollios, Pavlovic, "Discovering clusters in motion time-series data", CVPR 2003, I-375–I-381, [doi:10.1109/cvpr.2003.1211378](https://doi.org/10.1109/cvpr.2003.1211378) | HMM mixture clustering of motion sequences | Crossref |
+| Bicego, Murino, Figueiredo, "Similarity-based clustering of sequences using hidden Markov models", MLDM 2003, LNCS, pp. 86–95, [doi:10.1007/3-540-45065-3_8](https://doi.org/10.1007/3-540-45065-3_8) | Embeds sequences by their likelihoods under a set of HMMs, then clusters | Crossref |
+| Bicego, Murino, Figueiredo, "Similarity-based classification of sequences using hidden Markov models", *Pattern Recognition* 37(12):2281–2291 (2004), [doi:10.1016/s0031-3203(04)00162-1](https://doi.org/10.1016/s0031-3203(04)00162-1) | The same embedding used for classification | Crossref |
+| Jaakkola, Haussler, "Exploiting generative models in discriminative classifiers", NIPS 11:487–493 (1998) | Fisher score of a generative model as a fixed-length sequence embedding | OpenAlex only; no DOI |
+| Celeux, Durand, "Selecting hidden Markov model state number with cross-validated likelihood", *Computational Statistics* 23(4):541–564 (2008), [doi:10.1007/s00180-007-0097-1](https://doi.org/10.1007/s00180-007-0097-1) | Compares BIC-type criteria and cross-validated likelihood for choosing the number of states | Crossref |
+
+**Do not use** (Gemini's metadata, wrong): DOI 10.1109/CVPR.2003.1211376 (a different paper); 10.1007/3-540-70659-3_9 and "SSPR 2002, LNCS 2396" for Bicego 2002 (a different paper, and the venue is MLDM 2003); 10.1016/j.patcog.2004.05.006 (a different paper); a Celeux and Durand paper in *CSDA* 52(4):2071–2085 (not found). Keribin, "Consistent estimation of the order of mixture models", *Sankhyā A* 62(1):49–66 (2000) was not found in Crossref or OpenAlex, so it is not cited until someone checks it another way. Report: `/tmp/ar-cite-hmm/report.md` on the loop machine.
+
 ## What this means for us
 
 1. **Our negative result is ordinary for this field.** The reference method recovers about a third of planted groups on its own benchmark, and people gain only a little from these tools. A behaviour baseline beating activations on 16 failures does not show that activations are useless, and it does not suggest a quick fix either.
