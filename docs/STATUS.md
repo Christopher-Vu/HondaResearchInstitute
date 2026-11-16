@@ -6,13 +6,15 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-14 (dev v1 and v2 read, both not ahead; B7 leads on two gaps)
+Last updated: 2026-11-16 (`j` methods scored on Chris's sprint pool; none leads m08)
 
 ---
 
 ## Current position
 
 **Third model (2026-11-14, started, paused mid-task).** Bring-up of UniAD or VAD on Fail2Drive, per `docs/prd-discovery-sprint.md` §7 and `docs/prompts/third-model-bringup.md`. Heads-up posted on issue 9. No model chosen, no code written, nothing submitted. Paused because the shared Savio connection dropped; Chris reopens it. **Next:** inspect `hri-dev/.runtime/fail2drive-src` on Savio for Bench2DriveZoo support, pick UniAD or VAD, then a smoke pair.
+
+**2026-11-16, Jerry's `j` methods on Chris's sprint pool (dev, measured, 119 tried in total).** None leads m08 (0.306). The closest is j05 (kNN-residual clustering), at 0.284; it does better than the leads on FullyBlocked (0.23) and worse on PedestriansOnRoad. No candidate. B7-pool's axes directory was not copied, so it was not a paired rival. **Next:** copy `v1/plain/directives-ms20` to the loop machine; new `j` tries stay in the open lanes, with j05 as the base for the density lane.
 
 **2026-11-15, discovery sprint day 1 (`docs/prd-discovery-sprint.md`).**
 - **Done:** amendment A1 is tagged `f2d-sprint-a1`. Batches 1 and 2 (m01 to m14) are scored on SimLingo dev, 79 configurations tried.

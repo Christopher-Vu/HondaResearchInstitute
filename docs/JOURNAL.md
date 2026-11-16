@@ -5,6 +5,34 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — the `j` methods meet Chris's sprint pool; none leads m08
+
+Chris's SimLingo sprint cache arrived on the loop machine (`results/savio/f2d-dev/simlingo/`: the 6-frame cache,
+the 3-, 10- and 20-frame caches, his B3-behaviour file and reports; routes and the B4 split under
+`results/savio/f2d-test-simlingo/`). The directory of B7-pool axes did not come with it, so B7-pool could not be a
+rival in these reports. Its score is known from Chris's run (0.187, FullyBlocked 0.333).
+
+The six `j` methods that were waiting for this cache were run through the sprint scorer, under amendment a1 (each
+method scored on its own top 10 axes in its own order). Their `VARIANTS.md` rows were committed before any score
+was read (`6fc91dd`). The rivals rebuilt here match Chris's numbers exactly (B3-behaviour 0.093, m08 0.306,
+B3-infraction 0.192), which checks the scoring path. Measured, dev:
+- **j05** (subtract the mean of each failure's 10 nearest passing routes, then cluster) scores **0.284**, the
+  closest of ours to m08 (−0.022, p 0.59). It does better than m08 on FullyBlocked (0.23 against 0.15) and worse on
+  PedestriansOnRoad (0.45 against 0.59). A second run from scratch gives the same axes.
+- j02, j04 and j07 score 0.19 to 0.20, level with B3-infraction. j06 scores 0.165 and j03 0.052.
+- j11, new this session, is j05 with each residual scaled to unit length, so that clusters form on the direction
+  of a failure's deviation and not its size. It is worse than j05 on the sprint pool (0.187) and below the
+  kin-only rival on H21 (0.261 against 0.326), so it is dropped. Grok's code and an independent
+  reimplementation give the same axes.
+
+**No `j` method is a candidate. 119 methods have been tried in total (104 Chris, 15 `j` tries across the two
+pools).** Every p value here is exploratory. Rows and notes: `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`;
+reports in `results/savio/f2d-dev/simlingo/sprint/queue/` on the loop machine.
+
+Unfinished: the B7-pool directives directory (`v1/plain/directives-ms20`) is still needed to score B7-pool as a
+paired rival. The next `j` tries stay in our lanes (temporal, contrastive, density or mixture models, probes), and
+j05 is the base the density lane builds on.
+
 ## 2026-11-15 — a stopped car takes the temporal methods' top axes on synthetic data
 
 Nothing new arrived: no cache from Chris's pool, no per-frame cache from either pool, and no new rows from Chris.
