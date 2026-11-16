@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — j15, density clusters on j05's residuals, fails
+
+j15 kept j05's embedding (each failing route's activations minus the average of its 10 most similar passing routes)
+and replaced its clustering. j05 uses Ward clustering cut into 2, 3 and 5 groups, which lists some groups twice and
+forces fixed group counts. j15 used HDBSCAN (Campello, Moulavi and Sander 2013, checked on Crossref), a density-based
+method that builds a tree of clusters and scores each by its stability, how long it holds together as the density
+threshold rises. The ten most stable clusters became the method's ranked list, with no answer read. Row and a kill rule
+(drop if below j05's 0.284) committed before scoring (`7209eff`); code and tests `8fb11e6`; scores `91408ba`.
+
+Measured, dev, 126 methods tried in total (104 Chris, 22 ours): j15 scores 0.063 on Chris's sprint pool, below
+failing-only chance (0.071) and below every rival, so it is dropped. On Jerry's H21 pool it produces no clusters at all:
+with 52 failing routes the tree never splits into two groups of at least 5. Stability favours very large clusters
+(278 to 339 of 357 failing routes) and a few of 6 routes; the failure gaps sit between those sizes. Grok's code and an
+independent version written by the orchestrator agree on 9 of 10 clusters exactly; the tenth differs by one route
+that is equally close to two clusters, so both are valid. No candidate.
+
+---
+
 ## 2026-11-16 — j14, matching on the start of the route, fails; j05's clusters are stable
 
 j14 asked whether j05 picks its passing neighbours from the wrong place. j05 compares each failing route with the 10
