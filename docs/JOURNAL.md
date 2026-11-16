@@ -5,6 +5,31 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — H21 activations are mostly speed; removing speed (j06) does not help
+
+A diagnostic that reads no gap label asked what dominates the H21 pool's layer-10 window activations. Grok wrote it
+and Gemini wrote an independent version; both agree to six digits (measured). Across the 200 routes, the four speed
+features (`kin`: window speed mean, min and max, stationary share) explain 40% of the activation variance against a
+2% permutation null, and 81% of the first principal component, which itself carries 38% of the variance. All 200
+routes are in Town13, so town explains nothing. The `j01`, `j02`, `j04`, `j05` and `m03` axes overlap the speed-only
+rival's clusters more than random sets of the same sizes: the mean best Jaccard (set overlap) is 0.44 to 0.60,
+against a null of 0.30. In other words, the activation methods mostly re-find speed groups, and less cleanly than the
+four speed numbers themselves.
+
+That gave `j06` a reason (`fa37c30`). It is `j01` after subtracting a least-squares prediction of the activations from
+the standardised speed features, fitted on all routes with no failure label. On a cache from Chris's pool it would
+use the B3-behaviour kinematics instead. Grok's version and Gemini's independent version give the same 10 axes on H21.
+Under amendment a1, `j06` scores 0.246 (measured; per category 0.36 / 0.25 / 0.13). Random axes drawn from failing
+routes score 0.181, `j01` scores 0.231 and the speed-only rival scores 0.326. Against that rival, `j06` is −0.079
+[−0.194, +0.061], one-sided p 0.84. This is dev: 6 `j` methods scored on H21, 77 tried in total across both teams.
+The H21 limits still apply: one seed, one layer, small categories that earlier experiments have already read.
+
+So on H21's one layer, what is left after removing speed carries little that Ward clustering can turn into these
+categories. The bootstrap intervals are about ±0.13 wide (measured), so a method would need roughly 0.45 here to beat
+the rival clearly (estimate). Further one-layer tries on H21 would add to the method count with little chance of
+showing anything. `j06` should be scored on Chris's multi-layer cache when it arrives, since the speed share at other
+layers is unknown. Row in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`; report `results/h21/report-j06.json`.
+
 ## 2026-11-15 — the j methods scored on Jerry's H21 pool; none beats four speed numbers
 
 The H21 pool is real Fail2Drive data already on this machine: SimLingo on all 100 Fail2Drive pairs, seed 24, 200
