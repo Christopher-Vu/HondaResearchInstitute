@@ -310,3 +310,20 @@ length and first PC against stop length 0.15 to 0.28 (flag at 0.5), so neither i
 Rule fixed now: each is carried to the sprint pool when Chris's `frames.npz` lands unless its H21 score is below
 failing-only chance; H21 alone cannot make a candidate. Scored with `frames_queue.sh` (POOL h21), rivals B3-kin and
 m03 L10.
+
+| id | date | pool | settings | score (top-10 mean best Jaccard; CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / vs m03 L10 / vs m08 L5+8+20 | methods tried (all pools) |
+|---|---|---|---|---|---|---|
+| j09 | 2026-11-16 | H21 | HMM over the last 50 frames, L8, PCA 16, S 8 by BIC, Hellinger occupancy + transitions, Ward 2/3/5 | **0.331** (0.31 / 0.40 / 0.29); failing-only chance 0.185 | +0.006 [-0.110, +0.148], p 0.45 / +0.089, p 0.17 / +0.110 [-0.174, +0.332], p 0.15 | 127 |
+| j10 | 2026-11-16 | H21 | j09's model, emission-mean Fisher score, Ward 2/3/5 | 0.133 (0.18 / 0.14 / 0.08); failing-only chance 0.189 | p 1.00 / p 0.96 / not scored | 128 |
+
+Rivals on H21 now include Chris's m08 at its own layers (L5+8+20, 6-frame window), built from the multi-layer H21 cache
+`results/savio/f2d-all/cache.npz` (same Savio job) with `cache_methods.py --method m03 --layer 5 8 20 --name m08`:
+0.221 (0.29 / 0.18 / 0.20), below m03 at L10 (0.242) on this pool (measured). j09 is the first `j` method above every
+H21 rival, but against B3-kin it is a tie (+0.006, interval spans zero); measured, dev, one seed, 128 tried in total
+(104 Chris + 24 `j`). H21 alone cannot make a candidate. j10 is below failing-only chance; its rule drops it. j09 is
+carried to the sprint pool as soon as Chris's `frames.npz` exists. No-try check (label-free, route ids only): refitting
+j09 with KMeans seeds 1 to 10 gives S 8 every time and recovers the seed-0 axes with mean best-match Jaccard 0.94
+(share of axes at 0.8 or more 0.89); seed 0 is in the highest-likelihood basin, shared with seeds 1, 5, 8 and 10. Only
+the 10th axis (6 routes) moves much (mean 0.70). Script `/tmp/ar-r89/seedstab.py`; it asserts seed 0 rebuilds the
+stored axes. Reports in `results/h21/sprint/frames/` (`j09-report-m08.json` adds the m08 rival; its p values differ from
+the queue report's by up to 0.008 from bootstrap draws).
