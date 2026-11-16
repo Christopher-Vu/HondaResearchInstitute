@@ -259,3 +259,21 @@ independent recompute agree to three decimals for j05 and m08). On H21: j05 0.91
 (measured, Grok's run). m08's cut-5 groups move most (mean 0.36 to 0.64 on four axes). So j05's axes are stable to the passing background;
 j13's reading above (a fragile Ward split) holds only for changes to the residual itself, not to the background
 sample.
+
+j15 (rows written before scoring; density lane, builds on j05): density clusters on j05's residuals in place of Ward.
+Same embedding as j05 (unwhitened PCA 32 on all routes, each failing route minus the mean of its 10 nearest passing
+routes; L5+8+20 window, L10 on H21). On the failing residuals only: HDBSCAN's hierarchy (Campello, Moulavi and Sander
+2013, PAKDD, LNCS 7819:160-172, doi 10.1007/978-3-642-37456-2_14, verified via Crossref) with min_samples 5 (core
+distance to the 5th nearest point counting itself) and min_cluster_size 5, Euclidean; single linkage on mutual
+reachability, condensed tree, stability of each cluster = sum over its points of (lambda at which the point or its
+child cluster leaves) minus (lambda at the cluster's birth). Axes: every non-root cluster of the condensed tree, ranked
+by stability (larger size, then lower cluster id, breaks ties), top 10, members = all points of the cluster at its
+birth. No Ward, so no repeated axes. Reason: Ward 2/3/5 repeats axes (7 distinct of j05's 10) and forces fixed cut
+counts; stability is a label-free own-order ranking under a1. Not Chris's lane: his clustering work is on m08/m11
+embeddings; m03 used HDBSCAN on plain PCA ranked by size times cohesion, not on a residual and not by stability. Kill
+rule fixed now: dropped if its sprint score is below j05's 0.284. One setting, no sweep.
+
+| id | date | pool | settings | score | p vs rivals | methods tried |
+|---|---|---|---|---|---|---|
+| j15 | 2026-11-16 | sprint | j05 residual, HDBSCAN condensed tree (min_samples 5, min_cluster_size 5), all clusters ranked by stability, top 10 | | | 125 |
+| j15 | 2026-11-16 | H21 | same, L10 (CustomObstacles / Wall / PedestriansOnRoad) | | | 126 |
