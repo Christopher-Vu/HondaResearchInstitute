@@ -5,6 +5,22 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — four explore methods, checked on synthetic data only
+
+Chris's SimLingo cache is still not on this machine, so none of these numbers is a development score and none is a candidate. Three workers finished the methods sketched at 16:10. Two of their checks did not describe the method that would actually run, and both mismatches were measured before the tests were changed.
+
+`j01` (`36aa4ad`) is principal-component analysis without column standardisation, then the same Ward cuts 2, 3 and 5 as the current clustering methods. On the fixed seed-2 generator the raw scores recover both planted groups at Jaccard 1 and 1. Column-standardising first, which is what the shared activation loader does, drops that to 0.414 and 0.393. Standardising the component scores as well, which is what `m03` does, gives 0.452 and 0.346. The leading score's standard deviation is 1.34 times the 32nd, not 10 times: the signal column's variance is about 2.9 against noise variance 1, so the earlier 10-times figure was wrong. The command path no longer column-standardises.
+
+`j02` (same commit) is contrastive PCA: the covariance of failing routes minus a multiple of the covariance of passing routes, the multiple chosen by the largest gap between the top two eigenvalues. On the seed-0 generator that multiple is 100, and both planted groups score Jaccard 1 and 1. Plain PCA to 32 dimensions scores 0.667 and 0.5.
+
+`j03` (same commit) keeps `m03`'s embedding and emits Ward cuts 8, 12 and 16 whose sizes fall between about one thirtieth and one eighth of the failure count, tightest first, then round-robins those lists across layers. Layer indices are fractions of however many layers the tensor has. On 100 failures the size band is 5 to 12, so a planted mode of 20 routes is dropped even though the coarse cuts' best Jaccard with it is 0.571. The check now uses 160 failures, where the band is 5 to 20. The coarse cuts then score 0.377, and the first banded axis matches the planted set exactly (cohesion 0.0096).
+
+`j04` (`9a956cf`) whitens with the passing routes' covariance, with a ridge of 0.02 times the leading eigenvalue, and keeps the coordinates where the failing routes have the largest second moment. That moment is unsigned, so two groups on opposite sides of one direction both count. On seed 1, with the signal in a direction the passing routes barely use, `j04` scores Jaccard 1 and 1. Pooled whitening scores 0.70 and 0.77. `j02` scores 0.43 and 0.44. These are synthetic measurements. Development configurations already logged: 71. Scored on this loop: 0.
+
+The full suite on this Mac was 525 passed, 15 failed, 50 skipped (measured). The failures are the Savio launch tests: macOS ships bash 3.2, which rejects the `{LOCK}` redirection those scripts use, and stopping a process group is not permitted here. The nine new tests are among the passes. The sealed-import guard passed. No row was added to the variant log, because no SimLingo score was read.
+
+---
+
 ## 2026-11-15 — discovery-sprint unit tests and method-architecture audit on explore
 
 This session started the `autoresearch/explore` loop while waiting for SimLingo's Fail2Drive test-pool cache (`results/savio/f2d-dev/simlingo/` and `results/savio/f2d-test-simlingo/`) to be copied from Savio. The discovery-sprint scripts (`docs/research/experiments/f2d-dev-simlingo/`) had no automated tests yet, so `tests/test_sprint_tools.py` (`ec8237e`) now tests top-10 rank truncation in `sprint_score.py`, Hungarian recall without double-counting, decoy hit rates, salted route ordering and label stripping in `cache_pool.py`, and zero-variance-column safety in `cache_methods.py`. Reading all three policy adapters (`SimLingo` 24 decoder layers, `TransFuser++` 6 decoder layers, `UniAD` multi-stage layers) and `VARIANTS.md` (`m01`–`m13`, 71 prior Savio configs) also exposed why `m09` lost its `cut 5` axes and why hardcoded layer indices would fail on `TransFuser++` and `UniAD`.

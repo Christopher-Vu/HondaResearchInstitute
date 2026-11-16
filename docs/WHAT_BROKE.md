@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-15: the full suite fails on macOS bash 3.2, it does not skip
+
+**Expected:** `python -m pytest -q` on this Mac would skip the Savio launch tests. The explore note from 16:10 described a non-Linux run as 493 passed and 48 skipped, with `tests/test_savio_runtime.py` and `tests/test_slow_watchdog.py` needing Linux.
+
+**What happened:** the same command measured 525 passed, 15 failed and 50 skipped in 55 seconds. The failures are seven tests in `tests/test_savio_runtime.py`, two in `tests/test_slow_watchdog.py`, and six in `tests/test_submit.py`. macOS bash is 3.2.57 (measured). `scripts/route_sample.sbatch` line 89 uses `exec {LOCK}>...`, which that bash reports as `exec: {LOCK}: not found`. The watchdog tests then raise `PermissionError` from `os.killpg`. These files were not part of the method edit.
+
+**What we did:** left the Savio scripts alone. They are written for the cluster's bash. The four new method tests were run on their own and passed (9 tests, measured).
+
 ## 2026-11-14: UniAD's setup job reinstalled the numpy pin it had just relaxed
 
 **Expected:** with `numpy==1.20.0` and `numba==0.48.0` relaxed in a copy of Bench2DriveZoo's requirements (neither has a Python 3.10 build, and Fail2Drive's CARLA client is 3.10 only), the editable install of Bench2DriveZoo would only compile its CUDA ops.
