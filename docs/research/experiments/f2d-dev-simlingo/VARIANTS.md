@@ -169,3 +169,13 @@ leads m08.** j05 is closest (0.284, -0.022 vs m08, p 0.59). Its FullyBlocked bes
 and m15 L8 w50's (0.17), below `all_tokens` L1 (m05, 0.35) and B7-pool (0.333); it gives up PedestriansOnRoad (0.45
 against 0.59). Its result reproduces exactly on a second run. Report and log:
 `results/savio/f2d-dev/simlingo/sprint/queue/`, `queue.log`.
+
+j11 (row written before scoring): j05 with each failing route's residual scaled to unit length before Ward, so
+clusters form on the direction a failure leaves its local passing neighbours, not on how far. Reason: on the sprint
+pool j05 is the closest `j` method to m08, and residual length mixes scene density with failure kind. Same defaults
+as j05 (k 10, pre-dims 32, L5+8+20 window; L10 on H21). One change from j05, no other setting tried.
+
+| id | date | pool | settings | score | p vs rivals | methods tried |
+|---|---|---|---|---|---|---|
+| j11 | 2026-11-16 | sprint | j05 residuals scaled to unit length, Ward 2/3/5 | | | 118 |
+| j11 | 2026-11-16 | H21 | same, L10 | | | 119 |
