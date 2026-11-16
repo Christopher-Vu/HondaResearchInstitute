@@ -5,6 +5,35 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — j08 built: let cluster stability choose between speed and activation clusters; scoring queue ready
+
+Still no multi-layer cache, so no method try was spent (78 tried in total: 71 Chris, 7 `j`). The round did two
+things that make the first real scoring run fast and less arbitrary.
+
+**j08** (`03ec86b`, `docs/research/experiments/f2d-dev-simlingo/j08_stability.py`). The pools disagree about which
+signal carries the gaps. On H21 the four speed features beat layer 10 even with labels; on Chris's pool the
+behaviour rival scores 0.093 and activation layers lead (both measured, dev). Any method that commits to one
+view is a bet on the pool. j08 makes candidate clusters from every view (the speed block, and each default
+activation layer on its own), then ranks them by stability: how closely each cluster reappears when the failing
+routes are subsampled to 80% and re-clustered 100 times. That is Hennig's clusterwise Jaccard stability
+(*Computational Statistics & Data Analysis* 2007, checked against Crossref and the abstract, now in
+`docs/research/literature-review.md`). It reads only pass/fail. Clusters larger than half the failing routes are
+dropped, since a catch-all is always stable and its Jaccard with a 17- to 24-route gap is capped low. Grok
+wrote it with five tests; Gemini wrote an independent version from the same spec, and on H21 the two give the
+same 9 axes with the same stabilities. On a synthetic cache with planted groups its top three axes are exactly
+the planted groups (synthetic, measured). Hennig's abstract also warns that some clusters are stable only
+because the clustering method is rigid, which is the main way j08 could fail.
+
+**Scoring queue.** A Grok worker wrote the full first-run queue (outside the repo, in the loop's own folder): a
+no-try check of how much speed explains each default layer, the real B3-behaviour build, Chris's m08 as an
+extra rival, then j04, j02, j03, j05, j08, and j06/j07 only if speed explains at least 25% of a layer, with
+chance recomputed from failing routes beside each score. It runs end to end on the synthetic cache in about
+30 seconds (measured). Rows go into `VARIANTS.md` before it runs.
+
+j08 has no score anywhere yet, and it was not scored on H21, which this loop retired for method tries last round.
+
+---
+
 ## 2026-11-15 — Even with the labels, layer 10 on H21 says less than speed: H21 stops taking method tries
 
 No new data arrived, so this session spent no method try. Instead it ran a check that reads the gap labels on
