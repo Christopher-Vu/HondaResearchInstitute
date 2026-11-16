@@ -68,6 +68,11 @@ def chance(axes, gaps, pool: list[str], rng) -> float:
     return float(np.mean([mean_best(d, gaps) for d in draws]))
 
 
+def failing_ids(failed: dict[str, bool]) -> list[str]:
+    """B1 samples candidate axes from the failures that methods may describe."""
+    return sorted(route for route, did_fail in failed.items() if did_fail)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--method", action="append", required=True, help="a method file or directory spec")
@@ -87,7 +92,7 @@ def main() -> None:
     slices = lambda c: {str(e["id"]) for e in manifest if e["role"] == "pilot_slice" and c in e["practice_gaps"]}
     gaps = {c: {r for r in slices(c) if failed.get(r)} for c in args.gaps}
     decoys = {c: slices(c) & failed.keys() for c in args.decoys}
-    pool = sorted(failed)
+    pool = failing_ids(failed)
     pair_of = {str(e["id"]): e["pair"] for e in manifest}
     pairs = sorted({pair_of[r] for r in pool})
     index = {p: i for i, p in enumerate(pairs)}

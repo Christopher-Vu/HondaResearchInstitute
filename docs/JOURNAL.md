@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — correct the discovery sprint's chance baseline
+
+Jerry's review of the development-only sprint scorer found that its `chance_B1`
+column drew random axes from every scored route, including clean drives. The
+methods being compared can only describe failing routes, and the project's B1
+baseline follows that same rule. The scorer now filters the candidate pool to
+failed routes before drawing the size-matched random axes. This changes only
+the descriptive `chance_B1` column; the method-versus-rival deltas, bootstrap
+intervals and p-values do not use it. A regression test fixes the candidate-pool
+contract. The already-written sprint rows need a future report-only rerun before
+anyone repeats an "above chance" statement.
+
+---
+
 ## 2026-11-14 — third-model bring-up started, paused on a dropped Savio connection
 
 This session starts bringing up a third driving policy on Fail2Drive: UniAD or VAD, two camera-only models from Bench2DriveZoo. It runs in parallel with the SimLingo method loop and must never delay it (`docs/prompts/third-model-bringup.md`). The bring-up prompt's line on the cache script was out of date, so it now names `docs/research/experiments/f2d-dev-simlingo/cache_pool.py` (02a1daa). The required reading is done, and a heads-up is posted on the agent channel (issue 9).
