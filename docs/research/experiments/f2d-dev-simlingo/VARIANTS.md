@@ -155,9 +155,17 @@ scores are read.
 
 | id | date | pool | settings | score (PedestriansOnRoad / FullyBlocked / BadParking) | p vs B3-behaviour / B7-pool / m08 / B3-infraction | methods tried |
 |---|---|---|---|---|---|---|
-| j04 | 2026-11-16 | sprint | passing-covariance whitening, pre-dims 32, dims 8, ridge default, Ward 2/3/5 | | | 112 |
-| j02 | 2026-11-16 | sprint | cPCA, pre-dims 32, dims 8, alpha by eigengap, Ward 2/3/5 | | | 113 |
-| j03 | 2026-11-16 | sprint | m03 embedding at L5, L8, L20 and `all_tokens` L1, Ward 8/12/16, size band, ranked by cohesion, round-robin | | | 114 |
-| j05 | 2026-11-16 | sprint | unwhitened PCA 32, minus mean of 10 nearest passing routes, Ward 2/3/5 | | | 115 |
-| j06 | 2026-11-16 | sprint | gated: OLS residual on behaviour features, then j01 | | | 116 if run |
-| j07 | 2026-11-16 | sprint | gated: 2 behaviour strata, then j01 within each, cuts 2/3 | | | 117 if run |
+| j04 | 2026-11-16 | sprint | passing-covariance whitening, pre-dims 32, dims 8, ridge default, Ward 2/3/5 | 0.194 (0.24 / 0.16 / 0.18); failing-only chance 0.081 | +0.101, p <0.001 / not scored / -0.112, p 0.91 / +0.002, p 0.50 | 112 |
+| j02 | 2026-11-16 | sprint | cPCA, pre-dims 32, dims 8, alpha by eigengap, Ward 2/3/5 | 0.198 (0.27 / 0.15 / 0.17); chance 0.081 | +0.105, p <0.001 / not scored / -0.108, p 0.87 / +0.006, p 0.43 | 113 |
+| j03 | 2026-11-16 | sprint | m03 embedding at L5, L8, L20 and `all_tokens` L1, Ward 8/12/16, size band, ranked by cohesion, round-robin | 0.052 (0.03 / 0.00 / 0.13); chance 0.078 | -0.041, p 0.82 / not scored / -0.255, p 0.99 / -0.141, p 0.99 | 114 |
+| j05 | 2026-11-16 | sprint | unwhitened PCA 32, minus mean of 10 nearest passing routes, Ward 2/3/5 | **0.284** (0.45 / **0.23** / 0.16); chance 0.078 | +0.191 [+0.062, +0.318], p <0.001 / not scored / -0.022 [-0.192, +0.102], p 0.59 / +0.091 [-0.051, +0.232], p 0.12 | 115 |
+| j06 | 2026-11-16 | sprint | gate passed (max kin R² 0.269 at L5): OLS residual on behaviour features, then j01 | 0.165 (0.30 / 0.08 / 0.12); chance 0.083 | +0.072, p 0.015 / not scored / -0.141, p 0.95 / -0.027, p 0.59 | 116 |
+| j07 | 2026-11-16 | sprint | gate passed (max kin R² 0.269 at L5): 2 behaviour strata, then j01 within each, cuts 2/3 | 0.196 (0.32 / 0.11 / 0.16); chance 0.083; strata 263 / 94 | +0.102, p <0.001 / not scored / -0.111, p 0.86 / +0.003, p 0.28 | 117 |
+
+Scored 2026-11-16 (measured, dev, 117 tried in total: 104 Chris + 13 `j` tries across both pools). The B7-pool directives
+directory was not in the copy, so B7-pool is not a rival in these reports (Chris's B7-pool: 0.187, FullyBlocked
+0.333). The rebuilt rivals match Chris's numbers: B3-behaviour 0.093, m08 0.306, B3-infraction 0.192. **No `j` method
+leads m08.** j05 is closest (0.284, -0.022 vs m08, p 0.59). Its FullyBlocked best (0.234) is above m08's (0.149)
+and m15 L8 w50's (0.17), below `all_tokens` L1 (m05, 0.35) and B7-pool (0.333); it gives up PedestriansOnRoad (0.45
+against 0.59). Its result reproduces exactly on a second run. Report and log:
+`results/savio/f2d-dev/simlingo/sprint/queue/`, `queue.log`.
