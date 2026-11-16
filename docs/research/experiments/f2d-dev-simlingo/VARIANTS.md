@@ -196,5 +196,12 @@ translation of j01 and Ward gives j01's axes. Same layers as j05 (L5+8+20 window
 
 | id | date | pool | settings | score | p vs rivals | methods tried |
 |---|---|---|---|---|---|---|
-| j12 | 2026-11-16 | sprint | passing-only GMM (BIC 1-6) responsibility-mean residual, PCA 32, Ward 2/3/5 | pending | pending | 120 |
-| j12 | 2026-11-16 | H21 | same, L10 | pending | pending | 121 |
+| j12 | 2026-11-16 | sprint | passing-only GMM (BIC 1-6, picked K 5) responsibility-mean residual, PCA 32, Ward 2/3/5, commit `bd3db40` | 0.182 (0.17 / 0.21 / 0.16); failing-only chance 0.081 | B3-behaviour +0.089, p <0.001 / m08 -0.125, p 0.89 / B3-infraction -0.011, p 0.54 | 120 |
+| j12 | 2026-11-16 | H21 | same, L10 (picked K 3) (CustomObstacles / Wall / PedestriansOnRoad) | 0.209 (0.29 / 0.25 / 0.09); failing-only chance 0.189 | B3-kin -0.117, p 0.85 / m03 L10 -0.033, p 0.42 | 121 |
+
+j12 is below the best rival on both pools (measured, dev, 121 tried in total: 104 Chris + 17 `j`). On the sprint pool
+it keeps j05's FullyBlocked (0.21 against 0.23) but loses PedestriansOnRoad (0.17 against 0.45): a few global
+background modes do not do what j05's 10 nearest passing routes do, so j05's gain needs a local background. j12 is
+dropped. Grok's j12 and Gemini's independent reimplementation (own PCA and mixture code) give the same K and the same
+10 ordered route sets on both pools. A no-try check: j05's axes at k 5 and 20 match its k 10 axes with mean best-match
+Jaccard 0.87 / 0.86 (sprint) and 0.94 / 0.89 (H21) (measured, route ids only), so k 10 is not a fragile choice.
