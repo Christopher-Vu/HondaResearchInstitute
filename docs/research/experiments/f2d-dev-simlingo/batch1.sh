@@ -27,7 +27,7 @@ for SPEC in ${MORE:-}; do
   METHODS+=(--method "$SPEC")
 done
 python "$E/sprint_score.py" "${METHODS[@]}" \
-  --rival B3_behaviour="$S/sprint/b3_behaviour.json" --rival B7_pool="$V:B7_pool:L10_k64_s0" \
+  --rival B3_behaviour="$S/sprint/b3_behaviour.json" --rival B7_pool="$V:B7_pool:L10_k64_s0" ${RIVALS:-} \
   --manifest configs/rollout/f2d-test-simlingo.manifest.json --routes results/savio/f2d-test-simlingo/routes.jsonl \
   --gaps F2D_PedestriansOnRoad F2D_FullyBlocked F2D_BadParking \
   --decoys F2D_Animals F2D_ConstructionPermutations F2D_ImageOnObject F2D_ObscuredStop F2D_PassableObstacles F2D_RightOfWay \
