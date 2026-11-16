@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — j13, removing local scene variation from j05, loses j05's pedestrian score
+
+j13 starts from j05's residual (a failing route minus the average of its 10 nearest passing routes). It then removes
+the part of that residual that lies along the two main directions in which those 10 passing routes differ from each
+other. The idea, from local tangent-space methods (Zhang and Zha 2004, checked on Crossref), is that those directions
+are ordinary scene variation, so what is left is the part that no nearby passing route shows. Rows were committed
+before scoring (`5c04835`), with a kill rule fixed in advance: drop j13 if its PedestriansOnRoad score falls below
+j05's 0.45. Code and tests in `8984004`; scores in `1f4e12a`.
+
+Measured, dev, 123 methods tried in total (104 Chris, 19 ours): j13 scores 0.218 on Chris's sprint pool (m08 0.306,
+j05 0.284) with PedestriansOnRoad 0.27, so the kill rule fires; on Jerry's H21 pool it scores 0.207 (the kin-only rival
+0.326). The step removes only about a tenth of the residual's squared length, yet it changes four of the ten scored
+clusters. So j05's pedestrian result rests on one cluster split that a small change undoes. That matters when Chris
+weighs j05 against m08. Grok's code, Gemini's separate version and a rerun by the orchestrator gave identical axes.
+j13 is dropped. No candidate.
+
+---
+
 ## 2026-11-16 — j12, a mixture model of passing routes, does not help; j05 needs a local background
 
 j05 (the closest of our methods to Chris's m08) subtracts from each failing route the average of its 10 nearest
