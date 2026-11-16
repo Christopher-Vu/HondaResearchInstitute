@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — j12, a mixture model of passing routes, does not help; j05 needs a local background
+
+j05 (the closest of our methods to Chris's m08) subtracts from each failing route the average of its 10 nearest
+passing routes, then clusters what is left. j12 asked whether any model of "normal" routes would do the same. It
+fits a Gaussian mixture (a few overlapping bell-shaped clusters, their number picked by the Bayesian information
+criterion) to passing routes only, and subtracts from each failing route the mixture's expected position for it.
+Rows were committed before scoring (`aade038`); code and tests in `bd3db40`; scores in `02dbcca`.
+
+Measured, dev, 121 methods tried in total (104 Chris, 17 ours): j12 scores 0.182 on Chris's sprint pool (m08 0.306)
+and 0.209 on Jerry's H21 pool (the kin-only rival 0.326). It keeps j05's FullyBlocked score but loses most of its
+PedestriansOnRoad score (0.17 against 0.45), so what makes j05 work is that its background is local. Two
+independent implementations (Grok's and Gemini's) gave identical axes. j12 is dropped.
+
+Two checks that cost no try: j05's axes barely change when its neighbour count is 5 or 20 instead of 10 (mean
+best-match overlap 0.86 to 0.94, measured). And every method clustered with Ward cuts 2, 3 and 5, m08 included,
+repeats 2 or 3 of its 10 scored axes, because a cluster that does not split at the next cut is listed again.
+Dropping repeats would be a change to Chris's shared scripts, so it is left as a proposal for him. No candidate.
+
+---
+
 ## 2026-11-16 — the `j` methods meet Chris's sprint pool; none leads m08
 
 Chris's SimLingo sprint cache arrived on the loop machine (`results/savio/f2d-dev/simlingo/`: the 6-frame cache,
