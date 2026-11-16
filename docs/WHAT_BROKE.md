@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-15: the sprint scorer's chance column draws random axes from passing routes too
+
+**Expected:** `sprint_score.py`'s `chance_B1` would be B1 as the project defines it: random axes of the method's own sizes, drawn from failing routes (`src/baselines/random_baseline.py`, `draw_directive`: "Sampling is from failing rollouts only ... so B1 is not handicapped by wasting its budget on successes").
+
+**What happened:** `chance()` samples from `pool = sorted(failed)`, the keys of `load_pool`'s outcome map, which hold every scored route, passing ones included. A Gemini review of the H21 scoring setup flagged it; checked by reading the code. On the H21 pool (200 routes, 52 failing) the reported chance is 0.03 to 0.09, and the same draw from failing routes only is 0.17 to 0.18 for every 10-axis method (measured, 50 draws). There, j04 (0.193), j01 (0.231) and m03 at L10 (0.242) sit barely above a failing-only random draw. Rival comparisons and p values do not use this column and are unaffected. Chris's pool has 357 of 1,185 routes failing, so its chance column is probably low as well (guess, not recomputed).
+
+**What we did:** left `sprint_score.py` alone, since it is Chris's shared scorer, and recorded the failing-only chance beside the H21 scores in `VARIANTS.md`. The fix is one line (`pool = sorted(r for r, f in failed.items() if f)`) and needs Chris's agreement.
+
 ## 2026-11-15: j04 and j02 passed their tests but could not work at the real shapes
 
 **Expected:** `j04` (whiten with the passing routes' covariance, keep the coordinates with the largest failure second moment) and `j02` (contrastive PCA) would behave on the SimLingo dev cache as they did in their unit tests.
