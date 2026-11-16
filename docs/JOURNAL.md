@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — a check rules out j16; no new method tried
+
+The plan was j16: drop the failing routes that look like their passing neighbours, then run j05's clustering, in case
+such routes dilute the groups. A check first, which costs no try: compare each failing route's distance from its 10
+most similar passing routes with the same distance for passing routes. Measured: 94% of failing routes on Chris's
+sprint pool and all 52 on Jerry's H21 pool are farther than 90% of passing routes. So the filter would remove almost
+nothing, and j16 was not run (its rule, written beforehand, required 20% to 80%). Nearly every failing route stands
+apart from its neighbours, which marks it as failing but not which failure it is. Note in
+`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`. Still 126 methods tried (104 Chris, 22 ours); no candidate.
+
+---
+
 ## 2026-11-16 — j15, density clusters on j05's residuals, fails
 
 j15 kept j05's embedding (each failing route's activations minus the average of its 10 most similar passing routes)

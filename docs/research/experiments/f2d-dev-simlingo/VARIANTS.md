@@ -285,3 +285,14 @@ by peeling points off one at a time (316, 339, 295 and 278 of 357 routes) and a 
 independent version (scikit-learn's internal single-linkage and condense code, own stability) find the same 44
 clusters with the same stabilities; nine of the ten axes are identical and the tenth differs by one route that sits on
 a three-way tie in mutual reachability (both choices valid). Both score 0.063.
+
+No-try check (label-free beyond pass/fail, route ids only; 126 tried in total, unchanged): is j05's residual length a
+usable filter? Each passing route's residual against its 10 nearest *other* passing routes (leave-one-out, j05's PCA 32
+space) gives a passing reference. Measured: sprint pool, passing median 1.92, 90th percentile 4.18, failing median 8.11,
+so 94.4% of failing routes (337 of 357) lie above the passing 90th percentile; H21 (L10), passing 90th percentile 4.62,
+failing median 7.62, 100% (52 of 52) above it. The planned j16 (keep only failing routes above the passing 90th
+percentile, then j05's Ward) was set to run only if that share fell between 20% and 80%. It does not, so the filter
+would drop almost nothing: j16 is not run and costs no try. Reading: almost every failing route sits far from its
+passing neighbours, consistent with m19's note that failing windows are told apart from passing ones by where they end,
+so residual size marks "failing", not which failure. Script `/tmp/ar-r75/diag.py`; it asserts its failing residual
+lengths equal j05's embedding.
