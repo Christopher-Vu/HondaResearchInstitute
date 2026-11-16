@@ -5,6 +5,33 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — j10 built: the second temporal method, and a one-command path for scoring both
+
+Still no SimLingo cache from Chris's pool, and no per-frame cache from either pool, on the loop machine, so
+nothing was scored (111 tried in total: 104 Chris, 7 `j`).
+
+- **`j10_hmmfisher.py`** (`080120a`) keeps j09's model (same frames, layer 8, 16-dimension projection, hidden
+  Markov model with 4, 6 or 8 states chosen by BIC) and changes only how a failing route is described. j09 counts
+  how long a route spends in each state. j10 records where the route's frames sit *inside* each state: its
+  Fisher score (Jaakkola and Haussler 1998, the gradient of the route's log-likelihood with respect to each state's
+  mean), divided by route length. Reason: two routes can visit the same states for the same time and still differ
+  inside them, and a window mean misses this when the differences cancel across states.
+- Checks (synthetic, measured, 3 seeds): when the groups differ only inside states by 0.9 of the per-frame spread,
+  j10 recovers them at best Jaccard 0.96–0.98, while j09 scores 0.22–0.25 and the window mean 0.22–0.23. At half
+  the spread j10 gets 0.64 (seed 0). On j09's own test, where groups differ only in order, j10 scores 0.28–0.37,
+  so the two methods catch different things. Gemini wrote an independent version; route features agree with
+  Grok's to 3e-14 on two synthetic caches (I ran both).
+- A no-label diagnostic (`frames_diag.py`) and a scoring script for the per-frame methods were written outside the
+  repo, in the loop's queue folder, and dry-run on synthetic data. The diagnostic flags a dominant state, states
+  that last longer than the 50-frame window, and route embeddings that track route length. Those are the three
+  ways an HMM embedding can fail on real frames.
+- `sprint_score.py`'s chance column (after Chris's fix) now matches the loop's failing-only chance on the H21 pool,
+  0.179 for j02 (measured). The 0.03–0.09 values in the round-5 H21 report predate the fix.
+- Literature for a possible third temporal method (slow feature analysis, time-contrastive learning, contrastive
+  predictive coding, per-route linear dynamics) was checked against Crossref and OpenAlex and added to
+  `docs/research/literature-review.md`. Gemini gave a wrong DOI for Wiskott and Sejnowski and the wrong journal for
+  De Cock and De Moor; both are listed as do-not-use.
+
 ## 2026-11-15 — j09 built: a hidden Markov model over the frames before failure, and the exporter it needs
 
 No SimLingo cache from Chris's pool has reached the loop machine yet, so no method was scored (111 tried in total:

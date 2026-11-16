@@ -76,6 +76,20 @@ Background for `j09`, which fits one Gaussian hidden Markov model (HMM: a small 
 
 **Do not use** (Gemini's metadata, wrong): DOI 10.1109/CVPR.2003.1211376 (a different paper); 10.1007/3-540-70659-3_9 and "SSPR 2002, LNCS 2396" for Bicego 2002 (a different paper, and the venue is MLDM 2003); 10.1016/j.patcog.2004.05.006 (a different paper); a Celeux and Durand paper in *CSDA* 52(4):2071–2085 (not found). Keribin, "Consistent estimation of the order of mixture models", *Sankhyā A* 62(1):49–66 (2000) was not found in Crossref or OpenAlex, so it is not cited until someone checks it another way. Report: `/tmp/ar-cite-hmm/report.md` on the loop machine.
 
+### Self-supervised embeddings of frame sequences (added 2026-11-15, autoresearch loop)
+
+Candidates for a third temporal method after `j09` (HMM occupancy and transitions) and `j10` (HMM emission-mean Fisher score). A Gemini worker proposed them from memory; I checked the metadata against Crossref and OpenAlex (arXiv's API answered 429, rate exceeded, so it was not retried). Only metadata was checked, so the "what it does" column is unverified.
+
+| Work | What it does (unverified) | Check |
+|---|---|---|
+| Wiskott, Sejnowski, "Slow feature analysis: unsupervised learning of invariances", *Neural Computation* 14(4):715–770 (2002), [doi:10.1162/089976602317318938](https://doi.org/10.1162/089976602317318938) | Linear directions whose values change most slowly over time | Crossref |
+| Hyvärinen, Morioka, "Unsupervised feature extraction by time-contrastive learning and nonlinear ICA", arXiv:1605.06336 (2016) | Learns features by classifying which time segment a frame came from | OpenAlex (arXiv record) |
+| van den Oord, Li, Vinyals, "Representation learning with contrastive predictive coding", arXiv:1807.03748 (2018) | Learns a context that predicts future frames against negatives | OpenAlex (arXiv record) |
+| Schmid, "Dynamic mode decomposition of numerical and experimental data", *J. Fluid Mech.* 656:5–28 (2010), [doi:10.1017/S0022112010001217](https://doi.org/10.1017/S0022112010001217) | Fits a linear operator from each snapshot to the next and reads its eigenvalues | Crossref |
+| De Cock, De Moor, "Subspace angles between ARMA models", *Systems & Control Letters* 46(4):265–270 (2002), [doi:10.1016/s0167-6911(02)00135-4](https://doi.org/10.1016/s0167-6911(02)00135-4) | A distance between fitted linear dynamical models | Crossref |
+
+**Do not use** (Gemini's metadata, wrong): doi:10.1162/089976602317318965 for Wiskott and Sejnowski (it resolves to a Hasselmo et al. paper in the same issue), and the subtitle "Invariant Representations"; "IEEE Trans. Automatic Control 47(8):1398–1402, doi:10.1109/TAC.2002.801552" for De Cock and De Moor (not found; the paper is in *Systems & Control Letters*).
+
 ## What this means for us
 
 1. **Our negative result is ordinary for this field.** The reference method recovers about a third of planted groups on its own benchmark, and people gain only a little from these tools. A behaviour baseline beating activations on 16 failures does not show that activations are useless, and it does not suggest a quick fix either.
