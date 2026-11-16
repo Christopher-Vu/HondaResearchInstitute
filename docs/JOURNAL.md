@@ -5,6 +5,36 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — a stopped car takes the temporal methods' top axes on synthetic data
+
+Nothing new arrived: no cache from Chris's pool, no per-frame cache from either pool, and no new rows from Chris.
+No method was scored (111 tried in total: 104 Chris, 7 `j`).
+
+The question was whether j09 and j10 would just read speed, as every window-mean method did on the H21 pool. j09
+is the hidden Markov model (HMM) method that embeds a route by how often it visits each state. j10 embeds a route
+by where its frames sit inside each state (a Fisher score). Most Fail2Drive failures end with the car stopped, and
+a stopped car gives near-identical frames. So the check was synthetic: take the two test plants, replace the last
+10–40 frames of 50% (N1) or 85% (N2) of failing routes, and 15% of passing routes, with one fixed vector plus
+small noise, chosen independently of the planted groups. Two workers wrote the check independently and I ran
+both. A third run is a control that deletes those frames instead of replacing them, which separates "the stop
+took the axes" from "the stop erased the signal". Files: `results/explore/stop-nuisance/` on the loop machine (results are not in git).
+
+Measured, synthetic only, means over seeds 0–2:
+- The HMM gives the stopped frames their own state every time (posterior mass 1.0).
+- j09 and the window mean become stop-length detectors. Their first principal component tracks stop length
+  (|Spearman rho| 0.86–0.98, against 0.03–0.12 in the delete-only control), and the stopped routes take one of
+  their top 3 axes (best Jaccard 0.46–0.64 above a shuffle null at N1).
+- j10 is much less coupled to stop length (|rho| 0.03–0.15). It still loses planted recovery: 0.97 with no
+  stop, 0.58 at N1 and 0.36–0.40 at N2. The delete-only control gives 0.81 and 0.66, so about half the loss
+  comes from the stop taking its axes and half from frames being erased.
+
+What this means for real data: if j09 scores well on Chris's pool, check first that its axes are not just stop
+length. `failure_time.py` times a blocked car at the moment it stopped, so failing windows mostly hold the
+approach. The stopped tails that remain are untimed failures (timeouts) and passing routes. A code review of the
+frames scoring path (`frames_queue.sh`, kept outside the repo) found nothing that would crash or misreport. Its
+two "high" findings were false: one came from where the review copy sat, and the other assumed a flag that does
+exist. No third temporal method is built until j09 and j10 have real scores.
+
 ## 2026-11-15 — j10 built: the second temporal method, and a one-command path for scoring both
 
 Still no SimLingo cache from Chris's pool, and no per-frame cache from either pool, on the loop machine, so
