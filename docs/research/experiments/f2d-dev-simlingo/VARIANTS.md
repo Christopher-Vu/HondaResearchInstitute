@@ -218,5 +218,14 @@ below j05's 0.45. Same layers as j05 (L5+8+20 window; L10 on H21). One setting (
 
 | id | date | pool | settings | score | p vs rivals | methods tried |
 |---|---|---|---|---|---|---|
-| j13 | 2026-11-16 | sprint | j05 residual minus its projection on the top 2 local PCs of its 10 nearest passing routes, PCA 32, Ward 2/3/5 | pending | pending | 122 |
-| j13 | 2026-11-16 | H21 | same, L10 | pending | pending | 123 |
+| j13 | 2026-11-16 | sprint | j05 residual minus its projection on the top 2 local PCs of its 10 nearest passing routes, PCA 32, Ward 2/3/5, commit `8984004` | 0.218 (0.27 / 0.21 / 0.17); failing-only chance 0.080 | B3-behaviour +0.125, p 0.001 / m08 -0.088, p 0.84 / B3-infraction +0.026, p 0.44 | 122 |
+| j13 | 2026-11-16 | H21 | same, L10 (CustomObstacles / Wall / PedestriansOnRoad) | 0.207 (0.24 / 0.18 / 0.20); failing-only chance 0.177 | B3-kin -0.119, p 0.92 / m03 L10 -0.035, p 0.62 | 123 |
+
+j13 is below the best rival on both pools (measured, dev, 123 tried in total: 104 Chris + 19 `j`), and its fixed kill
+rule fires: sprint PedestriansOnRoad 0.27 against j05's 0.45. Dropped. The tangent step removes on average 29% of the
+residual length (10% of its squared length) on the sprint pool and 36% (15%) on H21 (measured), yet it moves the
+sprint cut-3 and cut-5 splits (per-axis Jaccard with j05's axes 0.0 to 0.71 on four of the ten) and costs most of
+j05's PedestriansOnRoad. Reading: j05's PedestriansOnRoad gain rests on a Ward split that a small change to the
+residual undoes, not on a robust direction. Grok's j13, Gemini's independent reimplementation (scikit-learn
+neighbours, its own PCA) and a rerun by the orchestrator give the same 10 ordered route sets on both pools.
+
