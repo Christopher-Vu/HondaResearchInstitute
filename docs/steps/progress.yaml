@@ -2,7 +2,7 @@
 # dashboard (dashboard/). Update it whenever docs/STATUS.md changes the answer.
 # Measured numbers are not copied here: `source` points at the config that holds them.
 
-updated: 2026-11-13
+updated: 2026-11-15
 # The step the team is working toward now. Earlier steps can still have open checks.
 current: 5
 
@@ -10,14 +10,15 @@ current: 5
 # `who` is a GitHub login, used for the avatar; next week's items are grouped by it.
 week:
   start: 2026-11-09
-  end: 2026-11-13
+  end: 2026-11-15
   done:
-    - {text: "All 100 Fail2Drive pairs driven: unseen routes fail more, 28 pairs against 4", who: Imhaohao}
-    - {text: "Methods frozen before reading Fail2Drive activations; they trail a behaviour baseline, 0.47 Jaccard", who: Imhaohao}
-    - {text: "H24 and H25 are not ahead; H26 replicates P4 but not P7", who: Imhaohao}
-    - {text: "Final dev-report summary written; no blind pool or Step 8 freeze", who: Imhaohao}
+    - {text: "Sprint tested 104 SimLingo development variants; best long-window clustering scored 0.312", who: Christopher-Vu}
+    - {text: "Infraction grouping baseline scored 0.192; no lead separates from it on development data", who: Christopher-Vu}
+    - {text: "B1 chance baseline now samples failing routes only; historical chance labels were corrected", who: Christopher-Vu}
+    - {text: "Cached activations let all sprint method scoring run on CPU, without new GPU jobs", who: Christopher-Vu}
   next:
-    - {text: "Review C34 to C38 and H22 to H26; decide whether the study closes at end state A", who: Christopher-Vu}
+    - {text: "Choose up to three finalists and freeze before the one TransFuser++ test score", who: Christopher-Vu}
+    - {text: "Restore shared Savio access, choose UniAD or VAD, then run one smoke pair", who: Christopher-Vu}
 
 steps:
   - id: 0

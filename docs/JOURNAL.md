@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-15 — update the dashboard's weekly sprint status
+
+The status dashboard reads `docs/steps/progress.yaml`, whose weekly summary
+still ended before the discovery sprint. It now covers the completed 104-variant
+CPU-only development sweep: its 0.312 best score, the 0.192 infraction-grouping
+rival, and the fact that the apparent leads are not separated from that stronger
+rival. The next column makes the two real handoffs visible: Chris selects and
+freezes finalists before the one TransFuser++ score, and restores Savio access
+for the third-model smoke run. A small test keeps dashboard summary entries
+attributed, non-empty, bounded to the stated 20-word limit, and date-ordered.
+
+---
+
 ## 2026-11-14 to 15 — discovery sprint: a fast scoring loop, two batches of methods, and Jerry's search joins
 
 The discovery sprint (`docs/prd-discovery-sprint.md`) started. A **cache pass** reads every SimLingo test-pool route once and writes per-route activation summaries for all 24 layers to one 0.3 GB file (`cache_pool.py`, job 41320891, about 1 SU). With it, a method runs and is scored in about 30 seconds on a CPU node, so nothing heavy runs on Chris's laptop and no method needs a GPU.
