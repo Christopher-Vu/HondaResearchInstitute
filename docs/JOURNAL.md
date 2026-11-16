@@ -21,9 +21,10 @@ took the axes" from "the stop erased the signal". Files: `results/explore/stop-n
 
 Measured, synthetic only, means over seeds 0–2:
 - The HMM gives the stopped frames their own state every time (posterior mass 1.0).
-- j09 and the window mean become stop-length detectors. Their first principal component tracks stop length
-  (|Spearman rho| 0.86–0.98, against 0.03–0.12 in the delete-only control), and the stopped routes take one of
-  their top 3 axes (best Jaccard 0.46–0.64 above a shuffle null at N1).
+- j09 and the window mean become largely stop-length detectors. Their first principal component tracks stop
+  length (|Spearman rho| 0.86–0.98 for the window mean and for j09 on j10's plant, 0.50–0.54 for j09 on its own
+  plant; 0.03–0.12 in the delete-only control). At N1 the stopped routes take one of their top 3 axes (best
+  Jaccard 0.46–0.64 above a shuffle null; 0.10 for j09 on its own plant).
 - j10 is much less coupled to stop length (|rho| 0.03–0.15). It still loses planted recovery: 0.97 with no
   stop, 0.58 at N1 and 0.36–0.40 at N2. The delete-only control gives 0.81 and 0.66, so about half the loss
   comes from the stop taking its axes and half from frames being erased.
