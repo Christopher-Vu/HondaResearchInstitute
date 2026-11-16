@@ -184,3 +184,17 @@ j11 is worse than j05 on the sprint pool (0.187 against 0.284) and better on H21
 best rival on both (measured, dev, 119 tried in total). Residual length carries signal on the sprint pool; j11 is
 dropped. Grok's j11 and an independent reimplementation (own kNN via scikit-learn) give the same 10 route sets on both
 pools.
+
+j12 (rows written before scoring; density/mixture lane): a background model of passing routes only. One unwhitened
+PCA 32 on all routes (as j05). A Gaussian mixture (full covariance, `reg_covar` 1e-3 times the mean passing score
+variance, 5 inits, seed 0) is fit on passing routes' scores alone, with the component count picked by BIC over 1 to 6
+on those passing routes; no failure kind is read. Each failing route's residual is its score minus the
+responsibility-weighted mean of the components, not whitened (j04's global whitening and j11's unit length both lost
+to j05's raw residual, so residual size is kept). Ward 2/3/5. Reason: tests whether j05's gain comes from a local
+background (10 nearest passing routes) or from any background-mode subtraction; if BIC picks 1 component, j12 is a
+translation of j01 and Ward gives j01's axes. Same layers as j05 (L5+8+20 window; L10 on H21). One setting, no sweep.
+
+| id | date | pool | settings | score | p vs rivals | methods tried |
+|---|---|---|---|---|---|---|
+| j12 | 2026-11-16 | sprint | passing-only GMM (BIC 1-6) responsibility-mean residual, PCA 32, Ward 2/3/5 | pending | pending | 120 |
+| j12 | 2026-11-16 | H21 | same, L10 | pending | pending | 121 |
