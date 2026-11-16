@@ -5,6 +5,29 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — j14, matching on the start of the route, fails; j05's clusters are stable
+
+j14 asked whether j05 picks its passing neighbours from the wrong place. j05 compares each failing route with the 10
+passing routes whose approach window (the last 6 frames before the failure) looks most alike, but that window already
+contains the failure. j14 instead picks the 10 passing routes whose first 6 frames look most alike, the way a matching
+study picks controls on what was known before the treatment (Abadie and Imbens 2006, checked on Crossref), and then
+subtracts their approach windows. Row committed before scoring (`2f6e9e7`) with a kill rule: drop if below j05's 0.284.
+Code and tests in `3f53e08`; score in `2171429`.
+
+Measured, dev, 124 methods tried in total (104 Chris, 20 ours): j14 scores 0.133 on Chris's sprint pool (m08 0.306,
+j05 0.284), so it is dropped. Its neighbours share fewer than 1 of 10 with j05's, and subtracting them barely shortens
+the residual, so the start of a route says little about its approach window. j05's gain needs neighbours matched on
+the window itself. Grok's code and an independent version written by the orchestrator gave identical clusters. H21 has
+no start-of-route data, so j14 ran on one pool only.
+
+A check that spent no try and read no answer: j05 and m08 were refit on 20 random 80% samples of the passing routes,
+and each original cluster was compared with its best match in the refit. j05's clusters come back with mean overlap
+0.90, m08's with 0.78 and m11's with 0.85 (measured, sprint pool; two independent computations agree); on H21, j05
+0.91 against 0.78. This corrects last entry's reading: j05 is not fragile to the background sample, only to changes
+in how its residual is defined. Details in `VARIANTS.md`. No candidate.
+
+---
+
 ## 2026-11-16 — j13, removing local scene variation from j05, loses j05's pedestrian score
 
 j13 starts from j05's residual (a failing route minus the average of its 10 nearest passing routes). It then removes
