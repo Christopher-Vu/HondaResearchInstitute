@@ -5,6 +5,10 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — H21b: Jerry's second dev pool gets two more traffic seeds
+
+Every leading method from Chris's sprint pool fell to near chance on Jerry's H21 pool, but H21 is one traffic seed with only 3 to 8 failures per category, so that warning is weak. Jerry approved driving H21's run again, unchanged except the traffic seed, on seeds 25 and 26 (`configs/rollout/f2d-h21b-s25.yaml`, `-s26.yaml`, commit `a3d2a16`). Each is 200 SimLingo routes, all 100 Fail2Drive pairs. Arrays 41405003 and 41405006 (A40, 3 routes per task, at most 20 tasks at once) are queued, with CPU scoring and shard export 41405007 and 41405008 after them. Cost about 1,140 SU (estimate, from H21's measured 570 SU per seed). Heads-up on issue 9. Next: build `cache_pool.py` and `frames_pool.py` caches on all three seeds, then rerun the track C replication on the larger pool.
+
 ## 2026-11-16 — Chris's leading methods rerun unchanged on H21: none carries over
 
 Jerry and Chris agreed a shared plan on issue 9; its first track is to rerun every current lead, unchanged, on

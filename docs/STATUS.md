@@ -12,6 +12,8 @@ Last updated: 2026-11-16 (Chris's leads rerun unchanged on H21: none carries ove
 
 ## Current position
 
+**2026-11-16, H21b queued (Jerry).** H21's run repeated on traffic seeds 25 and 26 (arrays 41405003, 41405006; scoring 41405007, 41405008; about 1,140 SU, estimate) to make Jerry's second dev pool 3 seeds deep before Chris freezes finalists. **Next:** caches on all three seeds, then rerun the H21 replication of every lead.
+
 **Third model (2026-11-14, started, paused mid-task).** Bring-up of UniAD or VAD on Fail2Drive, per `docs/prd-discovery-sprint.md` §7 and `docs/prompts/third-model-bringup.md`. Heads-up posted on issue 9. No model chosen, no code written, nothing submitted. Paused because the shared Savio connection dropped; Chris reopens it. **Next:** inspect `hri-dev/.runtime/fail2drive-src` on Savio for Bench2DriveZoo support, pick UniAD or VAD, then a smoke pair.
 
 **2026-11-16, current leads rerun unchanged on H21 (dev, measured, 134 tried in total).** m11, m16, m08, m15, m12 and j05 score 0.20 to 0.25 on H21, near failing-only chance (0.16 to 0.19) and below the behaviour rival B3-kin (0.326); on Chris's pool they score 0.28 to 0.31. Long windows rebuilt from H21's per-frame file. **Next:** unchanged: Chris's per-frame `frames.npz` so j09 can be scored on the sprint pool; B7-pool directory still not copied.
