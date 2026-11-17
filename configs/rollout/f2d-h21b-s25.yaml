@@ -1,0 +1,31 @@
+# H21b: H21's run (f2d-all.yaml) repeated unchanged on traffic seed 25, to enlarge Jerry's second SimLingo dev pool
+# (Jerry asked 2026-11-16). Every Fail2Drive pair, ids 25*100000+id. Dev only; public routes, never in the sealed key.
+#   python adapters/simlingo/fail2drive_pairs.py configs/rollout/f2d-h21b-s25.yaml <all 17 names> --seeds 25
+#   CARLA_LOCAL_TAR=<fail2drive simulator tar> CARLA_LOCAL_BUILD=fail2drive POLICY_VENV_LOCAL_TAR=... \
+#     bash scripts/submit.sh gpu_a40 --time=0-04:00:00 --array=0-66%20 scripts/route_sample.sbatch configs/rollout/f2d-h21b-s25.yaml 3
+
+name: f2d-h21b-s25
+step: 5
+scope: savio_f2d_h21b
+
+policy:
+  name: simlingo
+  ckpt_sha256: ec8943723d266ee9f5f56f45d153a163b22616960bfccb741965ea5daa700d28
+  cot: false
+  device: cuda                   # bfloat16 on CUDA via runtime-compatibility.patch
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive        # Fail2Drive's server, for its novel assets (configs/cluster/savio.yaml)
+  benchmark: fail2drive          # its leaderboard and scenario runner, pinned in route_run.FAIL2DRIVE_REVISION
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+capture_token_layers: [10, 11]
+
+route:
+  seed: 25                       # traffic seed; H21 used 24, the test pools 101-106
+  routes_file: configs/rollout/f2d-h21b-s25.xml
+  manifest: configs/rollout/f2d-h21b-s25.manifest.json   # the route list; this config has no `routes` key
