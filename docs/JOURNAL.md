@@ -5,6 +5,21 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — How stable batch 4's leads are when the passing routes are resampled
+
+Chris's plan asks for stability under resampling for every lead. This session measured it for batch 4's pools on
+H21 (m23, m44, m40, m41 and the views they pool) and for m41 on Chris's pool. The check is the same one used
+earlier for j05, m08 and m11. Each method is refitted 20 times, each time on a random 80% of the passing routes,
+with every failing route kept. Then we ask how well each of its original top-10 groups of failing routes comes back.
+"Best-match Jaccard" is the overlap between the original group and the closest refitted one, from 0 to 1. The check
+reads no labels beyond pass/fail and no gap names, and it is not a try.
+
+Measured: m23 0.88, m44 0.88, m40 0.88, m41 0.85 on H21, and m41 0.88 on Chris's pool. That is level with m11 (0.85),
+above m08 (0.78) and below j05 (0.90). In every pool the first six groups come back almost exactly. The unstable ones
+are the lower-ranked, finer-cut groups in slots 7 to 10. Two independent implementations (a Codex worker and a Terra
+worker) agree to every printed digit. Table and reading: `VARIANTS.md`, end of "Replication of batch 4's leads on H21"
+(`fed5d5f`). m23, m40 and m44 could not be checked on Chris's pool, since its 50-frame cache is not on this machine.
+
 ## 2026-11-16 — Batch 4's leads rerun on H21: the whole-route pool m23 carries over, the L20 pools do not
 
 Chris's overnight batch 4 found that pooling a 50-frame-window view with a whole-route view covers two gaps on his
