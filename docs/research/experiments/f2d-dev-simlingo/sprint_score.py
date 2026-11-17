@@ -93,6 +93,7 @@ def main() -> None:
     parser.add_argument("--tried", type=int, required=True, help="methods tried on this pool so far, this one included")
     parser.add_argument("--replicates", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--label", default="DEV: SimLingo Fail2Drive test pool; p values exploratory")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -136,7 +137,7 @@ def main() -> None:
         if rivals:
             rows[m]["vs"] = {r: contrast(m, [r]) for r in rivals}
             rows[m]["vs_best_rival"] = contrast(m, [r for r in rivals if r not in reported])
-    report = {"label": "DEV: SimLingo Fail2Drive test pool; p values exploratory", "methods_tried": args.tried,
+    report = {"label": args.label, "methods_tried": args.tried,
               "budget_m": M, "gaps": {c: len(g) for c, g in gaps.items()},
               "decoys": {c: len(d) for c, d in decoys.items()}, "primary_rival": args.primary_rival,
               "reported_rivals": sorted(reported), "rows": rows}
