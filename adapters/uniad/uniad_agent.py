@@ -29,6 +29,7 @@ import carla
 import cv2
 import numpy as np
 import torch
+from Bench2DriveZoo.team_code import uniad_b2d_agent
 from Bench2DriveZoo.team_code.uniad_b2d_agent import UniadAgent
 from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
 from torch import nn
@@ -74,8 +75,9 @@ class UniadCaptureAgent(UniadAgent):
         self.world_state: WorldStateReader | None = None
         self.pending_state: dict[str, Any] = {}
         # Upstream joins 'Bench2DriveZoo/...' to the working directory for its anchors and plugin, and names its
-        # save folder from `now` unless IS_BENCH2DRIVE is set.
-        os.environ.setdefault("IS_BENCH2DRIVE", "1")
+        # save folder from `now` unless IS_BENCH2DRIVE is set. It reads that flag at import, so the environment variable
+        # is too late here; set the module global instead.
+        uniad_b2d_agent.IS_BENCH2DRIVE = "1"
         here = os.getcwd()
         os.chdir(os.environ["UNIAD_ZOO_PARENT"])
         try:
