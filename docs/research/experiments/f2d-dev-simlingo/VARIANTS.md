@@ -943,3 +943,24 @@ interval clear of zero once the rival was fixed.
 Why the interval is so wide: TransFuser++ has 2 gaps and 25 failing pairs against SimLingo's 3 and 63, so the
 mean over gaps moves with every resampled pair. The point estimate is the bigger problem: 0.117 is near chance, so
 low power does not explain the drop from 0.372.
+
+### Round 2, batch 1 (prereg A3; Chris, 2026-11-17: "start the methodology search"), CPU, pooled over two models
+
+Dev is now SimLingo plus TransFuser++. Every method runs on both models with the same settings, with layers given as
+fractions of depth. Scoring uses `pooled_score.py`: mean best Jaccard over all 5 (model, gap) units, each weighted
+equally, with Fail2Drive pairs resampled jointly across models. m23 and m40 are reference rows, not tries. Script:
+`round2.sh`. Rows written before any score.
+
+| id | idea | settings | tried after |
+|---|---|---|---|
+| r01 | layer chosen per model by an outcome probe | window and whole-route `--auto-layers 1`, pooled | 191 |
+| r02 | activations plus fleet kinematics, for PedestriansOnRoad | m06 window at 8/23, pooled with whole-route 8/23 | 192 |
+| r03 | m23 pooled with B3-infraction's axes (hybrid; flagged as such) | round-robin of m23 window, whole-route 8/23, B3-infraction | 193 |
+| r04 | error-aware embedding | m04 window at 8/23, pooled with whole-route 8/23 | 194 |
+| r05 | change before failure | m07 window at 8/23, pooled with whole-route 8/23 | 195 |
+| r06 | depth-spread window | m03 window at fractions 0, 1/3, 2/3 and 1, pooled with whole-route 8/23 | 196 |
+| r07 | window plus vision bridge | m03 window at 8/23 with `--extra vision_bridge:0`, pooled with whole-route 8/23 | 197 |
+
+**Finalist rule for round 2, fixed now.** A candidate must have a higher pooled score than m23, beat B3-behaviour on
+each model separately, and then pass the robustness rule used before the first freeze (beat all rivals in at least 80%
+of resamples, axis stability of at least 0.6, neighbours within 0.05). At most 3 are frozen.
