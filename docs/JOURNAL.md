@@ -5,6 +5,23 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — The sprint leads' FullyBlocked score rests on their least stable axis
+
+Chris's 50-frame sprint cache reached this machine this evening, so this session ran the resampling check (refit on
+20 random 80% subsets of the passing routes, as in the entry below) for m23, m40 and m44 on Chris's own pool. The
+rebuilt full-data axes were rescored first and reproduce Chris's recorded scores exactly. No method was changed and
+no try was spent; 169 methods have been tried in total.
+
+Measured: m23 is the least stable lead on this pool (mean best-match Jaccard 0.79, against 0.87 for m40 and m44),
+because its whole-route layer-8 axes move between resamples. In all three, the FullyBlocked score (0.35) comes from
+the tenth and last axis in the budget, a six-route axis that recovers in only 40 to 65% of resamples. Scoring each
+resample's axes shows what that costs: m40 averages 0.371 (full data 0.398), m23 0.351 (0.372), m44 0.335 (0.372).
+PedestriansOnRoad holds at 0.59 in every resample, and every resample stays above each rival's full-data score
+(about 0.19). So the leads are robust in their pedestrian margin and fragile in the rest.
+
+This is context for Chris's finalist pick, not a result: it is dev data after 169 tries. Numbers and the per-slot
+table are in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` (commit 26f5954).
+
 ## 2026-11-16 — How stable batch 4's leads are when the passing routes are resampled
 
 Chris's plan asks for stability under resampling for every lead. This session measured it for batch 4's pools on
