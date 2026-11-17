@@ -719,3 +719,25 @@ and p value matches. Rivals as in "A2 rescore on H21": B3-kin 0.326, B3-infracti
   Chris's pool, since H21 has no BadParking gap.
 - **Limits:** one seed, 3 to 8 failures per category, and H21's categories have already been read. These numbers rank
   methods; they do not make a candidate.
+
+**No-try stability check (label-free, route ids only, no gap read; 2026-11-16).** Same protocol as the j05 / m08 /
+m11 check in the sprint-pool section: refit on 20 random 80% subsets of the passing routes (failing kept, seeds
+1000-1019), every source refit on the same subset and re-pooled in `batch4.sh` order; the number is the mean
+best-match Jaccard of each original top-10 axis (in brackets, the share of axis-resamples at 0.8 or more). Original
+axes rebuilt first and equal to the stored A2 files for every H21 method. Measured:
+
+| pool | m23 | m44 | m40 | m41 | m15 | m39 | m12 | route-L8 | route-L20 |
+|---|---|---|---|---|---|---|---|---|---|
+| H21 | 0.881 (0.74) | 0.884 (0.83) | 0.882 (0.85) | 0.852 (0.77) | 0.920 (0.87) | 0.946 (0.95) | 0.870 (0.85) | 0.832 (0.71) | 0.897 (0.79) |
+| sprint | n/a | n/a | n/a | 0.881 (0.81) | n/a | n/a | 0.892 (0.87) | n/a | 0.833 (0.70) |
+
+The sprint pool's m23, m40, m44 need a 50-frame sprint cache that is not on this machine; left to Chris. Its m12 and
+route-L20 were built here from `cache.npz` with no stored file to check against. A Codex worker's script and a Terra
+worker's independent one agree to every printed digit for H21 m23 (0.8813 / 0.740), H21 m41 (0.8519 / 0.765) and
+sprint m41 (0.8810 / 0.805). Files: `results/h21/a2-b4/stability/`.
+
+Reading: every batch-4 lead is about as stable as m11 (0.85) and more than m08 (0.78), below j05 (0.90). In each H21
+pool the first six axes recover at 0.92 or more. The unstable ones are among slots 7 to 10, which are each source's
+lower-ranked, finer-cut axes. m23's slots 9 and 10 (both whole-route L8) recover at 0.8 in only 1 of 20 resamples. A
+score that depends on those slots is the least robust part of a lead. Which slots carry each gap was not read here.
+Files: `results/` is git-ignored, so the scripts and JSON stay on compute-box only.
