@@ -24,8 +24,8 @@ against each rival. v1 and v2 are rescored under it before comparison.
 ### Checks before the loop (sprint PRD §5), 2026-11-14
 
 1. **Cached per test pool** (measured, Savio): `results/savio/f2d-test-simlingo/shards` and `f2d-test-tfpp/shards`
-   (2,400 files each side, a json and an npz per route). SimLingo's npz holds, per captured frame (every 10 steps, up
-   to 100 frames): `all_tokens` and `driving_queries` mean-pooled at **all 24 layers**, `vision_bridge`, the layer 10
+   (2,400 files each side, a json and an npz per route). SimLingo's npz holds, per captured frame (every 5 steps,
+   0.25 s at 20 Hz, up to 100 frames): `all_tokens` and `driving_queries` mean-pooled at **all 24 layers**, `vision_bridge`, the layer 10
    and 11 driving-query tokens, ego speed and position, and simulator distances (privileged, never a method input).
    The json holds status, infractions and first collision step. **No camera frames were saved on either pool**, so
    caption methods, the caption hybrid and image-embedding grouping (B5) are dropped for now (Chris, 2026-11-14).
@@ -40,8 +40,8 @@ against each rival. v1 and v2 are rescored under it before comparison.
 
 ### Approved batch 1 (Chris, 2026-11-14: "lets approve the next 7 methods")
 
-Approach window: the last 6 captured frames (about 3 s) before the first collision step, or before the route ends
-when there is none. Using the failure time uses the pass/fail outcome, which a fleet has; the failure type stays hidden.
+Approach window: the last 6 captured frames (about 1.5 s; frames are 5 steps apart, prereg A3) before the first
+collision step, or before the route ends when there is none. Using the failure time uses the pass/fail outcome, which a fleet has; the failure type stays hidden.
 
 | id | method | rivals compared |
 |---|---|---|
