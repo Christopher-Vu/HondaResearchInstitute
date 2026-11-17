@@ -5,6 +5,27 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — Batch 4's leads rerun on H21: the whole-route pool m23 carries over, the L20 pools do not
+
+Chris's overnight batch 4 found that pooling a 50-frame-window view with a whole-route view covers two gaps on his
+pool. The "whole-route view" is the mean of a layer's activations over the whole drive. The best pools were m41 and
+m40 (about 0.40) and m23 and m44 (0.372). This session reran them unchanged on H21, Jerry's second SimLingo pool,
+along with m39 (the unpooled 50-frame window at PCA 64). Nothing was tuned. Each counts as a try, for 169 in total.
+The rows were logged before scoring (`97a3d67`) and filled in after (`3060ce6`, `VARIANTS.md`, section "Replication
+of batch 4's leads on H21").
+
+Measured, dev only:
+- **m23 scores 0.364 on H21.** It pools L8 50-frame with whole-route L8. This is the highest score on H21 of any
+  method so far. It is above both behaviour rivals, B3-kin (0.326) and B3-infraction (0.308), but not separably
+  (p 0.47 and 0.33).
+- **Its gain is on Wall (0.57)**, the H21 gap closest to Chris's FullyBlocked. The whole-route view helps with "road
+  blocked" failures on both pools.
+- **The L20 pools fall back to the rivals' level on H21:** m40 and m44 0.307, m41 0.297. m39 scores 0.212.
+
+A Codex worker ran the methods. I rebuilt every axis file and reran the scorer myself, with identical results. H21 is
+one seed with 3 to 8 failures per category, and its categories have been read before, so it ranks methods but cannot
+make a candidate.
+
 ## 2026-11-16 — Amendment A2, the rescore, j09 on Chris's pool, and overnight batch 4 (30 tries)
 
 Chris ruled on Jerry's four asks (issue 9, reply `issuecomment-6936238776`):
