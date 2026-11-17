@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Held-out round 1: the frozen method does not transfer to TransFuser++
+
+The two methods frozen at `f2d-freeze-1` (m23 as primary, m40 as secondary) were scored once on TransFuser++, the
+second driving model, which no method had read before the freeze. A method's score is how well its ten proposed
+failure groups match the real failure types ("gaps"), averaged over gaps. m23 scored 0.117. The behaviour-based
+rival (B3-behaviour, which clusters failures by speed just before the failure) scored 0.079. The difference, +0.038,
+has a 95% interval of −0.116 to +0.229 (measured, one-sided p = 0.37). The infraction-count rival tied m23 (0.119).
+Random groups score about 0.065. m23 still separates FullyBlocked better than any rival on both models; on
+PedestriansOnRoad it is below chance on TransFuser++.
+
+The same jobs rescored the rival on SimLingo with the full-length speed fix. Its score rose from 0.189 to 0.219, and
+m23's development lead shrank to +0.153 (p = 0.085). Part of the drop on TransFuser++ is the usual shrinkage of a
+winner picked from 188 tries. Part is low power: TransFuser++ has 2 gaps and 25 failing pairs against SimLingo's 3
+and 63. But the point estimate itself sits near chance, so power is not the whole story.
+
+The interval includes zero, so the round-2 rule written into amendment A3 before scoring now applies: TransFuser++
+joins the development set, up to three new finalists are frozen under a new tag, and they are confirmed on UniAD
+alone. Round 1 is reported in full in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` ("Held-out round
+1"). The scorer also gained a `--label` flag, because the held-out report was mislabelled "DEV".
+
 
 ## 2026-11-16 — Jerry's agent: frame-spacing wording fixed in VARIANTS
 

@@ -6,13 +6,15 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-16 late (search done at 188 tried; robustness: m40 passes, m23 holds on H21, m49 seed-dependent; transfer spec drafted; waiting on UniAD)
+Last updated: 2026-11-17 (held-out round 1 on TransFuser++: m23 does not beat B3-behaviour; round 2 triggered)
 
 ---
 
 ## Current position
 
-**2026-11-17: frozen at `f2d-freeze-1` (prereg A3).** Finalists m23 (primary) and m40. B3-behaviour's 100-frame speed cap is fixed. The transfer spec is binding, and round 2 is pre-stated in case m23 fails on TransFuser++. **Running:** TransFuser++ scored once (CPU 41434924, `results/savio/f2d-heldout/tfpp/report.json`) and the fixed rival rescored on SimLingo dev (CPU 41434925, `results/savio/f2d-dev/simlingo/sprint/a3/`). **Next:** read both reports and log them as the interim TransFuser++ result. Write and test the two-model pooled scorer before any UniAD outcome is read. UniAD smoke 41427300 is pending.
+**2026-11-17: held-out round 1 failed its bar; round 2 triggered (prereg A3).** On TransFuser++ (2 tried) m23 scores 0.117 against B3-behaviour's 0.079: +0.038, interval [−0.116, +0.229], p = 0.37. m40 scores 0.091. B3-infraction ties m23 (0.119), and chance is about 0.065. m23 still wins FullyBlocked on both models. The fixed rival on SimLingo dev scores 0.219, and m23's dev lead is +0.153 (p = 0.085). Details: `VARIANTS.md`, "Held-out round 1". **Next:** round 2. TransFuser++ joins dev, the search looks for up to 3 new finalists (the gap is PedestriansOnRoad), and they freeze under a new tag before any UniAD outcome is read. Then UniAD alone. UniAD smoke 41427300 completed and belongs to the bring-up thread. No CPU or GPU jobs are queued from the search side.
+
+**2026-11-17 early: frozen at `f2d-freeze-1` (prereg A3).** Finalists m23 (primary) and m40. B3-behaviour's 100-frame speed cap is fixed. The transfer spec is binding.
 
 **2026-11-16 late: the search is done, and the freeze waits on UniAD (dev, measured, 188 tried).**
 - **Candidates for Chris's freeze** (`VARIANTS.md`, "Where the leads stand after robustness"):

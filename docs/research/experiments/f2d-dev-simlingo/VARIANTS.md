@@ -913,3 +913,33 @@ total**.
 - **m44** is m40 at PCA 32: 0.372. Each is the other's PCA-width neighbour, so they are one method.
 - **m41** (two neighbours drop by 0.10 or more), **m12** (resampled mean 0.298) and **m49** (seed-dependent) are
   fragile.
+
+### Held-out round 1: TransFuser++, scored once (prereg A3, tag `f2d-freeze-1`, 2026-11-17)
+
+Jobs 41434924 (TransFuser++) and 41434925 (fixed rival on dev), CPU, about 3 and 5 minutes. Script `heldout.sh`.
+Measured. TransFuser++ gaps: PedestriansOnRoad (10 failing pairs) and FullyBlocked (15); 9 decoys; **2 tried**.
+
+| row | mean best | PedestriansOnRoad | FullyBlocked | decoy hits |
+|---|---|---|---|---|
+| **m23** (primary) | **0.117** | 0.063 | 0.171 | 0 |
+| m40 | 0.091 | 0.036 | 0.146 | 0 |
+| B3-behaviour (primary rival) | 0.079 | 0.098 | 0.060 | 0.10 |
+| B3-infraction (reported) | 0.119 | 0.182 | 0.056 | 0.14 |
+| B7-pool (L2, k = 18) | 0.026 | 0.000 | 0.053 | 0.10 |
+| chance (B1) | about 0.065 | | | |
+
+- m23 vs B3-behaviour: **+0.038, 95% interval [−0.116, +0.229], one-sided p = 0.37.** vs B7-pool +0.091 (p = 0.10);
+  vs B3-infraction −0.002.
+- m40 vs B3-behaviour: +0.012, [−0.127, +0.145], p = 0.56.
+- No axis reaches Jaccard 0.5 on either gap. m23 wins on FullyBlocked on both models; on PedestriansOnRoad it falls
+  below chance here.
+- **Round-2 trigger fired:** m23's interval against B3-behaviour includes zero. Under A3, TransFuser++ joins dev and
+  up to 3 new finalists are frozen under a new tag before any UniAD outcome is read.
+
+**Fixed rival on SimLingo dev** (full-length speed cache, not a try): B3-behaviour 0.219 (was 0.189 under A2).
+m23 0.372, delta +0.153 [−0.064, +0.463], p = 0.085; m40 0.398, delta +0.179, p = 0.106. The dev lead never had an
+interval clear of zero once the rival was fixed.
+
+Why the interval is so wide: TransFuser++ has 2 gaps and 25 failing pairs against SimLingo's 3 and 63, so the
+mean over gaps moves with every resampled pair. The point estimate is the bigger problem: 0.117 is near chance, so
+low power does not explain the drop from 0.372.
