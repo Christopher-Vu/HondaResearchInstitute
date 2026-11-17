@@ -428,7 +428,147 @@ B3-kin (+0.006, p 0.46) and with B3-infraction (+0.023, p 0.29); it is not separ
   tries.
 - The H21 rows need H21's caches, which only Jerry's account can read; issue 9 asks Jerry's side to rescore them.
 
-A1 and A2 scores are listed side by side in the table below, filled in once the rescore has run.
+Rescored 2026-11-16 by jobs 41406567 (m) and 41406568 (j), about 0.1 SU, all CPU. Measured, dev, 134 tried in total;
+rescores are not tries.
+
+**Rivals under A2.**
+
+| rival | A1 | A2 | PedestriansOnRoad / FullyBlocked / BadParking | distinct axes |
+|---|---:|---:|---|---:|
+| B3-behaviour | 0.093 | **0.189** | 0.37 / 0.06 / 0.14 | 10 |
+| B7-pool | 0.187 | 0.187 | 0.20 / 0.33 / 0.03 | 10 |
+| B3-infraction | 0.192 | 0.192 | 0.35 / 0.06 / 0.16 | 8 (8 infraction types) |
+
+- **B3-behaviour doubles.** Its A1 top 10 repeated groups. With distinct axes it finds a 0.37 pedestrian group, so the
+  primary rival is now level with B7-pool and B3-infraction.
+- **Most leads rise a little.** The biggest gains:
+  - m12 (L8, average linkage, w6): 0.301 to **0.370** (0.59 / 0.26 / 0.26).
+  - m16 at w30: 0.280 to 0.332.
+  - The m05 sweep at L7: 0.253 to 0.303.
+  - j06: 0.165 to 0.297.
+- **Every lead's margin over B3-behaviour is now about +0.11 to +0.18, at p 0.06 to 0.13.** No dev lead is separated
+  from the primary rival. Under A1, the leads were at p ≤ 0.01 against a rival that was penalised by its own
+  repeats.
+
+One row per method file. `dir` is under `results/savio/f2d-dev/simlingo/sprint/a2/`. Each comparison column gives the
+delta and one-sided p. j rows' A1 scores are from the j section above. batch3-fix's row is the same run as batch3's
+m16 w20 row, so it is left out.
+
+| dir | method | A1 | A2 | per gap | distinct axes | vs B3-behaviour | vs B7-pool | vs B3-infraction |
+| batch2 | method_m03_layer_8_cluster_average | 0.301 | 0.370 | 0.59 / 0.26 / 0.26 | 10 | +0.181, p 0.081 | +0.183, p 0.035 | +0.178, p 0.087 |
+| batch3-w30 | method_m03_layer_5_8_20 | 0.280 | 0.332 | 0.59 / 0.12 / 0.29 | 10 | +0.143, p 0.059 | +0.145, p 0.067 | +0.139, p 0.067 |
+| batch2 | method_m03_layer_5_8_20 | 0.306 | 0.325 | 0.59 / 0.20 / 0.18 | 10 | +0.136, p 0.069 | +0.138, p 0.070 | +0.132, p 0.077 |
+| batch3-w50 | method_m03_layer_5_8_20 | 0.259 | 0.321 | 0.59 / 0.09 / 0.28 | 10 | +0.132, p 0.093 | +0.134, p 0.082 | +0.129, p 0.100 |
+| batch3 | m20-w20L10+B7 | 0.289 | 0.321 | 0.59 / 0.13 / 0.24 | 10 | +0.132, p 0.059 | +0.134, p 0.069 | +0.128, p 0.080 |
+| batch3-w30 | method_m03_layer_8 | 0.265 | 0.317 | 0.59 / 0.11 / 0.25 | 10 | +0.128, p 0.104 | +0.130, p 0.098 | +0.125, p 0.116 |
+| batch2-w20 | method_m03_layer_8 | 0.304 | 0.316 | 0.59 / 0.11 / 0.25 | 10 | +0.127, p 0.078 | +0.129, p 0.088 | +0.123, p 0.085 |
+| batch3-w50 | method_m03_layer_8 | 0.312 | 0.312 | 0.59 / 0.17 / 0.17 | 10 | +0.123, p 0.091 | +0.124, p 0.086 | +0.119, p 0.101 |
+| batch2-w20 | method_m03 | 0.310 | 0.310 | 0.59 / 0.10 / 0.24 | 10 | +0.121, p 0.099 | +0.123, p 0.117 | +0.118, p 0.117 |
+| batch3 | m20-w20L10+atL1 | 0.310 | 0.310 | 0.59 / 0.10 / 0.24 | 10 | +0.121, p 0.074 | +0.123, p 0.088 | +0.118, p 0.096 |
+| batch3 | method_m03_cuts_10 | 0.310 | 0.310 | 0.59 / 0.10 / 0.24 | 10 | +0.121, p 0.056 | +0.123, p 0.062 | +0.118, p 0.075 |
+| batch3-w50 | method_m03 | 0.272 | 0.308 | 0.59 / 0.08 / 0.25 | 10 | +0.119, p 0.130 | +0.121, p 0.092 | +0.115, p 0.130 |
+| batch3-w30 | method_m03 | 0.282 | 0.306 | 0.59 / 0.09 / 0.24 | 10 | +0.117, p 0.090 | +0.118, p 0.089 | +0.113, p 0.106 |
+| batch3 | method_m03_layer_5_8_20 | 0.306 | 0.304 | 0.59 / 0.09 / 0.23 | 10 | +0.115, p 0.074 | +0.117, p 0.074 | +0.111, p 0.092 |
+| m05 | method_m03_site_driving_queries_layer_7 | 0.253 | 0.303 | 0.59 / 0.07 / 0.25 | 10 | +0.114, p 0.172 | +0.115, p 0.149 | +0.110, p 0.171 |
+| j | j06-driving_queries-L5+8+20-window | 0.165 | 0.297 | 0.65 / 0.08 / 0.16 | 10 | +0.108, p 0.088 | +0.110, p 0.089 | +0.104, p 0.100 |
+| batch2-w10 | method_m03_layer_8 | 0.295 | 0.295 | 0.59 / 0.14 / 0.16 | 10 | +0.106, p 0.143 | +0.108, p 0.131 | +0.103, p 0.170 |
+| j | j05-driving_queries-L5+8+20-window | 0.284 | 0.284 | 0.45 / 0.23 / 0.16 | 10 | +0.095, p 0.062 | +0.097, p 0.076 | +0.091, p 0.070 |
+| batch3 | method_m03_auto-layers_3 | 0.277 | 0.282 | 0.59 / 0.12 / 0.13 | 10 | +0.093, p 0.158 | +0.095, p 0.145 | +0.090, p 0.172 |
+| batch3 | method_m03_site_all_tokens_auto-layers_3 | 0.254 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.198 | +0.091, p 0.113 | +0.086, p 0.214 |
+| batch3 | method_m03_site_all_tokens_layer_0 | 0.278 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.214 | +0.091, p 0.120 | +0.086, p 0.225 |
+| batch3 | method_m03_site_all_tokens_layer_1 | 0.254 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.201 | +0.091, p 0.114 | +0.086, p 0.213 |
+| batch3 | method_m03_site_all_tokens_layer_2 | 0.254 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.201 | +0.091, p 0.114 | +0.086, p 0.214 |
+| batch3 | method_m03_site_all_tokens_layer_3 | 0.254 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.196 | +0.091, p 0.112 | +0.086, p 0.205 |
+| batch3 | method_m03_site_vision_bridge | 0.254 | 0.278 | 0.59 / 0.13 / 0.11 | 10 | +0.089, p 0.204 | +0.091, p 0.117 | +0.086, p 0.217 |
+| m05 | method_m03_site_driving_queries_layer_8 | 0.253 | 0.275 | 0.59 / 0.14 / 0.09 | 10 | +0.086, p 0.194 | +0.087, p 0.175 | +0.082, p 0.222 |
+| batch3 | method_m03_layer_5_8_20_cluster_average | 0.061 | 0.269 | 0.68 / 0.05 / 0.07 | 10 | +0.080, p 0.217 | +0.081, p 0.162 | +0.076, p 0.233 |
+| m05 | method_m03_site_driving_queries_layer_11 | 0.224 | 0.266 | 0.59 / 0.11 / 0.09 | 10 | +0.077, p 0.230 | +0.079, p 0.192 | +0.073, p 0.255 |
+| batch3-w10 | method_m03_layer_5_8_20 | 0.247 | 0.263 | 0.59 / 0.08 / 0.11 | 10 | +0.074, p 0.238 | +0.076, p 0.186 | +0.070, p 0.260 |
+| batch2-w10 | method_m03 | 0.246 | 0.253 | 0.59 / 0.07 / 0.10 | 10 | +0.064, p 0.300 | +0.066, p 0.238 | +0.060, p 0.322 |
+| batch3 | method_m03_cluster_average | 0.061 | 0.240 | 0.59 / 0.05 / 0.07 | 10 | +0.051, p 0.378 | +0.053, p 0.286 | +0.047, p 0.386 |
+| batch2 | method_m03_layer_8_cluster_complete | 0.236 | 0.236 | 0.27 / 0.21 / 0.22 | 10 | +0.047, p 0.386 | +0.049, p 0.224 | +0.044, p 0.382 |
+| j | j13-driving_queries-L5+8+20-window | 0.218 | 0.236 | 0.27 / 0.21 / 0.23 | 10 | +0.047, p 0.232 | +0.049, p 0.154 | +0.044, p 0.252 |
+| m05 | method_m03_site_all_tokens_layer_1 | 0.195 | 0.228 | 0.20 / 0.35 / 0.13 | 10 | +0.039, p 0.406 | +0.041, p 0.236 | +0.036, p 0.409 |
+| batch3 | method_m03_summary_route_layer_8 | 0.227 | 0.227 | 0.08 / 0.35 / 0.25 | 10 | +0.038, p 0.420 | +0.040, p 0.289 | +0.035, p 0.422 |
+| m05 | method_m03_site_driving_queries_layer_5 | 0.189 | 0.225 | 0.26 / 0.18 / 0.24 | 10 | +0.036, p 0.292 | +0.038, p 0.295 | +0.033, p 0.282 |
+| batch2 | m09 | 0.212 | 0.212 | 0.38 / 0.07 / 0.18 | 10 | +0.023, p 0.414 | +0.025, p 0.372 | +0.019, p 0.433 |
+| m05 | method_m03_site_driving_queries_layer_9 | 0.195 | 0.209 | 0.25 / 0.22 / 0.16 | 10 | +0.021, p 0.350 | +0.022, p 0.350 | +0.017, p 0.355 |
+| m05 | method_m03_site_driving_queries_layer_20 | 0.209 | 0.209 | 0.31 / 0.14 / 0.18 | 10 | +0.020, p 0.371 | +0.022, p 0.357 | +0.017, p 0.370 |
+| m05 | method_m03_site_driving_queries_layer_2 | 0.201 | 0.204 | 0.27 / 0.17 / 0.16 | 10 | +0.015, p 0.517 | +0.017, p 0.364 | +0.012, p 0.523 |
+| m05 | method_m03_site_all_tokens_layer_15 | 0.102 | 0.203 | 0.15 / 0.35 / 0.11 | 10 | +0.014, p 0.476 | +0.016, p 0.321 | +0.010, p 0.474 |
+| batch2 | m10 | 0.203 | 0.203 | 0.38 / 0.13 / 0.09 | 10 | +0.014, p 0.470 | +0.016, p 0.392 | +0.010, p 0.499 |
+| m05 | method_m03_site_driving_queries_layer_3 | 0.129 | 0.202 | 0.18 / 0.18 / 0.25 | 10 | +0.013, p 0.496 | +0.015, p 0.415 | +0.010, p 0.482 |
+| batch2 | method_m03_cuts_10 | 0.200 | 0.200 | 0.27 / 0.15 / 0.18 | 10 | +0.011, p 0.315 | +0.013, p 0.209 | +0.007, p 0.335 |
+| batch2 | method_m03_cuts_4_6 | 0.180 | 0.200 | 0.27 / 0.15 / 0.18 | 10 | +0.011, p 0.401 | +0.013, p 0.315 | +0.007, p 0.425 |
+| m05 | method_m03_site_all_tokens_layer_23 | 0.106 | 0.200 | 0.14 / 0.35 / 0.10 | 10 | +0.011, p 0.466 | +0.013, p 0.295 | +0.007, p 0.485 |
+| j | j02-driving_queries-L5+8+20-window | 0.198 | 0.198 | 0.27 / 0.15 / 0.17 | 10 | +0.009, p 0.398 | +0.011, p 0.381 | +0.006, p 0.422 |
+| m05 | method_m03_site_all_tokens_layer_11 | 0.078 | 0.198 | 0.14 / 0.35 / 0.10 | 10 | +0.009, p 0.488 | +0.011, p 0.338 | +0.005, p 0.498 |
+| batch2 | method_m03_layer_1_5_8_20 | 0.157 | 0.198 | 0.27 / 0.13 / 0.19 | 10 | +0.009, p 0.478 | +0.010, p 0.359 | +0.005, p 0.494 |
+| m05 | method_m03_site_driving_queries_layer_1 | 0.141 | 0.196 | 0.27 / 0.07 / 0.25 | 10 | +0.008, p 0.501 | +0.009, p 0.403 | +0.004, p 0.507 |
+| j | j07-driving_queries-L5+8+20-window | 0.196 | 0.196 | 0.32 / 0.11 / 0.16 | 8 | +0.007, p 0.281 | +0.008, p 0.294 | +0.003, p 0.301 |
+| j | j04-driving_queries-L5+8+20-window | 0.194 | 0.194 | 0.24 / 0.16 / 0.18 | 10 | +0.005, p 0.416 | +0.007, p 0.384 | +0.002, p 0.429 |
+| m05 | method_m03_site_all_tokens_layer_16 | 0.176 | 0.191 | 0.12 / 0.35 / 0.10 | 10 | +0.002, p 0.459 | +0.004, p 0.284 | -0.002, p 0.459 |
+| m05 | method_m03_site_vision_bridge | 0.171 | 0.190 | 0.09 / 0.35 / 0.13 | 10 | +0.001, p 0.499 | +0.002, p 0.388 | -0.003, p 0.513 |
+| m05 | method_m03_site_all_tokens_layer_21 | 0.181 | 0.189 | 0.11 / 0.35 / 0.10 | 10 | +0.001, p 0.528 | +0.002, p 0.393 | -0.003, p 0.536 |
+| m05 | method_m03_site_all_tokens_layer_18 | 0.175 | 0.189 | 0.10 / 0.35 / 0.11 | 10 | +0.000, p 0.504 | +0.002, p 0.349 | -0.003, p 0.511 |
+| m05 | method_m03_site_all_tokens_layer_7 | 0.079 | 0.189 | 0.11 / 0.35 / 0.10 | 10 | +0.000, p 0.505 | +0.002, p 0.364 | -0.003, p 0.514 |
+| m05 | method_m03_site_all_tokens_layer_9 | 0.080 | 0.189 | 0.11 / 0.35 / 0.10 | 10 | -0.000, p 0.504 | +0.002, p 0.361 | -0.004, p 0.514 |
+| m05 | method_m03_site_all_tokens_layer_19 | 0.094 | 0.189 | 0.12 / 0.35 / 0.09 | 10 | -0.000, p 0.533 | +0.002, p 0.422 | -0.004, p 0.541 |
+| b7 | m01-L10_k64_s0 | 0.187 | 0.187 | 0.20 / 0.33 / 0.03 | 10 | -0.002, p 0.580 | -0.001, p 1.000 | -0.006, p 0.605 |
+| j | j11-driving_queries-L5+8+20-window | 0.187 | 0.187 | 0.31 / 0.14 / 0.11 | 10 | -0.002, p 0.442 | -0.001, p 0.400 | -0.006, p 0.461 |
+| batch2 | method_m03_cluster_average | 0.132 | 0.186 | 0.27 / 0.05 / 0.23 | 10 | -0.003, p 0.600 | -0.001, p 0.528 | -0.006, p 0.618 |
+| m05 | method_m03_site_all_tokens_layer_0 | 0.081 | 0.185 | 0.10 / 0.35 / 0.10 | 10 | -0.004, p 0.508 | -0.002, p 0.384 | -0.007, p 0.518 |
+| m05 | method_m03_site_all_tokens_layer_6 | 0.080 | 0.185 | 0.10 / 0.35 / 0.10 | 10 | -0.004, p 0.515 | -0.002, p 0.395 | -0.007, p 0.524 |
+| batch2-w3 | method_m03 | 0.183 | 0.183 | 0.23 / 0.14 / 0.18 | 10 | -0.005, p 0.613 | -0.004, p 0.495 | -0.009, p 0.614 |
+| m05 | method_m03_site_driving_queries_layer_17 | 0.183 | 0.183 | 0.24 / 0.14 / 0.16 | 10 | -0.006, p 0.622 | -0.004, p 0.471 | -0.010, p 0.620 |
+| m05 | method_m03_site_all_tokens_layer_14 | 0.169 | 0.183 | 0.09 / 0.35 / 0.11 | 10 | -0.006, p 0.547 | -0.005, p 0.433 | -0.010, p 0.552 |
+| m05 | method_m03_site_all_tokens_layer_22 | 0.081 | 0.182 | 0.10 / 0.35 / 0.09 | 10 | -0.007, p 0.516 | -0.005, p 0.385 | -0.010, p 0.521 |
+| j | j12-driving_queries-L5+8+20-window | 0.182 | 0.182 | 0.17 / 0.21 / 0.16 | 10 | -0.007, p 0.439 | -0.005, p 0.393 | -0.011, p 0.466 |
+| batch1 | m07 | 0.134 | 0.181 | 0.23 / 0.16 / 0.16 | 10 | -0.008, p 0.517 | -0.006, p 0.404 | -0.011, p 0.537 |
+| batch1 | m03 | 0.180 | 0.180 | 0.24 / 0.13 / 0.17 | 10 | -0.008, p 0.622 | -0.007, p 0.464 | -0.012, p 0.629 |
+| m05 | method_m03_site_driving_queries_layer_10 | 0.180 | 0.180 | 0.24 / 0.13 / 0.17 | 10 | -0.008, p 0.625 | -0.007, p 0.499 | -0.012, p 0.637 |
+| m05 | method_m03_site_all_tokens_layer_2 | 0.077 | 0.180 | 0.09 / 0.35 / 0.10 | 10 | -0.009, p 0.529 | -0.007, p 0.416 | -0.013, p 0.537 |
+| m05 | method_m03_site_all_tokens_layer_3 | 0.078 | 0.180 | 0.09 / 0.35 / 0.10 | 10 | -0.009, p 0.527 | -0.007, p 0.415 | -0.013, p 0.537 |
+| m05 | method_m03_site_all_tokens_layer_12 | 0.083 | 0.180 | 0.08 / 0.35 / 0.11 | 10 | -0.009, p 0.536 | -0.007, p 0.420 | -0.013, p 0.545 |
+| m05 | method_m03_site_all_tokens_layer_17 | 0.176 | 0.180 | 0.09 / 0.35 / 0.10 | 10 | -0.009, p 0.535 | -0.008, p 0.430 | -0.013, p 0.548 |
+| m05 | method_m03_site_driving_queries_layer_6 | 0.150 | 0.179 | 0.27 / 0.16 / 0.11 | 10 | -0.010, p 0.538 | -0.008, p 0.394 | -0.013, p 0.554 |
+| batch3 | method_m03_summary_route | 0.126 | 0.178 | 0.08 / 0.21 / 0.25 | 10 | -0.011, p 0.486 | -0.010, p 0.416 | -0.015, p 0.482 |
+| batch2-w3 | method_m03_layer_8 | 0.163 | 0.175 | 0.17 / 0.10 / 0.26 | 10 | -0.014, p 0.565 | -0.012, p 0.495 | -0.017, p 0.601 |
+| m05 | method_m03_site_driving_queries_layer_21 | 0.148 | 0.171 | 0.24 / 0.11 / 0.16 | 10 | -0.018, p 0.701 | -0.016, p 0.533 | -0.022, p 0.701 |
+| m05 | method_m03_site_driving_queries_layer_18 | 0.169 | 0.169 | 0.24 / 0.11 / 0.16 | 10 | -0.020, p 0.769 | -0.018, p 0.560 | -0.024, p 0.760 |
+| m05 | method_m03_site_driving_queries_layer_19 | 0.167 | 0.167 | 0.22 / 0.13 / 0.15 | 10 | -0.021, p 0.756 | -0.020, p 0.558 | -0.025, p 0.748 |
+| m05 | method_m03_site_driving_queries_layer_13 | 0.142 | 0.167 | 0.17 / 0.16 / 0.17 | 10 | -0.022, p 0.729 | -0.020, p 0.575 | -0.025, p 0.781 |
+| batch2 | method_m03_cluster_complete | 0.163 | 0.165 | 0.27 / 0.06 / 0.16 | 10 | -0.024, p 0.684 | -0.023, p 0.601 | -0.028, p 0.711 |
+| m05 | method_m03_site_driving_queries_layer_12 | 0.163 | 0.163 | 0.20 / 0.14 / 0.15 | 10 | -0.025, p 0.778 | -0.024, p 0.580 | -0.029, p 0.771 |
+| m05 | method_m03_site_all_tokens_layer_20 | 0.160 | 0.160 | 0.21 / 0.13 / 0.13 | 10 | -0.029, p 0.469 | -0.027, p 0.392 | -0.032, p 0.476 |
+| batch2 | method_m03_cluster_spectral | 0.151 | 0.151 | 0.19 / 0.12 / 0.15 | 10 | -0.038, p 0.847 | -0.036, p 0.610 | -0.041, p 0.846 |
+| batch2 | method_m03_layer_8_cluster_spectral | 0.146 | 0.151 | 0.19 / 0.12 / 0.15 | 10 | -0.038, p 0.811 | -0.036, p 0.596 | -0.041, p 0.815 |
+| m05 | method_m03_site_driving_queries_layer_0 | 0.125 | 0.150 | 0.27 / 0.08 / 0.09 | 10 | -0.039, p 0.762 | -0.037, p 0.707 | -0.043, p 0.768 |
+| batch1 | m04 | 0.120 | 0.147 | 0.17 / 0.09 / 0.18 | 10 | -0.042, p 0.762 | -0.040, p 0.564 | -0.046, p 0.805 |
+| m05 | method_m03_site_all_tokens_layer_5 | 0.134 | 0.146 | 0.19 / 0.13 / 0.11 | 10 | -0.043, p 0.700 | -0.041, p 0.614 | -0.047, p 0.715 |
+| m05 | method_m03_site_driving_queries_layer_14 | 0.114 | 0.145 | 0.13 / 0.13 / 0.18 | 10 | -0.044, p 0.709 | -0.042, p 0.546 | -0.047, p 0.716 |
+| batch1 | m06-m03 | 0.145 | 0.145 | 0.20 / 0.09 / 0.15 | 10 | -0.044, p 0.906 | -0.043, p 0.617 | -0.048, p 0.970 |
+| m05 | method_m03_site_all_tokens_layer_8 | 0.086 | 0.140 | 0.18 / 0.13 / 0.11 | 10 | -0.049, p 0.686 | -0.047, p 0.579 | -0.052, p 0.705 |
+| m05 | method_m03_site_driving_queries_layer_15 | 0.139 | 0.139 | 0.14 / 0.11 / 0.17 | 10 | -0.050, p 0.820 | -0.048, p 0.634 | -0.054, p 0.832 |
+| m05 | method_m03_site_all_tokens_layer_10 | 0.138 | 0.138 | 0.17 / 0.13 / 0.11 | 10 | -0.051, p 0.714 | -0.049, p 0.638 | -0.054, p 0.726 |
+| m05 | method_m03_site_driving_queries_layer_4 | 0.134 | 0.137 | 0.09 / 0.07 / 0.25 | 10 | -0.052, p 0.807 | -0.050, p 0.695 | -0.055, p 0.837 |
+| m05 | method_m03_site_driving_queries_layer_16 | 0.135 | 0.135 | 0.15 / 0.13 / 0.12 | 10 | -0.054, p 0.951 | -0.053, p 0.749 | -0.058, p 0.948 |
+| j | j14-driving_queries-L5+8+20-earlymatch | 0.133 | 0.133 | 0.14 / 0.11 / 0.15 | 10 | -0.056, p 0.824 | -0.054, p 0.665 | -0.059, p 0.829 |
+| m05 | method_m03_site_all_tokens_layer_13 | 0.097 | 0.118 | 0.11 / 0.14 / 0.11 | 10 | -0.071, p 0.863 | -0.069, p 0.802 | -0.075, p 0.873 |
+| m05 | method_m03_site_all_tokens_layer_4 | 0.078 | 0.116 | 0.09 / 0.13 / 0.13 | 10 | -0.073, p 0.799 | -0.071, p 0.718 | -0.076, p 0.814 |
+| m05 | method_m03_site_driving_queries_layer_22 | 0.105 | 0.115 | 0.09 / 0.07 / 0.18 | 10 | -0.074, p 0.951 | -0.072, p 0.786 | -0.077, p 0.980 |
+| b7 | m01-L10_k32_s0 | 0.109 | 0.109 | 0.10 / 0.14 / 0.09 | 10 | -0.080, p 0.868 | -0.078, p 0.860 | -0.083, p 0.886 |
+| m05 | method_m03_site_driving_queries_layer_23 | 0.101 | 0.107 | 0.10 / 0.08 / 0.14 | 10 | -0.082, p 0.944 | -0.080, p 0.851 | -0.086, p 0.958 |
+| b7 | m18-B7pool-w50-L10_k64_s0 | 0.101 | 0.101 | 0.07 / 0.20 / 0.03 | 10 | -0.088, p 0.927 | -0.086, p 0.838 | -0.091, p 0.944 |
+| batch3 | method_m03_cluster_complete | 0.078 | 0.090 | 0.09 / 0.09 / 0.10 | 10 | -0.099, p 0.904 | -0.097, p 0.722 | -0.102, p 0.908 |
+| b7 | m02-L10_k32_s0 | 0.070 | 0.070 | 0.09 / 0.12 / 0.00 | 10 | -0.119, p 0.916 | -0.118, p 0.906 | -0.123, p 0.919 |
+| j | j15-driving_queries-L5+8+20-window | 0.063 | 0.063 | 0.06 / 0.06 / 0.07 | 10 | -0.126, p 1.000 | -0.124, p 0.953 | -0.129, p 1.000 |
+| b7 | m18-B7pool-w20-L10_k64_s0 | 0.063 | 0.063 | 0.05 / 0.12 / 0.01 | 10 | -0.126, p 0.987 | -0.124, p 0.999 | -0.129, p 0.992 |
+| j | j03 | 0.052 | 0.052 | 0.03 / 0.00 / 0.13 | 10 | -0.137, p 0.986 | -0.135, p 0.946 | -0.141, p 0.991 |
+| b7 | m02-L10_k64_s0 | 0.010 | 0.010 | 0.03 / 0.00 / 0.00 | 10 | -0.179, p 1.000 | -0.177, p 1.000 | -0.182, p 1.000 |
+| b7 | m14-B7pool-win-k64 | 0.000 | 0.000 | 0.00 / 0.00 / 0.00 | 9 | -0.189, p 1.000 | -0.187, p 1.000 | -0.192, p 1.000 |
+| b7 | m14-erraware-win-k64 | 0.000 | 0.000 | 0.00 / 0.00 / 0.00 | 10 | -0.189, p 1.000 | -0.187, p 1.000 | -0.192, p 1.000 |
+
 
 ### Approved overnight batch 4 (Chris, 2026-11-16: "20 to 30 new methods"), all on CPU, scored under A2
 
@@ -462,3 +602,81 @@ Rows are written before any score is read, and each row counts as tries. The win
 
 m37 is not used. j09 and m33 to m36 run whatever j09 scores here, so the rule cannot be bent after the score is seen.
 The reported tried count for the whole batch is 159.
+
+Batch 4 scored 2026-11-16 by jobs 41406570, 41406571 and 41406572 (and 41406569 for `frames.npz`), about 0.2 SU, all
+CPU. Measured, dev, **159 tried in total**. Rivals: B3-behaviour 0.189, B7-pool 0.187, B3-infraction 0.192. Reports are
+in `sprint/batch4*/report.json`. Each comparison column gives the delta, 95% interval and one-sided p.
+
+| id | score (PedestriansOnRoad / FullyBlocked / BadParking) | vs B3-behaviour | vs B7-pool | vs B3-infraction (reported) | vs best rival p |
+|---|---|---|---|---|---|
+| m23 (pool: L8 w50 with whole-route L8) | **0.372** (0.59 / **0.35** / 0.17) | +0.183 [−0.035, +0.513], p 0.056 | +0.185 [−0.006, +0.487], p 0.028 | +0.179, p 0.061 | 0.067 |
+| m39 (L8 w50, PCA 64) | 0.368 (0.59 / 0.26 / 0.25) | +0.179 [−0.050, +0.472], p 0.073 | +0.181, p 0.099 | +0.176, p 0.079 | 0.126 |
+| m39 (L8 w50, PCA 16) | 0.321 (0.59 / 0.10 / 0.27) | +0.132, p 0.058 | +0.134, p 0.072 | +0.129, p 0.076 | 0.110 |
+| m27 (L8 plus `all_tokens` L1, w50) | 0.328 (0.59 / 0.14 / 0.26) | +0.139 [−0.017, +0.388], p 0.043 | +0.140, p 0.048 | +0.135, p 0.053 | 0.079 |
+| m29 (frames: 5/20/50-frame means, L8) | 0.327 (0.59 / 0.11 / 0.28) | +0.138 [−0.013, +0.358], p 0.044 | +0.140, p 0.074 | +0.134, p 0.058 | 0.096 |
+| m32 (frames: mean and spread, L8) | 0.322 (**0.67** / 0.12 / 0.18) | +0.133 [−0.006, +0.288], p 0.034 | +0.135, p 0.068 | +0.130, p 0.048 | 0.084 |
+| m24 (w100, L5+8+20) | 0.320 (0.59 / 0.12 / 0.25) | +0.131, p 0.071 | +0.133, p 0.080 | +0.128, p 0.078 | 0.115 |
+| m24 (w100, L8) | 0.307 (0.59 / 0.08 / 0.25) | +0.118, p 0.075 | +0.120, p 0.064 | +0.115, p 0.080 | 0.111 |
+| m33 (j09 at L10) | 0.306 (0.67 / 0.11 / 0.14) | +0.117, p 0.062 | +0.119, p 0.084 | +0.113, p 0.086 | 0.118 |
+| m22 (L8 w50 and whole route, concatenated) | 0.306 (0.59 / 0.08 / 0.25) | +0.117, p 0.153 | +0.119, p 0.139 | +0.113, p 0.154 | 0.216 |
+| m31 (frames: stopped and moving means) | 0.296 (0.59 / 0.09 / 0.21) | +0.107, p 0.084 | +0.109, p 0.106 | +0.104, p 0.096 | 0.149 |
+| m30 (frames: PCA trend) | 0.296 (0.59 / 0.12 / 0.18) | +0.107, p 0.110 | +0.109, p 0.111 | +0.104, p 0.128 | 0.173 |
+| m38 (j05 residual on L8 w50) | 0.295 (0.59 / 0.11 / 0.19) | +0.106, p 0.081 | +0.108, p 0.100 | +0.103, p 0.098 | 0.148 |
+| m34 (j09 at L20) | 0.291 (0.54 / 0.18 / 0.15) | +0.102, p 0.128 | +0.104, p 0.136 | +0.098, p 0.144 | 0.208 |
+| m28 (pool: L8 w50, whole-route L8, B7-pool) | 0.272 (0.59 / 0.13 / 0.09) | +0.083, p 0.220 | +0.085, p 0.151 | +0.079, p 0.232 | 0.289 |
+| m25 (whole route, L20) | 0.252 (0.10 / **0.35** / **0.31**) | +0.063, p 0.393 | +0.065, p 0.279 | +0.060, p 0.401 | 0.485 |
+| **j09** (HMM, L8, our pool, run by us) | 0.222 (0.44 / 0.08 / 0.14) | +0.033 [−0.057, +0.167], p 0.221 | +0.035, p 0.235 | +0.030, p 0.241 | 0.386 |
+| m36 (j09 on L5+8+20) | 0.221 (0.39 / 0.13 / 0.14) | +0.032, p 0.227 | +0.034, p 0.257 | +0.029, p 0.251 | 0.405 |
+| m25 (whole route, `all_tokens` L1) | 0.196 (0.11 / 0.35 / 0.13) | +0.007, p 0.445 | +0.009, p 0.302 | +0.003, p 0.449 | 0.541 |
+| m25 (whole route, L5) | 0.186 (0.08 / 0.35 / 0.13) | −0.003, p 0.586 | −0.001, p 0.528 | −0.007, p 0.591 | 0.699 |
+| m25 (whole route, L10) | 0.178 (0.08 / 0.21 / 0.25) | −0.011, p 0.485 | −0.010, p 0.405 | −0.015, p 0.482 | 0.603 |
+| m26 (w50 L8 minus whole route) | 0.168 (0.07 / 0.35 / 0.08) | −0.021, p 0.653 | −0.019, p 0.657 | −0.024, p 0.662 | 0.775 |
+| m26 (w20 L10 minus whole route) | 0.158 (0.08 / 0.32 / 0.08) | −0.031, p 0.678 | −0.029, p 0.669 | −0.035, p 0.694 | 0.795 |
+| m35 (j09 beside the w50 mean) | 0.126 (0.14 / 0.14 / 0.11) | −0.063, p 0.900 | −0.061, p 0.741 | −0.067, p 0.898 | 0.977 |
+| m25 (whole route, L5+8+20) | 0.084 (0.07 / 0.07 / 0.11) | −0.105, p 0.953 | −0.103, p 0.864 | −0.108, p 0.963 | 0.992 |
+
+**Reading (dev, 159 tried).**
+- **m23 is the first method that covers two gaps at once.** It pools the pedestrian view (L8 w50) with the whole-route
+  view (L8) and scores 0.372. It matches B7-pool on FullyBlocked (0.35 against 0.33) and keeps the 0.59 pedestrian
+  axis. It is ahead of every rival at p 0.03 to 0.06, but no interval excludes zero.
+- **Whole-route summaries carry FullyBlocked:**
+  - 0.35 at L5, L8, L20 and `all_tokens` L1.
+  - L20 also scores 0.31 on BadParking, the best on that gap.
+  - None of them finds the pedestrian group alone.
+- **j09 does not carry to this pool:** 0.222, against 0.331 on H21. At L10 (m33) it scores 0.306, all on PedestriansOnRoad
+  (0.67).
+- **Frame summaries** (m29, m32) reach 0.32 to 0.33. m32's 0.67 on PedestriansOnRoad is the best on that gap.
+- Every remaining tie with a rival is within its interval.
+
+**Batch 4 pools** (rows written 2026-11-16 after batch 4's scores and before these five are scored; they bring the
+batch to 30, the top of Chris's 20 to 30). m23 shows that pooling a pedestrian view with a whole-route view covers two
+gaps. Whole-route L20 scored 0.35 on FullyBlocked and 0.31 on BadParking, so each row below pools a pedestrian view
+with it, round-robin, skipping near-repeats (`pool_axes.py`). Script: `batch4.sh pools`.
+
+| id | pooled sources | methods tried after |
+|---|---|---|
+| m40 | m39 (L8 w50, PCA 64) and whole-route L20 | 160 |
+| m41 | m12 (L8 w6, average linkage, A2) and whole-route L20 | 161 |
+| m42 | m32 (frames: mean and spread, L8) and whole-route L20 | 162 |
+| m43 | L8 w50, whole-route L8 and whole-route L20 | 163 |
+| m44 | L8 w50 and whole-route L20 | 164 |
+
+Scored 2026-11-16 by job 41406735 (under 0.1 SU, CPU). Measured, dev, **164 tried in total**. Rivals as in batch 4.
+
+| id | score (PedestriansOnRoad / FullyBlocked / BadParking) | vs B3-behaviour | vs B7-pool | vs B3-infraction (reported) | vs best rival p |
+|---|---|---|---|---|---|
+| m41 | **0.401** (0.59 / 0.35 / 0.26) | +0.212 [−0.064, +0.499], p 0.085 | +0.214 [−0.013, +0.460], p 0.033 | +0.209 [−0.063, +0.495], p 0.087 | 0.093 |
+| m40 | 0.398 (0.59 / 0.35 / 0.25) | +0.209 [−0.065, +0.513], p 0.087 | +0.211 [−0.009, +0.471], p 0.034 | +0.205, p 0.091 | 0.098 |
+| m44 | 0.372 (0.59 / 0.35 / 0.17) | +0.183 [−0.039, +0.480], p 0.056 | +0.185 [−0.003, +0.467], p 0.026 | +0.179, p 0.064 | 0.066 |
+| m43 | 0.248 (0.59 / 0.06 / 0.09) | +0.059, p 0.306 | +0.060, p 0.236 | +0.055, p 0.324 | 0.394 |
+| m42 | 0.135 (0.16 / 0.12 / 0.12) | −0.054, p 0.880 | −0.052, p 0.687 | −0.058, p 0.888 | 0.970 |
+
+**Reading.**
+- Pooling a pedestrian view with whole-route L20 gives the best dev scores so far: m41 0.401, m40 0.398. Each covers
+  all three gaps at once (0.59 / 0.35 / 0.25 to 0.26).
+- The margin is +0.21 over every rival, but every interval still includes zero. Against B3-behaviour, p is 0.085.
+  The best-rival p values are 0.09 to 0.10.
+- Pooling three sources (m43) leaves too few slots per source and loses FullyBlocked. m42's pooled top 10 drops m32's
+  pedestrian axis.
+- **This is the 30th try in batch 4 and the end of the overnight search: 164 tried in total.**
+

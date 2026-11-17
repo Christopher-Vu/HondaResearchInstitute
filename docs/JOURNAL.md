@@ -5,6 +5,45 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — Amendment A2, the rescore, j09 on Chris's pool, and overnight batch 4 (30 tries)
+
+Chris ruled on Jerry's four asks (issue 9, reply `issuecomment-6936238776`):
+- Repeated axes are dropped, and B3-infraction becomes a reported rival. Both are in amendment A2:
+  `docs/prereg-fail2drive.md` §8, `CONFLICTS.md` C40, tag `f2d-sprint-a2`.
+- We build the per-frame file ourselves and score j09 on our pool.
+- B7-pool's axes go to the share.
+- In place of a fixed split of the work, a `taking:` line is posted before any new idea.
+- Finalists get no hard bars in advance. H21 is reported as context, not used as a gate.
+
+A2 means a method's top 10 counts distinct axes only. Clustering by cuts now continues past cut 5 until it has 10
+distinct groups.
+
+**The rescore** reran every logged method on Chris's pool from its recorded settings (jobs 41406567 and 41406568).
+Measured, dev:
+- **The primary rival, B3-behaviour, rose from 0.093 to 0.189.** Its A1 top 10 had repeated groups. All three simple
+  rivals now sit at about 0.19.
+- Most leads gained a little. m12 (layer 8, average linkage) rose from 0.301 to 0.370.
+- Every lead's margin over B3-behaviour is now at p 0.06 to 0.13, against p ≤ 0.01 before. The earlier separation
+  came partly from a rival handicapped by its own repeats.
+- Jerry's side is asked to rescore its H21 rows, because our account cannot read H21's files.
+
+**The per-frame file** (`frames.npz`, Jerry's `frames_pool.py`, read before running, job 41406569) is built and shared.
+**j09** (Jerry's hidden Markov model over frames) scored 0.222 on Chris's pool, against 0.331 on H21. It does not
+carry over. At layer 10 it reaches 0.306, almost all on PedestriansOnRoad.
+
+**Batch 4** is the overnight search Chris approved for 20 to 30 tries. It ran 30 tries, all logged before scoring, for
+164 in total. It cost about 0.4 SU, all CPU. The rows and scores are in `VARIANTS.md`. The finding:
+- Window-mean clusters find the pedestrian group (0.59), but none of them finds FullyBlocked.
+- Whole-route summaries find FullyBlocked (0.35), and at layer 20 also BadParking (0.31).
+- Pooling the axes of one of each covers all three gaps:
+  - m41 (m12 with whole-route L20): **0.401** (0.59 / 0.35 / 0.26).
+  - m40 (layer 8 50-frame window, PCA 64, with whole-route L20): 0.398.
+  - m23 and m44: 0.372.
+- They are about +0.21 over every rival, but no interval excludes zero. Against B3-behaviour, p is 0.06 to 0.09.
+
+Not done: H21 replication of the new leads (Jerry's side has the data), and stability under resampling. The share
+also got the A2 rival files, the 30-, 50- and 100-frame caches and every report.
+
 ## 2026-11-16 — H21 rows rescored under amendment A2
 
 Chris's amendment A2 (`docs/prereg-fail2drive.md` §8, tag `f2d-sprint-a2`) counts only distinct axes in a method's top 10. A cut-based clustering now keeps cutting until it has 10 distinct groups. Before A2, Ward cuts 2, 3 and 5 listed a group again whenever a later cut left it whole. A2 also adds B3-infraction as a reported rival: failing routes grouped by the infraction they incurred. Chris's rescore script covers only his pool, because only our side holds H21's caches. Explore loop round 120 therefore reran all 19 methods logged on H21 (Jerry's second SimLingo dev pool) and their rivals. Each ran at its recorded settings; the only code change is that `h21_cache.py` now builds B3-kin through `cache_methods.axes_from` (commit `009031b`). Every rerun reproduced its old distinct axes as the start of its new list. A rescore is not a try.

@@ -6,15 +6,30 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-16 (Chris's leads rerun unchanged on H21: none carries over; j09 still the only method level with the behaviour rival there)
+Last updated: 2026-11-16 night (amendment A2 tagged and every method rescored; overnight batch 4 done, 164 tried; best dev lead m41 0.401)
 
 ---
 
 ## Current position
 
+**2026-11-16 night, A2 and batch 4 (dev, measured, 164 tried in total).**
+- **A2** (`f2d-sprint-a2`): distinct axes only, and B3-infraction a reported rival. Under it B3-behaviour scores 0.189,
+  level with B7-pool (0.187) and B3-infraction (0.192).
+- **j09 on Chris's pool:** 0.222. It does not carry over from H21's 0.331.
+- **Leads:**
+  - m41: 0.401 (0.59 / 0.35 / 0.26).
+  - m40: 0.398.
+  - m23 and m44: 0.372.
+
+  Each pools a pedestrian-window view with a whole-route view, at about +0.21 over every rival. No interval excludes
+  zero, and against B3-behaviour p is 0.06 to 0.09.
+- **Nothing queued.**
+- **Next:** stability under resampling and H21 replication of m40 and m41; Jerry's side rescores its H21 rows under A2;
+  Chris picks what to try next or what to freeze.
+
 **2026-11-16, H21b queued (Jerry).** H21's run repeated on traffic seeds 25 and 26 (arrays 41405003, 41405006; scoring 41405007, 41405008; about 1,140 SU, estimate) to make Jerry's second dev pool 3 seeds deep before Chris freezes finalists. **Next:** caches on all three seeds, then rerun the H21 replication of every lead.
 
-**Third model (2026-11-16, UniAD-Base, paused mid-task).** Model chosen: UniAD-Base from Bench2DriveZoo, checkpoint hash in `configs/rollout/f2d-uniad-smoke.yaml`; its Bench2Drive score, 45.81, matches Fail2Drive's leaderboard. The adapter is `adapters/uniad/`, and the environment is `hri-dev/.runtime/uniad-env`, staged from `/global/scratch/users/christophervu/uniad-env.tar`. All seven hook paths are verified on the built model. The first smoke drive (41404452) failed in upstream setup; it is fixed in cdc7e2e and hri-dev is at main, but it has **not been resubmitted**: method-loop jobs were pending. **Next:** when no `f2d-dev`/`m0` job is pending, rerun the submit command in the smoke config's header from hri-dev. Then check the drive, the shards (`python -m harness.shards`), the frames and the scores against the paper (DS 47.5 in-distribution, 44.0 generalization). Then the one-seed screen, the 6-seed pool, `b4-split.json` and `cache_pool.py`.
+**Third model (2026-11-16, UniAD-Base, paused mid-task).** Model chosen: UniAD-Base from Bench2DriveZoo, checkpoint hash in `configs/rollout/f2d-uniad-smoke.yaml`; its Bench2Drive score, 45.81, matches Fail2Drive's leaderboard. The adapter is `adapters/uniad/`, and the environment is `hri-dev/.runtime/uniad-env`, staged from `/global/scratch/users/christophervu/uniad-env.tar`. All seven hook paths are verified on the built model. The first smoke drive (41404452) failed in upstream setup; it is fixed in cdc7e2e. The rerun is **job 41406749** (A40, submitted 2026-11-16, result not yet read). **Next:** read `hri-dev/route-sample-41406749_0.out` and `results/savio/41406749/route-*/run.log`; if it failed, fix and resubmit with the command in the smoke config's header. Then check the drive, the shards (`python -m harness.shards`), the frames and the scores against the paper (DS 47.5 in-distribution, 44.0 generalization). Then the one-seed screen, the 6-seed pool, `b4-split.json` and `cache_pool.py`.
 
 **2026-11-16, current leads rerun unchanged on H21 (dev, measured, 134 tried in total).** m11, m16, m08, m15, m12 and j05 score 0.20 to 0.25 on H21, near failing-only chance (0.16 to 0.19) and below the behaviour rival B3-kin (0.326); on Chris's pool they score 0.28 to 0.31. Long windows rebuilt from H21's per-frame file. **Next:** unchanged: Chris's per-frame `frames.npz` so j09 can be scored on the sprint pool; B7-pool directory still not copied.
 
