@@ -377,6 +377,46 @@ the 52 failing routes from 1 to 5, and later cuts mostly peel off 1 to 4 more, s
 near-whole-pool or near-singleton and scores close to failing-only chance by construction. j05 splits more evenly
 (35 / 17) and still scores 0.202. Reports `results/h21/sprint/repl/`.
 
+### A2 rescore on H21 (Chris's request in `a2_rescore.sh`, 2026-11-16)
+
+Every method logged on H21 is rerun under amendment A2 (prereg §8) at its recorded settings, and so are its rivals:
+B3-kin (`h21_cache.py`, now using `cache_methods.axes_from`) and m03 L10. B3-infraction (`b3_infractions.py` on
+`results/savio/f2d-all/cache.npz`) is the reported rival. A rescore is not a try, so the total stays 159 (104 + 25 Chris
+batch 4 rows + 30 `j`-loop). Reproduction check: for every method clustered through `axes_from`, the distinct A1 axes are
+exactly the first axes of the A2 list. j03 and j07 have their own cut loops, and their A2 axes equal their A1 axes.
+j15 still gives no axes. The check passed for all 19 methods, including the HMM methods j09 and j10. The worker ran
+the reruns (Codex, `results/h21/a2/`). I reran the scorer for j09, m11 and m08 and the rivals, with identical results.
+Measured, dev, H21 pool; limits as above (one seed, 3 to 8 failures per category, categories already read).
+
+| id | A1 | **A2** (CustomObstacles / Wall / PedestriansOnRoad) | failing-only chance | A2 Δ, p vs B3-kin / m03 L10 / B3-infraction |
+|---|---|---|---|---|
+| j09 | 0.331 | **0.331** (0.31 / 0.40 / 0.29) | 0.176 | +0.006, p 0.46 / +0.080, p 0.18 / +0.023, p 0.29 |
+| j02 | 0.297 | 0.297 (0.30 / 0.36 / 0.22) | 0.176 | -0.029, p 0.65 / +0.046, p 0.22 / -0.011, p 0.40 |
+| m11 | 0.247 | 0.281 (0.29 / 0.22 / 0.33) | 0.178 | -0.045, p 0.73 / +0.030, p 0.08 / -0.027, p 0.65 |
+| m08 | 0.221 | 0.272 (0.30 / 0.19 / 0.33) | 0.177 | -0.054, p 0.67 / +0.021, p 0.12 / -0.036, p 0.58 |
+| j11 | 0.261 | 0.261 (0.46 / 0.23 / 0.09) | 0.187 | -0.064, p 0.79 / +0.010, p 0.33 / -0.047, p 0.61 |
+| j06 | 0.246 | 0.252 (0.36 / 0.25 / 0.14) | 0.183 | -0.073, p 0.77 / +0.001, p 0.33 / -0.056, p 0.59 |
+| j13 | 0.207 | 0.244 (0.30 / 0.23 / 0.20) | 0.180 | -0.082, p 0.88 / -0.007, p 0.39 / -0.064, p 0.77 |
+| j07 | 0.241 | 0.241 (0.31 / 0.27 / 0.14) | 0.174 | -0.084, p 0.77 / -0.010, p 0.36 / -0.067, p 0.65 |
+| j05 (repl., L5+8+20) | 0.202 | 0.236 (0.29 / 0.22 / 0.20) | 0.182 | -0.089, p 0.85 / -0.015, p 0.46 / -0.072, p 0.78 |
+| j01 | 0.231 | 0.231 (0.31 / 0.27 / 0.11) | 0.174 | -0.095, p 0.84 / -0.021, p 0.36 / -0.078, p 0.67 |
+| j05 (L10) | 0.183 | 0.222 (0.27 / 0.25 / 0.14) | 0.175 | -0.104, p 0.94 / -0.029, p 0.50 / -0.086, p 0.85 |
+| m16 | 0.222 | 0.222 (0.21 / 0.13 / 0.33) | 0.184 | -0.103, p 0.85 / -0.029, p 0.95 / -0.086, p 0.79 |
+| m15 | 0.210 | 0.217 (0.20 / 0.12 / 0.33) | 0.171 | -0.109, p 0.87 / -0.034, p 0.98 / -0.091, p 0.80 |
+| m12 | 0.203 | 0.214 (0.19 / 0.12 / 0.33) | 0.151 | -0.111, p 0.87 / -0.037, p 1.00 / -0.094, p 0.81 |
+| j12 | 0.209 | 0.209 (0.29 / 0.25 / 0.09) | 0.178 | -0.117, p 0.91 / -0.042, p 0.44 / -0.099, p 0.79 |
+| j04 | 0.193 | 0.193 (0.24 / 0.14 / 0.20) | 0.174 | -0.132, p 0.93 / -0.058, p 0.65 / -0.115, p 0.87 |
+| j10 | 0.133 | 0.137 (0.19 / 0.14 / 0.08) | 0.178 | -0.188, p 1.00 / -0.114, p 0.97 / -0.171, p 1.00 |
+| j03 | 0.108 | 0.108 (0.18 / 0.00 / 0.14) | 0.097 | -0.217, p 1.00 / -0.143, p 0.92 / -0.200, p 0.99 |
+| j15 | no axes | 0 (no axes) | — | — |
+
+Rivals under A2 (measured): **B3-kin 0.326** (0.46 / 0.33 / 0.18), unchanged from A1. **B3-infraction 0.308**
+(0.36 / 0.23 / 0.33). m03 L10 0.251 (A1 0.242). 159 tried in total. A2 raises the multi-cut m leads by 0.03 to 0.05
+(m11 0.247 to 0.281, m08 0.221 to 0.272), because under A1 they had only 7 distinct axes in their top 10. It does not
+change the H21 conclusion. No lead from the sprint pool reaches B3-kin or B3-infraction on H21. j09 is level with
+B3-kin (+0.006, p 0.46) and with B3-infraction (+0.023, p 0.29); it is not separable from either. Reports
+`results/h21/a2/report-<id>.json`.
+
 
 ### Amendment A2 (2026-11-16): distinct axes, B3-infraction reported
 
@@ -641,6 +681,66 @@ Scored 2026-11-16 by job 41406735 (under 0.1 SU, CPU). Measured, dev, **164 trie
 - **This is the 30th try in batch 4 and the end of the overnight search: 164 tried in total.**
 
 
+### Replication of batch 4's leads on H21 (shared plan track C, under A2, 2026-11-16)
+
+Batch 4's leads rerun unchanged on H21, at the settings they led with on Chris's pool. Nothing is tuned to H21.
+- **Inputs:** whole-route means are the cache's own route slot (`results/savio/f2d-all/cache.npz`, summary `route`).
+  The 50-frame window is rebuilt from H21's per-frame file, as in the first replication section
+  (`/tmp/ar-r95/h21-cache-w50.npz`).
+- **Pooling:** `pool_axes.py`, round-robin in the order `batch4.sh` gives the sources.
+- **Scoring:** as in "A2 rescore on H21". Gaps are CustomObstacles, Wall and PedestriansOnRoad. Rivals are B3-kin
+  (primary) and m03 L10, with B3-infraction reported.
+- **Limits:** one seed and 3 to 8 failures per category, and H22 to H25 have already read the categories. H21 can rank
+  and kill methods; it cannot make a candidate.
+
+Rows are written before any score is read, and each row counts as a try.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / m03 L10 / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| m41 | 2026-11-16 | H21 | pool of m12 (L8, 6-frame window, PCA 32, average linkage 2/3/5, A2) and whole-route L20 (m03, PCA 32, Ward 2/3/5) | 0.297 (0.16 / 0.40 / 0.33); failing-only chance 0.174 | -0.029, p 0.61 / +0.046, p 0.18 / -0.011, p 0.53 | 165 |
+| m40 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 | 0.307 (0.19 / 0.40 / 0.33); failing-only chance 0.177 | -0.019, p 0.58 / +0.055, p 0.13 / -0.002, p 0.49 | 166 |
+| m44 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L20 | 0.307 (0.19 / 0.40 / 0.33); failing-only chance 0.186 | -0.019, p 0.58 / +0.055, p 0.13 / -0.002, p 0.49 | 167 |
+| m23 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L8 | **0.364** (0.19 / **0.57** / 0.33); failing-only chance 0.182 | +0.039, p 0.47 / +0.113, p 0.04 / +0.056, p 0.33 | 168 |
+| m39 | 2026-11-16 | H21 | m03 on L8 50-frame window, PCA 64, Ward 2/3/5 (unpooled) | 0.212 (0.19 / 0.12 / 0.33); failing-only chance 0.154 | -0.114, p 0.87 / -0.039, p 1.00 / -0.096, p 0.81 | 169 |
+
+Scored 2026-11-16 (measured, dev, H21 pool, A2; **169 tried in total**). A Codex worker ran the methods and the scorer
+(`results/h21/a2-b4/`). I rebuilt every axis file myself: m15 and m12 reproduce the stored A2 axes exactly, and all
+five pooled or unpooled axis lists are identical to the worker's. I reran the scorer on my files, and every score, interval
+and p value matches. Rivals as in "A2 rescore on H21": B3-kin 0.326, B3-infraction 0.308, m03 L10 0.251.
+
+**Reading.**
+- **m23 replicates in direction.** It pools the L8 50-frame window with whole-route L8. It scores 0.364 on H21
+  (0.372 on Chris's pool), the highest H21 score of any method so far, above j09 0.331, B3-kin 0.326 and
+  B3-infraction 0.308. It is not separable from either behaviour rival (+0.039, p 0.47; +0.056, p 0.33).
+- **The gain is on Wall.** m23 scores 0.57 on Wall against 0.12 for m15 alone, so the whole-route axes add it. This
+  matches Chris's pool, where whole-route summaries carry FullyBlocked. Both gaps are a road the car cannot get past.
+- **The L20 pools do not carry over.** m40 and m44 score 0.307 and m41 0.297, all level with the behaviour rivals.
+  m39 alone (PCA 64) scores 0.212. Whole-route L20 adds Wall 0.40 here, but nothing like its BadParking role on
+  Chris's pool, since H21 has no BadParking gap.
+- **Limits:** one seed, 3 to 8 failures per category, and H21's categories have already been read. These numbers rank
+  methods; they do not make a candidate.
+
+**No-try stability check (label-free, route ids only, no gap read; 2026-11-16).** Same protocol as the j05 / m08 /
+m11 check in the sprint-pool section: refit on 20 random 80% subsets of the passing routes (failing kept, seeds
+1000-1019), every source refit on the same subset and re-pooled in `batch4.sh` order; the number is the mean
+best-match Jaccard of each original top-10 axis (in brackets, the share of axis-resamples at 0.8 or more). Original
+axes rebuilt first and equal to the stored A2 files for every H21 method. Measured:
+
+| pool | m23 | m44 | m40 | m41 | m15 | m39 | m12 | route-L8 | route-L20 |
+|---|---|---|---|---|---|---|---|---|---|
+| H21 | 0.881 (0.74) | 0.884 (0.83) | 0.882 (0.85) | 0.852 (0.77) | 0.920 (0.87) | 0.946 (0.95) | 0.870 (0.85) | 0.832 (0.71) | 0.897 (0.79) |
+| sprint | n/a | n/a | n/a | 0.881 (0.81) | n/a | n/a | 0.892 (0.87) | n/a | 0.833 (0.70) |
+
+The sprint pool's m23, m40, m44 need a 50-frame sprint cache that is not on this machine; left to Chris. Its m12 and
+route-L20 were built here from `cache.npz` with no stored file to check against. A Codex worker's script and a Terra
+worker's independent one agree to every printed digit for H21 m23 (0.8813 / 0.740), H21 m41 (0.8519 / 0.765) and
+sprint m41 (0.8810 / 0.805). Files: `results/h21/a2-b4/stability/`.
+
+Reading: every batch-4 lead is about as stable as m11 (0.85) and more than m08 (0.78), below j05 (0.90). In each H21
+pool the first six axes recover at 0.92 or more. The unstable ones are among slots 7 to 10, which are each source's
+lower-ranked, finer-cut axes. m23's slots 9 and 10 (both whole-route L8) recover at 0.8 in only 1 of 20 resamples. A
+score that depends on those slots is the least robust part of a lead. Which slots carry each gap was not read here.
+Files: `results/` is git-ignored, so the scripts and JSON stay on compute-box only.
 ### Approved batch 5, the last search batch (Chris, 2026-11-16: "run the few last attempt batches"), CPU, A2
 
 Rows are written before scoring. These cover the lanes nobody had run yet. Self-supervised route embeddings are left
@@ -648,14 +748,16 @@ out; the reasons are under the table.
 
 | id | idea | settings | methods tried after |
 |---|---|---|---|
-| m45 | Jerry's j06 (0.297 under A2) pooled with whole-route L20 | `a2/j/j06_kinresid.json` + `batch4/…route_layer_20.json`, round-robin | 165 |
-| m46 | Jerry's j05 (FullyBlocked 0.23) pooled with whole-route L20 | `a2/j/j05_knnresid.json` + whole-route L20 | 166 |
-| m47 | a probe beyond logistic: random-forest leaf similarity among failing routes | L8 w50, PCA 32, 500 trees, leaves ≥ 5, one-hot leaves → SVD 32 → Ward (`probe_mixture.py rf`) | 167 |
-| m48 | m47 pooled with whole-route L20 | round-robin | 168 |
-| m49 | mixture model with better features (the sprint PRD's H24 variants) | diagonal GMM on failing routes' L8 w50 PCA 16, K 4 to 12 by BIC, one axis per component (`probe_mixture.py gmm`) | 169 |
+| m45 | Jerry's j06 (0.297 under A2) pooled with whole-route L8 | `a2/j/j06_kinresid.json` + `a2/batch3/…route_layer_8.json`, round-robin | 170 |
+| m46 | Jerry's j05 (FullyBlocked 0.23) pooled with whole-route L8 | `a2/j/j05_knnresid.json` + whole-route L8 | 171 |
+| m47 | a probe beyond logistic: random-forest leaf similarity among failing routes | L8 w50, PCA 32, 500 trees, leaves ≥ 5, one-hot leaves → SVD 32 → Ward (`probe_mixture.py rf`) | 172 |
+| m48 | m47 pooled with whole-route L8 | round-robin | 173 |
+| m49 | mixture model with better features (the sprint PRD's H24 variants) | diagonal GMM on failing routes' L8 w50 PCA 16, K 4 to 12 by BIC, one axis per component (`probe_mixture.py gmm`) | 174 |
+
+The three pools were first written with whole-route L20, and switched to whole-route L8 before anything was scored. The H21 replication above shows that the L8 pool (m23) holds there and the L20 pools do not.
 
 Self-supervised route embeddings are not run. A trained encoder is a new model with its own choices, whose cost and
-risk outweigh what one more lane can show at 169 tries. Chris was told it was optional.
+risk outweigh what one more lane can show at 174 tries. Chris was told it was optional.
 
 ### Lead robustness (2026-11-16), fixed before it runs
 
@@ -671,11 +773,16 @@ risk outweigh what one more lane can show at 169 tries. Chris was told it was op
   - axis stability, the mean best Jaccard of its full-pool axes with the replicate's axes.
 - Resampling scores are not tries.
 
-**Neighbours.** Each lead with one setting moved one step, on the full pool. These count as tries (170 to 175), but
+**Neighbours.** Each lead with one setting moved one step, on the full pool. These count as tries (175 to 182), but
 none of them can replace a lead; they only show whether the lead sits on a narrow peak.
 - m41 with whole-route L19, and with L21.
 - m41 with m12 at L7, and at L9.
 - m40 at PCA 48, and at 80.
+- m23 with whole-route L7, and with L9.
+
+The 165 to 169 counts went to the H21 replication of batch 4 by Jerry's side, logged just above. These rows were
+renumbered after it, before anything here was scored. That replication shows m23 is the one lead that holds on H21
+(0.364), so m23's neighbours are added here.
 
 **The rule, fixed now.** A finalist candidate should:
 - beat all three rivals in at least 80% of replicates;

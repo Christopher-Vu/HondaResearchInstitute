@@ -5,6 +5,42 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — How stable batch 4's leads are when the passing routes are resampled
+
+Chris's plan asks for stability under resampling for every lead. This session measured it for batch 4's pools on
+H21 (m23, m44, m40, m41 and the views they pool) and for m41 on Chris's pool. The check is the same one used
+earlier for j05, m08 and m11. Each method is refitted 20 times, each time on a random 80% of the passing routes,
+with every failing route kept. Then we ask how well each of its original top-10 groups of failing routes comes back.
+"Best-match Jaccard" is the overlap between the original group and the closest refitted one, from 0 to 1. The check
+reads no labels beyond pass/fail and no gap names, and it is not a try.
+
+Measured: m23 0.88, m44 0.88, m40 0.88, m41 0.85 on H21, and m41 0.88 on Chris's pool. That is level with m11 (0.85),
+above m08 (0.78) and below j05 (0.90). In every pool the first six groups come back almost exactly. The unstable ones
+are the lower-ranked, finer-cut groups in slots 7 to 10. Two independent implementations (a Codex worker and a Terra
+worker) agree to every printed digit. Table and reading: `VARIANTS.md`, end of "Replication of batch 4's leads on H21"
+(`fed5d5f`). m23, m40 and m44 could not be checked on Chris's pool, since its 50-frame cache is not on this machine.
+
+## 2026-11-16 — Batch 4's leads rerun on H21: the whole-route pool m23 carries over, the L20 pools do not
+
+Chris's overnight batch 4 found that pooling a 50-frame-window view with a whole-route view covers two gaps on his
+pool. The "whole-route view" is the mean of a layer's activations over the whole drive. The best pools were m41 and
+m40 (about 0.40) and m23 and m44 (0.372). This session reran them unchanged on H21, Jerry's second SimLingo pool,
+along with m39 (the unpooled 50-frame window at PCA 64). Nothing was tuned. Each counts as a try, for 169 in total.
+The rows were logged before scoring (`97a3d67`) and filled in after (`3060ce6`, `VARIANTS.md`, section "Replication
+of batch 4's leads on H21").
+
+Measured, dev only:
+- **m23 scores 0.364 on H21.** It pools L8 50-frame with whole-route L8. This is the highest score on H21 of any
+  method so far. It is above both behaviour rivals, B3-kin (0.326) and B3-infraction (0.308), but not separably
+  (p 0.47 and 0.33).
+- **Its gain is on Wall (0.57)**, the H21 gap closest to Chris's FullyBlocked. The whole-route view helps with "road
+  blocked" failures on both pools.
+- **The L20 pools fall back to the rivals' level on H21:** m40 and m44 0.307, m41 0.297. m39 scores 0.212.
+
+A Codex worker ran the methods. I rebuilt every axis file and reran the scorer myself, with identical results. H21 is
+one seed with 3 to 8 failures per category, and its categories have been read before, so it ranks methods but cannot
+make a candidate.
+
 ## 2026-11-16 — Amendment A2, the rescore, j09 on Chris's pool, and overnight batch 4 (30 tries)
 
 Chris ruled on Jerry's four asks (issue 9, reply `issuecomment-6936238776`):
@@ -43,6 +79,12 @@ carry over. At layer 10 it reaches 0.306, almost all on PedestriansOnRoad.
 
 Not done: H21 replication of the new leads (Jerry's side has the data), and stability under resampling. The share
 also got the A2 rival files, the 30-, 50- and 100-frame caches and every report.
+
+## 2026-11-16 — H21 rows rescored under amendment A2
+
+Chris's amendment A2 (`docs/prereg-fail2drive.md` §8, tag `f2d-sprint-a2`) counts only distinct axes in a method's top 10. A cut-based clustering now keeps cutting until it has 10 distinct groups. Before A2, Ward cuts 2, 3 and 5 listed a group again whenever a later cut left it whole. A2 also adds B3-infraction as a reported rival: failing routes grouped by the infraction they incurred. Chris's rescore script covers only his pool, because only our side holds H21's caches. Explore loop round 120 therefore reran all 19 methods logged on H21 (Jerry's second SimLingo dev pool) and their rivals. Each ran at its recorded settings; the only code change is that `h21_cache.py` now builds B3-kin through `cache_methods.axes_from` (commit `009031b`). Every rerun reproduced its old distinct axes as the start of its new list. A rescore is not a try.
+
+Measured, dev only: on H21, A2 lifts the sprint pool's leads by 0.03 to 0.05 (m11 0.247 to 0.281, m08 0.221 to 0.272). It leaves j09 (a hidden Markov model over frames) at 0.331 and B3-kin at 0.326, and puts B3-infraction at 0.308. No sprint-pool lead reaches either behaviour rival on H21. j09 is level with both and separable from neither. The table is in `VARIANTS.md`, "A2 rescore on H21" (commit `a3132e5`); the reports are in `results/h21/a2/`. 159 methods tried in total.
 
 ## 2026-11-16 — UniAD built and its hooks checked; first drive failed in setup and is fixed but not rerun
 

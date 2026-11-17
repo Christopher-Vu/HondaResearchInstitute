@@ -20,9 +20,9 @@ import json
 from pathlib import Path
 
 import numpy as np
-from scipy.cluster.hierarchy import fcluster, linkage
 
 from cache_pool import order_key
+import cache_methods
 
 CUTS = (2, 3, 5)
 
@@ -46,14 +46,7 @@ def main() -> None:
              kin=np.asarray(kin, dtype=np.float64))
 
     z = (kin - kin.mean(0)) / np.where(kin.std(0) > 0, kin.std(0), 1.0)
-    rows = np.flatnonzero(failed)
-    tree = linkage(z[rows], method="ward")
-    axes = []
-    for k in CUTS:
-        labels = fcluster(tree, t=k, criterion="maxclust")
-        groups = sorted(({ids[rows[j]] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len,
-                        reverse=True)
-        axes += [{"name": f"kin cut {k} group {n + 1}", "rollouts": sorted(g)} for n, g in enumerate(groups)]
+    axes = cache_methods.axes_from(z, failed, ids, "kin", "ward", (2, 3, 5))[:10]
     (args.output / "b3_kin.json").write_text(json.dumps({"method": "B3_behaviour_kin", "axes": axes}, indent=1) + "\n")
 
     manifest = [entry | {"pair": entry["base_id"]} for entry in json.loads(args.manifest.read_text())]
