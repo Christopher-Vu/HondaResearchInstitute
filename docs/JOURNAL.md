@@ -6,6 +6,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 ---
 
 
+## 2026-11-16 — Jerry's agent: frame-spacing wording fixed in VARIANTS
+
+After the freeze, Jerry's autoresearch loop stopped all SimLingo method work and made the one docs fix Chris
+had asked either side to make. `VARIANTS.md` said captured frames were "every 10 steps" and the 6-frame approach
+window "about 3 s". Both were wrong: frames are 5 simulator steps apart (0.25 s at 20 Hz, measured on every frame
+gap of the dev caches in round 126), so the window is about 1.5 s, as prereg amendment A3 now says. No method row,
+score or script changed, and no try was spent (188 tried in total). The only work still queued on this side is
+running the two finalists, unchanged, on Jerry's 600-route SimLingo pool (seeds 24-26) as context once those
+caches are copied over.
+
 ## 2026-11-17 — The freeze: m23 and m40 go to TransFuser++
 
 Chris froze two finalists from the SimLingo search, m23 (primary) and m40, at tag `f2d-freeze-1`
