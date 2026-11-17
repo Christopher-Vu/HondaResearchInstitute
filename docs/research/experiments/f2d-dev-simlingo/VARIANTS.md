@@ -680,3 +680,25 @@ Scored 2026-11-16 by job 41406735 (under 0.1 SU, CPU). Measured, dev, **164 trie
   pedestrian axis.
 - **This is the 30th try in batch 4 and the end of the overnight search: 164 tried in total.**
 
+
+### Replication of batch 4's leads on H21 (shared plan track C, under A2, 2026-11-16)
+
+Batch 4's leads rerun unchanged on H21, at the settings they led with on Chris's pool. Nothing is tuned to H21.
+- **Inputs:** whole-route means are the cache's own route slot (`results/savio/f2d-all/cache.npz`, summary `route`).
+  The 50-frame window is rebuilt from H21's per-frame file, as in the first replication section
+  (`/tmp/ar-r95/h21-cache-w50.npz`).
+- **Pooling:** `pool_axes.py`, round-robin in the order `batch4.sh` gives the sources.
+- **Scoring:** as in "A2 rescore on H21". Gaps are CustomObstacles, Wall and PedestriansOnRoad. Rivals are B3-kin
+  (primary) and m03 L10, with B3-infraction reported.
+- **Limits:** one seed and 3 to 8 failures per category, and H22 to H25 have already read the categories. H21 can rank
+  and kill methods; it cannot make a candidate.
+
+Rows are written before any score is read, and each row counts as a try.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / m03 L10 / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| m41 | 2026-11-16 | H21 | pool of m12 (L8, 6-frame window, PCA 32, average linkage 2/3/5, A2) and whole-route L20 (m03, PCA 32, Ward 2/3/5) | | | 165 |
+| m40 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 | | | 166 |
+| m44 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L20 | | | 167 |
+| m23 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L8 | | | 168 |
+| m39 | 2026-11-16 | H21 | m03 on L8 50-frame window, PCA 64, Ward 2/3/5 (unpooled) | | | 169 |
