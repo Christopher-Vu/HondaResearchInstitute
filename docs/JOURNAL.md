@@ -5,6 +5,24 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — m23's edge on H21 survives resampling; m12's FullyBlocked score does not
+
+This session finished the resample scoring that the entry below began. The 20 resampled axis sets (each a refit on
+a random 80% of the passing routes, every failing route kept) were scored for the batch-4 leads on H21, Jerry's
+second SimLingo pool (m23, m40, m41, m44), and for m41 and m12 on Chris's pool. No method changed and no try was
+spent; 169 methods have been tried in total. A Codex worker ran it; I rescored one resample per pool myself and got
+identical numbers.
+
+Measured: on H21, m23 averages 0.371 over the resamples (0.364 on full data), and every resample stays above the
+behaviour rival's full-data score (0.326). Its gain is the Wall gap, a road the car cannot pass, which it recovers at
+0.50 or more every time. m40, m41 and m44 stay at 0.30 to 0.31, level with the rivals. On Chris's pool, m41 averages
+0.383 (0.401 on full data). m12 drops from 0.370 to 0.316, because its FullyBlocked match almost vanishes (0.26 to
+0.08). So m12's FullyBlocked score is fragile, and m41 keeps most of it through its whole-route layer-20 view.
+
+The session also corrected a rounding slip: H21 m40 and m44 are 0.306, not 0.307 (commit 36eba72). This is dev
+context for Chris's finalist pick, not a result. Table in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md`
+(commit 0d7fa1a).
+
 ## 2026-11-16 — The sprint leads' FullyBlocked score rests on their least stable axis
 
 Chris's 50-frame sprint cache reached this machine this evening, so this session ran the resampling check (refit on
