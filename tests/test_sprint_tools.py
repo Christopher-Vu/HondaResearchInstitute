@@ -95,6 +95,13 @@ def test_a2_axes_from_lists_no_group_twice_and_fills_10() -> None:
     assert all(r.startswith("r") and int(r[1:]) < 60 for s in sets for r in s)
 
 
+def test_transfer_layer_fraction_gives_back_simlingo_layers_and_maps_shallow_stacks() -> None:
+    cache_methods = _load("cache_methods")
+    assert cache_methods.depth_layers(24, [l / 23 for l in range(24)]) == list(range(24))
+    assert cache_methods.depth_layers(6, [8 / 23, 20 / 23]) == [2, 4]
+    assert cache_methods.depth_layers(1, [8 / 23]) == [0]
+
+
 def test_hungarian_recall_does_not_reuse_one_axis_for_two_identical_gaps() -> None:
     gaps = {"G1": {"1", "2", "3", "4"}, "G2": {"1", "2", "3", "4"}}
     axes = [{"1", "2", "3", "4"}, {"9"}]

@@ -784,3 +784,132 @@ pool the first six axes recover at 0.92 or more. The unstable ones are among slo
 lower-ranked, finer-cut axes. m23's slots 9 and 10 (both whole-route L8) recover at 0.8 in only 1 of 20 resamples. A
 score that depends on those slots is the least robust part of a lead. Which slots carry each gap was not read here.
 Files: `results/` is git-ignored, so the scripts and JSON stay on compute-box only.
+### Approved batch 5, the last search batch (Chris, 2026-11-16: "run the few last attempt batches"), CPU, A2
+
+Rows are written before scoring. These cover the lanes nobody had run yet. Self-supervised route embeddings are left
+out; the reasons are under the table.
+
+| id | idea | settings | methods tried after |
+|---|---|---|---|
+| m45 | Jerry's j06 (0.297 under A2) pooled with whole-route L8 | `a2/j/j06_kinresid.json` + `a2/batch3/…route_layer_8.json`, round-robin | 170 |
+| m46 | Jerry's j05 (FullyBlocked 0.23) pooled with whole-route L8 | `a2/j/j05_knnresid.json` + whole-route L8 | 171 |
+| m47 | a probe beyond logistic: random-forest leaf similarity among failing routes | L8 w50, PCA 32, 500 trees, leaves ≥ 5, one-hot leaves → SVD 32 → Ward (`probe_mixture.py rf`) | 172 |
+| m48 | m47 pooled with whole-route L8 | round-robin | 173 |
+| m49 | mixture model with better features (the sprint PRD's H24 variants) | diagonal GMM on failing routes' L8 w50 PCA 16, K 4 to 12 by BIC, one axis per component (`probe_mixture.py gmm`) | 174 |
+
+The three pools were first written with whole-route L20, and switched to whole-route L8 before anything was scored. The H21 replication above shows that the L8 pool (m23) holds there and the L20 pools do not.
+
+Self-supervised route embeddings are not run. A trained encoder is a new model with its own choices, whose cost and
+risk outweigh what one more lane can show at 174 tries. Chris was told it was optional.
+
+### Lead robustness (2026-11-16), fixed before it runs
+
+`robustness.py`, job in `batch5.sh robust`. It reads the key on the scoring side.
+
+**Resampling.** 30 replicates. Each draws 80% of Fail2Drive pairs without replacement, a pair carrying all its routes.
+- The leads m41, m40, m44, m23, m39 (PCA 64) and m12 are refit from scratch on the sample: standardising, PCA,
+  clustering and pooling.
+- B3-behaviour is refit, B3-infraction is regrouped, and B7-pool's fixed axes are cut to the sample.
+- **Reported for each lead:**
+  - its score distribution;
+  - the share of replicates where it beats each rival and all three;
+  - axis stability, the mean best Jaccard of its full-pool axes with the replicate's axes.
+- Resampling scores are not tries.
+
+**Neighbours.** Each lead with one setting moved one step, on the full pool. These count as tries (175 to 182), but
+none of them can replace a lead; they only show whether the lead sits on a narrow peak.
+- m41 with whole-route L19, and with L21.
+- m41 with m12 at L7, and at L9.
+- m40 at PCA 48, and at 80.
+- m23 with whole-route L7, and with L9.
+
+The 165 to 169 counts went to the H21 replication of batch 4 by Jerry's side, logged just above. These rows were
+renumbered after it, before anything here was scored. That replication shows m23 is the one lead that holds on H21
+(0.364), so m23's neighbours are added here.
+
+**The rule, fixed now.** A finalist candidate should:
+- beat all three rivals in at least 80% of replicates;
+- keep axis stability of at least 0.6;
+- have neighbours within 0.05 of its own score.
+
+Whatever misses that is reported as fragile. This is not a gate on Chris's choice (A2: no hard bars); it is the
+"stability under resampling" record A2 names.
+
+**Batch 5 scored** 2026-11-16 by job 41408044, under 0.1 SU, CPU. Measured, dev, **174 tried in total**. Rivals as in
+batch 4.
+
+| id | score (PedestriansOnRoad / FullyBlocked / BadParking) | vs B3-behaviour | vs B7-pool | vs B3-infraction (reported) | vs best rival p |
+|---|---|---|---|---|---|
+| m49 (GMM, L8 w50) | **0.381** (**0.73** / 0.13 / 0.28) | +0.192 [**+0.050**, +0.413], p **0.002** | +0.194 [**+0.027**, +0.459], p 0.015 | +0.189 [+0.035, +0.407], p 0.004 | **0.017** |
+| m46 (j05 + whole-route L8) | 0.284 (0.45 / 0.23 / 0.16) | +0.095, p 0.087 | +0.097, p 0.097 | +0.091, p 0.102 | 0.164 |
+| m45 (j06 + whole-route L8) | 0.165 (0.30 / 0.08 / 0.12) | −0.024, p 0.587 | −0.022, p 0.458 | −0.027, p 0.615 | 0.766 |
+| m47 (random-forest leaves, L8 w50) | 0.154 (0.20 / 0.11 / 0.15) | −0.035, p 0.693 | −0.033, p 0.542 | −0.038, p 0.706 | 0.860 |
+| m48 (m47 + whole-route L8) | 0.136 (0.20 / 0.06 / 0.15) | −0.053, p 0.854 | −0.051, p 0.630 | −0.056, p 0.862 | 0.942 |
+
+**Reading.**
+- **m49 is the first dev method whose 95% interval excludes zero against every rival.** It fits a mixture model to
+  the failing routes' L8 50-frame window and makes one axis per component.
+- Its pedestrian axis (0.73) is purer than any Ward cut finds (0.59), and it also scores 0.28 on BadParking.
+- The random-forest probe fails: the pass/fail split does not organise the failing routes by type.
+- m45 and m46 pooled whole-route L8 behind their own top axes, so neither gained FullyBlocked.
+
+**Lead robustness scored** by job 41408045. Measured, dev, 30 replicates at 80% of pairs. The neighbours are tries
+175 to 182.
+
+| lead | full pool | resampled mean (5th–95th) | beats all three rivals | axis stability | neighbours (full pool) | rule |
+|---|---|---|---|---|---|---|
+| m40 | 0.398 | 0.408 (0.289–0.613) | **100%** | 0.77 | PCA 48: 0.373; PCA 80: 0.398 | **passes** |
+| m23 | 0.372 | 0.366 (0.268–0.504) | **100%** | 0.71 | whole-route L7: 0.351; **L9: 0.253** | fragile (L9) |
+| m44 | 0.372 | 0.370 (0.239–0.504) | 97% | 0.78 | not run | — |
+| m41 | 0.401 | 0.347 (0.191–0.454) | 93% | 0.83 | **R19: 0.300**; R21: 0.370; m12 L7: 0.395; **m12 L9: 0.289** | fragile (two) |
+| m39 (PCA 64) | 0.368 | 0.373 (0.224–0.603) | 97% | 0.81 | not run | — |
+| m12 | 0.370 | **0.298** (0.209–0.408) | 90% | 0.87 | not run | fragile (resampled mean −0.07) |
+
+Rivals resampled: B3-behaviour 0.195, B3-infraction 0.193, B7-pool 0.197.
+
+Reading:
+- Every lead beats all three rivals in at least 90% of resamples. The leads are robust to which pairs are drawn.
+- Narrow peaks are the weakness:
+  - m41 drops by 0.10 when either source moves one layer.
+  - m23 drops by 0.12 when its whole-route layer moves from 8 to 9.
+- m40 is the only lead that passes the rule fixed before the run.
+
+**m49 follow-ups** (rows written after batch 5's scores, before these run).
+- **Resampling and seeds** for m49, which are not tries: the robustness check above, plus its mixture refit with
+  seeds 1 to 10 on the full pool.
+- **Neighbours of m49**, tries 183 to 186: layers 7 and 9, and PCA widths 12 and 20.
+- **Pools**, written up below.
+- The same rule applies: beat all three rivals in at least 80% of replicates, axis stability of at least 0.6, and
+  neighbours within 0.05.
+
+| id | idea | settings | methods tried after |
+|---|---|---|---|
+| m50 | m49 pooled with whole-route L8 (the FullyBlocked view that held on H21) | round-robin, `batch5.sh pools49` | 187 |
+| m51 | m49 pooled with whole-route L20 | round-robin | 188 |
+
+**m49 follow-ups scored** 2026-11-16 by jobs 41408089 and 41408130 (under 0.1 SU, CPU). Job 41408090 failed first:
+one mixture fit collapsed, and the check now skips any K that fails to fit (`e607903`). Measured, dev, **188 tried in
+total**.
+
+| check | result |
+|---|---|
+| m50 (m49 + whole-route L8) | 0.171 (0.10 / 0.13 / 0.28): pooling keeps m49's five largest components, and its pedestrian component is not among them |
+| m51 (m49 + whole-route L20) | 0.171 (0.10 / 0.13 / 0.28), the same |
+| m49, mixture seeds 1 to 10 (full pool) | 0.161, **0.411**, 0.175, 0.157, **0.378**, 0.175, **0.391**, 0.154, 0.166, 0.164: 3 of 10 seeds near seed 0's 0.381, 7 near 0.16 |
+| m49, resampling | mean **0.229** (5th–95th 0.149–0.364); beats all three rivals in **40%** of replicates; axis stability 0.68 |
+| m49, neighbours | L7 0.352, **L9 0.184**, PCA 12 0.389, **PCA 20 0.186** |
+
+**Reading: m49 is fragile.**
+- Its 0.381 and its intervals above zero depend on the mixture's seed.
+- Most seeds, resamples and one-step neighbours land at 0.16 to 0.23, level with the rivals.
+- Under the rule fixed before the run it fails all three tests.
+- The other leads' robustness rows above are unchanged by this rerun (same values).
+
+**Where the leads stand after robustness** (dev, 188 tried):
+- **m40** (L8 w50 PCA 64 + whole-route L20) is the only lead that passes the rule: 0.398, beats all rivals in 100%
+  of resamples, neighbours within 0.025. On H21 it scores 0.307, level with B3-kin's 0.326.
+- **m23** (L8 w50 + whole-route L8) is the only lead that holds on H21: 0.364, the best H21 score of any method. It
+  beats all rivals in 100% of resamples. One neighbour drops: whole-route L9 scores 0.253.
+- **m44** is m40 at PCA 32: 0.372. Each is the other's PCA-width neighbour, so they are one method.
+- **m41** (two neighbours drop by 0.10 or more), **m12** (resampled mean 0.298) and **m49** (seed-dependent) are
+  fragile.

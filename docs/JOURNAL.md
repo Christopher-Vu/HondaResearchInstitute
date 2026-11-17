@@ -39,6 +39,32 @@ PedestriansOnRoad holds at 0.59 in every resample, and every resample stays abov
 
 This is context for Chris's finalist pick, not a result: it is dev data after 169 tries. Numbers and the per-slot
 table are in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` (commit 26f5954).
+## 2026-11-16 — The last search batch, lead robustness, and a draft transfer spec
+
+Chris asked for a few last method batches, a robustness probe of the leads, and a transfer spec, ahead of waiting on
+UniAD. Every row was logged before scoring, and both sides' tries are counted: 188 in total.
+
+**Batch 5** (m45 to m49) covered the lanes nobody had run. Pooling Jerry's j05 and j06 with the whole-route view
+gained nothing. A random-forest probe failed (0.15). A Gaussian mixture on the layer-8 50-frame window, m49, scored
+0.381, the first dev method with intervals above zero against every rival.
+
+**Robustness** (`robustness.py`) refit each lead on 30 resamples of 80% of Fail2Drive pairs, and scored one-step
+neighbours of each lead. It also refit m49 with 10 mixture seeds. Measured, dev:
+- **m49 is seed luck.** 7 of 10 seeds score about 0.16, and it beats the rivals in only 40% of resamples.
+- **m40 is the one lead that passes the rule fixed before the run.** It pools the layer-8 50-frame window (PCA 64)
+  with the whole-route view at layer 20. It scores 0.398, beats all rivals in 100% of resamples, and its neighbours
+  are within 0.025. On H21 it is level with the behaviour rival.
+- **m23 is the one lead that holds on H21** (0.364 there, from Jerry's side's replication). It also beats all rivals
+  in 100% of resamples here. Its whole-route layer 9 neighbour drops to 0.25.
+- m41 and m12 are fragile.
+
+**The transfer spec** (`docs/research/experiments/f2d-dev-simlingo/transfer-spec.md`, draft) says how a SimLingo
+method runs on TransFuser++ and UniAD: the controller's query site, layers by relative depth (`--layer-fraction`),
+windows in frames (all three models record every 5 simulation steps), and one fixed B7 dictionary per model. Of the
+held-out pools, only one TransFuser++ shard's array names and shapes were read.
+
+UniAD's smoke drive was at the lowest priority, which was meant for while method jobs waited. None wait now, so its
+priority was reset to normal. It is still queued, with an estimated start of 2026-11-17 10:15.
 
 ## 2026-11-16 — How stable batch 4's leads are when the passing routes are resampled
 
