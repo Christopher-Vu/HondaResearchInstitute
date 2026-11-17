@@ -843,3 +843,30 @@ Reading:
 |---|---|---|---|
 | m50 | m49 pooled with whole-route L8 (the FullyBlocked view that held on H21) | round-robin, `batch5.sh pools49` | 187 |
 | m51 | m49 pooled with whole-route L20 | round-robin | 188 |
+
+**m49 follow-ups scored** 2026-11-16 by jobs 41408089 and 41408130 (under 0.1 SU, CPU). Job 41408090 failed first:
+one mixture fit collapsed, and the check now skips any K that fails to fit (`e607903`). Measured, dev, **188 tried in
+total**.
+
+| check | result |
+|---|---|
+| m50 (m49 + whole-route L8) | 0.171 (0.10 / 0.13 / 0.28): pooling keeps m49's five largest components, and its pedestrian component is not among them |
+| m51 (m49 + whole-route L20) | 0.171 (0.10 / 0.13 / 0.28), the same |
+| m49, mixture seeds 1 to 10 (full pool) | 0.161, **0.411**, 0.175, 0.157, **0.378**, 0.175, **0.391**, 0.154, 0.166, 0.164: 3 of 10 seeds near seed 0's 0.381, 7 near 0.16 |
+| m49, resampling | mean **0.229** (5th–95th 0.149–0.364); beats all three rivals in **40%** of replicates; axis stability 0.68 |
+| m49, neighbours | L7 0.352, **L9 0.184**, PCA 12 0.389, **PCA 20 0.186** |
+
+**Reading: m49 is fragile.**
+- Its 0.381 and its intervals above zero depend on the mixture's seed.
+- Most seeds, resamples and one-step neighbours land at 0.16 to 0.23, level with the rivals.
+- Under the rule fixed before the run it fails all three tests.
+- The other leads' robustness rows above are unchanged by this rerun (same values).
+
+**Where the leads stand after robustness** (dev, 188 tried):
+- **m40** (L8 w50 PCA 64 + whole-route L20) is the only lead that passes the rule: 0.398, beats all rivals in 100%
+  of resamples, neighbours within 0.025. On H21 it scores 0.307, level with B3-kin's 0.326.
+- **m23** (L8 w50 + whole-route L8) is the only lead that holds on H21: 0.364, the best H21 score of any method. It
+  beats all rivals in 100% of resamples. One neighbour drops: whole-route L9 scores 0.253.
+- **m44** is m40 at PCA 32: 0.372. Each is the other's PCA-width neighbour, so they are one method.
+- **m41** (two neighbours drop by 0.10 or more), **m12** (resampled mean 0.298) and **m49** (seed-dependent) are
+  fragile.
