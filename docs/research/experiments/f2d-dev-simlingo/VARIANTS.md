@@ -377,3 +377,48 @@ the 52 failing routes from 1 to 5, and later cuts mostly peel off 1 to 4 more, s
 near-whole-pool or near-singleton and scores close to failing-only chance by construction. j05 splits more evenly
 (35 / 17) and still scores 0.202. Reports `results/h21/sprint/repl/`.
 
+
+### Amendment A2 (2026-11-16): distinct axes, B3-infraction reported
+
+`docs/prereg-fail2drive.md` §8, `CONFLICTS.md` C40, tag `f2d-sprint-a2`.
+- Repeated axes no longer use up the top 10.
+- Cut-based clustering continues past its last cut until it has 10 distinct axes.
+- B3-infraction is compared with every method, but has no pass bar and is not part of the best rival.
+- Every logged method is rescored on this pool by `a2_rescore.sh`, from its own recorded settings. Rescores are not
+  tries.
+- The H21 rows need H21's caches, which only Jerry's account can read; issue 9 asks Jerry's side to rescore them.
+
+A1 and A2 scores are listed side by side in the table below, filled in once the rescore has run.
+
+### Approved overnight batch 4 (Chris, 2026-11-16: "20 to 30 new methods"), all on CPU, scored under A2
+
+Rows are written before any score is read, and each row counts as tries. The windows (`wN`) are as in batch 3.
+- **Priorities:** FullyBlocked, frame-based windows and layers, and building on j09.
+- **Per-frame file:** `frames.npz`, built by `frames_pool.py` (Jerry's script, read before running) on this pool's
+  shards. It holds `driving_queries` layers 5, 8, 10 and 20, last 50 frames before the failure step.
+- **Rivals:** B3-behaviour (A2, primary), B7-pool, and B3-infraction (reported).
+- **Scripts:** `batch4.sh` parts `fast`, `w100` and `frames`; `frames_methods.py`.
+
+| id | idea | settings | methods tried after |
+|---|---|---|---|
+| j09 | Jerry's HMM over frames, first time on this pool, run by us at its defaults | L8, PCA 16, S by BIC from {4, 6, 8}, Hellinger occupancy and transitions, Ward | 135 |
+| m22 | pedestrian view plus FullyBlocked view in one embedding | L8, w50 window mean and whole-route mean concatenated | 136 |
+| m23 | pool the two views' axes | round-robin of m15 (L8 w50) and whole-route L8, A2 axes | 137 |
+| m24 | longer approach windows | w100 at L8; w100 at L5+8+20 | 139 |
+| m25 | where FullyBlocked lives in whole-route summaries | whole route at L5, L10, L20, L5+8+20, and `all_tokens` L1 | 144 |
+| m26 | what changes in the run-up, against the route's own mean | window minus whole-route mean: w50 L8; w20 L10 | 146 |
+| m27 | two sites | `driving_queries` L8 plus `all_tokens` L1, w50 | 147 |
+| m28 | three-way pool | m15, whole-route L8, B7-pool, round-robin | 148 |
+| m29 | several time scales at once | per-frame file, L8: means of the last 5, 20 and 50 frames | 149 |
+| m30 | direction of travel in activation space | per-frame, L8: PCA 16 mean and slope over time | 150 |
+| m31 | stopped frames apart from moving ones (FullyBlocked) | per-frame, L8: mean while below 0.5 m/s, mean while moving, stopped share | 151 |
+| m32 | how much the activations move | per-frame, L8: mean and standard deviation over frames | 152 |
+| m33 | j09 at another layer | j09 at L10 | 153 |
+| m34 | j09 at another layer | j09 at L20 | 154 |
+| m35 | j09 plus the window mean | j09's embedding beside the w50 mean's PCA 32, equal weight | 155 |
+| m36 | j09 on several layers | j09's pipeline on L5+8+20 per frame | 156 |
+| m38 | j05's background subtraction on our best window | j05 (10 nearest passing routes) on w50 L8 | 157 |
+| m39 | PCA width for m15 | L8 w50 at 16 and 64 components | 159 |
+
+m37 is not used. j09 and m33 to m36 run whatever j09 scores here, so the rule cannot be bent after the score is seen.
+The reported tried count for the whole batch is 159.
