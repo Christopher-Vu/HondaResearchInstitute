@@ -607,3 +607,16 @@ in `sprint/batch4*/report.json`. Each comparison column gives the delta, 95% int
   (0.67).
 - **Frame summaries** (m29, m32) reach 0.32 to 0.33. m32's 0.67 on PedestriansOnRoad is the best on that gap.
 - Every remaining tie with a rival is within its interval.
+
+**Batch 4 pools** (rows written 2026-11-16 after batch 4's scores and before these five are scored; they bring the
+batch to 30, the top of Chris's 20 to 30). m23 shows that pooling a pedestrian view with a whole-route view covers two
+gaps. Whole-route L20 scored 0.35 on FullyBlocked and 0.31 on BadParking, so each row below pools a pedestrian view
+with it, round-robin, skipping near-repeats (`pool_axes.py`). Script: `batch4.sh pools`.
+
+| id | pooled sources | methods tried after |
+|---|---|---|
+| m40 | m39 (L8 w50, PCA 64) and whole-route L20 | 160 |
+| m41 | m12 (L8 w6, average linkage, A2) and whole-route L20 | 161 |
+| m42 | m32 (frames: mean and spread, L8) and whole-route L20 | 162 |
+| m43 | L8 w50, whole-route L8 and whole-route L20 | 163 |
+| m44 | L8 w50 and whole-route L20 | 164 |
