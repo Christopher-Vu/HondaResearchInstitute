@@ -729,14 +729,36 @@ axes rebuilt first and equal to the stored A2 files for every H21 method. Measur
 | pool | m23 | m44 | m40 | m41 | m15 | m39 | m12 | route-L8 | route-L20 |
 |---|---|---|---|---|---|---|---|---|---|
 | H21 | 0.881 (0.74) | 0.884 (0.83) | 0.882 (0.85) | 0.852 (0.77) | 0.920 (0.87) | 0.946 (0.95) | 0.870 (0.85) | 0.832 (0.71) | 0.897 (0.79) |
-| sprint | n/a | n/a | n/a | 0.881 (0.81) | n/a | n/a | 0.892 (0.87) | n/a | 0.833 (0.70) |
+| sprint | **0.791 (0.61)** | 0.865 (0.79) | 0.868 (0.75) | 0.881 (0.81) | 0.931 (0.92) | 0.859 (0.81) | 0.892 (0.87) | 0.840 (0.64) | 0.833 (0.70) |
 
-The sprint pool's m23, m40, m44 need a 50-frame sprint cache that is not on this machine; left to Chris. Its m12 and
+The sprint pool's m23, m40, m44, m15 and m39 were added on 2026-11-16 once Chris's `cache-w50.npz` arrived (same
+script with the sprint caches; a Codex worker's run and mine give byte-identical JSON). No stored axis lists exist
+here, so the check was a rescore of the rebuilt full-data axes: m15 0.3116, m39 0.3680, route-L20 0.2521, m23 0.3718,
+m40 0.3980, m44 0.3718, and rivals B3-behaviour 0.1889, B7-pool 0.1871, B3-infraction 0.1925, all equal to Chris's
+recorded scores. A diagnostic on these already-scored methods (scoring side only; no method changed) found which
+slot gives each gap its best match. On the sprint pool, PedestriansOnRoad (0.59) comes from slot 2 or 3 in all three,
+which recovers in every resample. FullyBlocked (0.35) comes from **slot 10**, a 6-route axis, in all three: m23
+0.46 (0.40), m44 0.47 (0.45), m40 0.66 (0.65). BadParking: m23 / m44 slot 9 at 0.77 (0.65), m40 slot 5 at 1.00. So
+the sprint leads' margin beyond PedestriansOnRoad sits on the last, least stable axis in the budget. To see what that
+does to the score, each of the 20 resamples' top-10 axes was scored with `sprint_score.py` (failing routes are kept
+in every resample, so the axes score as they are; no try, methods unchanged). Measured, sprint pool, A2, 169 tried:
+
+| method | full data | resample mean (sd) | min / max | FullyBlocked mean / min | BadParking mean / min | resamples above B3-infraction 0.1925 |
+|---|---|---|---|---|---|---|
+| m40 | 0.398 | 0.371 (0.047) | 0.297 / 0.443 | 0.257 / 0.049 | 0.250 / 0.250 | 20 / 20 |
+| m23 | 0.372 | 0.351 (0.035) | 0.289 / 0.398 | 0.235 / 0.100 | 0.226 / 0.103 | 20 / 20 |
+| m44 | 0.372 | 0.335 (0.042) | 0.253 / 0.398 | 0.228 / 0.049 | 0.185 / 0.088 | 20 / 20 |
+
+PedestriansOnRoad is 0.59 or more in every resample of all three. So under resampling each lead stays above every
+rival's full-data score (the rivals were not resampled), but loses 0.02 to 0.04 on average, all of it from
+FullyBlocked and BadParking. A Codex worker wrote and scored the resamples; I rescored resample 7 myself and it
+matches exactly. Files: `/tmp/ar-stab4/` (not kept). Its m12 and
 route-L20 were built here from `cache.npz` with no stored file to check against. A Codex worker's script and a Terra
 worker's independent one agree to every printed digit for H21 m23 (0.8813 / 0.740), H21 m41 (0.8519 / 0.765) and
 sprint m41 (0.8810 / 0.805). Files: `results/h21/a2-b4/stability/`.
 
-Reading: every batch-4 lead is about as stable as m11 (0.85) and more than m08 (0.78), below j05 (0.90). In each H21
+Reading: every batch-4 lead is about as stable as m11 (0.85) and more than m08 (0.78), below j05 (0.90), except m23 on
+the sprint pool (0.79, its whole-route L8 axes; added 2026-11-16 evening). In each H21
 pool the first six axes recover at 0.92 or more. The unstable ones are among slots 7 to 10, which are each source's
 lower-ranked, finer-cut axes. m23's slots 9 and 10 (both whole-route L8) recover at 0.8 in only 1 of 20 resamples. A
 score that depends on those slots is the least robust part of a lead. Which slots carry each gap was not read here.
