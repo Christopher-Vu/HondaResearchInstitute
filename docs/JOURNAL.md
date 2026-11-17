@@ -39,6 +39,7 @@ PedestriansOnRoad holds at 0.59 in every resample, and every resample stays abov
 
 This is context for Chris's finalist pick, not a result: it is dev data after 169 tries. Numbers and the per-slot
 table are in `docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` (commit 26f5954).
+
 ## 2026-11-16 — The last search batch, lead robustness, and a draft transfer spec
 
 Chris asked for a few last method batches, a robustness probe of the leads, and a transfer spec, ahead of waiting on
