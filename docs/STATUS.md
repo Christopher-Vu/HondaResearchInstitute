@@ -12,6 +12,8 @@ Last updated: 2026-11-16 late (search done at 188 tried; robustness: m40 passes,
 
 ## Current position
 
+**2026-11-17: frozen at `f2d-freeze-1` (prereg A3).** Finalists m23 (primary) and m40. B3-behaviour's 100-frame speed cap is fixed. The transfer spec is binding, and round 2 is pre-stated in case m23 fails on TransFuser++. **Running:** TransFuser++ scored once (CPU 41434924, `results/savio/f2d-heldout/tfpp/report.json`) and the fixed rival rescored on SimLingo dev (CPU 41434925, `results/savio/f2d-dev/simlingo/sprint/a3/`). **Next:** read both reports and log them as the interim TransFuser++ result. Write and test the two-model pooled scorer before any UniAD outcome is read. UniAD smoke 41427300 is pending.
+
 **2026-11-16 late: the search is done, and the freeze waits on UniAD (dev, measured, 188 tried).**
 - **Candidates for Chris's freeze** (`VARIANTS.md`, "Where the leads stand after robustness"):
   - **m40** passes the robustness rule: 0.398, beats all rivals in 100% of resamples, neighbours within 0.025. On H21

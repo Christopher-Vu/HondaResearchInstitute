@@ -5,6 +5,22 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+
+## 2026-11-17 — The freeze: m23 and m40 go to TransFuser++
+
+Chris froze two finalists from the SimLingo search, m23 (primary) and m40, at tag `f2d-freeze-1`
+(prereg amendment A3, `docs/prereg-fail2drive.md` §9; `CONFLICTS.md` C41). Both pool an approach-window view of the
+query the controller follows with a whole-route view. m23 is the only lead that held on Jerry's second SimLingo pool;
+m40 is the steadiest on ours under resampling. The transfer spec, revised after Jerry's review, is now binding.
+
+Before tagging, the main rival was fixed: the shared cache kept only the first 100 frames of speed, so B3-behaviour's
+window sat about 10 s before the failure on half the routes (`docs/WHAT_BROKE.md`). The fix raises that rival, which
+works against our methods. A3 also writes down in advance what happens if m23 fails on TransFuser++: a second round,
+confirmed on UniAD alone, with round 1 reported in full.
+
+TransFuser++ is scored first and alone (CPU job 41434924, results to `results/savio/f2d-heldout/tfpp/`), and the
+fixed rival is rescored on SimLingo dev (job 41434925). No method had read held-out data before the tag.
+
 ## 2026-11-16 — Transfer spec review; the main rival's window was misplaced on dev
 
 Jerry asked for a review of Chris's draft transfer spec
