@@ -752,8 +752,29 @@ in every resample, so the axes score as they are; no try, methods unchanged). Me
 PedestriansOnRoad is 0.59 or more in every resample of all three. So under resampling each lead stays above every
 rival's full-data score (the rivals were not resampled), but loses 0.02 to 0.04 on average, all of it from
 FullyBlocked and BadParking. A Codex worker wrote and scored the resamples; I rescored resample 7 myself and it
-matches exactly. Files: `/tmp/ar-stab4/` (not kept). Its m12 and
-route-L20 were built here from `cache.npz` with no stored file to check against. A Codex worker's script and a Terra
+matches exactly. Files: `/tmp/ar-stab4/` (not kept).
+
+The same resample scoring for the other leads (added 2026-11-16 evening; no try; same 20 resamples, axes re-exported
+by the stability script, whose printed stability numbers are unchanged). Measured, A2, 169 tried; rivals not
+resampled (H21 highest B3-kin 0.326, sprint highest B3-infraction 0.1925):
+
+| pool | method | full data | resample mean (sd) | min / max | per-gap resample mean (min) | resamples above highest rival |
+|---|---|---|---|---|---|---|
+| H21 | m23 | 0.364 | **0.371 (0.026)** | 0.338 / 0.436 | CustomObstacles 0.18 (0.17), Wall 0.61 (0.50), PedestriansOnRoad 0.33 (0.33) | 20 / 20 |
+| H21 | m44 | 0.306 | 0.306 (0.002) | 0.300 / 0.309 | 0.18 (0.17), 0.40 (0.40), 0.33 (0.33) | 0 / 20 |
+| H21 | m41 | 0.297 | 0.302 (0.006) | 0.297 / 0.311 | 0.17 (0.16), 0.40 (0.40), 0.33 (0.33) | 0 / 20 |
+| H21 | m40 | 0.306 | 0.295 (0.021) | 0.219 / 0.311 | 0.18 (0.16), 0.40 (0.40), 0.31 (0.07) | 0 / 20 |
+| sprint | m41 | 0.401 | 0.383 (0.040) | 0.296 / 0.426 | PedestriansOnRoad 0.59 (0.59), FullyBlocked 0.28 (0.05), BadParking 0.28 (0.25) | 20 / 20 |
+| sprint | m12 | 0.370 | **0.316 (0.023)** | 0.298 / 0.379 | 0.59 (0.59), **0.08 (0.05)**, 0.28 (0.25) | 20 / 20 |
+
+A Codex worker exported and scored the resamples; I rescored H21 resample 11 and sprint resample 4 myself (every
+method and rival equal), and the full-data rescore reproduces the stored H21 reports and Chris's m41 / m12 scores.
+Reading: m23's H21 edge does not come from a lucky axis: its Wall axis recovers at 0.50 or more in every resample,
+and every resample stays above B3-kin's full-data score (B3-kin itself not resampled, so this is not a test). m12's
+FullyBlocked 0.26 is fragile (0.08 on average under resampling); m41 keeps 0.28 of it through whole-route L20. On
+both pools the pedestrian gap is solid for every lead. Files: `/tmp/ar-stab5/` (not kept).
+
+Sprint m41's m12 and route-L20 were built here from `cache.npz` with no stored file to check against. A Codex worker's script and a Terra
 worker's independent one agree to every printed digit for H21 m23 (0.8813 / 0.740), H21 m41 (0.8519 / 0.765) and
 sprint m41 (0.8810 / 0.805). Files: `results/h21/a2-b4/stability/`.
 
