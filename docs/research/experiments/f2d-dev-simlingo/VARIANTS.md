@@ -359,9 +359,21 @@ try. Rows written before the scores are read, except m08, whose score was read i
 
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / m03 L10 / m08 | methods tried |
 |---|---|---|---|---|---|---|
-| m08 | 2026-11-16 | H21 | m03 on `driving_queries` L5+8+20, 6-frame window, PCA 32, Ward 2/3/5 (scored round 89, counted now) | 0.221 | | 129 |
-| m15 | 2026-11-16 | H21 | m03 on L8, 50-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 130 |
-| m11 | 2026-11-16 | H21 | m03 on L10, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 131 |
-| m12 | 2026-11-16 | H21 | m03 on L8, 6-frame window, PCA 32, average linkage 2/3/5 | | | 132 |
-| m16 | 2026-11-16 | H21 | m03 on L5+8+20, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 133 |
-| j05 | 2026-11-16 | H21 | j05 at its file defaults (L5+8+20, 6-frame window, PCA 32, k 10, Ward 2/3/5) | | | 134 |
+| m08 | 2026-11-16 | H21 | m03 on `driving_queries` L5+8+20, 6-frame window, PCA 32, Ward 2/3/5 (scored round 89, counted now) | 0.221 (0.29 / 0.18 / 0.20); failing-only chance 0.181 | -0.104, p 0.84 / -0.021, p 0.47 / — | 129 |
+| m15 | 2026-11-16 | H21 | m03 on L8, 50-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | 0.210 (0.18 / 0.11 / 0.33); failing-only chance 0.185 | -0.116, p 0.86 / -0.032, p 0.99 / -0.012, p 0.61 | 130 |
+| m11 | 2026-11-16 | H21 | m03 on L10, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | 0.247 (0.25 / 0.16 / 0.33); failing-only chance 0.181 | -0.079, p 0.79 / +0.005, p 0.48 / +0.025, p 0.55 | 131 |
+| m12 | 2026-11-16 | H21 | m03 on L8, 6-frame window, PCA 32, average linkage 2/3/5 | 0.203 (0.17 / 0.11 / 0.33); failing-only chance 0.163 | -0.122, p 0.88 / -0.039, p 1.00 / -0.018, p 0.62 | 132 |
+| m16 | 2026-11-16 | H21 | m03 on L5+8+20, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | 0.222 (0.21 / 0.13 / 0.33); failing-only chance 0.183 | -0.103, p 0.84 / -0.020, p 0.90 / +0.001, p 0.59 | 133 |
+| j05 | 2026-11-16 | H21 | j05 at its file defaults (L5+8+20, 6-frame window, PCA 32, k 10, Ward 2/3/5) | 0.202 (0.25 / 0.16 / 0.20); failing-only chance 0.183 | -0.123, p 0.88 / -0.040, p 0.56 / -0.019, p 0.84 | 134 |
+
+Scored 2026-11-16 by the orchestrator (measured, dev, H21 pool; 134 tried in total: 104 Chris + 30 `j`-loop tries, 19
+of them on H21). **No lead replicates on H21.** All six score 0.20 to 0.25, within 0.02 to 0.07 of failing-only chance
+(0.16 to 0.19), and all sit 0.08 to 0.12 below the four-number behaviour rival B3-kin (0.326; p 0.79 to 0.88, so not
+separable either way with 3 to 8 failures per category). The order among them is not the sprint pool's: m11 (L10 w20)
+is highest at 0.247, m15 (the sprint's best single layer, L8 w50) 0.210, m12 0.203. Longer windows do not help on H21
+(m16 w20 0.222 against m08 w6 0.221). j09 (0.331, HMM over frames) remains the only method level with B3-kin here.
+A structural reading (method outputs only): for the five m leads, Ward or average cut 2 on H21 splits 47 to 51 of
+the 52 failing routes from 1 to 5, and later cuts mostly peel off 1 to 4 more, so most of their top 10 is either
+near-whole-pool or near-singleton and scores close to failing-only chance by construction. j05 splits more evenly
+(35 / 17) and still scores 0.202. Reports `results/h21/sprint/repl/`.
+
