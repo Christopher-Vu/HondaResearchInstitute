@@ -330,3 +330,7 @@ the queue report's by up to 0.008 from bootstrap draws).
 Independent check: a Grok worker wrote j09 again from a written specification without opening `j09_hmm.py`
 (`/tmp/ar-j09/grok/j09g.py`, own log-space forward-backward and EM). Rerun by the orchestrator, it gives the same ten
 ordered axes and the same BIC values to about 1e-9.
+Overlap check (method outputs only, no gap names): mean best-match Jaccard of j09's ten axes against B3-kin's is 0.58,
+against m03 L10's 0.43 and against m08's 0.36 (measured). j09's groups sit closer to the behaviour rival's than to the
+activation leads', so part of what it reads on H21 is likely how the car moved. The diagnostic's stop-length check
+(|rho| 0.15 to 0.28) did not flag this; B3-kin also uses speed and stationary share.
