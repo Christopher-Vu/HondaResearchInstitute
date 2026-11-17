@@ -12,11 +12,14 @@ Inputs are one site and layer of the cache: `--summary window` (the approach win
 - m07: change before failure. The window minus the route's own early mean, then m03.
 - m06: --base m03|m04|m07 plus fleet-observable kinematics (B3-behaviour's features), both blocks standardised and
   weighted equally.
-Axes, as B3-behaviour: the clusters at cuts k = 2, 3 and 5 (10 axes), in that order, largest first within a cut.
+Axes, as B3-behaviour: the clusters at cuts k = 2, 3 and 5, in that order, largest first within a cut. Under
+amendment A2 a group already listed is not listed again and the cuts continue until 10 distinct axes (axes_from).
 Batch 2 options: several --layer values are concatenated, each layer standardised and weighted equally (m08);
 --cluster average|complete|spectral replaces Ward (m12); --cuts replaces 2 3 5 (m13). Only the first 10 axes score.
 Batch 3: --auto-layers N (m19) keeps the N layers whose 5-fold pass/fail probe AUROC is highest, weighting each by
 AUROC - 0.5; it uses the outcome only, as a fleet could.
+Batch 4: --also-summary concatenates more summaries (m22), --minus subtracts one (m26), --extra adds another site's
+layer (m27).
 Route order is the cache's salted order; route ids are only written to the output.
 """
 from __future__ import annotations
@@ -43,16 +46,30 @@ def standardise(x: np.ndarray) -> np.ndarray:
 
 
 def axes_from(features: np.ndarray, failing: np.ndarray, ids: list[str], label: str, cluster: str = "ward",
-              cuts: tuple[int, ...] = CUTS, seed: int = 0) -> list[dict]:
+              cuts: tuple[int, ...] = CUTS, seed: int = 0, budget: int = 10) -> list[dict]:
+    """Clusters of the failing routes at each cut, in order, largest first within a cut.
+
+    Amendment A2 (2026-11-16): a group already listed at an earlier cut is not listed again, so a cut that does not
+    split a cluster adds no axis. When the scheduled cuts give fewer than `budget` distinct axes, the cuts continue
+    one at a time (max(cuts) + 1, + 2, ...) until they do or every failing route is its own group.
+    """
     rows = np.flatnonzero(failing)
+    n = len(rows)
     tree = None if cluster == "spectral" else linkage(features[failing], method=cluster)
-    axes = []
-    for k in cuts:
+    scheduled = [k for k in cuts if k <= n]
+    schedule = scheduled + list(range(max(cuts) + 1, n + 1))
+    axes, seen = [], set()
+    for i, k in enumerate(schedule):
+        if i >= len(scheduled) and len(axes) >= budget:
+            break
         labels = (SpectralClustering(n_clusters=k, random_state=seed, affinity="nearest_neighbors")
                   .fit_predict(features[failing]) if tree is None else fcluster(tree, t=k, criterion="maxclust"))
         groups = sorted(({ids[rows[j]] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len,
                         reverse=True)
-        axes += [{"name": f"{label} cut {k} group {n + 1}", "rollouts": sorted(g)} for n, g in enumerate(groups)]
+        for g in groups:
+            if frozenset(g) not in seen:
+                seen.add(frozenset(g))
+                axes.append({"name": f"{label} cut {k} group {len(axes) + 1}", "rollouts": sorted(g)})
     return axes
 
 
@@ -111,6 +128,12 @@ def main() -> None:
     parser.add_argument("--cluster", choices=("ward", "average", "complete", "spectral"), default="ward")
     parser.add_argument("--cuts", type=int, nargs="+", default=list(CUTS))
     parser.add_argument("--auto-layers", type=int, default=0)
+    parser.add_argument("--also-summary", choices=tuple(SUMMARY), nargs="*", default=[],
+                        help="batch 4: more summaries of the same site and layers, concatenated (m22)")
+    parser.add_argument("--minus", choices=tuple(SUMMARY), default=None,
+                        help="batch 4: subtract this summary of the same site and layers (m26)")
+    parser.add_argument("--extra", nargs="*", default=[], metavar="SITE:LAYER",
+                        help="batch 4: more blocks from other sites in the same summary, concatenated (m27)")
     parser.add_argument("--name", help="method name in the output; default from the settings")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -126,6 +149,12 @@ def main() -> None:
             x = activations(cache, args.site, args.layer, args.summary)
         if core == "m07":
             x = x - activations(cache, args.site, args.layer, "early")
+        if args.minus:
+            x = x - activations(cache, args.site, args.layer, args.minus)
+        blocks = [x] + [activations(cache, args.site, args.layer, s) for s in args.also_summary]
+        blocks += [activations(cache, site, [int(layer)], args.summary)
+                   for site, layer in (spec.split(":") for spec in args.extra)]
+        x = np.hstack(blocks)  # every block is 896 wide and embed() standardises columns, so blocks weigh equally
         features = standardise(embed(core, x, failing, args.dims, args.keep, args.seed))
         if args.method == "m06":
             kin = standardise(kinematic_block(cache, meta))

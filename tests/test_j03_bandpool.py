@@ -85,7 +85,7 @@ def test_band_axes_keeps_the_tight_cluster_coarse_cuts_split() -> None:
     lo, hi = j03.size_band(n)
     assert lo <= n_tight <= hi
 
-    coarse = cache_methods.axes_from(features, failing, ids, "coarse", cuts=(2, 3, 5))
+    coarse = cache_methods.axes_from(features, failing, ids, "coarse", cuts=(2, 3, 5), budget=0)  # the scheduled cuts only, without A2's continuation
     coarse_best = max(jaccard(set(axis["rollouts"]), planted) for axis in coarse)
     assert coarse_best < 0.7
 

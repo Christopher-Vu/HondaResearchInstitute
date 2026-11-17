@@ -41,8 +41,8 @@ def test_sprint_score_truncates_at_top_10_and_never_uses_rank_11(tmp_path: Path)
     manifest_path.write_text(json.dumps(manifest))
     routes_path.write_text("".join(json.dumps(r) + "\n" for r in routes))
 
-    # First 10 axes hold only neighbourhood failures; axis 11 is the exact G1 failing set.
-    axes = [{"name": f"junk-{k}", "rollouts": ["n0"]} for k in range(10)] + [
+    # First 10 axes are distinct and miss G1; axis 11 is the exact G1 failing set.
+    axes = [{"name": f"junk-{k}", "rollouts": ["n0", f"x{k}"]} for k in range(10)] + [
         {"name": "oracle-at-11", "rollouts": [f"s{i}" for i in range(6)]}
     ]
     method_path = tmp_path / "m.json"
@@ -75,6 +75,24 @@ def test_sprint_score_truncates_at_top_10_and_never_uses_rank_11(tmp_path: Path)
     assert report["rows"]["m_test"]["mean_best"] == 0.0
     assert report["rows"]["B3_behaviour"]["mean_best"] == 0.5
     assert report["rows"]["m_test"]["vs"]["B3_behaviour"]["delta"] == -0.5
+
+
+def test_a2_repeated_axes_do_not_use_up_the_top_10() -> None:
+    repeated = [{"n0"}] * 10 + [{"s0", "s1"}]
+    assert sprint_score.distinct(repeated) == [{"n0"}, {"s0", "s1"}]
+
+
+def test_a2_axes_from_lists_no_group_twice_and_fills_10() -> None:
+    cache_methods = _load("cache_methods")
+    rng = np.random.default_rng(0)
+    centres = rng.normal(size=(4, 5)) * 20
+    features = np.vstack([c + rng.normal(size=(15, 5)) for c in centres] + [rng.normal(size=(20, 5))])
+    failing = np.r_[np.ones(60, bool), np.zeros(20, bool)]
+    ids = [f"r{i}" for i in range(80)]
+    axes = cache_methods.axes_from(features, failing, ids, "t", "ward", (2, 3, 5))
+    sets = [frozenset(a["rollouts"]) for a in axes]
+    assert len(sets) == len(set(sets)) >= 10
+    assert all(r.startswith("r") and int(r[1:]) < 60 for s in sets for r in s)
 
 
 def test_hungarian_recall_does_not_reuse_one_axis_for_two_identical_gaps() -> None:

@@ -160,3 +160,36 @@ still unread by any method. Tagged `f2d-sprint-a1`.
   jointly across models. Per-model and per-gap results are always reported beside it.
 - Before the freeze, the held-out pools may get more traffic seeds. Gap classification stays as measured on seeds
   101–106. Added seeds only add routes to the same units.
+
+## 8. Amendment A2: distinct axes and the infraction rival (post hoc, 2026-11-16)
+
+**Post hoc.** Written after 134 dev configurations had been scored on SimLingo's test pool and on H21, at Chris's
+decision (2026-11-16) on two proposals from Jerry's side and ours. TransFuser++'s and UniAD's test pools are still
+unread by any method. No new method is scored until this is tagged `f2d-sprint-a2`.
+
+**Distinct axes.** Everything else in A1's scoring stands.
+- A method's top 10 counts only distinct axes. An axis identical to one listed earlier is dropped before the top 10
+  is taken. This applies in `sprint_score.py` to every method and rival.
+- Clustering by cuts (`cache_methods.axes_from`, which B3-behaviour and most m and j methods use) lists a group once.
+  A cut that does not split a group adds no axis.
+- When the scheduled cuts give fewer than 10 distinct axes, the cuts continue one at a time after the last scheduled
+  one (for Ward 2/3/5: 6, 7, ...) until there are 10.
+- Under A1, Ward 2/3/5 repeated a group whenever a later cut left it whole, so most methods had 7 or 8 distinct axes
+  in their top 10 (found by Jerry's agent).
+
+**B3-infraction is a reported rival.**
+- It groups failing routes by the infraction type they incurred, one axis per type
+  (`docs/research/experiments/f2d-dev-simlingo/b3_infractions.py`).
+- Every method is compared with it: delta, 95% interval and one-sided p, beside B3-behaviour and B7-pool.
+- It has no pass bar and is not part of the "best rival" comparison. Nothing is required to beat it.
+
+**Rescore.**
+- Every logged method, m and j, is rescored under A2 on both dev pools: SimLingo's test pool and H21.
+- A1 scores stay in `VARIANTS.md` beside the A2 scores.
+- A rescore is not a new try, so the tried total does not change.
+
+**Finalists.** No hard bar is added. Finalists are chosen after the search on the full record:
+- the score on this pool;
+- the H21 replication, reported as context and not used as a gate;
+- stability under resampling;
+- whether the method is ready to run on the held-out models.

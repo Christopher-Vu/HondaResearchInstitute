@@ -800,3 +800,23 @@ and do not transfer. Ask the program contact. `PRD.md` §17.4.
 **What it costs.** It is post hoc: v1 and v2 were seen first. The held-out pools are the defence, since no method
 has read them. Chris, 2026-11-14: "b3 and best rival secondary, more drives on held out pools is fine, pool both models
 into one test is good but keep stratified data/results too, effect size good but interval and p value also".
+
+### C40 · Distinct axes and the infraction rival (amendment A2) · new, 2026-11-16 (agent, at Chris's decision), accepted by Chris 2026-11-16
+
+**What changes.**
+- A method's top 10 counts distinct axes only.
+- Cut-based clustering lists each group once, and continues past its last cut until it has 10 distinct axes.
+- B3-infraction becomes a reported rival, with no pass bar and outside the best-rival comparison.
+- Every logged method is rescored, with the A1 scores kept beside.
+- The full text is `docs/prereg-fail2drive.md` §8, tagged `f2d-sprint-a2`.
+
+**Why.**
+- Ward cuts 2/3/5 listed a group again whenever a later cut left it whole. Most methods therefore competed with 7 or
+  8 axes, not 10, and how many depended on the shape of their tree rather than on what they found (Jerry's agent,
+  issue 9).
+- Grouping failures by infraction type is what a fleet team does first. It scored 0.192 on SimLingo dev, above
+  B3-behaviour's 0.093, so leaving it out would hide the strongest simple rival. It is reported, not used as a gate,
+  because it was proposed after the leads were seen.
+
+**What it costs.** It is post hoc, made after 134 dev configurations were scored. It applies to every method and
+rival alike, and the held-out pools are still unread.

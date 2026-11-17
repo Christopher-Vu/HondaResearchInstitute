@@ -13,16 +13,17 @@ Excluded: distances to objects, any scenario or route field, expert action error
 and braking are not logged in these shards, so they are not used.
 
 Grouping: features standardised over all routes; Ward clustering of the failing routes; axes are the clusters at
-cuts k = 2, 3 and 5 (10 axes), in that order, largest first within a cut.
+cuts k = 2, 3 and 5, in that order, largest first within a cut. Under amendment A2 (2026-11-16) a repeated group is
+not listed again and the cuts continue until 10 distinct axes (cache_methods.axes_from).
 """
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 from pathlib import Path
 
 import numpy as np
-from scipy.cluster.hierarchy import fcluster, linkage
 
 WINDOW = 6
 CUTS = (2, 3, 5)
@@ -53,13 +54,12 @@ def main() -> None:
                          [float(m["infractions"].get(k, 0) or 0) for k in kinds] for i, m in enumerate(meta)])
     features = (features - features.mean(0)) / np.where(features.std(0) > 0, features.std(0), 1.0)
     failing = [i for i, m in enumerate(meta) if not m["success"]]
-    tree = linkage(features[failing], method="ward")
-    axes = []
-    for k in CUTS:
-        labels = fcluster(tree, t=k, criterion="maxclust")
-        groups = sorted(({ids[failing[j]] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len,
-                        reverse=True)
-        axes += [{"name": f"behaviour cut {k} group {n + 1}", "rollouts": sorted(g)} for n, g in enumerate(groups)]
+    spec = importlib.util.spec_from_file_location("cache_methods", Path(__file__).with_name("cache_methods.py"))
+    cache_methods = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cache_methods)
+    mask = np.zeros(len(meta), bool)
+    mask[failing] = True
+    axes = cache_methods.axes_from(features, mask, ids, "behaviour", "ward", CUTS)[:10]  # amendment A2's rule
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"method": "B3_behaviour", "features": len(features[0]), "infraction_kinds": kinds,
                                        "axes": axes}, indent=1) + "\n")
