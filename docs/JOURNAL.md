@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — Transfer spec review; the main rival's window was misplaced on dev
+
+Jerry asked for a review of Chris's draft transfer spec
+(`docs/research/experiments/f2d-dev-simlingo/transfer-spec.md`), which says how a SimLingo finalist is run on
+TransFuser++ and UniAD. Two workers (Codex and Gemini) read it independently against the code, and this session
+checked each point. The 13 numbered comments are in the loop journal for Jerry to post. No held-out data was read
+and no try was spent (188 tried in total).
+
+The main ones: the layer mapping needs its full collapse table (on a 6-layer stack, SimLingo layers 7 to 11 all map
+to layer 2, so m23's narrow peak at layer 8 versus 9 has no counterpart there). The B7 dictionary at k = 64 is 3.5
+times denser on a 256-wide model. The pooled two-model scorer the spec relies on does not exist yet. Frames are 5
+simulator steps apart on SimLingo too (measured), so `VARIANTS.md`'s "every 10 steps" is wrong. Gemini's claim that
+windows halve across models came from that line and is refuted.
+
+The review also turned up a dev defect (`docs/WHAT_BROKE.md`). B3-behaviour's speed window is cut from a cache capped
+at 100 frames, so on 54% of routes it is not before the failure. Fixing only that window lifts B3-behaviour from
+0.189 to 0.225 on Chris's pool (measured, A2, dev). The leads stay well above it (m40 0.398, m23 0.372), but their
+margin over the main rival shrinks by about 0.036. Whether to fix it before the freeze is Chris's decision.
+
 ## 2026-11-16 — m23's edge on H21 survives resampling; m12's FullyBlocked score does not
 
 This session finished the resample scoring that the entry below began. The 20 resampled axis sets (each a refit on
