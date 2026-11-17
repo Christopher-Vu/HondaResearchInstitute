@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Regression guard for UniAD skipped-stage capture
+
+The second UniAD smoke run reached the capture hook and exposed a device mismatch: a stage that has no tracked
+agent produces CPU zeros while the stages that did run produce GPU means. Chris fixed the capture path in
+`147b029` by moving each hook mean to the CPU before the layer stack is built; the third smoke rerun is job
+41427300. This session added a lightweight regression test in `tests/test_uniad_policy.py` that reads the adapter's
+syntax, so it runs without CARLA, Bench2DriveZoo, or PyTorch on the local development machine. It fails if a future
+edit moves the CPU conversion back after the mixed-device stack.
+
+No rollout, shard, or sealed data was read, and no try was spent. The next task remains reading the smoke job once
+it completes, then checking the captured stages before running UniAD's dev pool.
+
 ## 2026-11-16 — Transfer spec review; the main rival's window was misplaced on dev
 
 Jerry asked for a review of Chris's draft transfer spec
