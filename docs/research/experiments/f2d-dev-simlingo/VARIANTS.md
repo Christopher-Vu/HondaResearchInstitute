@@ -697,8 +697,25 @@ Rows are written before any score is read, and each row counts as a try.
 
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / m03 L10 / B3-infraction | methods tried |
 |---|---|---|---|---|---|---|
-| m41 | 2026-11-16 | H21 | pool of m12 (L8, 6-frame window, PCA 32, average linkage 2/3/5, A2) and whole-route L20 (m03, PCA 32, Ward 2/3/5) | | | 165 |
-| m40 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 | | | 166 |
-| m44 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L20 | | | 167 |
-| m23 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L8 | | | 168 |
-| m39 | 2026-11-16 | H21 | m03 on L8 50-frame window, PCA 64, Ward 2/3/5 (unpooled) | | | 169 |
+| m41 | 2026-11-16 | H21 | pool of m12 (L8, 6-frame window, PCA 32, average linkage 2/3/5, A2) and whole-route L20 (m03, PCA 32, Ward 2/3/5) | 0.297 (0.16 / 0.40 / 0.33); failing-only chance 0.174 | -0.029, p 0.61 / +0.046, p 0.18 / -0.011, p 0.53 | 165 |
+| m40 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 | 0.307 (0.19 / 0.40 / 0.33); failing-only chance 0.177 | -0.019, p 0.58 / +0.055, p 0.13 / -0.002, p 0.49 | 166 |
+| m44 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L20 | 0.307 (0.19 / 0.40 / 0.33); failing-only chance 0.186 | -0.019, p 0.58 / +0.055, p 0.13 / -0.002, p 0.49 | 167 |
+| m23 | 2026-11-16 | H21 | pool of L8 50-frame window PCA 32 (m15) and whole-route L8 | **0.364** (0.19 / **0.57** / 0.33); failing-only chance 0.182 | +0.039, p 0.47 / +0.113, p 0.04 / +0.056, p 0.33 | 168 |
+| m39 | 2026-11-16 | H21 | m03 on L8 50-frame window, PCA 64, Ward 2/3/5 (unpooled) | 0.212 (0.19 / 0.12 / 0.33); failing-only chance 0.154 | -0.114, p 0.87 / -0.039, p 1.00 / -0.096, p 0.81 | 169 |
+
+Scored 2026-11-16 (measured, dev, H21 pool, A2; **169 tried in total**). A Codex worker ran the methods and the scorer
+(`results/h21/a2-b4/`). I rebuilt every axis file myself: m15 and m12 reproduce the stored A2 axes exactly, and all
+five pooled or unpooled axis lists are identical to the worker's. I reran the scorer on my files, and every score, interval
+and p value matches. Rivals as in "A2 rescore on H21": B3-kin 0.326, B3-infraction 0.308, m03 L10 0.251.
+
+**Reading.**
+- **m23 replicates in direction.** It pools the L8 50-frame window with whole-route L8. It scores 0.364 on H21
+  (0.372 on Chris's pool), the highest H21 score of any method so far, above j09 0.331, B3-kin 0.326 and
+  B3-infraction 0.308. It is not separable from either behaviour rival (+0.039, p 0.47; +0.056, p 0.33).
+- **The gain is on Wall.** m23 scores 0.57 on Wall against 0.12 for m15 alone, so the whole-route axes add it. This
+  matches Chris's pool, where whole-route summaries carry FullyBlocked. Both gaps are a road the car cannot get past.
+- **The L20 pools do not carry over.** m40 and m44 score 0.307 and m41 0.297, all level with the behaviour rivals.
+  m39 alone (PCA 64) scores 0.212. Whole-route L20 adds Wall 0.40 here, but nothing like its BadParking role on
+  Chris's pool, since H21 has no BadParking gap.
+- **Limits:** one seed, 3 to 8 failures per category, and H21's categories have already been read. These numbers rank
+  methods; they do not make a candidate.
