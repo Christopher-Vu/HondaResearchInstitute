@@ -640,3 +640,47 @@ Scored 2026-11-16 by job 41406735 (under 0.1 SU, CPU). Measured, dev, **164 trie
   pedestrian axis.
 - **This is the 30th try in batch 4 and the end of the overnight search: 164 tried in total.**
 
+
+### Approved batch 5, the last search batch (Chris, 2026-11-16: "run the few last attempt batches"), CPU, A2
+
+Rows are written before scoring. These cover the lanes nobody had run yet. Self-supervised route embeddings are left
+out; the reasons are under the table.
+
+| id | idea | settings | methods tried after |
+|---|---|---|---|
+| m45 | Jerry's j06 (0.297 under A2) pooled with whole-route L20 | `a2/j/j06_kinresid.json` + `batch4/…route_layer_20.json`, round-robin | 165 |
+| m46 | Jerry's j05 (FullyBlocked 0.23) pooled with whole-route L20 | `a2/j/j05_knnresid.json` + whole-route L20 | 166 |
+| m47 | a probe beyond logistic: random-forest leaf similarity among failing routes | L8 w50, PCA 32, 500 trees, leaves ≥ 5, one-hot leaves → SVD 32 → Ward (`probe_mixture.py rf`) | 167 |
+| m48 | m47 pooled with whole-route L20 | round-robin | 168 |
+| m49 | mixture model with better features (the sprint PRD's H24 variants) | diagonal GMM on failing routes' L8 w50 PCA 16, K 4 to 12 by BIC, one axis per component (`probe_mixture.py gmm`) | 169 |
+
+Self-supervised route embeddings are not run. A trained encoder is a new model with its own choices, whose cost and
+risk outweigh what one more lane can show at 169 tries. Chris was told it was optional.
+
+### Lead robustness (2026-11-16), fixed before it runs
+
+`robustness.py`, job in `batch5.sh robust`. It reads the key on the scoring side.
+
+**Resampling.** 30 replicates. Each draws 80% of Fail2Drive pairs without replacement, a pair carrying all its routes.
+- The leads m41, m40, m44, m23, m39 (PCA 64) and m12 are refit from scratch on the sample: standardising, PCA,
+  clustering and pooling.
+- B3-behaviour is refit, B3-infraction is regrouped, and B7-pool's fixed axes are cut to the sample.
+- **Reported for each lead:**
+  - its score distribution;
+  - the share of replicates where it beats each rival and all three;
+  - axis stability, the mean best Jaccard of its full-pool axes with the replicate's axes.
+- Resampling scores are not tries.
+
+**Neighbours.** Each lead with one setting moved one step, on the full pool. These count as tries (170 to 175), but
+none of them can replace a lead; they only show whether the lead sits on a narrow peak.
+- m41 with whole-route L19, and with L21.
+- m41 with m12 at L7, and at L9.
+- m40 at PCA 48, and at 80.
+
+**The rule, fixed now.** A finalist candidate should:
+- beat all three rivals in at least 80% of replicates;
+- keep axis stability of at least 0.6;
+- have neighbours within 0.05 of its own score.
+
+Whatever misses that is reported as fragile. This is not a gate on Chris's choice (A2: no hard bars); it is the
+"stability under resampling" record A2 names.
