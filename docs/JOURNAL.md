@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — align the dashboard's weekly summary with amendment A2
+
+The dashboard derives its weekly summary from `docs/steps/progress.yaml`, which
+still ended before amendment A2 and batch 4. It now reports the 164-variant
+distinct-axis rescore, m41's 0.401 exploratory lead with its unresolved interval,
+the unread UniAD smoke rerun, and the queued three-seed H21 replication. The
+next column names the concrete validation and smoke-read handoffs without
+presenting development results as a final finding. A small regression test
+ensures every dashboard summary remains attributed, date-ordered, non-empty and
+within the stated 20-word limit.
+
+---
+
 ## 2026-11-16 — Amendment A2, the rescore, j09 on Chris's pool, and overnight batch 4 (30 tries)
 
 Chris ruled on Jerry's four asks (issue 9, reply `issuecomment-6936238776`):
