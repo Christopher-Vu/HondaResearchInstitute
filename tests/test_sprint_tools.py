@@ -134,6 +134,8 @@ def test_pooled_heldout_score_weights_model_gap_units_and_resamples_shared_pairs
     assert report["rows"]["m23"]["mean_best"] == 0.75
     assert report["headline_best_method_vs_best_rival"]["delta"] == 0.25
     assert len(report["headline_best_method_vs_best_rival"]["interval"]) == 2
+    assert report["per_model"]["alpha"]["per_gap"]["G1"]["m23"] == 1.0
+    assert report["per_model"]["beta"]["per_gap"]["G1"]["m23"] == 0.5
 
 
 def test_hungarian_recall_does_not_reuse_one_axis_for_two_identical_gaps() -> None:

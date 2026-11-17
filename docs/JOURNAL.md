@@ -13,8 +13,9 @@ the shared Fail2Drive pair IDs jointly across both models. In every replicate it
 best rival, so the interval covers that selection rather than treating it as fixed. It refuses plans with a missing
 gap, inconsistent finalist/rival names, or different pair universes.
 
-The synthetic regression test verifies the equal model-gap average, the paired setup, and the reported interval
-shape. It reads no rollout output. The local lightweight Python environment lacks SciPy, which the existing sprint
+The report retains each model's per-gap and per-model numbers beside the pooled headline, as A3 requires. The
+synthetic regression test verifies the equal model-gap average, the paired setup, the per-model display, and the
+reported interval shape. It reads no rollout output. The local lightweight Python environment lacks SciPy, which the existing sprint
 tool tests import through the harness, so the full sprint-tool test module could not collect here; syntax and the
 project's configuration and sealed-import checks remain the local checks. Next, once TransFuser++ and then UniAD
 reports exist, write the two frozen plans and run this scorer exactly once for the pooled headline.

@@ -91,15 +91,28 @@ def _validate(models: list[Model]) -> list[str]:
     return sorted(pairs)
 
 
+def unit_scores(models: list[Model], weight: Mapping[str, Mapping[str, float]] | None = None) -> dict[str, dict[str, dict[str, float]]]:
+    """Per-model, per-gap best Jaccard, retained beside the pooled headline by A3."""
+    names = [*models[0].methods, *models[0].rivals]
+    result = {}
+    for model in models:
+        model_weight = None if weight is None else weight[model.name]
+        result[model.name] = {
+            gap_name: {name: sprint_score.best(axes, gap, model_weight)
+                       for name, axes in {**model.methods, **model.rivals}.items()}
+            for gap_name, gap in model.gaps.items()
+        }
+    return result
+
+
 def scores(models: list[Model], weight: Mapping[str, Mapping[str, float]] | None = None) -> dict[str, float]:
     """Mean best Jaccard over model-gap units; no model or gap can dominate by having more routes."""
     names = [*models[0].methods, *models[0].rivals]
     values = {name: [] for name in names}
-    for model in models:
-        model_weight = None if weight is None else weight[model.name]
-        for gap in model.gaps.values():
-            for name, axes in {**model.methods, **model.rivals}.items():
-                values[name].append(sprint_score.best(axes, gap, model_weight))
+    for model_scores in unit_scores(models, weight).values():
+        for gap_scores in model_scores.values():
+            for name in names:
+                values[name].append(gap_scores[name])
     return {name: float(np.mean(value)) for name, value in values.items()}
 
 
@@ -117,6 +130,8 @@ def pooled(models: list[Model], *, replicates: int = 2000, seed: int = 0) -> dic
                    for model in models}
         for name, value in scores(models, weights).items():
             draws[name][draw] = value
+
+    units = unit_scores(models)
 
     def contrast(left: str, right: list[str]) -> dict:
         delta = draws[left] - np.maximum.reduce([draws[name] for name in right])
@@ -137,6 +152,14 @@ def pooled(models: list[Model], *, replicates: int = 2000, seed: int = 0) -> dic
         "gaps": {model.name: sorted(model.gaps) for model in models},
         "weights": "each model-gap unit equally; Fail2Drive pairs jointly resampled across models",
         "replicates": replicates,
+        "per_model": {
+            model.name: {
+                "mean_best": {name: float(np.mean([gap_scores[name] for gap_scores in units[model.name].values()]))
+                              for name in [*methods, *rivals]},
+                "per_gap": units[model.name],
+            }
+            for model in models
+        },
         "rows": rows,
         "headline_best_method_vs_best_rival": {
             "delta": max(point[name] for name in methods) - max(point[name] for name in rivals),
