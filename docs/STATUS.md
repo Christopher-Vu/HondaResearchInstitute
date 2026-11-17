@@ -6,11 +6,23 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-16 night (amendment A2 tagged and every method rescored; overnight batch 4 done, 164 tried; best dev lead m41 0.401)
+Last updated: 2026-11-16 late (search done at 188 tried; robustness: m40 passes, m23 holds on H21, m49 seed-dependent; transfer spec drafted; waiting on UniAD)
 
 ---
 
 ## Current position
+
+**2026-11-16 late: the search is done, and the freeze waits on UniAD (dev, measured, 188 tried).**
+- **Candidates for Chris's freeze** (`VARIANTS.md`, "Where the leads stand after robustness"):
+  - **m40** passes the robustness rule: 0.398, beats all rivals in 100% of resamples, neighbours within 0.025. On H21
+    it is level with the behaviour rival.
+  - **m23** holds on H21 (0.364) and beats all rivals in 100% of resamples. One neighbour drops (whole-route L9:
+    0.253).
+  - m41, m12 and m49 are fragile.
+- **Transfer spec:** a draft at `docs/research/experiments/f2d-dev-simlingo/transfer-spec.md`.
+- **UniAD:** the smoke drive 41406749 is pending, with its priority reset to normal. Then a one-seed screen, the
+  6-seed pool, and gap classification.
+- **Next:** UniAD's pool, then Chris's freeze tag (finalists, primary, transfer spec), then held-out scoring once.
 
 **2026-11-16 night, A2 and batch 4 (dev, measured, 164 tried in total).**
 - **A2** (`f2d-sprint-a2`): distinct axes only, and B3-infraction a reported rival. Under it B3-behaviour scores 0.189,
