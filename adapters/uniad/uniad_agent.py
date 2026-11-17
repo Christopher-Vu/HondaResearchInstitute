@@ -179,10 +179,11 @@ class UniadCaptureAgent(UniadAgent):
         if self.vision is None or not all(index in self.calls for index in self.driving):
             raise RuntimeError("UniAD ran without its image-neck or planning hooks firing")
         fired = [index in self.calls for index in range(len(self.layer_names))]
-        layers = torch.stack([torch.stack(self.calls[index]).mean(dim=0) if ran else torch.zeros(HIDDEN)
+        # A stage can skip a step (no tracked agents, say); its zeros live on the CPU, so move the means there first.
+        layers = torch.stack([torch.stack(self.calls[index]).mean(dim=0).to(CPU) if ran else torch.zeros(HIDDEN)
                               for index, ran in enumerate(fired)])
-        self.records.append({"step": self.step, "layer_mean": layers.to(CPU),
-                             "layer_driving_mean": layers[self.driving].to(CPU),
+        self.records.append({"step": self.step, "layer_mean": layers,
+                             "layer_driving_mean": layers[self.driving],
                              "vision_bridge_mean": self.vision.to(CPU), "layer_fired": fired,
                              "state": self.pending_state})
         if len(self.records) % FLUSH_EVERY == 0:
