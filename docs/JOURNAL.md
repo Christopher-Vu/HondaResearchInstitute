@@ -5,6 +5,29 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — a temporal method, j09, scored on H21's new per-frame data
+
+Jerry's laptop session ran a Savio job (41402579) that built two files for his H21 pool (SimLingo on all 100
+Fail2Drive pairs, one seed, 200 routes, 52 failing): a per-frame file (the last 50 frames before each failure, layers
+5, 8, 10 and 20) and a multi-layer cache. That opened the temporal lane, which the lane split on issue 9 leaves to us.
+Two methods built on 2026-11-15 were waiting for it. j09 fits one hidden Markov model (a few hidden states, each a
+Gaussian, with learned switching probabilities) to every route's frames and groups failing routes by which states they
+visit and how they move between them. j10 groups them by where their frames sit inside each state.
+
+A diagnostic first, which costs no try: neither embedding is a stop-length detector here (the worry from the planted
+tests), and no state dominates. Rows were written before scoring (`2e9431c`). Measured, dev, 128 tried in total (104
+Chris, 24 ours): j09 scores 0.331; Chris's m08 at its own layers scores 0.221 on this pool, m03 at layer 10 0.242, and
+the behaviour-only rival 0.326. So j09 is ahead of the activation rivals (p 0.15 and 0.17, not small after 128 tries)
+and level with the behaviour rival. j10 scores 0.133, below chance, and is dropped. Two checks: refitting j09 with ten
+other model seeds gives nearly the same groups (mean overlap 0.94), and a second implementation written by a worker
+without seeing j09's code gives identical groups. Details in
+`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` (`2516373`).
+
+This is not a candidate: H21 is a second dev pool whose categories have been read before, and it cannot make one
+alone. The next step is Chris's per-frame file for the sprint pool, so j09 can be scored where candidates are decided.
+
+---
+
 ## 2026-11-16 — a check rules out j16; no new method tried
 
 The plan was j16: drop the failing routes that look like their passing neighbours, then run j05's clustering, in case

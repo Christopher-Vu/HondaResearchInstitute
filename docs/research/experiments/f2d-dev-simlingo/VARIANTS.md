@@ -327,3 +327,6 @@ j09 with KMeans seeds 1 to 10 gives S 8 every time and recovers the seed-0 axes 
 the 10th axis (6 routes) moves much (mean 0.70). Script `/tmp/ar-r89/seedstab.py`; it asserts seed 0 rebuilds the
 stored axes. Reports in `results/h21/sprint/frames/` (`j09-report-m08.json` adds the m08 rival; its p values differ from
 the queue report's by up to 0.008 from bootstrap draws).
+Independent check: a Grok worker wrote j09 again from a written specification without opening `j09_hmm.py`
+(`/tmp/ar-j09/grok/j09g.py`, own log-space forward-backward and EM). Rerun by the orchestrator, it gives the same ten
+ordered axes and the same BIC values to about 1e-9.

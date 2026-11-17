@@ -6,13 +6,15 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-16 (`j` methods to j15 scored on Chris's sprint pool; none leads m08)
+Last updated: 2026-11-16 (per-frame H21 cache landed; j09, a temporal method, is the first `j` method above every H21 rival)
 
 ---
 
 ## Current position
 
 **Third model (2026-11-14, started, paused mid-task).** Bring-up of UniAD or VAD on Fail2Drive, per `docs/prd-discovery-sprint.md` §7 and `docs/prompts/third-model-bringup.md`. Heads-up posted on issue 9. No model chosen, no code written, nothing submitted. Paused because the shared Savio connection dropped; Chris reopens it. **Next:** inspect `hri-dev/.runtime/fail2drive-src` on Savio for Bench2DriveZoo support, pick UniAD or VAD, then a smoke pair.
+
+**2026-11-16, temporal lane opened on Jerry's H21 pool (dev, measured, 128 tried in total).** Savio job 41402579 built H21's per-frame and multi-layer caches. j09 (a hidden Markov model over the last 50 frames, grouping failing routes by which states they visit and in what order) scores 0.331, above Chris's m08 at its own layers (0.221, p 0.15) and m03 at layer 10 (0.242), and level with the behaviour rival B3-kin (0.326, p 0.45). It is stable across model seeds, and an independent rewrite gives identical axes. j10 is below chance and dropped. H21 alone cannot make a candidate. **Next:** Chris's per-frame `frames.npz` for the sprint pool, so j09 can be scored there; B7-pool's `v1/plain/directives-ms20` is still not copied.
 
 **2026-11-16, Jerry's `j` methods on Chris's sprint pool (dev, measured, 126 tried in total).** None leads m08 (0.306). The closest is j05 (kNN-residual clustering), at 0.284; it does better than the leads on FullyBlocked (0.23) and worse on PedestriansOnRoad. j11 to j15 (variants of j05) all score lower and are dropped (j15, density clusters in place of Ward, scores below chance); j14 shows j05's neighbours must be matched on the approach window, not on the start of the route. A check that cost no try: j05's clusters are more stable than m08's when the passing routes are resampled (mean best-match overlap 0.90 against 0.78), so j05 is sensitive to changes in its own definition, not to the background sample. No candidate. B7-pool's axes directory was not copied, so it was not a paired rival. **Next:** copy `v1/plain/directives-ms20` to the loop machine; new `j` tries stay in the open lanes, and temporal and contrastive ones wait on a per-frame `frames.npz`.
 
