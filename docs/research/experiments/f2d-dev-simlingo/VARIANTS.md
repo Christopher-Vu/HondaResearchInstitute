@@ -343,3 +343,25 @@ twice, as Ward 2/3/5 nests); the repeated 10-route group is the stopped one (mea
 its tie with B3-kin. j06 (kin removed before clustering) scored lower on H21 (0.246), so removing behaviour is not the
 obvious fix; the open test is whether j09 still beats B3-behaviour on Chris's pool, where B3-behaviour is weak (0.093).
 Script `/tmp/ar-r90/kinsplit.py`.
+
+### Replication on H21 (shared plan track C, 2026-11-16)
+
+Every current lead rescored unchanged, at the settings it led with on Chris's sprint pool, on the H21 multi-layer cache
+(`results/savio/f2d-all/cache.npz`, Savio job 41402579: 200 routes, 52 failing, 24 layers, 6-frame window). Nothing is
+tuned to H21. The 6-frame cache cannot give the 20- and 50-frame windows, so those are rebuilt from the H21 per-frame
+file (`results/savio/f2d-all/frames.npz`, last 50 frames before failure, layers 5/8/10/20) as the mean of the last
+W frames; rebuilt at W = 6 it matches the cache's own window slot to float16 rounding (max abs difference 0.016 on a
+mean magnitude of 0.23, measured), so W = 20 and 50 are the same slice `cache_pool.py --window W` would take. Methods run
+by `cache_methods.py` and `j05_knnresid.py` unchanged; script `/tmp/ar-r95/derive.py`. Gaps CustomObstacles / Wall /
+PedestriansOnRoad, decoys as batch 1, rivals B3-kin (primary), m03 L10 and m08. H21 limits: one seed, small
+categories, categories already read by H22 to H25; it can rank and kill, not make a candidate. Each row counts as a
+try. Rows written before the scores are read, except m08, whose score was read in round 89 as a rival without a try.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-kin / m03 L10 / m08 | methods tried |
+|---|---|---|---|---|---|---|
+| m08 | 2026-11-16 | H21 | m03 on `driving_queries` L5+8+20, 6-frame window, PCA 32, Ward 2/3/5 (scored round 89, counted now) | 0.221 | | 129 |
+| m15 | 2026-11-16 | H21 | m03 on L8, 50-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 130 |
+| m11 | 2026-11-16 | H21 | m03 on L10, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 131 |
+| m12 | 2026-11-16 | H21 | m03 on L8, 6-frame window, PCA 32, average linkage 2/3/5 | | | 132 |
+| m16 | 2026-11-16 | H21 | m03 on L5+8+20, 20-frame window (rebuilt from frames), PCA 32, Ward 2/3/5 | | | 133 |
+| j05 | 2026-11-16 | H21 | j05 at its file defaults (L5+8+20, 6-frame window, PCA 32, k 10, Ward 2/3/5) | | | 134 |
