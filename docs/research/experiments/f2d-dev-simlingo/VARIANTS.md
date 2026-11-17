@@ -377,6 +377,46 @@ the 52 failing routes from 1 to 5, and later cuts mostly peel off 1 to 4 more, s
 near-whole-pool or near-singleton and scores close to failing-only chance by construction. j05 splits more evenly
 (35 / 17) and still scores 0.202. Reports `results/h21/sprint/repl/`.
 
+### A2 rescore on H21 (Chris's request in `a2_rescore.sh`, 2026-11-16)
+
+Every method logged on H21 is rerun under amendment A2 (prereg §8) at its recorded settings, and so are its rivals:
+B3-kin (`h21_cache.py`, now using `cache_methods.axes_from`) and m03 L10. B3-infraction (`b3_infractions.py` on
+`results/savio/f2d-all/cache.npz`) is the reported rival. A rescore is not a try, so the total stays 159 (104 + 25 Chris
+batch 4 rows + 30 `j`-loop). Reproduction check: for every method clustered through `axes_from`, the distinct A1 axes are
+exactly the first axes of the A2 list. j03 and j07 have their own cut loops, and their A2 axes equal their A1 axes.
+j15 still gives no axes. The check passed for all 19 methods, including the HMM methods j09 and j10. The worker ran
+the reruns (Codex, `results/h21/a2/`). I reran the scorer for j09, m11 and m08 and the rivals, with identical results.
+Measured, dev, H21 pool; limits as above (one seed, 3 to 8 failures per category, categories already read).
+
+| id | A1 | **A2** (CustomObstacles / Wall / PedestriansOnRoad) | failing-only chance | A2 Δ, p vs B3-kin / m03 L10 / B3-infraction |
+|---|---|---|---|---|
+| j09 | 0.331 | **0.331** (0.31 / 0.40 / 0.29) | 0.176 | +0.006, p 0.46 / +0.080, p 0.18 / +0.023, p 0.29 |
+| j02 | 0.297 | 0.297 (0.30 / 0.36 / 0.22) | 0.176 | -0.029, p 0.65 / +0.046, p 0.22 / -0.011, p 0.40 |
+| m11 | 0.247 | 0.281 (0.29 / 0.22 / 0.33) | 0.178 | -0.045, p 0.73 / +0.030, p 0.08 / -0.027, p 0.65 |
+| m08 | 0.221 | 0.272 (0.30 / 0.19 / 0.33) | 0.177 | -0.054, p 0.67 / +0.021, p 0.12 / -0.036, p 0.58 |
+| j11 | 0.261 | 0.261 (0.46 / 0.23 / 0.09) | 0.187 | -0.064, p 0.79 / +0.010, p 0.33 / -0.047, p 0.61 |
+| j06 | 0.246 | 0.252 (0.36 / 0.25 / 0.14) | 0.183 | -0.073, p 0.77 / +0.001, p 0.33 / -0.056, p 0.59 |
+| j13 | 0.207 | 0.244 (0.30 / 0.23 / 0.20) | 0.180 | -0.082, p 0.88 / -0.007, p 0.39 / -0.064, p 0.77 |
+| j07 | 0.241 | 0.241 (0.31 / 0.27 / 0.14) | 0.174 | -0.084, p 0.77 / -0.010, p 0.36 / -0.067, p 0.65 |
+| j05 (repl., L5+8+20) | 0.202 | 0.236 (0.29 / 0.22 / 0.20) | 0.182 | -0.089, p 0.85 / -0.015, p 0.46 / -0.072, p 0.78 |
+| j01 | 0.231 | 0.231 (0.31 / 0.27 / 0.11) | 0.174 | -0.095, p 0.84 / -0.021, p 0.36 / -0.078, p 0.67 |
+| j05 (L10) | 0.183 | 0.222 (0.27 / 0.25 / 0.14) | 0.175 | -0.104, p 0.94 / -0.029, p 0.50 / -0.086, p 0.85 |
+| m16 | 0.222 | 0.222 (0.21 / 0.13 / 0.33) | 0.184 | -0.103, p 0.85 / -0.029, p 0.95 / -0.086, p 0.79 |
+| m15 | 0.210 | 0.217 (0.20 / 0.12 / 0.33) | 0.171 | -0.109, p 0.87 / -0.034, p 0.98 / -0.091, p 0.80 |
+| m12 | 0.203 | 0.214 (0.19 / 0.12 / 0.33) | 0.151 | -0.111, p 0.87 / -0.037, p 1.00 / -0.094, p 0.81 |
+| j12 | 0.209 | 0.209 (0.29 / 0.25 / 0.09) | 0.178 | -0.117, p 0.91 / -0.042, p 0.44 / -0.099, p 0.79 |
+| j04 | 0.193 | 0.193 (0.24 / 0.14 / 0.20) | 0.174 | -0.132, p 0.93 / -0.058, p 0.65 / -0.115, p 0.87 |
+| j10 | 0.133 | 0.137 (0.19 / 0.14 / 0.08) | 0.178 | -0.188, p 1.00 / -0.114, p 0.97 / -0.171, p 1.00 |
+| j03 | 0.108 | 0.108 (0.18 / 0.00 / 0.14) | 0.097 | -0.217, p 1.00 / -0.143, p 0.92 / -0.200, p 0.99 |
+| j15 | no axes | 0 (no axes) | — | — |
+
+Rivals under A2 (measured): **B3-kin 0.326** (0.46 / 0.33 / 0.18), unchanged from A1. **B3-infraction 0.308**
+(0.36 / 0.23 / 0.33). m03 L10 0.251 (A1 0.242). 159 tried in total. A2 raises the multi-cut m leads by 0.03 to 0.05
+(m11 0.247 to 0.281, m08 0.221 to 0.272), because under A1 they had only 7 distinct axes in their top 10. It does not
+change the H21 conclusion. No lead from the sprint pool reaches B3-kin or B3-infraction on H21. j09 is level with
+B3-kin (+0.006, p 0.46) and with B3-infraction (+0.023, p 0.29); it is not separable from either. Reports
+`results/h21/a2/report-<id>.json`.
+
 
 ### Amendment A2 (2026-11-16): distinct axes, B3-infraction reported
 
