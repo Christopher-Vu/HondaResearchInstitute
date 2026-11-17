@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — H21 rows rescored under amendment A2
+
+Chris's amendment A2 (`docs/prereg-fail2drive.md` §8, tag `f2d-sprint-a2`) counts only distinct axes in a method's top 10. A cut-based clustering now keeps cutting until it has 10 distinct groups. Before A2, Ward cuts 2, 3 and 5 listed a group again whenever a later cut left it whole. A2 also adds B3-infraction as a reported rival: failing routes grouped by the infraction they incurred. Chris's rescore script covers only his pool, because only our side holds H21's caches. Explore loop round 120 therefore reran all 19 methods logged on H21 (Jerry's second SimLingo dev pool) and their rivals. Each ran at its recorded settings; the only code change is that `h21_cache.py` now builds B3-kin through `cache_methods.axes_from` (commit `009031b`). Every rerun reproduced its old distinct axes as the start of its new list. A rescore is not a try.
+
+Measured, dev only: on H21, A2 lifts the sprint pool's leads by 0.03 to 0.05 (m11 0.247 to 0.281, m08 0.221 to 0.272). It leaves j09 (a hidden Markov model over frames) at 0.331 and B3-kin at 0.326, and puts B3-infraction at 0.308. No sprint-pool lead reaches either behaviour rival on H21. j09 is level with both and separable from neither. The table is in `VARIANTS.md`, "A2 rescore on H21" (commit `a3132e5`); the reports are in `results/h21/a2/`. 159 methods tried in total.
+
 ## 2026-11-16 — UniAD built and its hooks checked; first drive failed in setup and is fixed but not rerun
 
 UniAD-Base, the end-to-end driving model from the Bench2DriveZoo repository, is the third model for the discovery sprint (`docs/prd-discovery-sprint.md` section 7). Its checkpoint's Bench2Drive score, 45.81, is the one Fail2Drive's leaderboard lists for UniAD. Its software environment now imports on Savio, after five more compatibility fixes, which are logged in `docs/WHAT_BROKE.md`. A CPU job (41371800) built the full model and confirmed that six of the seven layer stacks we record activations from exist as named. The seventh, the motion-prediction stage, was a wrong guess and now points at its last interaction layers (commit 8c978f6).
