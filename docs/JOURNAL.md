@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Pooled held-out scorer prepared before UniAD is read
+
+Amendment A3 requires the two-model headline scorer to exist before any UniAD outcome is opened. This session adds
+`pooled_score.py`, which reads two frozen model plans, gives every model-and-gap unit equal weight, and bootstraps
+the shared Fail2Drive pair IDs jointly across both models. In every replicate it reselects the best finalist and
+best rival, so the interval covers that selection rather than treating it as fixed. It refuses plans with a missing
+gap, inconsistent finalist/rival names, or different pair universes.
+
+The synthetic regression test verifies the equal model-gap average, the paired setup, and the reported interval
+shape. It reads no rollout output. The local lightweight Python environment lacks SciPy, which the existing sprint
+tool tests import through the harness, so the full sprint-tool test module could not collect here; syntax and the
+project's configuration and sealed-import checks remain the local checks. Next, once TransFuser++ and then UniAD
+reports exist, write the two frozen plans and run this scorer exactly once for the pooled headline.
+
 
 ## 2026-11-16 — Jerry's agent: frame-spacing wording fixed in VARIANTS
 
