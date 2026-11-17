@@ -15,9 +15,9 @@ gap, inconsistent finalist/rival names, or different pair universes.
 
 The report retains each model's per-gap and per-model numbers beside the pooled headline, as A3 requires. The
 synthetic regression test verifies the equal model-gap average, the paired setup, the per-model display, and the
-reported interval shape. It reads no rollout output. The local lightweight Python environment lacks SciPy, which the existing sprint
-tool tests import through the harness, so the full sprint-tool test module could not collect here; syntax and the
-project's configuration and sealed-import checks remain the local checks. Next, once TransFuser++ and then UniAD
+reported interval shape. It reads no rollout output and stubs only the CLI-only loader, so it runs in the local
+lightweight Python environment without SciPy. Syntax and the project's configuration and sealed-import checks also
+pass. Next, once TransFuser++ and then UniAD
 reports exist, write the two frozen plans and run this scorer exactly once for the pooled headline.
 
 

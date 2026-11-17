@@ -102,42 +102,6 @@ def test_transfer_layer_fraction_gives_back_simlingo_layers_and_maps_shallow_sta
     assert cache_methods.depth_layers(1, [8 / 23]) == [0]
 
 
-def test_pooled_heldout_score_weights_model_gap_units_and_resamples_shared_pairs(tmp_path: Path) -> None:
-    pooled_score = _load("pooled_score")
-
-    def plan(name: str, method_rollouts: list[str], rival_rollouts: list[str]) -> Path:
-        directory = tmp_path / name
-        directory.mkdir()
-        manifest = [
-            {"id": "s1", "pair": "p1", "role": "pilot_slice", "practice_gaps": ["G1"]},
-            {"id": "n1", "pair": "p1", "role": "pilot_neighbourhood", "practice_gaps": []},
-            {"id": "s2", "pair": "p2", "role": "pilot_slice", "practice_gaps": ["G1"]},
-            {"id": "n2", "pair": "p2", "role": "pilot_neighbourhood", "practice_gaps": []},
-        ]
-        (directory / "manifest.json").write_text(json.dumps(manifest))
-        (directory / "routes.jsonl").write_text("".join(json.dumps({"id": route, "success": route.startswith("n")}) + "\n"
-                                                   for route in ("s1", "n1", "s2", "n2")))
-        (directory / "method.json").write_text(json.dumps({"method": "m23", "axes": [{"rollouts": method_rollouts}]}))
-        (directory / "rival.json").write_text(json.dumps({"method": "B3_behaviour", "axes": [{"rollouts": rival_rollouts}]}))
-        out = directory / "plan.json"
-        out.write_text(json.dumps({"name": name, "manifest": "manifest.json", "routes": "routes.jsonl", "gaps": ["G1"],
-                                   "methods": {"m23": "method.json"}, "rivals": {"B3_behaviour": "rival.json"}}))
-        return out
-
-    # m23 is perfect on alpha and covers half of beta; B3 covers half in both.  The pooled headline is their mean.
-    alpha = plan("alpha", ["s1", "s2"], ["s1"])
-    beta = plan("beta", ["s1"], ["s2"])
-    report = pooled_score.pooled([pooled_score.load_model(alpha), pooled_score.load_model(beta)], replicates=50, seed=3)
-
-    assert report["models"] == ["alpha", "beta"]
-    assert report["weights"] == "each model-gap unit equally; Fail2Drive pairs jointly resampled across models"
-    assert report["rows"]["m23"]["mean_best"] == 0.75
-    assert report["headline_best_method_vs_best_rival"]["delta"] == 0.25
-    assert len(report["headline_best_method_vs_best_rival"]["interval"]) == 2
-    assert report["per_model"]["alpha"]["per_gap"]["G1"]["m23"] == 1.0
-    assert report["per_model"]["beta"]["per_gap"]["G1"]["m23"] == 0.5
-
-
 def test_hungarian_recall_does_not_reuse_one_axis_for_two_identical_gaps() -> None:
     gaps = {"G1": {"1", "2", "3", "4"}, "G2": {"1", "2", "3", "4"}}
     axes = [{"1", "2", "3", "4"}, {"9"}]
