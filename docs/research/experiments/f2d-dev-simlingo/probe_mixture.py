@@ -36,6 +36,8 @@ def main() -> None:
     parser.add_argument("--mode", choices=("rf", "gmm"), required=True)
     parser.add_argument("--site", default="driving_queries")
     parser.add_argument("--layer", type=int, nargs="+", default=[8])
+    parser.add_argument("--layer-fraction", type=cache_methods.FRACTION, nargs="+", default=None,
+                        help="transfer spec: layers as fractions of the site's depth (cache_methods.depth_layers)")
     parser.add_argument("--summary", choices=tuple(cache_methods.SUMMARY), default="window")
     parser.add_argument("--name", required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -43,6 +45,8 @@ def main() -> None:
     with np.load(args.cache) as cache:
         ids = cache["route_id"].tolist()
         failing = np.array([not json.loads(m)["success"] for m in cache["meta"]])
+        if args.layer_fraction:
+            args.layer = cache_methods.depth_layers(cache[args.site].shape[2], args.layer_fraction)
         x = cache_methods.activations(cache, args.site, args.layer, args.summary)
     if args.mode == "rf":
         z = PCA(n_components=32, random_state=0).fit_transform(cache_methods.standardise(x))

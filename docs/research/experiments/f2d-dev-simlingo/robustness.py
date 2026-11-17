@@ -71,7 +71,12 @@ def source_axes(raw, name, rows, failing, ids, seed=0):
     x = np.hstack([cm.standardise(block[rows][:, l].astype(np.float32)) for l in layers])
     if method == "gmm":
         z = PCA(n_components=dims, random_state=0).fit_transform(cm.standardise(x))[failing[rows]]
-        fits = {k: GaussianMixture(k, covariance_type="diag", random_state=seed, n_init=3).fit(z) for k in range(4, 13)}
+        fits = {}
+        for k in range(4, 13):  # a K whose fit collapses on a resample is skipped; BIC picks among those that fit
+            try:
+                fits[k] = GaussianMixture(k, covariance_type="diag", random_state=seed, n_init=3).fit(z)
+            except ValueError:
+                pass
         labels = min(fits.values(), key=lambda m: m.bic(z)).predict(z)
         fail_ids = [ids[r] for r in rows[failing[rows]]]
         groups = sorted(({fail_ids[j] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len, reverse=True)

@@ -73,6 +73,15 @@ def axes_from(features: np.ndarray, failing: np.ndarray, ids: list[str], label: 
     return axes
 
 
+FRACTION = lambda text: float(text.split("/")[0]) / float(text.split("/")[1]) if "/" in text else float(text)
+
+
+def depth_layers(depth: int, fractions: list[float]) -> list[int]:
+    """Transfer spec: the layer at fraction f of a stack of `depth` layers is floor(f * (depth - 1) + 0.5).
+    SimLingo's layer L (depth 24) is f = L / 23, so on SimLingo the rule gives back L."""
+    return [min(depth - 1, max(0, int(np.floor(f * (depth - 1) + 0.5)))) for f in fractions]
+
+
 def activations(cache, site: str, layers: list[int], summary: str) -> np.ndarray:
     block = cache[site][:, SUMMARY[summary]]
     if block.ndim == 2:
@@ -121,6 +130,8 @@ def main() -> None:
     parser.add_argument("--base", choices=("m03", "m04", "m07"), default="m03", help="m06 only")
     parser.add_argument("--site", default="driving_queries")
     parser.add_argument("--layer", type=int, nargs="+", default=[10])
+    parser.add_argument("--layer-fraction", type=FRACTION, nargs="+", default=None,
+                        help="transfer spec: layers as fractions of the site's depth, replacing --layer (8/23 = SimLingo L8)")
     parser.add_argument("--summary", choices=tuple(SUMMARY), default="window")
     parser.add_argument("--dims", type=int, default=32)
     parser.add_argument("--keep", type=int, default=16)
@@ -141,6 +152,8 @@ def main() -> None:
         ids = cache["route_id"].tolist()
         meta = [json.loads(m) for m in cache["meta"]]
         failing = np.array([not m["success"] for m in meta])
+        if args.layer_fraction:
+            args.layer = depth_layers(cache[args.site].shape[2], args.layer_fraction)
         core = args.base if args.method == "m06" else args.method
         chosen = None
         if args.auto_layers:
