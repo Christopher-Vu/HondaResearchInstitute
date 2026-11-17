@@ -193,3 +193,53 @@ unread by any method. No new method is scored until this is tagged `f2d-sprint-a
 - the H21 replication, reported as context and not used as a gate;
 - stability under resampling;
 - whether the method is ready to run on the held-out models.
+
+## 9. Amendment A3: the freeze (2026-11-17)
+
+**Status.** Written after the SimLingo search ended (188 methods tried in total on SimLingo's test pool and H21) and
+before any method has read TransFuser++'s or UniAD's test-pool data. Tagged `f2d-freeze-1`. From this tag, the
+finalists, rivals and transfer rules below do not change for round 1.
+
+**Rival fix (post hoc, found by Jerry's agent).**
+- `cache_pool.py` kept ego speed and step for only the first 100 frames of each route. So B3-behaviour's approach
+  window ended about 10 s before the failure on over half of SimLingo's routes (`docs/WHAT_BROKE.md`, 2026-11-16).
+- `cache_pool.py` now keeps every frame. B3-behaviour's features and grouping are unchanged.
+- Its window is its last 6 captured frames, about 1.5 s, not "3 s" as A1 says. The 6 frames are what A1 tagged in
+  code, so they stand.
+- B3-behaviour is rescored on SimLingo dev with the fix and reported beside the old score. Jerry's diagnostic gave
+  0.225, against 0.189 before (measured). The rescore is not a try.
+
+**Finalists.** Two, chosen by Chris on the full dev record (A2's list):
+- **m23, primary.** The L8 50-frame approach window (PCA 32, Ward) pooled with the whole-route L8 view.
+  `VARIANTS.md` batch 4.
+- **m40, secondary.** The L8 50-frame window at PCA 64 pooled with the whole-route L20 view. `VARIANTS.md` batch 4
+  pools.
+
+On each held-out model, the comparison against B3-behaviour is the primary test. m40 is reported with the count of
+finalists (2) stated.
+
+**Transfer.** `docs/research/experiments/f2d-dev-simlingo/transfer-spec.md` as it stands at this tag.
+- It fixes the site, the layers by relative depth, the windows in frames and the per-model rivals.
+- One choice was made at the freeze: B7's dictionary on a held-out model keeps SimLingo's sparsity, not its k. On
+  SimLingo, k = 64 active features out of 896 is 7%; on a 256-wide model the same 7% is k = 18. TransFuser++'s
+  B7-pool is therefore `L2_k18_s0`. This rule was fixed blind to every held-out score.
+
+**Order.**
+1. **TransFuser++ is scored first, alone,** once both finalists and all rivals are run on its pool. Its per-model,
+   per-gap result is reported when it lands, labelled interim.
+2. **UniAD** is scored when its pool and gap classification are done, with the same frozen methods.
+3. The headline is A1's: one bootstrap pooled across both models. A two-model scorer for it is written and tested
+   before any UniAD outcome is read.
+
+**UniAD's rival, if fields are missing.** If UniAD's shards lack ego speed or step, B3-behaviour uses the features
+that can be computed from what is logged: infraction counts, plus the route's step count from its outcome record. This
+is stated beside every UniAD result. B3-behaviour stays the primary rival.
+
+**Round 2, fixed now.**
+- **Trigger:** m23's 95% interval against B3-behaviour on TransFuser++ includes zero.
+- **What happens:**
+  - TransFuser++ becomes a second dev pool beside SimLingo, and the search may continue on both.
+  - At most 3 new finalists are frozen under a new tag before any UniAD outcome is read.
+  - They are confirmed on UniAD alone.
+- **Reporting:** round 1's result, on TransFuser++ and pooled with UniAD, is reported in full whatever round 2 finds.
+  Both rounds are reported, with the total tried count.

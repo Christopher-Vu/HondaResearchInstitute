@@ -296,3 +296,27 @@ def test_layer_fractions_at_depth_24_and_in_range_at_depth_6(pool, tmp_path: Pat
     assert res.returncode != 0
     assert "outside" in res.stderr
     assert not missing.exists()
+
+
+def test_b3_window_ends_at_a_late_failure_not_at_frame_100(tmp_path: Path) -> None:
+    """cache_pool once kept only 100 frames of speed, so B3-behaviour's window sat before a late failure."""
+    shards = tmp_path / "shards"
+    shards.mkdir()
+    rng = np.random.default_rng(0)
+    steps = np.arange(140, dtype=np.int32) * 5
+    _write_route(shards, "late", success=False, n=140, depth=6, width=4, scenario="FullyBlocked",
+                 collision=int(steps[120]), rng=rng)
+    _write_route(shards, "short", success=True, n=40, depth=6, width=4, scenario="FullyBlocked",
+                 collision=None, rng=rng)
+    out = tmp_path / "cache.npz"
+    ran = _run("cache_pool.py", [str(shards), "--output", str(out)])
+    assert ran.returncode == 0, ran.stderr
+    b3 = _load("b3_behaviour")
+    with np.load(out) as cache:
+        ids = [str(r) for r in cache["route_id"].tolist()]
+        meta = [json.loads(m) for m in cache["meta"]]
+        assert cache["ego_speed"].shape == (2, 140)
+        i = ids.index("late")
+        assert np.isnan(cache["ego_speed"][ids.index("short"), 40:]).all()
+        final_speed = b3.kinematics(cache["ego_speed"][i], cache["step"][i], meta[i]["failure_step"])[3]
+    assert final_speed == pytest.approx(float(steps[119]) + 0.5)  # _write_route's speed is step + 0.5

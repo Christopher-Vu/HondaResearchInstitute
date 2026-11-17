@@ -820,3 +820,23 @@ into one test is good but keep stratified data/results too, effect size good but
 
 **What it costs.** It is post hoc, made after 134 dev configurations were scored. It applies to every method and
 rival alike, and the held-out pools are still unread.
+
+### C41 · The freeze (amendment A3) · new, 2026-11-17 (agent, at Chris's decision), accepted by Chris 2026-11-17
+
+**What changes.**
+- m23 (primary) and m40 are frozen and scored once on TransFuser++, then on UniAD.
+- The transfer spec becomes binding. B7's held-out dictionary keeps SimLingo's sparsity (k = 18 at width 256).
+- B3-behaviour's 100-frame speed cap is fixed before any held-out score.
+- A round 2, confirmed on UniAD alone, is fixed in advance in case round 1 fails on TransFuser++.
+- The full text is `docs/prereg-fail2drive.md` §9, tagged `f2d-freeze-1`.
+
+**Why.**
+- Of the leads left after the search, m23 is the only one that holds on Jerry's second SimLingo pool (H21). m40 is
+  the most stable on ours under resampling and neighbours.
+- Scoring a known-broken rival on held-out data would void the comparison. The fix raises the rival (0.189 to 0.225
+  on dev, Jerry's diagnostic), which works against our methods.
+- Writing round 2 in now, before any held-out score, keeps a failure on TransFuser++ from turning into goalpost-moving.
+
+**What it costs.**
+- The fix and the k rule are post hoc with respect to the dev search, but blind to every held-out score.
+- Round 2 spends UniAD as its only confirmation, so a round-2 finalist has one held-out model, not two.

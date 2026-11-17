@@ -6,7 +6,9 @@
 For every route and every site with a layer axis (all_tokens, driving_queries: frames x layers x width) and
 vision_bridge (frames x width), three float16 means: the whole route, the approach window (the last WINDOW captured
 frames before the failure step, or before the route ends when it passed) and the early route (the first WINDOW
-frames). Also per-frame ego speed and step, padded with NaN, for fleet-observable kinematics.
+frames). Also per-frame ego speed and step, padded with NaN, for fleet-observable kinematics: every frame of every
+route by default (until 2026-11-17 the default kept only the first 100, which put B3-behaviour's approach window
+before the failure on over half the routes; docs/WHAT_BROKE.md).
 
 Label hiding: rows are in salted-hash order, never route-id order (raw ids sort by category, the H25 leak), and no
 scenario, town or route-config field is written. Outcome fields kept: success, infraction counts, failure step.
@@ -43,7 +45,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("shards", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--max-frames", type=int, default=100)
+    parser.add_argument("--max-frames", type=int, default=0, help="cap on kept speed/step frames; 0 keeps all")
     parser.add_argument("--window", type=int, default=WINDOW, help="frames in the approach and early windows")
     args = parser.parse_args()
     sidecars = sorted(args.shards.glob("*.json"), key=lambda p: order_key(p.stem))
@@ -61,14 +63,14 @@ def main() -> None:
             if site in arrays:
                 sites.setdefault(site, []).append(summaries(arrays[site].astype(np.float32), steps, failed_at, args.window)
                                                   .astype(np.float16))
-        pad = np.full(args.max_frames, np.nan, np.float32)
-        s = pad.copy(); s[:len(steps)] = arrays["ego_speed"][:args.max_frames]
-        t = pad.copy(); t[:len(steps)] = steps[:args.max_frames]
-        speed.append(s); step.append(t)
+        keep = len(steps) if args.max_frames <= 0 else args.max_frames
+        speed.append(np.asarray(arrays["ego_speed"][:keep], np.float32)); step.append(steps[:keep].astype(np.float32))
         ids.append(str(info["route_id"]))
         meta.append({"success": bool(info["success"]), "failure_step": failed_at, "n_steps": info.get("n_steps"),
                      "infractions": {k: len(v) if isinstance(v, list) else v
                                      for k, v in (info.get("infractions") or {}).items()}})
+    width = max(len(s) for s in speed) if args.max_frames <= 0 else args.max_frames
+    speed, step = ([np.pad(a, (0, width - len(a)), constant_values=np.nan) for a in arrays_] for arrays_ in (speed, step))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     np.savez(args.output, route_id=np.array(ids), meta=np.array([json.dumps(m) for m in meta]),
              ego_speed=np.stack(speed), step=np.stack(step), **{site: np.stack(v) for site, v in sites.items()})
