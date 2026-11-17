@@ -8,6 +8,24 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-16: B3-behaviour's approach window sits at frame 100, not at the failure, on over half the routes
+
+**Expected:** B3-behaviour, the main rival, would describe ego speed in "the 3 s before the failure" (prereg A1), at
+the same point in each route as the activation methods' approach window.
+
+**What happened:** `cache_pool.py` keeps `ego_speed` and `step` for the first 100 frames only (`--max-frames 100`).
+Activation summaries, by contrast, use every frame. `b3_behaviour.py` takes its last 6 frames before the failure from
+that capped array. Measured on SimLingo dev: on 645 of 1185 sprint-pool routes (mostly passes) and on 107 of 200 H21
+routes, B3's window differs from the true one, ending a median of about 10 s early. Frames are 5 steps apart (all gaps
+measured), so the 6-frame window is about 1.5 s, not 3 s. `VARIANTS.md` says "every 10 steps" and "about 3 s"; both
+are wrong. It was found while reviewing the transfer spec for Jerry. On a held-out model, the misplaced share would
+depend on that model's route lengths.
+
+**What we did:** left Chris's scripts alone. As a no-try diagnostic, we moved only B3's six window features to the
+true window (from `frames.npz`) and kept everything else: B3-behaviour goes from 0.189 to 0.225 on the sprint pool
+(A2, measured), and `b3_behaviour.py` on H21's cache goes from 0.354 to 0.318. Files are in `results/b3-window-diag/`
+(git-ignored). The fix (raise the cap, rebuild, rescore) is Chris's call before the freeze.
+
 ## 2026-11-16: UniAD's first drive died in setup on a flag read at import
 
 Expected: setting `IS_BENCH2DRIVE=1` in the environment inside our agent's `setup()` would stop Bench2DriveZoo's agent naming its save folder from an undefined `now`. Happened: smoke job 41404452 failed both routes (1085, 85) in setup with `UnboundLocalError: now`, because `uniad_b2d_agent.py` reads the variable once at import, before `setup()` runs. Its `destroy()` then raised `AttributeError: model`. Did: set the module global `uniad_b2d_agent.IS_BENCH2DRIVE` instead (commit cdc7e2e). Cost: 6.5 min of one A40, about 3.2 SU.
