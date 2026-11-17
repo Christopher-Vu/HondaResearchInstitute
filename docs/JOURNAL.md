@@ -52,7 +52,7 @@ Measured, dev only:
   (p 0.47 and 0.33).
 - **Its gain is on Wall (0.57)**, the H21 gap closest to Chris's FullyBlocked. The whole-route view helps with "road
   blocked" failures on both pools.
-- **The L20 pools fall back to the rivals' level on H21:** m40 and m44 0.307, m41 0.297. m39 scores 0.212.
+- **The L20 pools fall back to the rivals' level on H21:** m40 and m44 0.306, m41 0.297. m39 scores 0.212.
 
 A Codex worker ran the methods. I rebuilt every axis file and reran the scorer myself, with identical results. H21 is
 one seed with 3 to 8 failures per category, and its categories have been read before, so it ranks methods but cannot
