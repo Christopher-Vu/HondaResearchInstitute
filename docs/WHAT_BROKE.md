@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-16: UniAD's capture hook mixed CPU and GPU tensors
+
+Expected: the capture hook could stack every stage's mean, with zeros for a stage that did not run. Happened: on the first step of smoke rerun 41406749, a stage did not fire, and its CPU zeros were stacked with GPU means, so `torch.stack` raised and the agent crashed on both routes. Did: move each mean to the CPU first (commit 147b029). Cost: about 3.2 SU. Not yet known: which stage skips.
+
 ## 2026-11-16: B3-behaviour's approach window sits at frame 100, not at the failure, on over half the routes
 
 **Expected:** B3-behaviour, the main rival, would describe ego speed in "the 3 s before the failure" (prereg A1), at
