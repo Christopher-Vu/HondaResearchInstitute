@@ -620,3 +620,23 @@ with it, round-robin, skipping near-repeats (`pool_axes.py`). Script: `batch4.sh
 | m42 | m32 (frames: mean and spread, L8) and whole-route L20 | 162 |
 | m43 | L8 w50, whole-route L8 and whole-route L20 | 163 |
 | m44 | L8 w50 and whole-route L20 | 164 |
+
+Scored 2026-11-16 by job 41406735 (under 0.1 SU, CPU). Measured, dev, **164 tried in total**. Rivals as in batch 4.
+
+| id | score (PedestriansOnRoad / FullyBlocked / BadParking) | vs B3-behaviour | vs B7-pool | vs B3-infraction (reported) | vs best rival p |
+|---|---|---|---|---|---|
+| m41 | **0.401** (0.59 / 0.35 / 0.26) | +0.212 [−0.064, +0.499], p 0.085 | +0.214 [−0.013, +0.460], p 0.033 | +0.209 [−0.063, +0.495], p 0.087 | 0.093 |
+| m40 | 0.398 (0.59 / 0.35 / 0.25) | +0.209 [−0.065, +0.513], p 0.087 | +0.211 [−0.009, +0.471], p 0.034 | +0.205, p 0.091 | 0.098 |
+| m44 | 0.372 (0.59 / 0.35 / 0.17) | +0.183 [−0.039, +0.480], p 0.056 | +0.185 [−0.003, +0.467], p 0.026 | +0.179, p 0.064 | 0.066 |
+| m43 | 0.248 (0.59 / 0.06 / 0.09) | +0.059, p 0.306 | +0.060, p 0.236 | +0.055, p 0.324 | 0.394 |
+| m42 | 0.135 (0.16 / 0.12 / 0.12) | −0.054, p 0.880 | −0.052, p 0.687 | −0.058, p 0.888 | 0.970 |
+
+**Reading.**
+- Pooling a pedestrian view with whole-route L20 gives the best dev scores so far: m41 0.401, m40 0.398. Each covers
+  all three gaps at once (0.59 / 0.35 / 0.25 to 0.26).
+- The margin is +0.21 over every rival, but every interval still includes zero. Against B3-behaviour, p is 0.085.
+  The best-rival p values are 0.09 to 0.10.
+- Pooling three sources (m43) leaves too few slots per source and loses FullyBlocked. m42's pooled top 10 drops m32's
+  pedestrian axis.
+- **This is the 30th try in batch 4 and the end of the overnight search: 164 tried in total.**
+

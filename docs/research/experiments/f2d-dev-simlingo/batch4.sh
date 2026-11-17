@@ -59,8 +59,8 @@ pools)  # m40-m44, written after batch 4's scores: pool the pedestrian view with
   python "$E/pool_axes.py" --name m40-w50L8pca64+routeL20 --output $P/m40.json --source $O/method_m03_layer_8_dims_64.json --source $R20
   python "$E/pool_axes.py" --name m41-m12+routeL20 --output $P/m41.json --source $A/batch2/method_m03_layer_8_cluster_average.json --source $R20
   python "$E/pool_axes.py" --name m42-m32spread+routeL20 --output $P/m42.json --source $O/frames/m32.json --source $R20
-  python "$E/pool_axes.py" --name m43-w50L8+routeL8+routeL20 --output $P/m43.json --source $W50     --source $A/batch3/method_m03_summary_route_layer_8.json --source $R20
+  python "$E/pool_axes.py" --name m43-w50L8+routeL8+routeL20 --output $P/m43.json --source $W50 \
+    --source $A/batch3/method_m03_summary_route_layer_8.json --source $R20
   python "$E/pool_axes.py" --name m44-w50L8+routeL20 --output $P/m44.json --source $W50 --source $R20
-  MORE="$(ls $P/*.json | tr '
-' ' ')" TRIED=164 BATCH=batch4-pools bash "$E/batch1.sh" ;;
+  MORE="$(ls $P/*.json | tr '\n' ' ')" TRIED=164 BATCH=batch4-pools bash "$E/batch1.sh" ;;
 esac

@@ -6,11 +6,26 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-16 (Chris's leads rerun unchanged on H21: none carries over; j09 still the only method level with the behaviour rival there)
+Last updated: 2026-11-16 night (amendment A2 tagged and every method rescored; overnight batch 4 done, 164 tried; best dev lead m41 0.401)
 
 ---
 
 ## Current position
+
+**2026-11-16 night, A2 and batch 4 (dev, measured, 164 tried in total).**
+- **A2** (`f2d-sprint-a2`): distinct axes only, and B3-infraction a reported rival. Under it B3-behaviour scores 0.189,
+  level with B7-pool (0.187) and B3-infraction (0.192).
+- **j09 on Chris's pool:** 0.222. It does not carry over from H21's 0.331.
+- **Leads:**
+  - m41: 0.401 (0.59 / 0.35 / 0.26).
+  - m40: 0.398.
+  - m23 and m44: 0.372.
+
+  Each pools a pedestrian-window view with a whole-route view, at about +0.21 over every rival. No interval excludes
+  zero, and against B3-behaviour p is 0.06 to 0.09.
+- **Nothing queued.**
+- **Next:** stability under resampling and H21 replication of m40 and m41; Jerry's side rescores its H21 rows under A2;
+  Chris picks what to try next or what to freeze.
 
 **2026-11-16, H21b queued (Jerry).** H21's run repeated on traffic seeds 25 and 26 (arrays 41405003, 41405006; scoring 41405007, 41405008; about 1,140 SU, estimate) to make Jerry's second dev pool 3 seeds deep before Chris freezes finalists. **Next:** caches on all three seeds, then rerun the H21 replication of every lead.
 
