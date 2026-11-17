@@ -334,3 +334,12 @@ Overlap check (method outputs only, no gap names): mean best-match Jaccard of j0
 against m03 L10's 0.43 and against m08's 0.36 (measured). j09's groups sit closer to the behaviour rival's than to the
 activation leads', so part of what it reads on H21 is likely how the car moved. The diagnostic's stop-length check
 (|rho| 0.15 to 0.28) did not flag this; B3-kin also uses speed and stationary share.
+Kin-variance check (no try; reads only `kin`, pass/fail and each method's stored axes): share of the four
+standardised kin columns' variance over the 52 failing routes that each method's 5-group Ward cut explains (eta squared;
+permuted-label null mean 0.08, 95th percentile 0.15 to 0.16). Measured: B3-kin 0.82, j05 0.65, j09 0.60, m08 0.44,
+m03 L10 0.33. j09's ten axes hold 7 distinct groups (the 10-route group repeats three times, the 18-route group
+twice, as Ward 2/3/5 nests); the repeated 10-route group is the stopped one (mean speed z -1.34, stationary share z
++1.31) and the 18-route group the fast one (speed z +0.94). So most of j09's split on H21 is a speed split, which fits
+its tie with B3-kin. j06 (kin removed before clustering) scored lower on H21 (0.246), so removing behaviour is not the
+obvious fix; the open test is whether j09 still beats B3-behaviour on Chris's pool, where B3-behaviour is weak (0.093).
+Script `/tmp/ar-r90/kinsplit.py`.
