@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Dashboard summary catches up with the freeze
+
+`docs/steps/progress.yaml`, the source for the public status dashboard, still showed the week ending November 13
+even though `docs/STATUS.md` now records the `f2d-freeze-1` decision. This session updated the dashboard's concise
+weekly summary to show the frozen finalists (m23 primary and m40), the B3 speed-window repair, the queued
+TransFuser++ confirmation, and the dependent UniAD work. It deliberately does not change any scientific step
+checkboxes: the dashboard only reflects the already-recorded status.
+
+Added a small YAML regression test so every weekly item remains attributed, nonempty, and at most 20 words—the
+constraint the dashboard is designed to display. Checks passed locally. The next engineering task is still the
+pooled two-model scorer before UniAD outcomes are read; the next operational task is to read the TransFuser++ and
+corrected-rival reports.
+
 
 ## 2026-11-17 — The freeze: m23 and m40 go to TransFuser++
 
