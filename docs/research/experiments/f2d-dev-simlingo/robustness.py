@@ -10,8 +10,9 @@ Two checks, both fixed before they run:
    gaps cut to the sample. Reported per method: score mean, sd and 5th to 95th percentile; the share of replicates
    where it beats each rival and all rivals; and axis stability, the mean over the full-pool axes of the best Jaccard
    with a replicate axis, both cut to the sample.
-2. Neighbours. The same lead with one setting moved one step (layer +-1, PCA width +-16), on the full pool. These are
-   counted as tries but cannot replace the lead: they say whether the lead sits on a narrow peak.
+2. Neighbours. The same lead with one setting moved one step (layer +-1, PCA width +-16, or +-4 for m49), on the full
+   pool. These are counted as tries but cannot replace the lead: they say whether the lead sits on a narrow peak.
+3. m49 seeds: its mixture refit with seeds 1 to 10 on the full pool. Not tries; nothing is picked from them.
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ from pathlib import Path
 import numpy as np
 from scipy.cluster.hierarchy import fcluster, linkage
 from sklearn.decomposition import PCA
+from sklearn.mixture import GaussianMixture
 
 from harness.scoring import jaccard
 from harness.scoring_run import load_pool
@@ -49,18 +51,31 @@ SOURCES = {
     "R20": ("w50", [20], "route", "ward", 32), "R19": ("w50", [19], "route", "ward", 32),
     "R21": ("w50", [21], "route", "ward", 32), "R8": ("w50", [8], "route", "ward", 32),
     "R7": ("w50", [7], "route", "ward", 32), "R9": ("w50", [9], "route", "ward", 32),
+    # m49 (probe_mixture.py gmm): diagonal GMM on the failing routes' PCA scores, K 4 to 12 by BIC
+    "g8": ("w50", [8], "window", "gmm", 16), "g7": ("w50", [7], "window", "gmm", 16),
+    "g9": ("w50", [9], "window", "gmm", 16), "g8p12": ("w50", [8], "window", "gmm", 12),
+    "g8p20": ("w50", [8], "window", "gmm", 20),
 }
 LEADS = {"m41": ["m12", "R20"], "m40": ["w50L8p64", "R20"], "m44": ["w50L8", "R20"], "m23": ["w50L8", "R8"],
-         "m39-p64": ["w50L8p64"], "m12": ["m12"]}
+         "m39-p64": ["w50L8p64"], "m12": ["m12"], "m49": ["g8"]}
 NEIGHBOURS = {"m41|R19": ["m12", "R19"], "m41|R21": ["m12", "R21"], "m41|m12L7": ["m12L7", "R20"],
               "m41|m12L9": ["m12L9", "R20"], "m40|p48": ["w50L8p48", "R20"], "m40|p80": ["w50L8p80", "R20"],
-              "m23|R7": ["w50L8", "R7"], "m23|R9": ["w50L8", "R9"]}
+              "m23|R7": ["w50L8", "R7"], "m23|R9": ["w50L8", "R9"],
+              "m49|L7": ["g7"], "m49|L9": ["g9"], "m49|p12": ["g8p12"], "m49|p20": ["g8p20"]}
+SEEDS = range(1, 11)  # m49's mixture refit with other seeds on the full pool: not tries, nothing is picked from them
 
 
-def source_axes(raw, name, rows, failing, ids):
+def source_axes(raw, name, rows, failing, ids, seed=0):
     cache, layers, summary, method, dims = SOURCES[name]
     block = raw[cache][summary]
     x = np.hstack([cm.standardise(block[rows][:, l].astype(np.float32)) for l in layers])
+    if method == "gmm":
+        z = PCA(n_components=dims, random_state=0).fit_transform(cm.standardise(x))[failing[rows]]
+        fits = {k: GaussianMixture(k, covariance_type="diag", random_state=seed, n_init=3).fit(z) for k in range(4, 13)}
+        labels = min(fits.values(), key=lambda m: m.bic(z)).predict(z)
+        fail_ids = [ids[r] for r in rows[failing[rows]]]
+        groups = sorted(({fail_ids[j] for j in np.flatnonzero(labels == c)} for c in set(labels)), key=len, reverse=True)
+        return ss.distinct(groups)
     z = cm.standardise(PCA(n_components=dims, random_state=0).fit_transform(cm.standardise(x)))
     sub_ids = [ids[r] for r in rows]
     return ss.distinct([set(a["rollouts"]) for a in cm.axes_from(z, failing[rows], sub_ids, name, method)])
@@ -153,9 +168,14 @@ def main() -> None:
                       "beats": {r: float(np.mean([x["scores"][m] > x["scores"][r] for x in reps])) for r in rivals},
                       "beats_all": float(np.mean([all(x["scores"][m] > x["scores"][r] for r in rivals) for x in reps])),
                       "stability": float(np.mean([x["stability"][m] for x in reps]))}
+    cut_all = gaps
+    seeds = {}
+    for seed in SEEDS:
+        seeds[seed] = ss.mean_best(source_axes(raw, "g8", full_rows, failing, ids, seed), cut_all)
     rival_summary = {r: {"full": full[r], "mean": float(np.mean([x["scores"][r] for x in reps]))} for r in rivals}
     out = {"label": "DEV robustness; scoring side", "replicates": args.replicates, "fraction": args.fraction,
-           "leads": summary, "rivals": rival_summary, "neighbours": {n: full[n] for n in NEIGHBOURS}}
+           "leads": summary, "rivals": rival_summary, "neighbours": {n: full[n] for n in NEIGHBOURS},
+           "m49_seeds": seeds}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps(out, indent=1))
