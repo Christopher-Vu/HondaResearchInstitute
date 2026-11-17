@@ -1,0 +1,28 @@
+# Discovery sprint §7 (docs/prd-discovery-sprint.md): UniAD-Base on every Fail2Drive pair, one seed, as
+# f2d-tfpp-screen.yaml did for TransFuser++ (same routes, seed and simulator). Policy settings from f2d-uniad-smoke.yaml.
+# Runs from the hri-dev clone; 200 routes, 2 per A40 side by side, 3 rounds per task:
+#   ROUNDS=3 CARLA_LOCAL_TAR=$PWD/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive \n#   POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/uniad-env.tar #   bash scripts/submit.sh gpu_a40 --export=ALL --time=0-03:00:00 --array=0-33 scripts/route_sample.sbatch #     configs/rollout/f2d-screen-uniad.yaml 2
+
+name: f2d-screen-uniad
+step: F6
+scope: savio_f2d_screen_uniad
+
+policy:
+  name: uniad
+  ckpt_sha256: 8c6fb898033ef62e0f20a45ff68d554c131c0b58ca405d57bb5bfa4af1f8dcb0
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+
+route:
+  seed: 24
+  routes_file: configs/rollout/f2d-tfpp-screen.xml
+  manifest: configs/rollout/f2d-tfpp-screen.manifest.json
