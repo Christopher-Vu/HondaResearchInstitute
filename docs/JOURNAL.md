@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — Chris's leading methods rerun unchanged on H21: none carries over
+
+Jerry and Chris agreed a shared plan on issue 9; its first track is to rerun every current lead, unchanged, on
+Jerry's H21 pool (one seed, 200 routes, 52 failing), the second SimLingo pool now that it has the same layers as
+Chris's. The leads need 20- and 50-frame approach windows and the H21 cache only holds a 6-frame one, so the longer
+windows were rebuilt from H21's per-frame file; rebuilt at 6 frames it matches the cache to float16 rounding (measured),
+so the rebuild takes the same slice. Rows were written before scoring (`2533396`); each rerun counts as a try.
+
+Measured, dev, 134 tried in total: all six leads score 0.20 to 0.25 on H21 (m11 0.247, m16 0.222, m08 0.221, m15
+0.210, m12 0.203, j05 0.202), close to what random groups of failing routes score (0.16 to 0.19) and below the
+four-number behaviour rival (0.326). On Chris's pool the same methods score 0.28 to 0.31. Most of the m methods'
+groups on H21 are either nearly every failing route or one to four routes. So the activation leads have not yet shown
+they carry to a second pool; j09 (the hidden Markov model over frames, 0.331) is still the only method level with the
+behaviour rival on H21, and its test on Chris's pool waits on his per-frame file. H21 is small and its categories have
+been read before, so this ranks methods; it does not settle them. Details and reports:
+`docs/research/experiments/f2d-dev-simlingo/VARIANTS.md` (`b08e078`), `results/h21/sprint/repl/`.
+
+---
+
 ## 2026-11-16 — a temporal method, j09, scored on H21's new per-frame data
 
 Jerry's laptop session ran a Savio job (41402579) that built two files for his H21 pool (SimLingo on all 100
