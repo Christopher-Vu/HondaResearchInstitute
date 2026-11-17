@@ -46,7 +46,7 @@ STAGES = (
     ("track_decoder", "pts_bbox_head.transformer.decoder.layers"),
     ("seg_encoder", "seg_head.transformer.encoder.layers"),
     ("seg_decoder", "seg_head.transformer.decoder.layers"),
-    ("motion_decoder", "motion_head.motionformer.intention_interaction_layers"),
+    ("motion_decoder", "motion_head.motionformer.bev_interaction_layers"),
     ("occ_decoder", "occ_head.transformer_decoder.layers"),
     ("planning", "planning_head.attn_module.layers"),
 )

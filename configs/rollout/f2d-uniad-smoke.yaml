@@ -1,0 +1,33 @@
+# Discovery sprint §7 (docs/prd-discovery-sprint.md): first UniAD drive on our harness, one Fail2Drive pair.
+# Same pair as TransFuser++'s and SimLingo's first Fail2Drive drives: PedestriansOnRoad 1085 and its base twin 85.
+# Checkpoint: Bench2DriveZoo's UniAD-Base (huggingface.co/rethinklab/Bench2DriveZoo, uniad_base_b2d.pth), whose
+# Bench2Drive score (45.81) is the one Fail2Drive's leaderboard lists for UniAD (45.8). Hash measured on Savio by setup
+# job 41326676. Its own Python 3.10 environment, staged from node-local disk, run from the hri-dev clone:
+#   ROUTE_IDS="1085 85" CARLA_LOCAL_TAR=$PWD/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive \
+#   POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/uniad-env.tar \
+#   bash scripts/submit.sh gpu_a40 --nice=10000 --export=ALL --time=0-02:00:00 --array=0-0 scripts/route_sample.sbatch \
+#     configs/rollout/f2d-uniad-smoke.yaml 2
+
+name: f2d-uniad-smoke
+step: F6
+scope: savio_f2d_uniad_smoke
+
+policy:
+  name: uniad
+  ckpt_sha256: 8c6fb898033ef62e0f20a45ff68d554c131c0b58ca405d57bb5bfa4af1f8dcb0
+  device: cuda
+
+simulator:
+  carla_version: "0.9.15"
+  carla_build: fail2drive
+  benchmark: fail2drive
+  debug_level: 0
+  quality: Epic
+  timeout_seconds: 600
+
+capture_every: 10
+
+route:
+  seed: 24                       # same as both SimLingo Fail2Drive screens and TransFuser++'s
+  routes_file: configs/rollout/f2d-repro-screen.xml
+  manifest: configs/rollout/f2d-repro-screen.manifest.json
