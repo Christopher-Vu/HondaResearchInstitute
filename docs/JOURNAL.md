@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-16 — UniAD built and its hooks checked; first drive failed in setup and is fixed but not rerun
+
+UniAD-Base, the end-to-end driving model from the Bench2DriveZoo repository, is the third model for the discovery sprint (`docs/prd-discovery-sprint.md` section 7). Its checkpoint's Bench2Drive score, 45.81, is the one Fail2Drive's leaderboard lists for UniAD. Its software environment now imports on Savio, after five more compatibility fixes, which are logged in `docs/WHAT_BROKE.md`. A CPU job (41371800) built the full model and confirmed that six of the seven layer stacks we record activations from exist as named. The seventh, the motion-prediction stage, was a wrong guess and now points at its last interaction layers (commit 8c978f6).
+
+The first two-route drive (A40 job 41404452) failed in the model's own setup code, before driving. The upstream agent reads a flag once, when Python imports it, so setting that flag later in the environment had no effect. The fix sets the flag on the imported module instead (commit cdc7e2e). The rerun is not submitted: method-loop jobs were pending, and those get the queue first. Still unproven: that the model drives, that every hooked layer has the 256-wide output the capture expects, that the capture passes the shard contract, and that its scores match the paper. SU on UniAD so far is about 8 (estimate: about 5 on CPU setup, 3.2 on the failed drive).
+
 ## 2026-11-16 — H21b: Jerry's second dev pool gets two more traffic seeds
 
 Every leading method from Chris's sprint pool fell to near chance on Jerry's H21 pool, but H21 is one traffic seed with only 3 to 8 failures per category, so that warning is weak. Jerry approved driving H21's run again, unchanged except the traffic seed, on seeds 25 and 26 (`configs/rollout/f2d-h21b-s25.yaml`, `-s26.yaml`, commit `a3d2a16`). Each is 200 SimLingo routes, all 100 Fail2Drive pairs. Arrays 41405003 and 41405006 (A40, 3 routes per task, at most 20 tasks at once) are queued, with CPU scoring and shard export 41405007 and 41405008 after them. Cost about 1,140 SU (estimate, from H21's measured 570 SU per seed). Heads-up on issue 9. Next: build `cache_pool.py` and `frames_pool.py` caches on all three seeds, then rerun the track C replication on the larger pool.

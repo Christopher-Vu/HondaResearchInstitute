@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-16: UniAD's first drive died in setup on a flag read at import
+
+Expected: setting `IS_BENCH2DRIVE=1` in the environment inside our agent's `setup()` would stop Bench2DriveZoo's agent naming its save folder from an undefined `now`. Happened: smoke job 41404452 failed both routes (1085, 85) in setup with `UnboundLocalError: now`, because `uniad_b2d_agent.py` reads the variable once at import, before `setup()` runs. Its `destroy()` then raised `AttributeError: model`. Did: set the module global `uniad_b2d_agent.IS_BENCH2DRIVE` instead (commit cdc7e2e). Cost: 6.5 min of one A40, about 3.2 SU.
+
+## 2026-11-15: UniAD's Python 3.10 environment needed five more fixes before it imported
+
+Expected: Bench2DriveZoo's pinned requirements, relaxed for Python 3.10, would import. Happened, one at a time on the login node: old `trimesh` needs `pkg_resources` (installed `setuptools<70`); `motmetrics` 1.1.3 uses `collections.Iterable` (moved to 1.2.5 `--no-deps` plus `xmltodict`); `numba.errors` moved to `numba.core.errors` and matplotlib's `seaborn-whitegrid` became `seaborn-v0_8-whitegrid` (both patched in the clone at `.runtime/Bench2DriveZoo`); a test lacked CARLA's `agents` package (added `PythonAPI/carla` to its path). Also, one guessed hook path was wrong: `motion_head.motionformer.intention_interaction_layers` is a single module, not a layer list; the motion stage now hooks `bev_interaction_layers` (check job 41371800, commit 8c978f6).
+
 ## 2026-11-15: the sprint scorer's chance column draws random axes from passing routes too
 
 **Expected:** `sprint_score.py`'s `chance_B1` would be B1 as the project defines it: random axes of the method's own sizes, drawn from failing routes (`src/baselines/random_baseline.py`, `draw_directive`: "Sampling is from failing rollouts only ... so B1 is not handicapped by wasting its budget on successes").
