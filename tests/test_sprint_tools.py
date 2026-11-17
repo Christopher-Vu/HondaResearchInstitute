@@ -217,3 +217,26 @@ def test_cache_methods_and_b3_emit_only_failing_routes_with_zero_variance_column
         for axis in payload["axes"]:
             members = set(axis["rollouts"])
             assert members and members.issubset(failing_ids)
+
+
+def test_pooled_score_namespaces_models_and_resamples_pairs_jointly(tmp_path: Path) -> None:
+    """Both models share route ids. The method's axes on model a are the rival's on model b and vice versa, so only a
+    bootstrap that draws one set of pairs for both models gives a zero delta in every replicate."""
+    manifest = [{"id": f"s{i}", "pair": f"p{i}", "role": "pilot_slice", "practice_gaps": ["G1"]} for i in range(6)]
+    manifest_path, routes_path = tmp_path / "manifest.json", tmp_path / "routes.jsonl"
+    manifest_path.write_text(json.dumps(manifest))
+    routes_path.write_text("".join(json.dumps({"id": f"s{i}", "success": False}) + "\n" for i in range(6)))
+    small, large = tmp_path / "small.json", tmp_path / "large.json"
+    small.write_text(json.dumps({"method": "x", "axes": [{"name": "a", "rollouts": ["s0"]}]}))
+    large.write_text(json.dumps({"method": "x", "axes": [{"name": "a", "rollouts": ["s0", "s1", "s2", "s3"]}]}))
+    out = tmp_path / "report.json"
+    subprocess.run(
+        [sys.executable, str(SPRINT_DIR / "pooled_score.py"), "--manifest", str(manifest_path),
+         "--model", "a", str(routes_path), "--model", "b", str(routes_path), "--gaps", "a:G1", "b:G1",
+         "--method", "m", f"a={small}", f"b={large}", "--rival", "B3_behaviour", f"a={large}", f"b={small}",
+         "--tried", "1", "--replicates", "200", "--label", "test", "--output", str(out)],
+        capture_output=True, text=True, env={"PYTHONPATH": "src"}, check=True)
+    row = json.loads(out.read_text())["rows"]["m"]
+    assert row["per_model"] == {"a": 1 / 6, "b": 4 / 6}
+    assert abs(row["mean_best"] - 5 / 12) < 1e-12
+    assert row["vs"]["B3_behaviour"]["interval"] == [0.0, 0.0]
