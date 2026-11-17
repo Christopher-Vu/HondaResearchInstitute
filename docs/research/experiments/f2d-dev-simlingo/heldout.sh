@@ -41,5 +41,6 @@ tfpp)
     --rival B3_behaviour=$T/b3_behaviour.json --rival B7_pool=$T/b7/directives-ms20:B7_pool:L2_k18_s0 \
     --reported-rival B3_infraction=$T/b3_infraction.json \
     --manifest $MANIFEST --routes $P/routes.jsonl --gaps F2D_PedestriansOnRoad F2D_FullyBlocked \
-    --decoys F2D_ConstructionPedestrian F2D_ConstructionPermutations F2D_HardBrake F2D_ImageOnObject F2D_ObscuredStop \n    F2D_PassableObstacles F2D_PedestrianCrowd F2D_PedestrianOtherBlocker F2D_RightOfWay --tried 2 --output $T/report.json ;;
+    --decoys F2D_ConstructionPedestrian F2D_ConstructionPermutations F2D_HardBrake F2D_ImageOnObject F2D_ObscuredStop \
+    F2D_PassableObstacles F2D_PedestrianCrowd F2D_PedestrianOtherBlocker F2D_RightOfWay --tried 2 --output $T/report.json ;;
 esac
