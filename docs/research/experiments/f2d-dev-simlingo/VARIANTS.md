@@ -964,3 +964,45 @@ equally, with Fail2Drive pairs resampled jointly across models. m23 and m40 are 
 **Finalist rule for round 2, fixed now.** A candidate must have a higher pooled score than m23, beat B3-behaviour on
 each model separately, and then pass the robustness rule used before the first freeze (beat all rivals in at least 80%
 of resamples, axis stability of at least 0.6, neighbours within 0.05). At most 3 are frozen.
+
+**Round 2 batch 1 scored** 2026-11-17 by job 41482972 (CPU, 11 minutes). Measured, dev, pooled over 5 units,
+**197 tried in total**. Per unit: SimLingo PedestriansOnRoad / FullyBlocked / BadParking, TransFuser++
+PedestriansOnRoad / FullyBlocked.
+
+| row | pooled | SimLingo | TF++ | SL PoR | SL FB | SL BP | TF PoR | TF FB | vs B3-behaviour (p) |
+|---|---|---|---|---|---|---|---|---|---|
+| m23 (reference) | **0.270** | 0.372 | 0.117 | 0.59 | 0.35 | 0.17 | 0.06 | 0.17 | +0.107 (0.12) |
+| m40 (reference) | **0.275** | 0.398 | 0.091 | 0.59 | 0.35 | 0.25 | 0.04 | 0.15 | +0.113 (0.17) |
+| r07 window + vision bridge | 0.240 | 0.329 | 0.106 | 0.59 | 0.12 | 0.28 | 0.04 | 0.17 | +0.077 (0.15) |
+| r06 depth-spread window | 0.219 | 0.297 | 0.103 | 0.59 | 0.08 | 0.22 | 0.04 | 0.17 | +0.056 (0.24) |
+| r03 hybrid with B3-infraction | 0.211 | 0.249 | 0.153 | 0.59 | 0.06 | 0.09 | 0.18 | 0.12 | +0.048 (0.12) |
+| r01 probe-chosen layer | 0.205 | 0.272 | 0.104 | 0.59 | 0.08 | 0.14 | 0.06 | 0.15 | +0.042 (0.28) |
+| r05 change before failure | 0.174 | 0.194 | 0.144 | 0.27 | 0.06 | 0.25 | 0.12 | 0.17 | +0.011 (0.43) |
+| r04 error-aware | 0.141 | 0.166 | 0.103 | 0.33 | 0.07 | 0.10 | 0.04 | 0.17 | −0.022 (0.58) |
+| r02 activations + kinematics | 0.110 | 0.095 | 0.132 | 0.09 | 0.09 | 0.11 | 0.09 | 0.17 | −0.053 (0.89) |
+| B3-behaviour | 0.163 | 0.219 | 0.079 | 0.37 | 0.07 | 0.21 | 0.10 | 0.06 | |
+| B3-infraction (reported) | 0.163 | 0.192 | 0.119 | 0.35 | 0.06 | 0.16 | 0.18 | 0.06 | |
+| B7-pool | 0.123 | 0.187 | 0.026 | 0.20 | 0.33 | 0.03 | 0.00 | 0.05 | |
+
+Chance is about 0.07. No decoy hits on either model, except r02 on TF++ (0.1).
+
+Reading:
+- No new method beats m23 pooled, so none qualifies.
+- On TransFuser++ PedestriansOnRoad every activation view stays at 0.04 to 0.12. Only r03 reaches 0.18, and that is
+  B3-infraction's own axis.
+- **m23's SimLingo FullyBlocked 0.35 depends on top-10 truncation.** The whole-route L8 view holds a FullyBlocked
+  axis at 0.353, ranked deep. In m23 two window axes duplicate route axes (Jaccard ≥ 0.8) and are skipped, which
+  lets that axis into the top 10. In r03 to r07 the window views differ, and the axis falls off. The rebuilt cache is
+  identical to the old one (same order, same route-L8 values, same axes).
+
+### Round 2, batch 2 (aimed at TransFuser++), rows written before any score
+
+Script `round2-b2.sh`. Same scoring and finalist rule as batch 1. r07 is rescored as a reference.
+
+| id | idea | settings | tried after |
+|---|---|---|---|
+| r08 | all-token site instead of driving queries | window and whole-route at 8/23 on `all_tokens` | 198 |
+| r09 | vision bridge alone (pre-planner perception) | `vision_bridge` window, pooled with whole-route 8/23 | 199 |
+| r10 | shorter approach window | 20-frame window at 8/23, pooled with whole-route 8/23 | 200 |
+| r11 | whole-route first in the round-robin, so the FullyBlocked view keeps its slots | whole-route 8/23 then m23's window | 201 |
+| r12 | PCA width scaled with model width, as B7's k | dims 32 on SimLingo, 9 on TransFuser++ (32 × 256 / 896), window and whole-route 8/23 | 202 |
