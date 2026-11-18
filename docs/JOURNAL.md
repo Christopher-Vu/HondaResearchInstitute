@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Dashboard catches up with round-two batch 1
+
+The dashboard source still described the week ending November 13, while the project had already completed the
+TransFuser++ confirmation and scored the first seven round-two candidates. This session refreshed the public weekly
+summary to state the failed round-one bar, batch 1's negative result, and the newly fixed independent diagnostic.
+It does not alter any scientific status or imply that batch 2 or the diagnostic has run.
+
+Added a YAML check that keeps the dashboard's weekly lines attributed, nonempty, and within its 20-word display
+limit. The next visible work is round-two batch 2 and the paired diagnostic; UniAD remains unread until finalists
+are frozen.
+
 ## 2026-11-17 — Held-out round 1: the frozen method does not transfer to TransFuser++
 
 The two methods frozen at `f2d-freeze-1` (m23 as primary, m40 as secondary) were scored once on TransFuser++, the
