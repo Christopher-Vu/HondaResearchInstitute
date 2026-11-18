@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Dashboard now records the held-out result and round 2
+
+The public dashboard's `progress.yaml` was still dated November 13 even though the project has moved through the
+`f2d-freeze-1` held-out check. This session updated its compact weekly summary with the frozen finalists, the
+TransFuser++ result that triggered the preregistered second round, and the new pooled candidate batch. It does not
+alter any scientific step checkbox or claim a round-two result: those jobs have not been read.
+
+Added a YAML regression test that keeps dashboard items attributable, nonempty, and within the 20-word display
+limit. The next work shown to visitors is mechanical and already stated by the protocol: score r01–r07 on both
+development models, freeze any finalists, then read UniAD only under that freeze.
+
 ## 2026-11-17 — Held-out round 1: the frozen method does not transfer to TransFuser++
 
 The two methods frozen at `f2d-freeze-1` (m23 as primary, m40 as secondary) were scored once on TransFuser++, the
