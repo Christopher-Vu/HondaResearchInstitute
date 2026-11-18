@@ -15,6 +15,17 @@ pre-stated agreement check.
 The added YAML test keeps the dashboard lines attributable, nonempty, and under 20 words. Next is to read and
 compare the diagnostic outputs, apply its fixed decision rule, and freeze any finalists before UniAD is opened.
 
+## 2026-11-17 — Dashboard records the primary probe result, pending replication
+
+The primary label-reading probe completed with its pre-stated Outcome 1: none of the five development units met
+both requirements for usable activation information. Activations beat the corrected null on four units, but the
+named combined-feature comparison never showed an advantage over behaviour. The dashboard now says that distinction
+plainly rather than implying the activations contain no signal at all.
+
+This is deliberately provisional. The independent implementation and the post hoc split-seed sensitivity check are
+still running; their agreement rule must be applied before the project treats the diagnostic as settled. The YAML
+summary test remains unchanged and passes.
+
 ## 2026-11-17 — Round 2 search: twelve tries, no new finalist; a label-reading diagnostic queued
 
 After round 1 failed on TransFuser++, the pre-registered round 2 began: TransFuser++ became a second development pool

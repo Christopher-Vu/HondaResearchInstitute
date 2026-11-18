@@ -14,11 +14,11 @@ week:
   done:
     - {text: "Round two tested 12 new pooled methods; none beat the m23 reference", who: Christopher-Vu}
     - {text: "Every activation view still misses TransFuser++ PedestriansOnRoad", who: Christopher-Vu}
-    - {text: "Locked paired probe diagnostics to test whether activation information is present", who: Christopher-Vu}
+    - {text: "Primary probe finds activation signal but no added evidence beyond behaviour", who: Christopher-Vu}
   next:
-    - {text: "Read and compare the two probe diagnostics against their fixed agreement rule", who: Christopher-Vu}
-    - {text: "Decide whether the diagnostic finds information missing or hard for clustering", who: Christopher-Vu}
-    - {text: "Freeze finalists before reading any UniAD outcome", who: Christopher-Vu}
+    - {text: "Read the independent probe and split-seed check; enforce the agreement rule", who: Christopher-Vu}
+    - {text: "Log the diagnostic decision beside Jerry’s H21 ceiling check", who: Christopher-Vu}
+    - {text: "Choose the next round-two action before opening UniAD outcomes", who: Christopher-Vu}
 
 steps:
   - id: 0
