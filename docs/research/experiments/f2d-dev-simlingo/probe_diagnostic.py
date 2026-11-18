@@ -126,13 +126,42 @@ def wauc(y, s, w):
     return roc_auc_score(y, s, sample_weight=w)
 
 
+def repeated_splits(args) -> None:
+    """Post hoc: how much each cell's AUROC moves with the fold assignment alone."""
+    rows = []
+    for model, gaps in MODELS.items():
+        fids, pairs, act, beh, labels = load_model(model)
+        cells = cell_list(act, beh)
+        for gap in gaps:
+            y = labels[gap]
+            per_seed = []
+            for seed in range(args.split_seeds):
+                folds = list(StratifiedGroupKFold(5, shuffle=True, random_state=seed).split(np.zeros(len(y)), y, pairs))
+                per_seed.append([roc_auc_score(y, oof(x, y, folds, p)[0]) for *_, p, x in cells])
+            a = np.array(per_seed)
+            for i, (kind, s, f, p, _) in enumerate(cells):
+                rows.append({"model": model, "gap": gap, "features": kind, "summary": s, "fraction": f, "probe": p,
+                             "positive_pairs": len(set(pairs[y])), "auroc_mean": float(a[:, i].mean()),
+                             "auroc_min": float(a[:, i].min()), "auroc_max": float(a[:, i].max())})
+            print(model, gap, flush=True)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps({"label": "POST HOC split-seed check (probe-diagnostic.md amendment)",
+                                       "split_seeds": args.split_seeds, "cells": rows}, indent=1) + "
+")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--shuffles", type=int, default=200)
     parser.add_argument("--boots", type=int, default=1000)
     parser.add_argument("--jobs", type=int, default=4)
+    parser.add_argument("--split-seeds", type=int, default=0,
+                        help="post hoc (probe-diagnostic.md, amendment): AUROC of every cell over this many CV split "
+                             "seeds, no null, bootstrap or findability")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.split_seeds:
+        return repeated_splits(args)
     out = {"label": "LABEL-READING DIAGNOSTIC (probe-diagnostic.md); not a method, not a try", "cells": [], "units": {}}
     for model, gaps in MODELS.items():
         fids, pairs, act, beh, labels = load_model(model)

@@ -105,3 +105,17 @@ Per-model reporting is always given, and the rule is also stated per model (unit
 An independent worker reimplements this from this file alone, without reading `probe_diagnostic.py` or its outputs
 until both have run. The two agree when at least 95% of the 250 cells are within 0.03 AUROC, every unit's decision
 (information yes or no) matches, and the outcome matches. Disagreements are listed, not averaged away.
+
+## Amendment (post hoc, 2026-11-17, after the primary run was read)
+
+The primary run (job 41486627) gave per-cell AUROCs that depend strongly on the fold assignment. The same code on
+the same data gave BadParking's behaviour probe 0.46 inside the job (policy venv) and 0.80 on the login node
+(analysis venv, scikit-learn 1.9.1), because the two scikit-learn versions shuffle `StratifiedGroupKFold`
+differently. Each gap holds only 3 to 6 Fail2Drive pairs, so a five-fold pair-grouped split is close to
+leave-one-route-out over a handful of routes. Pooled out-of-fold AUROCs well below 0.5 (0.09 to 0.22) are that
+effect: the probe learns the training routes and misranks the held-out ones.
+
+Added check, fixed before it runs: every cell's AUROC over 20 split seeds (0 to 19), the same environment as the
+primary run, reported as mean, minimum and maximum, with no null and no decision. The primary result and its outcome
+stand as pre-registered. This check only says how far a single split can be trusted. The independent
+reimplementation runs in the same job environment.
