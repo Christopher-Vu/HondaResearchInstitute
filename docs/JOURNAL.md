@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Dashboard reflects batch 2 and the pending diagnostic
+
+The dashboard still showed the November 13 plan while the two-model round-two search had reached 202 tries. This
+session updates its short weekly view with batch 2's negative result and the fixed, two-implementation probe
+diagnostic. It does not report a diagnostic conclusion: both reports remain pending and must first pass the
+pre-stated agreement check.
+
+The added YAML test keeps the dashboard lines attributable, nonempty, and under 20 words. Next is to read and
+compare the diagnostic outputs, apply its fixed decision rule, and freeze any finalists before UniAD is opened.
+
 ## 2026-11-17 — Round 2 search: twelve tries, no new finalist; a label-reading diagnostic queued
 
 After round 1 failed on TransFuser++, the pre-registered round 2 began: TransFuser++ became a second development pool
