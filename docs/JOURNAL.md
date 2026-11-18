@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-17 — Round 2 search: twelve tries, no new finalist; a label-reading diagnostic queued
+
+After round 1 failed on TransFuser++, the pre-registered round 2 began: TransFuser++ became a second development pool
+beside SimLingo. Every method now runs on both models with the same settings and is scored by `pooled_score.py`.
+That scorer averages best-match Jaccard over the five (model, gap) units and resamples Fail2Drive pairs jointly
+across models. It is also the two-model scorer amendment A3 requires before UniAD, and it has a test.
+
+Twelve methods were tried (r01 to r12, 202 tries in total, measured on dev). None beat m23's pooled 0.270; the
+behaviour rival scores 0.163. Mixing in speed features, a probe-chosen layer, other activation sites, the vision
+bridge, shorter windows and width-scaled PCA all left TransFuser++'s PedestriansOnRoad near chance (0.04 to 0.12).
+One finding about m23 itself: its SimLingo FullyBlocked score of 0.35 comes from a deep-ranked axis that only makes
+the top 10 because two near-duplicate axes are skipped. Details are in `VARIANTS.md`.
+
+Chris then asked for a diagnostic that reads the gap labels on purpose: can a simple supervised probe tell each gap's
+failures from other failures, using activations, behaviour, or both, and how much of that does unsupervised
+clustering recover? The protocol and its decision rule were committed before anything ran
+(`docs/research/experiments/f2d-dev-simlingo/probe-diagnostic.md`). It is not a method, not a try, and must not
+tune one. Two implementations run independently, and their agreement will be reported. Neither had finished when
+this session paused.
+
 ## 2026-11-17 — Held-out round 1: the frozen method does not transfer to TransFuser++
 
 The two methods frozen at `f2d-freeze-1` (m23 as primary, m40 as secondary) were scored once on TransFuser++, the

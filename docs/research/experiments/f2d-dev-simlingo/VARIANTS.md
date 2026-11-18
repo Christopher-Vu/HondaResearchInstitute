@@ -1006,3 +1006,19 @@ Script `round2-b2.sh`. Same scoring and finalist rule as batch 1. r07 is rescore
 | r10 | shorter approach window | 20-frame window at 8/23, pooled with whole-route 8/23 | 200 |
 | r11 | whole-route first in the round-robin, so the FullyBlocked view keeps its slots | whole-route 8/23 then m23's window | 201 |
 | r12 | PCA width scaled with model width, as B7's k | dims 32 on SimLingo, 9 on TransFuser++ (32 × 256 / 896), window and whole-route 8/23 | 202 |
+
+**Round 2 batch 2 scored** 2026-11-17 by job 41486389 (CPU, 6 minutes). Measured, dev, pooled, **202 tried in total**.
+
+| row | pooled | SimLingo | TF++ | SL PoR | SL FB | SL BP | TF PoR | TF FB | vs B3-behaviour (p) |
+|---|---|---|---|---|---|---|---|---|---|
+| m23 (reference) | **0.270** | 0.372 | 0.117 | 0.59 | 0.35 | 0.17 | 0.06 | 0.17 | +0.107 (0.11) |
+| r11 whole-route first | 0.270 | 0.372 | 0.117 | 0.59 | 0.35 | 0.17 | 0.06 | 0.17 | +0.107 (0.11) |
+| r08 all-token site | 0.264 | 0.362 | 0.117 | 0.59 | 0.35 | 0.14 | 0.06 | 0.17 | +0.101 (0.16) |
+| r09 vision bridge alone | 0.264 | 0.352 | 0.132 | 0.59 | 0.35 | 0.11 | 0.09 | 0.17 | +0.101 (0.18) |
+| r12 PCA width scaled | 0.257 | 0.372 | 0.084 | 0.59 | 0.35 | 0.17 | 0.05 | 0.12 | +0.094 (0.10) |
+| r10 20-frame window | 0.226 | 0.304 | 0.108 | 0.59 | 0.09 | 0.23 | 0.05 | 0.17 | +0.063 (0.19) |
+
+Reading: none beats m23, so none qualifies. r11 ties m23 exactly, so ordering the route view first keeps the
+FullyBlocked axis without changing anything else. TransFuser++ PedestriansOnRoad stays at 0.05 to 0.09 under every
+site, window and width tried. Search paused here for the probe diagnostic (`probe-diagnostic.md`), which asks whether
+the information is there at all.

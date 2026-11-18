@@ -6,11 +6,25 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-17 (held-out round 1 on TransFuser++: m23 does not beat B3-behaviour; round 2 triggered)
+Last updated: 2026-11-17 late (round 2: 12 tries, no finalist; probe diagnostic queued)
 
 ---
 
 ## Current position
+
+**2026-11-17 late: round 2 search, 12 tries (202 in total), no new finalist; probe diagnostic running.**
+- **Round 2** (`VARIANTS.md` "Round 2, batch 1" and "batch 2"; `pooled_score.py`, the two-model scorer A3 requires, is
+  written and tested): r01 to r12 all score at or below m23's pooled 0.270 (B3-behaviour 0.163). TransFuser++
+  PedestriansOnRoad stays at 0.04 to 0.12 for every activation view. m23's SimLingo FullyBlocked 0.35 depends on
+  top-10 truncation.
+- **Probe diagnostic** (Chris's request; `probe-diagnostic.md`, protocol and decision rule committed in 8b0d1d6
+  before running). It reads labels on purpose, is not a try, and tunes nothing. Primary: `probe_diagnostic.py`,
+  CPU job 41486627 (pending, untested; the login-node smoke timed out), output
+  `results/savio/f2d-dev/probe-diag/report.json`. Independent reimplementation: `probe_diagnostic_indep.py` by a
+  separate agent, output `results/savio/f2d-dev/probe-diag-indep/report.json`. **Unfinished:** read both, check
+  agreement (95% of 250 cells within 0.03 AUROC, same unit decisions and outcome), apply the rule, cite Jerry's H21
+  ceiling check, and log in JOURNAL and STATUS.
+- **Open:** Chris may add CustomObstacles as a reported-only SimLingo unit (not scored); not done.
 
 **2026-11-17: held-out round 1 failed its bar; round 2 triggered (prereg A3).** On TransFuser++ (2 tried) m23 scores 0.117 against B3-behaviour's 0.079: +0.038, interval [−0.116, +0.229], p = 0.37. m40 scores 0.091. B3-infraction ties m23 (0.119), and chance is about 0.065. m23 still wins FullyBlocked on both models. The fixed rival on SimLingo dev scores 0.219, and m23's dev lead is +0.153 (p = 0.085). Details: `VARIANTS.md`, "Held-out round 1". **Next:** round 2. TransFuser++ joins dev, the search looks for up to 3 new finalists (the gap is PedestriansOnRoad), and they freeze under a new tag before any UniAD outcome is read. Then UniAD alone. UniAD smoke 41427300 completed and belongs to the bring-up thread. No CPU or GPU jobs are queued from the search side.
 
