@@ -146,8 +146,7 @@ def repeated_splits(args) -> None:
             print(model, gap, flush=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"label": "POST HOC split-seed check (probe-diagnostic.md amendment)",
-                                       "split_seeds": args.split_seeds, "cells": rows}, indent=1) + "
-")
+                                       "split_seeds": args.split_seeds, "cells": rows}, indent=1) + "\n")
 
 
 def main() -> None:
