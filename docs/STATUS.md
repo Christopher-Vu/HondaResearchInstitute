@@ -17,13 +17,17 @@ Last updated: 2026-11-17 late (round 2: 12 tries, no finalist; probe diagnostic 
   written and tested): r01 to r12 all score at or below m23's pooled 0.270 (B3-behaviour 0.163). TransFuser++
   PedestriansOnRoad stays at 0.04 to 0.12 for every activation view. m23's SimLingo FullyBlocked 0.35 depends on
   top-10 truncation.
-- **Probe diagnostic** (Chris's request; `probe-diagnostic.md`, protocol and decision rule committed in 8b0d1d6
-  before running). It reads labels on purpose, is not a try, and tunes nothing. Primary: `probe_diagnostic.py`,
-  CPU job 41486627 (pending, untested; the login-node smoke timed out), output
-  `results/savio/f2d-dev/probe-diag/report.json`. Independent reimplementation: `probe_diagnostic_indep.py` by a
-  separate agent, output `results/savio/f2d-dev/probe-diag-indep/report.json`. **Unfinished:** read both, check
-  agreement (95% of 250 cells within 0.03 AUROC, same unit decisions and outcome), apply the rule, cite Jerry's H21
-  ceiling check, and log in JOURNAL and STATUS.
+- **Probe diagnostic** (Chris's request; `probe-diagnostic.md`, protocol and rule committed in 8b0d1d6 before
+  running). It reads labels on purpose, is not a try, and tunes nothing.
+  - **Primary run read** (job 41486627, `results/savio/f2d-dev/probe-diag/report.json`): **Outcome 1** as
+    pre-registered. No unit passes. Activations beat the max-stat null on 4 of 5 units (p ≤ 0.015), but
+    both-minus-behaviour at the named cell never clears zero.
+  - **Caveat:** each gap is only 3 to 6 Fail2Drive pairs, so AUROCs swing with the fold split (scikit-learn version
+    alone moved one cell from 0.46 to 0.80), and some fall to 0.09 to 0.22. A post hoc split-seed check is in the
+    protocol's amendment: job 41491742, output `splits.json`.
+  - **Independent run:** job 41487659 (`probe_diagnostic_indep.py`, output `probe-diag-indep/report.json`), running.
+    Its worker session ended, so read its report directly.
+  - **Unfinished:** agreement check, then log in JOURNAL with the H21 comparison.
 - **Open:** Chris may add CustomObstacles as a reported-only SimLingo unit (not scored); not done.
 
 **2026-11-17: held-out round 1 failed its bar; round 2 triggered (prereg A3).** On TransFuser++ (2 tried) m23 scores 0.117 against B3-behaviour's 0.079: +0.038, interval [−0.116, +0.229], p = 0.37. m40 scores 0.091. B3-infraction ties m23 (0.119), and chance is about 0.065. m23 still wins FullyBlocked on both models. The fixed rival on SimLingo dev scores 0.219, and m23's dev lead is +0.153 (p = 0.085). Details: `VARIANTS.md`, "Held-out round 1". **Next:** round 2. TransFuser++ joins dev, the search looks for up to 3 new finalists (the gap is PedestriansOnRoad), and they freeze under a new tag before any UniAD outcome is read. Then UniAD alone. UniAD smoke 41427300 completed and belongs to the bring-up thread. No CPU or GPU jobs are queued from the search side.
