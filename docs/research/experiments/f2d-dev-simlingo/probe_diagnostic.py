@@ -137,11 +137,13 @@ def repeated_splits(args) -> None:
             per_seed = []
             for seed in range(args.split_seeds):
                 folds = list(StratifiedGroupKFold(5, shuffle=True, random_state=seed).split(np.zeros(len(y)), y, pairs))
+                if any(not y[tr].any() for tr, _ in folds):  # a training fold with no gap route: seed skipped, counted
+                    continue
                 per_seed.append([roc_auc_score(y, oof(x, y, folds, p)[0]) for *_, p, x in cells])
             a = np.array(per_seed)
             for i, (kind, s, f, p, _) in enumerate(cells):
                 rows.append({"model": model, "gap": gap, "features": kind, "summary": s, "fraction": f, "probe": p,
-                             "positive_pairs": len(set(pairs[y])), "auroc_mean": float(a[:, i].mean()),
+                             "positive_pairs": len(set(pairs[y])), "seeds_used": len(a), "auroc_mean": float(a[:, i].mean()),
                              "auroc_min": float(a[:, i].min()), "auroc_max": float(a[:, i].max())})
             print(model, gap, flush=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
