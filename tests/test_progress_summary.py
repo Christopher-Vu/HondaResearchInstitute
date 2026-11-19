@@ -18,4 +18,4 @@ def test_current_week_summary_is_compact_and_has_a_valid_compute_total():
     for group in ("done", "next"):
         assert progress["week"][group]
         assert all(len(item["text"].split()) <= 20 for item in progress["week"][group])
-    assert "replay completed" in progress["week"]["done"][2]["text"]
+    assert "unpooled views read neither" in progress["week"]["done"][0]["text"]

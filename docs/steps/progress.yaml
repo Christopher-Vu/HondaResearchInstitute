@@ -12,13 +12,12 @@ week:
   start: 2026-11-16
   end: 2026-11-20
   done:
-    - {text: "Independent probe confirms pooled activations add no demonstrated evidence beyond behaviour", who: Christopher-Vu}
+    - {text: "SimLingo unpooled views read neither: token detail and DINO do not improve on behaviour", who: Christopher-Vu}
     - {text: "Round 2 closed without a new finalist; m23 and m40 advance to UniAD", who: Christopher-Vu}
-    - {text: "SimLingo unpooled replay completed; scoring is chained after three memory-heavy routes resume", who: Christopher-Vu}
+    - {text: "H21b three-seed cache is ready for unchanged-lead replication", who: Christopher-Vu}
   next:
-    - {text: "Read prespecified SimLingo unpooled scores after the three-route resume finishes", who: Christopher-Vu}
-    - {text: "Verify TransFuser++ re-drive agreement before its unpooled analysis", who: Christopher-Vu}
-    - {text: "Finish UniAD route coverage before the single blind views read", who: Christopher-Vu}
+    - {text: "Verify TransFuser++ re-drive agreement before scoring its unpooled views", who: Christopher-Vu}
+    - {text: "Finish UniAD coverage and review the untagged views preregistration before its blind read", who: Christopher-Vu}
 
 steps:
   - id: 0

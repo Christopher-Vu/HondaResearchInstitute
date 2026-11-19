@@ -23,6 +23,11 @@ three memory-heavy routes resume with CPU aggregation before the queued scoring
 job reads the pre-specified views. The dashboard card reflects that concrete
 handoff rather than calling the replay merely "started."
 
+**Follow-up, later Nov 19:** the scoring completed. The fixed reading is
+"neither": neither token-level detail nor DINO improves on the behavioural
+rival. The weekly card now reports that outcome and moves the next gate to TF++
+re-drive agreement and the untagged UniAD views preregistration.
+
 ---
 
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
