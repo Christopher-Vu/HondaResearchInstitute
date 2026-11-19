@@ -36,6 +36,12 @@ score() {  # label units output models...
 }
 score "Pooled SimLingo+TF++, named units" "$NAMED_S $NAMED_T" pooled-named --model simlingo $SR --model tfpp $TR
 score "Pooled SimLingo+TF++, units by rule" "$ALL_S $ALL_T" pooled-rule --model simlingo $SR --model tfpp $TR
+# Wall fails on every slice and was set aside as a ceiling unit before the sprint; the rule admits it, so the table
+# also reports the rule's units without it.
+NOWALL="$(echo $ALL_S $ALL_T | tr ' ' '
+' | grep -v F2D_Wall | tr '
+' ' ')"
+score "Pooled SimLingo+TF++, units by rule without Wall" "$NOWALL" pooled-rule-nowall --model simlingo $SR --model tfpp $TR
 wait
 # Per model, with the B2 oracle where its directive exists (B2 reads the scenario label: a ceiling, not a rival).
 for M in simlingo tfpp; do
