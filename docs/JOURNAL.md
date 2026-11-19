@@ -28,6 +28,12 @@ handoff rather than calling the replay merely "started."
 rival. The weekly card now reports that outcome and moves the next gate to TF++
 re-drive agreement and the untagged UniAD views preregistration.
 
+**Follow-up, later Nov 19:** Chris approved and tagged `views-prereg-v1` before
+any UniAD outcome was read. The UniAD read pipeline has also passed end to end
+on the development screen only. The dashboard now marks that preregistration
+gate complete and names the remaining caption controls, TF++ agreement, and
+Saturday interim blind read.
+
 ---
 
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21

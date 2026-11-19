@@ -13,11 +13,11 @@ week:
   end: 2026-11-20
   done:
     - {text: "SimLingo unpooled views read neither: token detail and DINO do not improve on behaviour", who: Christopher-Vu}
-    - {text: "Round 2 closed without a new finalist; m23 and m40 advance to UniAD", who: Christopher-Vu}
-    - {text: "H21b three-seed cache is ready for unchanged-lead replication", who: Christopher-Vu}
+    - {text: "Views preregistration tagged before any UniAD outcome read", who: Christopher-Vu}
+    - {text: "One-command UniAD read pipeline passed end to end on dev data only", who: Christopher-Vu}
   next:
     - {text: "Verify TransFuser++ re-drive agreement before scoring its unpooled views", who: Christopher-Vu}
-    - {text: "Finish UniAD coverage and review the untagged views preregistration before its blind read", who: Christopher-Vu}
+    - {text: "Run caption quality controls and finish UniAD coverage for Saturday's interim blind read", who: Christopher-Vu}
 
 steps:
   - id: 0

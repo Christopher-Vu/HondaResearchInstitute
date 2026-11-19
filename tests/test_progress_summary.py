@@ -19,3 +19,4 @@ def test_current_week_summary_is_compact_and_has_a_valid_compute_total():
         assert progress["week"][group]
         assert all(len(item["text"].split()) <= 20 for item in progress["week"][group])
     assert "unpooled views read neither" in progress["week"]["done"][0]["text"]
+    assert "tagged" in progress["week"]["done"][1]["text"]
