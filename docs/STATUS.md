@@ -40,6 +40,13 @@ Nothing else needs you; agent decisions are logged in the JOURNAL.
 
   Next: the match rate (same status and same first infraction type), then the TF++ replay.
 - The V100 smoke 41529284 is cancelled.
+- **Overnight, Nov 19:**
+  - **Replay 41536674 done:** 1,182 of 1,185 routes, worst relative alignment error 0.8%.
+  - **Route 25 on s102, s105 and s106 ran out of memory.** The A5000 resume 41555302 picks them up; the replay
+    now falls back to the CPU on out-of-memory (23d3a3e). The A40 resume 41540237 is cancelled.
+  - **Scoring 41555303** (`score_simlingo.sh`, cpu_node) is chained after the resume.
+  - **The re-drive's s105 is mostly done:** 61 of 66 routes have results. The rest hit CARLA startup segfaults
+    (exit 139), so the missing routes get resubmitted once all arrays finish.
 - **21:42 check:** 401 of 1,188 replayed, about 1.7 h left. One route (10200025) ran out of memory on an A5000,
   so a single-task A40 resume pass, 41540237, follows the replay (afterany). It redoes only the missing files.
   The re-drive is all pending.
