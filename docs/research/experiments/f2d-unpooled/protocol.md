@@ -58,9 +58,11 @@ Tries in this experiment: 9 + 2 + 3 = **14**. The running total becomes 216.
 
 - **Units:**
   - SimLingo's 3 pre-registered gaps (PedestriansOnRoad, FullyBlocked, BadParking).
-  - Every other Fail2Drive type whose generalisation failure rate on SimLingo's seed-24 screen pool is at least 1.5×
-    its base twins' rate, with at least 5 failing routes there. This rule reads the screen pool, never the test
-    outcomes.
+  - Every other Fail2Drive type whose generalisation failure rate is at least 1.5× its base twins' rate, with at least
+    5 failing generalisation routes (`units_rule.py`).
+  - Amended 2026-11-18, before any score: the rule reads the scored pool's own outcomes, not the seed-24 screen. The
+    screen has about 6 routes per type, so "at least 5 failing" could almost never be met there. The rule reads
+    outcomes only, never a method's axes or score, and on UniAD it runs inside the one blind read.
   - Both the named subset and all units are reported.
 - **Primary metric:** per-gap rank-averaged best match, the average-precision analogue for set-valued axes. For a
   gap, it is the mean over k = 1..10 of the best Jaccard among the method's top-k axes. Then the mean over units, each
