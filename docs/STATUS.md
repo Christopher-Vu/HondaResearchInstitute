@@ -6,11 +6,39 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-18 (split check read; independent probe rerun; UniAD pool about half driven)
+Last updated: 2026-11-18 evening (round 2 closed; unpooled experiment and new captures started)
+
+## Needs Chris (each ~8 h Savio window)
+
+- [ ] **Every window (~02:00, ~10:00, ~18:00):** `ssh savio`, enter PIN and code, then exit the shell. Queued jobs
+  run without it; resubmits and reads wait for it.
+- [ ] **~02:00 Nov 19:** glance at SU spend here (TF++ re-drive ~1,300 SU and UniAD capture overhead, estimates).
+  Act only if near the cap.
+- [ ] **~10:00 Nov 19:** only if flagged here: the UniAD capture overhead or size changes the 2–3 day timeline.
+- [ ] **~Nov 20–21:** review the three-model table and the blind UniAD read before anything goes to Jerry or into a
+  writeup.
+
+Nothing else needs you; agent decisions are logged in the JOURNAL.
 
 ---
 
 ## Current position
+
+**2026-11-18 evening: round 2 closed (A4); unpooled-activation experiment; TF++ and UniAD captures.**
+- **Round 2 closed** (Chris, voice): prereg §10 (A4), CONFLICTS C42. m23 and m40 go to UniAD. UniAD is read once,
+  after the views pre-registration is tagged; that read scores m23, m40 and every view.
+- **Frames exist on SimLingo's test pool:** model inputs every 10 steps on all 1,188 routes (VARIANTS note corrected).
+  TF++ saved none. UniAD saved front-camera JPEGs.
+- **Unpooled experiment** (`docs/research/experiments/f2d-unpooled/protocol.md`; grid of 9 and the decision rule
+  committed before any score): replay of the saved inputs, smoke 41528184 (A5000), then the full pool. Target: first
+  result ~12–16 h from 18:00 Nov 18. 14 new tries; total 216 once it runs.
+- **UniAD unpooled capture** (`uniad_agent.py`, 42db68c: FPN, BEV grid, queries, six cameras): smoke on the bring-up
+  pair 1085/85 with capture on (41527989) and off (41527990), to check driving is unchanged. After it passes, the
+  agent goes into `hri-dev`, and every UniAD task that starts after that captures. The pending reruns
+  41523040–45 are not cancelled. Coverage is reported.
+- **Next:** TF++ input capture and re-drive of pairs with a failure; comparison table (CPU); probe agreement once
+  41520797 lands.
+
 
 **2026-11-17 late: round 2 search, 12 tries (202 in total), no new finalist; probe diagnostic running.**
 - **Round 2** (`VARIANTS.md` "Round 2, batch 1" and "batch 2"; `pooled_score.py`, the two-model scorer A3 requires, is
