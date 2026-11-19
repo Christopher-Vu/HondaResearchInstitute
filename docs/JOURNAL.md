@@ -5,6 +5,40 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — The UniAD read is one command, tested on the dev screen only
+
+The Saturday interim read of UniAD (`docs/prereg-views.md`, CONFLICTS C43) now runs as one CPU job:
+`docs/research/experiments/f2d-unpooled/uniad_read.sh test interim` (usage in its header; `final` for the final read).
+It has four stages:
+- **Merge.** The rollout scorer (`score_routes.py`) runs over every UniAD job folder in job order. Each route keeps
+  its first attempt that has a valid driving outcome, so cut-off and partial attempts are skipped.
+- **Shards and cache.** The script exports shards and builds the 50-frame cache (12.5 s at 5 steps per frame). It
+  also writes `b4-split.json` and each Fail2Drive type's class under the pre-registration's §1.
+- **Rows.** m23, m40, B3-behaviour, B3-infraction and B7-pool run exactly as on TF++ (`heldout.sh`,
+  `transfer-spec.md`). The two new rows are img-mean (the last BEV encoder layer) and query-mean (the last track
+  decoder layer).
+- **Scores.** `units_rule.py` and `view_score.py` score UniAD alone and pooled with SimLingo and TF++, each on three
+  unit sets: the rule units without Wall (primary), all rule units, and the named gaps.
+
+The test mode refuses to start until tag `views-prereg-v1` exists.
+
+**Tested end to end only on UniAD's seed-24 screen** (dev, never evidence): jobs 41581347 and 41581628, about 5
+minutes each. Measured coverage:
+- 200 of 200 routes, and 100 of 100 twin pairs, with no route needing a rerun.
+- 200 shards, with no export error.
+- Two rule units (FullyBlocked and Wall, 5 failing routes each). No named gap: one seed gives 5–10 slice runs per
+  type, below §1's 30.
+
+No test-pool stage has been run, and no UniAD test outcome has been read.
+
+Things that don't map cleanly from SimLingo:
+- UniAD's planning stack is 3 layers deep. So m23 and B7 both land on layer 1, and m40's whole-route view on layer 2.
+- Its image site is a BEV grid, not camera tokens.
+- The query mean averages all of the track decoder's queries.
+- TF++'s query-mean uses the last decoder layer, which the pre-registration does not fix.
+
+---
+
 ## 2026-11-19 — The views pre-registration is tagged; UniAD repacked to 3 routes per GPU
 
 Chris settled the open choices in a voice chat (aiming for presentable results by Monday, Nov 23), and the agent
