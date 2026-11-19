@@ -857,3 +857,25 @@ rival alike, and the held-out pools are still unread.
 **What it costs.**
 - The stop is post hoc, after round 2's dev scores.
 - m23's UniAD result arrives later than §9 implied.
+
+### C43 · Two UniAD reads, interim and final (amends A4 / C42) · new, 2026-11-19 (agent, at Chris's decision), pending Chris's approval with `docs/prereg-views.md`
+
+**What changes.**
+- A4 (C42) said UniAD's outcomes are read once, after the views pre-registration is tagged. There are now two reads,
+  both fixed in `docs/prereg-views.md` before the tag:
+  - an **interim** read on Saturday 2026-11-21, 09:00 PT, on the routes driven by then, labelled interim with its
+    coverage;
+  - the **final** read on the full 6-seed pool, which is the result of record.
+- Nothing changes between the two reads: the rows, units, metric and rules are the same.
+
+**Why.**
+- The goal is presentable results by Monday 2026-11-23.
+- UniAD's reruns are projected to finish around Nov 22, even after moving to 3 routes per A40, and paid cloud was ruled
+  out on cost.
+
+**What it costs.**
+- Two looks at the blind pool instead of one. Neither can change the method, because everything is fixed at the tag.
+  But the interim has fewer routes and wider intervals, and a reader may weigh it as if it were final.
+- So the final read is the result of record, and the interim is always labelled as such.
+
+**Decided before any UniAD outcome is read.**
