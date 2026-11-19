@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-18 evening (round 2 closed; unpooled experiment and new captures started)
+Last updated: 2026-11-18 ~19:30 (paused mid-task: round 2 closed, table read, captures live)
 
 ## Needs Chris (each ~8 h Savio window)
 
@@ -24,21 +24,25 @@ Nothing else needs you; agent decisions are logged in the JOURNAL.
 
 ## Current position
 
-**2026-11-18 evening: round 2 closed (A4); unpooled-activation experiment; TF++ and UniAD captures.**
-- **Round 2 closed** (Chris, voice): prereg §10 (A4), CONFLICTS C42. m23 and m40 go to UniAD. UniAD is read once,
-  after the views pre-registration is tagged; that read scores m23, m40 and every view.
-- **Frames exist on SimLingo's test pool:** model inputs every 10 steps on all 1,188 routes (VARIANTS note corrected).
-  TF++ saved none. UniAD saved front-camera JPEGs.
-- **Unpooled experiment** (`docs/research/experiments/f2d-unpooled/protocol.md`; grid of 9 and the decision rule
-  committed before any score): replay of the saved inputs, smoke 41528184 (A5000), then the full pool. Target: first
-  result ~12–16 h from 18:00 Nov 18. 14 new tries; total 216 once it runs.
-- **UniAD unpooled capture** (`uniad_agent.py`, 42db68c: FPN, BEV grid, queries, six cameras): smoke on the bring-up
-  pair 1085/85 with capture on (41527989) and off (41527990), to check driving is unchanged. After it passes, the
-  agent goes into `hri-dev`, and every UniAD task that starts after that captures. The pending reruns
-  41523040–45 are not cancelled. Coverage is reported.
-- **Next:** TF++ input capture and re-drive of pairs with a failure; comparison table (CPU); probe agreement once
-  41520797 lands.
-
+**2026-11-18 ~19:30: paused mid-task (Chris). Round 2 closed (A4); comparison table read; captures landed.**
+- **Round 2 closed:** prereg §10 (A4), CONFLICTS C42. UniAD is read once, after `docs/prereg-views.md` is tagged.
+- **Comparison table read** (`results/savio/f2d-unpooled/table/`, JOURNAL 2026-11-18). The unit rule narrows the
+  intervals about 3×. Without Wall, m23 is level with B3-behaviour: +0.004, interval −0.033 to +0.042.
+- **UniAD capture is live in `hri-dev` since 18:42.** It passed its smoke: same outcomes, no time cost, ~340 MB per
+  route. About 17 rerun tasks started before then without it. 6 tasks pending, 17 running.
+- **SimLingo replay smoke v2 passed** (41530970). Relative error 0.3–0.5%, against 0.8–12% for the previous step.
+- **TF++ capture smoke ran** on an A5000 (41530973, inputs and unpooled written), but is **not yet checked**: outcome
+  vs the first drive, and unpooled vs logged means. A duplicate V100 smoke (41529284) is still pending; cancel it if
+  unwanted.
+- **Unfinished, in order (nothing new submitted):**
+  1. Launch the full SimLingo replay: `PARTS=4 bash scripts/submit.sh gpu --export=ALL --array=0-3 --time=0-06:00:00
+     docs/research/experiments/f2d-unpooled/replay.sbatch results/savio/f2d-test-simlingo/shards
+     results/savio/f2d-unpooled/simlingo-test`. Then `unpooled_methods.py` and `view_score.py` per the protocol.
+  2. Check the TF++ smoke, then re-drive the ids in `results/savio/f2d-unpooled-tfpp-redrive.ids` (534 routes, K=3,
+     ROUNDS=3).
+  3. Probe agreement check once 41520797 lands (script in the agent's scratchpad: compare cells within 0.03, unit
+     decisions, outcome), then its JOURNAL entry.
+  4. Re-estimate UniAD timing with the measured capture overhead (none seen).
 
 **2026-11-17 late: round 2 search, 12 tries (202 in total), no new finalist; probe diagnostic running.**
 - **Round 2** (`VARIANTS.md` "Round 2, batch 1" and "batch 2"; `pooled_score.py`, the two-model scorer A3 requires, is
