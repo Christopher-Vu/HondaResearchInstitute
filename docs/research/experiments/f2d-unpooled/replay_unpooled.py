@@ -136,7 +136,13 @@ def replay_route(sidecar: Path, out: Path, model, dino, hooks: Hooks, proj, devi
              "align_rel_prev": prev_np.astype(np.float32), "code_step": steps_np[last.cpu().numpy()],
              "failure_step": np.array(-1 if failed is None else failed), "success": np.array(bool(info["success"]))}
     for site, frames in tokens.items():
-        for key, value in aggregate(torch.stack(frames).float(), TOPK[site], last, proj[site]).items():
+        try:
+            agg = aggregate(torch.stack(frames).float(), TOPK[site], last, proj[site])
+        except torch.cuda.OutOfMemoryError:  # a long route's vit tokens; same arithmetic on the CPU
+            torch.cuda.empty_cache()
+            cpu = torch.device("cpu")
+            agg = aggregate(torch.stack([f.cpu() for f in frames]).float(), TOPK[site], last.to(cpu), proj[site].to(cpu))
+        for key, value in agg.items():
             saved[f"{site}_{key}"] = value
     np.savez(out, **saved)
     return {"route": info["route_id"], "frames": len(steps), "align_abs": round(max(align), 4),
