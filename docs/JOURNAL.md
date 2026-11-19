@@ -5,6 +5,12 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-18 — UniAD's first full arrays half-finished; the rest resubmitted with a longer limit
+
+The UniAD screen (one seed, all 100 pairs) and the six-seed test pool ran, but most array tasks hit their 3-hour limit. UniAD drives far slower than TransFuser++, at a median of 34 minutes per route (measured), and each task tried to drive six. Between 83 and 105 of each array's 200 routes have a result; seed 106 was still running. Spend so far is about 17,800 SU (measured), much more than estimated (`docs/WHAT_BROKE.md`, 2026-11-18).
+
+The driven routes are kept. Each partly driven route's folder was moved to `results/savio/<job>-cutoff/`, and only the 507 missing routes were resubmitted: arrays 41523040 (screen) and 41523041-41523045 (seeds 101-105). Each task drives one pair of routes side by side, with an 8-hour limit. Before resubmitting, six driven routes were exported to activation shards, and all six pass the shard contract (`results/savio/f2d-uniad-shardcheck/`). Seed 106's missing routes are resubmitted once its array ends. Counts only: no UniAD outcomes have been reported to the method side.
+
 ## 2026-11-17 — Round 2 search: twelve tries, no new finalist; a label-reading diagnostic queued
 
 After round 1 failed on TransFuser++, the pre-registered round 2 began: TransFuser++ became a second development pool

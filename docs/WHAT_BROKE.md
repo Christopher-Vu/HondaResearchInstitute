@@ -8,6 +8,10 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-18: UniAD's screen and pool arrays overran their 3 h limit
+
+Expected: 3 rounds of 2 routes side by side would fit in 3 h, as TransFuser++'s routes do. Happened: UniAD routes take far longer (driven routes: median 34 min wall, 90th percentile 78, longest 169 min, measured over 624 routes; the cut-off ones are longer still), so most tasks timed out. 25 of 34 tasks on seed 101, about the same on the others. Only 83 to 105 of 200 routes per array have a record. Cost: 607 GPU-h, about 17,800 SU (measured, all UniAD Savio jobs to date), against my estimate of 3,000-3,500 for the whole pool. Did: moved the cut-off route dirs to `results/savio/<job>-cutoff/` so a rerun never appends to a partial capture, and resubmitted only the missing routes, one pair per task with an 8 h limit (the QoS maximum). The shard export passed `harness.shards` on 6 driven routes first.
+
 ## 2026-11-16: UniAD's capture hook mixed CPU and GPU tensors
 
 Expected: the capture hook could stack every stage's mean, with zeros for a stage that did not run. Happened: on the first step of smoke rerun 41406749, a stage did not fire, and its CPU zeros were stacked with GPU means, so `torch.stack` raised and the agent crashed on both routes. Did: move each mean to the CPU first (commit 147b029). Cost: about 3.2 SU. Not yet known: which stage skips.

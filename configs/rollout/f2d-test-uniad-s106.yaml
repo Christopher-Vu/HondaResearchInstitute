@@ -1,7 +1,7 @@
 # Discovery sprint §7 (docs/prd-discovery-sprint.md): UniAD-Base test pool, traffic seed 106 of 101-106.
 # The same 1,200 routes and ids as SimLingo's and TransFuser++'s pools (f2d-test-simlingo.xml and its manifest); this
 # config drives only seed 106's 200 ids. Policy settings from f2d-uniad-smoke.yaml. Runs from the hri-dev clone:
-#   ROUTE_IDS="<seed 106's ids from the manifest>" ROUNDS=3 CARLA_LOCAL_TAR=$PWD/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive \n#   POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/uniad-env.tar #   bash scripts/submit.sh gpu_a40 --export=ALL --time=0-03:00:00 --array=0-33 scripts/route_sample.sbatch #     configs/rollout/f2d-test-uniad-s106.yaml 2
+#   ROUTE_IDS="<seed 106's ids from the manifest>" CARLA_LOCAL_TAR=$PWD/.runtime/downloads/fail2drive_simulator.tar.gz CARLA_LOCAL_BUILD=fail2drive \n#   POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/uniad-env.tar #   bash scripts/submit.sh gpu_a40 --export=ALL --time=0-08:00:00 --array=0-99 scripts/route_sample.sbatch #     configs/rollout/f2d-test-uniad-s106.yaml 2
 
 name: f2d-test-uniad-s106
 step: F3
