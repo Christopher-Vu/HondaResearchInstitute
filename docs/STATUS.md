@@ -6,50 +6,52 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-18 ~19:30 (paused mid-task: round 2 closed, table read, captures live)
+Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ re-drive moved to A5000; UniAD slipping)
 
 ## Needs Chris (each ~8 h Savio window)
 
-- [ ] **Every window (~02:00, ~10:00, ~18:00):** `ssh savio`, enter PIN and code, then exit the shell. Queued jobs
-  run without it; resubmits and reads wait for it.
-- [ ] **~02:00 Nov 19:** glance at SU spend here (TF++ re-drive ~1,300 SU and UniAD capture overhead, estimates).
-  Act only if near the cap.
-- [ ] **~10:00 Nov 19:** only if flagged here: the UniAD capture overhead or size changes the 2–3 day timeline.
-- [ ] **~Nov 20–21:** review the three-model table and the blind UniAD read before anything goes to Jerry or into a
+- [ ] **Every window (~10:00, ~18:00, ~02:00):** `ssh savio`, enter PIN and code, then exit the shell. Keep the
+  laptop awake with this Claude window open; the shared connection dies when either closes.
+- [ ] **Decide (UniAD slip, flagged 2026-11-19 12:30):** UniAD's capture reruns go at ~4 tasks/h, with about 10 A40s
+  and a mean of 2.3 h per 2-route task. That leaves ~283 tasks, so they finish around **Nov 22**, not Nov 20–21.
+  - (a) Accept the slip.
+  - (b) Add A5000s once the TF++ re-drive frees them (~Nov 20 morning), if UniAD fits in 24 GB. The bring-up thread
+    knows.
+  - (c) Freeze the UniAD read on the routes driven by a fixed date, with coverage reported.
+  - The agent's default without an answer: (a), and it starts drafting the views prereg.
+- [ ] **Review `docs/prereg-views.md` (draft, untagged).** It has 3 open items at its top: the settled row, UniAD's
+  site mapping, and whether the pooled or the UniAD-alone result is the headline. It can't be tagged without your
+  approval; the UniAD read waits for the tag.
+- [ ] **~Nov 21–22:** review the three-model table and the blind UniAD read before anything goes to Jerry or into a
   writeup.
-
-Nothing else needs you; agent decisions are logged in the JOURNAL.
 
 ---
 
 ## Current position
 
-**2026-11-18 ~21:00: resumed. Replay and TF++ re-drive running; probe agreement done.**
-- **SimLingo replay** job 41536674 (4 × A5000, 6 h limit), started ~20:50. ~40 routes per 7 min, so ~3.5 h for 1,188.
-  Resumes on resubmit (it skips existing files). Next: `unpooled_methods.py`, then `view_score.py` per the protocol.
-- **Probe agreement passed:** 250/250 cells within 0.03, the same unit decisions, Outcome 1 on both runs (JOURNAL).
-- **TF++ smoke checked:** both routes pass again (100 vs 100, 97.1 vs 96.4). Unpooled `fused` and `join` match the
-  logged means to ≤1e-4 relative. The `image` tensor is pre-fusion, so it has no logged mean to compare against.
-- **TF++ re-drive submitted** (534 routes, K=2, ROUNDS=3, 3 h limit):
-
-  | Seed | Job | Queue |
-  |---|---|---|
-  | s101, s102 | 41537279, 41537280 | V100, untested there |
-  | s103, s104 | 41537281, 41537282 | A40, queued behind UniAD |
-  | s105, s106 | 41537283, 41537284 | A5000, after the replay |
-
-  Next: the match rate (same status and same first infraction type), then the TF++ replay.
-- The V100 smoke 41529284 is cancelled.
-- **Overnight, Nov 19:**
-  - **Replay 41536674 done:** 1,182 of 1,185 routes, worst relative alignment error 0.8%.
-  - **Route 25 on s102, s105 and s106 ran out of memory.** The A5000 resume 41555302 picks them up; the replay
-    now falls back to the CPU on out-of-memory (23d3a3e). The A40 resume 41540237 is cancelled.
-  - **Scoring 41555303** (`score_simlingo.sh`, cpu_node) is chained after the resume.
-  - **The re-drive's s105 is mostly done:** 61 of 66 routes have results. The rest hit CARLA startup segfaults
-    (exit 139), so the missing routes get resubmitted once all arrays finish.
-- **21:42 check:** 401 of 1,188 replayed, about 1.7 h left. One route (10200025) ran out of memory on an A5000,
-  so a single-task A40 resume pass, 41540237, follows the replay (afterany). It redoes only the missing files.
-  The re-drive is all pending.
+**2026-11-19 ~12:30: the SimLingo unpooled result is read; TF++ is re-driving; UniAD is behind.**
+- **Unpooled, SimLingo test (outcomes already read): the pre-registered reading is "neither"** (VARIANTS.md, end;
+  `results/savio/f2d-unpooled/simlingo-score/`). 14 tries, **216 in total**.
+  - The best grid row (`llm10-topk`) never beats its own mean row. It beats B3-behaviour only on the named units:
+    +0.056 [+0.006, +0.245].
+  - DINOv2 never beats B3-behaviour.
+  - The probe ceiling (job 41575612, label-reading, reported only) is running.
+- **TF++ re-drive:**
+  - s105 has 83 of 88 routes; its 5 CARLA startup crashes are rerunning as 41575660.
+  - s106 is 84 of 84, with one task still running.
+  - s101–s104 (41537279–82) sat ~15 h behind UniAD (A40) and other users (V100). At 12:15 they were moved to the A5000
+    queue in place (`scontrol update`; same job ids, so the other thread's feature jobs 41555298/9 still follow them).
+    That is 62 tasks at 4 at a time, about 8–12 h, so they land around midnight.
+  - The TF++ features and match rate follow; the TF++ result comes ~Nov 20 morning, about a day late.
+  - Note: 41555298/9 don't include the 41575660 folder, so those 5 s105 routes need a resume pass of the features.
+- **UniAD** capture reruns: see Needs Chris. 41523040 is done; 41523041 has 12 of 51 started; 41523042–45 and the
+  s106 resubmit 41555288 are pending.
+- Probe agreement passed (250/250 cells, JOURNAL 2026-11-18).
+- Next for the agent:
+  - the probe-ceiling read;
+  - a JOURNAL entry for the unpooled result;
+  - drafting `docs/prereg-views.md` (not tagged until TF++ lands);
+  - the TF++ match rate and scoring when the re-drive finishes.
 
 **2026-11-18 ~19:30: paused mid-task (Chris). Round 2 closed (A4); comparison table read; captures landed.**
 - **Round 2 closed:** prereg §10 (A4), CONFLICTS C42. UniAD is read once, after `docs/prereg-views.md` is tagged.
@@ -61,15 +63,7 @@ Nothing else needs you; agent decisions are logged in the JOURNAL.
 - **TF++ capture smoke ran** on an A5000 (41530973, inputs and unpooled written), but is **not yet checked**: outcome
   vs the first drive, and unpooled vs logged means. A duplicate V100 smoke (41529284) is still pending; cancel it if
   unwanted.
-- **Unfinished, in order (nothing new submitted):**
-  1. Launch the full SimLingo replay: `PARTS=4 bash scripts/submit.sh gpu --export=ALL --array=0-3 --time=0-06:00:00
-     docs/research/experiments/f2d-unpooled/replay.sbatch results/savio/f2d-test-simlingo/shards
-     results/savio/f2d-unpooled/simlingo-test`. Then `unpooled_methods.py` and `view_score.py` per the protocol.
-  2. Check the TF++ smoke, then re-drive the ids in `results/savio/f2d-unpooled-tfpp-redrive.ids` (534 routes, K=3,
-     ROUNDS=3).
-  3. Probe agreement check once 41520797 lands (script in the agent's scratchpad: compare cells within 0.03, unit
-     decisions, outcome), then its JOURNAL entry.
-  4. Re-estimate UniAD timing with the measured capture overhead (none seen).
+- The four unfinished steps listed here were done 2026-11-18 night to 2026-11-19 (see above).
 
 **2026-11-17 late: round 2 search, 12 tries (202 in total), no new finalist; probe diagnostic running.**
 - **Round 2** (`VARIANTS.md` "Round 2, batch 1" and "batch 2"; `pooled_score.py`, the two-model scorer A3 requires, is
