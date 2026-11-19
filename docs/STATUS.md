@@ -19,6 +19,9 @@ Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ 
     knows.
   - (c) Freeze the UniAD read on the routes driven by a fixed date, with coverage reported.
   - The agent's default without an answer: (a), and it starts drafting the views prereg.
+- [ ] **Review `docs/prereg-views.md` (draft, untagged).** It has 3 open items at its top: the settled row, UniAD's
+  site mapping, and whether the pooled or the UniAD-alone result is the headline. It can't be tagged without your
+  approval; the UniAD read waits for the tag.
 - [ ] **~Nov 21–22:** review the three-model table and the blind UniAD read before anything goes to Jerry or into a
   writeup.
 
