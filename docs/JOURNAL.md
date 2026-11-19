@@ -18,6 +18,11 @@ The measured study subtotal is updated to about 17,800 SU from the current
 status record. A lightweight regression test makes sure the dates, compute
 total, and 20-word dashboard-card limit remain valid.
 
+**Follow-up, Nov 19:** the SimLingo replay is now complete for 1,182 routes;
+three memory-heavy routes resume with CPU aggregation before the queued scoring
+job reads the pre-specified views. The dashboard card reflects that concrete
+handoff rather than calling the replay merely "started."
+
 ---
 
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21

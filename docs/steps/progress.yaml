@@ -14,9 +14,9 @@ week:
   done:
     - {text: "Independent probe confirms pooled activations add no demonstrated evidence beyond behaviour", who: Christopher-Vu}
     - {text: "Round 2 closed without a new finalist; m23 and m40 advance to UniAD", who: Christopher-Vu}
-    - {text: "SimLingo unpooled replay and TransFuser++ re-drive started with capture checks", who: Christopher-Vu}
+    - {text: "SimLingo unpooled replay completed; scoring is chained after three memory-heavy routes resume", who: Christopher-Vu}
   next:
-    - {text: "Score SimLingo's prespecified unpooled views after replay completes", who: Christopher-Vu}
+    - {text: "Read prespecified SimLingo unpooled scores after the three-route resume finishes", who: Christopher-Vu}
     - {text: "Verify TransFuser++ re-drive agreement before its unpooled analysis", who: Christopher-Vu}
     - {text: "Finish UniAD route coverage before the single blind views read", who: Christopher-Vu}
 
