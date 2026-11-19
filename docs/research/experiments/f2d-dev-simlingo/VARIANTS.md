@@ -1047,11 +1047,20 @@ The leads rerun unchanged on Jerry's H21 pool, now three traffic seeds deep (24,
 
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
 |---|---|---|---|---|---|---|
-| m23 | 2026-11-19 | H21 x3 | pool of m15 (m03, L8, 50-frame window, PCA 32, Ward 2/3/5) and whole-route L8 (m03), `pool_axes.py` in `batch4.sh` order | | | 202 |
-| m40 | 2026-11-19 | H21 x3 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 (m03) | | | 202 |
-| j09 | 2026-11-19 | H21 x3 | `j09_hmm.py` defaults: HMM over the last 50 frames, L8, PCA 16, S by BIC from {4, 6, 8}, Hellinger occupancy + transitions, Ward 2/3/5 | | | 202 |
-| B3-behaviour | 2026-11-19 | H21 x3 | `b3_behaviour.py` on the pooled cache (rival) | | — | 202 |
-| B3-infraction | 2026-11-19 | H21 x3 | `b3_infractions.py` on the pooled cache (reported rival) | | — | 202 |
+| m23 | 2026-11-19 | H21 x3 | pool of m15 (m03, L8, 50-frame window, PCA 32, Ward 2/3/5) and whole-route L8 (m03), `pool_axes.py` in `batch4.sh` order | 0.395 (0.210 / 0.529 / 0.444) | 0.000 / 0.080 | 219 |
+| m40 | 2026-11-19 | H21 x3 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 (m03) | 0.310 (0.169 / 0.429 / 0.333) | 0.007 / 0.39 | 219 |
+| j09 | 2026-11-19 | H21 x3 | `j09_hmm.py` defaults: HMM over the last 50 frames, L8, PCA 16, S by BIC from {4, 6, 8}, Hellinger occupancy + transitions, Ward 2/3/5 | 0.298 (0.194 / 0.440 / 0.261) | 0.000 / 0.36 | 219 |
+| B3-behaviour | 2026-11-19 | H21 x3 | `b3_behaviour.py` on the pooled cache (rival) | 0.152 (0.191 / 0.165 / 0.101) | — | 219 |
+| B3-infraction | 2026-11-19 | H21 x3 | `b3_infractions.py` on the pooled cache (reported rival) | 0.287 (0.394 / 0.200 / 0.267) | — | 219 |
+
+Scored 2026-11-19 (measured; dev; 593 routes, 174 failing; Grok worker's run, m23 and B3-behaviour reports reproduced
+byte for byte by the laptop orchestrator). Deltas
+(interval): m23 vs B3-behaviour +0.242 [+0.111, +0.380]; vs B3-infraction +0.108 [-0.030, +0.260]. m40 +0.158
+[+0.024, +0.300] / +0.023 [-0.119, +0.179]. j09 +0.146 [+0.076, +0.227] / +0.011 [-0.065, +0.098]. Every lead
+is above B3-behaviour and none is clearly above B3-infraction; the margin is Wall and PedestriansOnRoad, and B3-infraction leads
+on CustomObstacles. Checks: W=6 rebuild matches the cache slot (0 float16 mismatches); speed/step padded with NaN
+to width 1492; 299 pairs, none spanning seeds. Count: 219 in total once views-prereg-v1's rows are counted;
+rescores are not tries. Outputs `results/h21/h21b/` on the compute box (not in git).
 
 ### Unpooled activations, SimLingo test pool (Chris, 2026-11-18; `../f2d-unpooled/protocol.md`)
 
