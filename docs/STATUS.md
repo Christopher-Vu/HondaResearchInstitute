@@ -10,24 +10,30 @@ Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ 
 
 ## Needs Chris (each ~8 h Savio window)
 
-- [ ] **Every window (~10:00, ~18:00, ~02:00):** `ssh savio`, enter PIN and code, then exit the shell. Keep the
-  laptop awake with this Claude window open; the shared connection dies when either closes.
-- [ ] **Decide (UniAD slip, flagged 2026-11-19 12:30):** UniAD's capture reruns go at ~4 tasks/h, with about 10 A40s
-  and a mean of 2.3 h per 2-route task. That leaves ~283 tasks, so they finish around **Nov 22**, not Nov 20–21.
-  - (a) Accept the slip.
-  - (b) Add A5000s once the TF++ re-drive frees them (~Nov 20 morning), if UniAD fits in 24 GB. The bring-up thread
-    knows.
-  - (c) Freeze the UniAD read on the routes driven by a fixed date, with coverage reported.
-  - The agent's default without an answer: (a), and it starts drafting the views prereg.
-- [ ] **Review `docs/prereg-views.md` (draft, untagged).** It has 3 open items at its top: the settled row, UniAD's
-  site mapping, and whether the pooled or the UniAD-alone result is the headline. It can't be tagged without your
-  approval; the UniAD read waits for the tag.
-- [ ] **~Nov 21–22:** review the three-model table and the blind UniAD read before anything goes to Jerry or into a
-  writeup.
+- [ ] **Approve `docs/prereg-views.md`, then the agent tags `views-prereg-v1`.** Your 2026-11-19 voice decisions are
+  applied, with CONFLICTS C43 (two UniAD reads). Four flags are in the agent's report:
+  - SimLingo's image site (`llm10` or `vit`);
+  - tagging now, without waiting for TF++;
+  - interim coverage uses all driven routes, not only those with capture;
+  - the TF++ re-drive is no longer needed by any pre-registered row.
+- [ ] **Every ~12 h:** `ssh savio` (PIN + code, then exit). Keep the laptop awake with Claude open.
+- [ ] **Sat 2026-11-21 ~10:00:** review the interim UniAD read. **Mon Nov 23:** the presentable comparison.
 
 ---
 
 ## Current position
+
+**2026-11-19 ~13:45: Chris's voice decisions applied; UniAD now 3 routes per A40.**
+- **UniAD memory, measured** from logged peaks:
+  - 1 route on an A5000: 12.7–13.0 GB (smoke 41527989).
+  - 2 routes on an A40: 26–28 GB (130 tasks).
+  - So 3 routes per A40 is about 40–42 of 48 GB.
+- **UniAD resubmitted at 3 routes per A40.** All pending tasks were cancelled and resubmitted as 41580713–18: 562
+  routes in 189 tasks, with ids in `hri-dev/results/savio/f2d-uniad-rerun/<seed>-k3.ids`. The 6 running tasks of
+  41523041 are untouched.
+- **UniAD ETA:** ~9 routes/h at the measured A40 share, so ~Nov 22 early (was ~Nov 22 late). By Sat 09:00 about
+  1,000 of 1,200 test routes should be driven (estimate).
+- **`docs/prereg-views.md` rewritten** with Chris's decisions and CONFLICTS C43. Untagged until Chris approves.
 
 **2026-11-19 ~12:30: the SimLingo unpooled result is read; TF++ is re-driving; UniAD is behind.**
 - **Unpooled, SimLingo test (outcomes already read): the pre-registered reading is "neither"** (VARIANTS.md, end;
