@@ -17,8 +17,12 @@ Sites, per saved frame:
 Per site and frame: mean and max over tokens; top-k mean (the k tokens farthest from the route's own baseline, the
 per-position mean of its first BASE_FRAMES frames); and for the last LAST frames before the failure step (or the
 route's end) every token projected to PROJ dims by a fixed Gaussian matrix (seed 0), for the codebook rows.
-Alignment: each replayed frame's per-layer mean is compared with the logged `layer_mean`; the worst absolute
-difference per frame is saved as `align_max_abs`, and the route is refused if any exceeds ALIGN_LIMIT.
+Alignment: each replayed frame's per-layer means are compared with the logged `layer_mean` of the same step and of the
+step CAPTURE before it. Logged on A40s and replayed elsewhere, bfloat16 drifts a little, so the check is relative:
+per frame the worst absolute difference (`align_max_abs`), the relative error |replay - logged| / |logged| over all
+layers (`align_rel`), and the same against the previous step (`align_rel_prev`). A route is refused when any frame's
+relative error exceeds ALIGN_LIMIT. The previous-step error is kept for inspection only (a stopped car's neighbouring
+frames are nearly identical, so it cannot be a rule).
 """
 from __future__ import annotations
 
@@ -38,7 +42,7 @@ from replay_capture import decoder, load_in_dtype, move  # noqa: E402
 
 TOPK = {"vit": 16, "llm10": 16, "dino": 16, "dq": 4}
 WIDTH = {"vit": 4096, "llm10": 896, "dino": 768, "dq": 896}
-BASE_FRAMES, LAST, PROJ, LAYER, ALIGN_LIMIT = 4, 8, 256, 10, 0.05
+BASE_FRAMES, LAST, PROJ, LAYER, ALIGN_LIMIT, CAPTURE = 4, 8, 256, 10, 0.05, 10
 
 
 def projections(device: torch.device) -> dict[str, torch.Tensor]:
@@ -101,7 +105,7 @@ def replay_route(sidecar: Path, out: Path, model, dino, hooks: Hooks, proj, devi
     if not paths:
         raise RuntimeError(f"{run}: no saved inputs")
     tokens = {s: [] for s in WIDTH}
-    steps, align = [], []
+    steps, align, rel, rel_prev = [], [], [], []
     for path in paths:
         frame = torch.load(path, map_location="cpu", weights_only=False)
         frame = frame._replace(camera_images=frame.camera_images.to(torch.bfloat16))
@@ -109,7 +113,11 @@ def replay_route(sidecar: Path, out: Path, model, dino, hooks: Hooks, proj, devi
         with torch.inference_mode():
             model(move(frame, device))
             stacked = torch.stack([hooks.means[i] for i in sorted(hooks.means)]).cpu()
-            align.append(float((stacked - record["layer_mean"].float()).abs().max()))
+            logged_mean = record["layer_mean"].float()
+            align.append(float((stacked - logged_mean).abs().max()))
+            rel.append(float((stacked - logged_mean).norm() / logged_mean.norm()))
+            prev = by_step.get(int(path.stem) - CAPTURE)
+            rel_prev.append(float((stacked - prev["layer_mean"].float()).norm() / logged_mean.norm()) if prev else np.nan)
             tokens["vit"].append(hooks.vit.reshape(-1, hooks.vit.shape[-1]).to(torch.float16))
             tokens["llm10"].append(hooks.layer[hooks.image_positions()].to(torch.float16))
             tiles = frame.camera_images.reshape(-1, 3, 448, 448).to(device, torch.float32)
@@ -118,17 +126,21 @@ def replay_route(sidecar: Path, out: Path, model, dino, hooks: Hooks, proj, devi
             tokens["dq"].append(record["driving_query_tokens"][logged["token_layers"].index(LAYER)].to(device, torch.float16))
         steps.append(int(path.stem))
     steps_np = np.array(steps)
-    if max(align) > ALIGN_LIMIT:
-        raise RuntimeError(f"{run}: replay differs from the logged layer means by {max(align):.4f}")
+    rel_np, prev_np = np.array(rel), np.array(rel_prev)
+    if rel_np.max() > ALIGN_LIMIT:
+        raise RuntimeError(f"{run}: replay misaligned: relative error up to {rel_np.max():.4f}, "
+                           f"previous-step error down to {np.nanmin(prev_np):.4f}")
     before = np.flatnonzero(steps_np < failed) if failed is not None else np.arange(len(steps))
     last = torch.as_tensor((before if len(before) else np.arange(1))[-LAST:], device=device)
-    saved = {"step": steps_np, "align_max_abs": np.array(align, np.float32), "code_step": steps_np[last.cpu().numpy()],
+    saved = {"step": steps_np, "align_max_abs": np.array(align, np.float32), "align_rel": rel_np.astype(np.float32),
+             "align_rel_prev": prev_np.astype(np.float32), "code_step": steps_np[last.cpu().numpy()],
              "failure_step": np.array(-1 if failed is None else failed), "success": np.array(bool(info["success"]))}
     for site, frames in tokens.items():
         for key, value in aggregate(torch.stack(frames).float(), TOPK[site], last, proj[site]).items():
             saved[f"{site}_{key}"] = value
     np.savez(out, **saved)
-    return {"route": info["route_id"], "frames": len(steps), "align": round(max(align), 5)}
+    return {"route": info["route_id"], "frames": len(steps), "align_abs": round(max(align), 4),
+            "align_rel": round(float(rel_np.max()), 5), "prev_rel_min": round(float(np.nanmin(prev_np)), 4)}
 
 
 def main() -> None:
