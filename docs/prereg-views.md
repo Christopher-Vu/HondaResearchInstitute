@@ -1,8 +1,7 @@
 # Pre-registration: a ranking of failure-discovery views across three driving models
 
-**Status: written, awaiting Chris's approval; not yet tagged.** It becomes binding when it is tagged
-`views-prereg-v1`. No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fail2drive.md` §10,
-A4, as amended by `CONFLICTS.md` C43). Drafted 2026-11-19 after the unpooled experiment was read
+**Status: approved by Chris 2026-11-19 and tagged `views-prereg-v1`; binding from the tag.**
+No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fail2drive.md` §10, A4, as amended by `CONFLICTS.md` C43). Drafted 2026-11-19 after the unpooled experiment was read
 (`docs/research/experiments/f2d-unpooled/protocol.md`; its reading was "neither").
 
 ## Decisions (Chris, voice, 2026-11-19 ~13:10, before any UniAD outcome is read)
@@ -13,12 +12,19 @@ A4, as amended by `CONFLICTS.md` C43). Drafted 2026-11-19 after the unpooled exp
 - **Primary units:** the rule units without Wall. Wall is excluded by name, not by a rule that reads outcomes. Wall
   was set aside as a ceiling control before the sprint and fails on every slice. All rule units (with Wall) and the
   named gaps are reported beside the primary.
-- **Rows:** `img-topk` is dropped everywhere. Only the averaged rows are new.
+- **Rows:** `img-topk` is dropped everywhere. Only the averaged rows and the caption row are new.
 - **UniAD sites:** the last BEV encoder grid is the image site, and the track queries are the query site. The FPN rows
   are reported only.
 - **Coverage:** two UniAD reads, both fixed here: an interim on Saturday and the final on the full pool (below).
 - **Expected outcome:** "Behaviour ties or beats every view" is an expected, reportable outcome, not a failure of the
   study.
+- **Flags answered** (Chris, 2026-11-19, before the tag):
+  - The image site stays `llm10`, and `vit-mean` is reported as a labelled post hoc row.
+  - Tag on approval, once the caption row is in.
+  - Interim coverage is every driven route; the caption row's coverage is stated on its own.
+  - The TF++ re-drive is kept, because it is the only source of TF++ frames.
+- **Caption row added** (Chris, 2026-11-19, before the tag): caption-then-cluster on saved camera frames, H25-style,
+  on all three models. It counts as a try. Its rules are below under "The caption row".
 
 ## Question
 
@@ -35,8 +41,9 @@ TransFuser++ (TF++) and UniAD.
 | UniAD | test pool, 6 seeds (101–106), 1,200 routes | **blind** until the tag |
 
 - Seeds 24–26 (H21, H21b, and UniAD's screen) are a dev pool and never count as evidence.
-- Every row below is computed from per-step layer means that every route logs. So a route counts toward coverage
-  once it is driven, whether or not it has the unpooled capture.
+- Every row below except `caption` is computed from per-step layer means that every route logs. So for those rows a
+  route counts toward coverage once it is driven, whether or not it has the unpooled capture. `caption` needs camera
+  frames, so its coverage is stated on its own (see "The caption row").
 
 ## Rows (fixed at the tag)
 
@@ -44,9 +51,15 @@ Rivals and frozen finalists (not new tries):
 - **B3-behaviour** (the primary rival), **B3-infraction** and **B7-pool**, per model as in `transfer-spec.md`.
 - **m23** (the primary finalist) and **m40**: §9 and `transfer-spec.md`, unchanged.
 
-New views. Each counts as a try, so the running total goes from 216 to **218**:
+New views. Each counts as a try, so the running total goes from 216 to **219**:
 - **`img-mean`**: the per-frame mean over the image-token site.
 - **`query-mean`**: the per-frame mean over the query site.
+- **`caption`**: caption-then-cluster on camera frames (see "The caption row").
+- **`vit-mean`** (SimLingo only, **post hoc**; already counted as try u10, so not counted again): the pooled vision tokens
+  before the projector. It was the best new
+  row of the unpooled experiment (0.247 on the named units), and it is added after that score was seen. It is always
+  labelled post hoc, enters no ranking claim, and does not change the image site, which stays `llm10` (Chris,
+  2026-11-19).
 
 | Model | Image site | Query site |
 |---|---|---|
@@ -57,6 +70,85 @@ New views. Each counts as a try, so the running total goes from 216 to **218**:
 Each new view is the mean over the approach window: 12.5 s before the failure step, or the route's last 12.5 s. Its
 discovery step is m03: standardise, PCA 32 over all routes, Ward clustering of the failing routes, A2 distinct axes,
 top 10. Every fit is label-free and runs on the routes being scored.
+
+## The caption row
+
+H25's method (`docs/research/experiments/h25-caption-cluster/protocol.md`, its `workflow.js` prompts unchanged),
+applied per model.
+
+**Frames.**
+- For each failing route: its last 4 front-camera frames at or before the failure step, 1 s apart, resized to 640 px
+  wide.
+- The frames per model:
+
+  | Model | Source | Spacing used |
+  |---|---|---|
+  | SimLingo | driver-camera PNGs | the saved PNGs, every 20 steps |
+  | TF++ | RGB in `capture/inputs`, which only the re-drive saved | every 2nd capture |
+  | UniAD | front JPEGs | every 4th JPEG (they are saved every 5 steps) |
+
+- A route with fewer frames gets those it has. A failing route with none gets no description and is listed.
+
+**Captioner.**
+- Claude Opus 5.5 (`claude-opus-5-5`), as in H25: one describing agent per failing route, then 6 independent
+  grouping runs per model. Each grouping run builds at most 10 modes and assigns every route.
+- Axes are a run's modes, largest first, top 10 (`to_axes.py`).
+- The row's score is the median of its 6 runs' scores, taken within every bootstrap draw.
+- Captioning uses no Savio GPU. Frame export is a CPU job, and no captioning runs on the A40s UniAD needs.
+
+**Label hiding.**
+- Each route's frame folder is named by a salted hash (a new salt, kept in git-ignored `results/`), under neutral
+  pool names. Routes are sorted by hash before captioning, so their order carries no route id or type.
+- The frames are copied to a folder outside the repository that holds nothing else, and the mapping stays in
+  `results/`.
+- `audit.py` lists every file each agent touched. Any touch outside an agent's own frame folder voids that model's
+  caption row, which is then reported as `untested`.
+
+**Contamination check**, as `docs/prereg-fail2drive.md` §3 requires:
+- (a) Before any frame is shown, the describe and group prompts are run once on blank frames (no rollout data), and
+  the outputs are kept.
+- (b) Every mode name is matched mechanically (case-insensitive, word stems) against the synonym list below. Every
+  matching axis is flagged in every table.
+- The frames show what defines each Fail2Drive type, because the inserted object is in view. So flags are expected.
+  Each type's score is shown separately, beside B2's oracle ceiling.
+
+**Route markers.**
+- All three test pools were driven with `debug_level: 0` (the configs, checked 2026-11-19), so no route or trigger
+  markers were drawn.
+- Before captioning, frames are also checked visually for markers: frame 200 of 2 routes per type per model, chosen
+  by salted order without reading outcomes.
+- If any marker is found, the row's results are flagged, and marker density per type is reported.
+
+**Coverage.**
+- The caption row covers only failing routes with frames, so it is stated on its own:
+  - SimLingo: every route.
+  - TF++: re-driven pairs whose failure reproduces.
+  - UniAD: driven routes.
+- The other rows and rivals are rescored on the same routes beside it, so its contrasts stay paired.
+- UniAD's descriptions are made once. The final read adds descriptions for newly driven failures and reruns the 6
+  grouping runs on all of them.
+
+**Synonym list** (frozen at the tag; hand-written, expanded once by the agent, a language model):
+
+| Type | Matches |
+|---|---|
+| Animals | animal, deer, dog, cow, horse, wildlife, creature |
+| BadParking | parked, parking, double-parked, badly parked, stopped car, vehicle on shoulder |
+| ConstructionPedestrian | construction, roadwork, worker, cone, barrier, pedestrian |
+| ConstructionPermutations | construction, roadwork, cone, barrier, lane closure |
+| CustomObstacles | obstacle, object, debris, box, unusual object |
+| FullyBlocked | blocked, road blocked, impassable, closure, dead end |
+| HardBrake | hard brake, sudden braking, brake check, lead vehicle stop, rear-end |
+| ImageOnObject | image, picture, poster, billboard, painted, sticker |
+| ObscuredStop | stop sign, obscured, hidden sign, occluded sign |
+| OppositeConstruction | construction, roadwork, oncoming lane, opposite lane, cone |
+| PassableObstacles | passable, small obstacle, drive over, low object |
+| PedestrianCrowd | crowd, group of pedestrians, many people |
+| PedestrianOtherBlocker | pedestrian, occluded pedestrian, hidden pedestrian, emerging pedestrian |
+| PedestriansOnRoad | pedestrian, person on road, people on road, walker |
+| RightConstruction | construction, roadwork, right lane, cone |
+| RightOfWay | right of way, yield, failed to yield, junction, intersection priority |
+| Wall | wall, barrier, concrete, solid structure |
 
 ## Units, metric and intervals
 
