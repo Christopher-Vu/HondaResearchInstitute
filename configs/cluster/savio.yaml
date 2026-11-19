@@ -37,6 +37,15 @@ gpu_a40:
   # adds them to every submission on this profile, merged with any --exclude.
   exclude_nodes: [n0214.savio3, n0215.savio3, n0262.savio3]
 
+gpu_v100:
+  # V100 (32 GB) on savio3_gpu, its own QoS: for CARLA work when the A40 queue is full (2026-11-18, UniAD's reruns).
+  # No bfloat16 in hardware, so SimLingo replays stay on A5000/A40.
+  available: true
+  partition: savio3_gpu
+  qos: v100_gpu3_ica
+  gres: "gpu:V100:1"
+  cpus_per_task: 4
+
 cpu:
   # CPU partitions for GPU-free work. savio3_htc allocates per core.
   partition: savio3_htc

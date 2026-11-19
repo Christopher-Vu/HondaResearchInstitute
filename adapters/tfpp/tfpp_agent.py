@@ -13,7 +13,14 @@ unchanged:
     and LiDAR meet before the decoder.
   - Collisions are logged with the step they happened after.
 
-No per-token or replay-input capture.
+Every SIMLINGO_CAPTURE_EVERY steps (0 = never; off for one run with HRI_UNPOOLED=0), for the unpooled experiment
+(docs/research/experiments/f2d-unpooled/protocol.md):
+- `capture/inputs/<step>.pt`: the exact arguments of that step's forward call, so it replays offline (TransFuser++
+  keeps no state between frames). Float tensors holding only whole numbers in 0..255 (camera images) are stored as
+  uint8 and marked, which is lossless.
+- `capture/unpooled/<step>.pt`: float16, nothing averaged over space: `image`, `fused` and `bev`, the backbone's
+  three outputs (whichever it returns), and `join`, every `join` call's last-layer tokens.
+Both are read-only hooks and file writes; a capture fault is logged and never ends the drive.
 """
 from __future__ import annotations
 
@@ -37,6 +44,20 @@ FLUSH_EVERY = 200
 
 def get_entry_point() -> str:
     return "TfppCaptureAgent"
+
+
+def packed(value: Any) -> Any:
+    """CPU copy; whole-number float tensors in 0..255 become {"uint8": ..., "dtype": ...} (lossless)."""
+    if isinstance(value, torch.Tensor):
+        value = value.detach().to(CPU)
+        if value.is_floating_point() and value.numel() > 4096 and bool((value == value.round()).all())                 and float(value.min()) >= 0 and float(value.max()) <= 255:
+            return {"uint8": value.to(torch.uint8), "dtype": str(value.dtype)}
+        return value
+    if isinstance(value, dict):
+        return {key: packed(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return type(value)(packed(item) for item in value)
+    return value
 
 
 def first_tensor(output: Any) -> torch.Tensor:
@@ -67,6 +88,10 @@ class TfppCaptureAgent(SensorAgent):
         self.layer_outputs: list[torch.Tensor] = []
         self.fused: torch.Tensor | None = None
         self.forwarded = False
+        self.unpooled = self.capture_every > 0 and os.environ.get("HRI_UNPOOLED", "1") != "0"
+        self.raw: dict[str, Any] = {}
+        for folder in ("inputs", "unpooled"):
+            (self.capture_dir / folder).mkdir(exist_ok=True)
         for layer in net.join.layers:
             layer.register_forward_hook(self._layer_hook)
         net.join.register_forward_pre_hook(self._join_started)
@@ -77,6 +102,12 @@ class TfppCaptureAgent(SensorAgent):
         forward = net.forward
 
         def captured_forward(*args: Any, **kwargs: Any) -> Any:
+            if self._capturing():
+                try:
+                    torch.save({"args": packed(args), "kwargs": packed(kwargs)},
+                               self.capture_dir / "inputs" / f"{self.step:06d}.pt")
+                except Exception as error:
+                    print(f"input capture failed at step {self.step}: {type(error).__name__}: {error}", flush=True)
             self._forward_started()
             output = forward(*args, **kwargs)
             self._forward_done()
@@ -126,13 +157,20 @@ class TfppCaptureAgent(SensorAgent):
         self.collisions.append({"step": self.step, "frame": event.frame, "other": event.other_actor.type_id,
                                 "intensity": vector_length(event.normal_impulse)})
 
+    def _capturing(self) -> bool:
+        return self.unpooled and self.step % self.capture_every == 0
+
     def _forward_started(self) -> None:
         self.join_calls.clear()
         self.fused = None
+        self.raw = {}
 
     def _backbone_hook(self, _module: nn.Module, _inputs: Any, output: Any) -> None:
         # transFuser and bev_encoder backbones return (bev grid, fused features, image grid); aim returns two.
         fused = output[1] if len(output) == 3 else output[0]
+        if self._capturing():
+            names = ("bev", "fused", "image") if len(output) == 3 else ("fused", "image")
+            self.raw.update({name: item.detach() for name, item in zip(names, output) if isinstance(item, torch.Tensor)})
         fused = fused.detach().float()
         # torch reads mean(dim=()) as every dim, so a flat (batch, channels) output is taken as it is.
         self.fused = (fused.mean(dim=tuple(range(2, fused.dim()))) if fused.dim() > 2 else fused)[0]
@@ -157,6 +195,13 @@ class TfppCaptureAgent(SensorAgent):
         self.records.append({"step": self.step, "layer_mean": every_query.to(CPU),
                              "layer_driving_mean": driving.to(CPU), "vision_bridge_mean": self.fused.to(CPU),
                              "state": self.pending_state})
+        if self._capturing():
+            try:
+                saved = {key: value.to(torch.float16).to(CPU) for key, value in self.raw.items()}
+                saved["join"] = [call[-1].to(torch.float16).to(CPU) for call in self.join_calls]
+                torch.save(saved, self.capture_dir / "unpooled" / f"{self.step:06d}.pt")
+            except Exception as error:
+                print(f"unpooled capture failed at step {self.step}: {type(error).__name__}: {error}", flush=True)
         if len(self.records) % FLUSH_EVERY == 0:
             self._flush()
 
