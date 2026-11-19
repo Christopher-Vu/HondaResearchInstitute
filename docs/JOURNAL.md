@@ -5,6 +5,47 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — Unpooled activations do not help on SimLingo; the pre-registered reading is "neither"
+
+Every earlier method averaged a frame's tokens into one vector. Chris asked whether that averaging throws away what
+separates the failure gaps. The protocol (`docs/research/experiments/f2d-unpooled/protocol.md`) fixed a grid of 9
+rows and a decision rule before any score. The 9 rows are 3 places in the model times 3 ways of keeping token-level
+detail:
+- the places: vision tokens, image tokens inside the language model, and driving queries;
+- the ways: the maximum, the tokens farthest from the route's own start, and a bag of learned token codes.
+
+An off-the-shelf image model (DINOv2) on the same camera tiles serves as a ceiling.
+
+What was done:
+- **Replay.** Every SimLingo test route's saved model input was replayed offline: 1,185 routes. The replayed
+  activations match the logged ones within 0.8%, against a limit of 5%. Three long routes ran out of GPU memory and
+  were redone with a CPU fallback.
+- **Scoring.** Features and scores came from `unpooled_methods.py` and `score_simlingo.sh`, with tries logged in
+  `VARIANTS.md` (end): 14 tries, 216 in total. This pool's outcomes were already read.
+
+Measured:
+- **Unpooled loses to plain averaging.** The best grid row, image tokens at layer 10 with the farthest tokens, beats
+  its own averaged row by only +0.03, and the interval includes 0 on every unit set. It beats the behaviour rival on
+  the 3 named gaps (+0.056 [+0.006, +0.245]), but not on the units chosen by rule. Most unpooled rows score below
+  their averaged rows.
+- **The image model is no better.** DINOv2 never beats the behaviour rival.
+- **The probe ceiling agrees** (it reads labels, and is reported only). On PedestriansOnRoad and BadParking,
+  behaviour alone gives the best probe (0.87, 0.70); no activation or image feature beats it. FullyBlocked has only 3
+  Fail2Drive pairs, and every probe swings with the fold split.
+
+What it means:
+- The pre-registered reading is "neither", which points to a sample-size limit, not lost information.
+- On this pool the gaps are told apart mostly by what the car does. Averaging tokens is not the bottleneck.
+- The settled row for the views pre-registration is therefore the averaged one, alongside m23/m40 and B3-behaviour.
+
+Also this session:
+- The TF++ re-drive's seeds s101–s104 sat about 15 h behind UniAD (A40) and other users (V100). They were moved to
+  the A5000 queue in place.
+- UniAD's capture reruns now project to finish around Nov 22, not Nov 20–21. The options are in STATUS under "Needs
+  Chris".
+
+---
+
 ## 2026-11-19 — H21b caches built; Jerry's three-seed H21 pool is ready for replication
 
 H21 is Jerry's second SimLingo dev pool: all 100 Fail2Drive pairs, 200 routes, driven on traffic seed 24. H21b drove it again on seeds 25 and 26 to get more failures per category. This session built the per-route caches for all three seeds and handed them to the explore loop on the compute box.
