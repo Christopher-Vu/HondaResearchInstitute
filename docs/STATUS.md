@@ -10,18 +10,25 @@ Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ 
 
 ## Needs Chris (each ~8 h Savio window)
 
-- [ ] **Approve `docs/prereg-views.md`, then the agent tags `views-prereg-v1`.** Your 2026-11-19 voice decisions are
-  applied, with CONFLICTS C43 (two UniAD reads). Four flags are in the agent's report:
-  - SimLingo's image site (`llm10` or `vit`);
-  - tagging now, without waiting for TF++;
-  - interim coverage uses all driven routes, not only those with capture;
-  - the TF++ re-drive is no longer needed by any pre-registered row.
+- [x] `views-prereg-v1` tagged 2026-11-19 (69668f5) with Chris's approval: 219 tries, caption row on all three models.
 - [ ] **Every ~12 h:** `ssh savio` (PIN + code, then exit). Keep the laptop awake with Claude open.
 - [ ] **Sat 2026-11-21 ~10:00:** review the interim UniAD read. **Mon Nov 23:** the presentable comparison.
 
 ---
 
 ## Current position
+
+**2026-11-19 ~14:30: `views-prereg-v1` tagged.**
+- The tag fixes the rows (img-mean, query-mean, caption, rivals, m23/m40; vit-mean post hoc), the primary units (rule
+  units without Wall), and an interim UniAD read Sat 09:00 PT plus the final read.
+- **Next for the caption row** (no GPU):
+  - export frames (CPU job);
+  - the route-marker spot check;
+  - the blank-frame contamination run;
+  - SimLingo captions (outcomes already read);
+  - TF++ captions after the re-drive and match rate;
+  - UniAD captions inside each read.
+- The other thread's job: the UniAD read pipeline as one command, tested on dev seed 24 only, ready by Fri evening.
 
 **2026-11-19 ~13:45: Chris's voice decisions applied; UniAD now 3 routes per A40.**
 - **UniAD memory, measured** from logged peaks:

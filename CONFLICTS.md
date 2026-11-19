@@ -858,7 +858,7 @@ rival alike, and the held-out pools are still unread.
 - The stop is post hoc, after round 2's dev scores.
 - m23's UniAD result arrives later than §9 implied.
 
-### C43 · Two UniAD reads, interim and final (amends A4 / C42) · new, 2026-11-19 (agent, at Chris's decision), pending Chris's approval with `docs/prereg-views.md`
+### C43 · Two UniAD reads, interim and final (amends A4 / C42) · new, 2026-11-19 (agent, at Chris's decision), accepted by Chris 2026-11-19 (tag `views-prereg-v1`)
 
 **What changes.**
 - A4 (C42) said UniAD's outcomes are read once, after the views pre-registration is tagged. There are now two reads,
