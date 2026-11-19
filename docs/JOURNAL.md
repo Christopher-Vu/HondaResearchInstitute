@@ -5,6 +5,62 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-18 — Round 2 closed; a rescored comparison table; unpooled activations and new captures under way
+
+Chris decided in a voice chat to stop round 2 and to compare failure-discovery "views" on all three driving models
+instead.
+- A view is a way of describing each route before clustering: pooled activations, unpooled activations, an
+  off-the-shelf image model, behaviour.
+- The stop is amendment A4 (`docs/prereg-fail2drive.md` §10, CONFLICTS C42). m23 and m40 go to UniAD.
+- UniAD is now read once, after the new comparison is pre-registered, so that a single blind read scores everything.
+
+**Frames were there after all.** The 2026-11-14 note "no camera frames were saved" was true only of the analysis
+shards. Every SimLingo test route's folder kept the model's own input every 10 steps (all 1,188 routes, measured).
+TransFuser++ kept none, and UniAD kept a small front-camera image. This made an experiment possible that all 202
+earlier tries could not run.
+- Those tries averaged activations over every image token before clustering.
+- `docs/research/experiments/f2d-unpooled/protocol.md` fixes a grid of 9 unpooled views and an image-model ceiling,
+  with a decision rule committed before any score.
+
+**Comparison table** (`table.sh`, `view_score.py`, results in `results/savio/f2d-unpooled/table/`; measured,
+outcomes already read).
+- Rows: every existing row, rescored with a smoother rank-averaged metric, plus the plain top-10 metric.
+- The scorer reproduces the known numbers: m23 0.270 against B3-behaviour 0.163, pooled top-10.
+- **More units narrow the intervals about 2.5 to 4 times.** The unit rule (`units_rule.py`: a Fail2Drive type whose
+  generalisation routes fail at least 1.5 times as often as their twins, with at least 5 failing) adds 10 units.
+  m23 minus B3-behaviour, pooled over both models:
+
+  | Units | m23 minus B3-behaviour | 95% interval |
+  |---|---|---|
+  | 5 named | +0.061 | −0.032 to +0.158 |
+  | by rule | +0.061 | +0.023 to +0.097 |
+  | by rule, without Wall | +0.004 | −0.033 to +0.042 |
+
+  The rule admits Wall, which fails on every slice and was set aside before the sprint as a ceiling unit. That is
+  why the table also reports the rule's units without it. m23's lead comes from Wall (0.47 and 0.74 against B3's 0.17
+  and 0.18) and SimLingo PedestriansOnRoad (0.48 against 0.16). On the other units it is level with behaviour.
+  B3-infraction beats B3-behaviour without Wall (+0.025, interval +0.004 to +0.050).
+
+**New captures.**
+- UniAD's agent now saves unpooled tensors and all six cameras (42db68c). The FPN level per camera, the BEV grid
+  pooled 4×4 and the queries are saved directly while driving, rather than the full inputs for an offline replay.
+  - Reason: UniAD carries its BEV state and track memory across frames, so a single-frame replay would need about
+    20 MB of state per frame.
+  - Smoke on the bring-up pair (41527989 capture on, 41527990 off, measured): same status and the same infractions
+    (scores 22.97 vs 22.37 and 44.67 vs 44.71), no wall-time cost (33 vs 34 min), about 340 MB per route. The saved
+    tensors match the logged pooled means to fp16 rounding.
+  - It went into `hri-dev` at 18:42. Rerun tasks that started before then (about 17) have no capture, and coverage
+    will be reported.
+- TransFuser++'s agent now saves its replay inputs and unpooled tensors (5ef3648). A re-drive of every within-seed
+  pair with a failure (534 routes) waits on its smoke.
+
+**Unpooled replay smoke.** The first smoke refused all 3 routes. Their layer means differed from the logs by 0.13 to
+0.16 absolute: logged on A40s, replayed on an A5000, in bfloat16. The 0.05 absolute limit had been a guess, so the
+check is now relative, with the previous step's error kept as a misalignment control. A second smoke is running.
+
+**Left open:** the probe diagnostic's independent run (41520797) and its agreement check; the TF++ smoke and
+re-drive; the unpooled scores.
+
 ## 2026-11-18 — UniAD's first full arrays half-finished; the rest resubmitted with a longer limit
 
 The UniAD screen (one seed, all 100 pairs) and the six-seed test pool ran, but most array tasks hit their 3-hour limit. UniAD drives far slower than TransFuser++, at a median of 34 minutes per route (measured), and each task tried to drive six. Between 83 and 105 of each array's 200 routes have a result; seed 106 was still running. Spend so far is about 17,800 SU (measured), much more than estimated (`docs/WHAT_BROKE.md`, 2026-11-18).
