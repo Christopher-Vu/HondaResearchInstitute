@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — TransFuser++ half of the unpooled experiment built and queued; UniAD seed 106 resubmitted
+
+The unpooled experiment (`docs/research/experiments/f2d-unpooled/protocol.md`) asks whether activations that were never averaged over space separate the Fail2Drive gaps better. This session built its TransFuser++ (TF++) side, ready for the re-drive with input capture (arrays 41537279–84, still pending at 02:30).
+
+- `tfpp_unpooled.py` reads each re-driven route's saved frames, every 10 steps. It writes the same per-route npz as `replay_unpooled.py`: per-frame mean, max and top-k, the projected codes of the last 8 frames before the failure, and `step`, `failure_step` and `success`. Its three sites are the image backbone's grid before fusion (384 positions × 1512), the last decoder-join tokens (11 × 256), and DINOv2-base patch tokens of the saved front camera, resized to 378 × 1008 (1944 × 768). No replay is needed, because the closed-loop capture is read as logged. `tfpp_unpooled.sbatch` exports the shards first, then writes the npz.
+- `match_rate.py` compares each re-driven route with its first drive: the same status (from `routes.jsonl`) and the same first infraction type. The first type is the one whose logged location the ego reached first, timed as `failure_time` does. It writes the pairs in which every route reproduces.
+- **Smoke** (job 41540845, A5000, 1 min 42 s; measured): routes 10100001 and 10100002 give 31 and 40 frames. `join_mean` matches the logged last-layer driving mean to 0.05% relative, and every array is finite. `match_rate.py` finds 2 of 2 routes matching and 267 re-drive pairs pending, which is the 534 routes submitted. Both smoke routes passed, so the failure-window code path is untested until real re-drive routes arrive.
+- **Queued:** the full pass runs once the re-drive ends. Job 41555298 starts after all six arrays (`afterany`), exports and runs part 0 of 4; 41555299 (parts 1–3) follows it. Output goes to hri-dev `results/savio/f2d-unpooled-tfpp/`. Re-drive tasks that failed (3 on s105 so far) and get rerun in a new job are not in this pass. Rerun it with the new job dirs added: it resumes, skipping existing npz.
+
+UniAD: seed 106's first array (41434977) ended with 104 of 200 routes driven. Its 42 cut-off folders are in `results/savio/41434977-cutoff/`, and its 96 missing routes are array 41555288 (one pair per A40, 8 h). That array starts with the full-capture agent another session put in hri-dev. Counts only; no UniAD outcome was read.
+
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
 
 The probe diagnostic (`docs/research/experiments/f2d-dev-simlingo/probe-diagnostic.md`) reads the gap labels on
