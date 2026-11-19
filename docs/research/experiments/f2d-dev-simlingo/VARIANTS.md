@@ -1025,3 +1025,48 @@ Reading: none beats m23, so none qualifies. r11 ties m23 exactly, so ordering th
 FullyBlocked axis without changing anything else. TransFuser++ PedestriansOnRoad stays at 0.05 to 0.09 under every
 site, window and width tried. Search paused here for the probe diagnostic (`probe-diagnostic.md`), which asks whether
 the information is there at all.
+
+### Unpooled activations, SimLingo test pool (Chris, 2026-11-18; `../f2d-unpooled/protocol.md`)
+
+The grid, reference rows and decision rule were committed before any score. Every route's saved model input was
+replayed offline (job 41536674 plus resume 41555302). That gave 1,185 of 1,185 routes, with a worst relative
+alignment error of 0.8% against the logged layer means. Features came from `unpooled_methods.py`, and scoring from
+`score_simlingo.sh` (job 41555303, CPU, 8 minutes). Discovery is m03 on every row. **Outcomes already read.**
+
+| id | row | tried after |
+|---|---|---|
+| u01–u03 | `vit` (vision tokens before the projector): max, top-k 16, codebook 64 | 205 |
+| u04–u06 | `llm10` (image tokens at decoder layer 10): max, top-k 16, codebook 64 | 208 |
+| u07–u09 | `dq` (driving queries at layer 10, unpooled): max, top-k 4, codebook 64 | 211 |
+| u10, u11 | `vit-mean`, `llm10-mean` (matched pooled rows, new views) | 213 |
+| u12–u14 | DINOv2-base on the same tiles: max, top-k 16, codebook 64 | **216** |
+
+`dq-mean` is a re-run, not counted.
+
+Measured, rank-averaged best match (top-10 best match in brackets for named units):
+
+| row | named | rule | rule without Wall |
+|---|---|---|---|
+| B3-behaviour (rival) | 0.134 (0.219) | 0.136 | 0.131 |
+| m23 (rival) | 0.227 (0.372) | 0.191 | 0.150 |
+| vit-max / topk / codebook | 0.187 (0.361) / 0.100 (0.232) / 0.133 (0.168) | 0.126 / 0.108 / 0.106 | 0.125 / 0.110 / 0.107 |
+| llm10-max / topk / codebook | 0.114 (0.180) / 0.190 (0.313) / 0.117 (0.133) | 0.095 / 0.147 / 0.102 | 0.091 / 0.150 / 0.099 |
+| dq-max / topk / codebook | 0.129 (0.187) / 0.133 (0.201) / 0.114 (0.146) | 0.120 / 0.127 / 0.126 | 0.118 / 0.130 / 0.104 |
+| vit-mean / llm10-mean / dq-mean | 0.247 (0.278) / 0.160 (0.261) / 0.209 (0.316) | 0.150 / 0.121 / 0.154 | 0.154 / 0.121 / 0.158 |
+| dino-max / topk / codebook | 0.146 (0.175) / 0.131 (0.165) / 0.107 (0.115) | 0.106 / 0.105 / 0.087 | 0.105 / 0.107 / 0.084 |
+
+Decision rule. The best grid row is re-selected in every one of 2,000 pair-bootstrap draws; its point choice is
+`llm10-topk` under every unit set. 95% intervals:
+
+| units | best grid row − its own mean row | best grid row − B3 | best DINOv2 row − B3 |
+|---|---|---|---|
+| named | +0.029 [−0.084, +0.148] | +0.056 [+0.006, +0.245] | +0.012 [−0.013, +0.202] |
+| rule | +0.026 [−0.019, +0.071] | +0.011 [−0.008, +0.076] | −0.030 [−0.041, +0.053] |
+| rule without Wall | +0.029 [−0.022, +0.079] | +0.019 [−0.004, +0.092] | −0.024 [−0.037, +0.068] |
+
+**Reading, as pre-registered: neither.**
+- Unpooled does not work: no unit set has both intervals above 0.
+- The image model does not separate gaps.
+- Unpooled aggregations mostly score below the matching mean rows. Max and codebook lose the most, and only
+  `llm10-topk` gains over its mean row. So within-frame pooling is not the bottleneck on this pool.
+- The probe ceiling (label-reading, reported only) follows from job 41575612.
