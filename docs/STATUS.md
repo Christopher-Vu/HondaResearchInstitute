@@ -24,6 +24,23 @@ Nothing else needs you; agent decisions are logged in the JOURNAL.
 
 ## Current position
 
+**2026-11-18 ~21:00: resumed. Replay and TF++ re-drive running; probe agreement done.**
+- **SimLingo replay** job 41536674 (4 × A5000, 6 h limit), started ~20:50. ~40 routes per 7 min, so ~3.5 h for 1,188.
+  Resumes on resubmit (it skips existing files). Next: `unpooled_methods.py`, then `view_score.py` per the protocol.
+- **Probe agreement passed:** 250/250 cells within 0.03, the same unit decisions, Outcome 1 on both runs (JOURNAL).
+- **TF++ smoke checked:** both routes pass again (100 vs 100, 97.1 vs 96.4). Unpooled `fused` and `join` match the
+  logged means to ≤1e-4 relative. The `image` tensor is pre-fusion, so it has no logged mean to compare against.
+- **TF++ re-drive submitted** (534 routes, K=2, ROUNDS=3, 3 h limit):
+
+  | Seed | Job | Queue |
+  |---|---|---|
+  | s101, s102 | 41537279, 41537280 | V100, untested there |
+  | s103, s104 | 41537281, 41537282 | A40, queued behind UniAD |
+  | s105, s106 | 41537283, 41537284 | A5000, after the replay |
+
+  Next: the match rate (same status and same first infraction type), then the TF++ replay.
+- The V100 smoke 41529284 is cancelled.
+
 **2026-11-18 ~19:30: paused mid-task (Chris). Round 2 closed (A4); comparison table read; captures landed.**
 - **Round 2 closed:** prereg §10 (A4), CONFLICTS C42. UniAD is read once, after `docs/prereg-views.md` is tagged.
 - **Comparison table read** (`results/savio/f2d-unpooled/table/`, JOURNAL 2026-11-18). The unit rule narrows the
