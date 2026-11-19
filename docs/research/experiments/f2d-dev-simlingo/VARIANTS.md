@@ -1025,3 +1025,30 @@ Reading: none beats m23, so none qualifies. r11 ties m23 exactly, so ordering th
 FullyBlocked axis without changing anything else. TransFuser++ PedestriansOnRoad stays at 0.05 to 0.09 under every
 site, window and width tried. Search paused here for the probe diagnostic (`probe-diagnostic.md`), which asks whether
 the information is there at all.
+
+### Replication on H21, three seeds (H21b, shared plan track C, under A2, 2026-11-19), rows written before any score
+
+The leads rerun unchanged on Jerry's H21 pool, now three traffic seeds deep (24, 25, 26; Savio job 41570198 at main
+`090f0fa`, caches in `results/savio/f2d-h21b/s{24,25,26}/`). Nothing is tuned to H21.
+- **Pool:** the three seeds' `cache.npz` and `frames.npz` concatenated into one pool of 593 routes (200 + 198 + 195;
+  7 failed drive tasks left 2 routes out of s25 and 5 out of s26). Rows sorted by `cache_pool.order_key`, the salted
+  order, so no method sees seed or outcome order. Route ids already differ by seed.
+- **Inputs:** whole-route means are the cache's `route` slot; the 50-frame window is the mean of the last 50 frames
+  in `frames.npz`, as in the earlier H21 replications.
+- **Resampling:** `pair` = the manifest's `base_id`, so `sprint_score.py` resamples Fail2Drive pairs with all their
+  seeds together.
+- **Scoring:** `sprint_score.py` under A2. Gaps CustomObstacles, Wall and PedestriansOnRoad; decoys as before. Primary
+  rival B3-behaviour, now the real `b3_behaviour.py` on the pooled cache (the new caches carry per-frame speed and
+  infractions, so the H24 `kin` stand-in is no longer needed). B3-infraction reported. Failing-only chance as printed.
+- **Count:** a rescore of methods already logged on H21 at their recorded settings is not a try (as in "A2 rescore on
+  H21"), so the total stays **202**.
+- **Limits:** dev data; H21's categories have already been read by H22 to H25. Three seeds make it a better ranking
+  pool than one, but it still cannot make a candidate.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| m23 | 2026-11-19 | H21 x3 | pool of m15 (m03, L8, 50-frame window, PCA 32, Ward 2/3/5) and whole-route L8 (m03), `pool_axes.py` in `batch4.sh` order | | | 202 |
+| m40 | 2026-11-19 | H21 x3 | pool of L8 50-frame window PCA 64 (m03, Ward 2/3/5) and whole-route L20 (m03) | | | 202 |
+| j09 | 2026-11-19 | H21 x3 | `j09_hmm.py` defaults: HMM over the last 50 frames, L8, PCA 16, S by BIC from {4, 6, 8}, Hellinger occupancy + transitions, Ward 2/3/5 | | | 202 |
+| B3-behaviour | 2026-11-19 | H21 x3 | `b3_behaviour.py` on the pooled cache (rival) | | — | 202 |
+| B3-infraction | 2026-11-19 | H21 x3 | `b3_infractions.py` on the pooled cache (reported rival) | | — | 202 |
