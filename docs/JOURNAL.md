@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — Regression coverage for the TF++ re-drive agreement gate
+
+The new TransFuser++ unpooled analysis uses a re-drive only when its closed-loop
+outcome reproduces the original route. Added a lightweight, file-level test for
+`f2d-unpooled/match_rate.py`: it verifies that a failure's first infraction is
+the earliest location the ego reaches, and that an incomplete pair remains
+pending rather than being counted as a reproducing pair. The test needs neither
+CARLA nor a GPU and passed locally (2 tests). Branch:
+`codex/test-tfpp-match-rate`, commit `9c9c313`.
+
+---
+
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
 
 The probe diagnostic (`docs/research/experiments/f2d-dev-simlingo/probe-diagnostic.md`) reads the gap labels on
