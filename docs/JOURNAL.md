@@ -5,6 +5,38 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — The views pre-registration is tagged; UniAD repacked to 3 routes per GPU
+
+Chris settled the open choices in a voice chat (aiming for presentable results by Monday, Nov 23), and the agent
+applied them to `docs/prereg-views.md`. Chris approved it, and it was tagged `views-prereg-v1` (69668f5) before any
+UniAD outcome was read.
+
+The tag fixes:
+- **Two headlines,** each under the same decision rule: the three-model pooled ranking (SimLingo and TF++ outcomes
+  already read), and UniAD alone, the only blind test.
+- **Primary units:** the rule units without Wall. Wall is excluded by name, because it was set aside as a ceiling
+  control before the sprint.
+- **New rows** (219 tries in total): the averaged image-site and query-site views, plus H25's caption-then-cluster on
+  saved camera frames. Caption-then-cluster has Claude describe each failure from its last frames, then group the
+  descriptions; it is added on all three models, with salted route names, a blank-frame contamination run, a frozen
+  synonym list and a route-marker check. SimLingo's vision-token mean is reported as a labelled post hoc row.
+- **Two UniAD reads** (CONFLICTS C43): an interim read on Saturday Nov 21 at 09:00 PT, on the routes driven by then,
+  and the final read on the full pool, which is the result of record. Nothing changes between them.
+
+UniAD speed:
+- **Memory, measured** from peaks already logged: one UniAD route takes about 13 GB of GPU memory, and two take 26–28
+  GB on a 48 GB A40.
+- **Repack:** the 562 pending routes were resubmitted at 3 per A40 (jobs 41580713–18), cutting 283 tasks to 189.
+  Running tasks were untouched.
+- **New finish estimate:** about Nov 22 early.
+- **Paid cloud was ruled out on cost.**
+
+Every row except captions comes from per-step layer means that all driven routes log. So Saturday's interim read can
+use every driven route, not only those with the new captures. The TF++ re-drive stays, because it is TF++'s only
+source of camera frames.
+
+---
+
 ## 2026-11-19 — Unpooled activations do not help on SimLingo; the pre-registered reading is "neither"
 
 Every earlier method averaged a frame's tokens into one vector. Chris asked whether that averaging throws away what
