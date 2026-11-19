@@ -15,6 +15,13 @@ Writes TransFuser++'s layout (adapters/tfpp/tfpp_agent.py), so `export_activatio
 - `capture/frames/<step>.jpg`: the front camera, FRAME_WIDTH px wide, every FRAME_EVERY steps (the export's default
   stride, so every exported row has a frame).
 
+- `capture/unpooled/<step>.pt` every UNPOOLED_EVERY steps (off with HRI_UNPOOLED=0), for the unpooled-activation
+  experiment (docs/research/experiments/f2d-unpooled/protocol.md), all float16 and nothing averaged over space:
+  `fpn` the coarsest FPN level per camera (cameras, C, H, W); `bev` the last BEV-encoder layer's grid, 4x4
+  average-pooled to (C, 50, 50); `track` the last track-decoder layer's queries; `plan` every planning layer's output.
+- `capture/cams/<step>_<camera>.jpg`: all six cameras, CAM_WIDTH px wide, every CAMS_EVERY steps (image-model rows).
+Both are read-only hooks and file writes: they do not change what the model sees or does.
+
 The upstream agent's top-down `bev` camera is dropped: it is only read for its debug saves, and rendering it costs time.
 """
 from __future__ import annotations
@@ -41,6 +48,8 @@ FRAME_EVERY = 5
 FRAME_WIDTH = 256
 CAMERA_HEIGHT = 1.60  # CAM_FRONT's z in the upstream sensor list
 HIDDEN = 256
+UNPOOLED_EVERY, CAMS_EVERY, CAM_WIDTH, BEV_POOL = 20, 10, 800, 4
+CAMERAS = ("CAM_FRONT", "CAM_FRONT_LEFT", "CAM_FRONT_RIGHT", "CAM_BACK", "CAM_BACK_LEFT", "CAM_BACK_RIGHT")
 # (stage, module path of its layer list), in the order data flows through the model.
 STAGES = (
     ("bev_encoder", "pts_bbox_head.transformer.encoder.layers"),
@@ -93,11 +102,19 @@ class UniadCaptureAgent(UniadAgent):
         self.calls: dict[int, list[torch.Tensor]] = {}
         self.vision: torch.Tensor | None = None
         self.forwarded = False
+        self.unpooled = os.environ.get("HRI_UNPOOLED", "1") != "0"
+        self.raw: dict[str, Any] = {}
+        for folder in ("unpooled", "cams"):
+            (self.capture_dir / folder).mkdir(exist_ok=True)
         for stage, path in STAGES:
             for index, layer in enumerate(self.model.get_submodule(path)):
                 layer.register_forward_hook(self._layer_hook(len(self.layer_names)))
                 self.layer_names.append(f"{stage}.{index}")
         self.driving = [i for i, name in enumerate(self.layer_names) if name.startswith(DRIVING_STAGE + ".")]
+        self.keep_raw = {self.layer_names.index(name): key for name, key in (
+            (max(n for n in self.layer_names if n.startswith("bev_encoder.")), "bev"),
+            (max(n for n in self.layer_names if n.startswith("track_decoder.")), "track"))}
+        self.keep_raw.update({i: f"plan.{self.layer_names[i].split('.')[1]}" for i in self.driving})
         self.model.img_neck.register_forward_hook(self._neck_hook)
         self.model.register_forward_pre_hook(self._forward_started)
         self.model.register_forward_hook(self._forward_done)
@@ -126,6 +143,11 @@ class UniadCaptureAgent(UniadAgent):
             raise RuntimeError("UniAD returned non-finite vehicle controls")
         if self.step % FRAME_EVERY == 0:
             self._save_frame(input_data["CAM_FRONT"][1])
+        if self.unpooled and self.step % CAMS_EVERY == 0:
+            try:
+                self._save_cams(input_data)
+            except Exception as error:
+                print(f"camera capture failed at step {self.step}: {type(error).__name__}: {error}", flush=True)
         assert self.trace is not None
         self.trace.write(json.dumps(record) + "\n")
         self.trace.flush()
@@ -137,6 +159,31 @@ class UniadCaptureAgent(UniadAgent):
         height = round(bgra.shape[0] * FRAME_WIDTH / bgra.shape[1])
         small = cv2.resize(bgra[:, :, :3], (FRAME_WIDTH, height), interpolation=cv2.INTER_AREA)
         cv2.imwrite(str(self.capture_dir / "frames" / f"{self.step:06d}.jpg"), small, [cv2.IMWRITE_JPEG_QUALITY, 90])
+
+    def _save_cams(self, input_data: Any) -> None:
+        for camera in CAMERAS:
+            bgra = input_data[camera][1]
+            height = round(bgra.shape[0] * CAM_WIDTH / bgra.shape[1])
+            small = cv2.resize(bgra[:, :, :3], (CAM_WIDTH, height), interpolation=cv2.INTER_AREA)
+            cv2.imwrite(str(self.capture_dir / "cams" / f"{self.step:06d}_{camera}.jpg"), small,
+                        [cv2.IMWRITE_JPEG_QUALITY, 90])
+
+    def _capturing(self) -> bool:
+        return self.unpooled and self.step % UNPOOLED_EVERY == 0
+
+    def _save_unpooled(self) -> None:
+        saved: dict[str, Any] = {}
+        for key, value in self.raw.items():
+            tensor = (value[0] if isinstance(value, (tuple, list)) else value).detach()
+            if key == "bev":  # batch 1: (1, cells, C) or (cells, 1, C), cells a square grid
+                grid = tensor.reshape(-1, HIDDEN)
+                side = int(round(grid.shape[0] ** 0.5))
+                if side * side != grid.shape[0] or side % 50:
+                    raise RuntimeError(f"Unexpected BEV shape {tuple(tensor.shape)}")
+                grid = grid.T.reshape(1, HIDDEN, side, side).float()
+                tensor = nn.functional.avg_pool2d(grid, side // 50)[0]
+            saved[key] = tensor.to(torch.float16).to(CPU)
+        torch.save(saved, self.capture_dir / "unpooled" / f"{self.step:06d}.pt")
 
     def _attach_to_hero(self) -> None:
         hero = CarlaDataProvider.get_hero_actor()
@@ -161,6 +208,8 @@ class UniadCaptureAgent(UniadAgent):
 
     def _layer_hook(self, index: int) -> Any:
         def hook(_module: nn.Module, _inputs: Any, output: Any) -> None:
+            if index in self.keep_raw and self._capturing():
+                self.raw[self.keep_raw[index]] = output
             pooled = channel_mean(output)
             if pooled is not None:
                 self.calls.setdefault(index, []).append(pooled)
@@ -169,10 +218,13 @@ class UniadCaptureAgent(UniadAgent):
     def _neck_hook(self, _module: nn.Module, _inputs: Any, output: Any) -> None:
         levels = [level.detach().float().mean(dim=(0, 2, 3)) for level in output]  # each (cameras, C, H, W)
         self.vision = torch.stack(levels).mean(dim=0)
+        if self._capturing():
+            self.raw["fpn"] = output[-1]
 
     def _forward_started(self, _module: nn.Module, _inputs: Any) -> None:
         self.calls = {}
         self.vision = None
+        self.raw = {}
 
     def _forward_done(self, _module: nn.Module, _inputs: Any, _output: Any) -> None:
         self.forwarded = True
@@ -186,6 +238,11 @@ class UniadCaptureAgent(UniadAgent):
                              "layer_driving_mean": layers[self.driving],
                              "vision_bridge_mean": self.vision.to(CPU), "layer_fired": fired,
                              "state": self.pending_state})
+        if self._capturing():
+            try:  # a capture fault must never end or change the drive; it is logged and the route goes on
+                self._save_unpooled()
+            except Exception as error:
+                print(f"unpooled capture failed at step {self.step}: {type(error).__name__}: {error}", flush=True)
         if len(self.records) % FLUSH_EVERY == 0:
             self._flush()
 
