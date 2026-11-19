@@ -5,6 +5,15 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — H21b caches built; Jerry's three-seed H21 pool is ready for replication
+
+H21 is Jerry's second SimLingo dev pool: all 100 Fail2Drive pairs, 200 routes, driven on traffic seed 24. H21b drove it again on seeds 25 and 26 to get more failures per category. This session built the per-route caches for all three seeds and handed them to the explore loop on the compute box.
+
+- Savio job 41570198 (CPU, 153 s) ran `cache_pool.py` and `frames_pool.py` at main `090f0fa`. Measured: seed 24 has 200 routes with 52 failing, seed 25 has 198 with 56, and seed 26 has 195 with 66. Seven drive tasks failed partway, so 7 of 600 routes have no row; they were not rerun.
+- Seed 24 was rebuilt rather than reused. Its old cache (job 41402579) predates the 2026-11-17 change that keeps every speed frame, so it would not match the other two seeds.
+- The H21b drives cost 1,100 SU (measured, `sacct` CPU time x 3.67 / 3600). The study total is now 7,138 of the 10,000 budget (`docs/research/research-state.yaml`).
+- Files are on the box under `results/savio/f2d-h21b/` (not tracked). Next, the loop combines the seeds into one 593-route pool, keeping each Fail2Drive pair's seeds together when it resamples. It then reruns the replication with every lead unchanged. This is dev data only, and no UniAD data is read.
+
 ## 2026-11-19 — TransFuser++ half of the unpooled experiment built and queued; UniAD seed 106 resubmitted
 
 The unpooled experiment (`docs/research/experiments/f2d-unpooled/protocol.md`) asks whether activations that were never averaged over space separate the Fail2Drive gaps better. This session built its TransFuser++ (TF++) side, ready for the re-drive with input capture (arrays 41537279–84, still pending at 02:30).

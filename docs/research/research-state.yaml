@@ -9,7 +9,7 @@ neurips_bar: >-
 su_measure: >-
   sacct -u imhaohao -S 2026-10-31T22:30 CPUTimeRAW x 3.67 / 3600 (check_usage.sh counts running jobs at their
   full time limit, so it overstates mid-run)
-su_spent: 6036               # 2026-11-13, the study's named jobs
+su_spent: 7138               # 2026-11-19, the study's named jobs (H21b drives 1100 of it)
 started: 2026-10-31T22:40-07:00
 
 hypotheses:
