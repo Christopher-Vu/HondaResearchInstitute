@@ -40,6 +40,9 @@ Nothing else needs you; agent decisions are logged in the JOURNAL.
 
   Next: the match rate (same status and same first infraction type), then the TF++ replay.
 - The V100 smoke 41529284 is cancelled.
+- **21:42 check:** 401 of 1,188 replayed, about 1.7 h left. One route (10200025) ran out of memory on an A5000,
+  so a single-task A40 resume pass, 41540237, follows the replay (afterany). It redoes only the missing files.
+  The re-drive is all pending.
 
 **2026-11-18 ~19:30: paused mid-task (Chris). Round 2 closed (A4); comparison table read; captures landed.**
 - **Round 2 closed:** prereg §10 (A4), CONFLICTS C42. UniAD is read once, after `docs/prereg-views.md` is tagged.
