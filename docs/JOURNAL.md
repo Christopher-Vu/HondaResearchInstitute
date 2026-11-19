@@ -26,6 +26,17 @@ This is deliberately provisional. The independent implementation and the post ho
 still running; their agreement rule must be applied before the project treats the diagnostic as settled. The YAML
 summary test remains unchanged and passes.
 
+## 2026-11-18 — Dashboard records stable diagnostic result and UniAD recovery
+
+The split-seed sensitivity check confirms that the primary probe's Outcome 1 is not caused by one cross-validation
+split, although individual AUROCs remain noisy because each gap has only three to six pairs. The independent probe
+still needs to finish before this becomes the reported conclusion. Separately, the initial UniAD arrays exceeded
+their wall-time limit, but six exported captures passed the shard contract and only the missing routes were
+resubmitted in smaller tasks. No UniAD outcomes are exposed here.
+
+The dashboard summary now distinguishes those completed operational checks from the remaining independent probe and
+route completion. Its compact YAML test continues to pass.
+
 ## 2026-11-17 — Round 2 search: twelve tries, no new finalist; a label-reading diagnostic queued
 
 After round 1 failed on TransFuser++, the pre-registered round 2 began: TransFuser++ became a second development pool

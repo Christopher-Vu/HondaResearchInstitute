@@ -12,13 +12,13 @@ week:
   start: 2026-11-16
   end: 2026-11-20
   done:
-    - {text: "Round two tested 12 new pooled methods; none beat the m23 reference", who: Christopher-Vu}
-    - {text: "Every activation view still misses TransFuser++ PedestriansOnRoad", who: Christopher-Vu}
     - {text: "Primary probe finds activation signal but no added evidence beyond behaviour", who: Christopher-Vu}
+    - {text: "Split-seed check confirms that diagnostic outcome does not hinge on one fold split", who: Christopher-Vu}
+    - {text: "UniAD shard contract passed; missing pool routes were resubmitted one pair at a time", who: Christopher-Vu}
   next:
-    - {text: "Read the independent probe and split-seed check; enforce the agreement rule", who: Christopher-Vu}
+    - {text: "Read the independent probe rerun and enforce the fixed agreement rule", who: Christopher-Vu}
+    - {text: "Finish the remaining UniAD routes without exposing outcomes to the search", who: Christopher-Vu}
     - {text: "Log the diagnostic decision beside Jerry’s H21 ceiling check", who: Christopher-Vu}
-    - {text: "Choose the next round-two action before opening UniAD outcomes", who: Christopher-Vu}
 
 steps:
   - id: 0
