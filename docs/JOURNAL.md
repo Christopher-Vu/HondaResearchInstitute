@@ -5,6 +5,31 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
+
+The probe diagnostic (`docs/research/experiments/f2d-dev-simlingo/probe-diagnostic.md`) reads the gap labels on
+purpose. It asks whether a simple supervised probe can tell one gap's failing routes from the other failing routes,
+using activations, behaviour, or both. It is not a method or a try. Its protocol requires an independent
+reimplementation, written from the protocol alone. That run (job 41520797, `results/savio/f2d-dev/probe-diag-indep/`)
+has now finished and been compared with the primary run (41486627).
+
+Measured: **all 250 cells agree within 0.03 AUROC**, against a bar of 95%. Every unit's information decision matches,
+and so does the outcome. **Outcome 1, information insufficient**, holds overall and for each model. No unit passes
+the rule that activations plus behaviour beat behaviour alone. The activation probes are often strong on their own:
+SimLingo PedestriansOnRoad 0.88 and FullyBlocked 0.84, TF++ PedestriansOnRoad 0.81. But every
+both-minus-behaviour interval includes 0. The gaps hold 10 to 24 failing routes in only 3 to 6 Fail2Drive pairs, so
+these intervals are wide (FullyBlocked runs from −0.72 to +0.12). The split-seed amendment already showed how far one
+fold split moves a cell.
+
+The H21 comparison: Jerry's 2026-11-15 ceiling check found that layer 10 on H21 says less than speed, even with the
+labels. On the two dev pools the picture is milder but has the same sign. Pooled activations carry gap information
+(they beat the max-stat null on 4 of 5 units), but none of it is shown to go beyond what behaviour already gives. Two
+things remain open: whether that is a sample-size limit, or whether pooling averages the information away. The
+unpooled experiment (`docs/research/experiments/f2d-unpooled/protocol.md`) tests the second; its SimLingo replay is
+running as job 41536674.
+
+---
+
 ## 2026-11-18 — Round 2 closed; a rescored comparison table; unpooled activations and new captures under way
 
 Chris decided in a voice chat to stop round 2 and to compare failure-discovery "views" on all three driving models
