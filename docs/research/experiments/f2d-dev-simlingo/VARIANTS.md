@@ -29,6 +29,9 @@ against each rival. v1 and v2 are rescored under it before comparison.
    and 11 driving-query tokens, ego speed and position, and simulator distances (privileged, never a method input).
    The json holds status, infractions and first collision step. **No camera frames were saved on either pool**, so
    caption methods, the caption hybrid and image-embedding grouping (B5) are dropped for now (Chris, 2026-11-14).
+   **Corrected 2026-11-18:** that holds for the shards only. Every SimLingo test route's run folder saved the model's
+   own input every 10 steps (`capture/inputs/<step>.pt`, two 448 px camera tiles). Checked: all 1,188 scored routes,
+   saved/expected frames min 0.97. TransFuser++ saved no images. See `../f2d-unpooled/protocol.md`.
    Steering and braking are not in the shards; whether B3-behaviour can get them is checked when it is built.
 2. **Route markers:** every SimLingo and TF++ test config sets `debug_level: 0`, so no route or trigger markers were
    drawn. No marker check is needed.

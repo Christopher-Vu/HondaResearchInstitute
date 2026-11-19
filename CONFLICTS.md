@@ -840,3 +840,20 @@ rival alike, and the held-out pools are still unread.
 **What it costs.**
 - The fix and the k rule are post hoc with respect to the dev search, but blind to every held-out score.
 - Round 2 spends UniAD as its only confirmation, so a round-2 finalist has one held-out model, not two.
+
+### C42 · Round 2 closed; one shared UniAD read (amendment A4) · new, 2026-11-18 (agent, at Chris's decision), accepted by Chris 2026-11-18
+
+**What changes.**
+- Round 2's search stops with no new finalist, and UniAD scores round 1's m23 and m40 (`docs/prereg-fail2drive.md` §10).
+- UniAD's outcomes are read once, after the views pre-registration is tagged. That read scores m23, m40 and every
+  pre-registered view.
+
+**Why.**
+- Twelve round-2 tries did not beat m23. More variants of the same clustering family were not expected to help, given
+  the route counts per gap (the probe diagnostic's Outcome 1).
+- UniAD is the only unread pool. Scoring m23 now would spend it before the new comparison could use it. Waiting for
+  the tag loses nothing, because UniAD is still about half driven.
+
+**What it costs.**
+- The stop is post hoc, after round 2's dev scores.
+- m23's UniAD result arrives later than §9 implied.

@@ -243,3 +243,18 @@ is stated beside every UniAD result. B3-behaviour stays the primary rival.
   - They are confirmed on UniAD alone.
 - **Reporting:** round 1's result, on TransFuser++ and pooled with UniAD, is reported in full whatever round 2 finds.
   Both rounds are reported, with the total tried count.
+
+## 10. Amendment A4: round 2 closed (post hoc, 2026-11-18)
+
+Chris's decision, 2026-11-18, after 12 round-2 tries:
+- **The search stops.** No round-2 finalist beat m23 on the pooled dev score (m23 0.270 against B3-behaviour 0.163,
+  p 0.11), so nothing new is frozen and no further try is made in the clustering family.
+- **UniAD scores round 1's frozen methods,** m23 (primary) and m40, as their second held-out model, under §9's rules.
+- **Reporting:** both rounds are reported in full with the total tried count, 202 at the stop.
+- This is post hoc: it is decided after round 2's dev scores were read, but before any UniAD outcome is read.
+
+**The UniAD read is shared.** A new comparison of failure-discovery views is being pre-registered
+(`docs/prereg-views.md`, after the unpooled experiment in `docs/research/experiments/f2d-unpooled/protocol.md`).
+- UniAD's outcomes are read once, after that pre-registration is tagged. That one read scores m23 and m40 under §9,
+  plus every pre-registered row.
+- m23's UniAD number therefore waits for the tag, but is otherwise unchanged by it.
