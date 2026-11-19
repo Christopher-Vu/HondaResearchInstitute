@@ -5,6 +5,21 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — Dashboard weekly summary brought current
+
+The public dashboard reads `docs/steps/progress.yaml` from `main`, but its
+weekly card still described Nov 9–13 and the old 6,036 SU project subtotal.
+It now covers Nov 16–20: the independent probe result, round 2 closing with no
+new finalist, and the SimLingo replay / TransFuser++ re-drive. It lists only
+the safe next engineering gates: score the pre-specified SimLingo views, verify
+the TF++ re-drives, and finish UniAD route coverage before its blind read.
+
+The measured study subtotal is updated to about 17,800 SU from the current
+status record. A lightweight regression test makes sure the dates, compute
+total, and 20-word dashboard-card limit remain valid.
+
+---
+
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
 
 The probe diagnostic (`docs/research/experiments/f2d-dev-simlingo/probe-diagnostic.md`) reads the gap labels on
