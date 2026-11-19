@@ -1070,3 +1070,23 @@ Decision rule. The best grid row is re-selected in every one of 2,000 pair-boots
 - Unpooled aggregations mostly score below the matching mean rows. Max and codebook lose the most, and only
   `llm10-topk` gains over its mean row. So within-frame pooling is not the bottleneck on this pool.
 - The probe ceiling (label-reading, reported only) follows from job 41575612.
+
+**Probe ceiling** (job 41575612; `../f2d-unpooled/probe_ceiling.py`; label-reading, reported only, not a try). This is
+the probe diagnostic's logistic probe on each row's features, run on SimLingo's 357 failing routes: one gap against
+the other failures, folds by pair. It reports the mean AUROC, with the range over 20 split seeds in brackets.
+
+| features | PedestriansOnRoad (22 routes, 5 pairs) | FullyBlocked (17, 3) | BadParking (24, 6) |
+|---|---|---|---|
+| B3-behaviour | **0.87** [0.84, 0.92] | 0.54 [0.13, 0.66] | **0.70** [0.41, 0.85] |
+| vit-max / mean | 0.84 / 0.77 | 0.33 / 0.46 | 0.48 / 0.52 |
+| llm10-topk / mean | 0.70 / 0.80 | 0.47 / 0.26 | 0.49 / 0.35 |
+| dq-max / mean | 0.78 / 0.82 | **0.67** [0.38, 0.78] / 0.26 | 0.39 / 0.49 |
+| dino-max / mean | 0.62 / 0.43 | 0.40 / 0.57 | 0.40 / 0.28 |
+
+Full table: `results/savio/f2d-unpooled/simlingo-score/probe-ceiling.json`.
+
+Reading:
+- Even with the labels, no activation or image feature beats fleet-observable behaviour on PedestriansOnRoad or
+  BadParking.
+- FullyBlocked has 3 pairs, and every row swings over most of the range with the split.
+- Many cells below 0.5 are the small-sample effect the diagnostic's amendment describes.
