@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # The UniAD read of docs/prereg-views.md, one command, CPU only, run from the hri-dev clone (it holds UniAD's job dirs):
 #   CMD='bash docs/research/experiments/f2d-unpooled/uniad_read.sh test interim' \
-#     POLICY_VENV_LOCAL_TAR=/global/scratch/users/christophervu/policy-venv.tar \
-#     bash scripts/submit.sh cpu_node --time=0-06:00:00 docs/research/experiments/f2d-dev-simlingo/cpu.sbatch
+#     POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar \
+#     bash scripts/submit.sh cpu_node --export=ALL --time=0-06:00:00 docs/research/experiments/f2d-dev-simlingo/cpu.sbatch
 # MODE dev runs every stage on UniAD's seed-24 screen (dev, never evidence); MODE test is the blind read and refuses
 # to start unless tag views-prereg-v1 exists (git fetch --tags first). READ is interim or final (a label only).
 # 1. merge: score_routes.py over the job dirs in job order; each route keeps its first attempt with a valid driving
@@ -151,7 +151,7 @@ json.dump(a + [e for e in b if e["id"] not in ids], open(sys.argv[3], "w"))
 EOF
 score() {  # name label units models...
   local name=$1 label=$2 units=$3; shift 3
-  [ -n "$(echo $units | grep uniad: || true)" ] || { echo "$name: no UniAD unit, not scored" | tee $O/$name.log; return; }
+  case "$name:$units" in uniad-*:*uniad:*|pooled-*:?*) ;; *) echo "$name: no unit, not scored" | tee $O/$name.log; return ;; esac
   python $E/view_score.py --manifest $O/manifest-pooled.json "$@" --gaps $units --primary-rival B3_behaviour \
     --label "$label" --output $O/$name.json > $O/$name.log 2>&1 &
 }
