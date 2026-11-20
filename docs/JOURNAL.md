@@ -31,6 +31,13 @@ minutes each. Measured coverage:
 
 No test-pool stage has been run, and no UniAD test outcome has been read.
 
+The read also exports the caption row's frames (`uniad_frames.py`, commit 7d89d1c):
+- For each failing route, the last 4 front JPEGs 1 s apart, at or before the failure step.
+- They are upscaled from 256 px to 640 px, as the pre-registration says.
+- Folders are named by a salted hash, under pool `e` outside the repository; the mapping stays in `results/`.
+- Dev run 41610461 exported all 140 failing routes with 4 frames each, and none was missing frames.
+- Captioning is left to Chris's main session.
+
 Things that don't map cleanly from SimLingo:
 - UniAD's planning stack is 3 layers deep. So m23 and B7 both land on layer 1, and m40's whole-route view on layer 2.
 - Its image site is a BEV grid, not camera tokens.
