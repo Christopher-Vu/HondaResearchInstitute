@@ -92,6 +92,20 @@ states it}. Use no other tool. Then reply with just "done".
   - Dispatchers now run waves of at most 18 agents and never relaunch. Missing routes are found from disk and sent
     again by the session.
 
+- **Describing and grouping by the Batch API (2026-11-19)**, as the record after the tag in the prereg allows:
+  - **Run:** `api.py describe`, then `collect`. Outputs go to `C:/Users/CVuDev/caption-api/c/`, and the request
+    record with frame hashes goes to `c-records/`.
+  - **Describe:** 357 of 357 routes, all reported as `claude-opus-5-5`.
+    - One answer came back without JSON (`ddc719d083eb`). Its identical request was sent once more and succeeded.
+    - Tokens: 497k in, 156k out, about $2.56 at batch prices.
+  - **Group:** 6 runs, about $1.30.
+    - Runs 0, 1, 2, 4 and 5 gave 10 modes, and run 3 gave 9.
+    - There were 0 invented ids and 0 repeats. Run 1 left 1 route unassigned.
+  - **Flags:** 33 of 59 mode names match the synonym list.
+  - **Earlier subagent descriptions:** the 123 made by subagents (`caption-out/c/`) are kept as a record and not
+    scored.
+  - **Scoring:** `score_simlingo.sh`, job 41614593.
+
 ## Contamination run (2026-11-19, before any real frame was shown)
 
 - Four flat grey 640×360 frames went to one describing agent. It answered: scene "uniform flat gray with no road,
