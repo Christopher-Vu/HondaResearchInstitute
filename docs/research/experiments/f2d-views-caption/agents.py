@@ -4,6 +4,7 @@
     python agents.py inputs OUT POOL       # captions OUT/POOL/<id>.json -> 6 grouping inputs OUT/POOL/group-input-<r>.txt
     python agents.py groups OUT POOL       # OUT/POOL/group-<r>.json -> OUT/POOL/groups.json (to_axes.py's input)
     python agents.py audit TRANSCRIPTS FRAMES OUT --output audit.json
+    python agents.py flags GROUPS.json POOL --output flags.json   # the prereg's synonym check on every mode name
 
 The describing and grouping prompts are workflow.js's. The descriptions' order per run is workflow.js's `order`, over
 ids sorted as strings. Checks match workflow.js: ids an agent invents are dropped and counted, a repeat stays in its
@@ -128,6 +129,36 @@ def audit(transcripts: Path, frames: Path, out: Path, output: Path) -> None:
     print(f"{report['agents']} agents, {report['frame_reads']} frame reads, {len(report['breaches'])} breaches, models {report['models']}")
 
 
+PREREG = Path(__file__).resolve().parents[3] / "prereg-views.md"
+
+
+def stems(text: str) -> list[str]:
+    def stem(w: str) -> str:
+        w = re.sub(r"(ing|ed)$", "", w) if len(w) > 5 else w
+        return w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w
+    return [stem(w) for w in re.findall(r"[a-z]+", text.lower())]
+
+
+def synonyms() -> dict[str, list[list[str]]]:
+    """The frozen list: the table rows after the prereg's '**Synonym list**' line."""
+    text = PREREG.read_text(encoding="utf-8").split("**Synonym list**", 1)[1].split("\n## ", 1)[0]
+    rows = re.findall(r"^\| (\w+) \| (.+?) \|$", text, flags=re.M)
+    return {t: [stems(p) for p in m.split(",")] for t, m in rows if t != "Type"}
+
+
+def flags(groups: Path, pool: str, output: Path) -> None:
+    table = synonyms()
+    out = []
+    for run in json.loads(groups.read_text(encoding="utf-8"))[pool]["runs"]:
+        for mode in run["modes"]:
+            words = stems(mode["name"])
+            hit = sorted(t for t, phrases in table.items() for p in phrases
+                         if any(words[i:i + len(p)] == p for i in range(len(words))))
+            out.append({"run": run["run"], "name": mode["name"], "size": len(mode["members"]), "types": sorted(set(hit))})
+    output.write_text(json.dumps({"types_in_list": len(table), "modes": out}, indent=1) + "\n")
+    print(f"{len(table)} types; {sum(bool(m['types']) for m in out)} of {len(out)} modes flagged")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -135,13 +166,19 @@ def main() -> None:
         p = sub.add_parser(cmd)
         p.add_argument("out", type=Path)
         p.add_argument("pool")
+    p = sub.add_parser("flags")
+    p.add_argument("groups", type=Path)
+    p.add_argument("pool")
+    p.add_argument("--output", type=Path, required=True)
     p = sub.add_parser("audit")
     p.add_argument("transcripts", type=Path)
     p.add_argument("frames", type=Path)
     p.add_argument("out", type=Path)
     p.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    if args.cmd == "audit":
+    if args.cmd == "flags":
+        flags(args.groups, args.pool, args.output)
+    elif args.cmd == "audit":
         audit(args.transcripts, args.frames, args.out, args.output)
     else:
         (inputs if args.cmd == "inputs" else groups)(args.out, args.pool)
