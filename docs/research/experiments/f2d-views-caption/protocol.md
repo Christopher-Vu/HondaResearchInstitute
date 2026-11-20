@@ -66,6 +66,17 @@ states it}. Use no other tool. Then reply with just "done".
       every draw;
     - set `--restrict` to the routes with frames, with every other row rescored on the same routes.
 
+## SimLingo (pool c)
+
+- **Export** (job 41610479): 357 failing routes, each with 4 frames, and none without frames. The job's marker step
+  failed because the saved frames have zero-padded names. The fix is commit 69043b5, and the marker sheet was rebuilt
+  on the login node.
+- **Marker check** (2026-11-19, by eye, `results/savio/f2d-views/markers-simlingo.png`):
+  - The sheet has 34 frames from 17 types.
+  - None shows a route line, waypoint, trigger box or debug text.
+  - One frame shows a billboard of a pedestrian. That is the ImageOnObject scenario's object, not a marker.
+  - No flag.
+
 ## Contamination run (2026-11-19, before any real frame was shown)
 
 - Four flat grey 640×360 frames went to one describing agent. It answered: scene "uniform flat gray with no road,
