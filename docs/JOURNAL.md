@@ -5,6 +5,16 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — UniAD read stops clearly on a partial job sync
+
+`uniad_read.sh` now checks every configured Savio job directory before its
+merge stage. Previously, bash could stop without an actionable explanation
+when the final listed directory was absent. The command now names every missing
+job id and exits before reading routes. A lightweight regression test runs the
+preflight in a temporary repository with one present and one missing directory.
+
+---
+
 ## 2026-11-19 — Caption row on SimLingo: describing moved to the API, first score
 
 Describing frames with Claude Code subagents stalled on the session's limits: at most 20 subagents at once, and a

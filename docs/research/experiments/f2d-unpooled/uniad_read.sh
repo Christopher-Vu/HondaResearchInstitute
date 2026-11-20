@@ -40,7 +40,19 @@ mkdir -p $O/rows $V/simlingo $V/tfpp
 git rev-parse HEAD > $O/commit.txt
 
 # 1. merge
-DIRS=$(for j in $JOBS; do [ -d results/savio/$j ] && echo results/savio/$j; done)
+DIRS=()
+MISSING_JOBS=()
+for j in $JOBS; do
+  if [ -d "results/savio/$j" ]; then
+    DIRS+=("results/savio/$j")
+  else
+    MISSING_JOBS+=("$j")
+  fi
+done
+if [ ${#MISSING_JOBS[@]} -gt 0 ]; then
+  echo "missing UniAD job directory or directories: ${MISSING_JOBS[*]}" >&2
+  exit 1
+fi
 python adapters/simlingo/score_routes.py $CONFIG $DIRS --output $O/merge > $O/merge.log; tail -1 $O/merge.log
 R=$O/merge/routes.jsonl
 python - "$CONFIG" "$O" <<'EOF'
