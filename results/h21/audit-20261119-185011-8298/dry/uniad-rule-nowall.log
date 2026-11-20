@@ -1,0 +1,7 @@
+{"units": {"uniad:F2D_Animals": 12, "uniad:F2D_BadParking": 12, "uniad:F2D_CustomObstacles": 28, "uniad:F2D_FullyBlocked": 11, "uniad:F2D_PedestriansOnRoad": 9, "uniad:F2D_RightConstruction": 8}, "routes": 593, "pairs": 100}
+{"B3_behaviour": [0.133, 0.166]}
+{"B3_infraction": [0.214, 0.258]}
+{"m23": [0.19, 0.238]}
+{"m40": [0.168, 0.224]}
+{"j09": [0.133, 0.165]}
+{}

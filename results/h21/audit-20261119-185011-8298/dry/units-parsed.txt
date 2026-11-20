@@ -1,0 +1,2 @@
+rule units: uniad:F2D_Animals uniad:F2D_BadParking uniad:F2D_CustomObstacles uniad:F2D_FullyBlocked uniad:F2D_PedestriansOnRoad uniad:F2D_RightConstruction uniad:F2D_Wall
+rule units without Wall: uniad:F2D_Animals uniad:F2D_BadParking uniad:F2D_CustomObstacles uniad:F2D_FullyBlocked uniad:F2D_PedestriansOnRoad uniad:F2D_RightConstruction 

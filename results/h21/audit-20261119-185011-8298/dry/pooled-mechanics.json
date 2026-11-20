@@ -1,0 +1,114 @@
+{
+ "label": "DEV DRY RUN: SimLingo H21b seeds 24-26 standing in for UniAD; not evidence; pooled path, same pool twice (mechanics only)",
+ "models": [
+  "simlingo",
+  "uniad"
+ ],
+ "routes": 1186,
+ "pairs": 100,
+ "units": {
+  "simlingo:F2D_Animals": 12,
+  "simlingo:F2D_BadParking": 12,
+  "simlingo:F2D_CustomObstacles": 28,
+  "simlingo:F2D_FullyBlocked": 11,
+  "simlingo:F2D_PedestriansOnRoad": 9,
+  "simlingo:F2D_RightConstruction": 8,
+  "uniad:F2D_Animals": 12,
+  "uniad:F2D_BadParking": 12,
+  "uniad:F2D_CustomObstacles": 28,
+  "uniad:F2D_FullyBlocked": 11,
+  "uniad:F2D_PedestriansOnRoad": 9,
+  "uniad:F2D_RightConstruction": 8
+ },
+ "failing": {
+  "simlingo": 174,
+  "uniad": 174
+ },
+ "rows": {
+  "B3_behaviour": {
+   "rabm": 0.13297039094510607,
+   "best_top10": 0.1656794001972762,
+   "runs": 1,
+   "per_unit_rabm": {
+    "simlingo:F2D_Animals": 0.08426234372667893,
+    "simlingo:F2D_BadParking": 0.17712685260823902,
+    "simlingo:F2D_CustomObstacles": 0.17815175650689805,
+    "simlingo:F2D_FullyBlocked": 0.07665181246935329,
+    "simlingo:F2D_PedestriansOnRoad": 0.0658572226358898,
+    "simlingo:F2D_RightConstruction": 0.21577235772357722,
+    "uniad:F2D_Animals": 0.08426234372667893,
+    "uniad:F2D_BadParking": 0.17712685260823902,
+    "uniad:F2D_CustomObstacles": 0.17815175650689805,
+    "uniad:F2D_FullyBlocked": 0.07665181246935329,
+    "uniad:F2D_PedestriansOnRoad": 0.0658572226358898,
+    "uniad:F2D_RightConstruction": 0.21577235772357722
+   },
+   "per_unit_best": {
+    "simlingo:F2D_Animals": 0.13924050632911392,
+    "simlingo:F2D_BadParking": 0.21052631578947367,
+    "simlingo:F2D_CustomObstacles": 0.19101123595505617,
+    "simlingo:F2D_FullyBlocked": 0.08536585365853659,
+    "simlingo:F2D_PedestriansOnRoad": 0.10126582278481013,
+    "simlingo:F2D_RightConstruction": 0.26666666666666666,
+    "uniad:F2D_Animals": 0.13924050632911392,
+    "uniad:F2D_BadParking": 0.21052631578947367,
+    "uniad:F2D_CustomObstacles": 0.19101123595505617,
+    "uniad:F2D_FullyBlocked": 0.08536585365853659,
+    "uniad:F2D_PedestriansOnRoad": 0.10126582278481013,
+    "uniad:F2D_RightConstruction": 0.26666666666666666
+   }
+  },
+  "m23": {
+   "rabm": 0.1899614744107877,
+   "best_top10": 0.2381350145422154,
+   "runs": 1,
+   "per_unit_rabm": {
+    "simlingo:F2D_Animals": 0.08765228164360933,
+    "simlingo:F2D_BadParking": 0.17404411764705882,
+    "simlingo:F2D_CustomObstacles": 0.18887435213606396,
+    "simlingo:F2D_FullyBlocked": 0.11634730538922156,
+    "simlingo:F2D_PedestriansOnRoad": 0.32514619883040935,
+    "simlingo:F2D_RightConstruction": 0.24770459081836327,
+    "uniad:F2D_Animals": 0.08765228164360933,
+    "uniad:F2D_BadParking": 0.17404411764705882,
+    "uniad:F2D_CustomObstacles": 0.18887435213606396,
+    "uniad:F2D_FullyBlocked": 0.11634730538922156,
+    "uniad:F2D_PedestriansOnRoad": 0.32514619883040935,
+    "uniad:F2D_RightConstruction": 0.24770459081836327
+   },
+   "per_unit_best": {
+    "simlingo:F2D_Animals": 0.10344827586206896,
+    "simlingo:F2D_BadParking": 0.1875,
+    "simlingo:F2D_CustomObstacles": 0.21008403361344538,
+    "simlingo:F2D_FullyBlocked": 0.15,
+    "simlingo:F2D_PedestriansOnRoad": 0.4444444444444444,
+    "simlingo:F2D_RightConstruction": 0.3333333333333333,
+    "uniad:F2D_Animals": 0.10344827586206896,
+    "uniad:F2D_BadParking": 0.1875,
+    "uniad:F2D_CustomObstacles": 0.21008403361344538,
+    "uniad:F2D_FullyBlocked": 0.15,
+    "uniad:F2D_PedestriansOnRoad": 0.4444444444444444,
+    "uniad:F2D_RightConstruction": 0.3333333333333333
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": 0.05699108346568163,
+     "interval": [
+      -0.00426494327746179,
+      0.13490906169533076
+     ],
+     "p_one_sided": 0.033
+    },
+    "best": {
+     "delta": 0.07245561434493919,
+     "interval": [
+      -0.004923798000663289,
+      0.18311327217752615
+     ],
+     "p_one_sided": 0.0375
+    }
+   }
+  }
+ },
+ "selections": {}
+}
