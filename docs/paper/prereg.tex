@@ -37,6 +37,7 @@ repository.}
 
 Approved by Chris and tagged \code{f2d-prereg-v1} on 2026-11-06, before either
 model's full screen or test pool was read. It fixes the test pools (every pair,
+% design: seeds 101-106 (docs/prereg-fail2drive.md §1)
 seeds 101--106), the gap, ceiling, decoy and background classification
 (\S\ref{sec:fail2drive}), the B4-unnamed split, label hiding, the synonym list for
 the contamination check, and a primary test of the best activation method against
@@ -49,6 +50,7 @@ Written after two methods (v1 and v2) had been scored on SimLingo's test pool,
 and before any sprint method. TransFuser++'s shards were still unread.
 \begin{itemize}
   \item B3-behaviour replaces full B3, which read simulator distances.
+  % design: M = 10, 95% intervals (docs/prereg-fail2drive.md §7)
   \item Every method and rival ranks its own axes; only the first 10 count. The
         old rule took each method's best axis using the key, which flatters
         every method and most of all those that emit many axes.
@@ -66,8 +68,8 @@ and before any sprint method. TransFuser++'s shards were still unread.
 
 \subsection{A2: distinct axes and the infraction rival (post hoc, 2026-11-16)}
 
-Written after 134 dev configurations had been scored.
 % measured: 134 configurations at A2 (docs/prereg-fail2drive.md §8)
+Written after 134 dev configurations had been scored.
 \begin{itemize}
   \item A method's top 10 counts distinct axes only. Under A1, Ward cuts 2, 3
         and 5 listed a cluster again whenever a later cut left it whole, so most
@@ -91,6 +93,7 @@ or UniAD's test-pool data.
         by Chris on the full dev record: the dev score, the H21 replication as
         context, stability under resampling, and readiness to run elsewhere.
   \item \textbf{Rival fix (post hoc):} B3-behaviour's approach window had been
+        % design: the old 100-frame cap (cache_pool.py --max-frames before A3; WHAT_BROKE.md 2026-11-16)
         taken from a speed array capped at the first 100 frames
         (\S\ref{sec:whatbroke}). The cap was removed before any held-out score;
         the rival's features and grouping are unchanged.
@@ -108,10 +111,10 @@ or UniAD's test-pool data.
 
 \subsection{A4: round 2 closed (post hoc, 2026-11-18)}
 
+% measured: 12 round-2 tries, 202 total at the stop (docs/prereg-fail2drive.md §10)
 Round 2 was opened under A3's rule. After 12 round-2 tries, Chris stopped the
 search: no round-2 candidate beat m23 on the pooled dev score, so nothing new was
 frozen.
-% measured: 12 round-2 tries, 202 total at the stop (docs/prereg-fail2drive.md §10)
 UniAD therefore scores round 1's m23 and m40 under A3's rules. UniAD's outcomes
 are read only after the views pre-registration is tagged, so that one read
 serves both. This is post hoc with respect to round 2's dev scores and blind to
@@ -145,6 +148,7 @@ and whether any beats the car's behaviour, as a ranking across all three models.
         paired interval of A minus B lies above 0; otherwise they tie, and the
         ranking is the partial order the intervals give. ``Behaviour ties or
         beats every view'' is named as an expected, reportable outcome.
+  % design: interim read time (docs/prereg-views.md, UniAD reads; CONFLICTS.md C43)
   \item \textbf{UniAD reads (C43):} an interim read on 2026-11-21 at 09:00 PT
         on every route driven by then, labelled interim with its coverage; and
         the final read on the full pool, which is the result of record. Nothing

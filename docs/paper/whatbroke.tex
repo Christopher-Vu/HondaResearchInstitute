@@ -30,15 +30,16 @@ the answer key. That flatters every method, and most of all methods that emit
 many axes. A1 replaced it with the method's own top 10.
 
 \paragraph{Ward cuts listed the same group twice.}
+% measured: 7 or 8 distinct axes in most top-10s under A1 (docs/prereg-fail2drive.md §8, found by Jerry's agent)
 Cutting a tree at 2, 3 and 5 clusters lists a cluster again whenever a later cut
 leaves it whole. Under A1 most methods therefore had 7 or 8 distinct axes in
 their top 10, and the number depended on the shape of their tree. Jerry's agent
 found it; A2 counts distinct axes only and keeps cutting until there are 10.
 
 \paragraph{A probe can read the window's position.}
+% measured: AUROC about 0.99 (VARIANTS.md, batch 3, m19)
 m19 chose layers by how well a pass/fail probe separates routes, and the probes
 reached an area under the curve near 1.
-% measured: AUROC about 0.99 (VARIANTS.md, batch 3, m19)
 A passing route's window ends at the route's end and a failing route's at the
 failure, so the probe was reading where the window sits, not anything about the
 failure. The layer choice was uninformative.
@@ -53,6 +54,7 @@ a minority of failures, which Fail2Drive's pairs give.
 \subsection{Bugs in rivals and scorers}
 
 \paragraph{B3-behaviour's window ended early.}
+% design: the 100-frame cap (cache_pool.py --max-frames 100 before A3)
 A1 says B3-behaviour describes speed just before the failure. The cache kept
 ego speed for the first 100 frames only, while activations used every frame.
 % measured: 645 of 1,185 routes; median about 10 s early (WHAT_BROKE.md, 2026-11-16)
@@ -92,10 +94,12 @@ Two j methods built on the passing routes' covariance passed their unit tests,
 which used fewer columns than passing routes. The real cache has more columns
 than passing routes, so that covariance is singular, and one method could only
 see failure directions inside the passing routes' span
+% design: 32 components (commit b8a3e5a)
 (\code{WHAT\_BROKE.md}, 2026-11-15). Both now reduce to 32 principal components
 first. A test for a covariance method must use the real ratio of columns to rows.
 
 \paragraph{A minimum group size larger than the gaps.}
+% design: group floor 20 (methods-frozen-f2d-v1, WHAT_BROKE.md 2026-11-12)
 The first frozen activation method kept only groups of at least 20 failing
 routes. H21's categories had
 % measured: 8, 5 and 3 failing routes (WHAT_BROKE.md, 2026-11-12)
@@ -134,6 +138,7 @@ pairs whose failures reproduce, with that coverage stated.
 \paragraph{Frames were thought missing.}
 The sprint's first checks found no camera frames in either test pool's shards,
 so A1 dropped caption methods. On 2026-11-18 it was found that every SimLingo
+% measured: input saved every 10 steps on all 1,188 routes (VARIANTS.md, checks before the loop, correction 2026-11-18)
 test route's run folder had saved the model's own camera input every 10 steps
 (\code{VARIANTS.md}, checks before the loop, correction). That is why the caption
 row could return in the views pre-registration.

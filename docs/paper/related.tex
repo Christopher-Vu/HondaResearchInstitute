@@ -27,7 +27,7 @@ SliceLine~\cite{sagadeeva2021sliceline} finds slices for model debugging with
 linear algebra. Our
 setting differs in two ways. The unit is a closed-loop route, not a single
 input, and the groups to recover are scenario types of a driving benchmark, not
-planted image slices. We know of no published method tested on recovering known
+slices of a static dataset. We know of no published method tested on recovering known
 failure groups of a closed-loop driving policy
 (\code{docs/research/literature-review.md}).
 
@@ -42,8 +42,8 @@ models, interpretability work has examined end-to-end models
 vision-language-action model~\cite{babu2026depthwise}, interpreted road scenes
 through such models~\cite{panda2026whatdotheysee}, and extracted control vectors
 from motion transformers~\cite{tas2025words}. Linear probes~\cite{alain2016probes}
-underlie our probe diagnostics. None of these scores the recovery of known
-failure groups.
+underlie our probe diagnostics. Our literature review found none of these
+scoring the recovery of known failure groups.
 
 \paragraph{Finding failures by search.}
 Red-teaming and scenario generation look for new failures rather than group

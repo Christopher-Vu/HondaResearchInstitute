@@ -22,6 +22,7 @@ Each unit is classified on the model's own test pool, in this order
   \item \textbf{Gap}: at least 30 slice runs, a failure-rate uplift of at least
         20 points over the neighbourhood, a ratio of at least $2\times$, and
         Fisher $p < 0.01$. The paired McNemar test is reported beside it.
+  % design: 95% and 20% (docs/prereg-fail2drive.md §1)
   \item \textbf{Ceiling}: a gap whose slice fails at least 95\% of the time and
         whose neighbourhood fails at most 20\%. It is a control, not a target.
   \item \textbf{Decoy}: $|\text{uplift}| \le 10$ points and McNemar $p > 0.2$.
@@ -53,6 +54,7 @@ A held-out pool is read once, after a freeze tag.
 \begin{table}[t]
 \centering
 \small
+% design: seeds per pool (docs/prereg-fail2drive.md §1; docs/JOURNAL.md 2026-11-16 H21b; docs/prereg-views.md Data)
 \begin{tabular}{@{}llll@{}}
 \toprule
 Pool & Model & Seeds & Role \\
@@ -85,6 +87,7 @@ PedestriansOnRoad, FullyBlocked and BadParking, all B4-unnamed
 model's own camera input every 10 steps, which the caption row later uses.
 
 \paragraph{H21 and H21b.}
+% design: 100 pairs on seed 24 (CONFLICTS.md C38; VARIANTS.md j section)
 H21 is a second SimLingo dev pool: all 100 pairs on seed 24.
 % measured: 200 routes, 52 failing (results/savio/f2d-all/routes.jsonl)
 It has 200 routes, 52 failing. H21b drove the same routes again, unchanged
@@ -123,9 +126,9 @@ before the tag (\S\ref{sec:prereg-views}). This draft reports neither.
 
 \subsection{What a method sees}
 
+% measured: frames are 5 sim steps apart on all three models (WHAT_BROKE.md 2026-11-16; transfer-spec.md table)
 The capture agent records, every 5 simulation steps, mean-pooled activations at
 named sites.
-% measured: frames are 5 sim steps apart on all three models (WHAT_BROKE.md 2026-11-16; transfer-spec.md table)
 At 20\,Hz that is one frame every 0.25\,s. On SimLingo the sites are
 \code{driving\_queries} (the query tokens the controller reads), \code{all\_tokens}
 and \code{vision\_bridge}.

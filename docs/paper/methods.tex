@@ -42,8 +42,8 @@ into the same file and scored with the same scorer.
 For a failing route, the failure step is the step of its earliest timed
 infraction (\code{src/harness/failure\_time.py}). Collisions carry a logged step.
 Other infractions carry a location, and are timed at the first step within
-0.5\,m of the ego's nearest approach to it.
 % design: 0.5 m tolerance (src/harness/failure_time.py, LOCATED_TOLERANCE_M)
+0.5\,m of the ego's nearest approach to it.
 A failing route with no timed infraction, and every passing route, uses its end.
 
 \paragraph{Summaries.}
@@ -60,9 +60,10 @@ Rows are written in salted-hash order, never in route-id order
 last 50 frames of a few layers for the methods that model frame sequences.
 
 \paragraph{Layers.}
+% design: layer naming; SimLingo has 24 layers (transfer-spec.md table)
 ``L8'' means layer 8 of SimLingo's \code{driving\_queries} site. When several
 layers are concatenated, each is standardised and divided by
-$\sqrt{n_\text{layers}}$ so the layers weigh equally.
+$\sqrt{n_{\text{layers}}}$ so the layers weigh equally.
 
 \subsection{The core recipe, m03}
 \label{sec:m03}
@@ -73,8 +74,8 @@ Most methods in both families are variations on one recipe, m03
   \item Take one summary at one site and layer for every route, passing and
         failing: a matrix with one row per route.
   \item Standardise each column over all routes.
+  % design: 32 components, cuts 2/3/5, 10 axes (cache_methods.py; VARIANTS.md batch 1; prereg A2)
   \item Fit PCA on all routes and keep 32 components. Standardise the scores.
-        % design: 32 components (cache_methods.py --dims default; VARIANTS.md batch 1)
   \item Keep only the failing rows. Build a Ward linkage tree on them.
   \item Cut the tree into $k=2$, then $3$, then $5$ clusters. Within each cut,
         list clusters largest first. Under A2, a cluster already listed at an
@@ -94,16 +95,17 @@ m03 or combines earlier rows. The settings are those logged in
 \code{VARIANTS.md}; each id there links to its job and script.
 
 \paragraph{Pooling.}
+% design: 0.8 skip threshold, stop at 10 (pool_axes.py)
 Several m methods merge the ranked axes of two or three other methods
 (\code{pool\_axes.py}). The merge is round-robin in a fixed order: each source's
 first axis, then each source's second, and so on. An axis whose Jaccard with one
 already kept is at least 0.8 is skipped. It stops at 10 axes. The order is fixed
 before scoring and nothing reads the key.
-% design: 0.8 skip threshold, stop at 10 (pool_axes.py)
 
 \paragraph{The two finalists.}
 Both are frozen at tag \code{f2d-freeze-1}.
 \begin{itemize}
+  % design: L8, 50 frames, PCA 32/64, L20 (docs/prereg-fail2drive.md §9; VARIANTS.md batch 4)
   \item \textbf{m23 (primary).} Source 1 is m03 on the 50-frame approach window
         at L8 (this is m15). Source 2 is m03 on the whole-route summary at L8.
         The two ranked lists are pooled in that order. The idea is that the
@@ -117,6 +119,7 @@ Both are frozen at tag \code{f2d-freeze-1}.
 \begin{table}[t]
 \centering
 \small
+% design: settings of each m row as logged before scoring (VARIANTS.md batches 1-5)
 \begin{tabular}{@{}lp{0.78\linewidth}@{}}
 \toprule
 Id & What changes from m03 \\
@@ -145,6 +148,7 @@ m38      & j05's background subtraction on the L8 50-frame window \\
 m39, m40 & PCA width 16 or 64 \\
 \bottomrule
 \end{tabular}
+% design: round-2 rows (VARIANTS.md Round 2)
 \caption{The m family. Round-2 tries (on SimLingo and TransFuser++ pooled) are
 logged in \code{VARIANTS.md} under ``Round 2'' and follow the same pattern.}
 \label{tab:mfamily}
@@ -161,6 +165,7 @@ in \code{axes\_from} or the same largest-first ordering unless stated.
 \begin{table}[t]
 \centering
 \small
+% design: settings of each j row (VARIANTS.md j sections; j01_unwhite.py ... j15_hdbscan.py docstrings)
 \begin{tabular}{@{}lp{0.82\linewidth}@{}}
 \toprule
 Id & Method \\
@@ -206,9 +211,9 @@ settings and commits per run are in \code{VARIANTS.md}.}
 
 Each rival ranks its own axes and is scored exactly like a method.
 \begin{description}
+  % design: 50 draws (sprint_score.py, chance); B3 window 6 frames, 0.5 m/s (b3_behaviour.py)
   \item[B1, chance.] Random axes of the same sizes as the method's own, drawn
         from failing routes only, averaged over 50 draws.
-        % design: 50 draws (sprint_score.py, chance)
   \item[B3-behaviour, the primary rival.] Built only from signals a fleet logs
         (\code{b3\_behaviour.py}, tag \code{f2d-sprint-a1}). Per route: in the
         approach window (the last 6 captured frames, about 1.5\,s) the mean, minimum,
@@ -247,13 +252,14 @@ retired at A1 because no deployed car has them.
 The scorer is \code{sprint\_score.py}; the harness definitions are in
 \code{src/harness/scoring.py}.
 
+% design: M = 10 (docs/prereg-fail2drive.md §3, §7; src/harness/scoring.py BUDGET_M)
 \paragraph{Own top ten.}
 No axis is chosen with the key. Each method's axes are taken in its own order.
 Exact repeats are dropped (A2) and the first $M=10$ distinct axes count.
-% design: M = 10 (docs/prereg-fail2drive.md §3, §7; src/harness/scoring.py BUDGET_M)
 
 \paragraph{Primary: mean best Jaccard.}
 For a gap $g$ with failing routes $G$ and axes $A_1,\dots,A_{10}$,
+% design: M = 10, J(empty, empty) = 0 (src/harness/scoring.py)
 \begin{equation}
   \text{best}(g) = \max_{i \le 10} J(G, A_i), \qquad
   J(G, A) = \frac{|G \cap A|}{|G \cup A|}.
@@ -264,16 +270,17 @@ otherwise a method could score perfectly on an empty gap by emitting nothing.
 Second, a method with no axes scores 0.
 
 \paragraph{Beside it.}
+% design: threshold 0.5 (src/harness/scoring.py MATCH_THRESHOLD)
 Recall at Jaccard 0.5: one Hungarian assignment~\cite{kuhn1955hungarian} of gaps
 to axes on the Jaccard matrix, counting matched pairs with $J \ge 0.5$, divided
 by the number of gaps.
-% design: threshold 0.5 (src/harness/scoring.py MATCH_THRESHOLD)
 Decoy hit rate: the share of axes at least half of whose routes are slice
 routes of one decoy type. Precision, where the harness reports it, is the number
 of matched axes divided by the axis budget $M$, never by the number of axes the
 method emitted; otherwise a method that emits one safe axis would beat a full
 directive.
 
+% design: k = 1..10, top-10 (docs/research/experiments/f2d-unpooled/protocol.md)
 \paragraph{Rank-averaged best match.}
 The views pre-registration makes this the primary metric
 (\code{docs/research/experiments/f2d-unpooled/view\_score.py}). For a gap it is
@@ -288,8 +295,8 @@ unit is the pair, carrying all its routes on every seed (A1).
 \begin{enumerate}
   \item List the distinct pairs in the pool. The pair id must not carry the seed
         (\S\ref{sec:h21b}).
+  % design: 2,000 replicates, 2.5/97.5 percentiles (docs/prereg-fail2drive.md §7; docs/prereg-views.md; sprint_score.py)
   \item In each of 2{,}000 replicates, draw that many pairs with replacement.
-        % design: 2,000 replicates (docs/prereg-fail2drive.md §7; docs/prereg-views.md)
         Each route gets weight equal to the number of times its pair was drawn.
   \item Recompute every score with weighted Jaccard:
         $J_w(G,A) = \sum_{r \in G \cap A} w_r \big/ \sum_{r \in G \cup A} w_r$,
@@ -310,6 +317,7 @@ The finalists are written in SimLingo's terms, so \code{transfer-spec.md}
 \begin{itemize}
   \item \textbf{Site:} \code{driving\_queries} on every model, the representation
         each controller acts on.
+  % design: layer rule, D = 6, layers 2 and 4, k = 18 (transfer-spec.md items 2 and 5)
   \item \textbf{Layer by relative depth:} SimLingo layer $L$ is fraction
         $f = L/23$; on a site of depth $D$ the layer is
         $\lfloor f(D-1) + 0.5 \rfloor$. On TransFuser++ ($D=6$), m23 runs at
@@ -317,9 +325,9 @@ The finalists are written in SimLingo's terms, so \code{transfer-spec.md}
   \item \textbf{Window in frames:} unchanged, since all three models capture
         every 5 steps.
   \item \textbf{Everything else unchanged}, fit on the held-out model's own pool.
+  % design: k = round(64 x width / 896) = 18 at 256 (transfer-spec.md item 5, fixed at A3)
   \item \textbf{B7-pool's sparsity is kept, not its $k$:} $k = \text{round}(64
         \times \text{width} / 896)$, so $k=18$ at width 256.
-        % design: k rule fixed at A3 (transfer-spec.md item 5)
   \item \textbf{UniAD fallback:} if UniAD's shards lack ego speed or step,
         B3-behaviour uses the infraction counts and the route's step count, and
         this is stated beside every UniAD result (A3).
