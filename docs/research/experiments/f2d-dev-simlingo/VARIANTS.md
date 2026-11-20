@@ -1326,7 +1326,7 @@ window means"). Exploratory, dev, H21b only; nothing here can enter the UniAD re
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
 |---|---|---|---|---|---|---|
 | j24 | 2026-11-20 | H21 x3 | `j24_ar.py` defaults: `frames.npz` L8, last 50 frames (21 to 50 valid), one RMS scale + unwhitened PCA 16 on all frames (j09's projection); one ridge VAR(2) (sklearn `Ridge`, alpha 1.0, unpenalised intercept) fit on every route's frames, no labels; per route the residual at each frame from the third on; features = mean residual vector over the last 10 frames (16-d) and residual norm mean, max, last-10 mean minus first-10 mean (3-d); each block standardised over all routes and divided by sqrt(width) (m06); Ward on failing routes, cuts 2/3/5 (`axes_from`). Cluster order (label-free): coarse cut first, largest first within a cut, as j09/j16. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first. Only the pooled row is scored | 0.269 (0.210 / 0.529 / 0.068); failing-only chance 0.122; recall at 0.5 0.33; decoy hits 0 | +0.117 [−0.003, +0.287], p 0.029 / −0.018 [−0.157, +0.167], p 0.50 | 224 + 1 |
-| j25 | 2026-11-20 | H21 x3 | j24 with `--direction-only`: same projection and the same ridge VAR(2) (alpha 1.0); the norm block is dropped; the feature is each route's mean residual vector over its last 10 frames in j09's unwhitened PCA space, with no per-dimension scaling and no centring (zero stays "as predicted"), scaled to unit length, so Ward (cuts 2/3/5, `axes_from` order) groups failing routes by the direction of surprise and not its size. Pooled with whole-route L8 first as j24. Only the pooled row is scored | | | 224 + 2 |
+| j25 | 2026-11-20 | H21 x3 | j24 with `--direction-only`: same projection and the same ridge VAR(2) (alpha 1.0); the norm block is dropped; the feature is each route's mean residual vector over its last 10 frames in j09's unwhitened PCA space, with no per-dimension scaling and no centring (zero stays "as predicted"), scaled to unit length, so Ward (cuts 2/3/5, `axes_from` order) groups failing routes by the direction of surprise and not its size. Pooled with whole-route L8 first as j24. Only the pooled row is scored | 0.272 (0.210 / 0.529 / 0.077); failing-only chance 0.123; recall at 0.5 0.33; decoy hits 0 | +0.120 [−0.009, +0.283], p 0.035 / −0.015 [−0.165, +0.165], p 0.52 | 224 + 2 |
 
 j24 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j24/report-j24.json`). It sits
 below m23 (0.395) and is not separated from B3-infraction. Ridge alpha 0.3 and 3.0 (robustness, not tries, 200
@@ -1340,3 +1340,12 @@ never what the tree split on. j25 keeps only the direction. Per-dimension scalin
 writing its unit test, before any j25 score: on a toy, scaling every dimension to the same size lifts the noise
 dimensions to the size of the signal, and centring turns a small surprise along a direction into a negative value
 along it. Last try in this section whatever it scores.
+
+j25 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j24/report-j25.json`).
+Keeping only the direction of surprise moved PedestriansOnRoad from 0.068 to 0.077. CustomObstacles and Wall stay at
+m23's values, and five of the ten pooled axes come from the whole-route view; no per-axis attribution was run. Both
+rows are about 0.12 below m23 and neither is separated from B3-infraction. The VAR(2) predicts the projected frames
+well (one-step R² 0.896, in-sample, measured), and its residual size rises over failing routes' last frames (2.39 to
+3.29) while staying flat on passing ones (2.24 to 2.45). So the surprise is about failing, not about which gap. The
+temporal lane keeps j09 (0.298) as its best on H21b. The batch stops here: 224 + 2 laptop tries. Outputs and commands:
+`results/h21/j24/`.
