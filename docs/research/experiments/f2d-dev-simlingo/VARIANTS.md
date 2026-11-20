@@ -1298,3 +1298,28 @@ pool, not rebuilt from the per-seed caches. Count unchanged: 219.
 The j16-j17 and j18-j19 batches ran in parallel and each counted from 219. Reconciled: j16, j16+route and j17+route
 are 3 tries, j18 and j19 are 2, so **224 methods tried in total** (exploratory, dev, H21b only). The H21b robustness
 rows are rescores and add nothing.
+
+### Exploratory, H21b pool, laptop j22-j23 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-055955-27931, work item 4, open lane "dictionary methods on long windows with new statistics".
+Exploratory, dev, H21b only; nothing here can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`).
+- **Prior dictionary rows:** v1 and B7/B7-pool read dictionary latents with B7's activation statistics; m01 ranked
+  B7's latents by enrichment; m14 trained a top-64 dictionary on 6-frame windows and read it with B7-pool and the
+  error-aware ranking (0.000, B7's statistics fail on short episodes). No row has trained a dictionary on single
+  frames of the 50-frame window and read it with a within-route temporal statistic. j22 does not use B7's statistics
+  or B7-pool.
+- **Pool and scoring:** H21b, 593 routes, 174 failing; inputs `results/savio/f2d-h21b/pool/{frames.npz,cache.npz}`.
+  `sprint_score.py` under A2/A1 as `results/h21/j18/commands.sh`: gaps CustomObstacles, Wall, PedestriansOnRoad;
+  the six decoys; primary rival B3-behaviour, B3-infraction reported; 2,000 replicates; manifest copy with `pair`
+  stripped of its `-sNN` suffix (100 Fail2Drive pairs). Outputs `results/h21/j22/`.
+- **Count:** only the pooled row is scored; each scored row is one try, written "224 + n laptop tries this batch".
+- **Robustness, not tries:** j22 pooled rerun with dictionary seeds 1 to 3 at 200 replicates. Seed 0 stays the j22
+  score whatever these show.
+- **Rule fixed now:** j23 runs only if j22 pooled lands below m23 (0.395); its row is written before its score, with
+  a reason from j22's own outputs (no key read), and it is the last try in this section.
+- **Label-free fit check before this row (no score read):** at alpha 1.0 the codes use 3.48 atoms per frame on
+  average over 29,279 valid frames; no frame has an empty code and every atom is used. CPU time 12 s.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
+|---|---|---|---|---|---|---|
+| j22 | 2026-11-20 | H21b | `j22_dict.py` defaults: `frames.npz` `driving_queries` L8, every valid frame of every route (right-aligned, 21 to 50 per route); units standardised over all frames, PCA 32 fit on all frames, scores divided by their global RMS; `MiniBatchDictionaryLearning` 64 atoms, alpha 1.0, batch 256, 20 epochs, `random_state` 0, codes by lasso_lars at alpha 1.0; per route and atom the mean absolute code over the last 10 valid frames minus over the earlier valid frames (frames 1-40 of a full window), and the share of the last 10 frames where the atom is active; 128 columns standardised over all routes; Ward on the failing routes, cuts 2/3/5 (A2 continuation), ranked by cut then size, largest first (label-free, as m15); top 10. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first. Only the pooled row is scored | | | 224 + 1 laptop try this batch |
