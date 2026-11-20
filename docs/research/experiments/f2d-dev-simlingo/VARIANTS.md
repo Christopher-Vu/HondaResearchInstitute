@@ -1137,3 +1137,28 @@ Reading:
   BadParking.
 - FullyBlocked has 3 pairs, and every row swings over most of the range with the split.
 - Many cells below 0.5 are the small-sample effect the diagnostic's amendment describes.
+
+### Exploratory, H21b pool, laptop j18-j19 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-000900-16273, open lane "density-based or mixture methods". Exploratory, dev, H21b only; nothing
+here can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`).
+- **Prior mixture rows:** m49 (diagonal GMM on the failing routes' L8 w50 PCA 16, K 4 to 12 by BIC, components
+  largest first) and m50 (m49 pooled with whole-route L8, window first) already tried a Gaussian mixture, and m49
+  proved seed-fragile. j12 used a passing-only mixture as a residual, not as axes. j18 is a variant not yet tried: the
+  mixture is fit to **all** routes (a density model of all driving, blind to pass/fail), components are ranked by
+  **atypicality** rather than size, covariance is chosen by BIC, PCA is 32 wide, and the pool puts **whole-route
+  first** (r11's order).
+- **Pool and scoring:** H21b, 593 routes, 174 failing; inputs
+  `results/savio/f2d-h21b/pool/{cache.npz,cache-w50.npz}`. `sprint_score.py` under A2/A1, gaps CustomObstacles, Wall,
+  PedestriansOnRoad, decoys as in `results/h21/h21b/commands.sh`, primary rival B3-behaviour, B3-infraction
+  reported. The manifest is a copy with `pair` stripped of its `-sNN` suffix, so the bootstrap resamples 100
+  Fail2Drive pairs carrying all their seeds.
+- **Count:** each scored row is one try, written as "219 + n laptop tries this batch"; the orchestrator reconciles
+  with any j16/j17 run in parallel.
+- **Robustness, not tries:** j18 pooled is rerun with mixture seeds 1 to 5. Seed 0 stays the j18 score whatever these
+  show.
+- **j19** is run only if j18 pooled lands below m23's 0.395; its row is written before it is scored.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
+|---|---|---|---|---|---|---|
+| j18 | 2026-11-20 | H21b | `j18_gmm.py`: m15's features (L8, 50-frame window, PCA 32 on all routes, scores standardised); GaussianMixture on all 593 routes, K in {4, 6, 8, 12} x covariance {diag, full}, lowest BIC, `random_state` 0, `n_init` 3; hard assignment; components ranked by the mean log density of all their routes, lowest first (label-free); axis = the component's failing routes. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first | pending | pending | 219 + 1 laptop try this batch |
