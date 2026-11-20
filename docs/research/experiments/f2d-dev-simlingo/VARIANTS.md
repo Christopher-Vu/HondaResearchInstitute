@@ -1292,3 +1292,9 @@ It includes 0 in every single seed and in s25+s26. The interval of m23 − B3-in
 not first everywhere: j09 is higher in s25, and m40 is higher in s26 and in s25+s26. Sensitivity (exploratory):
 W = 20 gives 0.308, top 5 gives 0.343, and top 15 gives 0.395 (14 distinct axes, unchanged). The rows were refit per
 pool, not rebuilt from the per-seed caches. Count unchanged: 219.
+
+### Tried count after the 2026-11-20 laptop batches (reconciled by the orchestrator)
+
+The j16-j17 and j18-j19 batches ran in parallel and each counted from 219. Reconciled: j16, j16+route and j17+route
+are 3 tries, j18 and j19 are 2, so **224 methods tried in total** (exploratory, dev, H21b only). The H21b robustness
+rows are rescores and add nothing.
