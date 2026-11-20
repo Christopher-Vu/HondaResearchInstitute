@@ -18,6 +18,7 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): Renz2025cvpr [confirmed]; simlingo [confirmed]
+% verified arxiv 2026-11-20 (spot check, matches)
 @inproceedings{Renz2025cvpr,
   title     = {{SimLingo}: Vision-Only Closed-Loop Autonomous Driving with Language-Action Alignment},
   author    = {Renz, Katrin and Chen, Long and Arani, Elahe and Sinavski, Oleg},
@@ -105,6 +106,7 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): sagadeeva2021sliceline [corrected]
+% verified crossref 2026-11-20 (spot check, matches)
 @inproceedings{sagadeeva2021sliceline,
   title     = {{SliceLine}: Fast, Linear-Algebra-based Slice Finding for {ML} Model Debugging},
   author    = {Sagadeeva, Svetlana and Boehm, Matthias},
@@ -115,6 +117,7 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): kuhn1955hungarian [confirmed]
+% verified crossref 2026-11-20 (spot check, matches)
 @article{kuhn1955hungarian,
   title   = {The {H}ungarian Method for the Assignment Problem},
   author  = {Kuhn, Harold W.},
@@ -259,6 +262,7 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): corso-bbsv-survey [confirmed]
+% verified crossref 2026-11-20 (spot check, matches)
 @article{corso2021survey,
   title   = {A Survey of Algorithms for Black-Box Safety Validation of Cyber-Physical Systems},
   author  = {Corso, Anthony and Moss, Robert J. and Koren, Mark and Lee, Ritchie and Kochenderfer, Mykel J.},
@@ -292,6 +296,7 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): campello2013hdbscan [confirmed]
+% verified crossref 2026-11-20 (spot check, matches)
 @inproceedings{campello2013hdbscan,
   title     = {Density-Based Clustering Based on Hierarchical Density Estimates},
   author    = {Campello, Ricardo J. G. B. and Moulavi, Davoud and Sander, J{\"o}rg},
@@ -316,79 +321,95 @@
   doi     = {10.21105/joss.00205}
 }
 
-% Part 2: unverified. None of these is in upstream-99p/docs/CITATION_AUDIT.md or
-% docs/step0-trackA-findings.md, so none is cited in the text. Metadata comes from
-% docs/research/literature-review.md (its own check level is given) or from memory,
-% and must be checked against the primary source before any entry is cited.
+% Part 2: checked against public bibliographic APIs on 2026-11-20 (Crossref,
+% OpenAlex, arXiv; records in results/h21/cite-verify/ledger.md). None is in
+% upstream-99p/docs/CITATION_AUDIT.md or docs/step0-trackA-findings.md, and none is
+% cited in the text yet. The API check covers identity and metadata only; any claim
+% about a paper's content still needs the abstract or the PDF (see the ledger).
 
+% verified crossref 2026-11-20 (also openalex W4386076400)
 @inproceedings{hu2023uniad,
   title     = {Planning-oriented Autonomous Driving},
   author    = {Hu, Yihan and Yang, Jiazhi and Chen, Li and Li, Keyu and Sima, Chonghao and Zhu, Xizhou and Chai, Siqi and Du, Senyao and Lin, Tianwei and Wang, Wenhai and Lu, Lewei and Jia, Xiaosong and Liu, Qiang and Dai, Jifeng and Qiao, Yu and Li, Hongyang},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {17853--17862},
   year      = {2023},
-  note      = {unverified: UniAD, the held-out model; metadata from memory, not in the audit}
+  doi       = {10.1109/CVPR52729.2023.01712}
 }
 
+% verified arxiv 2026-11-20 (not found in crossref or openalex; arXiv only, no journal_ref)
 @misc{gupta2025caption,
-  title         = {Caption-then-cluster failure-mode discovery for robot videos},
-  author        = {Gupta and Ciftci and Bansal},
+  title         = {Unsupervised Discovery of Failure Taxonomies from Deployment Logs},
+  author        = {Gupta, Aryaman and Ciftci, Yusuf Umut and Bansal, Somil},
   year          = {2025},
   eprint        = {2506.06570},
   archivePrefix = {arXiv},
-  note          = {unverified: title is a placeholder; literature-review.md check level Panel; basis of H25 and the caption row}
+  note          = {arXiv v4 title; v1 was titled ``Enhancing Robot Safety via MLLM-Based Semantic Interpretation of Failure Data''}
 }
 
+% verified crossref 2026-11-20 (also openalex W4390872142, arxiv 2309.17430)
 @inproceedings{yenamandra2023facts,
-  title         = {{FACTS}},
-  author        = {Yenamandra and others},
-  booktitle     = {International Conference on Computer Vision (ICCV)},
+  title         = {{FACTS}: First Amplify Correlations and Then Slice to Discover Bias},
+  author        = {Yenamandra, Sriram and Ramesh, Pratik and Prabhu, Viraj and Hoffman, Judy},
+  booktitle     = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  pages         = {4771--4781},
   year          = {2023},
+  doi           = {10.1109/ICCV51070.2023.00442},
   eprint        = {2309.17430},
-  archivePrefix = {arXiv},
-  note          = {unverified: literature-review.md check level Snippet; title incomplete}
+  archivePrefix = {arXiv}
 }
 
+% verified crossref 2026-11-20 (also openalex W4402727755, arxiv 2301.11104)
 @inproceedings{kim2024b2t,
-  title         = {{B2T}: bias-to-text keyword extraction from captions of misclassified images},
-  author        = {Kim and others},
+  title         = {Discovering and Mitigating Visual Biases Through Keyword Explanation},
+  author        = {Kim, Younghyun and Mo, Sangwoo and Kim, Minkyu and Lee, Kyungmin and Lee, Jaeho and Shin, Jinwoo},
   booktitle     = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages         = {11082--11092},
   year          = {2024},
+  doi           = {10.1109/CVPR52733.2024.01054},
   eprint        = {2301.11104},
   archivePrefix = {arXiv},
-  note          = {unverified: literature-review.md check level Snippet; title is a placeholder}
+  note          = {The method is named Bias-to-Text (B2T)}
 }
 
+% verified crossref 2026-11-20 (also arxiv 2312.04712)
 @inproceedings{wang2023infembed,
-  title         = {{InfEmbed}: k-means on influence embeddings},
-  author        = {Wang and others},
+  title         = {Error Discovery By Clustering Influence Embeddings},
+  author        = {Wang, Fulton and Adebayo, Julius and Tan, Sarah and Garcia-Olano, Diego and Kokhlikyan, Narine},
   booktitle     = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume        = {36},
+  pages         = {41765--41777},
   year          = {2023},
+  doi           = {10.52202/075280-1809},
   eprint        = {2312.04712},
-  archivePrefix = {arXiv},
-  note          = {unverified: literature-review.md check level Abstract; title is a placeholder}
+  archivePrefix = {arXiv}
 }
 
+% verified arxiv 2026-11-20 (journal_ref "TMLR 2023"; also openalex W4285070034, which gives the arXiv year 2022)
 @article{plumb2023planespot,
-  title         = {{PlaneSpot} and {SpotCheck}},
-  author        = {Plumb and others},
+  title         = {Towards a More Rigorous Science of Blindspot Discovery in Image Classification Models},
+  author        = {Plumb, Gregory and Johnson, Nari and Cabrera, {\'A}ngel Alexander and Talwalkar, Ameet},
   journal       = {Transactions on Machine Learning Research},
   year          = {2023},
   eprint        = {2207.04104},
   archivePrefix = {arXiv},
-  note          = {unverified: literature-review.md check level Snippet; title is a placeholder}
+  url           = {https://openreview.net/forum?id=MaDvbLaBiF},
+  note          = {Introduces SpotCheck and PlaneSpot}
 }
 
+% verified crossref 2026-11-20 (also openalex W2805695370)
 @article{abid2018cpca,
   title   = {Exploring patterns enriched in a dataset with contrastive principal component analysis},
   author  = {Abid, Abubakar and Zhang, Martin J. and Bagaria, Vivek K. and Zou, James},
   journal = {Nature Communications},
   volume  = {9},
+  number  = {1},
   pages   = {2134},
   year    = {2018},
-  doi     = {10.1038/s41467-018-04608-8},
-  note    = {unverified here: literature-review.md check level Abstract and text; basis of j02; title from memory}
+  doi     = {10.1038/s41467-018-04608-8}
 }
 
+% verified crossref 2026-11-20 (openalex gives 2006, the online date; crossref issued 2007-09)
 @article{hennig2007stability,
   title   = {Cluster-wise assessment of cluster stability},
   author  = {Hennig, Christian},
@@ -397,46 +418,50 @@
   number  = {1},
   pages   = {258--271},
   year    = {2007},
-  doi     = {10.1016/j.csda.2006.11.025},
-  note    = {unverified here: literature-review.md (Crossref and abstract); basis of j08}
+  doi     = {10.1016/j.csda.2006.11.025}
 }
 
+% verified openalex 2026-11-20 (W2132875213; no DOI; not found in crossref)
 @inproceedings{smyth1996hmm,
-  title     = {Clustering sequences with hidden {M}arkov models},
+  title     = {Clustering Sequences with Hidden {M}arkov Models},
   author    = {Smyth, Padhraic},
   booktitle = {Advances in Neural Information Processing Systems (NIPS)},
   volume    = {9},
   pages     = {648--654},
-  year      = {1996},
-  note      = {unverified: literature-review.md, OpenAlex metadata only; background for j09}
+  year      = {1996}
 }
 
+% verified crossref 2026-11-20 (also openalex W2016381774)
 @article{ward1963hierarchical,
-  title   = {Hierarchical grouping to optimize an objective function},
+  title   = {Hierarchical Grouping to Optimize an Objective Function},
   author  = {Ward, Joe H.},
   journal = {Journal of the American Statistical Association},
   volume  = {58},
   number  = {301},
   pages   = {236--244},
   year    = {1963},
-  note    = {unverified: metadata from memory; Ward linkage used by m03 and most m and j methods}
+  doi     = {10.1080/01621459.1963.10500845}
 }
 
+% verified crossref 2026-11-20 (also openalex W2117897510)
 @article{efron1979bootstrap,
-  title   = {Bootstrap methods: another look at the jackknife},
+  title   = {Bootstrap Methods: Another Look at the Jackknife},
   author  = {Efron, Bradley},
   journal = {The Annals of Statistics},
   volume  = {7},
   number  = {1},
   pages   = {1--26},
   year    = {1979},
-  note    = {unverified: metadata from memory; the pair bootstrap}
+  doi     = {10.1214/aos/1176344552}
 }
 
+% verified arxiv 2026-11-20 (2304.07193v2; openalex W4366208220 gives venue TMLR, year 2023;
+% no API returned a TMLR issue date or a non-arXiv DOI; not found in crossref)
 @article{oquab2024dinov2,
-  title   = {{DINOv2}: Learning Robust Visual Features without Supervision},
-  author  = {Oquab, Maxime and others},
-  journal = {Transactions on Machine Learning Research},
-  year    = {2024},
-  note    = {unverified: metadata from memory; image-embedding rows of the unpooled experiment}
+  title         = {{DINOv2}: Learning Robust Visual Features without Supervision},
+  author        = {Oquab, Maxime and Darcet, Timoth{\'e}e and Moutakanni, Th{\'e}o and Vo, Huy and Szafraniec, Marc and Khalidov, Vasil and Fernandez, Pierre and Haziza, Daniel and Massa, Francisco and El-Nouby, Alaaeldin and Assran, Mahmoud and Ballas, Nicolas and Galuba, Wojciech and Howes, Russell and Huang, Po-Yao and Li, Shang-Wen and Misra, Ishan and Rabbat, Michael and Sharma, Vasu and Synnaeve, Gabriel and Xu, Hu and Jegou, Herv{\'e} and Mairal, Julien and Labatut, Patrick and Joulin, Armand and Bojanowski, Piotr},
+  journal       = {Transactions on Machine Learning Research},
+  year          = {2023},
+  eprint        = {2304.07193},
+  archivePrefix = {arXiv}
 }
