@@ -172,6 +172,7 @@ score() {  # name label units models...
   local name=$1 label=$2 units=$3; shift 3
   case "$name:$units" in uniad-*:*uniad:*|pooled-*:?*) ;; *) echo "$name: no unit, not scored" | tee $O/$name.log; return ;; esac
   python $E/view_score.py --manifest $O/manifest-pooled.json "$@" --gaps $units --primary-rival B3_behaviour \
+    --select best_img_or_query img-mean query-mean --select-vs B3_behaviour \
     --label "$label" --output $O/$name.json > $O/$name.log 2>&1 &
 }
 U="--model uniad $R"; P="--model simlingo $SR --model tfpp $TR $U"

@@ -36,3 +36,9 @@ def test_uniad_read_names_missing_job_directories_before_running(tmp_path: Path)
 
     assert result.returncode == 1
     assert "missing UniAD job directory or directories: missing" in result.stderr
+
+
+def test_uniad_read_requests_selection_adjusted_image_query_summary() -> None:
+    """The one-command report must resample its numeric-view selection."""
+    text = SCRIPT.read_text()
+    assert "--select best_img_or_query img-mean query-mean --select-vs B3_behaviour" in text
