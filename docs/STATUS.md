@@ -21,13 +21,16 @@ Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ 
 **2026-11-19 ~14:30: `views-prereg-v1` tagged.**
 - The tag fixes the rows (img-mean, query-mean, caption, rivals, m23/m40; vit-mean post hoc), the primary units (rule
   units without Wall), and an interim UniAD read Sat 09:00 PT plus the final read.
-- **Next for the caption row** (no GPU):
-  - export frames (CPU job);
-  - the route-marker spot check;
-  - the blank-frame contamination run;
-  - SimLingo captions (outcomes already read);
-  - TF++ captions after the re-drive and match rate;
-  - UniAD captions inside each read.
+- **Caption row, SimLingo scored** (2026-11-19 evening, outcomes already read; Batch API, `claude-opus-5-5`):
+  - On the primary units (the rule units without Wall), measured: rank-averaged best match 0.169 against
+    B3-behaviour's 0.131, a difference of +0.038, interval [0.006, 0.077]. It is the only row there whose interval
+    is above 0; m23 is +0.019 [-0.036, 0.089].
+  - On the named units: 0.202, +0.069 [-0.000, 0.146], which ties.
+  - 33 of 59 mode names match the synonym list, as the frames show each type's object; this is flagged.
+  - Results are in `results/savio/f2d-views/caption-c/`.
+- **Next for the caption row:**
+  - TF++ captions, after the seed 103 and 104 re-drives, the export (41555298) and the match rate;
+  - UniAD captions inside each read, with `uniad_read.sh` switched to `api.py`.
 - The other thread's job: the UniAD read pipeline as one command, tested on dev seed 24 only, ready by Fri evening.
 
 **2026-11-19 ~13:45: Chris's voice decisions applied; UniAD now 3 routes per A40.**

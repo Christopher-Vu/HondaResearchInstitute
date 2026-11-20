@@ -5,6 +5,27 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-19 — Caption row on SimLingo: describing moved to the API, first score
+
+Describing frames with Claude Code subagents stalled on the session's limits: at most 20 subagents at once, and a
+5-hour usage cap. With Chris's approval, captioning moved to the Messages Batch API. That means the same model
+(`claude-opus-5-5`) and H25's prompt text, with the frames sent inline and no tools, so the model sees only its own
+route's frames. The change is recorded in `docs/prereg-views.md` before any UniAD outcome is read. The run is in
+`docs/research/experiments/f2d-views-caption/protocol.md`.
+
+- **What ran:** all 357 failing SimLingo routes were described, then grouped 6 times (one route left unassigned in
+  one run), for about $3.90 of credit. The 123 earlier subagent descriptions are kept as a record and not scored, so
+  the double-caption incident does not touch the row.
+- **Result** (measured, SimLingo alone, outcomes already read): on the primary units the caption row scores 0.169
+  rank-averaged best match. B3-behaviour, what a fleet already logs, scores 0.131. The difference is +0.038, with a
+  pair-bootstrap interval of [0.006, 0.077], so the caption row ranks above the fleet. m23 is +0.019
+  [-0.036, 0.089]. On the three named units it ties: +0.069 [-0.000, 0.146].
+- **Caveat:** 33 of 59 mode names match the synonym list, because the frames show the object that defines each
+  type. The prereg expected this, and it is flagged.
+- **Unfinished:** TF++ waits for its re-drive. UniAD runs inside the Saturday read.
+
+---
+
 ## 2026-11-19 — The UniAD read is one command, tested on the dev screen only
 
 The Saturday interim read of UniAD (`docs/prereg-views.md`, CONFLICTS C43) now runs as one CPU job:
