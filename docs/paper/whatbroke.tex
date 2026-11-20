@@ -1,0 +1,147 @@
+\section{What broke}
+\label{sec:whatbroke}
+
+The project keeps a running log of surprises, \code{docs/WHAT\_BROKE.md}, written
+as they happened. This section keeps the entries a reader needs to judge the
+evaluation. They fall into three groups: ways the evaluation could have leaked
+or flattered a method, bugs in rivals and scorers, and data-collection failures
+that changed what the pools contain. Each entry says what happened and what was
+done.
+
+\subsection{Leaks and flattering rules}
+
+\paragraph{Route ids sort by category.}
+Fail2Drive's raw route ids sort by scenario type. In the first design of the
+caption-then-cluster hypothesis (H25), two of six grouping runs would have
+listed the route descriptions in category blocks, and the answer mapping sat in
+the parent folder of the frames. A review caught it before the lock
+(\code{WHAT\_BROKE.md}, 2026-11-12). Since then every cache, frame folder and
+caption request is ordered by a salted hash, and an audit lists every file each
+captioning agent touched. Opaque ids are not blind if their order is not.
+
+\paragraph{A route field gave the oracle a perfect score.}
+On the first dev run, B2 with labels recovered PedestriansOnRoad perfectly by
+reading a route field that names the type (\code{VARIANTS.md}, v1). B2 has been
+an oracle ceiling only since then, never a rival.
+
+\paragraph{Choosing the best axis with the key.}
+The early dev rule scored each method by its best axis for each gap, chosen with
+the answer key. That flatters every method, and most of all methods that emit
+many axes. A1 replaced it with the method's own top 10.
+
+\paragraph{Ward cuts listed the same group twice.}
+Cutting a tree at 2, 3 and 5 clusters lists a cluster again whenever a later cut
+leaves it whole. Under A1 most methods therefore had 7 or 8 distinct axes in
+their top 10, and the number depended on the shape of their tree. Jerry's agent
+found it; A2 counts distinct axes only and keeps cutting until there are 10.
+
+\paragraph{A probe can read the window's position.}
+m19 chose layers by how well a pass/fail probe separates routes, and the probes
+reached an area under the curve near 1.
+% measured: AUROC about 0.99 (VARIANTS.md, batch 3, m19)
+A passing route's window ends at the route's end and a failing route's at the
+failure, so the probe was reading where the window sits, not anything about the
+failure. The layer choice was uninformative.
+
+\paragraph{One gap dominated the first dev corpus.}
+On the first dev evaluation one practice gap made up most of the failures,
+% measured: 51 of 73 failures (WHAT_BROKE.md, 2026-10-15)
+51 of 73. An axis holding every failure then scores well, and every method,
+random included, scored the same. The evaluation needs pools where each gap is
+a minority of failures, which Fail2Drive's pairs give.
+
+\subsection{Bugs in rivals and scorers}
+
+\paragraph{B3-behaviour's window ended early.}
+A1 says B3-behaviour describes speed just before the failure. The cache kept
+ego speed for the first 100 frames only, while activations used every frame.
+% measured: 645 of 1,185 routes; median about 10 s early (WHAT_BROKE.md, 2026-11-16)
+On 645 of SimLingo's 1,185 scored routes the rival's window therefore ended a
+median of about 10\,s before the true one. The same entry found the window is
+about 1.5\,s, not the 3\,s A1 states. The cap was removed before any held-out
+score (A3), which can only raise the rival. The 6-frame window stands because
+it is what A1 tagged in code.
+
+\paragraph{The chance column drew from passing routes.}
+B1 is defined as random axes drawn from failing routes. The sprint scorer's
+first chance column drew from every route, so it read too low
+(\code{WHAT\_BROKE.md}, 2026-11-15). Rival comparisons and $p$ values never used
+that column. The scorer now draws from failing routes only.
+
+\paragraph{The H21b pair unit carried the seed.}
+\label{sec:h21b}
+When the three H21 seeds were pooled, the pool builder set each route's
+\code{pair} to its \code{base\_id}, which carries the seed (for example
+\code{f2d-0}, \code{f2d-0-s25}, \code{f2d-0-s26}). The pair bootstrap therefore
+resampled pair-seed units instead of Fail2Drive pairs carrying all their seeds,
+against A1.
+% measured: 299 seed-tagged units vs 100 pairs (results/h21/h21b/manifest.json and routes.jsonl, -sNN stripped)
+The 593-route pool has 299 such units against 100 real pairs. Treating copies of
+one pair on different seeds as independent made the intervals and $p$ values too
+narrow. An independent scorer written from the pre-registration text reproduced
+every point score exactly. With the suffix stripped it gave wider intervals;
+with the seed-tagged unit it reproduced the logged intervals, so the unit
+explains the whole difference. The reading of that replication did not change,
+and the UniAD manifest's \code{pair} field has no seed suffix. The correction is
+recorded in \code{VARIANTS.md} (H21b replication, ``Correction''); it has no
+entry in \code{WHAT\_BROKE.md} yet. Any pool built by concatenating seeds must
+strip the suffix before resampling.
+
+\paragraph{Unit tests at the wrong shape.}
+Two j methods built on the passing routes' covariance passed their unit tests,
+which used fewer columns than passing routes. The real cache has more columns
+than passing routes, so that covariance is singular, and one method could only
+see failure directions inside the passing routes' span
+(\code{WHAT\_BROKE.md}, 2026-11-15). Both now reduce to 32 principal components
+first. A test for a covariance method must use the real ratio of columns to rows.
+
+\paragraph{A minimum group size larger than the gaps.}
+The first frozen activation method kept only groups of at least 20 failing
+routes. H21's categories had
+% measured: 8, 5 and 3 failing routes (WHAT_BROKE.md, 2026-11-12)
+8, 5 and 3 failures, so it could not score well by construction. This was
+knowable from the code and the counts before anything ran.
+
+\subsection{Data collection}
+
+\paragraph{A third of SimLingo's test pool was lost on the first pass.}
+% measured: 803 of 1,200 routes with an outcome after the first arrays (WHAT_BROKE.md, 2026-11-09)
+Only 803 of 1,200 routes had an outcome after the first arrays. Part was a
+cluster-wide slowdown in model loading. Part was ours: a process-cleanup
+function returned early, so orphaned processes kept GPU memory and the next
+route in the same slot ran out of memory. The cleanup was fixed and tested, and
+the lost routes were rerun once, as the pre-registration allows.
+
+\paragraph{TransFuser++'s hooks never fired.}
+The TransFuser++ agent calls its network's \code{forward} method directly, which
+skips the hooks PyTorch runs on a normal call, so the first capture recorded no
+model step (\code{WHAT\_BROKE.md}, 2026-11-05). The adapter now wraps
+\code{forward} itself.
+
+\paragraph{Route markers in earlier SimLingo runs.}
+Earlier development runs passed a debug flag that draws the route's waypoints and
+a trigger point labelled with the scenario's name into the world, visible in the
+policy's camera (\code{WHAT\_BROKE.md}, 2026-11-03). Every Fail2Drive test pool
+was driven with the flag off, so the pools in this paper carry no markers. The
+views pre-registration still checks sampled frames by eye before captioning.
+
+\paragraph{A rerun is a new sample, not a replay.}
+Repeated CARLA runs of one route and seed differ from the first frame
+(\code{WHAT\_BROKE.md}, 2026-10-06). So the TransFuser++ re-drive that saved
+camera frames is a new drive, and the caption row on TransFuser++ covers only
+pairs whose failures reproduce, with that coverage stated.
+
+\paragraph{Frames were thought missing.}
+The sprint's first checks found no camera frames in either test pool's shards,
+so A1 dropped caption methods. On 2026-11-18 it was found that every SimLingo
+test route's run folder had saved the model's own camera input every 10 steps
+(\code{VARIANTS.md}, checks before the loop, correction). That is why the caption
+row could return in the views pre-registration.
+
+\paragraph{UniAD drives far more slowly than planned.}
+% measured: median 34 min per driven route over 624 routes (WHAT_BROKE.md, 2026-11-18)
+UniAD routes took a median of 34 minutes each, so most array tasks hit their time
+limit and only part of each seed was driven on the first pass. The missing
+routes were resubmitted. Because the full pool lands late, the views
+pre-registration fixed an interim read on the routes driven by a set time, always
+labelled interim, beside the final read (C43).

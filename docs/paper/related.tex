@@ -1,0 +1,66 @@
+\section{Related work}
+\label{sec:related}
+
+Only works verified in \code{upstream-99p/docs/CITATION\_AUDIT.md} or
+\code{docs/step0-trackA-findings.md} are cited. Several works that shaped the
+methods are not yet verified and are left uncited; they are listed at the end of
+this section by name only, and \code{refs.bib} marks them.
+
+\paragraph{Benchmarks and models.}
+Fail2Drive~\cite{gerstenecker2026fail2drive} pairs each unseen scenario with an
+in-distribution twin on the same road. Its authors report SimLingo's sharpest
+drop on PedestriansOnRoad and attribute it to the model following a
+nonexistent car or cyclist (\code{docs/step0-trackA-findings.md}, A2). We use
+that as motivation only: an authored scenario type is not an unlistable factor.
+Bench2Drive~\cite{jia2024bench2drive} is a closed-loop driving benchmark on
+CARLA~\cite{carla2017}, the simulator every pool here was driven in. SimLingo
+\cite{Renz2025cvpr} and TransFuser++~\cite{jaeger2023hidden,zimmerlin2024hidden}
+are the dev and first held-out models.
+
+\paragraph{Finding systematic errors without labels.}
+Slice discovery groups the inputs a model gets wrong so that a person can name
+each group. Domino~\cite{eyuboglu2022domino} discovers systematic errors with
+cross-modal embeddings, Spotlight~\cite{deon2022spotlight} is a general method
+for discovering systematic errors in deep models, George~\cite{sohoni2020george}
+targets hidden subclasses inside coarse classes, and
+SliceLine~\cite{sagadeeva2021sliceline} finds slices for model debugging with
+linear algebra. Our
+setting differs in two ways. The unit is a closed-loop route, not a single
+input, and the groups to recover are scenario types of a driving benchmark, not
+planted image slices. We know of no published method tested on recovering known
+failure groups of a closed-loop driving policy
+(\code{docs/research/literature-review.md}).
+
+\paragraph{Reading a policy's internals.}
+Sparse autoencoders on vision-language-action policies give features that can be
+inspected and, in some cases, steered~\cite{swann2026sparse,jin2026eventsae}
+(\code{docs/step0-trackA-findings.md}). Dr.~VLA's per-feature
+statistics, which separate general features from episode-specific ones, are the
+basis of our B7 rival; using them as a gap signal is our construction. On driving
+models, interpretability work has examined end-to-end models
+\cite{motzkus2026driving}, probed and pruned the planning token of a driving
+vision-language-action model~\cite{babu2026depthwise}, interpreted road scenes
+through such models~\cite{panda2026whatdotheysee}, and extracted control vectors
+from motion transformers~\cite{tas2025words}. Linear probes~\cite{alain2016probes}
+underlie our probe diagnostics. None of these scores the recovery of known
+failure groups.
+
+\paragraph{Finding failures by search.}
+Red-teaming and scenario generation look for new failures rather than group
+known ones. Predictive red teaming~\cite{roboart2025} edits observations and
+predicts degradation for manipulation policies. KING~\cite{hanselmann2022king},
+AdvSim~\cite{wang2021advsim} and ChatScene~\cite{zhang2024chatscene} generate
+safety-critical driving scenarios, CAT~\cite{zhang2023cat} trains against
+adversarial scenarios in closed loop,
+and a survey covers black-box safety validation~\cite{corso2021survey}. Failure
+detectors such as SAFE~\cite{safe2025} predict that a failure will happen, which
+is a different task from grouping failures by cause. Our methods could take
+their input from any of these: once failures exist, discovery asks which belong
+together.
+
+\paragraph{Not yet verified, not cited.}
+UniAD, the held-out model; caption-then-cluster failure discovery for robot
+videos, the basis of H25 and the caption row; error-aware slice methods (FACTS,
+B2T, InfEmbed, PlaneSpot); contrastive PCA (j02); cluster-wise stability (j08);
+hidden Markov model sequence clustering (j09); Ward linkage; the bootstrap; and
+DINOv2. Each needs a check against its primary source before it is cited.
