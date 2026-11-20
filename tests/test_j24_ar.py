@@ -17,21 +17,26 @@ j24 = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(j24)
 
 
-def _routes(seed: int = 0, n: int = 40, t_len: int = 30, width: int = 24) -> tuple[np.ndarray, np.ndarray]:
-    """Every route follows one damped rotation; odd routes get a late kick along one fixed direction."""
+def _damped(kick_for, seed: int = 0, n: int = 40, t_len: int = 30, width: int = 24) -> np.ndarray:
+    """Every route follows one damped rotation; route i gets kick_for(i, basis) added over its last 8 frames."""
     rng = np.random.default_rng(seed)
     basis = np.linalg.qr(rng.normal(size=(width, width)))[0]
-    kick = basis[:, 0] * 4.0
     rotation = 0.95 * basis @ np.diag(np.where(np.arange(width) % 2, 0.9, 0.8)) @ basis.T
     frames = np.empty((n, t_len, width))
     for i in range(n):
         x = rng.normal(size=width)
         for t in range(t_len):
             x = rotation @ x + rng.normal(scale=0.1, size=width)
-            if i % 2 and t >= t_len - 8:
-                x = x + kick
+            if t >= t_len - 8:
+                x = x + kick_for(i, basis)
             frames[i, t] = x
-    return frames, np.arange(n) % 4 != 3
+    return frames
+
+
+def _routes() -> tuple[np.ndarray, np.ndarray]:
+    """Odd routes get a late kick along one fixed direction."""
+    frames = _damped(lambda i, basis: basis[:, 0] * 4.0 * (i % 2))
+    return frames, np.arange(len(frames)) % 4 != 3
 
 
 def _save(path: Path, frames: np.ndarray, failing: np.ndarray, meta_extra: dict | None = None) -> None:
@@ -77,3 +82,15 @@ def test_first_cut_splits_kicked_from_unkicked_failing_routes():
     kicked = frozenset(ids[i] for i in range(len(ids)) if i % 2 and failing[i])
     calm = frozenset(ids[i] for i in range(len(ids)) if not i % 2 and failing[i])
     assert {frozenset(axes[0]["rollouts"]), frozenset(axes[1]["rollouts"])} == {kicked, calm}
+
+
+def test_j25_direction_only_groups_by_direction_not_size():
+    """Odd routes are kicked along one direction, even along another; sizes 2 and 8 cut across both."""
+    frames = _damped(lambda i, basis: basis[:, i % 2] * (2.0 if i % 4 < 2 else 8.0), seed=2)
+    n, t_len = frames.shape[:2]
+    failing = np.ones(n, dtype=bool)
+    ids = [f"r{i:03d}" for i in range(n)]
+    first_cut = lambda axes: {frozenset(axes[0]["rollouts"]), frozenset(axes[1]["rollouts"])}
+    by_direction = frozenset(ids[i] for i in range(n) if i % 2)
+    assert by_direction in first_cut(j24.j24_axes(frames, np.full(n, t_len), failing, ids, "j25", direction_only=True))
+    assert by_direction not in first_cut(j24.j24_axes(frames, np.full(n, t_len), failing, ids, "j24"))

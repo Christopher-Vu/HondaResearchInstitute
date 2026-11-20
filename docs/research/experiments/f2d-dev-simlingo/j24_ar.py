@@ -10,6 +10,10 @@ last 10 norms minus mean of the first 10). Each block is standardised over all r
 of its width (m06's weighting); the failing routes are Ward-clustered at cuts 2/3/5 (cache_methods.axes_from), top 10
 in that order.
 
+j25 (--direction-only) drops the norm block and keeps only where the surprise points: each route's late mean residual
+vector, in j09's unwhitened PCA space with no per-dimension scaling and no centring (zero stays "as predicted"), is
+scaled to unit length, so Ward groups routes by the direction of surprise and not by its size.
+
     PYTHONPATH=src python docs/research/experiments/f2d-dev-simlingo/j24_ar.py FRAMES --output OUT.json [--alpha 1.0]
 
 FRAMES is the per-frame file (frames_pool.py): route_id, meta, layers, site, frames, n_frames. Pass/fail is read from
@@ -73,15 +77,23 @@ def weighted_block(x: np.ndarray) -> np.ndarray:
     return cache_methods.standardise(x) / np.sqrt(x.shape[1])
 
 
-def j24_features(block: np.ndarray, n_frames: np.ndarray, alpha: float = ALPHA) -> np.ndarray:
+def unit_directions(x: np.ndarray) -> np.ndarray:
+    norms = np.linalg.norm(x, axis=1, keepdims=True)
+    return x / np.where(norms > 0, norms, 1.0)
+
+
+def j24_features(block: np.ndarray, n_frames: np.ndarray, alpha: float = ALPHA,
+                 direction_only: bool = False) -> np.ndarray:
     sequences = j09.scale_and_project(j09.sequences_from_block(block, n_frames))
     direction, profile = surprise_blocks(residuals(sequences, alpha))
+    if direction_only:
+        return unit_directions(direction)
     return np.hstack([weighted_block(direction), weighted_block(profile)])
 
 
 def j24_axes(block: np.ndarray, n_frames: np.ndarray, failing: np.ndarray, ids: list[str], name: str,
-             alpha: float = ALPHA) -> list[dict]:
-    features = j24_features(block, n_frames, alpha)
+             alpha: float = ALPHA, direction_only: bool = False) -> list[dict]:
+    features = j24_features(block, n_frames, alpha, direction_only)
     return cache_methods.axes_from(features, failing, ids, name, "ward", (2, 3, 5))[:10]
 
 
@@ -93,6 +105,7 @@ def main() -> None:
                         help="stored layer index; default is round(8/23*(depth-1)) as in j09")
     parser.add_argument("--depth", type=int, default=24)
     parser.add_argument("--alpha", type=float, default=ALPHA, help="ridge penalty of the autoregression")
+    parser.add_argument("--direction-only", action="store_true", help="j25: unit-length late residual direction only")
     parser.add_argument("--name", default=None)
     args = parser.parse_args()
     with np.load(args.frames) as cache:
@@ -102,8 +115,8 @@ def main() -> None:
         site = j09._as_str(cache["site"])
         block = np.asarray(cache["frames"][:, position], dtype=np.float64)
         n_frames = np.asarray(cache["n_frames"], dtype=np.int64)
-    name = args.name or f"j24-{site}-L{layer}-ar"
-    axes = j24_axes(block, n_frames, failing, ids, name, args.alpha)
+    name = args.name or f"{'j25' if args.direction_only else 'j24'}-{site}-L{layer}-ar"
+    axes = j24_axes(block, n_frames, failing, ids, name, args.alpha, args.direction_only)
     settings = vars(args) | {"frames": str(args.frames), "output": str(args.output), "layer": int(layer)}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"method": name, "settings": settings, "axes": axes}, indent=1) + "\n")
