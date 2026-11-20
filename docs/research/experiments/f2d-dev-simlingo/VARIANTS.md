@@ -1137,3 +1137,25 @@ Reading:
   BadParking.
 - FullyBlocked has 3 pairs, and every row swings over most of the range with the split.
 - Many cells below 0.5 are the small-sample effect the diagnostic's amendment describes.
+
+### Exploratory, H21b pool, laptop j16-j17 (2026-11-20), rows written before any score
+
+Work item 4, the temporal lane ("temporal models over the frame sequence, not window means"). j09 kept frame order
+with an HMM; j16 asks the simpler question of how fast and how jerkily the policy's state moves in the last 50
+frames. A window mean throws that away: a route that sits still and one that swings back and forth around the same
+point have the same mean. The probe diagnostic found behaviour beats activations on most gaps; a change rate is the
+activation-side analogue of braking and swerving, so it is the cheapest temporal summary that could carry it.
+- **Pool:** H21b, 593 routes, 174 failing, `results/savio/savio/f2d-h21b/pool/` (the brief's
+  `results/savio/f2d-h21b/pool/` is one level shallower than this clone's layout; same files).
+- **Scoring:** `sprint_score.py` under A2, gaps CustomObstacles / Wall / PedestriansOnRoad, decoys as in
+  `results/h21/h21/h21b/commands.sh`, primary rival B3-behaviour, B3-infraction reported, resampling on a manifest
+  copy whose `pair` is the base pair with the `-sNN` seed suffix stripped (A1: 100 Fail2Drive pairs with all their
+  seeds). Outputs `results/h21/j16/`.
+- **Rule fixed now:** j17 runs only if j16+route lands below m23 (0.395), and is then the last try in this section.
+- **Limits:** exploratory, dev, H21b only; H21's categories have been read many times. Nothing here can make a
+  candidate or enter the UniAD read.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| j16 | 2026-11-20 | H21 x3 | `j16_change.py` defaults: last 50 frames, L8, one RMS scale + unwhitened PCA 16 on all frames (j09's projection); per route the step sizes between consecutive frames, summarised by mean, SD, max, share above the pool's 90th-percentile step, mean of the last 10 steps, straightness; standardised over all routes, Ward 2/3/5, top 10 | pending | pending | 220 |
+| j16+route | 2026-11-20 | H21 x3 | `pool_axes.py`: whole-route L8 (m03, `route-L8`) first, then j16 (r11 order) | pending | pending | 221 |
