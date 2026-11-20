@@ -8,6 +8,17 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-19: the H21b three-seed pool resampled 300 pair-seed units, not 100 pairs
+
+Expected: pooling seeds 24 to 26 into one 593-route H21 pool would keep each Fail2Drive pair's seeds together in the
+bootstrap, as prereg A1 says. Happened: the pool builder set the manifest's `pair` to the route's `base_id`, which
+carries the seed (`f2d-0`, `f2d-0-s25`, `f2d-0-s26`), so `sprint_score.py` resampled 300 units and the recorded
+intervals were too narrow. Point scores were right. Found by an independent scorer written from the prereg text
+(laptop worker 7082). Corrected (measured): m23 minus B3-behaviour +0.242 [+0.041, +0.450], minus B3-infraction
++0.108 [-0.091, +0.335]; the reading did not change. Did: a correction note under the H21b rows in `VARIANTS.md`
+(c429b50); every later H21b score uses a manifest copy with the `-sNN` suffix stripped. The UniAD test manifest was
+checked and has no suffix.
+
 ## 2026-11-18: UniAD's screen and pool arrays overran their 3 h limit
 
 Expected: 3 rounds of 2 routes side by side would fit in 3 h, as TransFuser++'s routes do. Happened: UniAD routes take far longer (driven routes: median 34 min wall, 90th percentile 78, longest 169 min, measured over 624 routes; the cut-off ones are longer still), so most tasks timed out. 25 of 34 tasks on seed 101, about the same on the others. Only 83 to 105 of 200 routes per array have a record. Cost: 607 GPU-h, about 17,800 SU (measured, all UniAD Savio jobs to date), against my estimate of 3,000-3,500 for the whole pool. Did: moved the cut-off route dirs to `results/savio/<job>-cutoff/` so a rerun never appends to a partial capture, and resubmitted only the missing routes, one pair per task with an 8 h limit (the QoS maximum). The shard export passed `harness.shards` on 6 driven routes first.
