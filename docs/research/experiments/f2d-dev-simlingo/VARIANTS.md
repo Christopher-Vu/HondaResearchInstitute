@@ -1298,3 +1298,27 @@ pool, not rebuilt from the per-seed caches. Count unchanged: 219.
 The j16-j17 and j18-j19 batches ran in parallel and each counted from 219. Reconciled: j16, j16+route and j17+route
 are 3 tries, j18 and j19 are 2, so **224 methods tried in total** (exploratory, dev, H21b only). The H21b robustness
 rows are rescores and add nothing.
+
+### Exploratory, H21b pool, laptop j20-j21 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-055952-26854, work item 4, open lane "contrastive or self-supervised embeddings of routes".
+Batch 5 left this lane out (reasons above); j20 runs it at a laptop scale. Exploratory, dev, H21b only; nothing here
+can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`).
+- **Not a repeat:** j16/j17 summarise frame-to-frame change and j18/j19 fit a mixture to all routes. j20 learns its
+  own route embedding from the frame sequence with a contrastive loss that never sees pass/fail or route types.
+- **Inputs:** only `results/savio/f2d-h21b/pool/frames.npz` (route ids, `frames` at layer 8, `meta.success` for the
+  clustering step as m03 reads it), in its salted row order. No manifest, no `routes.jsonl`, no route types.
+- **Scoring:** `sprint_score.py` under A2/A1, gaps CustomObstacles / Wall / PedestriansOnRoad, decoys as in
+  `results/h21/j18/commands.sh`, primary rival B3-behaviour, B3-infraction reported, on
+  `results/h21/j18/manifest-pair-fixed.json` (pair without the `-sNN` suffix, 100 Fail2Drive pairs). Only the pooled
+  row is scored. Outputs `results/h21/j20/`.
+- **Count:** each scored row is one try, written "224 + n laptop tries this batch"; the orchestrator reconciles with
+  the j22-j25 batches running in parallel.
+- **Robustness, not tries:** j20 pooled is rerun with training seeds 1 to 3 at 200 replicates. Seed 0 stays the j20
+  score whatever these show.
+- **Rule fixed now:** j21 runs only if j20 pooled lands below m23 (0.395). Its row is written before its score, with a
+  reason taken from j20's own outputs (no key read), and it is the last try in this section.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
+|---|---|---|---|---|---|---|
+| j20 | 2026-11-20 | H21b | `j20_ssl.py` defaults. Input: `frames.npz` layer 8, the last 50 frames (left NaN padding masked); each column standardised over every valid frame of every route, PCA 64 fit on all valid frames (`random_state` 0), scores standardised. Encoder: Conv1d(64, 64, 5) → GELU → Conv1d(64, 64, 5) → GELU → mean over valid frames → Linear(64, 32), output scaled to unit length. Training: SimCLR NT-Xent, temperature 0.1; two views per route, each a random contiguous sub-window of length uniform in [ceil(n/2), n] of its n valid frames plus Gaussian noise SD 0.1; the other routes in the batch are negatives; Adam lr 1e-3, weight decay 1e-4, batch 128, 100 epochs, all 593 routes, no labels; torch and numpy seed 0, CPU, one thread, deterministic algorithms. Embedding: each route's full window, no crop or noise. Axes: Ward on the failing routes' unit-length embeddings via `cache_methods.axes_from`, cuts 2, 3, 5, continued under A2 to 10 distinct axes; ranking label-free: cut order, largest cluster first within a cut. Pooled by `pool_axes.py` with whole-route L8 (m03, `route-L8`), whole-route first | | | |
