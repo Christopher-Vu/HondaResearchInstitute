@@ -34,6 +34,15 @@ No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fa
     format replaces the runner's schema; each agent writes its answer to one file of its own, outside the frames;
     and grouping agents read one file of descriptions instead of a pasted list. `audit.py` allows exactly those
     files.
+  - Captioning moved to the Messages Batch API (Chris, 2026-11-19, before any UniAD outcome is read). The reason
+    is the session's limits on concurrent subagents and usage. The model is still `claude-opus-5-5`, with adaptive
+    thinking at effort `medium`, and every answer keeps the model id the API reports.
+    - H25's prompt text is kept. The frames go inline as images, and grouping gets the descriptions pasted, as in
+      H25. The model has no tools, so it sees only what its request carries.
+    - The audit is the request record: each route's frames, listed with their sha256 hashes.
+    - SimLingo is described again in full by the API. The 123 descriptions made by subagents are kept as a
+      record and not scored, so each pool uses one captioner.
+    - The script is `docs/research/experiments/f2d-views-caption/api.py`.
 
 ## Question
 
