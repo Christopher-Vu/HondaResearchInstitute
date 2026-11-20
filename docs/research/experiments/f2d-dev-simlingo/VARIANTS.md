@@ -1162,7 +1162,7 @@ here can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`).
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
 |---|---|---|---|---|---|---|
 | j18 | 2026-11-20 | H21b | `j18_gmm.py`: m15's features (L8, 50-frame window, PCA 32 on all routes, scores standardised); GaussianMixture on all 593 routes, K in {4, 6, 8, 12} x covariance {diag, full}, lowest BIC, `random_state` 0, `n_init` 3; hard assignment; components ranked by the mean log density of all their routes, lowest first (label-free); axis = the component's failing routes. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first. Picked full covariance, K 12 (the grid's top end) | 0.315 (0.210 / 0.529 / 0.206); failing-only chance 0.126; recall at 0.5 0.33; decoy hits 0 | +0.163 [+0.026, +0.319], p 0.006 / +0.028 [-0.122, +0.203], p 0.33 | 219 + 1 laptop try this batch |
-| j19 | 2026-11-20 | H21b | j18's mixture unchanged (same features, grid, seed and fit); only the ranking changes: components by the share of their routes that fail, highest first (ties by more failing routes, then index), `--rank failure-rate`. Axes and pool as j18, whole-route first. Reason, from j18's own component table (no key read): its most atypical components are mostly passing routes (29 of 76 failing), while the one compact component that is almost all failures (14 of 15) ranks last and falls outside the top 10 | pending | pending | 219 + 2 laptop tries this batch |
+| j19 | 2026-11-20 | H21b | j18's mixture unchanged (same features, grid, seed and fit); only the ranking changes: components by the share of their routes that fail, highest first (ties by more failing routes, then index), `--rank failure-rate`. Axes and pool as j18, whole-route first. Reason, from j18's own component table (no key read): its most atypical components are mostly passing routes (29 of 76 failing), while the one compact component that is almost all failures (14 of 15) ranks last and falls outside the top 10 | 0.315 (0.210 / 0.529 / 0.206); failing-only chance 0.128; recall at 0.5 0.33; decoy hits 0 | +0.163 [+0.031, +0.315], p 0.004 / +0.028 [-0.117, +0.199], p 0.34 | 219 + 2 laptop tries this batch |
 
 j18 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j18/report-j18.json`). It sits
 below m23 (0.395) and is not separated from B3-infraction. CustomObstacles and Wall equal m23's values; PedestriansOnRoad
@@ -1170,3 +1170,10 @@ falls from m23's 0.444 to 0.206. Mixture seeds 1 to 5 (robustness, not tries, 20
 0.300, 0.300, so unlike m49 the score barely moves with the seed. Check: m23 rescored on the same stripped-pair manifest
 gives +0.242 [+0.034, +0.451], p 0.007, against B3-behaviour, close to the independent scorer's [+0.041, +0.450]; the
 small difference is the scorer's random stream. j19 is run under the rule above; its row was written before its score.
+
+j19 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j18/report-j19.json`). Every
+per-gap value equals j18's. The pool still holds five mixture axes; the failure-rate order moved the compact
+14-of-15 component to the pool's second slot, and PedestriansOnRoad stayed at 0.206, so that component is not the
+pedestrian group. Neither ranking of the all-route mixture recovers m23's PedestriansOnRoad 0.444, which comes from
+m15's Ward window view. Both rows are below m23 and not separated from B3-infraction. The batch stops here (two
+laptop tries).

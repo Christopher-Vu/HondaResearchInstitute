@@ -5,6 +5,25 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — j18 and j19: a Gaussian mixture over all routes (laptop, exploratory, H21b)
+
+This session tried one more method in the open "density or mixture" lane on Jerry's three-seed H21 pool (H21b, 593
+routes, 174 failing). The batch had been tried before: m49 fit a Gaussian mixture (a model of the data as several
+overlapping bell-shaped clouds) to the failing routes only and turned out to depend on its random seed. j18 instead
+fits the mixture to every route, so it models all driving and never sees pass or fail. It then lists the most
+unusual clouds first and pools them with the whole-route view (`j18_gmm.py`, rows in `VARIANTS.md` under "Exploratory,
+H21b pool, laptop j18-j19").
+
+- **Result** (measured, dev, H21b only): j18 scores 0.315 against m23's 0.395. It is above B3-behaviour, at +0.163
+  [+0.026, +0.319], and not separated from B3-infraction, at +0.028 [-0.122, +0.203]. j19 ranks the same clouds by how
+  many of their routes fail, and it gives the same 0.315 on every gap.
+- **What it means:** the mixture loses the pedestrian group (0.206 against m23's 0.444), and reordering its clouds
+  changes nothing. Unlike m49 it is stable: mixture seeds 1 to 5 score 0.294 to 0.316.
+- **Also checked:** with the seed suffix stripped from `pair`, the scorer reproduces m23's corrected interval. It
+  gives [+0.034, +0.451] against the recorded [+0.041, +0.450].
+- Two tries, counted as 219 + 2 for the orchestrator to reconcile. Outputs and exact commands are in
+  `results/h21/j18/`.
+
 ## 2026-11-19 — Caption row on SimLingo: describing moved to the API, first score
 
 Describing frames with Claude Code subagents stalled on the session's limits: at most 20 subagents at once, and a
