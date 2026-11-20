@@ -8,7 +8,7 @@
 # 1. merge: score_routes.py over the job dirs in job order; each route keeps its first attempt with a valid driving
 #    outcome, so partial or cut-off attempts are skipped (cut-off dirs were moved to <job>-cutoff/, not listed here).
 # 2. shards (export_activations.py) of the chosen attempts only, cache_pool.py --window 50, b4-split.json, and the
-#    prereg §1 class of every type (gap, ceiling, decoy, background).
+#    prereg §1 class of every type (gap, ceiling, decoy, background), and the caption row's frames (uniad_frames.py).
 # 3. rows: m23, m40, B3-behaviour, B3-infraction, B7-pool as heldout.sh runs them on TF++ (transfer-spec.md), plus
 #    img-mean (last BEV encoder layer) and query-mean (last track decoder layer): m03 on the 50-frame approach-window
 #    mean (12.5 s at 5 steps per frame). SimLingo's and TF++'s img-mean and query-mean rows are built once if missing.
@@ -20,19 +20,20 @@ E=docs/research/experiments/f2d-unpooled
 D=docs/research/experiments/f2d-dev-simlingo
 REF=${REF:-/global/scratch/users/christophervu/hri-tfpp/results/savio}  # SimLingo and TF++ rows, routes and caches
 V=results/savio/f2d-views
+FRAMES_ROOT=${FRAMES_ROOT:-/global/scratch/users/christophervu/caption-frames}  # outside the repository
 TEST_MANIFEST=configs/rollout/f2d-test-simlingo.manifest.json
 export PYTHONPATH=src:adapters/simlingo
 case "$MODE" in
 dev)
   CONFIG=configs/rollout/f2d-screen-uniad.yaml; XML=configs/rollout/f2d-tfpp-screen.xml
   JOBS=${JOBS:-"41434958 41523040"}
-  O=$V/uniad-dev; TAG="UniAD seed-24 screen, DEV ONLY (not evidence)" ;;
+  O=$V/uniad-dev; POOL=e-dev; TAG="UniAD seed-24 screen, DEV ONLY (not evidence)" ;;
 test)
   git rev-parse -q --verify refs/tags/views-prereg-v1 >/dev/null || { echo "views-prereg-v1 is not tagged: no UniAD test read"; exit 1; }
   CONFIG=configs/rollout/f2d-test-uniad-s101.yaml; XML=configs/rollout/f2d-test-simlingo.xml
   # first arrays s101..s106, reruns s101..s105 and s106, 3-route reruns s101..s106
   JOBS=${JOBS:-"41434964 41434967 41434969 41434973 41434975 41434977 41523041 41523042 41523043 41523044 41523045 41555288 41580713 41580714 41580715 41580716 41580717 41580718"}
-  O=$V/uniad-test-$READ-$(date +%Y%m%d-%H%M); TAG="UniAD test pool, $READ read at views-prereg-v1 (blind)" ;;
+  O=$V/uniad-test-$READ-$(date +%Y%m%d-%H%M); POOL=e; TAG="UniAD test pool, $READ read at views-prereg-v1 (blind)" ;;
 *) echo "MODE is dev or test"; exit 2 ;;
 esac
 mkdir -p $O/rows $V/simlingo $V/tfpp
@@ -62,6 +63,12 @@ xargs -P 8 -n 20 python adapters/simlingo/export_activations.py --output $O/shar
 python $D/cache_pool.py $O/shards --window 50 --output $O/cache-w50.npz
 C=$O/cache-w50.npz
 python scripts/b4_split.py $O/shards $R $MANIFEST $XML --output $O/b4-split.json > $O/b4-split.log
+# the caption row's frames (uniad_frames.py): one salt per model, kept across reads so the final read only adds
+# folders; frames go outside the repository, the mapping stays in results/
+SALT=$V/caption-salt-uniad.txt
+[ -f $SALT ] || python -c "import secrets; print(secrets.token_hex(16))" > $SALT
+python $E/uniad_frames.py $O/shards --salt-file $SALT --frames-out $FRAMES_ROOT/$POOL --mapping $O/caption-mapping.json \
+  | tee $O/frames.log
 python - "$MANIFEST" "$R" "$O" "$JOBS" <<'EOF' | tee $O/classes.txt
 import json, sys
 from collections import Counter
