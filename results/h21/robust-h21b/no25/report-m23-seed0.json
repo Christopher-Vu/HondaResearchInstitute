@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 24 26; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 18,
+  "F2D_Wall": 9,
+  "F2D_PedestriansOnRoad": 5
+ },
+ "decoys": {
+  "F2D_Animals": 19,
+  "F2D_ConstructionPermutations": 10,
+  "F2D_ImageOnObject": 9,
+  "F2D_ObscuredStop": 10,
+  "F2D_PassableObstacles": 10,
+  "F2D_RightOfWay": 9
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m23-w50L8+routeL8": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.34778554778554777,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.1287867029697341,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.18181818181818182,
+    "F2D_Wall": 0.46153846153846156,
+    "F2D_PedestriansOnRoad": 0.4
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.22156005758946934,
+     "interval": [
+      0.035132212558683144,
+      0.4677041187487108
+     ],
+     "p_one_sided": 0.005
+    },
+    "B3_infraction": {
+     "delta": 0.08653910245029578,
+     "interval": [
+      -0.09801698444989933,
+      0.3513609964187695
+     ],
+     "p_one_sided": 0.223
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.22156005758946934,
+    "interval": [
+     0.035132212558683144,
+     0.4677041187487108
+    ],
+    "p_one_sided": 0.005
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.12622549019607843,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.12725646660787934,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.19117647058823528,
+    "F2D_Wall": 0.125,
+    "F2D_PedestriansOnRoad": 0.0625
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 8,
+   "mean_best": 0.261246445335252,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.125,
+   "chance_B1": 0.12609830869900177,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.391304347826087,
+    "F2D_Wall": 0.1702127659574468,
+    "F2D_PedestriansOnRoad": 0.2222222222222222
+   }
+  }
+ }
+}

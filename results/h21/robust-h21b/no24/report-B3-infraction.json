@@ -1,0 +1,76 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 25 26; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 20,
+  "F2D_Wall": 9,
+  "F2D_PedestriansOnRoad": 6
+ },
+ "decoys": {
+  "F2D_Animals": 19,
+  "F2D_ConstructionPermutations": 10,
+  "F2D_ImageOnObject": 9,
+  "F2D_ObscuredStop": 10,
+  "F2D_PassableObstacles": 10,
+  "F2D_RightOfWay": 8
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "B3_infraction": {
+   "role": "method",
+   "axes": 8,
+   "mean_best": 0.2777442196046847,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.125,
+   "chance_B1": 0.12340243285315433,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.4090909090909091,
+    "F2D_Wall": 0.18604651162790697,
+    "F2D_PedestriansOnRoad": 0.23809523809523808
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.1157835332811798,
+     "interval": [
+      0.030240766610753006,
+      0.19243426591410273
+     ],
+     "p_one_sided": 0.003
+    },
+    "B3_infraction": {
+     "delta": 0.0,
+     "interval": [
+      0.0,
+      0.0
+     ],
+     "p_one_sided": 1.0
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.1157835332811798,
+    "interval": [
+     0.030240766610753006,
+     0.19243426591410273
+    ],
+    "p_one_sided": 0.003
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.1619606863235049,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.13018654288460607,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.20689655172413793,
+    "F2D_Wall": 0.1956521739130435,
+    "F2D_PedestriansOnRoad": 0.08333333333333333
+   }
+  }
+ }
+}

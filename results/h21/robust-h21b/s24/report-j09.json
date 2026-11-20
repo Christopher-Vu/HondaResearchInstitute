@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 24; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 8,
+  "F2D_Wall": 5,
+  "F2D_PedestriansOnRoad": 3
+ },
+ "decoys": {
+  "F2D_Animals": 10,
+  "F2D_ConstructionPermutations": 5,
+  "F2D_ImageOnObject": 5,
+  "F2D_ObscuredStop": 5,
+  "F2D_PassableObstacles": 5,
+  "F2D_RightOfWay": 5
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "j09-driving_queries-L8-hmm": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.3311355311355311,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.17563545326185065,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.3076923076923077,
+    "F2D_Wall": 0.4,
+    "F2D_PedestriansOnRoad": 0.2857142857142857
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.013542938542938532,
+     "interval": [
+      -0.10570360195360196,
+      0.18981824548001014
+     ],
+     "p_one_sided": 0.3285
+    },
+    "B3_infraction": {
+     "delta": 0.023054723054723003,
+     "interval": [
+      -0.09040942895776988,
+      0.22222222222222224
+     ],
+     "p_one_sided": 0.294
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.013542938542938532,
+    "interval": [
+     -0.10570360195360196,
+     0.18981824548001014
+    ],
+    "p_one_sided": 0.3285
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.3175925925925926,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.18804604245444165,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.3,
+    "F2D_Wall": 0.2777777777777778,
+    "F2D_PedestriansOnRoad": 0.375
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 6,
+   "mean_best": 0.3080808080808081,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.16882033441598657,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.36363636363636365,
+    "F2D_Wall": 0.22727272727272727,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  }
+ }
+}

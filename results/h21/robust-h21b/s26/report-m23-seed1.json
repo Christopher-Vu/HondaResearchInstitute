@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 26; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 10,
+  "F2D_Wall": 4,
+  "F2D_PedestriansOnRoad": 2
+ },
+ "decoys": {
+  "F2D_Animals": 9,
+  "F2D_ConstructionPermutations": 5,
+  "F2D_ImageOnObject": 4,
+  "F2D_ObscuredStop": 5,
+  "F2D_PassableObstacles": 5,
+  "F2D_RightOfWay": 4
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m23-w50L8+routeL8": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.3298611111111111,
+   "recall_at_0.5": 0.3333333333333333,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.1551936871499857,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.15625,
+    "F2D_Wall": 0.5,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.2054166666666667,
+     "interval": [
+      -0.015642985295678088,
+      0.4595815424511076
+     ],
+     "p_one_sided": 0.032
+    },
+    "B3_infraction": {
+     "delta": 0.11393518518518517,
+     "interval": [
+      -0.0710102952803649,
+      0.35286174798818243
+     ],
+     "p_one_sided": 0.1365
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.2054166666666667,
+    "interval": [
+     -0.015642985295678088,
+     0.4595815424511076
+    ],
+    "p_one_sided": 0.032
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.12444444444444443,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.15866515362473646,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.2222222222222222,
+    "F2D_Wall": 0.1111111111111111,
+    "F2D_PedestriansOnRoad": 0.04
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 8,
+   "mean_best": 0.21592592592592594,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.25,
+   "chance_B1": 0.15454329355420618,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.4166666666666667,
+    "F2D_Wall": 0.12,
+    "F2D_PedestriansOnRoad": 0.1111111111111111
+   }
+  }
+ }
+}
