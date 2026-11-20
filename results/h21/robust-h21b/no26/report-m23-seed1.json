@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 24 25; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 18,
+  "F2D_Wall": 10,
+  "F2D_PedestriansOnRoad": 7
+ },
+ "decoys": {
+  "F2D_Animals": 20,
+  "F2D_ConstructionPermutations": 10,
+  "F2D_ImageOnObject": 10,
+  "F2D_ObscuredStop": 10,
+  "F2D_PassableObstacles": 10,
+  "F2D_RightOfWay": 9
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m23-w50L8+routeL8": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.44658406727372246,
+   "recall_at_0.5": 0.3333333333333333,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.14010075312869485,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.1839080459770115,
+    "F2D_Wall": 0.7272727272727273,
+    "F2D_PedestriansOnRoad": 0.42857142857142855
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.19702598646564165,
+     "interval": [
+      0.020347274296609014,
+      0.4400572962727472
+     ],
+     "p_one_sided": 0.0135
+    },
+    "B3_infraction": {
+     "delta": 0.12515549584515107,
+     "interval": [
+      -0.06233438174046155,
+      0.3684284075861853
+     ],
+     "p_one_sided": 0.099
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.19702598646564165,
+    "interval": [
+     0.020347274296609014,
+     0.4400572962727472
+    ],
+    "p_one_sided": 0.0135
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.2495580808080808,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.14482063595046393,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.24242424242424243,
+    "F2D_Wall": 0.15625,
+    "F2D_PedestriansOnRoad": 0.35
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 7,
+   "mean_best": 0.3214285714285714,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.1334833416569872,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.38095238095238093,
+    "F2D_Wall": 0.25,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  }
+ }
+}

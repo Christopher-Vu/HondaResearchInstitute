@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 25; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 10,
+  "F2D_Wall": 5,
+  "F2D_PedestriansOnRoad": 4
+ },
+ "decoys": {
+  "F2D_Animals": 10,
+  "F2D_ConstructionPermutations": 5,
+  "F2D_ImageOnObject": 5,
+  "F2D_ObscuredStop": 5,
+  "F2D_PassableObstacles": 5,
+  "F2D_RightOfWay": 4
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m23-w50L8+routeL8": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.3486997635933806,
+   "recall_at_0.5": 0.3333333333333333,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.1789036452616674,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.2127659574468085,
+    "F2D_Wall": 0.3333333333333333,
+    "F2D_PedestriansOnRoad": 0.5
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.02177668667030369,
+     "interval": [
+      -0.19579244829244827,
+      0.292587824535499
+     ],
+     "p_one_sided": 0.4605
+    },
+    "B3_infraction": {
+     "delta": 0.011662726556343594,
+     "interval": [
+      -0.19545099016480594,
+      0.2895023503391869
+     ],
+     "p_one_sided": 0.458
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.02177668667030369,
+    "interval": [
+     -0.19579244829244827,
+     0.292587824535499
+    ],
+    "p_one_sided": 0.4605
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.3269230769230769,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.18134740027465213,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.23076923076923078,
+    "F2D_Wall": 0.4166666666666667,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 6,
+   "mean_best": 0.337037037037037,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.15832906350099343,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.4,
+    "F2D_Wall": 0.2777777777777778,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  }
+ }
+}

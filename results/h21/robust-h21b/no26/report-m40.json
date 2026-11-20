@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 24 25; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 18,
+  "F2D_Wall": 10,
+  "F2D_PedestriansOnRoad": 7
+ },
+ "decoys": {
+  "F2D_Animals": 20,
+  "F2D_ConstructionPermutations": 10,
+  "F2D_ImageOnObject": 10,
+  "F2D_ObscuredStop": 10,
+  "F2D_PassableObstacles": 10,
+  "F2D_RightOfWay": 9
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m40-w50L8pca64+routeL20": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.25882352941176473,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.13294707629659086,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.17647058823529413,
+    "F2D_Wall": 0.4,
+    "F2D_PedestriansOnRoad": 0.2
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.009265448603683918,
+     "interval": [
+      -0.12855047912801112,
+      0.2566587111640893
+     ],
+     "p_one_sided": 0.383
+    },
+    "B3_infraction": {
+     "delta": -0.06260504201680667,
+     "interval": [
+      -0.2085236780570288,
+      0.19514291401063769
+     ],
+     "p_one_sided": 0.6505
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.009265448603683918,
+    "interval": [
+     -0.12855047912801112,
+     0.2566587111640893
+    ],
+    "p_one_sided": 0.383
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.2495580808080808,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.14244826096453334,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.24242424242424243,
+    "F2D_Wall": 0.15625,
+    "F2D_PedestriansOnRoad": 0.35
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 7,
+   "mean_best": 0.3214285714285714,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.14081638906234759,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.38095238095238093,
+    "F2D_Wall": 0.25,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  }
+ }
+}

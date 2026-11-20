@@ -1,0 +1,8202 @@
+[
+ {
+  "id": "1075",
+  "base_id": "f2d-75",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-75"
+ },
+ {
+  "id": "75",
+  "base_id": "f2d-75",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-75"
+ },
+ {
+  "id": "1076",
+  "base_id": "f2d-76",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-76"
+ },
+ {
+  "id": "76",
+  "base_id": "f2d-76",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-76"
+ },
+ {
+  "id": "1077",
+  "base_id": "f2d-77",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-77"
+ },
+ {
+  "id": "77",
+  "base_id": "f2d-77",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-77"
+ },
+ {
+  "id": "1078",
+  "base_id": "f2d-78",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-78"
+ },
+ {
+  "id": "78",
+  "base_id": "f2d-78",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-78"
+ },
+ {
+  "id": "1079",
+  "base_id": "f2d-79",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-79"
+ },
+ {
+  "id": "79",
+  "base_id": "f2d-79",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-79"
+ },
+ {
+  "id": "1080",
+  "base_id": "f2d-80",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-80"
+ },
+ {
+  "id": "80",
+  "base_id": "f2d-80",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-80"
+ },
+ {
+  "id": "1081",
+  "base_id": "f2d-81",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-81"
+ },
+ {
+  "id": "81",
+  "base_id": "f2d-81",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-81"
+ },
+ {
+  "id": "1082",
+  "base_id": "f2d-82",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-82"
+ },
+ {
+  "id": "82",
+  "base_id": "f2d-82",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-82"
+ },
+ {
+  "id": "1083",
+  "base_id": "f2d-83",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-83"
+ },
+ {
+  "id": "83",
+  "base_id": "f2d-83",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-83"
+ },
+ {
+  "id": "1084",
+  "base_id": "f2d-84",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-84"
+ },
+ {
+  "id": "84",
+  "base_id": "f2d-84",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-84"
+ },
+ {
+  "id": "1000",
+  "base_id": "f2d-0",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-0"
+ },
+ {
+  "id": "0",
+  "base_id": "f2d-0",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-0"
+ },
+ {
+  "id": "1001",
+  "base_id": "f2d-1",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-1"
+ },
+ {
+  "id": "1",
+  "base_id": "f2d-1",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-1"
+ },
+ {
+  "id": "1002",
+  "base_id": "f2d-2",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-2"
+ },
+ {
+  "id": "2",
+  "base_id": "f2d-2",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-2"
+ },
+ {
+  "id": "1003",
+  "base_id": "f2d-3",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-3"
+ },
+ {
+  "id": "3",
+  "base_id": "f2d-3",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-3"
+ },
+ {
+  "id": "1004",
+  "base_id": "f2d-4",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-4"
+ },
+ {
+  "id": "4",
+  "base_id": "f2d-4",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-4"
+ },
+ {
+  "id": "1005",
+  "base_id": "f2d-5",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-5"
+ },
+ {
+  "id": "5",
+  "base_id": "f2d-5",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-5"
+ },
+ {
+  "id": "1006",
+  "base_id": "f2d-6",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-6"
+ },
+ {
+  "id": "6",
+  "base_id": "f2d-6",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-6"
+ },
+ {
+  "id": "1007",
+  "base_id": "f2d-7",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-7"
+ },
+ {
+  "id": "7",
+  "base_id": "f2d-7",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-7"
+ },
+ {
+  "id": "1008",
+  "base_id": "f2d-8",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-8"
+ },
+ {
+  "id": "8",
+  "base_id": "f2d-8",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-8"
+ },
+ {
+  "id": "1009",
+  "base_id": "f2d-9",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-9"
+ },
+ {
+  "id": "9",
+  "base_id": "f2d-9",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-9"
+ },
+ {
+  "id": "1010",
+  "base_id": "f2d-10",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-10"
+ },
+ {
+  "id": "10",
+  "base_id": "f2d-10",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-10"
+ },
+ {
+  "id": "1011",
+  "base_id": "f2d-11",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-11"
+ },
+ {
+  "id": "11",
+  "base_id": "f2d-11",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-11"
+ },
+ {
+  "id": "1012",
+  "base_id": "f2d-12",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-12"
+ },
+ {
+  "id": "12",
+  "base_id": "f2d-12",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-12"
+ },
+ {
+  "id": "1013",
+  "base_id": "f2d-13",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-13"
+ },
+ {
+  "id": "13",
+  "base_id": "f2d-13",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-13"
+ },
+ {
+  "id": "1014",
+  "base_id": "f2d-14",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-14"
+ },
+ {
+  "id": "14",
+  "base_id": "f2d-14",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-14"
+ },
+ {
+  "id": "1015",
+  "base_id": "f2d-15",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-15"
+ },
+ {
+  "id": "15",
+  "base_id": "f2d-15",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-15"
+ },
+ {
+  "id": "1016",
+  "base_id": "f2d-16",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-16"
+ },
+ {
+  "id": "16",
+  "base_id": "f2d-16",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-16"
+ },
+ {
+  "id": "1017",
+  "base_id": "f2d-17",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-17"
+ },
+ {
+  "id": "17",
+  "base_id": "f2d-17",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-17"
+ },
+ {
+  "id": "1018",
+  "base_id": "f2d-18",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-18"
+ },
+ {
+  "id": "18",
+  "base_id": "f2d-18",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-18"
+ },
+ {
+  "id": "1019",
+  "base_id": "f2d-19",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-19"
+ },
+ {
+  "id": "19",
+  "base_id": "f2d-19",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-19"
+ },
+ {
+  "id": "1020",
+  "base_id": "f2d-20",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-20"
+ },
+ {
+  "id": "20",
+  "base_id": "f2d-20",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-20"
+ },
+ {
+  "id": "1021",
+  "base_id": "f2d-21",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-21"
+ },
+ {
+  "id": "21",
+  "base_id": "f2d-21",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-21"
+ },
+ {
+  "id": "1022",
+  "base_id": "f2d-22",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-22"
+ },
+ {
+  "id": "22",
+  "base_id": "f2d-22",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-22"
+ },
+ {
+  "id": "1023",
+  "base_id": "f2d-23",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-23"
+ },
+ {
+  "id": "23",
+  "base_id": "f2d-23",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-23"
+ },
+ {
+  "id": "1024",
+  "base_id": "f2d-24",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-24"
+ },
+ {
+  "id": "24",
+  "base_id": "f2d-24",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-24"
+ },
+ {
+  "id": "1025",
+  "base_id": "f2d-25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-25"
+ },
+ {
+  "id": "25",
+  "base_id": "f2d-25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-25"
+ },
+ {
+  "id": "1026",
+  "base_id": "f2d-26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-26"
+ },
+ {
+  "id": "26",
+  "base_id": "f2d-26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-26"
+ },
+ {
+  "id": "1027",
+  "base_id": "f2d-27",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-27"
+ },
+ {
+  "id": "27",
+  "base_id": "f2d-27",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-27"
+ },
+ {
+  "id": "1028",
+  "base_id": "f2d-28",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-28"
+ },
+ {
+  "id": "28",
+  "base_id": "f2d-28",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-28"
+ },
+ {
+  "id": "1029",
+  "base_id": "f2d-29",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-29"
+ },
+ {
+  "id": "29",
+  "base_id": "f2d-29",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-29"
+ },
+ {
+  "id": "1030",
+  "base_id": "f2d-30",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-30"
+ },
+ {
+  "id": "30",
+  "base_id": "f2d-30",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-30"
+ },
+ {
+  "id": "1031",
+  "base_id": "f2d-31",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-31"
+ },
+ {
+  "id": "31",
+  "base_id": "f2d-31",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-31"
+ },
+ {
+  "id": "1032",
+  "base_id": "f2d-32",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-32"
+ },
+ {
+  "id": "32",
+  "base_id": "f2d-32",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-32"
+ },
+ {
+  "id": "1033",
+  "base_id": "f2d-33",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-33"
+ },
+ {
+  "id": "33",
+  "base_id": "f2d-33",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-33"
+ },
+ {
+  "id": "1034",
+  "base_id": "f2d-34",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-34"
+ },
+ {
+  "id": "34",
+  "base_id": "f2d-34",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-34"
+ },
+ {
+  "id": "1035",
+  "base_id": "f2d-35",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-35"
+ },
+ {
+  "id": "35",
+  "base_id": "f2d-35",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-35"
+ },
+ {
+  "id": "1036",
+  "base_id": "f2d-36",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-36"
+ },
+ {
+  "id": "36",
+  "base_id": "f2d-36",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-36"
+ },
+ {
+  "id": "1037",
+  "base_id": "f2d-37",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-37"
+ },
+ {
+  "id": "37",
+  "base_id": "f2d-37",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-37"
+ },
+ {
+  "id": "1038",
+  "base_id": "f2d-38",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-38"
+ },
+ {
+  "id": "38",
+  "base_id": "f2d-38",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-38"
+ },
+ {
+  "id": "1039",
+  "base_id": "f2d-39",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-39"
+ },
+ {
+  "id": "39",
+  "base_id": "f2d-39",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-39"
+ },
+ {
+  "id": "1040",
+  "base_id": "f2d-40",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-40"
+ },
+ {
+  "id": "40",
+  "base_id": "f2d-40",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-40"
+ },
+ {
+  "id": "1041",
+  "base_id": "f2d-41",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-41"
+ },
+ {
+  "id": "41",
+  "base_id": "f2d-41",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-41"
+ },
+ {
+  "id": "1042",
+  "base_id": "f2d-42",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-42"
+ },
+ {
+  "id": "42",
+  "base_id": "f2d-42",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-42"
+ },
+ {
+  "id": "1043",
+  "base_id": "f2d-43",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-43"
+ },
+ {
+  "id": "43",
+  "base_id": "f2d-43",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-43"
+ },
+ {
+  "id": "1044",
+  "base_id": "f2d-44",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-44"
+ },
+ {
+  "id": "44",
+  "base_id": "f2d-44",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-44"
+ },
+ {
+  "id": "1045",
+  "base_id": "f2d-45",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-45"
+ },
+ {
+  "id": "45",
+  "base_id": "f2d-45",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-45"
+ },
+ {
+  "id": "1046",
+  "base_id": "f2d-46",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-46"
+ },
+ {
+  "id": "46",
+  "base_id": "f2d-46",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-46"
+ },
+ {
+  "id": "1047",
+  "base_id": "f2d-47",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-47"
+ },
+ {
+  "id": "47",
+  "base_id": "f2d-47",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-47"
+ },
+ {
+  "id": "1048",
+  "base_id": "f2d-48",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-48"
+ },
+ {
+  "id": "48",
+  "base_id": "f2d-48",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-48"
+ },
+ {
+  "id": "1049",
+  "base_id": "f2d-49",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-49"
+ },
+ {
+  "id": "49",
+  "base_id": "f2d-49",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-49"
+ },
+ {
+  "id": "1050",
+  "base_id": "f2d-50",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-50"
+ },
+ {
+  "id": "50",
+  "base_id": "f2d-50",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-50"
+ },
+ {
+  "id": "1051",
+  "base_id": "f2d-51",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-51"
+ },
+ {
+  "id": "51",
+  "base_id": "f2d-51",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-51"
+ },
+ {
+  "id": "1052",
+  "base_id": "f2d-52",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-52"
+ },
+ {
+  "id": "52",
+  "base_id": "f2d-52",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-52"
+ },
+ {
+  "id": "1053",
+  "base_id": "f2d-53",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-53"
+ },
+ {
+  "id": "53",
+  "base_id": "f2d-53",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-53"
+ },
+ {
+  "id": "1054",
+  "base_id": "f2d-54",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-54"
+ },
+ {
+  "id": "54",
+  "base_id": "f2d-54",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-54"
+ },
+ {
+  "id": "1060",
+  "base_id": "f2d-60",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-60"
+ },
+ {
+  "id": "60",
+  "base_id": "f2d-60",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-60"
+ },
+ {
+  "id": "1061",
+  "base_id": "f2d-61",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-61"
+ },
+ {
+  "id": "61",
+  "base_id": "f2d-61",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-61"
+ },
+ {
+  "id": "1062",
+  "base_id": "f2d-62",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-62"
+ },
+ {
+  "id": "62",
+  "base_id": "f2d-62",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-62"
+ },
+ {
+  "id": "1063",
+  "base_id": "f2d-63",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-63"
+ },
+ {
+  "id": "63",
+  "base_id": "f2d-63",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-63"
+ },
+ {
+  "id": "1064",
+  "base_id": "f2d-64",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-64"
+ },
+ {
+  "id": "64",
+  "base_id": "f2d-64",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-64"
+ },
+ {
+  "id": "1065",
+  "base_id": "f2d-65",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-65"
+ },
+ {
+  "id": "65",
+  "base_id": "f2d-65",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-65"
+ },
+ {
+  "id": "1066",
+  "base_id": "f2d-66",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-66"
+ },
+ {
+  "id": "66",
+  "base_id": "f2d-66",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-66"
+ },
+ {
+  "id": "1067",
+  "base_id": "f2d-67",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-67"
+ },
+ {
+  "id": "67",
+  "base_id": "f2d-67",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-67"
+ },
+ {
+  "id": "1068",
+  "base_id": "f2d-68",
+  "town": "Town13",
+  "scenario": "PedestrianCrowd",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-68"
+ },
+ {
+  "id": "68",
+  "base_id": "f2d-68",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-68"
+ },
+ {
+  "id": "1069",
+  "base_id": "f2d-69",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-69"
+ },
+ {
+  "id": "69",
+  "base_id": "f2d-69",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-69"
+ },
+ {
+  "id": "1070",
+  "base_id": "f2d-70",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-70"
+ },
+ {
+  "id": "70",
+  "base_id": "f2d-70",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-70"
+ },
+ {
+  "id": "1071",
+  "base_id": "f2d-71",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-71"
+ },
+ {
+  "id": "71",
+  "base_id": "f2d-71",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-71"
+ },
+ {
+  "id": "1072",
+  "base_id": "f2d-72",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-72"
+ },
+ {
+  "id": "72",
+  "base_id": "f2d-72",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-72"
+ },
+ {
+  "id": "1073",
+  "base_id": "f2d-73",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-73"
+ },
+ {
+  "id": "73",
+  "base_id": "f2d-73",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-73"
+ },
+ {
+  "id": "1074",
+  "base_id": "f2d-74",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-74"
+ },
+ {
+  "id": "74",
+  "base_id": "f2d-74",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-74"
+ },
+ {
+  "id": "1085",
+  "base_id": "f2d-85",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-85"
+ },
+ {
+  "id": "85",
+  "base_id": "f2d-85",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-85"
+ },
+ {
+  "id": "1086",
+  "base_id": "f2d-86",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-86"
+ },
+ {
+  "id": "86",
+  "base_id": "f2d-86",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-86"
+ },
+ {
+  "id": "1087",
+  "base_id": "f2d-87",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-87"
+ },
+ {
+  "id": "87",
+  "base_id": "f2d-87",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-87"
+ },
+ {
+  "id": "1088",
+  "base_id": "f2d-88",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-88"
+ },
+ {
+  "id": "88",
+  "base_id": "f2d-88",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-88"
+ },
+ {
+  "id": "1089",
+  "base_id": "f2d-89",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-89"
+ },
+ {
+  "id": "89",
+  "base_id": "f2d-89",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-89"
+ },
+ {
+  "id": "1090",
+  "base_id": "f2d-90",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-90"
+ },
+ {
+  "id": "90",
+  "base_id": "f2d-90",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-90"
+ },
+ {
+  "id": "1091",
+  "base_id": "f2d-91",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-91"
+ },
+ {
+  "id": "91",
+  "base_id": "f2d-91",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-91"
+ },
+ {
+  "id": "1092",
+  "base_id": "f2d-92",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-92"
+ },
+ {
+  "id": "92",
+  "base_id": "f2d-92",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-92"
+ },
+ {
+  "id": "1093",
+  "base_id": "f2d-93",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-93"
+ },
+ {
+  "id": "93",
+  "base_id": "f2d-93",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-93"
+ },
+ {
+  "id": "1094",
+  "base_id": "f2d-94",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-94"
+ },
+ {
+  "id": "94",
+  "base_id": "f2d-94",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-94"
+ },
+ {
+  "id": "1055",
+  "base_id": "f2d-55",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-55"
+ },
+ {
+  "id": "55",
+  "base_id": "f2d-55",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-55"
+ },
+ {
+  "id": "1056",
+  "base_id": "f2d-56",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-56"
+ },
+ {
+  "id": "56",
+  "base_id": "f2d-56",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-56"
+ },
+ {
+  "id": "1057",
+  "base_id": "f2d-57",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-57"
+ },
+ {
+  "id": "57",
+  "base_id": "f2d-57",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-57"
+ },
+ {
+  "id": "1058",
+  "base_id": "f2d-58",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-58"
+ },
+ {
+  "id": "58",
+  "base_id": "f2d-58",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-58"
+ },
+ {
+  "id": "1059",
+  "base_id": "f2d-59",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-59"
+ },
+ {
+  "id": "59",
+  "base_id": "f2d-59",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-59"
+ },
+ {
+  "id": "1095",
+  "base_id": "f2d-95",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-95"
+ },
+ {
+  "id": "95",
+  "base_id": "f2d-95",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-95"
+ },
+ {
+  "id": "1096",
+  "base_id": "f2d-96",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-96"
+ },
+ {
+  "id": "96",
+  "base_id": "f2d-96",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-96"
+ },
+ {
+  "id": "1097",
+  "base_id": "f2d-97",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-97"
+ },
+ {
+  "id": "97",
+  "base_id": "f2d-97",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-97"
+ },
+ {
+  "id": "1098",
+  "base_id": "f2d-98",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-98"
+ },
+ {
+  "id": "98",
+  "base_id": "f2d-98",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-98"
+ },
+ {
+  "id": "1099",
+  "base_id": "f2d-99",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-99"
+ },
+ {
+  "id": "99",
+  "base_id": "f2d-99",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-99"
+ },
+ {
+  "id": "2501075",
+  "base_id": "f2d-75-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-75",
+  "seed": 25
+ },
+ {
+  "id": "2500075",
+  "base_id": "f2d-75-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-75",
+  "seed": 25
+ },
+ {
+  "id": "2501076",
+  "base_id": "f2d-76-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-76",
+  "seed": 25
+ },
+ {
+  "id": "2500076",
+  "base_id": "f2d-76-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-76",
+  "seed": 25
+ },
+ {
+  "id": "2501077",
+  "base_id": "f2d-77-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-77",
+  "seed": 25
+ },
+ {
+  "id": "2500077",
+  "base_id": "f2d-77-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-77",
+  "seed": 25
+ },
+ {
+  "id": "2501078",
+  "base_id": "f2d-78-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-78",
+  "seed": 25
+ },
+ {
+  "id": "2500078",
+  "base_id": "f2d-78-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-78",
+  "seed": 25
+ },
+ {
+  "id": "2501079",
+  "base_id": "f2d-79-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-79",
+  "seed": 25
+ },
+ {
+  "id": "2500079",
+  "base_id": "f2d-79-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-79",
+  "seed": 25
+ },
+ {
+  "id": "2501080",
+  "base_id": "f2d-80-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-80",
+  "seed": 25
+ },
+ {
+  "id": "2500080",
+  "base_id": "f2d-80-s25",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-80",
+  "seed": 25
+ },
+ {
+  "id": "2501081",
+  "base_id": "f2d-81-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-81",
+  "seed": 25
+ },
+ {
+  "id": "2500081",
+  "base_id": "f2d-81-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-81",
+  "seed": 25
+ },
+ {
+  "id": "2501082",
+  "base_id": "f2d-82-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-82",
+  "seed": 25
+ },
+ {
+  "id": "2500082",
+  "base_id": "f2d-82-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-82",
+  "seed": 25
+ },
+ {
+  "id": "2501083",
+  "base_id": "f2d-83-s25",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-83",
+  "seed": 25
+ },
+ {
+  "id": "2500083",
+  "base_id": "f2d-83-s25",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-83",
+  "seed": 25
+ },
+ {
+  "id": "2501084",
+  "base_id": "f2d-84-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-84",
+  "seed": 25
+ },
+ {
+  "id": "2500084",
+  "base_id": "f2d-84-s25",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-84",
+  "seed": 25
+ },
+ {
+  "id": "2501000",
+  "base_id": "f2d-0-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-0",
+  "seed": 25
+ },
+ {
+  "id": "2500000",
+  "base_id": "f2d-0-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-0",
+  "seed": 25
+ },
+ {
+  "id": "2501001",
+  "base_id": "f2d-1-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-1",
+  "seed": 25
+ },
+ {
+  "id": "2500001",
+  "base_id": "f2d-1-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-1",
+  "seed": 25
+ },
+ {
+  "id": "2501002",
+  "base_id": "f2d-2-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-2",
+  "seed": 25
+ },
+ {
+  "id": "2500002",
+  "base_id": "f2d-2-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-2",
+  "seed": 25
+ },
+ {
+  "id": "2501003",
+  "base_id": "f2d-3-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-3",
+  "seed": 25
+ },
+ {
+  "id": "2500003",
+  "base_id": "f2d-3-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-3",
+  "seed": 25
+ },
+ {
+  "id": "2501004",
+  "base_id": "f2d-4-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-4",
+  "seed": 25
+ },
+ {
+  "id": "2500004",
+  "base_id": "f2d-4-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-4",
+  "seed": 25
+ },
+ {
+  "id": "2501005",
+  "base_id": "f2d-5-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-5",
+  "seed": 25
+ },
+ {
+  "id": "2500005",
+  "base_id": "f2d-5-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-5",
+  "seed": 25
+ },
+ {
+  "id": "2501006",
+  "base_id": "f2d-6-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-6",
+  "seed": 25
+ },
+ {
+  "id": "2500006",
+  "base_id": "f2d-6-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-6",
+  "seed": 25
+ },
+ {
+  "id": "2501007",
+  "base_id": "f2d-7-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-7",
+  "seed": 25
+ },
+ {
+  "id": "2500007",
+  "base_id": "f2d-7-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-7",
+  "seed": 25
+ },
+ {
+  "id": "2501008",
+  "base_id": "f2d-8-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-8",
+  "seed": 25
+ },
+ {
+  "id": "2500008",
+  "base_id": "f2d-8-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-8",
+  "seed": 25
+ },
+ {
+  "id": "2501009",
+  "base_id": "f2d-9-s25",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-9",
+  "seed": 25
+ },
+ {
+  "id": "2500009",
+  "base_id": "f2d-9-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-9",
+  "seed": 25
+ },
+ {
+  "id": "2501010",
+  "base_id": "f2d-10-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-10",
+  "seed": 25
+ },
+ {
+  "id": "2500010",
+  "base_id": "f2d-10-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-10",
+  "seed": 25
+ },
+ {
+  "id": "2501011",
+  "base_id": "f2d-11-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-11",
+  "seed": 25
+ },
+ {
+  "id": "2500011",
+  "base_id": "f2d-11-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-11",
+  "seed": 25
+ },
+ {
+  "id": "2501012",
+  "base_id": "f2d-12-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-12",
+  "seed": 25
+ },
+ {
+  "id": "2500012",
+  "base_id": "f2d-12-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-12",
+  "seed": 25
+ },
+ {
+  "id": "2501013",
+  "base_id": "f2d-13-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-13",
+  "seed": 25
+ },
+ {
+  "id": "2500013",
+  "base_id": "f2d-13-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-13",
+  "seed": 25
+ },
+ {
+  "id": "2501014",
+  "base_id": "f2d-14-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-14",
+  "seed": 25
+ },
+ {
+  "id": "2500014",
+  "base_id": "f2d-14-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-14",
+  "seed": 25
+ },
+ {
+  "id": "2501015",
+  "base_id": "f2d-15-s25",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-15",
+  "seed": 25
+ },
+ {
+  "id": "2500015",
+  "base_id": "f2d-15-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-15",
+  "seed": 25
+ },
+ {
+  "id": "2501016",
+  "base_id": "f2d-16-s25",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-16",
+  "seed": 25
+ },
+ {
+  "id": "2500016",
+  "base_id": "f2d-16-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-16",
+  "seed": 25
+ },
+ {
+  "id": "2501017",
+  "base_id": "f2d-17-s25",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-17",
+  "seed": 25
+ },
+ {
+  "id": "2500017",
+  "base_id": "f2d-17-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-17",
+  "seed": 25
+ },
+ {
+  "id": "2501018",
+  "base_id": "f2d-18-s25",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-18",
+  "seed": 25
+ },
+ {
+  "id": "2500018",
+  "base_id": "f2d-18-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-18",
+  "seed": 25
+ },
+ {
+  "id": "2501019",
+  "base_id": "f2d-19-s25",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-19",
+  "seed": 25
+ },
+ {
+  "id": "2500019",
+  "base_id": "f2d-19-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-19",
+  "seed": 25
+ },
+ {
+  "id": "2501020",
+  "base_id": "f2d-20-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-20",
+  "seed": 25
+ },
+ {
+  "id": "2500020",
+  "base_id": "f2d-20-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-20",
+  "seed": 25
+ },
+ {
+  "id": "2501021",
+  "base_id": "f2d-21-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-21",
+  "seed": 25
+ },
+ {
+  "id": "2500021",
+  "base_id": "f2d-21-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-21",
+  "seed": 25
+ },
+ {
+  "id": "2501022",
+  "base_id": "f2d-22-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-22",
+  "seed": 25
+ },
+ {
+  "id": "2500022",
+  "base_id": "f2d-22-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-22",
+  "seed": 25
+ },
+ {
+  "id": "2501023",
+  "base_id": "f2d-23-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-23",
+  "seed": 25
+ },
+ {
+  "id": "2500023",
+  "base_id": "f2d-23-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-23",
+  "seed": 25
+ },
+ {
+  "id": "2501024",
+  "base_id": "f2d-24-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-24",
+  "seed": 25
+ },
+ {
+  "id": "2500024",
+  "base_id": "f2d-24-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-24",
+  "seed": 25
+ },
+ {
+  "id": "2501025",
+  "base_id": "f2d-25-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-25",
+  "seed": 25
+ },
+ {
+  "id": "2500025",
+  "base_id": "f2d-25-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-25",
+  "seed": 25
+ },
+ {
+  "id": "2501026",
+  "base_id": "f2d-26-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-26",
+  "seed": 25
+ },
+ {
+  "id": "2500026",
+  "base_id": "f2d-26-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-26",
+  "seed": 25
+ },
+ {
+  "id": "2501027",
+  "base_id": "f2d-27-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-27",
+  "seed": 25
+ },
+ {
+  "id": "2500027",
+  "base_id": "f2d-27-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-27",
+  "seed": 25
+ },
+ {
+  "id": "2501028",
+  "base_id": "f2d-28-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-28",
+  "seed": 25
+ },
+ {
+  "id": "2500028",
+  "base_id": "f2d-28-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-28",
+  "seed": 25
+ },
+ {
+  "id": "2501029",
+  "base_id": "f2d-29-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-29",
+  "seed": 25
+ },
+ {
+  "id": "2500029",
+  "base_id": "f2d-29-s25",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-29",
+  "seed": 25
+ },
+ {
+  "id": "2501030",
+  "base_id": "f2d-30-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-30",
+  "seed": 25
+ },
+ {
+  "id": "2500030",
+  "base_id": "f2d-30-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-30",
+  "seed": 25
+ },
+ {
+  "id": "2501031",
+  "base_id": "f2d-31-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-31",
+  "seed": 25
+ },
+ {
+  "id": "2500031",
+  "base_id": "f2d-31-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-31",
+  "seed": 25
+ },
+ {
+  "id": "2501032",
+  "base_id": "f2d-32-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-32",
+  "seed": 25
+ },
+ {
+  "id": "2500032",
+  "base_id": "f2d-32-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-32",
+  "seed": 25
+ },
+ {
+  "id": "2501033",
+  "base_id": "f2d-33-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-33",
+  "seed": 25
+ },
+ {
+  "id": "2500033",
+  "base_id": "f2d-33-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-33",
+  "seed": 25
+ },
+ {
+  "id": "2501034",
+  "base_id": "f2d-34-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-34",
+  "seed": 25
+ },
+ {
+  "id": "2500034",
+  "base_id": "f2d-34-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-34",
+  "seed": 25
+ },
+ {
+  "id": "2501035",
+  "base_id": "f2d-35-s25",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-35",
+  "seed": 25
+ },
+ {
+  "id": "2500035",
+  "base_id": "f2d-35-s25",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-35",
+  "seed": 25
+ },
+ {
+  "id": "2501036",
+  "base_id": "f2d-36-s25",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-36",
+  "seed": 25
+ },
+ {
+  "id": "2500036",
+  "base_id": "f2d-36-s25",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-36",
+  "seed": 25
+ },
+ {
+  "id": "2501037",
+  "base_id": "f2d-37-s25",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-37",
+  "seed": 25
+ },
+ {
+  "id": "2500037",
+  "base_id": "f2d-37-s25",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-37",
+  "seed": 25
+ },
+ {
+  "id": "2501038",
+  "base_id": "f2d-38-s25",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-38",
+  "seed": 25
+ },
+ {
+  "id": "2500038",
+  "base_id": "f2d-38-s25",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-38",
+  "seed": 25
+ },
+ {
+  "id": "2501039",
+  "base_id": "f2d-39-s25",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-39",
+  "seed": 25
+ },
+ {
+  "id": "2500039",
+  "base_id": "f2d-39-s25",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-39",
+  "seed": 25
+ },
+ {
+  "id": "2501040",
+  "base_id": "f2d-40-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-40",
+  "seed": 25
+ },
+ {
+  "id": "2500040",
+  "base_id": "f2d-40-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-40",
+  "seed": 25
+ },
+ {
+  "id": "2501041",
+  "base_id": "f2d-41-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-41",
+  "seed": 25
+ },
+ {
+  "id": "2500041",
+  "base_id": "f2d-41-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-41",
+  "seed": 25
+ },
+ {
+  "id": "2501042",
+  "base_id": "f2d-42-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-42",
+  "seed": 25
+ },
+ {
+  "id": "2500042",
+  "base_id": "f2d-42-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-42",
+  "seed": 25
+ },
+ {
+  "id": "2501043",
+  "base_id": "f2d-43-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-43",
+  "seed": 25
+ },
+ {
+  "id": "2500043",
+  "base_id": "f2d-43-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-43",
+  "seed": 25
+ },
+ {
+  "id": "2501044",
+  "base_id": "f2d-44-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-44",
+  "seed": 25
+ },
+ {
+  "id": "2500044",
+  "base_id": "f2d-44-s25",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-44",
+  "seed": 25
+ },
+ {
+  "id": "2501045",
+  "base_id": "f2d-45-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-45",
+  "seed": 25
+ },
+ {
+  "id": "2500045",
+  "base_id": "f2d-45-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-45",
+  "seed": 25
+ },
+ {
+  "id": "2501046",
+  "base_id": "f2d-46-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-46",
+  "seed": 25
+ },
+ {
+  "id": "2500046",
+  "base_id": "f2d-46-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-46",
+  "seed": 25
+ },
+ {
+  "id": "2501047",
+  "base_id": "f2d-47-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-47",
+  "seed": 25
+ },
+ {
+  "id": "2500047",
+  "base_id": "f2d-47-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-47",
+  "seed": 25
+ },
+ {
+  "id": "2501048",
+  "base_id": "f2d-48-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-48",
+  "seed": 25
+ },
+ {
+  "id": "2500048",
+  "base_id": "f2d-48-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-48",
+  "seed": 25
+ },
+ {
+  "id": "2501049",
+  "base_id": "f2d-49-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-49",
+  "seed": 25
+ },
+ {
+  "id": "2500049",
+  "base_id": "f2d-49-s25",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-49",
+  "seed": 25
+ },
+ {
+  "id": "2501050",
+  "base_id": "f2d-50-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-50",
+  "seed": 25
+ },
+ {
+  "id": "2500050",
+  "base_id": "f2d-50-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-50",
+  "seed": 25
+ },
+ {
+  "id": "2501051",
+  "base_id": "f2d-51-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-51",
+  "seed": 25
+ },
+ {
+  "id": "2500051",
+  "base_id": "f2d-51-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-51",
+  "seed": 25
+ },
+ {
+  "id": "2501052",
+  "base_id": "f2d-52-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-52",
+  "seed": 25
+ },
+ {
+  "id": "2500052",
+  "base_id": "f2d-52-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-52",
+  "seed": 25
+ },
+ {
+  "id": "2501053",
+  "base_id": "f2d-53-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-53",
+  "seed": 25
+ },
+ {
+  "id": "2500053",
+  "base_id": "f2d-53-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-53",
+  "seed": 25
+ },
+ {
+  "id": "2501054",
+  "base_id": "f2d-54-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-54",
+  "seed": 25
+ },
+ {
+  "id": "2500054",
+  "base_id": "f2d-54-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-54",
+  "seed": 25
+ },
+ {
+  "id": "2501060",
+  "base_id": "f2d-60-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-60",
+  "seed": 25
+ },
+ {
+  "id": "2500060",
+  "base_id": "f2d-60-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-60",
+  "seed": 25
+ },
+ {
+  "id": "2501061",
+  "base_id": "f2d-61-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-61",
+  "seed": 25
+ },
+ {
+  "id": "2500061",
+  "base_id": "f2d-61-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-61",
+  "seed": 25
+ },
+ {
+  "id": "2501062",
+  "base_id": "f2d-62-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-62",
+  "seed": 25
+ },
+ {
+  "id": "2500062",
+  "base_id": "f2d-62-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-62",
+  "seed": 25
+ },
+ {
+  "id": "2501063",
+  "base_id": "f2d-63-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-63",
+  "seed": 25
+ },
+ {
+  "id": "2500063",
+  "base_id": "f2d-63-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-63",
+  "seed": 25
+ },
+ {
+  "id": "2501064",
+  "base_id": "f2d-64-s25",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-64",
+  "seed": 25
+ },
+ {
+  "id": "2500064",
+  "base_id": "f2d-64-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-64",
+  "seed": 25
+ },
+ {
+  "id": "2501065",
+  "base_id": "f2d-65-s25",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-65",
+  "seed": 25
+ },
+ {
+  "id": "2500065",
+  "base_id": "f2d-65-s25",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-65",
+  "seed": 25
+ },
+ {
+  "id": "2501066",
+  "base_id": "f2d-66-s25",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-66",
+  "seed": 25
+ },
+ {
+  "id": "2500066",
+  "base_id": "f2d-66-s25",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-66",
+  "seed": 25
+ },
+ {
+  "id": "2501067",
+  "base_id": "f2d-67-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-67",
+  "seed": 25
+ },
+ {
+  "id": "2500067",
+  "base_id": "f2d-67-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-67",
+  "seed": 25
+ },
+ {
+  "id": "2501068",
+  "base_id": "f2d-68-s25",
+  "town": "Town13",
+  "scenario": "PedestrianCrowd",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-68",
+  "seed": 25
+ },
+ {
+  "id": "2500068",
+  "base_id": "f2d-68-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-68",
+  "seed": 25
+ },
+ {
+  "id": "2501069",
+  "base_id": "f2d-69-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-69",
+  "seed": 25
+ },
+ {
+  "id": "2500069",
+  "base_id": "f2d-69-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-69",
+  "seed": 25
+ },
+ {
+  "id": "2501070",
+  "base_id": "f2d-70-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-70",
+  "seed": 25
+ },
+ {
+  "id": "2500070",
+  "base_id": "f2d-70-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-70",
+  "seed": 25
+ },
+ {
+  "id": "2501071",
+  "base_id": "f2d-71-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-71",
+  "seed": 25
+ },
+ {
+  "id": "2500071",
+  "base_id": "f2d-71-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-71",
+  "seed": 25
+ },
+ {
+  "id": "2501072",
+  "base_id": "f2d-72-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-72",
+  "seed": 25
+ },
+ {
+  "id": "2500072",
+  "base_id": "f2d-72-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-72",
+  "seed": 25
+ },
+ {
+  "id": "2501073",
+  "base_id": "f2d-73-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-73",
+  "seed": 25
+ },
+ {
+  "id": "2500073",
+  "base_id": "f2d-73-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-73",
+  "seed": 25
+ },
+ {
+  "id": "2501074",
+  "base_id": "f2d-74-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-74",
+  "seed": 25
+ },
+ {
+  "id": "2500074",
+  "base_id": "f2d-74-s25",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-74",
+  "seed": 25
+ },
+ {
+  "id": "2501085",
+  "base_id": "f2d-85-s25",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-85",
+  "seed": 25
+ },
+ {
+  "id": "2500085",
+  "base_id": "f2d-85-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-85",
+  "seed": 25
+ },
+ {
+  "id": "2501086",
+  "base_id": "f2d-86-s25",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-86",
+  "seed": 25
+ },
+ {
+  "id": "2500086",
+  "base_id": "f2d-86-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-86",
+  "seed": 25
+ },
+ {
+  "id": "2501087",
+  "base_id": "f2d-87-s25",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-87",
+  "seed": 25
+ },
+ {
+  "id": "2500087",
+  "base_id": "f2d-87-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-87",
+  "seed": 25
+ },
+ {
+  "id": "2501088",
+  "base_id": "f2d-88-s25",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-88",
+  "seed": 25
+ },
+ {
+  "id": "2500088",
+  "base_id": "f2d-88-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-88",
+  "seed": 25
+ },
+ {
+  "id": "2501089",
+  "base_id": "f2d-89-s25",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-89",
+  "seed": 25
+ },
+ {
+  "id": "2500089",
+  "base_id": "f2d-89-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-89",
+  "seed": 25
+ },
+ {
+  "id": "2501090",
+  "base_id": "f2d-90-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-90",
+  "seed": 25
+ },
+ {
+  "id": "2500090",
+  "base_id": "f2d-90-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-90",
+  "seed": 25
+ },
+ {
+  "id": "2501091",
+  "base_id": "f2d-91-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-91",
+  "seed": 25
+ },
+ {
+  "id": "2500091",
+  "base_id": "f2d-91-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-91",
+  "seed": 25
+ },
+ {
+  "id": "2501092",
+  "base_id": "f2d-92-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-92",
+  "seed": 25
+ },
+ {
+  "id": "2500092",
+  "base_id": "f2d-92-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-92",
+  "seed": 25
+ },
+ {
+  "id": "2501093",
+  "base_id": "f2d-93-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-93",
+  "seed": 25
+ },
+ {
+  "id": "2500093",
+  "base_id": "f2d-93-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-93",
+  "seed": 25
+ },
+ {
+  "id": "2501094",
+  "base_id": "f2d-94-s25",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-94",
+  "seed": 25
+ },
+ {
+  "id": "2500094",
+  "base_id": "f2d-94-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-94",
+  "seed": 25
+ },
+ {
+  "id": "2501055",
+  "base_id": "f2d-55-s25",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-55",
+  "seed": 25
+ },
+ {
+  "id": "2500055",
+  "base_id": "f2d-55-s25",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-55",
+  "seed": 25
+ },
+ {
+  "id": "2501056",
+  "base_id": "f2d-56-s25",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-56",
+  "seed": 25
+ },
+ {
+  "id": "2500056",
+  "base_id": "f2d-56-s25",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-56",
+  "seed": 25
+ },
+ {
+  "id": "2501057",
+  "base_id": "f2d-57-s25",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-57",
+  "seed": 25
+ },
+ {
+  "id": "2500057",
+  "base_id": "f2d-57-s25",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-57",
+  "seed": 25
+ },
+ {
+  "id": "2501058",
+  "base_id": "f2d-58-s25",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-58",
+  "seed": 25
+ },
+ {
+  "id": "2500058",
+  "base_id": "f2d-58-s25",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-58",
+  "seed": 25
+ },
+ {
+  "id": "2501059",
+  "base_id": "f2d-59-s25",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-59",
+  "seed": 25
+ },
+ {
+  "id": "2500059",
+  "base_id": "f2d-59-s25",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-59",
+  "seed": 25
+ },
+ {
+  "id": "2501095",
+  "base_id": "f2d-95-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-95",
+  "seed": 25
+ },
+ {
+  "id": "2500095",
+  "base_id": "f2d-95-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-95",
+  "seed": 25
+ },
+ {
+  "id": "2501096",
+  "base_id": "f2d-96-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-96",
+  "seed": 25
+ },
+ {
+  "id": "2500096",
+  "base_id": "f2d-96-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-96",
+  "seed": 25
+ },
+ {
+  "id": "2501097",
+  "base_id": "f2d-97-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-97",
+  "seed": 25
+ },
+ {
+  "id": "2500097",
+  "base_id": "f2d-97-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-97",
+  "seed": 25
+ },
+ {
+  "id": "2501098",
+  "base_id": "f2d-98-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-98",
+  "seed": 25
+ },
+ {
+  "id": "2500098",
+  "base_id": "f2d-98-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-98",
+  "seed": 25
+ },
+ {
+  "id": "2501099",
+  "base_id": "f2d-99-s25",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-99",
+  "seed": 25
+ },
+ {
+  "id": "2500099",
+  "base_id": "f2d-99-s25",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-99",
+  "seed": 25
+ },
+ {
+  "id": "2601075",
+  "base_id": "f2d-75-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-75",
+  "seed": 26
+ },
+ {
+  "id": "2600075",
+  "base_id": "f2d-75-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-75",
+  "seed": 26
+ },
+ {
+  "id": "2601076",
+  "base_id": "f2d-76-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-76",
+  "seed": 26
+ },
+ {
+  "id": "2600076",
+  "base_id": "f2d-76-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-76",
+  "seed": 26
+ },
+ {
+  "id": "2601077",
+  "base_id": "f2d-77-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-77",
+  "seed": 26
+ },
+ {
+  "id": "2600077",
+  "base_id": "f2d-77-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-77",
+  "seed": 26
+ },
+ {
+  "id": "2601078",
+  "base_id": "f2d-78-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-78",
+  "seed": 26
+ },
+ {
+  "id": "2600078",
+  "base_id": "f2d-78-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-78",
+  "seed": 26
+ },
+ {
+  "id": "2601079",
+  "base_id": "f2d-79-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-79",
+  "seed": 26
+ },
+ {
+  "id": "2600079",
+  "base_id": "f2d-79-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-79",
+  "seed": 26
+ },
+ {
+  "id": "2601080",
+  "base_id": "f2d-80-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-80",
+  "seed": 26
+ },
+ {
+  "id": "2600080",
+  "base_id": "f2d-80-s26",
+  "town": "Town13",
+  "scenario": "VehicleTurningRoutePedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-80",
+  "seed": 26
+ },
+ {
+  "id": "2601081",
+  "base_id": "f2d-81-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-81",
+  "seed": 26
+ },
+ {
+  "id": "2600081",
+  "base_id": "f2d-81-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-81",
+  "seed": 26
+ },
+ {
+  "id": "2601082",
+  "base_id": "f2d-82-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-82",
+  "seed": 26
+ },
+ {
+  "id": "2600082",
+  "base_id": "f2d-82-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-82",
+  "seed": 26
+ },
+ {
+  "id": "2601083",
+  "base_id": "f2d-83-s26",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-83",
+  "seed": 26
+ },
+ {
+  "id": "2600083",
+  "base_id": "f2d-83-s26",
+  "town": "Town13",
+  "scenario": "PedestrianCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-83",
+  "seed": 26
+ },
+ {
+  "id": "2601084",
+  "base_id": "f2d-84-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Animals"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-84",
+  "seed": 26
+ },
+ {
+  "id": "2600084",
+  "base_id": "f2d-84-s26",
+  "town": "Town13",
+  "scenario": "ParkingCrossingPedestrian",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Animals"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-84",
+  "seed": 26
+ },
+ {
+  "id": "2601000",
+  "base_id": "f2d-0-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-0",
+  "seed": 26
+ },
+ {
+  "id": "2600000",
+  "base_id": "f2d-0-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-0",
+  "seed": 26
+ },
+ {
+  "id": "2601001",
+  "base_id": "f2d-1-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-1",
+  "seed": 26
+ },
+ {
+  "id": "2600001",
+  "base_id": "f2d-1-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-1",
+  "seed": 26
+ },
+ {
+  "id": "2601002",
+  "base_id": "f2d-2-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-2",
+  "seed": 26
+ },
+ {
+  "id": "2600002",
+  "base_id": "f2d-2-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-2",
+  "seed": 26
+ },
+ {
+  "id": "2601003",
+  "base_id": "f2d-3-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-3",
+  "seed": 26
+ },
+ {
+  "id": "2600003",
+  "base_id": "f2d-3-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-3",
+  "seed": 26
+ },
+ {
+  "id": "2601004",
+  "base_id": "f2d-4-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-4",
+  "seed": 26
+ },
+ {
+  "id": "2600004",
+  "base_id": "f2d-4-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-4",
+  "seed": 26
+ },
+ {
+  "id": "2601005",
+  "base_id": "f2d-5-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-5",
+  "seed": 26
+ },
+ {
+  "id": "2600005",
+  "base_id": "f2d-5-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-5",
+  "seed": 26
+ },
+ {
+  "id": "2601006",
+  "base_id": "f2d-6-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-6",
+  "seed": 26
+ },
+ {
+  "id": "2600006",
+  "base_id": "f2d-6-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-6",
+  "seed": 26
+ },
+ {
+  "id": "2601007",
+  "base_id": "f2d-7-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-7",
+  "seed": 26
+ },
+ {
+  "id": "2600007",
+  "base_id": "f2d-7-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-7",
+  "seed": 26
+ },
+ {
+  "id": "2601008",
+  "base_id": "f2d-8-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-8",
+  "seed": 26
+ },
+ {
+  "id": "2600008",
+  "base_id": "f2d-8-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-8",
+  "seed": 26
+ },
+ {
+  "id": "2601009",
+  "base_id": "f2d-9-s26",
+  "town": "Town13",
+  "scenario": "BadParkingObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_BadParking"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-9",
+  "seed": 26
+ },
+ {
+  "id": "2600009",
+  "base_id": "f2d-9-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_BadParking"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-9",
+  "seed": 26
+ },
+ {
+  "id": "2601010",
+  "base_id": "f2d-10-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-10",
+  "seed": 26
+ },
+ {
+  "id": "2600010",
+  "base_id": "f2d-10-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-10",
+  "seed": 26
+ },
+ {
+  "id": "2601011",
+  "base_id": "f2d-11-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-11",
+  "seed": 26
+ },
+ {
+  "id": "2600011",
+  "base_id": "f2d-11-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-11",
+  "seed": 26
+ },
+ {
+  "id": "2601012",
+  "base_id": "f2d-12-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-12",
+  "seed": 26
+ },
+ {
+  "id": "2600012",
+  "base_id": "f2d-12-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-12",
+  "seed": 26
+ },
+ {
+  "id": "2601013",
+  "base_id": "f2d-13-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-13",
+  "seed": 26
+ },
+ {
+  "id": "2600013",
+  "base_id": "f2d-13-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-13",
+  "seed": 26
+ },
+ {
+  "id": "2601014",
+  "base_id": "f2d-14-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstaclePedestrian",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-14",
+  "seed": 26
+ },
+ {
+  "id": "2600014",
+  "base_id": "f2d-14-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPedestrian"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-14",
+  "seed": 26
+ },
+ {
+  "id": "2601015",
+  "base_id": "f2d-15-s26",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-15",
+  "seed": 26
+ },
+ {
+  "id": "2600015",
+  "base_id": "f2d-15-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-15",
+  "seed": 26
+ },
+ {
+  "id": "2601016",
+  "base_id": "f2d-16-s26",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-16",
+  "seed": 26
+ },
+ {
+  "id": "2600016",
+  "base_id": "f2d-16-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-16",
+  "seed": 26
+ },
+ {
+  "id": "2601017",
+  "base_id": "f2d-17-s26",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-17",
+  "seed": 26
+ },
+ {
+  "id": "2600017",
+  "base_id": "f2d-17-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-17",
+  "seed": 26
+ },
+ {
+  "id": "2601018",
+  "base_id": "f2d-18-s26",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-18",
+  "seed": 26
+ },
+ {
+  "id": "2600018",
+  "base_id": "f2d-18-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-18",
+  "seed": 26
+ },
+ {
+  "id": "2601019",
+  "base_id": "f2d-19-s26",
+  "town": "Town13",
+  "scenario": "PermutedConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ConstructionPermutations"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-19",
+  "seed": 26
+ },
+ {
+  "id": "2600019",
+  "base_id": "f2d-19-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ConstructionPermutations"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-19",
+  "seed": 26
+ },
+ {
+  "id": "2601020",
+  "base_id": "f2d-20-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-20",
+  "seed": 26
+ },
+ {
+  "id": "2600020",
+  "base_id": "f2d-20-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-20",
+  "seed": 26
+ },
+ {
+  "id": "2601021",
+  "base_id": "f2d-21-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-21",
+  "seed": 26
+ },
+ {
+  "id": "2600021",
+  "base_id": "f2d-21-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-21",
+  "seed": 26
+ },
+ {
+  "id": "2601022",
+  "base_id": "f2d-22-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-22",
+  "seed": 26
+ },
+ {
+  "id": "2600022",
+  "base_id": "f2d-22-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-22",
+  "seed": 26
+ },
+ {
+  "id": "2601023",
+  "base_id": "f2d-23-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-23",
+  "seed": 26
+ },
+ {
+  "id": "2600023",
+  "base_id": "f2d-23-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-23",
+  "seed": 26
+ },
+ {
+  "id": "2601024",
+  "base_id": "f2d-24-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-24",
+  "seed": 26
+ },
+ {
+  "id": "2600024",
+  "base_id": "f2d-24-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-24",
+  "seed": 26
+ },
+ {
+  "id": "2601025",
+  "base_id": "f2d-25-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-25",
+  "seed": 26
+ },
+ {
+  "id": "2600025",
+  "base_id": "f2d-25-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-25",
+  "seed": 26
+ },
+ {
+  "id": "2601026",
+  "base_id": "f2d-26-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-26",
+  "seed": 26
+ },
+ {
+  "id": "2600026",
+  "base_id": "f2d-26-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-26",
+  "seed": 26
+ },
+ {
+  "id": "2601027",
+  "base_id": "f2d-27-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-27",
+  "seed": 26
+ },
+ {
+  "id": "2600027",
+  "base_id": "f2d-27-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-27",
+  "seed": 26
+ },
+ {
+  "id": "2601028",
+  "base_id": "f2d-28-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-28",
+  "seed": 26
+ },
+ {
+  "id": "2600028",
+  "base_id": "f2d-28-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-28",
+  "seed": 26
+ },
+ {
+  "id": "2601029",
+  "base_id": "f2d-29-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_CustomObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-29",
+  "seed": 26
+ },
+ {
+  "id": "2600029",
+  "base_id": "f2d-29-s26",
+  "town": "Town13",
+  "scenario": "ParkedObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_CustomObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-29",
+  "seed": 26
+ },
+ {
+  "id": "2601030",
+  "base_id": "f2d-30-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-30",
+  "seed": 26
+ },
+ {
+  "id": "2600030",
+  "base_id": "f2d-30-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-30",
+  "seed": 26
+ },
+ {
+  "id": "2601031",
+  "base_id": "f2d-31-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-31",
+  "seed": 26
+ },
+ {
+  "id": "2600031",
+  "base_id": "f2d-31-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-31",
+  "seed": 26
+ },
+ {
+  "id": "2601032",
+  "base_id": "f2d-32-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-32",
+  "seed": 26
+ },
+ {
+  "id": "2600032",
+  "base_id": "f2d-32-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-32",
+  "seed": 26
+ },
+ {
+  "id": "2601033",
+  "base_id": "f2d-33-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-33",
+  "seed": 26
+ },
+ {
+  "id": "2600033",
+  "base_id": "f2d-33-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-33",
+  "seed": 26
+ },
+ {
+  "id": "2601034",
+  "base_id": "f2d-34-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_FullyBlocked"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-34",
+  "seed": 26
+ },
+ {
+  "id": "2600034",
+  "base_id": "f2d-34-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_FullyBlocked"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-34",
+  "seed": 26
+ },
+ {
+  "id": "2601035",
+  "base_id": "f2d-35-s26",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-35",
+  "seed": 26
+ },
+ {
+  "id": "2600035",
+  "base_id": "f2d-35-s26",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-35",
+  "seed": 26
+ },
+ {
+  "id": "2601036",
+  "base_id": "f2d-36-s26",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-36",
+  "seed": 26
+ },
+ {
+  "id": "2600036",
+  "base_id": "f2d-36-s26",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-36",
+  "seed": 26
+ },
+ {
+  "id": "2601037",
+  "base_id": "f2d-37-s26",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-37",
+  "seed": 26
+ },
+ {
+  "id": "2600037",
+  "base_id": "f2d-37-s26",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-37",
+  "seed": 26
+ },
+ {
+  "id": "2601038",
+  "base_id": "f2d-38-s26",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-38",
+  "seed": 26
+ },
+ {
+  "id": "2600038",
+  "base_id": "f2d-38-s26",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-38",
+  "seed": 26
+ },
+ {
+  "id": "2601039",
+  "base_id": "f2d-39-s26",
+  "town": "Town13",
+  "scenario": "HardBrakeNoLights",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_HardBrake"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-39",
+  "seed": 26
+ },
+ {
+  "id": "2600039",
+  "base_id": "f2d-39-s26",
+  "town": "Town13",
+  "scenario": "HardBreakRoute",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_HardBrake"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-39",
+  "seed": 26
+ },
+ {
+  "id": "2601040",
+  "base_id": "f2d-40-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-40",
+  "seed": 26
+ },
+ {
+  "id": "2600040",
+  "base_id": "f2d-40-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-40",
+  "seed": 26
+ },
+ {
+  "id": "2601041",
+  "base_id": "f2d-41-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-41",
+  "seed": 26
+ },
+ {
+  "id": "2600041",
+  "base_id": "f2d-41-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-41",
+  "seed": 26
+ },
+ {
+  "id": "2601042",
+  "base_id": "f2d-42-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-42",
+  "seed": 26
+ },
+ {
+  "id": "2600042",
+  "base_id": "f2d-42-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-42",
+  "seed": 26
+ },
+ {
+  "id": "2601043",
+  "base_id": "f2d-43-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-43",
+  "seed": 26
+ },
+ {
+  "id": "2600043",
+  "base_id": "f2d-43-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-43",
+  "seed": 26
+ },
+ {
+  "id": "2601044",
+  "base_id": "f2d-44-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ImageOnObject"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-44",
+  "seed": 26
+ },
+ {
+  "id": "2600044",
+  "base_id": "f2d-44-s26",
+  "town": "Town13",
+  "scenario": "ImageOnObject",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ImageOnObject"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-44",
+  "seed": 26
+ },
+ {
+  "id": "2601045",
+  "base_id": "f2d-45-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-45",
+  "seed": 26
+ },
+ {
+  "id": "2600045",
+  "base_id": "f2d-45-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-45",
+  "seed": 26
+ },
+ {
+  "id": "2601046",
+  "base_id": "f2d-46-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-46",
+  "seed": 26
+ },
+ {
+  "id": "2600046",
+  "base_id": "f2d-46-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-46",
+  "seed": 26
+ },
+ {
+  "id": "2601047",
+  "base_id": "f2d-47-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-47",
+  "seed": 26
+ },
+ {
+  "id": "2600047",
+  "base_id": "f2d-47-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-47",
+  "seed": 26
+ },
+ {
+  "id": "2601048",
+  "base_id": "f2d-48-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-48",
+  "seed": 26
+ },
+ {
+  "id": "2600048",
+  "base_id": "f2d-48-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-48",
+  "seed": 26
+ },
+ {
+  "id": "2601049",
+  "base_id": "f2d-49-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_ObscuredStop"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-49",
+  "seed": 26
+ },
+ {
+  "id": "2600049",
+  "base_id": "f2d-49-s26",
+  "town": "Town13",
+  "scenario": "ObscuredStopSign",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_ObscuredStop"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-49",
+  "seed": 26
+ },
+ {
+  "id": "2601050",
+  "base_id": "f2d-50-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-50",
+  "seed": 26
+ },
+ {
+  "id": "2600050",
+  "base_id": "f2d-50-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-50",
+  "seed": 26
+ },
+ {
+  "id": "2601051",
+  "base_id": "f2d-51-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-51",
+  "seed": 26
+ },
+ {
+  "id": "2600051",
+  "base_id": "f2d-51-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-51",
+  "seed": 26
+ },
+ {
+  "id": "2601052",
+  "base_id": "f2d-52-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-52",
+  "seed": 26
+ },
+ {
+  "id": "2600052",
+  "base_id": "f2d-52-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-52",
+  "seed": 26
+ },
+ {
+  "id": "2601053",
+  "base_id": "f2d-53-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-53",
+  "seed": 26
+ },
+ {
+  "id": "2600053",
+  "base_id": "f2d-53-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-53",
+  "seed": 26
+ },
+ {
+  "id": "2601054",
+  "base_id": "f2d-54-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleOppositeLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_OppositeConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-54",
+  "seed": 26
+ },
+ {
+  "id": "2600054",
+  "base_id": "f2d-54-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_OppositeConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-54",
+  "seed": 26
+ },
+ {
+  "id": "2601060",
+  "base_id": "f2d-60-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-60",
+  "seed": 26
+ },
+ {
+  "id": "2600060",
+  "base_id": "f2d-60-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-60",
+  "seed": 26
+ },
+ {
+  "id": "2601061",
+  "base_id": "f2d-61-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-61",
+  "seed": 26
+ },
+ {
+  "id": "2600061",
+  "base_id": "f2d-61-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-61",
+  "seed": 26
+ },
+ {
+  "id": "2601062",
+  "base_id": "f2d-62-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-62",
+  "seed": 26
+ },
+ {
+  "id": "2600062",
+  "base_id": "f2d-62-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-62",
+  "seed": 26
+ },
+ {
+  "id": "2601063",
+  "base_id": "f2d-63-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-63",
+  "seed": 26
+ },
+ {
+  "id": "2600063",
+  "base_id": "f2d-63-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-63",
+  "seed": 26
+ },
+ {
+  "id": "2601064",
+  "base_id": "f2d-64-s26",
+  "town": "Town13",
+  "scenario": "CustomObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PassableObstacles"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-64",
+  "seed": 26
+ },
+ {
+  "id": "2600064",
+  "base_id": "f2d-64-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PassableObstacles"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-64",
+  "seed": 26
+ },
+ {
+  "id": "2601065",
+  "base_id": "f2d-65-s26",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-65",
+  "seed": 26
+ },
+ {
+  "id": "2600065",
+  "base_id": "f2d-65-s26",
+  "town": "Town13",
+  "scenario": "VehicleOpensDoorTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-65",
+  "seed": 26
+ },
+ {
+  "id": "2601066",
+  "base_id": "f2d-66-s26",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-66",
+  "seed": 26
+ },
+ {
+  "id": "2600066",
+  "base_id": "f2d-66-s26",
+  "town": "Town13",
+  "scenario": "ParkingExit",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-66",
+  "seed": 26
+ },
+ {
+  "id": "2601067",
+  "base_id": "f2d-67-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-67",
+  "seed": 26
+ },
+ {
+  "id": "2600067",
+  "base_id": "f2d-67-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacle",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-67",
+  "seed": 26
+ },
+ {
+  "id": "2601068",
+  "base_id": "f2d-68-s26",
+  "town": "Town13",
+  "scenario": "PedestrianCrowd",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-68",
+  "seed": 26
+ },
+ {
+  "id": "2600068",
+  "base_id": "f2d-68-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-68",
+  "seed": 26
+ },
+ {
+  "id": "2601069",
+  "base_id": "f2d-69-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianCrowd"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-69",
+  "seed": 26
+ },
+ {
+  "id": "2600069",
+  "base_id": "f2d-69-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleTwoWays",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianCrowd"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-69",
+  "seed": 26
+ },
+ {
+  "id": "2601070",
+  "base_id": "f2d-70-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-70",
+  "seed": 26
+ },
+ {
+  "id": "2600070",
+  "base_id": "f2d-70-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-70",
+  "seed": 26
+ },
+ {
+  "id": "2601071",
+  "base_id": "f2d-71-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-71",
+  "seed": 26
+ },
+ {
+  "id": "2600071",
+  "base_id": "f2d-71-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-71",
+  "seed": 26
+ },
+ {
+  "id": "2601072",
+  "base_id": "f2d-72-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-72",
+  "seed": 26
+ },
+ {
+  "id": "2600072",
+  "base_id": "f2d-72-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-72",
+  "seed": 26
+ },
+ {
+  "id": "2601073",
+  "base_id": "f2d-73-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-73",
+  "seed": 26
+ },
+ {
+  "id": "2600073",
+  "base_id": "f2d-73-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-73",
+  "seed": 26
+ },
+ {
+  "id": "2601074",
+  "base_id": "f2d-74-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-74",
+  "seed": 26
+ },
+ {
+  "id": "2600074",
+  "base_id": "f2d-74-s26",
+  "town": "Town13",
+  "scenario": "DynamicObjectCrossing",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestrianOtherBlocker"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-74",
+  "seed": 26
+ },
+ {
+  "id": "2601085",
+  "base_id": "f2d-85-s26",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-85",
+  "seed": 26
+ },
+ {
+  "id": "2600085",
+  "base_id": "f2d-85-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-85",
+  "seed": 26
+ },
+ {
+  "id": "2601086",
+  "base_id": "f2d-86-s26",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-86",
+  "seed": 26
+ },
+ {
+  "id": "2600086",
+  "base_id": "f2d-86-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-86",
+  "seed": 26
+ },
+ {
+  "id": "2601087",
+  "base_id": "f2d-87-s26",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-87",
+  "seed": 26
+ },
+ {
+  "id": "2600087",
+  "base_id": "f2d-87-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-87",
+  "seed": 26
+ },
+ {
+  "id": "2601088",
+  "base_id": "f2d-88-s26",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-88",
+  "seed": 26
+ },
+ {
+  "id": "2600088",
+  "base_id": "f2d-88-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-88",
+  "seed": 26
+ },
+ {
+  "id": "2601089",
+  "base_id": "f2d-89-s26",
+  "town": "Town13",
+  "scenario": "PedestriansOnRoad",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-89",
+  "seed": 26
+ },
+ {
+  "id": "2600089",
+  "base_id": "f2d-89-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_PedestriansOnRoad"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-89",
+  "seed": 26
+ },
+ {
+  "id": "2601090",
+  "base_id": "f2d-90-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-90",
+  "seed": 26
+ },
+ {
+  "id": "2600090",
+  "base_id": "f2d-90-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-90",
+  "seed": 26
+ },
+ {
+  "id": "2601091",
+  "base_id": "f2d-91-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-91",
+  "seed": 26
+ },
+ {
+  "id": "2600091",
+  "base_id": "f2d-91-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-91",
+  "seed": 26
+ },
+ {
+  "id": "2601092",
+  "base_id": "f2d-92-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-92",
+  "seed": 26
+ },
+ {
+  "id": "2600092",
+  "base_id": "f2d-92-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-92",
+  "seed": 26
+ },
+ {
+  "id": "2601093",
+  "base_id": "f2d-93-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-93",
+  "seed": 26
+ },
+ {
+  "id": "2600093",
+  "base_id": "f2d-93-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-93",
+  "seed": 26
+ },
+ {
+  "id": "2601094",
+  "base_id": "f2d-94-s26",
+  "town": "Town13",
+  "scenario": "ConstructionObstacleRightLane",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightConstruction"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-94",
+  "seed": 26
+ },
+ {
+  "id": "2600094",
+  "base_id": "f2d-94-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightConstruction"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-94",
+  "seed": 26
+ },
+ {
+  "id": "2601055",
+  "base_id": "f2d-55-s26",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-55",
+  "seed": 26
+ },
+ {
+  "id": "2600055",
+  "base_id": "f2d-55-s26",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-55",
+  "seed": 26
+ },
+ {
+  "id": "2601056",
+  "base_id": "f2d-56-s26",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-56",
+  "seed": 26
+ },
+ {
+  "id": "2600056",
+  "base_id": "f2d-56-s26",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-56",
+  "seed": 26
+ },
+ {
+  "id": "2601057",
+  "base_id": "f2d-57-s26",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-57",
+  "seed": 26
+ },
+ {
+  "id": "2600057",
+  "base_id": "f2d-57-s26",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-57",
+  "seed": 26
+ },
+ {
+  "id": "2601058",
+  "base_id": "f2d-58-s26",
+  "town": "Town13",
+  "scenario": "NormalVehicleRunningRedLight",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-58",
+  "seed": 26
+ },
+ {
+  "id": "2600058",
+  "base_id": "f2d-58-s26",
+  "town": "Town13",
+  "scenario": "OppositeVehicleRunningRedLight",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-58",
+  "seed": 26
+ },
+ {
+  "id": "2601059",
+  "base_id": "f2d-59-s26",
+  "town": "Town13",
+  "scenario": "NormalVehicleTakingPriority",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_RightOfWay"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-59",
+  "seed": 26
+ },
+ {
+  "id": "2600059",
+  "base_id": "f2d-59-s26",
+  "town": "Town13",
+  "scenario": "OppositeVehicleTakingPriority",
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_RightOfWay"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-59",
+  "seed": 26
+ },
+ {
+  "id": "2601095",
+  "base_id": "f2d-95-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-95",
+  "seed": 26
+ },
+ {
+  "id": "2600095",
+  "base_id": "f2d-95-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-95",
+  "seed": 26
+ },
+ {
+  "id": "2601096",
+  "base_id": "f2d-96-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-96",
+  "seed": 26
+ },
+ {
+  "id": "2600096",
+  "base_id": "f2d-96-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-96",
+  "seed": 26
+ },
+ {
+  "id": "2601097",
+  "base_id": "f2d-97-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-97",
+  "seed": 26
+ },
+ {
+  "id": "2600097",
+  "base_id": "f2d-97-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-97",
+  "seed": 26
+ },
+ {
+  "id": "2601098",
+  "base_id": "f2d-98-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-98",
+  "seed": 26
+ },
+ {
+  "id": "2600098",
+  "base_id": "f2d-98-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-98",
+  "seed": 26
+ },
+ {
+  "id": "2601099",
+  "base_id": "f2d-99-s26",
+  "town": "Town13",
+  "scenario": "RoadBlocked",
+  "role": "pilot_slice",
+  "practice_gaps": [
+   "F2D_Wall"
+  ],
+  "neighbourhood_of": [],
+  "source": "fail2drive",
+  "pair": "f2d-99",
+  "seed": 26
+ },
+ {
+  "id": "2600099",
+  "base_id": "f2d-99-s26",
+  "town": "Town13",
+  "scenario": null,
+  "role": "pilot_neighbourhood",
+  "practice_gaps": [],
+  "neighbourhood_of": [
+   "F2D_Wall"
+  ],
+  "source": "fail2drive",
+  "pair": "f2d-99",
+  "seed": 26
+ }
+]

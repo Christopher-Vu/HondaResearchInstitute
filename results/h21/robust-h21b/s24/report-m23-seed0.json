@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 24; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 8,
+  "F2D_Wall": 5,
+  "F2D_PedestriansOnRoad": 3
+ },
+ "decoys": {
+  "F2D_Animals": 10,
+  "F2D_ConstructionPermutations": 5,
+  "F2D_ImageOnObject": 5,
+  "F2D_ObscuredStop": 5,
+  "F2D_PassableObstacles": 5,
+  "F2D_RightOfWay": 5
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m23-w50L8+routeL8": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.36408730158730157,
+   "recall_at_0.5": 0.3333333333333333,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.18231386613503056,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.1875,
+    "F2D_Wall": 0.5714285714285714,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.04649470899470898,
+     "interval": [
+      -0.16386726723568834,
+      0.36828826266326237
+     ],
+     "p_one_sided": 0.3865
+    },
+    "B3_infraction": {
+     "delta": 0.05600649350649345,
+     "interval": [
+      -0.14816891637815902,
+      0.38390873015873017
+     ],
+     "p_one_sided": 0.333
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.04649470899470898,
+    "interval": [
+     -0.16386726723568834,
+     0.36828826266326237
+    ],
+    "p_one_sided": 0.3865
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.3175925925925926,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.17566832565402715,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.3,
+    "F2D_Wall": 0.2777777777777778,
+    "F2D_PedestriansOnRoad": 0.375
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 6,
+   "mean_best": 0.3080808080808081,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.0,
+   "chance_B1": 0.1599909194401948,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.36363636363636365,
+    "F2D_Wall": 0.22727272727272727,
+    "F2D_PedestriansOnRoad": 0.3333333333333333
+   }
+  }
+ }
+}

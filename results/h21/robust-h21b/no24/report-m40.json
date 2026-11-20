@@ -1,0 +1,89 @@
+{
+ "label": "DEV: SimLingo H21b robustness, seeds 25 26; rescore, not a try",
+ "methods_tried": 219,
+ "budget_m": 10,
+ "gaps": {
+  "F2D_CustomObstacles": 20,
+  "F2D_Wall": 9,
+  "F2D_PedestriansOnRoad": 6
+ },
+ "decoys": {
+  "F2D_Animals": 19,
+  "F2D_ConstructionPermutations": 10,
+  "F2D_ImageOnObject": 9,
+  "F2D_ObscuredStop": 10,
+  "F2D_PassableObstacles": 10,
+  "F2D_RightOfWay": 8
+ },
+ "primary_rival": "B3_behaviour",
+ "reported_rivals": [
+  "B3_infraction"
+ ],
+ "rows": {
+  "m40-w50L8pca64+routeL20": {
+   "role": "method",
+   "axes": 10,
+   "mean_best": 0.3564971751412429,
+   "recall_at_0.5": 0.3333333333333333,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.13267195434604573,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.1694915254237288,
+    "F2D_Wall": 0.4,
+    "F2D_PedestriansOnRoad": 0.5
+   },
+   "vs": {
+    "B3_behaviour": {
+     "delta": 0.194536488817738,
+     "interval": [
+      -0.011871952959533371,
+      0.422584551839754
+     ],
+     "p_one_sided": 0.0385
+    },
+    "B3_infraction": {
+     "delta": 0.0787529555365582,
+     "interval": [
+      -0.10588706318760091,
+      0.33532433625624153
+     ],
+     "p_one_sided": 0.2425
+    }
+   },
+   "vs_best_rival": {
+    "delta": 0.194536488817738,
+    "interval": [
+     -0.011871952959533371,
+     0.422584551839754
+    ],
+    "p_one_sided": 0.0385
+   }
+  },
+  "B3_behaviour": {
+   "role": "rival",
+   "axes": 10,
+   "mean_best": 0.1619606863235049,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.1,
+   "chance_B1": 0.1293520501517985,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.20689655172413793,
+    "F2D_Wall": 0.1956521739130435,
+    "F2D_PedestriansOnRoad": 0.08333333333333333
+   }
+  },
+  "B3_infraction": {
+   "role": "rival",
+   "axes": 8,
+   "mean_best": 0.2777442196046847,
+   "recall_at_0.5": 0.0,
+   "decoy_hit_rate": 0.125,
+   "chance_B1": 0.12644052454678353,
+   "per_gap": {
+    "F2D_CustomObstacles": 0.4090909090909091,
+    "F2D_Wall": 0.18604651162790697,
+    "F2D_PedestriansOnRoad": 0.23809523809523808
+   }
+  }
+ }
+}
