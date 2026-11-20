@@ -1,0 +1,61 @@
+\section{Introduction and problem}
+\label{sec:intro}
+
+When a driving policy fails in closed loop, the team that owns it has to decide
+what data to collect next. To do that it needs the failures sorted into groups
+that share a cause: a group of collisions with pedestrians walking in the lane, a
+group of stalls in front of a fully blocked road, and so on. The usual way to get
+those groups is to write a list of candidate factors (weather, junction type,
+object class) and measure how much the policy degrades along each. That only finds
+failures someone already thought to write down.
+
+This study asks a narrower question that can be measured. If we take the policy's
+internal activations on its own driven routes, and the pass/fail outcome of each
+route, can a method with no scenario label sort the failing routes into the
+groups that a benchmark already knows about? We call this \emph{label-free
+failure discovery}. A method sees activations, the outcome of each route, and
+signals a fleet logs (speed, infractions). It never sees the scenario name, the
+route configuration, or any field that encodes the failure type.
+
+\paragraph{Why a benchmark with known groups.}
+We cannot score discovery of failures nobody knows. So we score recovery of
+failure groups that are known to us and hidden from every method, and we read
+that as a proxy for finding unknown ones. Fail2Drive~\cite{gerstenecker2026fail2drive}
+suits this because each of its routes comes as a pair: a base route in the
+training distribution and a twin on the same road that adds one unseen scenario.
+% published: 100 route pairs, 17 scenario types (CITATION_AUDIT.md, fail2drive row)
+It has 100 such pairs over 17 scenario types. A scenario type whose twins fail
+much more often than their bases is a \emph{gap}: a failure group with a known
+cause. The proxy is stated here because a reader may otherwise take it for the
+real goal.
+
+\paragraph{The comparison that matters.}
+A discovery method is only useful if it beats what a fleet already has. A fleet
+logs the car's speed and the infractions it incurred, so our main rival groups
+failures by those signals alone (B3-behaviour, \S\ref{sec:rivals}). An earlier
+rival that also read the simulator's exact distances to nearby objects was
+retired, because no deployed car has those distances. The question is therefore
+whether activations add anything over behaviour, not whether they beat chance.
+
+\paragraph{Models.}
+We develop methods on SimLingo~\cite{Renz2025cvpr}, a vision-language-action
+driving model. We freeze the finalists and score them on TransFuser++
+\cite{jaeger2023hidden,zimmerlin2024hidden}, a camera and LiDAR model, and on
+UniAD, a modular camera-only model. UniAD's outcomes are blind to every method
+until the pre-registered read (\S\ref{sec:prereg}). All driving runs in CARLA
+\cite{carla2017}.
+
+\paragraph{What this draft contains.}
+Section~\ref{sec:data} describes the data pools and their roles.
+Section~\ref{sec:methods} describes the search framework, the two method families,
+the rivals and the scoring rules at a level a reader can reimplement.
+Section~\ref{sec:prereg} gives the pre-registration history, including every
+post hoc amendment. Section~\ref{sec:whatbroke} lists what went wrong that a
+reader needs in order to trust or doubt the numbers. Section~\ref{sec:related}
+places the work. There is no results section yet.
+
+\paragraph{What this study does not claim.}
+It makes no claim about real vehicles, about transfer to other domains, or that
+driving is a new setting for failure analysis. It tests recovery of known groups,
+not discovery of unknown ones. Every figure in the inherited planning documents
+that was a target rather than a measurement is left out.

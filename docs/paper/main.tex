@@ -1,0 +1,60 @@
+% Draft writeup, work item 5. No results section by design: outcome numbers from
+% TransFuser++ held-out scoring and from UniAD are not reported here.
+%
+% Number tags. Every number in the text carries a LaTeX comment on the same or the
+% next line, with one of these tags and its source file:
+%   measured  -- counted or computed from data in the repo or on the shared data box
+%   estimate  -- a projection or guess written down before the fact
+%   design    -- a value fixed in a pre-registration, spec or script, not an outcome
+%   published -- a fact about someone else's paper, verified in
+%                upstream-99p/docs/CITATION_AUDIT.md or docs/step0-trackA-findings.md
+%
+% Citation rule. \cite is used only for keys whose audit verdict is [confirmed] or
+% [corrected] in upstream-99p/docs/CITATION_AUDIT.md (or read in
+% docs/step0-trackA-findings.md). refs.bib also holds unverified entries; they are
+% marked "unverified" in their note field and are never cited in the text.
+%
+% Build: pdflatex main && bibtex main && pdflatex main && pdflatex main
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\title{Label-free failure discovery from driving-model activations:\\
+a pre-registered study on Fail2Drive}
+\author{Draft for internal review}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A driving team that sees its policy fail wants to know which failures belong
+together, so it can collect data for each group. We ask whether the policy's own
+internal activations, read without any scenario label, sort its failures into the
+groups a benchmark already knows. We use Fail2Drive's paired routes, develop
+methods on SimLingo, and score frozen methods on TransFuser++ and UniAD against
+rivals built only from what a vehicle fleet logs. This draft describes the data,
+the methods, the scoring rules and their pre-registration history, and what went
+wrong on the way. It reports no held-out outcome.
+\end{abstract}
+
+\input{intro}
+\input{data}
+\input{methods}
+\input{prereg}
+\input{whatbroke}
+\input{related}
+
+% results after Chris reviews the three-model table
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

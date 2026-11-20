@@ -1,0 +1,139 @@
+\section{Data}
+\label{sec:data}
+
+\subsection{Fail2Drive pairs}
+\label{sec:fail2drive}
+
+Fail2Drive~\cite{gerstenecker2026fail2drive} pairs each \emph{generalisation}
+route with a \emph{base} twin on the same road; only the targeted shift differs.
+% published: 100 pairs, 17 scenario types (CITATION_AUDIT.md, fail2drive row)
+There are 100 pairs over 17 scenario types (``types'' below). The benchmark
+forbids training on its routes, scenarios or assets; we train nothing on it and
+use it only to drive and score. A type's \emph{slice} is its generalisation
+routes, and its \emph{neighbourhood} is their base twins. A \emph{unit} is one
+(model, type) pair. Route ids encode the traffic seed
+(\code{seed * 100000 + id}), so each seed's copy of a route is a separate route.
+
+\paragraph{Gap classification.}
+Each unit is classified on the model's own test pool, in this order
+(\code{docs/prereg-fail2drive.md} \S1):
+% design: thresholds from docs/prereg-fail2drive.md §1 (PRD.md §9.1)
+\begin{enumerate}
+  \item \textbf{Gap}: at least 30 slice runs, a failure-rate uplift of at least
+        20 points over the neighbourhood, a ratio of at least $2\times$, and
+        Fisher $p < 0.01$. The paired McNemar test is reported beside it.
+  \item \textbf{Ceiling}: a gap whose slice fails at least 95\% of the time and
+        whose neighbourhood fails at most 20\%. It is a control, not a target.
+  \item \textbf{Decoy}: $|\text{uplift}| \le 10$ points and McNemar $p > 0.2$.
+        A decoy looks novel but is handled fine.
+  \item \textbf{Background}: everything else. It stays in the pool and is never
+        scored.
+\end{enumerate}
+% design: 12 factors, Jaccard 0.4 (configs/baselines/b4_factors_v1.yaml, tag b4-factors-v1)
+A gap is \emph{B4-unnamed} if no single level of our enumerated factor list (B4,
+12 factors, tagged \code{b4-factors-v1} before any Fail2Drive drive) has a
+failing set with Jaccard at least 0.4 against the gap's failing set. Otherwise it
+is B4-named. The paper uses the name ``B4-unnamed'', never ``interactional''.
+
+\paragraph{Rule units for the views comparison.}
+The later views pre-registration (\S\ref{sec:prereg-views}) adds a looser unit
+rule, \code{units\_rule.py}, run inside each read.
+% design: 1.5x and at least 5 failing routes (docs/prereg-views.md, "Units, metric and intervals")
+It admits every type whose generalisation routes fail at least $1.5\times$ as
+often as their base twins, with at least 5 failing generalisation routes. The
+primary units are those minus Wall, which is excluded by name because it was a
+ceiling control from the start.
+
+\subsection{Pools}
+
+Table~\ref{tab:pools} lists every pool and its role. A pool is a set of driven
+routes with per-step activations and logged state. Dev pools may be read freely.
+A held-out pool is read once, after a freeze tag.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Pool & Model & Seeds & Role \\
+\midrule
+SimLingo test pool & SimLingo & 101--106 & dev (rounds 1 and 2) \\
+H21 (one seed) & SimLingo & 24 & dev, second pool \\
+H21b (three seeds) & SimLingo & 24, 25, 26 & dev, replication \\
+TransFuser++ test pool & TransFuser++ & 101--106 & held out in round 1; dev in round 2 \\
+UniAD test pool & UniAD & 101--106 & held out, blind \\
+\bottomrule
+\end{tabular}
+\caption{Pools and their roles. Seeds are CARLA traffic seeds. Seeds 24--26 are
+never counted as evidence (\code{docs/prereg-views.md}, Data).}
+\label{tab:pools}
+\end{table}
+
+\paragraph{SimLingo test pool.}
+% design: 100 pairs x 6 seeds = 1,200 routes (docs/prereg-fail2drive.md §1)
+Every Fail2Drive pair on six traffic seeds, 1,200 routes by design.
+% measured: 1,188 routes with an outcome (results/savio/f2d-test-simlingo/routes.jsonl, line count)
+% measured: 1,185 scored routes with states (results/savio/f2d-test-simlingo/b4-split.json, rollouts_with_states)
+% measured: 357 failing among the 1,185 (VARIANTS.md, batch 1, cache job 41320891)
+1,188 routes have an outcome and 1,185 carry the logged state the scorer needs;
+357 of those fail. A third of the pool was lost on the first pass and rerun
+(\S\ref{sec:whatbroke}).
+% measured: gap classification on this pool (docs/prd-discovery-sprint.md §2; results/savio/f2d-test-simlingo/b4-split.json)
+Gaps under the pre-registered rule are
+PedestriansOnRoad, FullyBlocked and BadParking, all B4-unnamed
+(\code{docs/prd-discovery-sprint.md} \S2). Each route's run folder also saved the
+model's own camera input every 10 steps, which the caption row later uses.
+
+\paragraph{H21 and H21b.}
+H21 is a second SimLingo dev pool: all 100 pairs on seed 24.
+% measured: 200 routes, 52 failing (results/savio/f2d-all/routes.jsonl)
+It has 200 routes, 52 failing. H21b drove the same routes again, unchanged
+except the seed, on seeds 25 and 26.
+% measured: s24 200 routes / 52 failing, s25 198 / 56, s26 195 / 66 (docs/JOURNAL.md 2026-11-19, job 41570198)
+Seed 25 has 198 routes and seed 26 has 195; seven drive tasks failed partway and
+were not rerun.
+% measured: 593 routes, 174 failing, 100 pairs (results/h21/h21b/routes.jsonl and manifest.json, pair with -sNN stripped)
+The pooled three-seed pool has 593 routes, 174 failing, over 100 Fail2Drive
+pairs. Its manifest's \code{pair} field wrongly carries the seed; resampling must
+strip the suffix (\S\ref{sec:h21b}). H21's categories were already read by
+earlier hypotheses, so it can rank and kill methods but cannot make a candidate.
+
+\paragraph{TransFuser++ as the first held-out model, then a second dev model.}
+% design: 1,200 routes per model (CONFLICTS.md C38, Chris's scoping)
+TransFuser++~\cite{jaeger2023hidden,zimmerlin2024hidden} was driven on the same
+1,200-route design.
+% measured: TF++ gap classification (docs/prd-discovery-sprint.md §2; transfer-spec.md item 7)
+Its gaps under the pre-registered rule are FullyBlocked and
+PedestriansOnRoad (\code{transfer-spec.md}, item 7). Both are SimLingo gaps too,
+so it tests transfer across models, not across failure types. In round 1 it was
+held out and scored once. Amendment A3 fixed in advance that if the primary
+finalist's interval against B3-behaviour on TransFuser++ included zero,
+TransFuser++ would become a second dev pool for a round-2 search, confirmed on
+UniAD alone (\S\ref{sec:prereg-a3}). Round 2 was opened under that rule and
+closed by A4. TransFuser++ was later re-driven to save camera frames, which only
+that re-drive has.
+
+\paragraph{UniAD, the held-out model.}
+UniAD, in the Bench2DriveZoo release, is a modular camera-only model. It is not
+cited here because no audited reference for it exists yet.
+% design: six seeds 101-106, 1,200 routes (docs/prereg-views.md, Data)
+Its test pool is the same six-seed design, 1,200 routes. No method has read its
+outcomes; they are read twice, an interim read and the final read, both fixed
+before the tag (\S\ref{sec:prereg-views}). This draft reports neither.
+
+\subsection{What a method sees}
+
+The capture agent records, every 5 simulation steps, mean-pooled activations at
+named sites.
+% measured: frames are 5 sim steps apart on all three models (WHAT_BROKE.md 2026-11-16; transfer-spec.md table)
+At 20\,Hz that is one frame every 0.25\,s. On SimLingo the sites are
+\code{driving\_queries} (the query tokens the controller reads), \code{all\_tokens}
+and \code{vision\_bridge}.
+% design: SimLingo 24 x 896; TF++ 6 x 256 measured on one shard (transfer-spec.md table)
+SimLingo's query site has 24 layers of width 896; TransFuser++'s has 6 of width
+256. Methods also see ego speed per frame, the infraction counts and the
+pass/fail outcome of each route. Before a method sees a shard, the fields
+\code{scenario}, \code{practice\_gaps}, \code{role}, \code{neighbourhood\_of},
+\code{base\_id}, \code{pair}, \code{seed}, \code{source} and the route id are
+removed, and routes are renamed by a salted hash whose salt stays with the
+scorer (\code{docs/prereg-fail2drive.md} \S3).
