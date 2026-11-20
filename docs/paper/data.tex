@@ -83,8 +83,10 @@ Every Fail2Drive pair on six traffic seeds, 1,200 routes by design.
 % measured: gap classification on this pool (docs/prd-discovery-sprint.md §2; results/savio/f2d-test-simlingo/b4-split.json)
 Gaps under the pre-registered rule are
 PedestriansOnRoad, FullyBlocked and BadParking, all B4-unnamed
-(\code{docs/prd-discovery-sprint.md} \S2). Each route's run folder also saved the
-model's own camera input every 10 steps, which the caption row later uses.
+(\code{docs/prd-discovery-sprint.md} \S2). Each route's run folder also kept camera
+images: the model's own input every 10 steps, which the unpooled experiment
+replays, and driver-camera images every 20 steps, which the caption row uses.
+% design: 10 and 20 steps (VARIANTS.md checks correction; docs/prereg-views.md, The caption row)
 
 \paragraph{H21 and H21b.}
 % design: 100 pairs on seed 24 (CONFLICTS.md C38; VARIANTS.md j section)
