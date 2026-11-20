@@ -1349,3 +1349,37 @@ well (one-step R² 0.896, in-sample, measured), and its residual size rises over
 3.29) while staying flat on passing ones (2.24 to 2.45). So the surprise is about failing, not about which gap. The
 temporal lane keeps j09 (0.298) as its best on H21b. The batch stops here: 224 + 2 laptop tries. Outputs and commands:
 `results/h21/j24/`.
+
+### Exploratory, H21b pool, laptop j22-j23 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-055955-27931, work item 4, open lane "dictionary methods on long windows with new statistics".
+Exploratory, dev, H21b only; nothing here can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`).
+- **Prior dictionary rows:** v1 and B7/B7-pool read dictionary latents with B7's activation statistics; m01 ranked
+  B7's latents by enrichment; m14 trained a top-64 dictionary on 6-frame windows and read it with B7-pool and the
+  error-aware ranking (0.000, B7's statistics fail on short episodes). No row has trained a dictionary on single
+  frames of the 50-frame window and read it with a within-route temporal statistic. j22 does not use B7's statistics
+  or B7-pool.
+- **Pool and scoring:** H21b, 593 routes, 174 failing; inputs `results/savio/f2d-h21b/pool/{frames.npz,cache.npz}`.
+  `sprint_score.py` under A2/A1 as `results/h21/j18/commands.sh`: gaps CustomObstacles, Wall, PedestriansOnRoad;
+  the six decoys; primary rival B3-behaviour, B3-infraction reported; 2,000 replicates; manifest copy with `pair`
+  stripped of its `-sNN` suffix (100 Fail2Drive pairs). Outputs `results/h21/j22/`.
+- **Count:** only the pooled row is scored; each scored row is one try, written "224 + n laptop tries this batch".
+- **Robustness, not tries:** j22 pooled rerun with dictionary seeds 1 to 3 at 200 replicates. Seed 0 stays the j22
+  score whatever these show.
+- **Rule fixed now:** j23 runs only if j22 pooled lands below m23 (0.395); its row is written before its score, with
+  a reason from j22's own outputs (no key read), and it is the last try in this section.
+- **Label-free fit check before this row (no score read):** at alpha 1.0 the codes use 3.48 atoms per frame on
+  average over 29,279 valid frames; no frame has an empty code and every atom is used. CPU time 12 s.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
+|---|---|---|---|---|---|---|
+| j22 | 2026-11-20 | H21b | `j22_dict.py` defaults: `frames.npz` `driving_queries` L8, every valid frame of every route (right-aligned, 21 to 50 per route); units standardised over all frames, PCA 32 fit on all frames, scores divided by their global RMS; `MiniBatchDictionaryLearning` 64 atoms, alpha 1.0, batch 256, 20 epochs, `random_state` 0, codes by lasso_lars at alpha 1.0; per route and atom the mean absolute code over the last 10 valid frames minus over the earlier valid frames (frames 1-40 of a full window), and the share of the last 10 frames where the atom is active; 128 columns standardised over all routes; Ward on the failing routes, cuts 2/3/5 (A2 continuation), ranked by cut then size, largest first (label-free, as m15); top 10. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first. Only the pooled row is scored | 0.286 (0.210 / 0.529 / 0.120); failing-only chance 0.125; recall at 0.5 0.33; decoy hits 0 | +0.134 [+0.006, +0.297], p 0.019 / −0.000 [−0.146, +0.172], p 0.46 | 224 + 1 laptop try this batch |
+| j23 | 2026-11-20 | H21b | j22 unchanged (same frames, PCA, dictionary, seed 0, codes) except `--columns change`: only the 64 late-minus-early mean-absolute-code columns, the 64 late active-share columns dropped; standardised over all routes, Ward 2/3/5, top 10; pooled with whole-route L8, whole-route first. Reason, from j22's own outputs with no key read: j22's failing-route cuts sort routes by speed over the last 10 frames (cut 2: mean late speed 16.7 in the 40-route group against 7.1 in the 134-route group); the leading principal component of the share block correlates with late speed at r 0.53, of the change block at r 0.17. A late active share is a level, as a window mean is, and here it mostly encodes how fast the car is going, which B3-behaviour already reads. Last try in this section whatever it scores | 0.269 (0.210 / 0.529 / 0.068); failing-only chance 0.122; recall at 0.5 0.33; decoy hit rate 0.1 | +0.117 [−0.015, +0.283], p 0.047 / −0.018 [−0.167, +0.165], p 0.54 | 224 + 2 laptop tries this batch |
+
+j22 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j22/report-j22.json`). It sits below m23 (0.395) and level with B3-infraction (−0.000, p 0.46). CustomObstacles and Wall equal m23's values, which the shared whole-route source probably carries (no per-axis attribution run, unverified); PedestriansOnRoad is 0.120 against m23's 0.444. Dictionary seeds 1 to 3 (robustness, not tries, 200 replicates): 0.304, 0.289, 0.301, so seeds 0 to 3 span 0.286 to 0.304; against B3-infraction p is 0.42 to 0.48 for every seed. j23 is run under the rule above; its row was written before its score.
+
+j23 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `results/h21/j22/report-j23.json`). Dropping the share columns lowered the score: PedestriansOnRoad fell from j22's 0.120 to 0.068, near failing-only chance, and one pooled axis now hits a decoy. CustomObstacles and Wall stay at the whole-route view's values. The j23 source splits the failing routes very unevenly (its first cut is 149 against 25), so the change columns alone give mostly large groups. Both rows are below m23 (0.395) and level with B3-infraction. Reading: a per-frame dictionary read by late-versus-early statistics adds nothing over the whole-route view here; m23's window view (PedestriansOnRoad 0.444) stays the best second source. The section stops here (two laptop tries, 224 + 2). Outputs and commands: `results/h21/j22/`.
+
+**Tried count after the j22-j25 batches (reconciled 2026-11-20 06:40).** The two laptop batches ran in parallel and
+each wrote its tries as "224 + n". In landing order: j24 = 225, j25 = 226, j22 = 227, j23 = 228. **228 methods tried
+in total** (exploratory, dev, H21b only). Robustness reruns (j24 ridge alpha, j22 dictionary seeds) add nothing.
