@@ -13,7 +13,8 @@ in the last frames before the route ends, against the same route's earlier frame
 - Statistics per route and atom: the mean absolute code over the last --late valid frames minus the mean over the
   route's earlier valid frames (frames 1-40 of a full 50-frame window), and the share of the last --late frames where
   the atom is active (nonzero code).
-- Axes: the 2 x atoms columns are standardised over all routes and the failing routes are Ward-clustered at cuts
+- j23 (`--columns change`): only the late-minus-early columns; the late active share is dropped.
+- Axes: the columns (2 x atoms, or atoms with --columns change) are standardised over all routes and the failing routes are Ward-clustered at cuts
   2/3/5 (cache_methods.axes_from, A2), in that order, largest first within a cut; top 10.
 
 Only route_id, meta.success, layers, site, frames and n_frames are read, in the file's salted row order.
@@ -72,10 +73,12 @@ def late_early_statistics(codes: np.ndarray, lengths: list[int], late: int) -> n
 
 
 def j22_axes(sequences: list[np.ndarray], failing: np.ndarray, ids: list[str], name: str, dims: int = 32,
-             atoms: int = 64, alpha: float = 1.0, seed: int = 0, epochs: int = 20, late: int = 10) -> tuple[list, dict]:
+             atoms: int = 64, alpha: float = 1.0, seed: int = 0, epochs: int = 20, late: int = 10,
+             columns: str = "both") -> tuple[list, dict]:
     z = reduce_frames(np.concatenate(sequences, axis=0), dims)
     codes = sparse_codes(z, atoms, alpha, seed, epochs)
-    features = cache_methods.standardise(late_early_statistics(codes, [len(s) for s in sequences], late))
+    statistics = late_early_statistics(codes, [len(s) for s in sequences], late)
+    features = cache_methods.standardise(statistics[:, :atoms] if columns == "change" else statistics)
     active = (codes != 0).sum(1)
     fit = {"frames": int(len(z)), "mean_active_atoms_per_frame": float(active.mean()),
            "frames_with_no_active_atom": float(np.mean(active == 0)),
@@ -96,6 +99,8 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--late", type=int, default=10)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--columns", choices=("both", "change"), default="both",
+                        help="j23: change keeps only the late-minus-early columns")
     parser.add_argument("--name", default="j22")
     args = parser.parse_args()
     with np.load(args.frames) as cache:
@@ -106,7 +111,7 @@ def main() -> None:
         n_frames = np.asarray(cache["n_frames"], dtype=np.int64)
     sequences = j09.sequences_from_block(block, n_frames)
     axes, fit = j22_axes(sequences, failing, ids, args.name, args.dims, args.atoms, args.alpha, args.seed,
-                         args.epochs, args.late)
+                         args.epochs, args.late, args.columns)
     settings = vars(args) | {"frames": str(args.frames), "output": str(args.output), "layer": int(layer)}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"method": args.name, "settings": settings, "fit": fit, "axes": axes},
