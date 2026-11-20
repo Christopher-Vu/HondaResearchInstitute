@@ -5,6 +5,26 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — Laptop round: j20-j21 self-supervised encoder landed, four workers restarted (orchestrator)
+
+The morning laptop workers stopped at the Claude five-hour usage limit. Only the j20 worker had got far enough to
+finish. It scored j20 and then j21, but it did not commit j21. The orchestrator rescored j21 from the worker's saved
+axes and rebuilt the pooled list. Both outputs matched the worker's byte for byte, so the work was committed and
+landed (merge `d4f5a7d`).
+
+j20 trains a small encoder with a contrastive loss: two stretches of the same route are pulled together and other
+routes are pushed apart. It then clusters the failing routes' embeddings. On the three-seed H21b dev pool it scored
+0.291, and j21, the same encoder at a higher temperature, scored 0.280 (measured, exploratory). Both are below m23's
+0.395, and neither separates from the infraction-type rival. That stops the self-supervised lane after two tries.
+The running total is now 230 methods tried, reconciled in `VARIANTS.md`, with no candidate. Details are in
+`results/h21/j20/report.md`.
+
+Four new workers started: j26 (it clusters failing routes by what a nonlinear pass/fail probe relies on), a
+diagnostic of which pooled source supplies each best-matching axis, a second paper pass on the verified citations,
+and a fact check of the paper's data, pre-registration and what-broke sections.
+
+---
+
 ## 2026-11-20 — Laptop round: j16-j17 scored, H21b robustness grid, paper draft (orchestrator)
 
 The laptop orchestrator reviewed and landed three more laptop Claude workers besides j18-j19. Each worker's numbers
