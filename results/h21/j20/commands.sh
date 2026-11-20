@@ -54,3 +54,8 @@ j20 = axes(paths[0] + '.json')
 for other in ['results/h21/h21b/axes/m15-source.json', 'results/h21/j20/axes/route-L8.json'] + [p + '.json' for p in paths[1:]]:
     print(other, [len(a) for a in axes(other)], np.round([max(jac(a, b) for b in axes(other)) for a in j20], 2).tolist())
 DIAG
+
+# j21: try 224 + 2. Row committed (a428935) before this ran.
+$PY $D/j20_ssl.py $POOL/frames.npz --temperature 0.5 --name j21 --output $OUT/axes/j21-source.json
+$PY $D/pool_axes.py --name j21-routeL8+ssl-t0.5 --source $OUT/axes/route-L8.json --source $OUT/axes/j21-source.json --output $OUT/axes/j21.json
+$PY $D/sprint_score.py --method $OUT/axes/j21.json $RIVALS $MAN $GAPS --tried 226 --label "EXPLORATORY DEV: SimLingo H21b pool only, seeds 24-26; j21, try 224 + 2 laptop tries this batch; pair seed suffix stripped" --output $OUT/report-j21.json
