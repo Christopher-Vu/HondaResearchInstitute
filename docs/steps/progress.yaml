@@ -15,8 +15,9 @@ week:
     - {text: "SimLingo unpooled views read neither: token detail and DINO do not improve on behaviour", who: Christopher-Vu}
     - {text: "Views preregistration tagged before any UniAD outcome read", who: Christopher-Vu}
     - {text: "One-command UniAD read pipeline passed end to end on dev data only", who: Christopher-Vu}
+    - {text: "SimLingo caption row beats behaviour, with scenario-name overlap explicitly flagged", who: Christopher-Vu}
   next:
-    - {text: "Verify TransFuser++ re-drive agreement before scoring its unpooled views", who: Christopher-Vu}
+    - {text: "Verify TransFuser++ re-drive agreement before caption and unpooled scoring", who: Christopher-Vu}
     - {text: "Run caption quality controls and finish UniAD coverage for Saturday's interim blind read", who: Christopher-Vu}
 
 steps:

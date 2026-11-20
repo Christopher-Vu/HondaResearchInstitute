@@ -34,6 +34,12 @@ on the development screen only. The dashboard now marks that preregistration
 gate complete and names the remaining caption controls, TF++ agreement, and
 Saturday interim blind read.
 
+**Follow-up, later Nov 19:** the pre-registered SimLingo caption row scored
+above B3-behaviour on the primary units, but mode names overlap the frozen
+scenario-synonym list in 33 of 59 cases. The dashboard records both facts,
+including the confound flag, and leaves TF++ and UniAD as the unresolved
+comparisons.
+
 ---
 
 ## 2026-11-18 — The probe diagnostic replicates: Outcome 1 on both dev pools, as on H21
