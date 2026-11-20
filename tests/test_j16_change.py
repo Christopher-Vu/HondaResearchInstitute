@@ -83,3 +83,20 @@ def test_change_features_use_pool_percentile_and_straightness():
     assert np.isclose(feats[0, 5], 1.0)
     assert np.isclose(feats[1, 3], 0.1)
     assert np.isclose(feats[0, 3], 0.0)
+
+
+def test_j17_direction_separates_opposite_moves_that_j16_cannot():
+    rng = np.random.default_rng(1)
+    t_len, width, n = 20, 24, 24
+    base = rng.normal(size=width)
+    frames = np.empty((n, t_len, width))
+    for i in range(n):
+        sign = 1.0 if i % 2 else -1.0
+        frames[i] = rng.normal(size=width) + sign * np.linspace(0, 3, t_len)[:, None] * base
+        frames[i] += rng.normal(scale=0.01, size=(t_len, width))
+    failing = np.ones(n, dtype=bool)
+    ids = [f"r{i:03d}" for i in range(n)]
+    up = frozenset(ids[i] for i in range(n) if i % 2)
+    first_cut = lambda axes: {frozenset(axes[0]["rollouts"]), frozenset(axes[1]["rollouts"])}
+    assert up in first_cut(j16.j16_axes(frames, np.full(n, t_len), failing, ids, "j17", direction=True))
+    assert up not in first_cut(j16.j16_axes(frames, np.full(n, t_len), failing, ids, "j16"))

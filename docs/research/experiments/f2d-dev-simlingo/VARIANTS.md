@@ -1157,5 +1157,12 @@ activation-side analogue of braking and swerving, so it is the cheapest temporal
 
 | id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
 |---|---|---|---|---|---|---|
-| j16 | 2026-11-20 | H21 x3 | `j16_change.py` defaults: last 50 frames, L8, one RMS scale + unwhitened PCA 16 on all frames (j09's projection); per route the step sizes between consecutive frames, summarised by mean, SD, max, share above the pool's 90th-percentile step, mean of the last 10 steps, straightness; standardised over all routes, Ward 2/3/5, top 10 | pending | pending | 220 |
-| j16+route | 2026-11-20 | H21 x3 | `pool_axes.py`: whole-route L8 (m03, `route-L8`) first, then j16 (r11 order) | pending | pending | 221 |
+| j16 | 2026-11-20 | H21 x3 | `j16_change.py` defaults: last 50 frames, L8, one RMS scale + unwhitened PCA 16 on all frames (j09's projection); per route the step sizes between consecutive frames, summarised by mean, SD, max, share above the pool's 90th-percentile step, mean of the last 10 steps, straightness; standardised over all routes, Ward 2/3/5, top 10 | 0.135 (0.184 / 0.143 / 0.078); failing-only chance 0.125 | -0.017 [-0.050, +0.071], p 0.51 / -0.152 [-0.219, -0.035], p 0.995 | 220 |
+| j16+route | 2026-11-20 | H21 x3 | `pool_axes.py`: whole-route L8 (m03, `route-L8`) first, then j16 (r11 order) | 0.272 (0.210 / 0.529 / 0.078); failing-only chance 0.123 | +0.120 [-0.008, +0.287], p 0.040 / -0.014 [-0.162, +0.166], p 0.51 | 221 |
+| j17+route | 2026-11-20 | H21 x3 | j16 with `--direction`: the six step statistics plus the 16-dim net displacement (last projected frame minus first), each block standardised over all routes and divided by the square root of its width (m06's weighting), Ward 2/3/5; pooled whole-route L8 first as j16+route. Only the pooled row is scored | pending | pending | 222 |
+
+j17, written after j16 was scored (so one look at the answer; exploratory). Change: j16 keeps only step sizes, so two
+routes that move the same amount in opposite directions look alike. j17 adds where the state goes over the window (the
+net displacement vector), still a change and not a position. Why: j16 alone scored at failing-only chance and its
+pooled row matched the route view on CustomObstacles and Wall but added nothing on PedestriansOnRoad (0.078 against
+m23's window view at 0.444). Last try in this section whatever it scores.

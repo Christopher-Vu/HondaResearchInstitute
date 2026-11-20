@@ -9,6 +9,9 @@ steps above the 90th percentile of every step in the pool, the mean of the last 
 from the first to the last frame over the summed step lengths). The six columns are standardised over all routes and
 the failing routes are Ward-clustered at cuts 2/3/5 (cache_methods.axes_from), top 10 in that order.
 
+j17 (--direction) adds the 16-dim net displacement (last projected frame minus first) as a second block; each block is
+standardised over all routes and divided by the square root of its width, as m06 weights its blocks.
+
     PYTHONPATH=src python docs/research/experiments/f2d-dev-simlingo/j16_change.py FRAMES --output OUT.json
 
 FRAMES is the per-frame file (frames_pool.py): route_id, meta, layers, site, frames, n_frames. Pass/fail is read from
@@ -62,10 +65,20 @@ def change_features(sequences: list[np.ndarray]) -> np.ndarray:
     return np.asarray(rows, dtype=np.float64)
 
 
+def net_displacement(sequences: list[np.ndarray]) -> np.ndarray:
+    return np.stack([seq[-1] - seq[0] for seq in sequences])
+
+
+def weighted_block(x: np.ndarray) -> np.ndarray:
+    return cache_methods.standardise(x) / np.sqrt(x.shape[1])
+
+
 def j16_axes(block: np.ndarray, n_frames: np.ndarray, failing: np.ndarray, ids: list[str], name: str,
-             seed: int = 0) -> list[dict]:
+             seed: int = 0, direction: bool = False) -> list[dict]:
     sequences = j09.scale_and_project(j09.sequences_from_block(block, n_frames))
-    features = cache_methods.standardise(change_features(sequences))
+    steps = change_features(sequences)
+    features = (np.hstack([weighted_block(steps), weighted_block(net_displacement(sequences))]) if direction
+                else cache_methods.standardise(steps))
     return cache_methods.axes_from(features, failing, ids, name, "ward", (2, 3, 5), seed=seed)[:10]
 
 
@@ -77,6 +90,7 @@ def main() -> None:
                         help="stored layer index; default is round(8/23*(depth-1)) as in j09")
     parser.add_argument("--depth", type=int, default=24)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--direction", action="store_true", help="j17: add the net displacement block")
     args = parser.parse_args()
     with np.load(args.frames) as cache:
         ids = [str(value) for value in np.asarray(cache["route_id"]).tolist()]
@@ -85,8 +99,8 @@ def main() -> None:
         site = j09._as_str(cache["site"])
         block = np.asarray(cache["frames"][:, position], dtype=np.float64)
         n_frames = np.asarray(cache["n_frames"], dtype=np.int64)
-    name = f"j16-{site}-L{layer}-change"
-    axes = j16_axes(block, n_frames, failing, ids, name, args.seed)
+    name = f"{'j17' if args.direction else 'j16'}-{site}-L{layer}-change"
+    axes = j16_axes(block, n_frames, failing, ids, name, args.seed, args.direction)
     settings = vars(args) | {"frames": str(args.frames), "output": str(args.output), "layer": int(layer)}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps({"method": name, "settings": settings, "axes": axes}, indent=1) + "\n")
