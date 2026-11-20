@@ -1,0 +1,167 @@
+\section{Pre-registration history}
+\label{sec:prereg}
+
+The study changed its rules several times. Each change was written down, dated
+and tagged in git before the data it governs was read, and each change made
+after some data had been seen is labelled \emph{post hoc}. This section lists
+them in order, because a reader can only weigh a result against the rules that
+were fixed before it. The texts are \code{docs/prereg-fail2drive.md} (the base
+and amendments A1--A4) and \code{docs/prereg-views.md}; the reasoning for each is
+in \code{CONFLICTS.md} entries C38--C43.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}llp{0.55\linewidth}@{}}
+\toprule
+Tag or commit & Date & What it fixed \\
+\midrule
+\code{b4-factors-v1} & 2026-10-15 & The enumerated factor list B4 \\
+\code{f2d-prereg-v1} & 2026-11-06 & Pools, gap rule, B4 split, label hiding \\
+\code{methods-frozen-f2d-v1}, \code{-v2} & 2026-11-12 & H22 and H23 on H21 (C38); superseded \\
+\code{f2d-sprint-a1} & 2026-11-14 & A1: rivals, own top 10, pair bootstrap (post hoc) \\
+\code{f2d-sprint-a2} & 2026-11-16 & A2: distinct axes, B3-infraction (post hoc) \\
+\code{f2d-freeze-1} & 2026-11-17 & A3: finalists m23 and m40, transfer spec, round-2 rule \\
+commit \code{c3c3046} & 2026-11-18 & A4: round 2 closed, one shared UniAD read (post hoc) \\
+\code{views-prereg-v1} & 2026-11-19 & The views comparison and the UniAD reads \\
+\bottomrule
+\end{tabular}
+\caption{Tags in order. Dates are those written in each document. A4 has no tag
+of its own. The \code{f2d-prereg-v1} tag is named in the prereg but is not
+present in this clone; a human should confirm it exists in the shared
+repository.}
+\label{tab:tags}
+\end{table}
+
+\subsection{Base pre-registration}
+
+Approved by Chris and tagged \code{f2d-prereg-v1} on 2026-11-06, before either
+model's full screen or test pool was read. It fixes the test pools (every pair,
+seeds 101--106), the gap, ceiling, decoy and background classification
+(\S\ref{sec:fail2drive}), the B4-unnamed split, label hiding, the synonym list for
+the contamination check, and a primary test of the best activation method against
+the best non-oracle baseline with a fixed margin. Sections A1--A3 replace most of
+its analysis plan; its pools, gap rule and label hiding stand.
+
+\subsection{A1: the discovery sprint (post hoc, 2026-11-14)}
+
+Written after two methods (v1 and v2) had been scored on SimLingo's test pool,
+and before any sprint method. TransFuser++'s shards were still unread.
+\begin{itemize}
+  \item B3-behaviour replaces full B3, which read simulator distances.
+  \item Every method and rival ranks its own axes; only the first 10 count. The
+        old rule took each method's best axis using the key, which flatters
+        every method and most of all those that emit many axes.
+  \item The fixed pass/fail margin is dropped. Every comparison reports the
+        difference, a 95\% interval and a one-sided $p$ from the pair bootstrap,
+        against B3-behaviour (primary) and against the best rival re-taken in
+        every replicate (secondary).
+  \item At most three finalists, one primary, scored once on each held-out
+        model; the headline pools TransFuser++ and the third model, with
+        per-model and per-gap results always beside it.
+  \item Caption methods are dropped, because no test pool was thought to have
+        frames. That was later found to be wrong for SimLingo
+        (\S\ref{sec:whatbroke}).
+\end{itemize}
+
+\subsection{A2: distinct axes and the infraction rival (post hoc, 2026-11-16)}
+
+Written after 134 dev configurations had been scored.
+% measured: 134 configurations at A2 (docs/prereg-fail2drive.md §8)
+\begin{itemize}
+  \item A method's top 10 counts distinct axes only. Under A1, Ward cuts 2, 3
+        and 5 listed a cluster again whenever a later cut left it whole, so most
+        methods competed with 7 or 8 distinct axes, and how many depended on the
+        shape of the tree.
+  \item B3-infraction is reported beside every method, with no pass bar and
+        outside the best-rival comparison, because it was proposed after the
+        leads were seen.
+  \item Every logged method is rescored under A2 on both dev pools. A rescore is
+        not a try.
+\end{itemize}
+
+\subsection{A3: the freeze (2026-11-17)}
+\label{sec:prereg-a3}
+
+Written after the SimLingo search ended and before any method read TransFuser++'s
+or UniAD's test-pool data.
+% measured: 188 tries at the freeze (docs/prereg-fail2drive.md §9)
+\begin{itemize}
+  \item \textbf{Finalists:} m23 (primary) and m40 (\S\ref{sec:mfamily}), chosen
+        by Chris on the full dev record: the dev score, the H21 replication as
+        context, stability under resampling, and readiness to run elsewhere.
+  \item \textbf{Rival fix (post hoc):} B3-behaviour's approach window had been
+        taken from a speed array capped at the first 100 frames
+        (\S\ref{sec:whatbroke}). The cap was removed before any held-out score;
+        the rival's features and grouping are unchanged.
+  \item \textbf{Transfer spec} made binding, including the B7 sparsity rule,
+        which was fixed blind to every held-out score.
+  \item \textbf{Order:} TransFuser++ first, alone, labelled interim; then UniAD;
+        then the pooled headline, with its two-model scorer written and tested
+        before any UniAD outcome is read.
+  \item \textbf{Round 2, fixed in advance:} if m23's interval against
+        B3-behaviour on TransFuser++ includes zero, TransFuser++ becomes a
+        second dev pool, the search may continue on both models, at most three
+        new finalists are frozen under a new tag, and they are confirmed on UniAD
+        alone. Round 1 is reported in full whatever round 2 finds.
+\end{itemize}
+
+\subsection{A4: round 2 closed (post hoc, 2026-11-18)}
+
+Round 2 was opened under A3's rule. After 12 round-2 tries, Chris stopped the
+search: no round-2 candidate beat m23 on the pooled dev score, so nothing new was
+frozen.
+% measured: 12 round-2 tries, 202 total at the stop (docs/prereg-fail2drive.md §10)
+UniAD therefore scores round 1's m23 and m40 under A3's rules. UniAD's outcomes
+are read only after the views pre-registration is tagged, so that one read
+serves both. This is post hoc with respect to round 2's dev scores and blind to
+every UniAD outcome.
+
+\subsection{The views pre-registration (\code{views-prereg-v1}, 2026-11-19)}
+\label{sec:prereg-views}
+
+Approved by Chris and tagged at commit \code{69668f5}, before any UniAD outcome
+was read. It asks which ways of looking at a driving model find its gaps best,
+and whether any beats the car's behaviour, as a ranking across all three models.
+\begin{itemize}
+  \item \textbf{Headlines:} the pooled three-model ranking, labelled ``SimLingo
+        and TransFuser++ outcomes already read''; and UniAD alone, labelled as the
+        only blind test.
+  \item \textbf{Units:} the rule units without Wall are primary
+        (\S\ref{sec:fail2drive}); all rule units and the named gaps are reported
+        beside them.
+  \item \textbf{Rows:} the rivals and frozen finalists (not new tries), plus
+        three new views, each a try: \code{img-mean} and \code{query-mean} (the
+        approach-window mean over an image-token site and a query site, through
+        m03) and \code{caption} (caption-then-cluster on camera frames).
+        % measured: try count 216 to 219 (docs/prereg-views.md, Rows)
+        The total goes from 216 to 219. A fourth row, \code{vit-mean}, is
+        SimLingo-only, labelled post hoc, already counted, and in no ranking claim.
+  % design: 2,000 draws (docs/prereg-views.md, Units, metric and intervals)
+  \item \textbf{Metric and intervals:} rank-averaged best match primary, top-10
+        best match secondary; pair bootstrap with 2{,}000 draws.
+  \item \textbf{Decision rule:} a row ranks above the fleet if its interval
+        against B3-behaviour lies above 0. Row A ranks above row B only if the
+        paired interval of A minus B lies above 0; otherwise they tie, and the
+        ranking is the partial order the intervals give. ``Behaviour ties or
+        beats every view'' is named as an expected, reportable outcome.
+  \item \textbf{UniAD reads (C43):} an interim read on 2026-11-21 at 09:00 PT
+        on every route driven by then, labelled interim with its coverage; and
+        the final read on the full pool, which is the result of record. Nothing
+        changes between them.
+  % design: 4 frames, 6 grouping runs (docs/prereg-views.md, The caption row)
+  \item \textbf{Caption row:} one describing call per failing route on its last
+        four front frames, then six independent grouping runs per model; the
+        score is the median of the six inside every bootstrap draw. Frame
+        folders are named by a new salt and sorted by hash. Prompts were run once
+        on blank frames first, and every mode name is matched against the frozen
+        synonym list and flagged.
+\end{itemize}
+
+\paragraph{Recorded after the tag, before any UniAD outcome.}
+Two things were decided after \code{views-prereg-v1} and written into the same
+file before UniAD was read. The tag fixed sites but not layers for TransFuser++
+and UniAD; the last layer is used at every such site. And captioning moved from
+agent sessions to a batch API with the same model and the same prompt text, with
+each request's frames listed by hash as the audit record. SimLingo was captioned
+again in full that way so each pool has one captioner.
