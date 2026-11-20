@@ -8,6 +8,14 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+## 2026-11-20: one savio3 node failed every UniAD task it was given
+
+Expected: an A40 node runs UniAD routes like any other. What happened: n0264.savio3 failed 12 tasks of array
+41580713 in a row overnight (2026-11-19 23:05 to 2026-11-20 02:42). Each task stopped after about 18 min with the
+slow-simulation guard: under 0.01 of real time after 600 s. Two more failures came from n0275 and n0276. The routes
+were listed for rerun and not scored, so no data was lost, but each failure cost a task slot. Other nodes ran normally.
+What we did: excluded n0264 from every pending UniAD array (41580714 to 41580718, `scontrol update ExcNodeList`).
+The resubmit of failed routes should exclude it too.
 ## 2026-11-19: the H21b three-seed pool resampled 300 pair-seed units, not 100 pairs
 
 Expected: pooling seeds 24 to 26 into one 593-route H21 pool would keep each Fail2Drive pair's seeds together in the
