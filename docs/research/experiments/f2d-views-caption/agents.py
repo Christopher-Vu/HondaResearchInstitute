@@ -92,6 +92,15 @@ def audit(transcripts: Path, frames: Path, out: Path, output: Path) -> None:
         events = [json.loads(line) for line in transcript.read_text(encoding="utf-8").splitlines() if line.strip()]
         prompt = next((e["message"]["content"] for e in events if e.get("type") == "user"
                        and isinstance(e.get("message", {}).get("content"), str)), "")
+        if prompt.startswith("You are a dispatcher"):  # may launch agents and nothing else
+            report["dispatchers"] = report.get("dispatchers", 0) + 1
+            for e in events:
+                content = e.get("message", {}).get("content")
+                for block in content if isinstance(content, list) else []:
+                    if isinstance(block, dict) and block.get("type") == "tool_use" and block.get("name") not in (
+                            "Agent", "SubagentHandback", "StructuredOutput", "ToolSearch"):
+                        report["breaches"].append({"transcript": transcript.name, "tool": block.get("name")})
+            continue
         caption = re.search(r"caption-frames/(\w+)/(\w+)/f0\.png", prompt)
         group = re.search(r"caption-out/(\w+)/group-input-(\d)\.txt", prompt)
         if not (caption or group):
@@ -109,7 +118,7 @@ def audit(transcripts: Path, frames: Path, out: Path, output: Path) -> None:
                 if not (isinstance(block, dict) and block.get("type") == "tool_use"):
                     continue
                 name, inp = block.get("name"), block.get("input", {})
-                if block.get("id") in seen or name in ("SubagentHandback", "StructuredOutput"):
+                if block.get("id") in seen or name in ("SubagentHandback", "StructuredOutput", "ToolSearch"):
                     continue
                 seen.add(block.get("id"))
                 path = norm(inp.get("file_path", ""))
