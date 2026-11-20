@@ -25,6 +25,15 @@ No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fa
   - The TF++ re-drive is kept, because it is the only source of TF++ frames.
 - **Caption row added** (Chris, 2026-11-19, before the tag): caption-then-cluster on saved camera frames, H25-style,
   on all three models. It counts as a try. Its rules are below under "The caption row".
+- **Recorded after the tag, before any UniAD outcome is read** (2026-11-19):
+  - The tag did not fix a layer for the TF++ and UniAD sites. The last layer is used at every site: the TF++ join
+    tokens, UniAD's BEV encoder and UniAD's track queries.
+  - UniAD's saved front frames are 256 px wide and are upscaled to 640. The native width is recorded per route.
+  - Captioning runs as Claude Code subagents of Chris's session (Chris, 2026-11-19). Each agent reports its exact
+    model id, which is logged with its output. H25's prompts are kept. There are three mechanical changes: an answer
+    format replaces the runner's schema; each agent writes its answer to one file of its own, outside the frames;
+    and grouping agents read one file of descriptions instead of a pasted list. `audit.py` allows exactly those
+    files.
 
 ## Question
 
