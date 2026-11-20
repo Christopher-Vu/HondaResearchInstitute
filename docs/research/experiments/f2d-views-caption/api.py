@@ -48,7 +48,7 @@ Answer with only a JSON object {{"modes": [{{"name": ..., "members": [ids]}}]}}.
 
 
 def params(content) -> dict:
-    return {"model": MODEL, "max_tokens": 32000, "thinking": {"type": "adaptive"},
+    return {"model": MODEL, "max_tokens": 16000, "thinking": {"type": "adaptive"},
             "output_config": {"effort": EFFORT}, "messages": [{"role": "user", "content": content}]}
 
 
