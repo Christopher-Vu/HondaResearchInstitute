@@ -1137,3 +1137,68 @@ Reading:
   BadParking.
 - FullyBlocked has 3 pairs, and every row swings over most of the range with the split.
 - Many cells below 0.5 are the small-sample effect the diagnostic's amendment describes.
+
+### H21b robustness (laptop, 2026-11-20), rows written before any score
+
+Rescores of methods already logged on H21b, not tries: the count stays **219**. Dev only; nothing here can enter
+the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`). Laptop worker 20261120-001011-21046; outputs and
+the exact commands in `results/h21/robust-h21b/`.
+- **Manifest:** a copy of the H21b manifest with `pair` = `base_id` minus its `-sNN` suffix (A1), so the bootstrap
+  resamples 100 Fail2Drive pairs carrying all their seeds. Every report below uses it.
+- **Pools:** rows of the pooled `cache.npz`, `cache-w50.npz` and `frames.npz` selected by seed (seed read from the
+  manifest `base_id` suffix; no suffix = 24), in the pooled salted order; `routes.jsonl` and the manifest subset to
+  the same routes. The pool is not rebuilt. Every method here (PCA, Ward, HMM, standardisation) is fitted on the
+  rows it scores, so each is refit on its pool's rows; B3-infraction has no fit and is the same rule on those rows.
+- **Scoring:** `sprint_score.py` under A2, settings as `results/h21/h21b/commands.sh`: gaps CustomObstacles, Wall,
+  PedestriansOnRoad; the six decoys; primary rival B3-behaviour, reported rival B3-infraction; 2,000 replicates.
+  Each pool's rivals are refit on that pool.
+- **Step 5:** m23's report is run with bootstrap seeds 0, 1 and 2 on every pool; the p column of each m23 row gives
+  p vs B3-behaviour / B3-infraction per seed, intervals in `report.md`.
+- **Sensitivity (exploratory):** m23 on the full pool, one setting changed at a time. W = the last W frames of
+  `frames.npz` averaged into the window slot as the pool builder does for W = 50, then m15-source and m23 rebuilt.
+  M = m23's own budget: top 5 is the first 5 of the pooled list; top 15 is the same round-robin as `pool_axes.py`
+  with its cap of 10 raised to 15 (the two sources stay at their 10 axes each), scored with the scorer's M = 15.
+  Rivals keep their 10. **W = 100 cannot be built:** `frames.npz` stores at most 50 frames per route (`n_frames`
+  21 to 50), so a last-100 slice is the W = 50 window; the row is recorded and not run.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| m23 | 2026-11-20 | H21 x3 | step 2: reproduce on the corrected manifest; point score must equal 0.395 exactly; bootstrap seeds 0, 1, 2 | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 x3 | step 2: reproduce; must equal 0.152 exactly | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 x3 | step 2: reproduce; must equal 0.287 exactly | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 x3 | corrected manifest (for the step 3-4 comparison) | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 x3 | corrected manifest (for the step 3-4 comparison) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s24 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s24 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s24 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s24 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s24 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s25 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s25 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s25 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s25 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s25 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s26 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s26 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s26 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s26 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s26 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s25+s26 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s25+s26 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s25+s26 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s25+s26 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s25+s26 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s24+s26 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s24+s26 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s24+s26 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s24+s26 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s24+s26 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 | 2026-11-20 | H21 s24+s25 | as H21b m23, refit on the pool's rows; bootstrap seeds 0, 1, 2 (step 5) | pending | pending | 219 |
+| m40 | 2026-11-20 | H21 s24+s25 | as H21b m40, refit on the pool's rows | pending | pending | 219 |
+| j09 | 2026-11-20 | H21 s24+s25 | as H21b j09, refit on the pool's rows | pending | pending | 219 |
+| B3-behaviour | 2026-11-20 | H21 s24+s25 | `b3_behaviour.py` refit on the pool's rows (rival) | pending | pending | 219 |
+| B3-infraction | 2026-11-20 | H21 s24+s25 | `b3_infractions.py` on the pool's rows (reported rival) | pending | pending | 219 |
+| m23 W20 | 2026-11-20 | H21 x3 | exploratory: window = last 20 frames, M = 10 | pending | pending | 219 |
+| m23 W100 | 2026-11-20 | H21 x3 | exploratory: window = last 100 frames, M = 10 (not computable, see above) | pending | pending | 219 |
+| m23 M5 | 2026-11-20 | H21 x3 | exploratory: W = 50, top 5 | pending | pending | 219 |
+| m23 M15 | 2026-11-20 | H21 x3 | exploratory: W = 50, top 15 | pending | pending | 219 |
