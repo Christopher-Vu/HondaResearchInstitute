@@ -1062,6 +1062,17 @@ on CustomObstacles. Checks: W=6 rebuild matches the cache slot (0 float16 mismat
 to width 1492; 299 pairs, none spanning seeds. Count: 219 in total once views-prereg-v1's rows are counted;
 rescores are not tries. Outputs `results/h21/h21b/` on the compute box (not in git).
 
+**Correction (2026-11-19 evening): the intervals and p values above are too narrow.** The "Resampling" bullet is
+wrong: the pool builder wrote `pair` = `base_id`, which carries the seed (`f2d-0`, `f2d-0-s25`, `f2d-0-s26`), so
+`sprint_score.py` resampled 300 pair-seed units, not 100 Fail2Drive pairs carrying all their seeds (A1). An independent
+scorer written from the prereg text (`results/h21/repro/`, laptop worker 20261119-143947-7082; rerun by the laptop
+orchestrator, same output) reproduces every point score exactly and gives, with the seed suffix stripped (measured,
+2,000 replicates, seed 0): m23 vs B3-behaviour +0.242 [+0.041, +0.450], p 0.005; m23 vs B3-infraction +0.108
+[−0.091, +0.335], p 0.173. With the seed-tagged unit it reproduces the recorded intervals, so the unit explains the
+whole difference. Reading unchanged: m23 is above B3-behaviour and not separated from B3-infraction. The m23 row's p
+column above uses the old unit. The UniAD test manifest is not affected (its `pair` has no seed suffix: 100 pairs over
+seeds 101-106).
+
 ### Unpooled activations, SimLingo test pool (Chris, 2026-11-18; `../f2d-unpooled/protocol.md`)
 
 The grid, reference rows and decision rule were committed before any score. Every route's saved model input was
