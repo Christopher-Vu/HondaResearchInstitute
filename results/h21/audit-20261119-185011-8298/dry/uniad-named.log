@@ -1,0 +1,7 @@
+{"units": {"uniad:F2D_CustomObstacles": 28, "uniad:F2D_Wall": 14, "uniad:F2D_PedestriansOnRoad": 9}, "routes": 593, "pairs": 100}
+{"B3_behaviour": [0.116, 0.152]}
+{"B3_infraction": [0.252, 0.287]}
+{"m23": [0.288, 0.395]}
+{"m40": [0.199, 0.31]}
+{"j09": [0.187, 0.298]}
+{}
