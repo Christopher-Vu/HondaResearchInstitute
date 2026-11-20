@@ -5,6 +5,27 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — Laptop round: j16-j17 scored, H21b robustness grid, paper draft (orchestrator)
+
+The laptop orchestrator reviewed and landed three more laptop Claude workers besides j18-j19. Each worker's numbers
+were spot-checked here by rebuilding its axes (j17, j18, and m23 on seed 26 alone): all matched.
+
+- **j16-j17** (frame-to-frame change of the policy's internal state, open "temporal" lane; measured, dev, H21b only):
+  j16 alone 0.135, close to its chance of 0.125; pooled with the whole-route view 0.272; j17 adds the net direction
+  of travel, 0.279. Both are below m23's 0.395, and PedestriansOnRoad stays near chance (0.08 to 0.10 against m23's
+  0.444). How fast the state moves carries less than where it sits. Lane stopped after two pooled tries.
+- **H21b robustness** (rescores, not tries; `results/h21/robust-h21b/report.md`): m23 has the highest score on the full
+  pool, but not in every slice. j09 leads on seed 25 alone, and m40 leads on seed 26 alone and with seed 24 left out.
+  m23's lead over B3-behaviour clears zero only with all three seeds or with seed 25 or 26 left out. Its lead over
+  B3-infraction never clears zero. Per-seed pools are small (2 to 10 failing routes per gap), so one group swings a
+  gap. Top 5 axes give 0.343; a 20-frame window gives 0.308.
+- **Paper draft** (`docs/paper/`, 13 pages, no results section): six open questions for Jerry are in the worker's
+  report, among them whether to say round 2 "was opened under A3" and that UniAD has no verified citation yet.
+- **Count:** the two exploration batches each counted from 219; reconciled to 224 methods tried in total. No `j`
+  method is a candidate. The H21b seed-in-pair bug now has a `WHAT_BROKE.md` entry.
+- Workers had found the shared data one folder too deep (`results/savio/savio/`); `worker.sh` now links each data
+  folder in place. A self-supervised route encoder (j20, the last untried open lane) is running.
+
 ## 2026-11-20 — j18 and j19: a Gaussian mixture over all routes (laptop, exploratory, H21b)
 
 This session tried one more method in the open "density or mixture" lane on Jerry's three-seed H21 pool (H21b, 593
