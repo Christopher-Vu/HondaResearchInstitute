@@ -1,0 +1,334 @@
+\section{Methods}
+\label{sec:methods}
+
+Every method takes a pool and returns a ranked list of \emph{axes}. An axis is a
+set of failing routes the method claims belong together. Scoring compares the
+method's first ten distinct axes with each gap's failing routes
+(\S\ref{sec:scoring}). Code paths below are relative to
+\code{docs/research/experiments/f2d-dev-simlingo/} unless they start with
+\code{src/}.
+
+\subsection{The sprint framework}
+\label{sec:sprint}
+
+The search ran as a \emph{discovery sprint} (\code{docs/prd-discovery-sprint.md}).
+Its rules are these.
+\begin{enumerate}
+  \item A method is proposed and its row is written in the variant log
+        (\code{VARIANTS.md}) before its score is read. Chris approved each batch
+        before it ran.
+  \item One CPU pass (\code{cache\_pool.py}) turns a pool's shards into a single
+        per-route summary file, so a method runs in minutes and is scored by one
+        command (\code{sprint\_score.py}).
+  \item Every scored configuration counts as a \emph{try}, failures and
+        cancelled runs included. A rescore of a logged configuration under a new
+        rule is not a try. Every dev table states the running try count, and
+        every dev $p$ value is exploratory.
+  \item At most three finalists are frozen and tagged, then scored once on each
+        held-out model. One is declared primary in the tag, so the headline
+        needs no correction for multiple comparisons.
+\end{enumerate}
+% measured: try counts 134 (A2), 188 (A3), 202 (A4), 216 (unpooled), 219 (views tag); docs/prereg-fail2drive.md §8-§10, docs/prereg-views.md, VARIANTS.md
+The try count was 134 when amendment A2 was written, 188 at the freeze, 202 when
+the search stopped, and is 219 once the views pre-registration's new rows are
+counted. Two people's agents searched in parallel: Chris's agents wrote the
+\emph{m} family and Jerry's explore loop wrote the \emph{j} family. Both logged
+into the same file and scored with the same scorer.
+
+\subsection{Shared inputs}
+\label{sec:inputs}
+
+\paragraph{Failure step.}
+For a failing route, the failure step is the step of its earliest timed
+infraction (\code{src/harness/failure\_time.py}). Collisions carry a logged step.
+Other infractions carry a location, and are timed at the first step within
+% design: 0.5 m tolerance (src/harness/failure_time.py, LOCATED_TOLERANCE_M)
+0.5\,m of the ego's nearest approach to it.
+A failing route with no timed infraction, and every passing route, uses its end.
+
+\paragraph{Summaries.}
+For every route, site and layer, \code{cache\_pool.py} stores three means of the
+per-frame activations: the \emph{whole route}, the \emph{approach window} (the
+last $W$ captured frames before the failure step), and the \emph{early route}
+(the first $W$ frames).
+% design: W = 6 by default; windows of 3, 10, 20, 30, 50 and 100 frames tried (VARIANTS.md batches 2-4)
+The default is $W=6$ frames. Since frames are 0.25\,s apart, 6 frames is about
+1.5\,s and 50 frames about 12.5\,s.
+% measured: 0.25 s spacing (WHAT_BROKE.md 2026-11-16)
+Rows are written in salted-hash order, never in route-id order
+(\S\ref{sec:whatbroke}, H25). A per-frame file (\code{frames\_pool.py}) keeps the
+last 50 frames of a few layers for the methods that model frame sequences.
+
+\paragraph{Layers.}
+% design: layer naming; SimLingo has 24 layers (transfer-spec.md table)
+``L8'' means layer 8 of SimLingo's \code{driving\_queries} site. When several
+layers are concatenated, each is standardised and divided by
+$\sqrt{n_{\text{layers}}}$ so the layers weigh equally.
+
+\subsection{The core recipe, m03}
+\label{sec:m03}
+
+Most methods in both families are variations on one recipe, m03
+(\code{cache\_methods.py}).
+\begin{enumerate}
+  \item Take one summary at one site and layer for every route, passing and
+        failing: a matrix with one row per route.
+  \item Standardise each column over all routes.
+  % design: 32 components, cuts 2/3/5, 10 axes (cache_methods.py; VARIANTS.md batch 1; prereg A2)
+  \item Fit PCA on all routes and keep 32 components. Standardise the scores.
+  \item Keep only the failing rows. Build a Ward linkage tree on them.
+  \item Cut the tree into $k=2$, then $3$, then $5$ clusters. Within each cut,
+        list clusters largest first. Under A2, a cluster already listed at an
+        earlier cut is not listed again; if fewer than 10 distinct clusters
+        result, keep cutting at $k=6, 7, \dots$ until there are 10
+        (\code{cache\_methods.axes\_from}).
+  \item The listed clusters, in order, are the method's axes.
+\end{enumerate}
+Only the pass/fail outcome is read. The fit runs on the pool being scored, so no
+model is trained on Fail2Drive in the sense its authors forbid.
+
+\subsection{The m family}
+\label{sec:mfamily}
+
+Table~\ref{tab:mfamily} lists the m methods. Each row changes one thing about
+m03 or combines earlier rows. The settings are those logged in
+\code{VARIANTS.md}; each id there links to its job and script.
+
+\paragraph{Pooling.}
+% design: 0.8 skip threshold, stop at 10 (pool_axes.py)
+Several m methods merge the ranked axes of two or three other methods
+(\code{pool\_axes.py}). The merge is round-robin in a fixed order: each source's
+first axis, then each source's second, and so on. An axis whose Jaccard with one
+already kept is at least 0.8 is skipped. It stops at 10 axes. The order is fixed
+before scoring and nothing reads the key.
+
+\paragraph{The two finalists.}
+Both are frozen at tag \code{f2d-freeze-1}.
+\begin{itemize}
+  % design: L8, 50 frames, PCA 32/64, L20 (docs/prereg-fail2drive.md §9; VARIANTS.md batch 4)
+  \item \textbf{m23 (primary).} Source 1 is m03 on the 50-frame approach window
+        at L8 (this is m15). Source 2 is m03 on the whole-route summary at L8.
+        The two ranked lists are pooled in that order. The idea is that the
+        approach window carries failures that happen in the last seconds, and
+        the whole-route summary carries failures that unfold over the route.
+  \item \textbf{m40 (secondary).} Source 1 is m03 on the 50-frame window at L8
+        with 64 PCA components. Source 2 is m03 on the whole-route summary at
+        L20. Pooled in that order.
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\small
+% design: settings of each m row as logged before scoring (VARIANTS.md batches 1-5)
+\begin{tabular}{@{}lp{0.78\linewidth}@{}}
+\toprule
+Id & What changes from m03 \\
+\midrule
+m01, m02 & Error-aware B7: B7's sparse-dictionary latents ranked by their
+           enrichment in failing routes; m02 on window frames only \\
+m04      & A balanced logistic pass/fail probe on the PCA scores picks the
+           components that separate failure; cluster in that subspace \\
+m06      & m03 plus B3-behaviour's kinematic features, equal block weight \\
+m07      & Window mean minus the route's own early mean \\
+m05      & Sweep of m03 over 24 layers of two sites plus \code{vision\_bridge} \\
+m08, m16 & Several layers concatenated (L5, L8, L20) \\
+m11, m15, m24 & Longer approach windows: 3, 10, 20, 30, 50, 100 frames \\
+m12, m17 & Average, complete or spectral linkage in place of Ward \\
+m13      & Other cut schedules (4 and 6; 10) \\
+m19      & Layers chosen by pass/fail probe AUROC (uninformative; see
+           \S\ref{sec:whatbroke}) \\
+m09, m10, m20, m23, m28 & Pools of other methods' axes (\code{pool\_axes.py}) \\
+m22, m27 & Two summaries or two sites concatenated into one embedding \\
+m25      & Whole-route summary at other layers \\
+m26      & Window minus whole-route mean \\
+m29--m32 & Per-frame summaries: several time scales, PCA trend, stopped versus
+           moving frames, mean and spread \\
+m33--m36 & j09 at other layers, beside the window mean, or on several layers \\
+m38      & j05's background subtraction on the L8 50-frame window \\
+m39, m40 & PCA width 16 or 64 \\
+\bottomrule
+\end{tabular}
+% design: round-2 rows (VARIANTS.md Round 2)
+\caption{The m family. Round-2 tries (on SimLingo and TransFuser++ pooled) are
+logged in \code{VARIANTS.md} under ``Round 2'' and follow the same pattern.}
+\label{tab:mfamily}
+\end{table}
+
+\subsection{The j family}
+\label{sec:jfamily}
+
+The j methods came from Jerry's explore loop. Each asks whether a different
+treatment of the activation geometry finds groups that m03 misses. Table
+\ref{tab:jfamily} lists them. All read only the pass/fail outcome, and all end
+in \code{axes\_from} or the same largest-first ordering unless stated.
+
+\begin{table}[t]
+\centering
+\small
+% design: settings of each j row (VARIANTS.md j sections; j01_unwhite.py ... j15_hdbscan.py docstrings)
+\begin{tabular}{@{}lp{0.82\linewidth}@{}}
+\toprule
+Id & Method \\
+\midrule
+j01 & m03 without standardising: PCA scores keep their eigenvalue scale; each
+      layer is divided by its root-mean-square instead \\
+j02 & Contrastive PCA: directions where failing routes vary more than passing
+      ones, after a 32-component unwhitened PCA \\
+j03 & m03 embedding cut finer (8, 12, 16 clusters), keeping only clusters in a
+      size band, ranked by cohesion \\
+j04 & Whiten with the passing routes' covariance, keep the coordinates with the
+      largest failure second moment \\
+j05 & Unwhitened PCA; subtract from each failing route the mean of its 10
+      nearest passing routes; cluster the residuals \\
+j06 & j01 after removing a least-squares prediction of the activations from the
+      behaviour features \\
+j07 & Split failing routes into two behaviour strata, then j01 within each \\
+j08 & Candidate clusters from several views (behaviour and three layers), ranked
+      by their stability under subsampling of the failing routes \\
+j09 & A diagonal Gaussian hidden Markov model (a few hidden states, each with its
+      own Gaussian, plus transition probabilities) fit on every route's last 50
+      frames at L8 after PCA to 16; failing routes clustered on state occupancy
+      and transitions \\
+j10 & j09's model, with each route embedded by its Fisher score on the emission
+      means \\
+j11 & j05's residuals scaled to unit length \\
+j12 & Residual from a Gaussian mixture fit on passing routes only \\
+j13 & j05's residual minus its projection on the local principal directions of
+      its 10 nearest passing routes \\
+j14 & Window score minus the mean window score of the nearest passing routes in
+      early-route space \\
+j15 & j05's residual clustered by HDBSCAN~\cite{campello2013hdbscan,mcinnes2017hdbscan},
+      clusters ranked by stability \\
+\bottomrule
+\end{tabular}
+\caption{The j family. Scripts are \code{j01\_unwhite.py} to \code{j15\_hdbscan.py};
+settings and commits per run are in \code{VARIANTS.md}.}
+\label{tab:jfamily}
+\end{table}
+
+\subsection{Rivals}
+\label{sec:rivals}
+
+Each rival ranks its own axes and is scored exactly like a method.
+\begin{description}
+  % design: 50 draws (sprint_score.py, chance); B3 window 6 frames, 0.5 m/s (b3_behaviour.py)
+  \item[B1, chance.] Random axes of the same sizes as the method's own, drawn
+        from failing routes only, averaged over 50 draws.
+  \item[B3-behaviour, the primary rival.] Built only from signals a fleet logs
+        (\code{b3\_behaviour.py}, tag \code{f2d-sprint-a1}). Per route: in the
+        approach window (the last 6 captured frames, about 1.5\,s) the mean, minimum,
+        maximum and final speed, the mean acceleration and the largest
+        deceleration; over the whole route the mean speed, the fraction of frames
+        below 0.5\,m/s and the log of the step count; and one count per infraction
+        type seen in the pool. Features are standardised over all routes; failing
+        routes are Ward-clustered and cut as in m03. Excluded: distances to
+        objects, any scenario or route field, and the action error against the
+        rule-based expert, since a fleet runs no expert beside the car.
+        Steering and braking are not in the shards.
+  \item[B3-infraction, a reported rival.] One axis per infraction type: the
+        failing routes with at least one of it, plus one axis for failing routes
+        with no recorded infraction, largest first (\code{b3\_infractions.py}).
+        It is what a fleet team does first. It is compared with every method but
+        has no pass bar and is not part of the best-rival comparison (A2).
+  \item[B7-pool.] Activation statistics with no outcome labels, after the
+        feature statistics of Dr.~VLA~\cite{swann2026sparse}: per-latent episode
+        coverage, onset count, peak activation and run length of the latents of a
+        TopK sparse autoencoder (\code{train\_saes.py}; settings in
+        \code{PRD.md} \S12.2), used as a gap signal. That use is our
+        construction, not Dr.~VLA's (\code{docs/steps/b7-gap-signal.md}). One
+        dictionary only, the primary \code{L10\_k64\_s0}, so the rival is not the
+        best of a grid.
+  \item[B4.] The enumerated factor list. It decides the B4-named split
+        (\S\ref{sec:fail2drive}) and is reported as a rival.
+  \item[B2 with labels.] An oracle ceiling that reads scenario fields; never a
+        rival.
+\end{description}
+Full B3, which also read the simulator's exact distances to nearby objects, was
+retired at A1 because no deployed car has them.
+
+\subsection{Scoring under A1 and A2}
+\label{sec:scoring}
+
+The scorer is \code{sprint\_score.py}; the harness definitions are in
+\code{src/harness/scoring.py}.
+
+% design: M = 10 (docs/prereg-fail2drive.md §3, §7; src/harness/scoring.py BUDGET_M)
+\paragraph{Own top ten.}
+No axis is chosen with the key. Each method's axes are taken in its own order.
+Exact repeats are dropped (A2) and the first $M=10$ distinct axes count.
+
+\paragraph{Primary: mean best Jaccard.}
+For a gap $g$ with failing routes $G$ and axes $A_1,\dots,A_{10}$,
+% design: M = 10, J(empty, empty) = 0 (src/harness/scoring.py)
+\begin{equation}
+  \text{best}(g) = \max_{i \le 10} J(G, A_i), \qquad
+  J(G, A) = \frac{|G \cap A|}{|G \cup A|}.
+\end{equation}
+The score is the mean of $\text{best}(g)$ over the gaps, each weighted equally.
+Two edge cases are fixed on purpose. First, $J(\emptyset, \emptyset) = 0$, not 1;
+otherwise a method could score perfectly on an empty gap by emitting nothing.
+Second, a method with no axes scores 0.
+
+\paragraph{Beside it.}
+% design: threshold 0.5 (src/harness/scoring.py MATCH_THRESHOLD)
+Recall at Jaccard 0.5: one Hungarian assignment~\cite{kuhn1955hungarian} of gaps
+to axes on the Jaccard matrix, counting matched pairs with $J \ge 0.5$, divided
+by the number of gaps.
+Decoy hit rate: the share of axes at least half of whose routes are slice
+routes of one decoy type. Precision, where the harness reports it, is the number
+of matched axes divided by the axis budget $M$, never by the number of axes the
+method emitted; otherwise a method that emits one safe axis would beat a full
+directive.
+
+% design: k = 1..10, top-10 (docs/research/experiments/f2d-unpooled/protocol.md)
+\paragraph{Rank-averaged best match.}
+The views pre-registration makes this the primary metric
+(\code{docs/research/experiments/f2d-unpooled/view\_score.py}). For a gap it is
+the mean over $k=1,\dots,10$ of the best Jaccard among the method's top $k$
+axes. It rewards a method that ranks the matching axis early. Top-10 best match
+is reported beside it.
+
+\paragraph{Pair bootstrap.}
+Routes from the same Fail2Drive pair share a road, and routes from different
+seeds of one pair share both twins, so routes are not independent. The resampling
+unit is the pair, carrying all its routes on every seed (A1).
+\begin{enumerate}
+  \item List the distinct pairs in the pool. The pair id must not carry the seed
+        (\S\ref{sec:h21b}).
+  % design: 2,000 replicates, 2.5/97.5 percentiles (docs/prereg-fail2drive.md §7; docs/prereg-views.md; sprint_score.py)
+  \item In each of 2{,}000 replicates, draw that many pairs with replacement.
+        Each route gets weight equal to the number of times its pair was drawn.
+  \item Recompute every score with weighted Jaccard:
+        $J_w(G,A) = \sum_{r \in G \cap A} w_r \big/ \sum_{r \in G \cup A} w_r$,
+        with 0 when the union weighs 0.
+  \item A contrast is method minus rival in the same replicate. Report the point
+        difference, the 2.5th and 97.5th percentiles, and the one-sided $p$, the
+        share of replicates where the difference is at most 0.
+\end{enumerate}
+When a contrast is against ``the best rival'' or ``the best new view'', the best
+is re-chosen inside every replicate, so the interval pays for the choice. Pooled
+results across models are a fixed mean over units with no random effect.
+
+\subsection{Running a frozen method on another model}
+\label{sec:transfer}
+
+The finalists are written in SimLingo's terms, so \code{transfer-spec.md}
+(binding from \code{f2d-freeze-1}) maps them.
+\begin{itemize}
+  \item \textbf{Site:} \code{driving\_queries} on every model, the representation
+        each controller acts on.
+  % design: layer rule, D = 6, layers 2 and 4, k = 18 (transfer-spec.md items 2 and 5)
+  \item \textbf{Layer by relative depth:} SimLingo layer $L$ is fraction
+        $f = L/23$; on a site of depth $D$ the layer is
+        $\lfloor f(D-1) + 0.5 \rfloor$. On TransFuser++ ($D=6$), m23 runs at
+        layer 2 for both views; m40 at layer 2 (window) and 4 (whole route).
+  \item \textbf{Window in frames:} unchanged, since all three models capture
+        every 5 steps.
+  \item \textbf{Everything else unchanged}, fit on the held-out model's own pool.
+  % design: k = round(64 x width / 896) = 18 at 256 (transfer-spec.md item 5, fixed at A3)
+  \item \textbf{B7-pool's sparsity is kept, not its $k$:} $k = \text{round}(64
+        \times \text{width} / 896)$, so $k=18$ at width 256.
+  \item \textbf{UniAD fallback:} if UniAD's shards lack ego speed or step,
+        B3-behaviour uses the infraction counts and the route's step count, and
+        this is stated beside every UniAD result (A3).
+\end{itemize}
