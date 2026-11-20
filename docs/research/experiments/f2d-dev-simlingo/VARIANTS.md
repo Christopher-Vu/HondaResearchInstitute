@@ -1298,3 +1298,31 @@ pool, not rebuilt from the per-seed caches. Count unchanged: 219.
 The j16-j17 and j18-j19 batches ran in parallel and each counted from 219. Reconciled: j16, j16+route and j17+route
 are 3 tries, j18 and j19 are 2, so **224 methods tried in total** (exploratory, dev, H21b only). The H21b robustness
 rows are rescores and add nothing.
+
+### Exploratory, H21b pool, laptop j24-j25 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-055958-30070, work item 4, the temporal lane ("temporal models over the frame sequence, not
+window means"). Exploratory, dev, H21b only; nothing here can enter the UniAD read (`docs/prereg-views.md`, tag
+`views-prereg-v1`), and nothing here is significant, confirmed or a finding.
+- **How j24 differs from earlier temporal rows.** j24 is a predictive model. It fits one linear model of how the
+  policy's state moves from frame to frame, then describes each route by what that model failed to predict. j16/j17
+  summarised step sizes and net displacement (how far the state moves, 0.272 / 0.279 pooled; lane stopped). j09 fits
+  an HMM and describes a route by which regimes it occupies. m30 fits a straight-line trend per route. j06 removes a
+  prediction from kinematics across routes, not over time. No row has used a residual against learned dynamics.
+- **Idea.** A failure the policy's own dynamics did not expect should show as a direction the autoregression cannot
+  predict, and routes with the same gap should share that direction.
+- **Pool:** H21b, 593 routes, 174 failing, `results/savio/f2d-h21b/pool/frames.npz` (L8, last 50 frames) and
+  `cache.npz` (whole-route L8 for m03). The method reads only cache arrays and the pass/fail flag as m03 reads it;
+  never `routes.jsonl`, the manifest or route types. Rows keep the salted order.
+- **Scoring:** `sprint_score.py` under A2/A1, gaps CustomObstacles / Wall / PedestriansOnRoad, decoys as in
+  `results/h21/j18/commands.sh`, primary rival B3-behaviour, B3-infraction reported, manifest
+  `results/h21/j18/manifest-pair-fixed.json` (pair without the `-sNN` suffix, 100 pairs). Outputs `results/h21/j24/`.
+- **Count:** only the pooled row is scored and it is one try, "224 + 1 laptop try this batch"; j25 would be "224 + 2".
+- **Robustness, not tries:** j24 pooled rerun with ridge alpha 0.3 and 3.0 (0.3x and 3x), 200 replicates. Alpha 1.0
+  stays the j24 score whatever these show.
+- **Rule fixed now:** j25 runs only if j24 pooled lands below m23 (0.395). Its row is written before it is scored, with
+  a reason from j24's own outputs (no key read), and it is the last try in this section.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | p vs B3-behaviour / B3-infraction | methods tried |
+|---|---|---|---|---|---|---|
+| j24 | 2026-11-20 | H21 x3 | `j24_ar.py` defaults: `frames.npz` L8, last 50 frames (21 to 50 valid), one RMS scale + unwhitened PCA 16 on all frames (j09's projection); one ridge VAR(2) (sklearn `Ridge`, alpha 1.0, unpenalised intercept) fit on every route's frames, no labels; per route the residual at each frame from the third on; features = mean residual vector over the last 10 frames (16-d) and residual norm mean, max, last-10 mean minus first-10 mean (3-d); each block standardised over all routes and divided by sqrt(width) (m06); Ward on failing routes, cuts 2/3/5 (`axes_from`). Cluster order (label-free): coarse cut first, largest first within a cut, as j09/j16. Pooled by `pool_axes.py` with whole-route L8 (m03), whole-route first. Only the pooled row is scored | | | 224 + 1 |
