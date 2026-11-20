@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — Caption-row median scoring has a lightweight regression test
+
+The views scorer now accepts the caption row as several independently captioned
+runs and must report their median in every bootstrap draw; otherwise one lucky
+captioning run could be selected after seeing the outcomes. Added a synthetic,
+CPU-only regression test that gives one perfect run and two empty runs, then
+verifies that the reported row is the median (zero), not the perfect run. It
+stubs only the route-pool loader so it runs without the project’s optional
+SciPy dependency. Branch: `codex/test-caption-run-scoring`.
+
+---
+
 ## 2026-11-19 — The UniAD read is one command, tested on the dev screen only
 
 The Saturday interim read of UniAD (`docs/prereg-views.md`, CONFLICTS C43) now runs as one CPU job:
