@@ -77,6 +77,21 @@ states it}. Use no other tool. Then reply with just "done".
   - One frame shows a billboard of a pedestrian. That is the ImageOnObject scenario's object, not a marker.
   - No flag.
 
+- **Describing, incident (2026-11-19):**
+  - The session runs at most 20 subagents at once. The first five dispatchers of 25 hit that limit, and most of
+    their launches were refused.
+  - One dispatcher relaunched the refused agents, and relaunched route `2055f1c8b059` while its first agent was
+    still running.
+  - The second agent found the first agent's answer file and read it, because the Write tool reads a file before
+    overwriting it. Then it wrote its own answer.
+  - That read is of the same route's description, so no label or other route was seen. But it is a touch outside the
+    agent's frame folder, so `audit.py` counts it as a breach. Under the prereg's wording that voids pool c's row.
+    Chris rules on it, and until then the breach stays in the audit.
+  - The overwritten file is kept aside as `caption-out/breach-2055f1c8b059-overwritten.json`. The route was described
+    again by a fresh agent.
+  - Dispatchers now run waves of at most 18 agents and never relaunch. Missing routes are found from disk and sent
+    again by the session.
+
 ## Contamination run (2026-11-19, before any real frame was shown)
 
 - Four flat grey 640×360 frames went to one describing agent. It answered: scene "uniform flat gray with no road,
