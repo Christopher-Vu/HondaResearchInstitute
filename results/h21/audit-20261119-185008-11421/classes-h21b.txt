@@ -1,0 +1,18 @@
+{"type": "F2D_Animals", "class": "background", "n_in": 29, "fisher_p": 0.047022325948256706}
+{"type": "F2D_BadParking", "class": "background", "n_in": 30, "fisher_p": 0.08403556788590366}
+{"type": "F2D_ConstructionPedestrian", "class": "background", "n_in": 15, "fisher_p": 0.7152491865522348}
+{"type": "F2D_ConstructionPermutations", "class": "background", "n_in": 15, "fisher_p": 1.0}
+{"type": "F2D_CustomObstacles", "class": "gap", "n_in": 30, "fisher_p": 1.4466116294181507e-07}
+{"type": "F2D_FullyBlocked", "class": "background", "n_in": 15, "fisher_p": 0.0025092716799494986}
+{"type": "F2D_HardBrake", "class": "background", "n_in": 15, "fisher_p": 1.0}
+{"type": "F2D_ImageOnObject", "class": "background", "n_in": 14, "fisher_p": 1.0}
+{"type": "F2D_ObscuredStop", "class": "background", "n_in": 15, "fisher_p": 1.0}
+{"type": "F2D_OppositeConstruction", "class": "background", "n_in": 15, "fisher_p": 0.22413793103448276}
+{"type": "F2D_PassableObstacles", "class": "background", "n_in": 15, "fisher_p": 1.0}
+{"type": "F2D_PedestrianCrowd", "class": "background", "n_in": 15, "fisher_p": 0.4827586206896552}
+{"type": "F2D_PedestrianOtherBlocker", "class": "background", "n_in": 15, "fisher_p": 0.4827586206896552}
+{"type": "F2D_PedestriansOnRoad", "class": "background", "n_in": 15, "fisher_p": 0.005197401299350325}
+{"type": "F2D_RightConstruction", "class": "background", "n_in": 15, "fisher_p": 0.014192903548225885}
+{"type": "F2D_RightOfWay", "class": "background", "n_in": 13, "fisher_p": 1.0}
+{"type": "F2D_Wall", "class": "background", "n_in": 14, "fisher_p": 1.28934500757877e-08}
+simlingo:F2D_CustomObstacles

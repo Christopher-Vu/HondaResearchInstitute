@@ -1,0 +1,18 @@
+{"type": "F2D_Animals", "slice": "12/29", "twin": "5/30", "ratio": 2.48, "unit": true}
+{"type": "F2D_BadParking", "slice": "12/30", "twin": "5/30", "ratio": 2.4, "unit": true}
+{"type": "F2D_ConstructionPedestrian", "slice": "9/15", "twin": "7/15", "ratio": 1.29, "unit": false}
+{"type": "F2D_ConstructionPermutations", "slice": "8/15", "twin": "8/15", "ratio": 1.0, "unit": false}
+{"type": "F2D_CustomObstacles", "slice": "28/30", "twin": "8/30", "ratio": 3.5, "unit": true}
+{"type": "F2D_FullyBlocked", "slice": "11/15", "twin": "2/15", "ratio": 5.5, "unit": true}
+{"type": "F2D_HardBrake", "slice": "6/15", "twin": "7/15", "ratio": 0.86, "unit": false}
+{"type": "F2D_ImageOnObject", "slice": "0/14", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_ObscuredStop", "slice": "0/15", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_OppositeConstruction", "slice": "3/15", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_PassableObstacles", "slice": "0/15", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_PedestrianCrowd", "slice": "2/15", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_PedestrianOtherBlocker", "slice": "2/15", "twin": "0/15", "ratio": null, "unit": false}
+{"type": "F2D_PedestriansOnRoad", "slice": "9/15", "twin": "1/15", "ratio": 9.0, "unit": true}
+{"type": "F2D_RightConstruction", "slice": "8/15", "twin": "1/14", "ratio": 7.47, "unit": true}
+{"type": "F2D_RightOfWay", "slice": "3/13", "twin": "3/14", "ratio": 1.08, "unit": false}
+{"type": "F2D_Wall", "slice": "14/14", "twin": "0/15", "ratio": null, "unit": true}
+simlingo:F2D_Animals simlingo:F2D_BadParking simlingo:F2D_CustomObstacles simlingo:F2D_FullyBlocked simlingo:F2D_PedestriansOnRoad simlingo:F2D_RightConstruction simlingo:F2D_Wall

@@ -1,0 +1,11 @@
+{"units": {"simlingo:F2D_CustomObstacles": 28}, "routes": 593, "pairs": 100}
+{"B3_behaviour": [0.178, 0.191]}
+{"B3_infraction": [0.357, 0.394]}
+{"m23": [0.189, 0.21]}
+{"m40": [0.169, 0.169]}
+{"j09": [0.186, 0.194]}
+{}
+
+real	0m4.122s
+user	0m3.584s
+sys	0m0.152s

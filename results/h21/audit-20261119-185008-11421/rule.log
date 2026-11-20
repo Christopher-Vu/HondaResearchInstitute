@@ -1,0 +1,11 @@
+{"units": {"simlingo:F2D_Animals": 12, "simlingo:F2D_BadParking": 12, "simlingo:F2D_CustomObstacles": 28, "simlingo:F2D_FullyBlocked": 11, "simlingo:F2D_PedestriansOnRoad": 9, "simlingo:F2D_RightConstruction": 8, "simlingo:F2D_Wall": 14}, "routes": 593, "pairs": 100}
+{"B3_behaviour": [0.129, 0.166]}
+{"B3_infraction": [0.21, 0.25]}
+{"m23": [0.213, 0.28]}
+{"m40": [0.186, 0.253]}
+{"j09": [0.15, 0.204]}
+{}
+
+real	0m13.330s
+user	0m12.582s
+sys	0m0.203s
