@@ -14,6 +14,8 @@ unit (model, gap) weighs equally. The bootstrap resamples Fail2Drive pairs, ever
 --restrict keeps only the listed routes of a model (coverage-limited rows); gaps and the failing pool shrink with it.
 --select NAME ROW[:OWN] ...: in every draw the member with the highest rank-averaged score is taken, and the
 contrasts are that member minus its OWN comparator (if given) and minus each --select-vs row, on the same draw.
+A row spec `runs:AXES.json` (to_axes.py's output, several runs) scores as the median over its runs, within every draw
+(the caption row, prereg-views.md); run r of every model is taken together.
 """
 from __future__ import annotations
 
@@ -81,34 +83,53 @@ def main() -> None:
             if m == model:
                 gaps[unit] = {f"{model}/{e['id']}" for e in manifest if e["role"] == "pilot_slice"
                               and c in e["practice_gaps"] and outcome.get(str(e["id"]))}
-    rows = {}
+    def read_runs(spec: str, m: str) -> list[list[set[str]]]:
+        if spec.startswith("runs:"):
+            (runs,) = json.loads(Path(spec[5:]).read_text()).values()
+            return [sprint_score.distinct([{f"{m}/{r}" for r in a} for a in run["axes"]]) for run in runs]
+        return [[{f"{m}/{r}" for r in a} for a in sprint_score.read_method(spec)[1]]]
+
+    runs = {}
     for entry in args.row:
         given = dict(s.split("=", 1) for s in entry[1:])
-        rows[entry[0]] = {m: [{f"{m}/{r}" for r in a} for a in sprint_score.read_method(given[m])[1]] for m in models}
+        runs[entry[0]] = {m: read_runs(given[m], m) for m in models}
     pool = sorted(pair_of)
     inside = set(pool)  # a restricted model's axes lose routes outside its kept set (A2's distinctness is kept)
-    rows = {n: {m: [a & inside for a in axes] for m, axes in entry.items()} for n, entry in rows.items()}
+    runs = {n: {m: [[a & inside for a in axes] for axes in rs] for m, rs in entry.items()} for n, entry in runs.items()}
+    count = {n: max(len(rs) for rs in entry.values()) for n, entry in runs.items()}
+    for n, entry in runs.items():
+        if any(len(rs) != count[n] for rs in entry.values()):
+            raise ValueError(f"{n}: every model needs the same number of runs")
+    run_rows = {n: [{m: entry[m][r] for m in models} for r in range(count[n])] for n, entry in runs.items()}
+    rows = {n: rr[0] for n, rr in run_rows.items()}  # per-unit reporting of a multi-run row uses its median run
     pairs = sorted(set(pair_of.values()))
     index = {p: i for i, p in enumerate(pairs)}
 
-    def score(entry, metric, weight=None) -> float:
+    def score1(entry, metric, weight=None) -> float:
         f = ranked if metric == "rabm" else sprint_score.best
         return float(np.mean([f(entry[u.split(":", 1)[0]], g, weight) for u, g in gaps.items()]))
 
+    def score(name, metric, weight=None) -> float:
+        return float(np.median([score1(e, metric, weight) for e in run_rows[name]]))
+
+    for n, rr in run_rows.items():  # a multi-run row reports per unit from the run at its median (lower middle)
+        if len(rr) > 1:
+            by = sorted(range(len(rr)), key=lambda r: score1(rr[r], "rabm"))
+            rows[n] = rr[by[(len(rr) - 1) // 2]]
     names = list(rows)
     col = {n: i for i, n in enumerate(names)}
-    point = {mt: np.array([score(rows[n], mt) for n in names]) for mt in ("rabm", "best")}
+    point = {mt: np.array([score(n, mt) for n in names]) for mt in ("rabm", "best")}
     rng = np.random.default_rng(args.seed)
     draws = {mt: np.zeros((args.replicates, len(names))) for mt in ("rabm", "best")}
     for b in range(args.replicates):
         counts = np.bincount(rng.integers(0, len(pairs), len(pairs)), minlength=len(pairs)).astype(float)
         weight = {r: counts[index[pair_of[r]]] for r in pool}
         for mt in draws:
-            draws[mt][b] = [score(rows[n], mt, weight) for n in names]
+            draws[mt][b] = [score(n, mt, weight) for n in names]
 
     out_rows = {}
     for n in names:
-        out_rows[n] = {"rabm": float(point["rabm"][col[n]]), "best_top10": float(point["best"][col[n]]),
+        out_rows[n] = {"rabm": float(point["rabm"][col[n]]), "best_top10": float(point["best"][col[n]]), "runs": count[n],
                        "per_unit_rabm": {u: ranked(rows[n][u.split(":", 1)[0]], g) for u, g in gaps.items()},
                        "per_unit_best": {u: sprint_score.best(rows[n][u.split(":", 1)[0]], g) for u, g in gaps.items()}}
         if args.primary_rival in rows and n != args.primary_rival:
