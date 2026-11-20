@@ -67,3 +67,12 @@ def test_deterministic_and_the_mixture_never_reads_pass_fail(tmp_path, monkeypat
     assert first["settings"]["bic"] == flipped["settings"]["bic"]
     failing = {f"r{i}" for i in range(40) if i % 3 == 0}
     assert all(set(a["rollouts"]) <= failing for a in first["axes"])
+
+
+def test_failure_rate_ranking_puts_the_most_failing_component_first() -> None:
+    labels = np.array([0, 0, 0, 0, 1, 1, 2, 2, 2, 2])
+    failing = np.array([True, False, False, False, True, True, True, True, False, False])
+    order = [(0, -3.0), (1, 5.0), (2, 1.0)]
+    ranked = j18.rank_by_failure_rate(labels, order, failing)
+    assert [c for c, _ in ranked] == [1, 2, 0]
+    assert dict(ranked) == dict(order)

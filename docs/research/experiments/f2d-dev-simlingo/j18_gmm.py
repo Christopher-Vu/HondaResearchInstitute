@@ -11,6 +11,8 @@ their routes are under that density.
   random_state and n_init 3. The lowest BIC wins; a fit that raises is skipped.
 - Ranking (label-free): hard assignment by predict; each component's score is the mean log density (score_samples)
   of all its routes, passing and failing; ascending, ties by component index.
+- j19 (`--rank failure-rate`): the same mixture, components ranked by the share of their routes that fail, highest
+  first; ties by more failing routes, then component index. This ranking reads pass/fail, as m03 does.
 - Axes: each ranked component's failing routes (the cache's `meta.success`, as m03 reads it). A component with no
   failing route gives no axis; an exact repeat is dropped (A2); the first 10 are written.
 
@@ -56,6 +58,13 @@ def rank_components(model: GaussianMixture, z: np.ndarray) -> tuple[np.ndarray, 
     return labels, order
 
 
+def rank_by_failure_rate(labels: np.ndarray, order: list[tuple[int, float]], failing: np.ndarray) -> list[tuple[int, float]]:
+    rate = {c: float(failing[labels == c].mean()) for c, _ in order}
+    count = {c: int(failing[labels == c].sum()) for c, _ in order}
+    density = dict(order)
+    return [(c, density[c]) for c in sorted(rate, key=lambda c: (-rate[c], -count[c], c))]
+
+
 def axes_from_components(labels: np.ndarray, order: list[tuple[int, float]], failing: np.ndarray, ids: list[str],
                          name: str) -> list[dict]:
     axes, seen = [], set()
@@ -77,6 +86,7 @@ def main() -> None:
     parser.add_argument("--dims", type=int, default=32)
     parser.add_argument("--components", type=int, nargs="+", default=[4, 6, 8, 12])
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--rank", choices=("density", "failure-rate"), default="density")
     parser.add_argument("--name", default="j18")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -87,6 +97,8 @@ def main() -> None:
     z = cache_methods.standardise(cache_methods.embed("m03", x, failing, args.dims, 0, args.seed))
     model, bic = fit_mixture(z, args.components, args.seed)
     labels, order = rank_components(model, z)
+    if args.rank == "failure-rate":
+        order = rank_by_failure_rate(labels, order, failing)
     chosen = {"covariance": model.covariance_type, "k": int(model.n_components), "bic": bic,
               "component_order": [{"component": c, "mean_log_density": d, "routes": int((labels == c).sum()),
                                    "failing": int(((labels == c) & failing).sum())} for c, d in order]}
