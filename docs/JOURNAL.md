@@ -13,6 +13,11 @@ when the final listed directory was absent. The command now names every missing
 job id and exits before reading routes. A lightweight regression test runs the
 preflight in a temporary repository with one present and one missing directory.
 
+The shared view scorer now also writes every paired row-versus-row contrast,
+not just each row versus B3-behaviour. This makes the tagged partial-order rule
+auditable from the one-command read output. Its regression test checks that the
+two directions of a contrast have opposite signed point estimates.
+
 ---
 
 ## 2026-11-19 — Caption row on SimLingo: describing moved to the API, first score

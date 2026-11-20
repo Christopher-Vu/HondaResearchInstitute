@@ -132,6 +132,11 @@ def main() -> None:
         out_rows[n] = {"rabm": float(point["rabm"][col[n]]), "best_top10": float(point["best"][col[n]]), "runs": count[n],
                        "per_unit_rabm": {u: ranked(rows[n][u.split(":", 1)[0]], g) for u, g in gaps.items()},
                        "per_unit_best": {u: sprint_score.best(rows[n][u.split(":", 1)[0]], g) for u, g in gaps.items()}}
+        out_rows[n]["vs_rows"] = {
+            other: {mt: interval(draws[mt][:, col[n]] - draws[mt][:, col[other]],
+                                 float(point[mt][col[n]] - point[mt][col[other]])) for mt in draws}
+            for other in names if other != n
+        }
         if args.primary_rival in rows and n != args.primary_rival:
             r = col[args.primary_rival]
             out_rows[n]["vs_primary"] = {mt: interval(draws[mt][:, col[n]] - draws[mt][:, r],
