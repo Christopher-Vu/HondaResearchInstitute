@@ -47,6 +47,7 @@ gap's best axis changes.
 % source: docs/prd-discovery-sprint.md:89-93; docs/prereg-fail2drive.md:153 (dev p values are exploratory; the held-out score is the result)
 % measured: 232 methods tried (docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1495)
 A dev $p$ value read after many tries marks a candidate, not a result. The try
+% unsupported: prereg :153 makes it a rule; VARIANTS.md score tables at :613, :669, :844, :975, :1015 have no count column (the count is in the paragraph above them)
 count stands at 232 methods, and every dev table states the running count
 beside its $p$ values. The design treats only the held-out score of a frozen
 finalist as a result.
@@ -101,6 +102,7 @@ pool builder (\S\ref{sec:h21b}).
 % source: docs/research/experiments/f2d-dev-simlingo/cache_pool.py:13-14, :32-33, :51, :68, :75; frames_pool.py:8-10, :134, :186 (salted row order, no scenario field, raw route_id kept)
 % source: scripts/check_sealed_imports.py:1-36 (guarded directories and forbidden patterns)
 % source: CONFLICTS.md:693-699 (C33: CI off, so the guard runs only by hand)
+% flag for Chris: prereg :68-71 says shards drop scenario, practice_gaps, role, base_id and the route id and routes are renamed by a salt kept with the scorer; the code keeps all of these in shard sidecars, and the caches only order rows by sha256 with a constant salt "f2d-cache-v1" written in cache_pool.py:28, keeping raw ids
 Two things enforce label hiding in code. The caches the dev methods read write
 no scenario, town or route-config field and list routes in a salted-hash
 order, but they keep each route's raw id, and the exported shards still carry
