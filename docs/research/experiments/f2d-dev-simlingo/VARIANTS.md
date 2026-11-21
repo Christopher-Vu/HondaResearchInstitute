@@ -1414,3 +1414,57 @@ j20 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `res
 **Tried count after j20-j21 (reconciled 2026-11-20 15:55).** j20 and j21 were written as "224 + n" in parallel with
 j22-j25 and landed after them: j20 = 229, j21 = 230. **230 methods tried in total** (exploratory, dev, H21b only).
 The j20 training-seed reruns add nothing.
+
+### Exploratory, H21b pool, laptop j26-j27 (2026-11-20), rows written before any score
+
+Laptop worker 20261120-155431-29349, work item 4, open lane "probes beyond logistic". Exploratory, dev, H21b only;
+nothing here can enter the UniAD read (`docs/prereg-views.md`, tag `views-prereg-v1`), and nothing here is
+significant, confirmed or a finding.
+- **Idea.** InfEmbed (Wang et al., NeurIPS 2023) and Domino cluster per-example explanations, not raw features.
+  Routes that fail for the same reason should need the same input directions to be called failing, even when their
+  raw activations differ. j26 clusters failing routes by the attribution of a nonlinear pass/fail probe.
+- **How j26 differs from the prior probe rows.** m04 fits one in-sample logistic probe and clusters every failing
+  route in the same fixed subspace (top-|coefficient| components scaled by the coefficient), so routes are still
+  compared by their raw values there. m47 embeds routes by random-forest leaf co-membership from a forest that saw
+  every route, and failed (0.154). m19 used probe AUROC to pick layers and found the probe reads window position.
+  j26 is cross-fitted (no route is explained by a probe that saw it), nonlinear, explains each route locally
+  (gradient times input differs per route), and removes position directions before the probe is fit. Chris's probe
+  diagnostic (Outcome 1: activations plus behaviour never beat behaviour alone) is about supervised gap probes; j26
+  uses only pass/fail and does not test that question.
+- **m19 position confound, how j26 handles it.** The cache arrays allow no window whose position is the same for both
+  outcomes and that also covers the failure: `frames.npz` and the `cache-w50.npz` window both end at the failure or
+  the route end, the whole-route summary runs past the failure on failing routes, and the early window (first 50
+  frames) is at the same place for everyone but holds pass/fail AUROC of only 0.679 with a logistic probe (measured,
+  label-free). So j26 removes position. Each window frame gets log(step since start) and log(1 + steps to the
+  route's end) from the cache's `step` array (window located by `meta.failure_step`, the rule `cache_pool.py` used;
+  frame counts and per-frame speeds match `frames.npz` exactly on all 593 routes, measured). Each route takes their
+  window mean. Each position is a separate target within each outcome (steps-to-end is constant on passing routes and
+  dropped, so three targets). Directions of the PCA 32 window features that predict a target (ridge alpha 1, 5 folds
+  over the salted order) are removed one at a time until no target has cross-fitted R² above 0.05 (cap 16).
+- **Position check, run before this row (label-free, pass/fail only, no score read;
+  `results/h21/j26/position-check.json`).** 13 directions removed (measured). Among failing routes, log window-end
+  step is predicted from the probe's inputs at cross-fitted R² 0.786 before removal and 0.126 after (RidgeCV); a
+  boosted-tree regressor still gets 0.588 after, so nonlinear position information remains (unverified how much the
+  probe uses it). Pass/fail out-of-fold AUROC of the MLP probe: 0.931 before, 0.929 after; window-end step alone
+  gives 0.733. Share of log failure-step variance explained by the failing-route clusters at cuts 2/3/5: m15's raw
+  window clusters 0.142 / 0.148 / 0.276; j26 without removal 0.052 / 0.070 / 0.224; j26 0.008 / 0.044 / 0.057.
+- **One deviation from the suggested design, decided on a toy before any score.** Attribution columns are not
+  standardised before Ward. On a toy with two failure reasons and a large two-valued nuisance input
+  (`tests/test_j26_attr.py`), Ward on raw inputs gives adjusted Rand index ≈ 0 with the reasons, on attributions
+  0.88 / 0.96 / 0.94 (toy seeds 0/1/2), on standardised attributions 0.86 / 0.83 / 0.28: standardising lifts inputs
+  the probe ignores to the size of those it uses (the same pitfall j25 found). No shap package is installed, so
+  attribution is input gradient times input for an MLP.
+- **Pool and scoring:** H21b, 593 routes, 174 failing; inputs `results/savio/f2d-h21b/pool/{frames.npz,cache.npz}`.
+  The method reads only cache arrays and the pass/fail flag (and `failure_step` to place the window, as
+  `cache_pool.py` and B3-behaviour do); never `routes.jsonl`, the manifest or route types; rows keep the salted order.
+  `sprint_score.py` under A2/A1 as `results/h21/j24/commands.sh`: gaps CustomObstacles, Wall, PedestriansOnRoad; the
+  six decoys; primary rival B3-behaviour, B3-infraction reported; 2,000 replicates; manifest
+  `results/h21/j18/manifest-pair-fixed.json` (pair without `-sNN`, 100 pairs). Outputs `results/h21/j26/`.
+- **Count:** only the pooled row is scored; each scored row is one try, "230 + n laptop tries this batch".
+- **Robustness, not tries:** j26 pooled rerun with probe seeds 1, 2, 3 at 200 replicates. Seed 0 stays the j26 score.
+- **Rule fixed now:** j27 runs only if j26 pooled lands below m23 (0.395); its row is written before its score, with a
+  reason from j26's own outputs (no key read), and it is the last try in this section.
+
+| id | date | pool | settings | score (CustomObstacles / Wall / PedestriansOnRoad) | delta vs B3-behaviour / B3-infraction [95% interval], p | methods tried |
+|---|---|---|---|---|---|---|
+| j26 | 2026-11-20 | H21b | `j26_attr.py` defaults, probe seed 0. `frames.npz` `driving_queries` L8, mean over each route's valid frames (21 to 50, the last before the failure or the route end), standardised over all routes, PCA 32 fit on all routes (`random_state` 0, m15's input). Position removal as above (13 directions, 19 inputs left). Probe: MLP 19 → 64 → 64 → 1, GELU, AdamW lr 3e-3, weight decay 1e-2, full batch, 300 epochs, BCE with positive weight passing/failing; inputs standardised with the training fold's mean and SD; 5 contiguous folds over the salted row order (`KFold`, no shuffle), never by pair or route type; torch seed 100 × seed + fold, one thread, deterministic algorithms. Attribution per held-out route: gradient of the logit times the fold-standardised input, divided by the RMS of that fold's held-out attributions; not standardised per column. Ward on the 174 failing routes' attributions, cuts 2/3/5 with A2 continuation (`axes_from`); ranking label-free: cut order, largest first within a cut (as m15). Top 10, pooled by `pool_axes.py` with whole-route L8 (m03, `route-L8`), whole-route first. Out-of-fold pass/fail AUROC 0.929 (measured, label-free). Only the pooled row is scored | | | 230 + 1 laptop try this batch |

@@ -1,0 +1,34 @@
+{
+ "auroc_window_end_alone": 0.733,
+ "eta2_end_on_raw_window_clusters_m15_input": {
+  "2": 0.142,
+  "3": 0.148,
+  "5": 0.276
+ },
+ "keep_position": {
+  "directions_removed": 0,
+  "oof_pass_fail_auroc": 0.931,
+  "failing_end_r2_linear": 0.786,
+  "failing_end_r2_boosted": 0.795,
+  "spearman_logit_end_failing": -0.044,
+  "spearman_logit_end_passing": -0.039,
+  "eta2_end_on_attr_clusters": {
+   "2": 0.052,
+   "3": 0.07,
+   "5": 0.224
+  }
+ },
+ "position_removed": {
+  "directions_removed": 13,
+  "oof_pass_fail_auroc": 0.929,
+  "failing_end_r2_linear": 0.126,
+  "failing_end_r2_boosted": 0.588,
+  "spearman_logit_end_failing": -0.01,
+  "spearman_logit_end_passing": -0.057,
+  "eta2_end_on_attr_clusters": {
+   "2": 0.008,
+   "3": 0.044,
+   "5": 0.057
+  }
+ }
+}
