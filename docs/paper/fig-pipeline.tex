@@ -21,8 +21,9 @@
 
   % source: docs/research/experiments/f2d-dev-simlingo/cache_pool.py:2-3, :13; docs/prereg-fail2drive.md:68-71
   \node[stage, below=12mm of dev] (cache) {Cache of activations, one row per
-    route (\code{cache\_pool.py}). Label fields removed; routes renamed by a
-    salted hash};
+    route (\code{cache\_pool.py}). Label fields removed; rows in salted-hash
+    order};
+  % source: cache_pool.py:51, :68 (rows sorted by salted hash; the raw route id is written, not a hashed name)
 
   % source: docs/prereg-fail2drive.md:144 (ranks its own axes); cache_pool.py:13 (rows in salted-hash order)
   \node[stage, below=of cache] (method) {Each method and rival sees the rows
@@ -56,6 +57,7 @@
     and m40, the rivals and the transfer rules};
 
   % source: docs/prereg-fail2drive.md:71 (salt stays with the scorer); :30-36 (gap classification on the test pool)
+  % wrong?: the salt is the constant SALT in cache_pool.py:29, which every method's input order uses; flagged for Chris
   \node[side, scorer, text width=3.5cm, right=6mm of jaccard] (labels) {Scorer
     only: the salt, the scenario labels and each gap's failing routes
     (\S\ref{sec:fail2drive})};
@@ -81,7 +83,7 @@
   \draw[flow] (frozen) -- (method);
   \draw[flow] (cache) -- (method);
   \draw[flow] (method) -- node[flowlabel] {ranked axes} (top);
-  \draw[flow] (top) -- node[flowlabel, pos=0.25] {axes as sets of hashed routes}
+  \draw[flow] (top) -- node[flowlabel, pos=0.25] {axes as sets of route ids}
     (jaccard);
   \draw[flow] (labels) -- (jaccard);
   \draw[flow] (jaccard) -- (mean);

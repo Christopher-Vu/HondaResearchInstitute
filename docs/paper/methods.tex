@@ -29,9 +29,10 @@ Its rules are these.
         needs no correction for multiple comparisons.
 \end{enumerate}
 % measured: try counts 134 (A2), 188 (A3), 202 (A4), 216 (unpooled), 219 (views tag); docs/prereg-fail2drive.md §8-§10, docs/prereg-views.md, VARIANTS.md
+% source: VARIANTS.md:1495 (232 after the j16-j27 rows); docs/prereg-views.md:72 (219 at the views tag)
 The try count was 134 when amendment A2 was written, 188 at the freeze, 202 when
-the search stopped, and is 219 once the views pre-registration's new rows are
-counted. Two people's agents searched in parallel: Chris's agents wrote the
+the search stopped, and 219 once the views pre-registration's new rows were
+counted; the exploratory j16--j27 rows bring it to 232. Two people's agents searched in parallel: Chris's agents wrote the
 \emph{m} family and Jerry's explore loop wrote the \emph{j} family. Both logged
 into the same file and scored with the same scorer.
 
@@ -133,7 +134,8 @@ m06      & m03 plus B3-behaviour's kinematic features, equal block weight \\
 m07      & Window mean minus the route's own early mean \\
 m05      & Sweep of m03 over 24 layers of two sites plus \code{vision\_bridge} \\
 m08, m16 & Several layers concatenated (L5, L8, L20) \\
-m11, m15, m24 & Longer approach windows: 3, 10, 20, 30, 50, 100 frames \\
+% source: VARIANTS.md:88 (m11 windows 3, 10 and 20 against the default 6)
+m11, m15, m24 & Other approach windows: 3, 10, 20, 30, 50, 100 frames \\
 m12, m17 & Average, complete or spectral linkage in place of Ward \\
 m13      & Other cut schedules (4 and 6; 10) \\
 m19      & Layers chosen by pass/fail probe AUROC (uninformative; see
@@ -146,7 +148,9 @@ m29--m32 & Per-frame summaries: several time scales, PCA trend, stopped versus
            moving frames, mean and spread \\
 m33--m36 & j09 at other layers, beside the window mean, or on several layers \\
 m38      & j05's background subtraction on the L8 50-frame window \\
-m39, m40 & PCA width 16 or 64 \\
+% source: VARIANTS.md:604 (m39 is the PCA-width row); :661 (m40 pools m39 at PCA 64 with whole-route L20)
+m39      & PCA width 16 or 64 \\
+m40      & Pool of m39 at PCA 64 and the whole-route summary at L20 \\
 \bottomrule
 \end{tabular}
 % design: round-2 rows (VARIANTS.md Round 2)
@@ -184,7 +188,8 @@ j05 & Unwhitened PCA; subtract from each failing route the mean of its 10
 j06 & j01 after removing a least-squares prediction of the activations from the
       behaviour features \\
 j07 & Split failing routes into two behaviour strata, then j01 within each \\
-j08 & Candidate clusters from several views (behaviour and three layers), ranked
+% source: docs/JOURNAL.md:831-832, :863 (j08 held, never scored; no j08 row in VARIANTS.md)
+j08 & Built but held and never scored: candidate clusters from several views (behaviour and three layers), ranked
       by their stability under subsampling of the failing routes, a cluster-wise
       stability assessment~\cite{hennig2007stability} \\
 j09 & A diagonal Gaussian hidden Markov model (a few hidden states, each with its
