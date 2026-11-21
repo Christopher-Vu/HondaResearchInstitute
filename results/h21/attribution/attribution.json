@@ -1,0 +1,1443 @@
+{
+ "gap_sizes": {
+  "F2D_CustomObstacles": 28,
+  "F2D_PedestriansOnRoad": 9,
+  "F2D_Wall": 14
+ },
+ "label": "EXPLORATORY DEV: H21b only; per-axis source attribution; diagnostic, not a try (230 tried)",
+ "manifest": "results/h21/j18/manifest-pair-fixed.json",
+ "routes": "results/h21/h21b/routes.jsonl",
+ "rows": {
+  "j16+route": {
+   "axes_file": "results/h21/j16/axes/j16+route.json",
+   "mean_best": 0.2724726254138019,
+   "method": "j16+route",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      5
+     ],
+     "best_axis_sources": [
+      "j16"
+     ],
+     "score": 0.07792207792207792
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j16": {
+     "axes": 5,
+     "mean_best": 0.13383403744849529,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.18072289156626506,
+      "F2D_PedestriansOnRoad": 0.07792207792207792,
+      "F2D_Wall": 0.14285714285714285
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j16/axes/route-L8.json",
+    "results/h21/j16/axes/j16.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 104,
+     "source": "j16",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 70,
+     "source": "j16",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 74,
+     "source": "j16",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 30,
+     "source": "j16",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 53,
+     "source": "j16",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j17+route": {
+   "axes_file": "results/h21/j16/axes/j17+route.json",
+   "mean_best": 0.27928548468567754,
+   "method": "j17+route",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      9
+     ],
+     "best_axis_sources": [
+      "j17"
+     ],
+     "score": 0.09836065573770492
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j17": {
+     "axes": 5,
+     "mean_best": 0.15067395264116576,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.17333333333333334,
+      "F2D_PedestriansOnRoad": 0.09836065573770492,
+      "F2D_Wall": 0.18032786885245902
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j16/axes/route-L8.json",
+    "results/h21/j16/axes/j17.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 114,
+     "source": "j17",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 60,
+     "source": "j17",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 76,
+     "source": "j17",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 38,
+     "source": "j17",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 58,
+     "source": "j17",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j18": {
+   "axes_file": "results/h21/j18/axes/j18.json",
+   "mean_best": 0.31512605042016806,
+   "method": "j18-routeL8+gmm",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      7
+     ],
+     "best_axis_sources": [
+      "j18-source"
+     ],
+     "score": 0.20588235294117646
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j18-source": {
+     "axes": 5,
+     "mean_best": 0.18862745098039216,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.12,
+      "F2D_PedestriansOnRoad": 0.20588235294117646,
+      "F2D_Wall": 0.24
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j18/axes/route-L8.json",
+    "results/h21/j18/axes/j18-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 29,
+     "source": "j18-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 14,
+     "source": "j18-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 28,
+     "source": "j18-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 32,
+     "source": "j18-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 17,
+     "source": "j18-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j19": {
+   "axes_file": "results/h21/j18/axes/j19.json",
+   "mean_best": 0.31512605042016806,
+   "method": "j19-routeL8+gmm-failrate",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      4
+     ],
+     "best_axis_sources": [
+      "j19-source"
+     ],
+     "score": 0.20588235294117646
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j19-source": {
+     "axes": 5,
+     "mean_best": 0.1536724960254372,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.12,
+      "F2D_PedestriansOnRoad": 0.20588235294117646,
+      "F2D_Wall": 0.13513513513513514
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j18/axes/route-L8.json",
+    "results/h21/j18/axes/j19-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 14,
+     "source": "j19-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 32,
+     "source": "j19-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 18,
+     "source": "j19-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 29,
+     "source": "j19-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 28,
+     "source": "j19-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j20": {
+   "axes_file": "results/h21/j20/axes/j20.json",
+   "mean_best": 0.29088500264970857,
+   "method": "j20-routeL8+ssl",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      4
+     ],
+     "best_axis_sources": [
+      "j20-source"
+     ],
+     "score": 0.24324324324324326
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      5
+     ],
+     "best_axis_sources": [
+      "j20-source"
+     ],
+     "score": 0.1
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j20-source": {
+     "axes": 5,
+     "mean_best": 0.16343402225755166,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.24324324324324326,
+      "F2D_PedestriansOnRoad": 0.1,
+      "F2D_Wall": 0.14705882352941177
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j20/axes/route-L8.json",
+    "results/h21/j20/axes/j20-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 110,
+     "source": "j20-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 64,
+     "source": "j20-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 57,
+     "source": "j20-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 53,
+     "source": "j20-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 40,
+     "source": "j20-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j21": {
+   "axes_file": "results/h21/j20/axes/j21.json",
+   "mean_best": 0.2795736913383972,
+   "method": "j21-routeL8+ssl-t0.5",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      5
+     ],
+     "best_axis_sources": [
+      "j21-source"
+     ],
+     "score": 0.1981981981981982
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      9
+     ],
+     "best_axis_sources": [
+      "j21-source"
+     ],
+     "score": 0.1111111111111111
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j21-source": {
+     "axes": 6,
+     "mean_best": 0.14048628067319655,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.1981981981981982,
+      "F2D_PedestriansOnRoad": 0.1111111111111111,
+      "F2D_Wall": 0.11214953271028037
+     }
+    },
+    "route-L8": {
+     "axes": 4,
+     "mean_best": 0.2507677769903142,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.1686746987951807,
+      "F2D_PedestriansOnRoad": 0.05421686746987952,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j20/axes/route-L8.json",
+    "results/h21/j20/axes/j21-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 137,
+     "source": "j21-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 37,
+     "source": "j21-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 105,
+     "source": "j21-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 32,
+     "source": "j21-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 23,
+     "source": "j21-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 21,
+     "source": "j21-source",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 5,
+     "source": "route-L8",
+     "source_rank": 7
+    }
+   ]
+  },
+  "j22": {
+   "axes_file": "results/h21/j22/axes/j22.json",
+   "mean_best": 0.2864985994397759,
+   "method": "j22-routeL8+dict",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      10
+     ],
+     "best_axis_sources": [
+      "j22-source"
+     ],
+     "score": 0.12
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j22-source": {
+     "axes": 5,
+     "mean_best": 0.159051548660395,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.1927710843373494,
+      "F2D_PedestriansOnRoad": 0.12,
+      "F2D_Wall": 0.1643835616438356
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j22/axes/route-L8.json",
+    "results/h21/j22/axes/j22-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 134,
+     "source": "j22-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 40,
+     "source": "j22-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 71,
+     "source": "j22-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 63,
+     "source": "j22-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 47,
+     "source": "j22-source",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j23": {
+   "axes_file": "results/h21/j22/axes/j23.json",
+   "mean_best": 0.26922587216704863,
+   "method": "j23-routeL8+dict-change",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.06818181818181818
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      4
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j23-source": {
+     "axes": 4,
+     "mean_best": 0.10322075672795096,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.15827338129496402,
+      "F2D_PedestriansOnRoad": 0.0625,
+      "F2D_Wall": 0.08888888888888889
+     }
+    },
+    "route-L8": {
+     "axes": 6,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j22/axes/route-L8.json",
+    "results/h21/j22/axes/j23-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 25,
+     "source": "j23-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 4,
+     "source": "j23-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 133,
+     "source": "j23-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 9,
+     "source": "j23-source",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 5,
+     "source": "route-L8",
+     "source_rank": 7
+    }
+   ]
+  },
+  "j24": {
+   "axes_file": "results/h21/j24/axes/j24.json",
+   "mean_best": 0.26922587216704863,
+   "method": "j24-routeL8+ar",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      10
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.06818181818181818
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j24-source": {
+     "axes": 5,
+     "mean_best": 0.15061618850438727,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.19387755102040816,
+      "F2D_PedestriansOnRoad": 0.057971014492753624,
+      "F2D_Wall": 0.2
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j24/axes/route-L8.json",
+    "results/h21/j24/axes/j24-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 89,
+     "source": "j24-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 85,
+     "source": "j24-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 46,
+     "source": "j24-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 43,
+     "source": "j24-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 64,
+     "source": "j24-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "j25": {
+   "axes_file": "results/h21/j24/axes/j25.json",
+   "mean_best": 0.27213962508080153,
+   "method": "j25-routeL8+ardir",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      8
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      4
+     ],
+     "best_axis_sources": [
+      "j25-source"
+     ],
+     "score": 0.07692307692307693
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "j25-source": {
+     "axes": 5,
+     "mean_best": 0.12933420745920746,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.17045454545454544,
+      "F2D_PedestriansOnRoad": 0.07692307692307693,
+      "F2D_Wall": 0.140625
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/j24/axes/route-L8.json",
+    "results/h21/j24/axes/j25-source.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 166,
+     "source": "route-L8",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 99,
+     "source": "j25-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 75,
+     "source": "j25-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 59,
+     "source": "j25-source",
+     "source_rank": 3
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 40,
+     "source": "j25-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 27,
+     "source": "j25-source",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    }
+   ]
+  },
+  "m23": {
+   "axes_file": "results/h21/h21b/axes/m23.json",
+   "mean_best": 0.39464674758792406,
+   "method": "m23-w50L8+routeL8",
+   "per_gap": {
+    "F2D_CustomObstacles": {
+     "best_axis_ranks": [
+      6
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.21008403361344538
+    },
+    "F2D_PedestriansOnRoad": {
+     "best_axis_ranks": [
+      9
+     ],
+     "best_axis_sources": [
+      "m15-source"
+     ],
+     "score": 0.4444444444444444
+    },
+    "F2D_Wall": {
+     "best_axis_ranks": [
+      5
+     ],
+     "best_axis_sources": [
+      "route-L8"
+     ],
+     "score": 0.5294117647058824
+    }
+   },
+   "source_alone_subset": {
+    "m15-source": {
+     "axes": 5,
+     "mean_best": 0.23198048347748945,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.16766467065868262,
+      "F2D_PedestriansOnRoad": 0.4444444444444444,
+      "F2D_Wall": 0.08383233532934131
+     }
+    },
+    "route-L8": {
+     "axes": 5,
+     "mean_best": 0.26922587216704863,
+     "per_gap": {
+      "F2D_CustomObstacles": 0.21008403361344538,
+      "F2D_PedestriansOnRoad": 0.06818181818181818,
+      "F2D_Wall": 0.5294117647058824
+     }
+    }
+   },
+   "sources": [
+    "results/h21/h21b/axes/m15-source.json",
+    "results/h21/h21b/axes/route-L8.json"
+   ],
+   "top10": [
+    {
+     "identical_in": [],
+     "rank": 1,
+     "size": 167,
+     "source": "m15-source",
+     "source_rank": 1
+    },
+    {
+     "identical_in": [],
+     "rank": 2,
+     "size": 7,
+     "source": "m15-source",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 3,
+     "size": 8,
+     "source": "route-L8",
+     "source_rank": 2
+    },
+    {
+     "identical_in": [],
+     "rank": 4,
+     "size": 8,
+     "source": "m15-source",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 5,
+     "size": 12,
+     "source": "route-L8",
+     "source_rank": 4
+    },
+    {
+     "identical_in": [],
+     "rank": 6,
+     "size": 116,
+     "source": "route-L8",
+     "source_rank": 5
+    },
+    {
+     "identical_in": [],
+     "rank": 7,
+     "size": 20,
+     "source": "m15-source",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 8,
+     "size": 38,
+     "source": "route-L8",
+     "source_rank": 6
+    },
+    {
+     "identical_in": [],
+     "rank": 9,
+     "size": 4,
+     "source": "m15-source",
+     "source_rank": 7
+    },
+    {
+     "identical_in": [],
+     "rank": 10,
+     "size": 5,
+     "source": "route-L8",
+     "source_rank": 7
+    }
+   ]
+  }
+ },
+ "shared_source": "route-L8"
+}
