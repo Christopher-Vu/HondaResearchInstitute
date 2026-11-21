@@ -21,13 +21,15 @@
 
   % source: docs/research/experiments/f2d-dev-simlingo/cache_pool.py:2-3, :13; docs/prereg-fail2drive.md:68-71
   \node[stage, below=12mm of dev] (cache) {Cache of activations, one row per
-    route (\code{cache\_pool.py}). Label fields removed; rows in salted-hash
-    order};
-  % source: cache_pool.py:51, :68 (rows sorted by salted hash; the raw route id is written, not a hashed name)
+    route (\code{cache\_pool.py}). Scenario fields removed; raw route ids
+    kept, rows in salted-hash order};
+  % source: cache_pool.py:13-14, :51, :68, :75 (no scenario field; rows sorted by salted hash; the raw route id is written, not a hashed name)
+  % flag for Chris: prereg-fail2drive.md:70-71 says the route id is removed and routes are renamed by a salted hash; cache_pool.py only reorders rows and keeps the raw ids
 
   % source: docs/prereg-fail2drive.md:144 (ranks its own axes); cache_pool.py:13 (rows in salted-hash order)
-  \node[stage, below=of cache] (method) {Each method and rival sees the rows
-    in salted order only, and ranks its own axes};
+  % flag for Chris: B7-pool's directive comes from src/discovery, not the cache: emit_directives.py:88 uses dev_eval.load_shards, which sorts shards by route id (dev_eval.py:113-117); prd-discovery-sprint.md:94-95 asks every method that orders by route to use salted names
+  \node[stage, below=of cache] (method) {Each method and cache-based rival
+    sees the rows in salted order only, and ranks its own axes};
 
   % source: docs/prereg-fail2drive.md:144 (first M = 10 count, A1); :171-172 (distinct axes, A2); :75-76 (M is 10)
   \node[stage, below=of method] (top) {Only its first $M=10$ count, in its own
@@ -57,9 +59,9 @@
     and m40, the rivals and the transfer rules};
 
   % source: docs/prereg-fail2drive.md:71 (salt stays with the scorer); :30-36 (gap classification on the test pool)
-  % wrong?: the salt is the constant SALT in cache_pool.py:29, which every method's input order uses; flagged for Chris
+  % flag for Chris: the salt is the constant SALT in cache_pool.py:28 (frames_pool.py reuses it), so method-side code holds it; prereg-fail2drive.md:71 says it stays with the scorer
   \node[side, scorer, text width=3.5cm, right=6mm of jaccard] (labels) {Scorer
-    only: the salt, the scenario labels and each gap's failing routes
+    only: the scenario labels and each gap's failing routes
     (\S\ref{sec:fail2drive})};
 
   % source: docs/prereg-fail2drive.md:199-201 (tag f2d-freeze-1, before any method read TransFuser++'s or UniAD's test-pool data)
@@ -93,7 +95,9 @@
 \end{tikzpicture}
 \caption{The scoring pipeline under amendments A1--A3, for one model's pool.
 White boxes see no scenario label; grey boxes belong to the scorer, which alone
-holds the salt and the gap key. The freeze tag sits between the dev search and
+holds the gap key.
+% flag for Chris: "alone holds the salt" dropped because SALT is in cache_pool.py:28; prereg-fail2drive.md:71 says the salt stays with the scorer
+The freeze tag sits between the dev search and
 any held-out pool. The views pre-registration keeps this pipeline and makes
 rank-averaged best match its primary metric (\S\ref{sec:prereg-views}). B2 with
 labels reads scenario fields and is reported only as an oracle ceiling, never as
