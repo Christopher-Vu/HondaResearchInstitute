@@ -16,13 +16,13 @@ caption-then-cluster hypothesis (H25), two of six grouping runs would have
 listed the route descriptions in category blocks, and the answer mapping sat in
 the parent folder of the frames. A review caught it before the lock
 (\code{WHAT\_BROKE.md}, 2026-11-12). Since then every cache, frame folder and
-caption request is ordered by a salted hash, and an audit lists every file each
-captioning agent touched. Opaque ids are not blind if their order is not.
+caption request is ordered by a salted hash, and an audit lists the frames each
+caption request carried, by hash. Opaque ids are not blind if their order is not.
 
 \paragraph{A route field gave the oracle a perfect score.}
 On the first dev run, B2 with labels recovered PedestriansOnRoad perfectly by
 reading a route field that names the type (\code{VARIANTS.md}, v1). B2 has been
-an oracle ceiling only since then, never a rival.
+an oracle ceiling only since the base pre-registration, never a rival.
 
 \paragraph{Choosing the best axis with the key.}
 The early dev rule scored each method by its best axis for each gap, chosen with
@@ -61,7 +61,7 @@ ego speed for the first 100 frames only, while activations used every frame.
 On 645 of SimLingo's 1,185 scored routes the rival's window therefore ended a
 median of about 10\,s before the true one. The same entry found the window is
 about 1.5\,s, not the 3\,s A1 states. The cap was removed before any held-out
-score (A3), which can only raise the rival. The 6-frame window stands because
+score (A3), which raised the rival on SimLingo dev. The 6-frame window stands because
 it is what A1 tagged in code.
 
 \paragraph{The chance column drew from passing routes.}
@@ -85,8 +85,8 @@ every point score exactly. With the suffix stripped it gave wider intervals;
 with the seed-tagged unit it reproduced the logged intervals, so the unit
 explains the whole difference. The reading of that replication did not change,
 and the UniAD manifest's \code{pair} field has no seed suffix. The correction is
-recorded in \code{VARIANTS.md} (H21b replication, ``Correction''); it has no
-entry in \code{WHAT\_BROKE.md} yet. Any pool built by concatenating seeds must
+recorded in \code{VARIANTS.md} (H21b replication, ``Correction'') and in
+\code{WHAT\_BROKE.md} (2026-11-19). Any pool built by concatenating seeds must
 strip the suffix before resampling.
 
 \paragraph{Unit tests at the wrong shape.}

@@ -32,7 +32,7 @@ Each unit is classified on the model's own test pool, in this order
 \end{enumerate}
 % design: 12 factors, Jaccard 0.4 (configs/baselines/b4_factors_v1.yaml, tag b4-factors-v1)
 A gap is \emph{B4-unnamed} if no single level of our enumerated factor list (B4,
-12 factors, tagged \code{b4-factors-v1} before any Fail2Drive drive) has a
+12 factors, tagged \code{b4-factors-v1} before the Fail2Drive track existed) has a
 failing set with Jaccard at least 0.4 against the gap's failing set. Otherwise it
 is B4-named. The paper uses the name ``B4-unnamed'', never ``interactional''.
 
@@ -43,12 +43,13 @@ rule, \code{units\_rule.py}, run inside each read.
 It admits every type whose generalisation routes fail at least $1.5\times$ as
 often as their base twins, with at least 5 failing generalisation routes. The
 primary units are those minus Wall, which is excluded by name because it was a
-ceiling control from the start.
+ceiling control before the sprint.
 
 \subsection{Pools}
 
 Table~\ref{tab:pools} lists every pool and its role. A pool is a set of driven
 routes with per-step activations and logged state. Dev pools may be read freely.
+% wrong: UniAD, a held-out pool, is read twice (interim and final) after views-prereg-v1, not once after a freeze tag (CONFLICTS.md C43; docs/prereg-views.md "UniAD reads")
 A held-out pool is read once, after a freeze tag.
 
 \begin{table}[t]
