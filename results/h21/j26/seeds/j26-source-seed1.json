@@ -5,6 +5,7 @@
   "cache": "results/savio/f2d-h21b/pool/cache.npz",
   "layer": 8,
   "seed": 1,
+  "ensemble": 1,
   "keep_position": false,
   "name": null,
   "output": "results/h21/j26/seeds/j26-source-seed1.json"

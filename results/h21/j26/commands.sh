@@ -68,3 +68,42 @@ for s in 1 2 3; do
   $PY $D/pool_axes.py --name j26-seed$s --source $OUT/axes/route-L8.json --source $OUT/seeds/j26-source-seed$s.json --output $OUT/seeds/j26-seed$s.json
   $PY $D/sprint_score.py --method $OUT/seeds/j26-seed$s.json $RIVALS $MAN $GAPS --replicates 200 --tried 231 --label "EXPLORATORY DEV: H21b; j26 probe seed $s, robustness, not a try" --output $OUT/seeds/report-j26-seed$s.json
 done
+
+# j27 row committed in 518fee0 (reason from j26's own outputs, below), before its score. Try 230 + 2.
+# Label-free diagnostic that gave the reason (no key read): cross-seed agreement and first splits of j26's source.
+$PY - <<'PY'
+import importlib.util, json
+import numpy as np
+from scipy.cluster.hierarchy import fcluster, linkage
+spec = importlib.util.spec_from_file_location("j26", "docs/research/experiments/f2d-dev-simlingo/j26_attr.py")
+j26 = importlib.util.module_from_spec(spec); spec.loader.exec_module(j26)
+OUT = "results/h21/j26"
+axes = {s: [set(a["rollouts"]) for a in json.load(open(f"{OUT}/axes/j26-source.json" if s == 0 else f"{OUT}/seeds/j26-source-seed{s}.json"))["axes"]] for s in range(4)}
+jac = lambda a, b: len(a & b) / len(a | b)
+agree = {f"{s}-{t}": round(float(np.mean([max(jac(a, b) for b in axes[t]) for a in axes[s]])), 3) for s in range(4) for t in range(s + 1, 4)}
+d = j26.read_inputs("results/savio/f2d-h21b/pool/frames.npz", "results/savio/f2d-h21b/pool/cache.npz", 8)
+fail = d["failing"]
+z = j26.window_features(d["block"], d["n_frames"])
+pos = j26.window_positions(d["steps"], d["failure_steps"], d["n_frames"])
+x = z @ j26.complement(j26.position_directions(z, pos, fail)[0], j26.DIMS)
+out = {"source_axis_agreement_mean_best_jaccard": agree}
+labels = {}
+for s in range(4):
+    a, logit = j26.cross_fitted_attributions(x, fail, s)
+    f = a[fail]
+    lab = fcluster(linkage(f, "ward"), 2, "maxclust"); labels[s] = lab
+    norm = np.linalg.norm(f, axis=1)
+    u = f / norm[:, None]
+    sv = np.linalg.svd(f - f.mean(0), compute_uv=False) ** 2
+    cos_mean = float(np.mean(u @ (f.mean(0) / np.linalg.norm(f.mean(0)))))
+    out[f"seed{s}"] = {"cut2_sizes": np.bincount(lab)[1:].tolist(),
+                       "cut2_norm_ratio": round(float(norm[lab == 1].mean() / norm[lab == 2].mean()), 3),
+                       "pc1_share": round(float(sv[0] / sv.sum()), 3),
+                       "mean_cos_to_mean_attribution": round(cos_mean, 3),
+                       "corr_norm_logit_failing": round(float(np.corrcoef(norm, logit[fail])[0, 1]), 3)}
+print(json.dumps(out, indent=1))
+open(f"{OUT}/j27-reason.json", "w").write(json.dumps(out, indent=1) + "\n")
+PY
+$PY $D/j26_attr.py $POOL/frames.npz $POOL/cache.npz --ensemble 10 --name j27-L8-attr-ens10 --output $OUT/axes/j27-source.json
+$PY $D/pool_axes.py --name j27-routeL8+attr-ens10 --source $OUT/axes/route-L8.json --source $OUT/axes/j27-source.json --output $OUT/axes/j27.json
+$PY $D/sprint_score.py --method $OUT/axes/j27.json $RIVALS $MAN $GAPS --tried 232 --label "EXPLORATORY DEV: SimLingo H21b pool only, seeds 24-26; j27, try 230 + 2 laptop tries this batch; pair seed suffix stripped" --output $OUT/report-j27.json
