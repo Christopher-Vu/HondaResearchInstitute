@@ -1,0 +1,370 @@
+\section{Every method tried}
+\label{sec:tries}
+
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md (every "source" comment below is a line of this file)
+% measured: 232 methods tried (VARIANTS.md:1495)
+Table~\ref{tab:tries} lists every row counted in the try total of 232, in the
+order the variant log counted them. It gives no scores, intervals or $p$ values:
+results are reported only after the three-model table is reviewed. A row that
+scored several configurations takes one position per configuration. Positions
+marked $\dagger$ are where the log's running count does not match its rows; the
+note after the table says how. Table~\ref{tab:nottried} lists the rescores,
+checks and reference rows that the log ran but did not count.
+
+% measured: route counts (VARIANTS.md:70, :122, :1033); design: pool roles (docs/prereg-fail2drive.md, docs/prereg-views.md)
+Pools: \emph{SL} is SimLingo's test pool used as dev (1,185 cached routes);
+\emph{H21} is Jerry's one-seed SimLingo pool (200 routes); \emph{H21b} is the same
+routes on three seeds (593 routes); \emph{TF++} is TransFuser++'s test pool;
+\emph{SL+TF++} is the two pooled as round-2 dev; \emph{UniAD} is UniAD's blind
+test pool.
+
+{\small
+% measured: positions, counted from the "methods tried" columns of VARIANTS.md
+% design: settings in each description, as logged before scoring
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.10\linewidth}
+                   >{\raggedright\arraybackslash}p{0.44\linewidth}
+                   >{\raggedright\arraybackslash}p{0.15\linewidth}
+                   >{\raggedright\arraybackslash}p{0.11\linewidth}
+                   >{\raggedright\arraybackslash}p{0.08\linewidth}@{}}
+\caption{Every counted try, in counted order. Settings are those logged before
+scoring.}\label{tab:tries}\\
+\toprule
+Id & Method & Lane & Pool & Position \\
+\midrule
+\endfirsthead
+\toprule
+Id & Method & Lane & Pool & Position \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+% source: VARIANTS.md:61
+v1 rescored & H22's sparse-dictionary pipeline on \code{L10\_k64\_s0}, rescored under the sprint rule: M1 capped, M1 raw and M2 & pre-sprint & SL & 1--3 \\
+% source: VARIANTS.md:62 (spec :53)
+m03 & PCA 32 on all routes, Ward clustering of the failing routes' approach-window activations (L10, 6 frames), cuts 2, 3 and 5; no dictionary & batch 1 & SL & 4--6$^\dagger$ \\
+% source: VARIANTS.md:63 (spec :54)
+m04 & Error-aware embedding: a pass/fail probe on window activations picks the components that separate failure; failing routes clustered there & batch 1 & SL & 4--6$^\dagger$ \\
+% source: VARIANTS.md:64 (spec :57)
+m07 & Window mean minus the route's own early mean, then m03 & batch 1 & SL & 4--6$^\dagger$ \\
+% source: VARIANTS.md:65 (spec :56)
+m06 & m03 plus the fleet-observable kinematic features as extra inputs & batch 1 & SL & 4--6$^\dagger$ \\
+% source: VARIANTS.md:72
+m05 & m03 at 49 site and layer settings: 24 layers of \code{driving\_queries}, 24 of \code{all\_tokens}, and \code{vision\_bridge} & batch 1 & SL & 7--55 \\
+% source: VARIANTS.md:73
+m01 & Error-aware B7: latents ranked by kappa times their enrichment in failing routes; dictionaries \code{L10\_k64\_s0} and \code{L10\_k32\_s0} & batch 1 & SL & 56--57 \\
+% source: VARIANTS.md:74
+m02 & m01 on approach-window frames only, same two dictionaries & batch 1 & SL & 58--59 \\
+% source: VARIANTS.md:83
+m08 & m03 on concatenated layers: L5+L8+L20, and L1+L5+L8+L20 & batch 2 & SL & 60--61 \\
+% source: VARIANTS.md:84
+m09 & Round-robin pool of m03 at L8, L20, L5 and \code{all\_tokens} L1 & batch 2 & SL & 62 \\
+% source: VARIANTS.md:85
+m10 & Round-robin pool of m03 at L8 and B7-pool & batch 2 & SL & 63 \\
+% source: VARIANTS.md:86
+m12 & Average, complete or spectral linkage in place of Ward, at L10 and at L8 & batch 2 & SL & 64--69 \\
+% source: VARIANTS.md:87
+m13 & Other Ward cut schedules at L10: 4 and 6; 10 & batch 2 & SL & 70--71 \\
+% source: VARIANTS.md:88
+m11 & Approach windows of 3, 10 and 20 frames, at L10 and at L8 & batch 2 & SL & 72--77 \\
+% source: VARIANTS.md:89
+m14 & A top-64 dictionary trained on 6-frame window frames, read by B7-pool and by the error-aware ranking & batch 2 & SL & 78--79 \\
+% source: VARIANTS.md:103
+m21 & B3-infraction, proposed as a fleet rival: one axis per infraction type, failing routes only, largest first & batch 3 & SL & 80 \\
+% source: VARIANTS.md:104
+m15 & m03 on 30- and 50-frame windows at L10 and L8, and on the whole-route summary at L10 and L8 & batch 3 & SL & 81--86 \\
+% source: VARIANTS.md:105
+m16 & L5+L8+L20 on windows of 10, 20, 30 and 50 frames & batch 3 & SL & 87--90 \\
+% source: VARIANTS.md:106
+m17 & On the 20-frame window: Ward cut 10; average and complete linkage at L10; average linkage at L5+L8+L20 & batch 3 & SL & 91--94 \\
+% source: VARIANTS.md:107
+m18 & Aimed at FullyBlocked, on the 20-frame window: \code{all\_tokens} L0 to L3 and \code{vision\_bridge}; B7-pool on 20- and 50-frame windows & batch 3 & SL & 95--101 \\
+% source: VARIANTS.md:108
+m19 & Three layers chosen by pass/fail probe AUROC, on \code{driving\_queries} and on \code{all\_tokens} & batch 3 & SL & 102--103 \\
+% source: VARIANTS.md:109
+m20 & Round-robin pools of m11 (L10, 20 frames) with \code{all\_tokens} L1, and with B7-pool & batch 3 & SL & 104$^\dagger$ \\
+% source: VARIANTS.md:131 (position reconciled at :168)
+j01 & m03 without standardising: unwhitened PCA 32, Ward 2/3/5 & explore loop & H21 & 105$^\dagger$ \\
+% source: VARIANTS.md:132 (position reconciled at :168)
+j02 & Contrastive PCA: pre-dimensions 32, 8 dimensions, Ward 2/3/5 & explore loop & H21 & 106$^\dagger$ \\
+% source: VARIANTS.md:133 (position reconciled at :168)
+j03 & m03 embedding cut at 8, 12 and 16 clusters, kept within a size band, ranked by cohesion & explore loop & H21 & 107$^\dagger$ \\
+% source: VARIANTS.md:134 (position reconciled at :168)
+j04 & Whitening by the passing routes' covariance, 8 dimensions, Ward 2/3/5 & explore loop & H21 & 108$^\dagger$ \\
+% source: VARIANTS.md:142 (position reconciled at :168)
+j05 & Unwhitened PCA 32; each failing route minus the mean of its 10 nearest passing routes; Ward 2/3/5 & explore loop & H21 & 109$^\dagger$ \\
+% source: VARIANTS.md:143 (position reconciled at :168)
+j06 & j01 after removing the least-squares prediction of the activations from the kinematic columns & explore loop & H21 & 110$^\dagger$ \\
+% source: VARIANTS.md:144 (position reconciled at :168)
+j07 & Failing routes split into two kinematic strata, then j01 within each stratum & explore loop & H21 & 111$^\dagger$ \\
+% source: VARIANTS.md:161
+j04 & j04 at L5+L8+L20 & explore loop & SL & 112 \\
+% source: VARIANTS.md:162
+j02 & j02 at L5+L8+L20, alpha chosen by eigengap & explore loop & SL & 113 \\
+% source: VARIANTS.md:163
+j03 & j03 at L5, L8, L20 and \code{all\_tokens} L1, round-robin & explore loop & SL & 114 \\
+% source: VARIANTS.md:164
+j05 & j05 at L5+L8+L20 & explore loop & SL & 115 \\
+% source: VARIANTS.md:165
+j06 & j06 with the behaviour features; run because their linear fit passed its gate & explore loop & SL & 116 \\
+% source: VARIANTS.md:166
+j07 & j07 with two behaviour strata; run under the same gate & explore loop & SL & 117 \\
+% source: VARIANTS.md:183
+j11 & j05's residuals scaled to unit length before Ward & explore loop & SL & 118 \\
+% source: VARIANTS.md:184
+j11 & The same, at L10 & explore loop & H21 & 119 \\
+% source: VARIANTS.md:202
+j12 & Residual against a Gaussian mixture fit on passing routes only (components by BIC) & explore loop & SL & 120 \\
+% source: VARIANTS.md:203
+j12 & The same, at L10 & explore loop & H21 & 121 \\
+% source: VARIANTS.md:224
+j13 & j05's residual minus its projection on the top 2 local principal directions of its 10 nearest passing routes & explore loop & SL & 122 \\
+% source: VARIANTS.md:225
+j13 & The same, at L10 & explore loop & H21 & 123 \\
+% source: VARIANTS.md:249
+j14 & Window score minus the mean window score of the 10 nearest passing routes in early-route space & explore loop & SL & 124 \\
+% source: VARIANTS.md:281
+j15 & j05's residuals clustered by HDBSCAN, clusters ranked by stability & explore loop & SL & 125 \\
+% source: VARIANTS.md:282
+j15 & The same, at L10; the tree gave no axes, and the row still counts & explore loop & H21 & 126 \\
+% source: VARIANTS.md:319
+j09 & Diagonal Gaussian HMM over the last 50 frames at L8, PCA 16, states by BIC; failing routes embedded by state occupancy and transitions, Ward 2/3/5 & explore loop & H21 & 127 \\
+% source: VARIANTS.md:320
+j10 & j09's model, routes embedded by their Fisher score on the emission means & explore loop & H21 & 128 \\
+% source: VARIANTS.md:365
+m08 & L5+L8+L20, 6-frame window, rerun unchanged & H21 replication & H21 & 129 \\
+% source: VARIANTS.md:366
+m15 & L8, 50-frame window, rerun unchanged & H21 replication & H21 & 130 \\
+% source: VARIANTS.md:367
+m11 & L10, 20-frame window, rerun unchanged & H21 replication & H21 & 131 \\
+% source: VARIANTS.md:368
+m12 & L8, 6-frame window, average linkage, rerun unchanged & H21 replication & H21 & 132 \\
+% source: VARIANTS.md:369
+m16 & L5+L8+L20, 20-frame window, rerun unchanged & H21 replication & H21 & 133 \\
+% source: VARIANTS.md:370
+j05 & At its file defaults (L5+L8+L20, 6-frame window) & H21 replication & H21 & 134 \\
+% source: VARIANTS.md:587
+j09 & Jerry's HMM at its defaults, first time on this pool & batch 4 & SL & 135 \\
+% source: VARIANTS.md:588
+m22 & L8 50-frame window mean and whole-route mean concatenated into one embedding & batch 4 & SL & 136 \\
+% source: VARIANTS.md:589
+m23 & Round-robin pool of m15 (L8, 50 frames) and whole-route L8 & batch 4 & SL & 137 \\
+% source: VARIANTS.md:590
+m24 & 100-frame windows at L8 and at L5+L8+L20 & batch 4 & SL & 138--139 \\
+% source: VARIANTS.md:591
+m25 & Whole-route summaries at L5, L10, L20, L5+L8+L20, and \code{all\_tokens} L1 & batch 4 & SL & 140--144 \\
+% source: VARIANTS.md:592
+m26 & Window minus whole-route mean: 50 frames at L8; 20 frames at L10 & batch 4 & SL & 145--146 \\
+% source: VARIANTS.md:593
+m27 & Two sites concatenated: \code{driving\_queries} L8 and \code{all\_tokens} L1, 50 frames & batch 4 & SL & 147 \\
+% source: VARIANTS.md:594
+m28 & Round-robin pool of m15, whole-route L8 and B7-pool & batch 4 & SL & 148 \\
+% source: VARIANTS.md:595
+m29 & Per-frame, L8: means of the last 5, 20 and 50 frames & batch 4 & SL & 149 \\
+% source: VARIANTS.md:596
+m30 & Per-frame, L8: PCA 16 mean and slope over time & batch 4 & SL & 150 \\
+% source: VARIANTS.md:597
+m31 & Per-frame, L8: mean while below 0.5\,m/s, mean while moving, stopped share & batch 4 & SL & 151 \\
+% source: VARIANTS.md:598
+m32 & Per-frame, L8: mean and standard deviation over frames & batch 4 & SL & 152 \\
+% source: VARIANTS.md:599
+m33 & j09 at L10 & batch 4 & SL & 153 \\
+% source: VARIANTS.md:600
+m34 & j09 at L20 & batch 4 & SL & 154 \\
+% source: VARIANTS.md:601
+m35 & j09's embedding beside the 50-frame window mean's PCA 32, equal weight & batch 4 & SL & 155 \\
+% source: VARIANTS.md:602
+m36 & j09's pipeline on L5+L8+L20 per frame & batch 4 & SL & 156 \\
+% source: VARIANTS.md:603
+m38 & j05's background subtraction on the L8 50-frame window & batch 4 & SL & 157 \\
+% source: VARIANTS.md:604
+m39 & m15 at PCA 16 and at PCA 64 & batch 4 & SL & 158--159 \\
+% source: VARIANTS.md:661
+m40 & Pool of m39 (PCA 64) and whole-route L20 & batch 4 pools & SL & 160 \\
+% source: VARIANTS.md:662
+m41 & Pool of m12 (L8, 6 frames, average linkage) and whole-route L20 & batch 4 pools & SL & 161 \\
+% source: VARIANTS.md:663
+m42 & Pool of m32 and whole-route L20 & batch 4 pools & SL & 162 \\
+% source: VARIANTS.md:664
+m43 & Pool of the L8 50-frame window, whole-route L8 and whole-route L20 & batch 4 pools & SL & 163 \\
+% source: VARIANTS.md:665
+m44 & Pool of the L8 50-frame window and whole-route L20 & batch 4 pools & SL & 164 \\
+% source: VARIANTS.md:703
+m41 & Rerun unchanged & H21 replication of batch 4 & H21 & 165 \\
+% source: VARIANTS.md:704
+m40 & Rerun unchanged & H21 replication of batch 4 & H21 & 166 \\
+% source: VARIANTS.md:705
+m44 & Rerun unchanged & H21 replication of batch 4 & H21 & 167 \\
+% source: VARIANTS.md:706
+m23 & Rerun unchanged & H21 replication of batch 4 & H21 & 168 \\
+% source: VARIANTS.md:707
+m39 & PCA 64, unpooled, rerun unchanged & H21 replication of batch 4 & H21 & 169 \\
+% source: VARIANTS.md:797
+m45 & j06 pooled with whole-route L8 & batch 5 & SL & 170 \\
+% source: VARIANTS.md:798
+m46 & j05 pooled with whole-route L8 & batch 5 & SL & 171 \\
+% source: VARIANTS.md:799
+m47 & Random-forest leaf similarity among failing routes: L8 50 frames, PCA 32, 500 trees, SVD 32, Ward & batch 5 & SL & 172 \\
+% source: VARIANTS.md:800
+m48 & m47 pooled with whole-route L8 & batch 5 & SL & 173 \\
+% source: VARIANTS.md:801
+m49 & Diagonal Gaussian mixture on the failing routes' L8 50-frame PCA 16, components by BIC, one axis per component & batch 5 & SL & 174 \\
+% source: VARIANTS.md:824 (range 175-182 at :822)
+m41 & Neighbours: whole-route L19 and L21 & robustness neighbours & SL & 175--176 \\
+% source: VARIANTS.md:825 (range 175-182 at :822)
+m41 & Neighbours: m12 at L7 and L9 & robustness neighbours & SL & 177--178 \\
+% source: VARIANTS.md:826 (range 175-182 at :822)
+m40 & Neighbours: PCA 48 and 80 & robustness neighbours & SL & 179--180 \\
+% source: VARIANTS.md:827 (range 175-182 at :822)
+m23 & Neighbours: whole-route L7 and L9 & robustness neighbours & SL & 181--182 \\
+% source: VARIANTS.md:883
+m49 & Neighbours: L7, L9, PCA 12 and PCA 20 & m49 follow-ups & SL & 183--186 \\
+% source: VARIANTS.md:890
+m50 & m49 pooled with whole-route L8 & m49 follow-ups & SL & 187 \\
+% source: VARIANTS.md:891
+m51 & m49 pooled with whole-route L20 & m49 follow-ups & SL & 188 \\
+% source: VARIANTS.md:923, :927 (position implied by :959)
+m23 & Frozen at \code{f2d-freeze-1}, primary, scored once & held-out round 1 & TF++ & 189$^\dagger$ \\
+% source: VARIANTS.md:923, :928 (position implied by :959)
+m40 & Frozen at \code{f2d-freeze-1}, secondary, scored once & held-out round 1 & TF++ & 190$^\dagger$ \\
+% source: VARIANTS.md:959
+r01 & Layer chosen per model by an outcome probe, window and whole route & round 2, batch 1 & SL+TF++ & 191 \\
+% source: VARIANTS.md:960
+r02 & m06 window at depth 8/23 pooled with whole-route 8/23 & round 2, batch 1 & SL+TF++ & 192 \\
+% source: VARIANTS.md:961
+r03 & Hybrid: m23's two views pooled with B3-infraction's axes & round 2, batch 1 & SL+TF++ & 193 \\
+% source: VARIANTS.md:962
+r04 & m04 window at 8/23 pooled with whole-route 8/23 & round 2, batch 1 & SL+TF++ & 194 \\
+% source: VARIANTS.md:963
+r05 & m07 window at 8/23 pooled with whole-route 8/23 & round 2, batch 1 & SL+TF++ & 195 \\
+% source: VARIANTS.md:964
+r06 & m03 window at depth fractions 0, 1/3, 2/3 and 1, pooled with whole-route 8/23 & round 2, batch 1 & SL+TF++ & 196 \\
+% source: VARIANTS.md:965
+r07 & m03 window at 8/23 with \code{vision\_bridge} added, pooled with whole-route 8/23 & round 2, batch 1 & SL+TF++ & 197 \\
+% source: VARIANTS.md:1007
+r08 & Window and whole route at 8/23 on \code{all\_tokens} & round 2, batch 2 & SL+TF++ & 198 \\
+% source: VARIANTS.md:1008
+r09 & \code{vision\_bridge} window alone, pooled with whole-route 8/23 & round 2, batch 2 & SL+TF++ & 199 \\
+% source: VARIANTS.md:1009
+r10 & 20-frame window at 8/23, pooled with whole-route 8/23 & round 2, batch 2 & SL+TF++ & 200 \\
+% source: VARIANTS.md:1010
+r11 & m23 with the whole-route view first in the round-robin & round 2, batch 2 & SL+TF++ & 201 \\
+% source: VARIANTS.md:1011
+r12 & PCA width scaled with model width: 32 on SimLingo, 9 on TransFuser++ & round 2, batch 2 & SL+TF++ & 202 \\
+% source: VARIANTS.md:1085
+u01--u03 & \code{vit}, vision tokens before the projector: max, top-$k$ 16, codebook 64 & unpooled & SL & 203--205 \\
+% source: VARIANTS.md:1086
+u04--u06 & \code{llm10}, image tokens at decoder layer 10: max, top-$k$ 16, codebook 64 & unpooled & SL & 206--208 \\
+% source: VARIANTS.md:1087
+u07--u09 & \code{dq}, driving queries at layer 10, unpooled: max, top-$k$ 4, codebook 64 & unpooled & SL & 209--211 \\
+% source: VARIANTS.md:1088
+u10, u11 & \code{vit-mean} and \code{llm10-mean}, matched pooled rows & unpooled & SL & 212--213 \\
+% source: VARIANTS.md:1089
+u12--u14 & DINOv2-base on the same image tiles: max, top-$k$ 16, codebook 64 & unpooled & SL & 214--216 \\
+% source: VARIANTS.md:1062 (rows defined in docs/prereg-views.md:72-75)
+img-mean & Per-frame mean over the image-token site, 12.5\,s approach window, then m03 & views prereg & SL, TF++, UniAD & 217$^\dagger$ \\
+% source: VARIANTS.md:1062 (rows defined in docs/prereg-views.md:72-75)
+query-mean & Per-frame mean over the query site, 12.5\,s approach window, then m03 & views prereg & SL, TF++, UniAD & 218$^\dagger$ \\
+% source: VARIANTS.md:1062 (rows defined in docs/prereg-views.md:72-75)
+caption & Caption-then-cluster on saved camera frames, H25's prompts & views prereg & SL, TF++, UniAD & 219$^\dagger$ \\
+% source: VARIANTS.md:1200
+j16 & Frame-to-frame step sizes at L8 in j09's PCA 16, summarised per route (mean, spread, maximum, share of large steps, last-10 mean, straightness), Ward 2/3/5 & laptop, temporal & H21b & 220 \\
+% source: VARIANTS.md:1201
+j16+route & Whole-route L8 first, then j16 & laptop, temporal & H21b & 221 \\
+% source: VARIANTS.md:1202
+j17+route & j16 plus the net displacement over the window, blocks weighted equally; pooled whole-route first & laptop, temporal & H21b & 222 \\
+% source: VARIANTS.md:1164 (position assigned from :1298-1299)
+j18 & Gaussian mixture on all routes on m15's features, components and covariance by BIC, ranked by atypicality; pooled whole-route first & laptop, mixture & H21b & 223$^\dagger$ \\
+% source: VARIANTS.md:1165 (position assigned from :1298-1299)
+j19 & j18's mixture, components ranked by failure share & laptop, mixture & H21b & 224$^\dagger$ \\
+% source: VARIANTS.md:1328 (position at :1384)
+j24 & Residuals of one ridge VAR(2) over the L8 frames: mean residual direction and residual size; pooled whole-route first & laptop, temporal & H21b & 225 \\
+% source: VARIANTS.md:1329 (position at :1384)
+j25 & j24's mean residual direction only, scaled to unit length & laptop, temporal & H21b & 226 \\
+% source: VARIANTS.md:1376 (position at :1384)
+j22 & Sparse dictionary (64 atoms) on every L8 frame; per atom, late-minus-early code change and late active share; pooled whole-route first & laptop, dictionary & H21b & 227 \\
+% source: VARIANTS.md:1377 (position at :1384)
+j23 & j22 with the change columns only & laptop, dictionary & H21b & 228 \\
+% source: VARIANTS.md:1409 (position at :1415)
+j20 & Contrastive (SimCLR) 1-D convolutional route encoder on the L8 frames, no labels; failing routes Ward-clustered; pooled whole-route first & laptop, contrastive & H21b & 229 \\
+% source: VARIANTS.md:1410 (position at :1415)
+j21 & j20 at temperature 0.5 & laptop, contrastive & H21b & 230 \\
+% source: VARIANTS.md:1479 (position at :1495)
+j26 & Window position removed, then a cross-fitted MLP pass/fail probe; failing routes clustered on gradient-times-input attributions; pooled whole-route first & laptop, probe & H21b & 231 \\
+% source: VARIANTS.md:1480 (position at :1495)
+j27 & j26 with 10 probes averaged per fold & laptop, probe & H21b & 232 \\
+\end{longtable}
+}
+
+\paragraph{Where the running count and the rows disagree.}
+These are recorded as the log has them, not corrected.
+\begin{itemize}
+  % source: VARIANTS.md:61-65, :76
+  \item Positions 4--6: v1 rescored records 3, and the next four batch-1 rows
+        all record 6. Four configurations share three positions, and the log
+        does not say which one is uncounted.
+  % source: VARIANTS.md:109, :465, :470
+  \item Position 104: m20 scored two pools, but the count rises by one.
+  % source: VARIANTS.md:131-148, :168
+  \item Positions 105--111: the j01--j07 rows on H21 record 75 to 78, counted
+        from an older base. The log later places them after Chris's batch 3.
+  % source: VARIANTS.md:923, :959
+  \item Positions 189--190: the held-out section records ``2 tried'' without a
+        running count; the positions follow from r01's 191.
+  % source: VARIANTS.md:1062; docs/prereg-views.md:72-75
+  \item Positions 217--219: the three new views of the views pre-registration
+        are counted in the log but have no rows in it.
+  % source: VARIANTS.md:1156, :1298-1299
+  \item Positions 223--224: the j16--j17 and j18--j19 batches both counted from
+        219. The reconciled total is stated without an order, so j18 and j19
+        follow j16--j17's recorded numbers here.
+\end{itemize}
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.22\linewidth}
+                   >{\raggedright\arraybackslash}p{0.55\linewidth}
+                   >{\raggedright\arraybackslash}p{0.15\linewidth}@{}}
+\caption{Rows the log ran but did not count. None is in the total.}\label{tab:nottried}\\
+\toprule
+Row & What it was & Why not counted \\
+\midrule
+\endfirsthead
+\toprule
+Row & What it was & Why not counted \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+% source: VARIANTS.md:15-16, :20-22
+v1, v2 & H22's dictionary pipeline and H24's error-aware mixture, scored with the best axis chosen by the key & old rule, before the count \\
+% source: VARIANTS.md:67, :136, :1053-1054
+Rival rows & B3-behaviour, B3-kin, B7-pool, B3-infraction and m03 at L10 as comparators (m21 aside) & rivals \\
+% source: VARIANTS.md:114-117
+Failure-timing check; m16 rerun & Failures grouped by how early they happened; m16 at 20 frames rerun after a name clash & diagnostic; rescore \\
+% source: VARIANTS.md:383-392, :424-435
+A2 rescores & Every logged method rescored with distinct axes, on SL and on H21 & rescore \\
+% source: VARIANTS.md:209-210, :258-264, :327-332
+Stability checks & j05 at $k$ 5 and 20; refits on passing-route subsets for j05, m08, m11 and m03 at L10; j09 refit over mixture seeds & no try \\
+% source: VARIANTS.md:292-301
+Planned residual filter (first j16) & Keep only failing routes far from their passing neighbours, then j05; its run condition failed & not run \\
+% source: VARIANTS.md:310-312, :336-348
+j09 diagnostics & State-count and stop-length checks; overlap of axes with the rivals; kinematic variance explained by each method's groups & diagnostic \\
+% source: VARIANTS.md:726-789
+Batch-4 stability & Refits on passing-route subsets and scoring of each resample, both pools & no try \\
+% source: VARIANTS.md:812-820, :859, :881-882
+Lead robustness & 30 pair resamples of the leads and rivals; m49 over mixture seeds 1 to 10 & resampling \\
+% source: VARIANTS.md:942
+Fixed rival & B3-behaviour on SL dev with a full-length speed cache & rescore \\
+% source: VARIANTS.md:954, :1003
+Round-2 references & m23, m40 and r07 rescored beside the new rows & reference \\
+% source: VARIANTS.md:1091, :1121
+\code{dq-mean}; probe ceiling & Unpooled re-run of an existing view; logistic gap probes that read the labels & re-run; diagnostic \\
+% source: VARIANTS.md:1029-1054, :1221-1284
+H21b rescores & m23, m40 and j09 on three seeds, per seed and per pair of seeds; m23 at other windows and budgets & rescore \\
+% source: VARIANTS.md:1158, :1321, :1367, :1402, :1473
+Seed reruns & j18 mixture seeds, j24 ridge alpha, j22 dictionary seeds, j20 training seeds, j26 probe seeds & robustness \\
+% source: VARIANTS.md:1418-1425, :1453-1459
+Attribution; position check & Which source supplies each gap's best axis in the pooled j rows; j26's position removal check & diagnostic \\
+% source: VARIANTS.md:606; docs/JOURNAL.md:808
+m37; j08 & m37 was never assigned; j08 was built and held, never scored & no run \\
+\end{longtable}
+}
