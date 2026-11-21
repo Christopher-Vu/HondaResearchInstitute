@@ -25,7 +25,19 @@
 \usepackage{booktabs}
 \usepackage{hyperref}
 
-\newcommand{\code}[1]{\texttt{#1}}
+% \code: typewriter text that may break after /, - and _, so long repo paths fit
+\newcommand{\codeunderscore}{\textunderscore\allowbreak}
+\ExplSyntaxOn
+\tl_new:N \l__code_text_tl
+\NewDocumentCommand{\code}{m}{
+  \tl_set:Nn \l__code_text_tl {#1}
+  \tl_replace_all:Nnn \l__code_text_tl {/} {/\allowbreak}
+  \tl_replace_all:Nnn \l__code_text_tl {-} {-\allowbreak}
+  \texttt{\let\_\codeunderscore \tl_use:N \l__code_text_tl}
+}
+\ExplSyntaxOff
+\pdfstringdefDisableCommands{\def\code#1{#1}}
+\setlength{\emergencystretch}{2em}
 
 \title{Label-free failure discovery from driving-model activations:\\
 a pre-registered study on Fail2Drive}
