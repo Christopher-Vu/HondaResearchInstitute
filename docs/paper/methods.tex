@@ -14,6 +14,7 @@ method's first ten distinct axes with each gap's failing routes
 The search ran as a \emph{discovery sprint} (\code{docs/prd-discovery-sprint.md}).
 Its rules are these.
 \begin{enumerate}
+  % unsupported: Chris's approval is logged for m batches 1-5 and round 2 (VARIANTS.md:44, :79, :96, :576, :790, :950), not for the j batches (:120, :150) or j16-j27 (:1141-:1427)
   \item A method is proposed and its row is written in the variant log
         (\code{VARIANTS.md}) before its score is read. Chris approved each batch
         before it ran.
@@ -32,7 +33,9 @@ Its rules are these.
 % source: VARIANTS.md:1495 (232 after the j16-j27 rows); docs/prereg-views.md:72 (219 at the views tag)
 The try count was 134 when amendment A2 was written, 188 at the freeze, 202 when
 the search stopped, and 219 once the views pre-registration's new rows were
-counted; the exploratory j16--j27 rows bring it to 232. Two people's agents searched in parallel: Chris's agents wrote the
+counted; the exploratory j16--j27 rows bring it to 232.
+% unsupported: VARIANTS.md:120, :150 name Jerry's explore loop for j01-j15; the j16-j27 rows name laptop workers, not whose side ran them
+Two people's agents searched in parallel: Chris's agents wrote the
 \emph{m} family and Jerry's explore loop wrote the \emph{j} family. Both logged
 into the same file and scored with the same scorer.
 
@@ -55,7 +58,8 @@ last $W$ captured frames before the failure step), and the \emph{early route}
 % design: W = 6 by default; windows of 3, 10, 20, 30, 50 and 100 frames tried (VARIANTS.md batches 2-4)
 The default is $W=6$ frames. Since frames are 0.25\,s apart, 6 frames is about
 1.5\,s and 50 frames about 12.5\,s.
-% measured: 0.25 s spacing (WHAT_BROKE.md 2026-11-16)
+% measured: 0.25 s spacing (VARIANTS.md:27; 6 frames about 1.5 s, prereg-fail2drive.md:207)
+% flag for Chris: cache_pool.py:51, :68, :75 reorders rows by salted hash but writes the raw route ids; prereg-fail2drive.md:70-71 says the route id is removed and routes are renamed by a salted hash
 Rows are written in salted-hash order, never in route-id order
 (\S\ref{sec:whatbroke}, H25). A per-frame file (\code{frames\_pool.py}) keeps the
 last 50 frames of a few layers for the methods that model frame sequences.
@@ -93,12 +97,12 @@ model is trained on Fail2Drive in the sense its authors forbid.
 \label{sec:mfamily}
 
 Table~\ref{tab:mfamily} lists the m methods. Each row changes one thing about
-m03 or combines earlier rows. The settings are those logged in
+m03 or combines earlier rows; m01, m02 and m14 change B7 instead. The settings are those logged in
 \code{VARIANTS.md}; each id there links to its job and script.
 
 \paragraph{Pooling.}
 % design: 0.8 skip threshold, stop at 10 (pool_axes.py)
-Several m methods merge the ranked axes of two or three other methods
+Several m methods merge the ranked axes of two to four other methods
 (\code{pool\_axes.py}). The merge is round-robin in a fixed order: each source's
 first axis, then each source's second, and so on. An axis whose Jaccard with one
 already kept is at least 0.8 is skipped. It stops at 10 axes. The order is fixed
@@ -132,15 +136,23 @@ m04      & A balanced logistic pass/fail probe on the PCA scores picks the
            components that separate failure; cluster in that subspace \\
 m06      & m03 plus B3-behaviour's kinematic features, equal block weight \\
 m07      & Window mean minus the route's own early mean \\
+% source: VARIANTS.md:89
+m14      & A dictionary trained on window frames, then B7-pool and the error-aware
+           ranking \\
 m05      & Sweep of m03 over 24 layers of two sites plus \code{vision\_bridge} \\
 m08, m16 & Several layers concatenated (L5, L8, L20) \\
 % source: VARIANTS.md:88 (m11 windows 3, 10 and 20 against the default 6)
 m11, m15, m24 & Other approach windows: 3, 10, 20, 30, 50, 100 frames \\
 m12, m17 & Average, complete or spectral linkage in place of Ward \\
 m13      & Other cut schedules (4 and 6; 10) \\
+% source: VARIANTS.md:107
+m18      & Other sites for FullyBlocked on the 20-frame window: \code{all\_tokens}
+           L0--L3, \code{vision\_bridge}, and B7-pool on windows \\
 m19      & Layers chosen by pass/fail probe AUROC (uninformative; see
            \S\ref{sec:whatbroke}) \\
+% source: VARIANTS.md:84-85, :109, :589, :594, :661-665, :797-800, :890-891
 m09, m10, m20, m23, m28 & Pools of other methods' axes (\code{pool\_axes.py}) \\
+m41--m46, m48, m50, m51 & Pools that include the whole-route L8 or L20 view \\
 m22, m27 & Two summaries or two sites concatenated into one embedding \\
 m25      & Whole-route summary at other layers \\
 m26      & Window minus whole-route mean \\
@@ -151,6 +163,9 @@ m38      & j05's background subtraction on the L8 50-frame window \\
 % source: VARIANTS.md:604 (m39 is the PCA-width row); :661 (m40 pools m39 at PCA 64 with whole-route L20)
 m39      & PCA width 16 or 64 \\
 m40      & Pool of m39 at PCA 64 and the whole-route summary at L20 \\
+% source: VARIANTS.md:799, :801; probe_mixture.py:1-12
+m47      & Random-forest pass/fail probe; failing routes embedded by shared leaves \\
+m49      & Diagonal Gaussian mixture on the failing routes, one axis per component \\
 \bottomrule
 \end{tabular}
 % design: round-2 rows (VARIANTS.md Round 2)
@@ -295,11 +310,14 @@ a frame throws information away
 (\code{docs/research/experiments/f2d-unpooled/protocol.md}). Each route's saved
 model input was run through SimLingo again offline, and three sites were read
 token by token: the vision tokens entering the projector, the same image tokens
-at decoder layer 10, and the driving queries at layer 10.
+at decoder layer 10, and the driving queries at layer 10 (these from the
+closed-loop log).
+% source: f2d-unpooled/protocol.md:28 (dq read from the closed-loop log, not the replay); :36 (codebook over the last 8 saved frames)
 % design: sites, layer 10, two tiles, three aggregations (f2d-unpooled/protocol.md, The grid; Reference rows)
 Each site was reduced over the approach window in three ways: the maximum over
 tokens and frames, the mean of the tokens farthest from the route's own early
-frames, and a histogram over a k-means codebook of tokens. As a reference for
+frames, and a histogram over a k-means codebook of the tokens of the last 8
+saved frames. As a reference for
 what a general-purpose image model sees, DINOv2-base~\cite{oquab2024dinov2} was
 run on the same two image tiles with the same three reductions. Every row then
 runs m03, and the outcomes of this pool had already been read.
