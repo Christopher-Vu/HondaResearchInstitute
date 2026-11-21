@@ -2,6 +2,7 @@
 \label{sec:prereg}
 
 The study changed its rules several times. Each change was written down, dated
+% wrong: A4 has no tag (commit c3c3046, as the table caption says) and the items recorded after views-prereg-v1 are untagged (docs/prereg-views.md "Recorded after the tag")
 and tagged in git before the data it governs was read, and each change made
 after some data had been seen is labelled \emph{post hoc}. This section lists
 them in order, because a reader can only weigh a result against the rules that
@@ -18,6 +19,7 @@ Tag or commit & Date & What it fixed \\
 \midrule
 \code{b4-factors-v1} & 2026-10-15 & The enumerated factor list B4 \\
 \code{f2d-prereg-v1} & 2026-11-06 & Pools, gap rule, B4 split, label hiding \\
+% unsupported: no source calls these tags superseded; CONFLICTS.md C38 says Jerry closed the H21 Fail2Drive line on 2026-11-12
 \code{methods-frozen-f2d-v1}, \code{-v2} & 2026-11-12 & H22 and H23 on H21 (C38); superseded \\
 \code{f2d-sprint-a1} & 2026-11-14 & A1: rivals, own top 10, pair bootstrap (post hoc) \\
 \code{f2d-sprint-a2} & 2026-11-16 & A2: distinct axes, B3-infraction (post hoc) \\
@@ -163,6 +165,7 @@ and whether any beats the car's behaviour, as a ranking across all three models.
 \end{itemize}
 
 \paragraph{Recorded after the tag, before any UniAD outcome.}
+% wrong: docs/prereg-views.md "Recorded after the tag" lists four items: last layer per site, UniAD frames upscaled 256 to 640 px, captioning by subagents, then the move to the Batch API
 Two things were decided after \code{views-prereg-v1} and written into the same
 file before UniAD was read. The tag fixed sites but not layers for TransFuser++
 and UniAD; the last layer is used at every such site. And captioning moved from
