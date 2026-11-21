@@ -1414,3 +1414,12 @@ j20 scored 2026-11-20 on the laptop (measured; exploratory, dev, H21b only; `res
 **Tried count after j20-j21 (reconciled 2026-11-20 15:55).** j20 and j21 were written as "224 + n" in parallel with
 j22-j25 and landed after them: j20 = 229, j21 = 230. **230 methods tried in total** (exploratory, dev, H21b only).
 The j20 training-seed reruns add nothing.
+
+### Diagnostic: which source supplies the best axis in pooled j rows (2026-11-20)
+
+This is a diagnostic, not a try, so 230 tried stands (exploratory, dev, H21b only; `results/h21/attribution/report.md`). In m23 and every
+pooled j row (j16+route to j25), Wall's best axis is whole-route L8's axis #4 (12 routes, 0.529, measured), and
+CustomObstacles' best axis is whole-route L8's axis #5 (116 routes, 0.210, measured) except in j20 and j21. j20's own
+axis beats it (0.243, measured), and j21's view displaced that axis under `pool_axes.py`'s Jaccard 0.8 skip, so its
+CustomObstacles fell to 0.198 (measured). Otherwise only PedestriansOnRoad moves, so a view pooled this way beats m23's
+0.395 only if it exceeds m15's 0.444 on PedestriansOnRoad (best so far 0.206, measured) or beats 0.210 or 0.529 itself.
