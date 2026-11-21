@@ -1,6 +1,7 @@
 % Bibliography for docs/paper.
 %
-% Part 1: verified. Each entry is copied unchanged from upstream-99p/references.bib.
+% Part 1: verified. Each entry is copied from upstream-99p/references.bib, unchanged
+% except where an entry's comment records a metadata change confirmed by an API record.
 % Its audit verdict in upstream-99p/docs/CITATION_AUDIT.md is [confirmed] or [corrected]
 % (the corrected metadata is what upstream-99p/references.bib holds). Only these may be cited.
 % The audit verifies identity and metadata; claims about a paper's content are cited
@@ -31,14 +32,20 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): tfpp-carla-garage [confirmed]
+% pages and doi added 2026-11-20 from crossref 10.1109/iccv51070.2023.00757 (also openalex W4390872706)
 @inproceedings{jaeger2023hidden,
   title     = {Hidden Biases of End-to-End Driving Models},
   author    = {Jaeger, Bernhard and Chitta, Kashyap and Geiger, Andreas},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  pages     = {8206--8215},
+  doi       = {10.1109/ICCV51070.2023.00757},
   year      = {2023}
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): tfpp-carla-garage [confirmed]
+% venue unconfirmed 2026-11-20: openalex W4405355500 has only arxiv 2412.09602; the arXiv comment
+% calls it a technical report for the CVPR 2024 Workshop on Foundation Models for Autonomous
+% Systems. No proceedings record found, so the booktitle is left as the audit has it
 @inproceedings{zimmerlin2024hidden,
   title     = {Hidden Biases of End-to-End Driving Datasets},
   author    = {Zimmerlin, Julian and Bei{\ss}wenger, Jens and Jaeger, Bernhard and Geiger, Andreas and Chitta, Kashyap},
@@ -161,6 +168,8 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): eventsae-vla-2026 [confirmed]
+% venue unconfirmed 2026-11-20: the arXiv 2605.17204v2 comment says "NeurIPS 2026 camera-ready
+% version", but openalex W7161737797 lists only arXiv and no proceedings record was found; left as preprint
 @article{jin2026eventsae,
   title   = {Event-Grounded Sparse Autoencoders for Vision-Language-Action Policies},
   author  = {Jin, Xinchen and Chatterjee, Aditya and Kumar, Pranav and Paleja, Rohan},
@@ -177,6 +186,8 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): depthwise-probing-driving-vla-2026 [confirmed]
+% venue unconfirmed 2026-11-20: the arXiv 2608.07361 comment says "Accepted at the 6th DriveX
+% Workshop ... ECCV 2026", but openalex W7202128452 lists only arXiv; left as preprint
 @article{babu2026depthwise,
   title   = {Depth-Wise Probing and Pruning of the Planning Token in a Driving Vision-Language-Action Model},
   author  = {Babu, Harisankar and Coors, Benjamin and Lang, Christopher and Berkemeyer, Hendrik and Asfour, Tamim and Foell, Simon},
@@ -239,6 +250,9 @@
 }
 
 % audit (upstream-99p/docs/CITATION_AUDIT.md): cat [confirmed]
+% venue not confirmed by api 2026-11-20: openalex W4387838419 has only arxiv 2310.12432, whose
+% comment says "7th Conference on Robot Learning (CoRL 2023)"; the PMLR volume and pages are
+% unchecked and left as the audit has them
 @inproceedings{zhang2023cat,
   title     = {{CAT}: Closed-loop Adversarial Training for Safe End-to-End Driving},
   author    = {Zhang, Linrui and Peng, Zhenghao and Li, Quanyi and Zhou, Bolei},
@@ -323,9 +337,10 @@
 
 % Part 2: checked against public bibliographic APIs on 2026-11-20 (Crossref,
 % OpenAlex, arXiv; records in results/h21/cite-verify/ledger.md). None is in
-% upstream-99p/docs/CITATION_AUDIT.md or docs/step0-trackA-findings.md, and none is
-% cited in the text yet. The API check covers identity and metadata only; any claim
-% about a paper's content still needs the abstract or the PDF (see the ledger).
+% upstream-99p/docs/CITATION_AUDIT.md or docs/step0-trackA-findings.md. They are cited
+% in the text; the API check covers identity and metadata only, and every sentence about
+% a paper's content is backed by its abstract, recorded in the ledger's abstract-check
+% section. Hennig has no abstract in any API and is cited by title only.
 
 % verified crossref 2026-11-20 (also openalex W4386076400)
 @inproceedings{hu2023uniad,

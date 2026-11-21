@@ -76,7 +76,8 @@ Most methods in both families are variations on one recipe, m03
   \item Standardise each column over all routes.
   % design: 32 components, cuts 2/3/5, 10 axes (cache_methods.py; VARIANTS.md batch 1; prereg A2)
   \item Fit PCA on all routes and keep 32 components. Standardise the scores.
-  \item Keep only the failing rows. Build a Ward linkage tree on them.
+  \item Keep only the failing rows. Build a Ward linkage
+        tree~\cite{ward1963hierarchical} on them.
   \item Cut the tree into $k=2$, then $3$, then $5$ clusters. Within each cut,
         list clusters largest first. Under A2, a cluster already listed at an
         earlier cut is not listed again; if fewer than 10 distinct clusters
@@ -172,8 +173,8 @@ Id & Method \\
 \midrule
 j01 & m03 without standardising: PCA scores keep their eigenvalue scale; each
       layer is divided by its root-mean-square instead \\
-j02 & Contrastive PCA: directions where failing routes vary more than passing
-      ones, after a 32-component unwhitened PCA \\
+j02 & Contrastive PCA~\cite{abid2018cpca}: directions where failing routes vary
+      more than passing ones, after a 32-component unwhitened PCA \\
 j03 & m03 embedding cut finer (8, 12, 16 clusters), keeping only clusters in a
       size band, ranked by cohesion \\
 j04 & Whiten with the passing routes' covariance, keep the coordinates with the
@@ -184,11 +185,13 @@ j06 & j01 after removing a least-squares prediction of the activations from the
       behaviour features \\
 j07 & Split failing routes into two behaviour strata, then j01 within each \\
 j08 & Candidate clusters from several views (behaviour and three layers), ranked
-      by their stability under subsampling of the failing routes \\
+      by their stability under subsampling of the failing routes, a cluster-wise
+      stability assessment~\cite{hennig2007stability} \\
 j09 & A diagonal Gaussian hidden Markov model (a few hidden states, each with its
       own Gaussian, plus transition probabilities) fit on every route's last 50
       frames at L8 after PCA to 16; failing routes clustered on state occupancy
-      and transitions \\
+      and transitions. Smyth~\cite{smyth1996hmm} clusters sequences with a
+      mixture of such models; j09 fits one model to all routes \\
 j10 & j09's model, with each route embedded by its Fisher score on the emission
       means \\
 j11 & j05's residuals scaled to unit length \\
@@ -205,6 +208,67 @@ j15 & j05's residual clustered by HDBSCAN~\cite{campello2013hdbscan,mcinnes2017h
 settings and commits per run are in \code{VARIANTS.md}.}
 \label{tab:jfamily}
 \end{table}
+
+\paragraph{Exploratory lanes, j16--j25.}
+After the search stopped, ten more j rows were run on the three-seed H21b pool
+(\S\ref{sec:h21b}). Each row was written in \code{VARIANTS.md} before its score
+and counts as a try, and all are exploratory. Each is pooled with m03 on the
+whole-route summary at L8, whole-route axes first (\code{pool\_axes.py}); j16 was
+also scored alone. Unless stated, a row reads the last 50 frames at L8 in j09's
+16-component projection, and its failing routes are Ward-clustered and cut as in
+m03.
+% design: settings of j16-j25 (VARIANTS.md, "Exploratory, H21b pool, laptop" sections; j16_change.py, j18_gmm.py, j20_ssl.py, j22_dict.py, j24_ar.py)
+\begin{itemize}
+  \item \textbf{j16} (\code{j16\_change.py}) describes how far the activations
+        move from frame to frame. Per route it takes the step sizes between
+        consecutive frames and summarises them by their mean, spread and
+        maximum, the share of large steps, the mean of the last ten steps and
+        the path's straightness.
+  \item \textbf{j17} adds the route's net displacement over the window (the last
+        frame minus the first) to j16's step statistics, with the two blocks
+        weighted equally as in m06.
+  \item \textbf{j18} (\code{j18\_gmm.py}) fits a Gaussian mixture to m15's
+        features on all routes, choosing the number of components and the
+        covariance type by the Bayesian information criterion. Each component's
+        failing routes form an axis, and components are ranked by how atypical
+        their routes are, measured by mean log density, most atypical first.
+  \item \textbf{j19} keeps j18's mixture and ranks its components instead by the
+        share of their routes that fail.
+  \item \textbf{j20} (\code{j20\_ssl.py}) trains a small one-dimensional
+        convolutional encoder on all routes without labels, reading the last 50
+        frames at L8 after a 64-component PCA of its own. Its contrastive
+        loss pulls together two random sub-windows of the same route and pushes
+        apart sub-windows of other routes. The failing routes' embeddings are
+        then clustered.
+  \item \textbf{j21} is j20 with a higher temperature in the contrastive loss.
+  \item \textbf{j22} (\code{j22\_dict.py}) learns a sparse dictionary on every
+        frame of every route at L8, after a 32-component PCA of its own. Per route and dictionary atom it measures how much
+        the atom's use changes from the earlier frames to the last ten, and how
+        often the atom is active in the last ten.
+  \item \textbf{j23} is j22 with only the change columns.
+  \item \textbf{j24} (\code{j24\_ar.py}) fits one linear model, shared by all
+        routes, that predicts each frame from the two before it. Per route it
+        summarises the prediction errors: their mean direction over the last ten
+        frames and their size over the route.
+  \item \textbf{j25} keeps only j24's mean error direction, scaled to unit
+        length, so routes are grouped by the direction of the surprise and not
+        its size.
+\end{itemize}
+
+\paragraph{Unpooled and image-model rows.}
+One experiment on SimLingo's test pool asked whether averaging over tokens within
+a frame throws information away
+(\code{docs/research/experiments/f2d-unpooled/protocol.md}). Each route's saved
+model input was run through SimLingo again offline, and three sites were read
+token by token: the vision tokens entering the projector, the same image tokens
+at decoder layer 10, and the driving queries at layer 10.
+% design: sites, layer 10, two tiles, three aggregations (f2d-unpooled/protocol.md, The grid; Reference rows)
+Each site was reduced over the approach window in three ways: the maximum over
+tokens and frames, the mean of the tokens farthest from the route's own early
+frames, and a histogram over a k-means codebook of tokens. As a reference for
+what a general-purpose image model sees, DINOv2-base~\cite{oquab2024dinov2} was
+run on the same two image tiles with the same three reductions. Every row then
+runs m03, and the outcomes of this pool had already been read.
 
 \subsection{Rivals}
 \label{sec:rivals}
@@ -291,7 +355,8 @@ is reported beside it.
 \paragraph{Pair bootstrap.}
 Routes from the same Fail2Drive pair share a road, and routes from different
 seeds of one pair share both twins, so routes are not independent. The resampling
-unit is the pair, carrying all its routes on every seed (A1).
+unit is the pair, carrying all its routes on every seed (A1), so this is the
+bootstrap~\cite{efron1979bootstrap} with pairs in place of routes.
 \begin{enumerate}
   \item List the distinct pairs in the pool. The pair id must not carry the seed
         (\S\ref{sec:h21b}).
