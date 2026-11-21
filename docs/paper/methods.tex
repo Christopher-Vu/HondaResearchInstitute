@@ -343,7 +343,11 @@ retired at A1 because no deployed car has them.
 \label{sec:scoring}
 
 The scorer is \code{sprint\_score.py}; the harness definitions are in
-\code{src/harness/scoring.py}.
+\code{src/harness/scoring.py}. Figure~\ref{fig:pipeline} shows the pipeline
+from the activation cache to the comparison with the rivals, where the labels
+enter, and where the freeze tag sits.
+
+\input{fig-pipeline}
 
 % design: M = 10 (docs/prereg-fail2drive.md §3, §7; src/harness/scoring.py BUDGET_M)
 \paragraph{Own top ten.}

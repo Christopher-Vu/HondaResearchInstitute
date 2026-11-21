@@ -1,0 +1,100 @@
+% Scoring pipeline figure. Shows design only: no scores, intervals or p values.
+% Line numbers below refer to the files as of commit 40dddab.
+\begin{figure}[tbp]
+\centering
+\footnotesize
+\begin{tikzpicture}[
+    node distance=5mm,
+    >={Stealth[length=2mm]},
+    stage/.style={draw=black!70, align=flush left, text width=6.6cm, inner sep=4pt,
+                  minimum height=7mm},
+    scorer/.style={stage, fill=black!10},
+    side/.style={draw=black!70, align=flush left, text width=3.5cm, inner sep=4pt},
+    note/.style={align=flush left, text width=3.5cm, text=black!70},
+    flow/.style={->, draw=black!80},
+    flowlabel/.style={right, text=black!70, inner sep=2pt},
+    rule/.style={draw=black!50, dashed},
+  ]
+
+  % source: docs/prereg-fail2drive.md:199 (the SimLingo search on its test pool and H21)
+  \node[stage] (dev) {Dev search on SimLingo's test pool and H21};
+
+  % source: docs/research/experiments/f2d-dev-simlingo/cache_pool.py:2-3, :13; docs/prereg-fail2drive.md:68-71
+  \node[stage, below=12mm of dev] (cache) {Cache of activations, one row per
+    route (\code{cache\_pool.py}). Label fields removed; routes renamed by a
+    salted hash};
+
+  % source: docs/prereg-fail2drive.md:144 (ranks its own axes); cache_pool.py:13 (rows in salted-hash order)
+  \node[stage, below=of cache] (method) {Each method and rival sees the rows
+    in salted order only, and ranks its own axes};
+
+  % source: docs/prereg-fail2drive.md:144 (first M = 10 count, A1); :171-172 (distinct axes, A2); :75-76 (M is 10)
+  \node[stage, below=of method] (top) {Only its first $M=10$ count, in its own
+    order, after repeats are dropped (A1, A2)};
+
+  % source: docs/prereg-fail2drive.md:145 (best Jaccard among those 10); PRD.md:931-934 and src/harness/scoring.py:150-151 (precision divides by M)
+  \node[scorer, below=14mm of top] (jaccard) {Per gap: the best Jaccard among
+    those 10. Precision, where reported, divides by the axis budget $M$, never
+    by the number of axes emitted};
+
+  % source: docs/prereg-fail2drive.md:145 (mean over gaps); :159 (gaps weighted equally)
+  \node[scorer, below=of jaccard] (mean) {Primary: mean over gaps of the best
+    Jaccard, each gap weighted equally};
+
+  % source: docs/prereg-fail2drive.md:150 (paired bootstrap, pairs carry all their seeds)
+  \node[scorer, below=of mean] (boot) {Paired bootstrap of 2{,}000 replicates
+    that resamples Fail2Drive pairs, each carrying all its seeds};
+
+  % source: docs/prereg-fail2drive.md:149 (delta, interval, one-sided p); :151-152 (primary B3-behaviour, secondary best rival); :183 (B3-infraction, B7-pool); :146 (B1 chance level)
+  \node[scorer, below=of boot] (compare) {Delta, 95\% percentile interval and
+    one-sided $p$. Primary: against B3-behaviour. Secondary: against the best
+    rival, re-taken in every replicate. Beside them: B3-infraction, B7-pool and
+    the B1 chance level};
+
+  % source: docs/prereg-fail2drive.md:200-201 (finalists, rivals, transfer rules fixed); :212-216 (m23 primary, m40)
+  \node[side, left=6mm of method] (frozen) {Frozen: finalists m23 (primary)
+    and m40, the rivals and the transfer rules};
+
+  % source: docs/prereg-fail2drive.md:71 (salt stays with the scorer); :30-36 (gap classification on the test pool)
+  \node[side, scorer, text width=3.5cm, right=6mm of jaccard] (labels) {Scorer
+    only: the salt, the scenario labels and each gap's failing routes
+    (\S\ref{sec:fail2drive})};
+
+  % source: docs/prereg-fail2drive.md:199-201 (tag f2d-freeze-1, before any method read TransFuser++'s or UniAD's test-pool data)
+  \coordinate (freezeY) at ($(dev.south)!0.5!(cache.north)$);
+  \draw[rule] (freezeY -| frozen.west) -- (freezeY -| labels.east);
+  \node[note, anchor=south west] at (freezeY -| labels.west)
+    {Tag \code{f2d-freeze-1}};
+  \node[note, anchor=north west] at (freezeY -| labels.west)
+    {Before any method reads TransFuser++'s or UniAD's test-pool data};
+
+  % source: docs/prereg-fail2drive.md:68-71 (methods see shards with label fields removed)
+  \coordinate (labelY) at ($(top.south)!0.5!(jaccard.north)$);
+  \draw[rule] (labelY -| frozen.west) -- (labelY -| labels.east);
+  \node[note, anchor=south west] at (labelY -| frozen.west)
+    {No labels above};
+  \node[note, anchor=north west] at (labelY -| frozen.west)
+    {Labels enter below};
+
+  \draw[flow] (dev.west) -| node[pos=0.75, left, text=black!70] {tag}
+    (frozen.north);
+  \draw[flow] (frozen) -- (method);
+  \draw[flow] (cache) -- (method);
+  \draw[flow] (method) -- node[flowlabel] {ranked axes} (top);
+  \draw[flow] (top) -- node[flowlabel, pos=0.25] {axes as sets of hashed routes}
+    (jaccard);
+  \draw[flow] (labels) -- (jaccard);
+  \draw[flow] (jaccard) -- (mean);
+  \draw[flow] (mean) -- (boot);
+  \draw[flow] (boot) -- node[flowlabel] {method minus rival, per replicate}
+    (compare);
+\end{tikzpicture}
+\caption{The scoring pipeline under amendments A1--A3, for one model's pool.
+White boxes see no scenario label; grey boxes belong to the scorer, which alone
+holds the salt and the gap key. The freeze tag sits between the dev search and
+any held-out pool. The views pre-registration keeps this pipeline and makes
+rank-averaged best match its primary metric (\S\ref{sec:prereg-views}). B2 with
+labels reads scenario fields and is reported only as an oracle ceiling, never as
+a rival.}
+\label{fig:pipeline}
+\end{figure}
