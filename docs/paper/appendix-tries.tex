@@ -342,8 +342,8 @@ Rival rows & B3-behaviour, B3-kin, B7-pool, B3-infraction and m03 at L10 as comp
 Failure-timing check; m16 rerun & Failures grouped by how early they happened; m16 at 20 frames rerun after a name clash & diagnostic; rescore \\
 % source: VARIANTS.md:383-392, :424-435
 A2 rescores & Every logged method rescored with distinct axes, on SL and on H21 & rescore \\
-% source: VARIANTS.md:209-210, :258-264, :327-332
-Stability checks & j05 at $k$ 5 and 20; refits on passing-route subsets for j05, m08, m11 and m03 at L10; j09 refit over mixture seeds & no try \\
+% source: VARIANTS.md:209-210, :258-264, :327-332 (:328: j09 refit with KMeans seeds 1 to 10)
+Stability checks & j05 at $k$ 5 and 20; refits on passing-route subsets for j05, m08, m11 and m03 at L10; j09 refit over KMeans seeds & no try \\
 % source: VARIANTS.md:292-301
 Planned residual filter (first j16) & Keep only failing routes far from their passing neighbours, then j05; its run condition failed & not run \\
 % source: VARIANTS.md:310-312, :336-348
@@ -364,7 +364,7 @@ H21b rescores & m23, m40 and j09 on three seeds, per seed and per pair of seeds;
 Seed reruns & j18 mixture seeds, j24 ridge alpha, j22 dictionary seeds, j20 training seeds, j26 probe seeds & robustness \\
 % source: VARIANTS.md:1418-1425, :1453-1459
 Attribution; position check & Which source supplies each gap's best axis in the pooled j rows; j26's position removal check & diagnostic \\
-% source: VARIANTS.md:606; docs/JOURNAL.md:808
+% source: VARIANTS.md:606; docs/JOURNAL.md:831, :843, :863
 m37; j08 & m37 was never assigned; j08 was built and held, never scored & no run \\
 \end{longtable}
 }
