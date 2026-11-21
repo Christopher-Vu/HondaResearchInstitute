@@ -1,0 +1,119 @@
+\section{Limitations}
+\label{sec:limitations}
+
+These limits follow from the design and from what went wrong on the way. None
+of them depends on a held-out outcome.
+
+\paragraph{One simulator.}
+% source: upstream-99p/docs/CITATION_AUDIT.md:235 (Fail2Drive runs on CARLA 0.9.15)
+% source: docs/prd-discovery-sprint.md:30-31 (recovery of known groups as a proxy)
+Every route was driven in CARLA, on Fail2Drive's routes. The gaps are scenario
+types that the benchmark's authors built into that simulator. A method that
+recovers them shows that it can find failure groups of this kind in this
+simulator. It does not show that it finds the groups a real fleet meets, and
+recovery of known groups stands in for discovering unknown ones.
+
+\paragraph{Two to three driving models.}
+% source: docs/prd-discovery-sprint.md:39-41 (model roles); docs/paper/data.tex:63-67 (pool table)
+% source: docs/prereg-fail2drive.md:238-241 (round 2 makes TransFuser++ a second dev pool)
+% source: docs/prd-discovery-sprint.md:45-47 (TransFuser++ tests across models, not types; third model unseen)
+Methods were developed on SimLingo. TransFuser++ was held out for round 1 and
+became a second dev pool in round 2. UniAD is the only pool that no method has
+been tuned on. TransFuser++'s gap types are a subset of SimLingo's, so it tests
+whether a method carries across models, not across failure types. A claim that
+a method transfers rests on very few models, and on one model that no method
+has seen.
+
+\paragraph{Small gap categories.}
+% measured: pairs per type from results/h21/h21b/manifest.json (pair with -sNN stripped):
+%   14 types have 5 pairs and 3 types have 10; 15 or 30 slice routes per type over seeds 24-26
+% design: 100 pairs, 17 types (docs/prereg-fail2drive.md:13; upstream-99p/docs/CITATION_AUDIT.md:235)
+% design: gap floor of 30 slice runs, six test seeds, every pair in each (docs/prereg-fail2drive.md:24-25, :31)
+% measured x design: at most 30 or 60 failing routes = 5 or 10 pairs x 6 seeds, one slice route each
+Fail2Drive has 100 pairs over 17 types. In the H21b manifest, 14 types have 5
+pairs and the other 3 have 10, so a type has 15 or 30 slice routes over the
+three seeds. On a six-seed test pool, a 5-pair type has 30 slice runs, which is
+exactly the gap rule's floor if every route completes. A gap's failing routes
+can be no more than its slice routes, so on a six-seed pool a gap holds at most
+30 or 60 failing routes.
+% source: docs/WHAT_BROKE.md:160-162 (M1's group-size floor against the gap sizes)
+If every axis a method emits holds more routes than a gap has failing routes,
+its Jaccard with that gap is capped below 1. This happened once already, to the frozen M1 (\S\ref{sec:whatbroke}). The
+primary score is a mean over a pool's few gaps, so it moves a long way when one
+gap's best axis changes.
+
+\paragraph{Many tries on the same dev pools.}
+% source: docs/prd-discovery-sprint.md:89-91; docs/prereg-fail2drive.md:153 (dev p values are exploratory; the held-out score is the result)
+% measured: 232 methods tried (docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1495)
+A dev $p$ value read after many tries marks a candidate, not a result. The try
+count stands at 232 methods, and every dev table states the running count
+beside its $p$ values. The design treats only the held-out score of a frozen
+finalist as a result.
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:125, :360 (H21 can rank and kill, not make a candidate)
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1428-1429 (post-search j rows cannot enter the UniAD read)
+% source: docs/paper/data.tex:95-96 (H21b: same routes, seeds 25 and 26)
+H21's categories had already been read by H22 to H25, so H21 can rank and
+kill methods but cannot make a candidate on its own. H21b drives the same
+routes on two more seeds. The j rows run
+after the search stopped (j16--j27) are exploratory and cannot enter the UniAD
+read.
+
+\paragraph{Window position.}
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:108 (m19); docs/paper/whatbroke.tex:38-45
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1443-1446 (every cached window ends at the failure or the route end)
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1458-1459 (failing-route clusters and failure step; diagnostic, numbers not used)
+% source: docs/paper/methods.tex:106-118 (m23 and m40 settings, no position removal)
+An approach window ends at the failure on a failing route and at the route's
+end on a passing one. Window features therefore carry where in the route the
+window sits, and m19's probes read that position instead of anything about the
+failure (\S\ref{sec:whatbroke}). Among failing routes, too, windows sit at
+different points, because failures come at different times. A cluster of
+failing routes can therefore follow when they failed rather than why. The finalists m23 and m40 do not
+remove position.
+% source: docs/research/experiments/f2d-dev-simlingo/j26_attr.py:9-15, :98-108 (iterative linear projection)
+% design: R^2 tolerance 0.05 (j26_attr.py TOLERANCE)
+% measured: boosted-tree regressor R^2 0.588 on window-end step after removal (VARIANTS.md:1454-1457, results/h21/j26/position-check.json)
+j26 removes position only linearly. It projects out ridge-regression
+directions until no ridge fit predicts position with a cross-fitted $R^2$ above
+0.05. Among failing routes, a boosted-tree regressor still predicted window
+position from the features that remained, so a nonlinear probe such as j26's
+may still read it. How much j26's probe does was not measured.
+
+\paragraph{The H21b pair bug.}
+% source: docs/WHAT_BROKE.md:19-28; VARIANTS.md:1065-1067 (intervals and p values too narrow)
+% source: docs/research/experiments/f2d-dev-simlingo/sprint_score.py:106-108 (pair taken from the manifest as written)
+The pair bootstrap is only as sound as the pair field it reads. When the three
+H21 seeds were pooled into H21b, the pool builder copied each route's
+\code{base\_id} into the manifest's \code{pair}. That id carries the seed, so
+the scorer resampled pair-and-seed units instead of pairs, against A1. The
+intervals it recorded were too narrow and the $p$ values too small. The point
+scores were not affected. An independent scorer written from the pre-registration text
+caught it. Every later H21b score uses a manifest copy with the seed suffix
+stripped, and the UniAD test manifest was checked and has no suffix. Nothing in
+the scorer refuses a pair field that carries a seed, so the check rests on the
+pool builder (\S\ref{sec:h21b}).
+
+\paragraph{Label hiding is mostly a convention.}
+% source: docs/prereg-fail2drive.md:68-71 (shards exported without label fields; salted-hash renaming)
+% source: scripts/check_sealed_imports.py:1-36 (guarded directories and forbidden patterns)
+% source: CONFLICTS.md:693-699 (C33: CI off, so the guard runs only by hand)
+Two things enforce label hiding in code. The exported shards drop the
+scenario, type, role, pair and seed fields and the route id, and rename routes
+by a salted hash. The script
+\code{scripts/check\_sealed\_imports.py} fails if a Python file under
+\code{discovery/}, \code{baselines/} or \code{gate/}, at the top level or
+under \code{src/}, imports the sealed key or names the sealed folder, the key
+file or the salt. The dev method scripts live in
+\code{docs/research/experiments/}, outside the guard's scope. Continuous
+integration is off, so the guard runs only when someone runs it before a
+commit.
+% measured: results/h21/h21b/manifest.json rows carry `scenario` and `practice_gaps` (the Fail2Drive type); file not tracked in git (read in this session)
+% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1467-1468 (j26 row: never reads routes.jsonl, the manifest or route types)
+% source: docs/WHAT_BROKE.md:152 (H25: id order sorted by category; answer mapping in the frames' parent folder)
+The dev manifests give each route's Fail2Drive type, and they sit on the same
+disk as the method scripts and the pools those scripts read. That a method never
+opens them is a rule written into rows of \code{VARIANTS.md} such as j26's, and
+the guard does not check it. The H25 review
+showed how such hiding can fail. Route ids that sorted by category, and an
+answer mapping one folder above the frames, were caught by a review before the
+lock, not by code.
