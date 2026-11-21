@@ -2,9 +2,10 @@
 \label{sec:related}
 
 Only works verified in \code{upstream-99p/docs/CITATION\_AUDIT.md} or
-\code{docs/step0-trackA-findings.md} are cited. Several works that shaped the
-methods are not yet verified and are left uncited; they are listed at the end of
-this section by name only, and \code{refs.bib} marks them.
+\code{docs/step0-trackA-findings.md}, or checked against Crossref, OpenAlex or
+arXiv in \code{results/h21/cite-verify/ledger.md}, are cited. For works in the
+last group, a sentence about what a paper does rests on its abstract, and the
+ledger records which abstract backs which sentence.
 
 \paragraph{Benchmarks and models.}
 Fail2Drive~\cite{gerstenecker2026fail2drive} pairs each unseen scenario with an
@@ -15,7 +16,9 @@ that as motivation only: an authored scenario type is not an unlistable factor.
 Bench2Drive~\cite{jia2024bench2drive} is a closed-loop driving benchmark on
 CARLA~\cite{carla2017}, the simulator every pool here was driven in. SimLingo
 \cite{Renz2025cvpr} and TransFuser++~\cite{jaeger2023hidden,zimmerlin2024hidden}
-are the dev and first held-out models.
+are the dev and first held-out models. UniAD~\cite{hu2023uniad}, the second
+held-out model, joins perception, prediction and planning in one network that is
+designed around planning.
 
 \paragraph{Finding systematic errors without labels.}
 Slice discovery groups the inputs a model gets wrong so that a person can name
@@ -24,12 +27,28 @@ cross-modal embeddings, Spotlight~\cite{deon2022spotlight} is a general method
 for discovering systematic errors in deep models, George~\cite{sohoni2020george}
 targets hidden subclasses inside coarse classes, and
 SliceLine~\cite{sagadeeva2021sliceline} finds slices for model debugging with
-linear algebra. Our
-setting differs in two ways. The unit is a closed-loop route, not a single
-input, and the groups to recover are scenario types of a driving benchmark, not
-slices of a static dataset. We know of no published method tested on recovering known
-failure groups of a closed-loop driving policy
-(\code{docs/research/literature-review.md}).
+linear algebra. Four further methods look for slices where a model
+underperforms. FACTS
+\cite{yenamandra2023facts} first amplifies a model's spurious correlations with a
+strongly regularised model, then fits a mixture model in that bias-aligned
+feature space to find slices where the model underperforms. B2T
+\cite{kim2024b2t} takes common keywords from captions of the images a model gets
+wrong and checks each keyword against those images with a vision-language scoring
+model. InfEmbed~\cite{wang2023infembed} runs K-means on influence embeddings, so
+that the examples in a slice are influenced in a similar way by the training
+data. PlaneSpot~\cite{plumb2023planespot} finds blind spots of an image classifier
+in a two-dimensional image representation, and the same paper introduces
+SpotCheck, which trains models with known blind spots on synthetic images. Our
+setting differs from all of these in two ways. The unit is a closed-loop route,
+not a single input, and the groups to recover are scenario types of a driving
+benchmark, not slices of a static dataset. The closest unit is that of Gupta
+et al.~\cite{gupta2025caption}, who infer structured failure explanations from
+the multimodal logs of failed robot trajectories with vision-language reasoning,
+then cluster the explanations into recurring failure modes. They evaluate this on
+manipulation, indoor navigation and autonomous driving. Their approach is the
+basis of our caption row (H25, \S\ref{sec:prereg-views}). We know of no
+published method tested on recovering known failure groups of a closed-loop
+driving policy (\code{docs/research/literature-review.md}).
 
 \paragraph{Reading a policy's internals.}
 Sparse autoencoders on vision-language-action policies give features that can be
@@ -58,9 +77,10 @@ is a different task from grouping failures by cause. Our methods could take
 their input from any of these: once failures exist, discovery asks which belong
 together.
 
-\paragraph{Not yet verified, not cited.}
-UniAD, the held-out model; caption-then-cluster failure discovery for robot
-videos, the basis of H25 and the caption row; error-aware slice methods (FACTS,
-B2T, InfEmbed, PlaneSpot); contrastive PCA (j02); cluster-wise stability (j08);
-hidden Markov model sequence clustering (j09); Ward linkage; the bootstrap; and
-DINOv2. Each needs a check against its primary source before it is cited.
+\paragraph{Standard tools the methods use.}
+Several methods rest on standard tools, cited where \S\ref{sec:methods} uses
+them: Ward's hierarchical grouping~\cite{ward1963hierarchical}, contrastive
+principal component analysis~\cite{abid2018cpca}, cluster-wise assessment of
+cluster stability~\cite{hennig2007stability}, clustering sequences with hidden
+Markov models~\cite{smyth1996hmm}, the bootstrap~\cite{efron1979bootstrap}, and
+DINOv2 image features~\cite{oquab2024dinov2}.

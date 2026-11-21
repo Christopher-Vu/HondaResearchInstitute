@@ -11,8 +11,9 @@
 %
 % Citation rule. \cite is used only for keys whose audit verdict is [confirmed] or
 % [corrected] in upstream-99p/docs/CITATION_AUDIT.md (or read in
-% docs/step0-trackA-findings.md). refs.bib also holds unverified entries; they are
-% marked "unverified" in their note field and are never cited in the text.
+% docs/step0-trackA-findings.md), or that results/h21/cite-verify/ledger.md verified
+% against Crossref, OpenAlex or arXiv. A sentence about what one of the latter does is
+% backed by its abstract, recorded in that ledger's abstract-check section.
 %
 % Build: pdflatex main && bibtex main && pdflatex main && pdflatex main
 \documentclass[11pt]{article}
