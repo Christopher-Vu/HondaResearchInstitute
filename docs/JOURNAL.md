@@ -5,6 +5,18 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — Laptop round: paper limitations section landed (orchestrator)
+
+The third paper worker finished and was landed as `40dddab`. It fixed long code paths that ran off the page, described
+the exploratory j16 to j27 methods in `docs/paper/methods.tex` without scores, and added `docs/paper/limitations.tex`,
+which names seven limits of the study (one simulator, few driving models, small gap types, the many-tries rule, window
+position, the H21b pair bug, label hiding). Each claim carries a source comment. The worker listed six sentences that
+Chris should check; they are in its report and in the box journal, round 218.
+
+Two more writeup workers started: an appendix that lists all 232 counted tries without scores, and a figure of the
+scoring pipeline. No exploration worker started, because every open j lane has stopped. 232 methods tried, no
+candidate. No UniAD or held-out data read.
+
 ## 2026-11-20 — Laptop round: j26-j27 landed, all open j lanes stopped (orchestrator)
 
 From 18:05 to 22:16 every laptop round and both running workers stopped on a Claude API error (502, a server-side
