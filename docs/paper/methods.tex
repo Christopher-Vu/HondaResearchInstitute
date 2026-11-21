@@ -209,15 +209,16 @@ settings and commits per run are in \code{VARIANTS.md}.}
 \label{tab:jfamily}
 \end{table}
 
-\paragraph{Exploratory lanes, j16--j25.}
-After the search stopped, ten more j rows were run on the three-seed H21b pool
+\paragraph{Exploratory lanes, j16--j27.}
+% design: twelve rows j16-j27 (VARIANTS.md, "Exploratory, H21b pool, laptop" sections)
+After the search stopped, twelve more j rows were run on the three-seed H21b pool
 (\S\ref{sec:h21b}). Each row was written in \code{VARIANTS.md} before its score
 and counts as a try, and all are exploratory. Each is pooled with m03 on the
 whole-route summary at L8, whole-route axes first (\code{pool\_axes.py}); j16 was
 also scored alone. Unless stated, a row reads the last 50 frames at L8 in j09's
 16-component projection, and its failing routes are Ward-clustered and cut as in
 m03.
-% design: settings of j16-j25 (VARIANTS.md, "Exploratory, H21b pool, laptop" sections; j16_change.py, j18_gmm.py, j20_ssl.py, j22_dict.py, j24_ar.py)
+% design: settings of j16-j27 (VARIANTS.md, "Exploratory, H21b pool, laptop" sections; j16_change.py, j18_gmm.py, j20_ssl.py, j22_dict.py, j24_ar.py, j26_attr.py)
 \begin{itemize}
   \item \textbf{j16} (\code{j16\_change.py}) describes how far the activations
         move from frame to frame. Per route it takes the step sizes between
@@ -253,6 +254,34 @@ m03.
   \item \textbf{j25} keeps only j24's mean error direction, scaled to unit
         length, so routes are grouped by the direction of the surprise and not
         its size.
+  % source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1427-1480; j26_attr.py:1-24, :43-50
+  % design: 50 frames, PCA 32, R^2 tolerance 0.05, cap 16, ridge alpha 1, 5 folds, MLP 64-64 (j26_attr.py DIMS, FOLDS, TOLERANCE, MAX_DIRECTIONS, HIDDEN)
+  \item \textbf{j26} (\code{j26\_attr.py}) groups failing routes by what a
+        pass/fail probe uses to call them failing, not by their activations.
+        Its input is m15's: each route's mean over its last 50 frames at L8,
+        after a 32-component PCA fit on all routes. A passing route's window
+        ends at the route's end and a failing route's at the failure, so window
+        position differs by outcome; this is what m19's probes read
+        (\S\ref{sec:whatbroke}). j26 therefore first removes position. Each
+        route gets the window means of two positions, the log of the step since
+        the start and the log of one plus the steps to the route's end. Each
+        position is a separate target within each outcome, and a target that
+        does not vary is dropped. A ridge regression is fit to the target that
+        is predicted best, and the direction of its coefficients is projected
+        out of the features. This repeats until no target is predicted with a
+        cross-fitted $R^2$ above 0.05, or 16 directions are gone. The probe is a small multilayer perceptron (two
+        hidden layers of 64 units) trained on pass/fail with 5-fold
+        cross-fitting, so each route is explained by a probe that did not see
+        it. A route's attribution is the gradient of the probe's logit times
+        the route's standardised input (\emph{gradient times input}), divided
+        by the root-mean-square attribution of its fold. The failing routes are
+        Ward-clustered on their attributions, without standardising the
+        columns, and cut as in m03. Only the pooled row was scored.
+  % design: 10 probes per fold, torch seeds 1000 k + fold (VARIANTS.md:1480; j26_attr.py:19-21)
+  \item \textbf{j27} is j26 with 10 probes per fold, each with its own random
+        seed and all trained on the same training fold. A route's attribution
+        and logit are the means over the 10, so the clusters rest on what the
+        probes share and less on one probe's seed.
 \end{itemize}
 
 \paragraph{Unpooled and image-model rows.}
