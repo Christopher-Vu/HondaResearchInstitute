@@ -5,6 +5,20 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-21 — Laptop round: paper fact checks landed (orchestrator)
+
+Both fact-check workers from the previous round were landed (`186e566`, `ae3e7d6`). They compared each sentence of
+`methods.tex`, `fig-pipeline.tex`, `limitations.tex` and `appendix-tries.tex` with the file it cites. Measured: 164 of
+183 claims in methods and the figure were supported, and 192 of 201 in limitations and the appendix. The wrong ones
+were fixed, and each unsupported one was marked in a comment. An independent recount of the tries in `VARIANTS.md`
+also gives 232. Reports: `results/h21/paper-factcheck-methods/`, `results/h21/paper-factcheck-limits/`.
+
+The main correction: the paper said the exported shards drop route labels. The code keeps the route id, the scenario,
+the Fail2Drive type and the role in each shard's sidecar file (`adapters/simlingo/export_activations.py:146-161`).
+The pre-registration (`docs/prereg-fail2drive.md:68-71`) says those fields are dropped. The paper now says what the
+code does and leaves a "flag for Chris" comment; it has not been raised on issue 9. With this, every work-list item
+is done or blocked, so no new worker was started. 232 methods tried, no candidate. No UniAD or held-out data read.
+
 ## 2026-11-21 — Laptop round: tries appendix and pipeline figure landed (orchestrator)
 
 Both writeup workers from the last round were landed (`fd4ba55`, `1f04387`). `docs/paper/appendix-tries.tex` lists
