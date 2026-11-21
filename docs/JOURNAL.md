@@ -5,6 +5,28 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-20 — Laptop round: j26-j27 landed, all open j lanes stopped (orchestrator)
+
+From 18:05 to 22:16 every laptop round and both running workers stopped on a Claude API error (502, a server-side
+fault), so nothing was written in that time. The 18:05 round had already landed three workers: the per-axis source
+diagnostic (`results/h21/attribution/report.md`), paper pass 2 on verified citations, and the paper fact check
+(merges `f4c027e`, `7d8711f`, `b644972`).
+
+The j26 worker had scored j26 and j27 before the error but had not committed j27. j26 clusters failing routes by
+what a nonlinear pass/fail probe uses (gradient times input), after it removes the directions that predict where the
+window sits in the route. j27 averages ten probes per fold. The orchestrator rebuilt j26's axes, repooled both rows
+and rescored them: every axis and score matched. Measured on the H21b dev pool (exploratory): j26 0.280 and j27
+0.269, both below m23's 0.395 and level with the infraction-type rival. Landed as `de46b75`; 232 methods tried, no
+candidate. Details: `results/h21/j26/report.md`.
+
+The source diagnostic explains why every pooled j row lands below m23. In each of them the Wall and CustomObstacles
+best matches come from the same two whole-route axes, so only PedestriansOnRoad can move, and to beat m23 a new view
+would need more than m15's 0.444 there (best so far 0.206). With the temporal, density, self-supervised, dictionary
+and nonlinear-probe lanes each stopped after two tries, no open lane is left, so no new exploration worker was
+started. One worker is running: paper pass 3 (build check, j26-j27 in methods, a limitations section; no results).
+
+---
+
 ## 2026-11-20 — Laptop round: j20-j21 self-supervised encoder landed, four workers restarted (orchestrator)
 
 The morning laptop workers stopped at the Claude five-hour usage limit. Only the j20 worker had got far enough to
