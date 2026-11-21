@@ -16,7 +16,9 @@
 3. Probe: an MLP (in, 64, 64, 1; GELU; AdamW; balanced BCE; full batch), 5 folds over the salted row order. Every
    route is explained by the fold model that did not see it.
 4. Attribution: gradient of the probe's logit times the fold-standardised input, for each held-out route, divided
-   by the root-mean-square of that fold's held-out attributions so no fold's logit scale dominates.
+   by the root-mean-square of that fold's held-out attributions so no fold's logit scale dominates. j27
+   (--ensemble N) averages attribution and logit over N probes per fold (torch seeds 1000 * k + 100 * seed + fold,
+   k = 0 .. N-1, so k = 0 is j26's probe), all trained on the same training fold.
 5. Axes: Ward on the failing routes' attributions at cuts 2/3/5 (cache_methods.axes_from), top 10 in its label-free
    order (cut order, largest first within a cut). Attribution columns are not standardised: that would lift inputs
    the probe ignores to the size of the ones it uses (tests/test_j26_attr.py has the toy).
@@ -140,7 +142,8 @@ def gradient_times_input(model: torch.nn.Module, x: np.ndarray) -> tuple[np.ndar
     return (xt.grad * xt).detach().numpy().astype(np.float64), logit.detach().numpy().astype(np.float64)
 
 
-def cross_fitted_attributions(x: np.ndarray, failing: np.ndarray, seed: int) -> tuple[np.ndarray, np.ndarray]:
+def cross_fitted_attributions(x: np.ndarray, failing: np.ndarray, seed: int,
+                               ensemble: int = 1) -> tuple[np.ndarray, np.ndarray]:
     """Per route, attribution and logit from the fold model that did not see it (folds over the salted order)."""
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
@@ -148,8 +151,11 @@ def cross_fitted_attributions(x: np.ndarray, failing: np.ndarray, seed: int) -> 
     for fold, (train, test) in enumerate(KFold(FOLDS).split(x)):
         mean, sd = x[train].mean(0), x[train].std(0)
         scale = lambda rows: (x[rows] - mean) / np.where(sd > 0, sd, 1.0)
-        model = fit_probe(scale(train), failing[train].astype(np.float64), seed * 100 + fold)
-        held_out, logit[test] = gradient_times_input(model, scale(test))
+        models = [fit_probe(scale(train), failing[train].astype(np.float64), 1000 * k + seed * 100 + fold)
+                  for k in range(ensemble)]
+        explained = [gradient_times_input(model, scale(test)) for model in models]
+        held_out = np.mean([a for a, _ in explained], axis=0)
+        logit[test] = np.mean([g for _, g in explained], axis=0)
         attribution[test] = held_out / np.sqrt((held_out ** 2).mean())
     return attribution, logit
 
@@ -165,12 +171,12 @@ def window_positions(steps, failure_steps, n_frames) -> np.ndarray:
                      for i, n in enumerate(n_frames)])
 
 
-def j26_features(block, n_frames, steps, failure_steps, failing, seed=0, keep_position=False) -> dict:
+def j26_features(block, n_frames, steps, failure_steps, failing, seed=0, keep_position=False, ensemble=1) -> dict:
     z = window_features(block, n_frames)
     removed, history = (np.zeros((DIMS, 0)), []) if keep_position else position_directions(
         z, window_positions(steps, failure_steps, n_frames), failing)
     x = z @ complement(removed, DIMS)
-    attribution, logit = cross_fitted_attributions(x, failing, seed)
+    attribution, logit = cross_fitted_attributions(x, failing, seed, ensemble)
     return {"features": attribution, "inputs": x, "logit": logit, "removed": removed.shape[1], "r2_history": history,
             "auroc": float(roc_auc_score(failing, logit))}
 
@@ -195,14 +201,15 @@ def main() -> None:
     parser.add_argument("cache", type=Path)
     parser.add_argument("--layer", type=int, default=8)
     parser.add_argument("--seed", type=int, default=0, help="probe seed (fold models use seed * 100 + fold)")
+    parser.add_argument("--ensemble", type=int, default=1, help="j27: probes averaged per fold")
     parser.add_argument("--keep-position", action="store_true", help="diagnostic: skip the position removal")
     parser.add_argument("--name", default=None)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     data = read_inputs(args.frames, args.cache, args.layer)
     result = j26_features(data["block"], data["n_frames"], data["steps"], data["failure_steps"], data["failing"],
-                          args.seed, args.keep_position)
-    name = args.name or f"j26-L{args.layer}-attr-seed{args.seed}"
+                          args.seed, args.keep_position, args.ensemble)
+    name = args.name or f"j26-L{args.layer}-attr-seed{args.seed}" + (f"-ens{args.ensemble}" if args.ensemble > 1 else "")
     axes = cache_methods.axes_from(result["features"], data["failing"], data["ids"], name, "ward", (2, 3, 5))[:10]
     diagnostics = {"directions_removed": result["removed"], "position_r2_history": result["r2_history"],
                    "oof_pass_fail_auroc": round(result["auroc"], 4)}

@@ -96,3 +96,13 @@ def test_attributions_group_failing_routes_by_reason_where_raw_activations_split
     assert agreement(x) < 0.1
     assert agreement(attribution) > 0.8
     assert agreement(attribution) > agreement(j26.cache_methods.standardise(attribution)) + 0.3
+
+
+def test_ensemble_of_one_is_the_single_probe_and_larger_ensembles_average():
+    rng = np.random.default_rng(3)
+    x = rng.normal(size=(60, 4))
+    failing = x[:, 0] > 0.3
+    single = j26.cross_fitted_attributions(x, failing, 0)
+    assert all(np.array_equal(a, b) for a, b in zip(single, j26.cross_fitted_attributions(x, failing, 0, ensemble=1)))
+    pair = j26.cross_fitted_attributions(x, failing, 0, ensemble=2)
+    assert pair[0].shape == single[0].shape and not np.array_equal(pair[0], single[0])
