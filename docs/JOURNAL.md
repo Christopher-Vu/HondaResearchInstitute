@@ -5,6 +5,17 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-21 — Laptop round: tries appendix and pipeline figure landed (orchestrator)
+
+Both writeup workers from the last round were landed (`fd4ba55`, `1f04387`). `docs/paper/appendix-tries.tex` lists
+all 232 counted tries in the order the variant log counted them, with no scores; daggers mark places where the log's
+running count does not match its rows. `docs/paper/fig-pipeline.tex` draws the scoring pipeline: where labels are
+hidden, where they enter, and where the freeze tag sits. The paper now builds to 28 pages with no layout warnings.
+
+The appendix worker found that `methods.tex` lists j08, a method that was held and never scored. Two fact-check
+workers started on the paper files not yet checked (methods and figure; limitations and appendix, with an independent
+recount of the 232 positions). 232 methods tried, no candidate. No UniAD or held-out data read.
+
 ## 2026-11-20 — Laptop round: paper limitations section landed (orchestrator)
 
 The third paper worker finished and was landed as `40dddab`. It fixed long code paths that ran off the page, described
