@@ -37,21 +37,23 @@ exactly the gap rule's floor if every route completes. A gap's failing routes
 can be no more than its slice routes, so on a six-seed pool a gap holds at most
 30 or 60 failing routes.
 % source: docs/WHAT_BROKE.md:160-162 (M1's group-size floor against the gap sizes)
+% source: docs/prd-discovery-sprint.md:83 (primary score is the mean over gaps of the best Jaccard)
 If every axis a method emits holds more routes than a gap has failing routes,
 its Jaccard with that gap is capped below 1. This happened once already, to the frozen M1 (\S\ref{sec:whatbroke}). The
 primary score is a mean over a pool's few gaps, so it moves a long way when one
 gap's best axis changes.
 
 \paragraph{Many tries on the same dev pools.}
-% source: docs/prd-discovery-sprint.md:89-91; docs/prereg-fail2drive.md:153 (dev p values are exploratory; the held-out score is the result)
+% source: docs/prd-discovery-sprint.md:89-93; docs/prereg-fail2drive.md:153 (dev p values are exploratory; the held-out score is the result)
 % measured: 232 methods tried (docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1495)
 A dev $p$ value read after many tries marks a candidate, not a result. The try
 count stands at 232 methods, and every dev table states the running count
 beside its $p$ values. The design treats only the held-out score of a frozen
 finalist as a result.
 % source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:125, :360 (H21 can rank and kill, not make a candidate)
-% source: docs/research/experiments/f2d-dev-simlingo/VARIANTS.md:1428-1429 (post-search j rows cannot enter the UniAD read)
-% source: docs/paper/data.tex:95-96 (H21b: same routes, seeds 25 and 26)
+% source: CONFLICTS.md:847 (C42: round 2's search stops with no new finalist)
+% source: VARIANTS.md:1144, :1196, :1304-1305, :1356, :1391, :1430 (each j16-j27 batch: cannot enter the UniAD read)
+% source: docs/paper/data.tex:96-97 (H21b: same routes, seeds 25 and 26)
 H21's categories had already been read by H22 to H25, so H21 can rank and
 kill methods but cannot make a candidate on its own. H21b drives the same
 routes on two more seeds. The j rows run
@@ -94,12 +96,15 @@ the scorer refuses a pair field that carries a seed, so the check rests on the
 pool builder (\S\ref{sec:h21b}).
 
 \paragraph{Label hiding is mostly a convention.}
-% source: docs/prereg-fail2drive.md:68-71 (shards exported without label fields; salted-hash renaming)
+% source: docs/prereg-fail2drive.md:68-71 (the plan: shards exported without label fields, salted-hash renaming)
+% source: adapters/simlingo/export_activations.py:146-161; src/harness/shards.py:7-14 (shard sidecars keep route_id, base_id, scenario, practice_gaps, role)
+% source: docs/research/experiments/f2d-dev-simlingo/cache_pool.py:13-14, :32-33, :51, :68, :75; frames_pool.py:8-10, :134, :186 (salted row order, no scenario field, raw route_id kept)
 % source: scripts/check_sealed_imports.py:1-36 (guarded directories and forbidden patterns)
 % source: CONFLICTS.md:693-699 (C33: CI off, so the guard runs only by hand)
-Two things enforce label hiding in code. The exported shards drop the
-scenario, type, role, pair and seed fields and the route id, and rename routes
-by a salted hash. The script
+Two things enforce label hiding in code. The caches the dev methods read write
+no scenario, town or route-config field and list routes in a salted-hash
+order, but they keep each route's raw id, and the exported shards still carry
+the type and role. The script
 \code{scripts/check\_sealed\_imports.py} fails if a Python file under
 \code{discovery/}, \code{baselines/} or \code{gate/}, at the top level or
 under \code{src/}, imports the sealed key or names the sealed folder, the key
