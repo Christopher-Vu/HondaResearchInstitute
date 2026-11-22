@@ -43,6 +43,15 @@ No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fa
     - SimLingo is described again in full by the API. The 123 descriptions made by subagents are kept as a
       record and not scored, so each pool uses one captioner.
     - The script is `docs/research/experiments/f2d-views-caption/api.py`.
+  - Rulings and a late interim (Chris, 2026-11-22 ~03:10, before any UniAD outcome is read):
+    - The interim read did not run at Sat 09:00. It runs late, on only the routes whose driven record existed by Sat
+      2026-11-21 09:00 PT (by file time), and is labelled as run late.
+    - SimLingo's `img-mean` is the mean over the 512 image tokens at LLM layer 10 (`llm10`, as the unpooled protocol
+      defines it). The whole-sequence layer-10 mean is reported beside it, labelled.
+    - TF++'s `query-mean` is the mean over all decoder join tokens. The last join call alone is reported beside it,
+      labelled.
+    - The read's scoring is made to match the text above: paired row-vs-row intervals for the partial order, the best
+      new view re-selected in every draw, and the caption row scored inside the read (jerry-agent's audit on #9).
 
 ## Question
 
