@@ -1,0 +1,4 @@
+{"units": {"tfpp:F2D_Animals": 12, "tfpp:F2D_BadParking": 12, "tfpp:F2D_CustomObstacles": 28, "tfpp:F2D_FullyBlocked": 11, "tfpp:F2D_PedestriansOnRoad": 9, "tfpp:F2D_RightConstruction": 8, "uniad:F2D_Animals": 12, "uniad:F2D_BadParking": 12, "uniad:F2D_CustomObstacles": 28, "uniad:F2D_FullyBlocked": 11, "uniad:F2D_PedestriansOnRoad": 9, "uniad:F2D_RightConstruction": 8}, "routes": 1186, "pairs": 100}
+{"B3_behaviour": [0.133, 0.166], "vs_primary": null, "ranks_above": []}
+{"m23": [0.19, 0.238], "vs_primary": [0.057, 0.008, 0.114], "ranks_above": ["B3_behaviour"]}
+{}

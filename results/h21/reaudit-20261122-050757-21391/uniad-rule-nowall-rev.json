@@ -1,0 +1,554 @@
+{
+ "label": "DEV DRY RUN: SimLingo H21b seeds 24-26 standing in for UniAD; not evidence; reversed row order",
+ "models": [
+  "uniad"
+ ],
+ "routes": 593,
+ "pairs": 100,
+ "units": {
+  "uniad:F2D_Animals": 12,
+  "uniad:F2D_BadParking": 12,
+  "uniad:F2D_CustomObstacles": 28,
+  "uniad:F2D_FullyBlocked": 11,
+  "uniad:F2D_PedestriansOnRoad": 9,
+  "uniad:F2D_RightConstruction": 8
+ },
+ "failing": {
+  "uniad": 174
+ },
+ "rows": {
+  "query-mean": {
+   "rabm": 0.13318327990284612,
+   "best_top10": 0.16475891159187805,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.14670294494238156,
+    "uniad:F2D_BadParking": 0.14670294494238156,
+    "uniad:F2D_CustomObstacles": 0.18648435563048543,
+    "uniad:F2D_FullyBlocked": 0.1099546485260771,
+    "uniad:F2D_PedestriansOnRoad": 0.12265615730146624,
+    "uniad:F2D_RightConstruction": 0.08659862807428473
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.1590909090909091,
+    "uniad:F2D_BadParking": 0.1590909090909091,
+    "uniad:F2D_CustomObstacles": 0.19402985074626866,
+    "uniad:F2D_FullyBlocked": 0.12244897959183673,
+    "uniad:F2D_PedestriansOnRoad": 0.2608695652173913,
+    "uniad:F2D_RightConstruction": 0.09302325581395349
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": 0.00021288895774004835,
+     "interval": [
+      -0.0391444550012587,
+      0.05895616221494783
+     ],
+     "p_one_sided": 0.347
+    },
+    "best": {
+     "delta": -0.0009204886053981454,
+     "interval": [
+      -0.051478764346721745,
+      0.09288218284404387
+     ],
+     "p_one_sided": 0.3225
+    }
+   }
+  },
+  "img-mean": {
+   "rabm": 0.09052608532791517,
+   "best_top10": 0.10396752625910476,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.08132183908045978,
+    "uniad:F2D_BadParking": 0.07530291338438388,
+    "uniad:F2D_CustomObstacles": 0.17570679789689578,
+    "uniad:F2D_FullyBlocked": 0.09442121125214475,
+    "uniad:F2D_PedestriansOnRoad": 0.05706965224099636,
+    "uniad:F2D_RightConstruction": 0.05933409811261044
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.08333333333333333,
+    "uniad:F2D_BadParking": 0.0784313725490196,
+    "uniad:F2D_CustomObstacles": 0.1830065359477124,
+    "uniad:F2D_FullyBlocked": 0.14285714285714285,
+    "uniad:F2D_PedestriansOnRoad": 0.06474820143884892,
+    "uniad:F2D_RightConstruction": 0.07142857142857142
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": -0.0424443056171909,
+     "interval": [
+      -0.08405720418070546,
+      0.012986551590580774
+     ],
+     "p_one_sided": 0.92
+    },
+    "best": {
+     "delta": -0.061711873938171444,
+     "interval": [
+      -0.11941108932690936,
+      0.0346087897470193
+     ],
+     "p_one_sided": 0.8945
+    }
+   }
+  },
+  "m40": {
+   "rabm": 0.16802641940310262,
+   "best_top10": 0.2241908811717458,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.08112449799196789,
+    "uniad:F2D_BadParking": 0.1966867469879518,
+    "uniad:F2D_CustomObstacles": 0.16867469879518068,
+    "uniad:F2D_FullyBlocked": 0.121367824238129,
+    "uniad:F2D_PedestriansOnRoad": 0.13795180722891565,
+    "uniad:F2D_RightConstruction": 0.3023529411764706
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.08333333333333333,
+    "uniad:F2D_BadParking": 0.25,
+    "uniad:F2D_CustomObstacles": 0.1686746987951807,
+    "uniad:F2D_FullyBlocked": 0.17647058823529413,
+    "uniad:F2D_PedestriansOnRoad": 0.3333333333333333,
+    "uniad:F2D_RightConstruction": 0.3333333333333333
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": 0.035056028457996546,
+     "interval": [
+      -0.0017820694706921695,
+      0.1016785218150005
+     ],
+     "p_one_sided": 0.03
+    },
+    "best": {
+     "delta": 0.05851148097446959,
+     "interval": [
+      -0.015185977851911909,
+      0.20929931994217654
+     ],
+     "p_one_sided": 0.0525
+    }
+   }
+  },
+  "m23": {
+   "rabm": 0.1899614744107877,
+   "best_top10": 0.23813501454221533,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.08765228164360933,
+    "uniad:F2D_BadParking": 0.17404411764705882,
+    "uniad:F2D_CustomObstacles": 0.18887435213606396,
+    "uniad:F2D_FullyBlocked": 0.11634730538922156,
+    "uniad:F2D_PedestriansOnRoad": 0.32514619883040935,
+    "uniad:F2D_RightConstruction": 0.24770459081836327
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.10344827586206896,
+    "uniad:F2D_BadParking": 0.1875,
+    "uniad:F2D_CustomObstacles": 0.21008403361344538,
+    "uniad:F2D_FullyBlocked": 0.15,
+    "uniad:F2D_PedestriansOnRoad": 0.4444444444444444,
+    "uniad:F2D_RightConstruction": 0.3333333333333333
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": 0.05699108346568163,
+     "interval": [
+      -0.004264943277461818,
+      0.13490906169533082
+     ],
+     "p_one_sided": 0.033
+    },
+    "best": {
+     "delta": 0.07245561434493913,
+     "interval": [
+      -0.004923798000663261,
+      0.18311327217752615
+     ],
+     "p_one_sided": 0.0375
+    }
+   }
+  },
+  "B3_infraction": {
+   "rabm": 0.21419007742468366,
+   "best_top10": 0.25795456870182665,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.3333882242552193,
+    "uniad:F2D_BadParking": 0.13951266125179168,
+    "uniad:F2D_CustomObstacles": 0.357224025974026,
+    "uniad:F2D_FullyBlocked": 0.08888888888888889,
+    "uniad:F2D_PedestriansOnRoad": 0.2175886524822695,
+    "uniad:F2D_RightConstruction": 0.14853801169590644
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.41379310344827586,
+    "uniad:F2D_BadParking": 0.17391304347826086,
+    "uniad:F2D_CustomObstacles": 0.3939393939393939,
+    "uniad:F2D_FullyBlocked": 0.08888888888888889,
+    "uniad:F2D_PedestriansOnRoad": 0.26666666666666666,
+    "uniad:F2D_RightConstruction": 0.21052631578947367
+   },
+   "vs_primary": {
+    "rabm": {
+     "delta": 0.08121968647957759,
+     "interval": [
+      0.03557308683673996,
+      0.12111501161991868
+     ],
+     "p_one_sided": 0.0005
+    },
+    "best": {
+     "delta": 0.09227516850455045,
+     "interval": [
+      0.042656866387023366,
+      0.13430040663626278
+     ],
+     "p_one_sided": 0.0005
+    }
+   }
+  },
+  "B3_behaviour": {
+   "rabm": 0.13297039094510607,
+   "best_top10": 0.1656794001972762,
+   "runs": 1,
+   "per_unit_rabm": {
+    "uniad:F2D_Animals": 0.08426234372667893,
+    "uniad:F2D_BadParking": 0.17712685260823902,
+    "uniad:F2D_CustomObstacles": 0.17815175650689805,
+    "uniad:F2D_FullyBlocked": 0.07665181246935329,
+    "uniad:F2D_PedestriansOnRoad": 0.0658572226358898,
+    "uniad:F2D_RightConstruction": 0.21577235772357722
+   },
+   "per_unit_best": {
+    "uniad:F2D_Animals": 0.13924050632911392,
+    "uniad:F2D_BadParking": 0.21052631578947367,
+    "uniad:F2D_CustomObstacles": 0.19101123595505617,
+    "uniad:F2D_FullyBlocked": 0.08536585365853659,
+    "uniad:F2D_PedestriansOnRoad": 0.10126582278481013,
+    "uniad:F2D_RightConstruction": 0.26666666666666666
+   }
+  }
+ },
+ "pairwise": {
+  "query-mean - img-mean": {
+   "rabm": {
+    "delta": 0.042657194574930946,
+    "interval": [
+     -0.005197614958955518,
+     0.08472494981129462
+    ],
+    "p_one_sided": 0.031
+   },
+   "best": {
+    "delta": 0.0607913853327733,
+    "interval": [
+     -0.022204972706521293,
+     0.14255091322770921
+    ],
+    "p_one_sided": 0.059
+   }
+  },
+  "query-mean - m40": {
+   "rabm": {
+    "delta": -0.0348431395002565,
+    "interval": [
+     -0.11924686762293746,
+     0.03592120228500243
+    ],
+    "p_one_sided": 0.7895
+   },
+   "best": {
+    "delta": -0.05943196957986774,
+    "interval": [
+     -0.20357496253427182,
+     0.04874701816033354
+    ],
+    "p_one_sided": 0.851
+   }
+  },
+  "query-mean - m23": {
+   "rabm": {
+    "delta": -0.05677819450794158,
+    "interval": [
+     -0.13089685321769073,
+     0.024225047304859398
+    ],
+    "p_one_sided": 0.894
+   },
+   "best": {
+    "delta": -0.07337610295033728,
+    "interval": [
+     -0.1812723148619613,
+     0.03581116777273085
+    ],
+    "p_one_sided": 0.8695
+   }
+  },
+  "query-mean - B3_infraction": {
+   "rabm": {
+    "delta": -0.08100679752183754,
+    "interval": [
+     -0.11458302167071976,
+     -0.022890176999157293
+    ],
+    "p_one_sided": 0.998
+   },
+   "best": {
+    "delta": -0.0931956571099486,
+    "interval": [
+     -0.14137644251906145,
+     0.0016726348589493798
+    ],
+    "p_one_sided": 0.973
+   }
+  },
+  "query-mean - B3_behaviour": {
+   "rabm": {
+    "delta": 0.00021288895774004835,
+    "interval": [
+     -0.0391444550012587,
+     0.05895616221494783
+    ],
+    "p_one_sided": 0.347
+   },
+   "best": {
+    "delta": -0.0009204886053981454,
+    "interval": [
+     -0.051478764346721745,
+     0.09288218284404387
+    ],
+    "p_one_sided": 0.3225
+   }
+  },
+  "img-mean - m40": {
+   "rabm": {
+    "delta": -0.07750033407518744,
+    "interval": [
+     -0.16678902984553928,
+     -0.007090060009241213
+    ],
+    "p_one_sided": 0.987
+   },
+   "best": {
+    "delta": -0.12022335491264104,
+    "interval": [
+     -0.27822845914647765,
+     -0.011469609594720787
+    ],
+    "p_one_sided": 0.9855
+   }
+  },
+  "img-mean - m23": {
+   "rabm": {
+    "delta": -0.09943538908287253,
+    "interval": [
+     -0.189711999303344,
+     -0.00920300316274601
+    ],
+    "p_one_sided": 0.9825
+   },
+   "best": {
+    "delta": -0.1341674882831106,
+    "interval": [
+     -0.26886650918236976,
+     0.0016635811019705652
+    ],
+    "p_one_sided": 0.974
+   }
+  },
+  "img-mean - B3_infraction": {
+   "rabm": {
+    "delta": -0.12366399209676848,
+    "interval": [
+     -0.1659753916476467,
+     -0.055237787723173545
+    ],
+    "p_one_sided": 0.9995
+   },
+   "best": {
+    "delta": -0.15398704244272188,
+    "interval": [
+     -0.21383958251351604,
+     -0.05039660613146811
+    ],
+    "p_one_sided": 0.9955
+   }
+  },
+  "img-mean - B3_behaviour": {
+   "rabm": {
+    "delta": -0.0424443056171909,
+    "interval": [
+     -0.08405720418070546,
+     0.012986551590580774
+    ],
+    "p_one_sided": 0.92
+   },
+   "best": {
+    "delta": -0.061711873938171444,
+    "interval": [
+     -0.11941108932690936,
+     0.0346087897470193
+    ],
+    "p_one_sided": 0.8945
+   }
+  },
+  "m40 - m23": {
+   "rabm": {
+    "delta": -0.021935055007685084,
+    "interval": [
+     -0.07221351492936874,
+     0.036722026501548495
+    ],
+    "p_one_sided": 0.744
+   },
+   "best": {
+    "delta": -0.013944133370469541,
+    "interval": [
+     -0.06817777137957363,
+     0.09927863307051996
+    ],
+    "p_one_sided": 0.4675
+   }
+  },
+  "m40 - B3_infraction": {
+   "rabm": {
+    "delta": -0.04616365802158104,
+    "interval": [
+     -0.10304193699559974,
+     0.04289296677345714
+    ],
+    "p_one_sided": 0.8335
+   },
+   "best": {
+    "delta": -0.033763687530080855,
+    "interval": [
+     -0.11647158119755903,
+     0.12420343778831473
+    ],
+    "p_one_sided": 0.5595
+   }
+  },
+  "m40 - B3_behaviour": {
+   "rabm": {
+    "delta": 0.035056028457996546,
+    "interval": [
+     -0.0017820694706921695,
+     0.1016785218150005
+    ],
+    "p_one_sided": 0.03
+   },
+   "best": {
+    "delta": 0.05851148097446959,
+    "interval": [
+     -0.015185977851911909,
+     0.20929931994217654
+    ],
+    "p_one_sided": 0.0525
+   }
+  },
+  "m23 - B3_infraction": {
+   "rabm": {
+    "delta": -0.024228603013895955,
+    "interval": [
+     -0.09297904373836367,
+     0.05997776581029565
+    ],
+    "p_one_sided": 0.71
+   },
+   "best": {
+    "delta": -0.019819554159611313,
+    "interval": [
+     -0.10387819870107515,
+     0.09666581166123257
+    ],
+    "p_one_sided": 0.6225
+   }
+  },
+  "m23 - B3_behaviour": {
+   "rabm": {
+    "delta": 0.05699108346568163,
+    "interval": [
+     -0.004264943277461818,
+     0.13490906169533082
+    ],
+    "p_one_sided": 0.033
+   },
+   "best": {
+    "delta": 0.07245561434493913,
+    "interval": [
+     -0.004923798000663261,
+     0.18311327217752615
+    ],
+    "p_one_sided": 0.0375
+   }
+  },
+  "B3_infraction - B3_behaviour": {
+   "rabm": {
+    "delta": 0.08121968647957759,
+    "interval": [
+     0.03557308683673996,
+     0.12111501161991868
+    ],
+    "p_one_sided": 0.0005
+   },
+   "best": {
+    "delta": 0.09227516850455045,
+    "interval": [
+     0.042656866387023366,
+     0.13430040663626278
+    ],
+    "p_one_sided": 0.0005
+   }
+  }
+ },
+ "ranks_above": {
+  "query-mean": [],
+  "img-mean": [],
+  "m40": [
+   "img-mean"
+  ],
+  "m23": [
+   "img-mean"
+  ],
+  "B3_infraction": [
+   "B3_behaviour",
+   "img-mean",
+   "query-mean"
+  ],
+  "B3_behaviour": []
+ },
+ "selections": {
+  "best_new": {
+   "members": [
+    "img-mean",
+    "query-mean"
+   ],
+   "point_choice": "query-mean",
+   "draw_choice_share": {
+    "img-mean": 0.031,
+    "query-mean": 0.969
+   },
+   "vs_B3_behaviour": {
+    "delta": 0.00021288895774004835,
+    "interval": [
+     -0.0345762136667568,
+     0.05895616221494783
+    ],
+    "p_one_sided": 0.34
+   },
+   "vs_m23": {
+    "delta": -0.05677819450794158,
+    "interval": [
+     -0.130246961103819,
+     0.026750122110057582
+    ],
+    "p_one_sided": 0.8895
+   }
+  }
+ }
+}
