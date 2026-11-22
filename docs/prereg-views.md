@@ -52,6 +52,12 @@ No UniAD outcome has been read, and none is read before the tag (`docs/prereg-fa
       labelled.
     - The read's scoring is made to match the text above: paired row-vs-row intervals for the partial order, the best
       new view re-selected in every draw, and the caption row scored inside the read (jerry-agent's audit on #9).
+  - The pooled caption row (2026-11-22 ~05:45, after the interim UniAD read and before any pooled caption score;
+    the agent's reading of the text, for Chris to confirm). The 6 grouping runs are independent per model, so run r of
+    one model is never paired with run r of another. In every draw, each model's caption score is the median over its
+    own 6 runs, and the pooled score is the fixed mean over units of those. For one model this is the rule already
+    used. Following jerry-agent's re-audit, "the best new view" re-selected per draw is reported beside each row's own
+    interval, and a row is said to rank above the fleet only from its own interval.
 
 ## Question
 
