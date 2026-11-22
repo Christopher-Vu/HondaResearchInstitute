@@ -1,0 +1,42 @@
+{"units": {"simlingo:F2D_Animals": 12, "simlingo:F2D_BadParking": 12, "simlingo:F2D_CustomObstacles": 28, "simlingo:F2D_FullyBlocked": 11, "simlingo:F2D_PedestriansOnRoad": 9, "simlingo:F2D_RightConstruction": 8}, "routes": 593, "pairs": 100}
+{"B3_behaviour": [0.133, 0.166], "vs_primary": null, "ranks_above": []}
+{"B3_infraction": [0.214, 0.258], "vs_primary": [0.081, 0.036, 0.121], "ranks_above": ["B3_behaviour", "caption", "j09"]}
+{"m23": [0.19, 0.238], "vs_primary": [0.057, -0.004, 0.135], "ranks_above": []}
+{"m40": [0.168, 0.224], "vs_primary": [0.035, -0.002, 0.102], "ranks_above": []}
+{"j09": [0.133, 0.165], "vs_primary": [0.0, -0.039, 0.059], "ranks_above": []}
+{"caption": [0.154, 0.203], "vs_primary": [0.021, -0.014, 0.062], "ranks_above": []}
+{
+ "best_new": {
+  "members": [
+   "m40",
+   "j09",
+   "caption"
+  ],
+  "point_choice": "m40",
+  "draw_choice_share": {
+   "m40": 0.733,
+   "j09": 0.1685,
+   "caption": 0.0985
+  },
+  "vs_B3_behaviour": {
+   "delta": 0.035056028457996546,
+   "interval": [
+    0.005741223694675401,
+    0.1016785218150005
+   ],
+   "p_one_sided": 0.0105
+  },
+  "vs_m23": {
+   "delta": -0.021935055007685084,
+   "interval": [
+    -0.06922248263428943,
+    0.042034384019223485
+   ],
+   "p_one_sided": 0.6935
+  }
+ }
+}
+
+real	0m34.466s
+user	0m28.500s
+sys	0m0.481s

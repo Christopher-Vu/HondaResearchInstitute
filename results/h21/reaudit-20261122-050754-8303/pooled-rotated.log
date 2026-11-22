@@ -1,0 +1,41 @@
+{"units": {"simlingo:F2D_Animals": 12, "simlingo:F2D_BadParking": 12, "simlingo:F2D_CustomObstacles": 28, "simlingo:F2D_FullyBlocked": 11, "simlingo:F2D_PedestriansOnRoad": 9, "simlingo:F2D_RightConstruction": 8, "twin:F2D_Animals": 12, "twin:F2D_BadParking": 12, "twin:F2D_CustomObstacles": 28, "twin:F2D_FullyBlocked": 11, "twin:F2D_PedestriansOnRoad": 9, "twin:F2D_RightConstruction": 8}, "routes": 1186, "pairs": 100}
+{"B3_behaviour": [0.133, 0.166], "vs_primary": null, "ranks_above": []}
+{"m23": [0.19, 0.238], "vs_primary": [0.057, -0.004, 0.135], "ranks_above": []}
+{"m40": [0.168, 0.224], "vs_primary": [0.035, -0.002, 0.102], "ranks_above": []}
+{"j09": [0.133, 0.165], "vs_primary": [0.0, -0.039, 0.059], "ranks_above": []}
+{"caption": [0.154, 0.196], "vs_primary": [0.021, -0.011, 0.059], "ranks_above": []}
+{
+ "best_new": {
+  "members": [
+   "m40",
+   "j09",
+   "caption"
+  ],
+  "point_choice": "m40",
+  "draw_choice_share": {
+   "m40": 0.734,
+   "j09": 0.1545,
+   "caption": 0.1115
+  },
+  "vs_B3_behaviour": {
+   "delta": 0.035056028457996546,
+   "interval": [
+    0.006519598346034267,
+    0.1016785218150004
+   ],
+   "p_one_sided": 0.009
+  },
+  "vs_m23": {
+   "delta": -0.021935055007685084,
+   "interval": [
+    -0.06712652486584873,
+    0.04203438401922346
+   ],
+   "p_one_sided": 0.692
+  }
+ }
+}
+
+real	0m56.544s
+user	0m48.945s
+sys	0m0.654s
