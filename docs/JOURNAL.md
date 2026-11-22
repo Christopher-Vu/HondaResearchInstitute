@@ -5,7 +5,55 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
-## 2026-11-21 — Laptop round: paper fact checks landed (orchestrator)
+## 2026-11-22 — Interim UniAD read: the track queries find UniAD's gaps better than its behaviour
+
+UniAD is the only model whose outcomes were blind when the views pre-registration (`docs/prereg-views.md`, tag
+`views-prereg-v1`) was tagged. The prereg fixed an interim read for Sat 09:00, but it had not run by Sunday morning.
+Chris approved running it late, on only the routes driven by Saturday 09:00, by the file time of each route's
+result. Before any UniAD outcome was read, his rulings went into the prereg's record after the tag:
+- SimLingo's image row uses the 512 image tokens at layer 10.
+- TF++'s query row uses all decoder join tokens. In TF++'s cache those equal the last join call exactly, so this
+  changes nothing.
+
+The read script was fixed first, per jerry-agent's audit on #9 (commit 1be49a1):
+- every pair of rows now gets a paired interval, which gives the partial order of the decision rule;
+- the "best new view" is re-selected in every bootstrap draw;
+- a silent stop is gone;
+- the caption row is scored by its own script, `f2d-unpooled/uniad_caption.sh`.
+
+It ran clean on the dev screen (seed 24, never evidence) before the blind run.
+
+What was found (measured; `hri-dev/results/savio/f2d-views/uniad-test-interim-20261122-0332/`):
+- **Coverage:** 872 of 1,200 routes, 401 of 600 twin pairs complete, 552 failing routes, all with frames.
+- **Units:** the rule admits FullyBlocked, PedestriansOnRoad, RightConstruction and Wall. The primary units drop Wall.
+- **UniAD alone, primary units**, rank-averaged best match:
+
+  | Row | Score | Minus B3-behaviour |
+  |---|---|---|
+  | `query-mean` (track queries) | 0.208 | +0.169 [0.047, 0.206] |
+  | `caption` | 0.076 | +0.038 [0.005, 0.081] |
+  | B3-infraction | 0.060 | +0.021 [0.003, 0.047] |
+  | `img-mean` (BEV grid) | 0.112 | +0.073 [-0.019, 0.123], a tie |
+  | m23 | 0.037 | -0.002, a tie |
+  | B3-behaviour | 0.039 | |
+
+  - `query-mean` ranks above every rival and above the caption row (+0.131 [0.033, 0.174]).
+  - Re-selected per draw, the best new view is `query-mean` in 96% of draws, at +0.169 [0.075, 0.206] against
+    B3-behaviour.
+  - Most of its lead is PedestriansOnRoad. One of its axes is exactly that unit's 14 failing routes (Jaccard 1.0).
+    The other two units score 0.081 and 0.125, against B3-behaviour's 0.041 and 0.020.
+- **Pooled with SimLingo and TF++, primary units, without the caption row:** `query-mean` +0.035 [0.001, 0.061]
+  against B3-behaviour, and it ties on all rule units. The pooled caption row waits for TF++'s captions.
+
+Captioning ran on the Batch API (`f2d-views-caption/protocol.md`, UniAD section):
+- 552 descriptions plus 6 grouping runs, about $6.30.
+- Two grouping runs hit the script's 16,000-token cap and were resent at 32,000.
+
+Also done tonight:
+- 44 UniAD routes with no valid attempt were resubmitted (41693739–41), excluding the slow node n0264.
+- The TF++ re-drives moved from the A5000 queue (expected start Mon–Tue) to the A40s.
+
+Left: the final read on the full pool, and TF++'s caption row and the pooled caption row.
 
 Both fact-check workers from the previous round were landed (`186e566`, `ae3e7d6`). They compared each sentence of
 `methods.tex`, `fig-pipeline.tex`, `limitations.tex` and `appendix-tries.tex` with the file it cites. Measured: 164 of

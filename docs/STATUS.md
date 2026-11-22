@@ -35,8 +35,10 @@ Last updated: 2026-11-22 ~04:00 (interim UniAD read: track queries above B3-beha
     B3-behaviour there.
   - **TF++ query site:** all join tokens and the last join call are identical in TF++'s cache (max difference 0), so
     that ruling changes nothing.
+  - **Caption row, UniAD alone, primary units:** 0.076, +0.038 [0.005, 0.081] against B3-behaviour, so above the fleet;
+    `query-mean` is above it (+0.131 [0.033, 0.174]). One `query-mean` axis is exactly PedestriansOnRoad's 14 failing
+    routes, which carries most of its lead (flag for Chris).
 - **Running:**
-  - UniAD caption row for the interim (Batch API, 552 routes);
   - UniAD seeds 104 and 105 finishing, plus 44 resubmitted routes (41693739–41, excluding n0264);
   - TF++ re-drives moved to the A40s (2026-11-22 03:20); the export follows by dependency.
 
