@@ -68,6 +68,29 @@ Also done tonight:
 
 Left: the final read on the full pool, and TF++'s caption row and the pooled caption row.
 
+**Later the same morning: TF++'s caption row and the pooled caption row.**
+- **Re-audit:** jerry-agent's re-audit of the fixed read (`results/h21/reaudit-20261122-050754-8303/report.md`) led to
+  more fixes (commit 3e19141):
+  - The pooled caption score is now each model's median over its own grouping runs. Run numbers carry no pairing
+    across models. This reading is recorded in the prereg for Chris to confirm.
+  - The alternative-site rows are now reported only.
+  - A failed scoring job now stops the script.
+- **TF++ frames:** `export_tfpp.sh` takes the frames from the re-drive's saved model inputs. 172 of 257 re-driven
+  pairs reproduced their first drive, which gives 230 failing routes with frames. The marker check is clean.
+- **TF++ alone** (outcomes already read): the caption row is +0.103 [0.033, 0.143] against B3-behaviour on the
+  primary units. The activation views `img-mean` and `query-mean` tie or fall below the fleet.
+- **Pooled interim** on the caption routes:
+  - The caption row is +0.062 [0.029, 0.090] against B3-behaviour. It ranks above every row except `query-mean`,
+    which it ties.
+  - A first pooled run had TF++ unrestricted, because `view_score.py` kept only the last `--restrict`. It was voided,
+    fixed and rerun.
+- **Two queue slips, now fixed** (WHAT_BROKE, 2026-11-22):
+  - An `scontrol` exclusion update had dropped the standing bad-node list.
+  - The moved TF++ jobs kept a CPU count the A40 QoS refuses.
+
+So far the picture is that captions of the camera frames beat the fleet's behaviour signal on all three models,
+and on UniAD the track queries do too, by more. All of these are interim. UniAD's final read is still to come.
+
 Both fact-check workers from the previous round were landed (`186e566`, `ae3e7d6`). They compared each sentence of
 `methods.tex`, `fig-pipeline.tex`, `limitations.tex` and `appendix-tries.tex` with the file it cites. Measured: 164 of
 183 claims in methods and the figure were supported, and 192 of 201 in limitations and the appendix. The wrong ones

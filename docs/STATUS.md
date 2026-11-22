@@ -6,13 +6,16 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-22 ~04:00 (interim UniAD read: track queries above B3-behaviour on UniAD alone)
+Last updated: 2026-11-22 ~07:45 (interim read and all three caption rows scored; final UniAD read waits on ~34 tasks)
 
 ## Needs Chris (each ~8 h Savio window)
 
 - [x] `views-prereg-v1` tagged 2026-11-19 (69668f5) with Chris's approval: 219 tries, caption row on all three models.
 - [ ] **Every ~12 h:** `ssh savio` (PIN + code, then exit). Keep the laptop awake with Claude open.
-- [ ] **Sat 2026-11-21 ~10:00:** review the interim UniAD read. **Mon Nov 23:** the presentable comparison.
+- [ ] **Review the interim UniAD read** (below), and confirm the pooled-caption reading recorded in the prereg on
+  2026-11-22: each model's median over its own runs.
+- [ ] **Look at `query-mean`'s PedestriansOnRoad axis:** one axis is exactly that unit's 14 failing routes.
+- [ ] **Mon Nov 23:** the presentable comparison.
 
 ---
 
@@ -38,9 +41,20 @@ Last updated: 2026-11-22 ~04:00 (interim UniAD read: track queries above B3-beha
   - **Caption row, UniAD alone, primary units:** 0.076, +0.038 [0.005, 0.081] against B3-behaviour, so above the fleet;
     `query-mean` is above it (+0.131 [0.033, 0.174]). One `query-mean` axis is exactly PedestriansOnRoad's 14 failing
     routes, which carries most of its lead (flag for Chris).
+- **TF++ caption row** (outcomes already read; `hri-tfpp/results/savio/f2d-views/caption-d/`):
+  - Coverage: 172 of 257 re-driven pairs reproduced (route match 423/524). There are 230 failing routes with frames.
+  - TF++ alone, primary units: 0.169 against B3-behaviour 0.066, +0.103 [0.033, 0.143]. It ranks above every row
+    except B3-infraction, which it ties.
+  - Named units: +0.193 [0.023, 0.337].
+- **Pooled interim with the caption row**, on the caption routes (`.../uniad-test-interim-20261122-0332/caption/`),
+  primary units:
+  - `caption` 0.152 against B3-behaviour 0.089, +0.062 [0.029, 0.090]. It ranks above B3-behaviour, B3-infraction,
+    B7, `img-mean`, m23 and m40, and ties `query-mean`, which is +0.036 [-0.000, 0.064] there.
+  - All rule units: `caption` +0.064 [0.030, 0.098]. Named units: +0.118 [0.026, 0.208].
 - **Running:**
-  - UniAD seeds 104 and 105 finishing, plus 44 resubmitted routes (41693739–41, excluding n0264);
-  - TF++ re-drives moved to the A40s (2026-11-22 03:20); the export follows by dependency.
+  - The rest of UniAD for the final read: about 34 tasks at 6–12 A40s, so the final read lands around this evening.
+  - 44 resubmitted routes (41693739–41, excluding n0264).
+  - The one-route TF++ rerun (s103b), and the other thread's TF++ unpooled replay (41555298/9).
 
 **2026-11-19 ~14:30: `views-prereg-v1` tagged.**
 - The tag fixes the rows (img-mean, query-mean, caption, rivals, m23/m40; vit-mean post hoc), the primary units (rule
