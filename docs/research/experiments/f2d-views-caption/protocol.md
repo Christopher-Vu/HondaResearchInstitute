@@ -145,3 +145,15 @@ states it}. Use no other tool. Then reply with just "done".
   - One frame shows the ImageOnObject billboard of a pedestrian, and one shows construction cones. Both are scenario
     objects, not markers.
   - No flag.
+- **Export** (job 41701155, 2026-11-22 ~07:15, all re-drives done except the one-route s103b rerun):
+  - 524 of 534 re-driven routes have a valid attempt.
+  - Match rate: routes 423/524 (0.81), pairs 172/257 (0.67), with 10 pairs pending.
+  - 230 failing routes exported, and none without frames. 903 frames in all, since some routes have fewer than 4.
+  - The kept routes are 1,071: every first-drive passing route plus the 344 routes of reproducing pairs.
+- **Describe:** 230 of 230, all `claude-opus-5-5`, 0 failed, about $1.44.
+- **Group:** 6 runs at the 32,000 cap, 10 modes each, 0 invented, 0 repeats, 0 unassigned, about $0.84.
+- **Flags:** 45 of 60 mode names match the synonym list.
+- **Scoring:** `score_tfpp.sh` (job 41701327) for TF++ alone, and `uniad_caption.sh` with this folder (job 41701536)
+  for the pooled interim.
+  - The first pooled run (41701329) is void: `view_score.py` kept only the last `--restrict`, so TF++ was not
+    restricted. It was fixed (repeated `--restrict` now adds) and rerun.
