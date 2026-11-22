@@ -127,3 +127,21 @@ states it}. Use no other tool. Then reply with just "done".
     id list. The cap is the script's, not H25's, so grouping's cap was raised to 32,000 (`api.py` `GROUP_TOKENS`),
     and runs 2 and 4 were sent again with the same input.
 - **Scoring:** `docs/research/experiments/f2d-unpooled/uniad_caption.sh` on the read's folder.
+
+## TF++ (pool d)
+
+- **Export:** `export_tfpp.sh` from the hri-tfpp clone, a CPU job. It takes each re-driven route's chosen attempt,
+  runs `match_rate.py` against the first drive, and runs `f2d-unpooled/tfpp_frames.py` on the failing routes of
+  reproducing pairs. The frames are the `rgb` argument of the saved forward calls (1024×384), every 2nd capture,
+  so 1 s apart.
+- **Trial run** (job 41699093, 2026-11-22 ~06:40, before the s103 and s104 re-drives finished; frames re-exported
+  later):
+  - 506 of 528 re-driven routes have a valid attempt.
+  - Match rate: routes 411/506 (0.81), pairs 163/239 (0.68), with 28 pairs pending.
+  - 219 failing routes exported, and none without frames.
+- **Marker check** (2026-11-22, by eye, `results/savio/f2d-views/markers-tfpp.png`):
+  - The sheet has 29 frames from 15 types, at step 200 of 2 routes per type.
+  - None shows a route line, waypoint, trigger box or debug text.
+  - One frame shows the ImageOnObject billboard of a pedestrian, and one shows construction cones. Both are scenario
+    objects, not markers.
+  - No flag.
