@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ re-drive moved to A5000; UniAD slipping)
+Last updated: 2026-11-22 ~04:00 (interim UniAD read: track queries above B3-behaviour on UniAD alone)
 
 ## Needs Chris (each ~8 h Savio window)
 
@@ -17,6 +17,28 @@ Last updated: 2026-11-19 ~12:30 (unpooled SimLingo result read: "neither"; TF++ 
 ---
 
 ## Current position
+
+**2026-11-22 ~04:00: interim UniAD read done (run late, Sat 09:00 cutoff); caption row and final read in progress.**
+- **Interim read** (job 41693917, `hri-dev/results/savio/f2d-views/uniad-test-interim-20261122-0332/`), measured:
+  - **Coverage:** 872 of 1,200 routes driven by Sat 09:00, 401 of 600 twin pairs complete, 552 failing, all with frames.
+  - **Units:** the rule admits FullyBlocked, PedestriansOnRoad, RightConstruction and Wall. The named-gap class is
+    empty, so there is no named-units score.
+  - **UniAD alone, primary units** (rule units without Wall), rank-averaged best match:
+    - `query-mean` (track queries) 0.208 against B3-behaviour 0.039: +0.169 [0.047, 0.206]. It ranks above every
+      rival.
+    - The best new view, re-selected in every draw, is `query-mean` in 96% of draws: +0.169 [0.075, 0.206] against
+      B3-behaviour.
+    - `img-mean` (BEV grid) ties at +0.073 [-0.019, 0.123], B3-infraction is +0.021 [0.003, 0.047], and m23 ties
+      (-0.002).
+  - **Pooled, primary units:** `query-mean` +0.035 [0.001, 0.061] against B3-behaviour, and +0.035 [0.002, 0.061]
+    when selected per draw. On all rule units it ties (+0.021 [-0.008, 0.044]), and m23 and m40 are above
+    B3-behaviour there.
+  - **TF++ query site:** all join tokens and the last join call are identical in TF++'s cache (max difference 0), so
+    that ruling changes nothing.
+- **Running:**
+  - UniAD caption row for the interim (Batch API, 552 routes);
+  - UniAD seeds 104 and 105 finishing, plus 44 resubmitted routes (41693739–41, excluding n0264);
+  - TF++ re-drives moved to the A40s (2026-11-22 03:20); the export follows by dependency.
 
 **2026-11-19 ~14:30: `views-prereg-v1` tagged.**
 - The tag fixes the rows (img-mean, query-mean, caption, rivals, m23/m40; vit-mean post hoc), the primary units (rule
