@@ -3,6 +3,8 @@
 #   CMD='bash docs/research/experiments/f2d-unpooled/uniad_read.sh test interim' \
 #     POLICY_VENV_LOCAL_TAR=/global/scratch/users/imhaohao/policy-venv.tar \
 #     bash scripts/submit.sh cpu_node --export=ALL --time=0-06:00:00 docs/research/experiments/f2d-dev-simlingo/cpu.sbatch
+# CUTOFF="2026-11-21 09:00 PST" keeps only routes whose chosen attempt's result.json was written by then (the late
+# interim, prereg-views.md record after the tag). The caption row is scored afterwards by uniad_caption.sh.
 # MODE dev runs every stage on UniAD's seed-24 screen (dev, never evidence); MODE test is the blind read and refuses
 # to start unless tag views-prereg-v1 exists (git fetch --tags first). READ is interim or final (a label only).
 # 1. merge: score_routes.py over the job dirs in job order; each route keeps its first attempt with a valid driving
@@ -32,7 +34,7 @@ test)
   git rev-parse -q --verify refs/tags/views-prereg-v1 >/dev/null || { echo "views-prereg-v1 is not tagged: no UniAD test read"; exit 1; }
   CONFIG=configs/rollout/f2d-test-uniad-s101.yaml; XML=configs/rollout/f2d-test-simlingo.xml
   # first arrays s101..s106, reruns s101..s105 and s106, 3-route reruns s101..s106
-  JOBS=${JOBS:-"41434964 41434967 41434969 41434973 41434975 41434977 41523041 41523042 41523043 41523044 41523045 41555288 41580713 41580714 41580715 41580716 41580717 41580718"}
+  JOBS=${JOBS:-"41434964 41434967 41434969 41434973 41434975 41434977 41523041 41523042 41523043 41523044 41523045 41555288 41580713 41580714 41580715 41580716 41580717 41580718 41693739 41693740 41693741"}
   O=$V/uniad-test-$READ-$(date +%Y%m%d-%H%M); POOL=e; TAG="UniAD test pool, $READ read at views-prereg-v1 (blind)" ;;
 *) echo "MODE is dev or test"; exit 2 ;;
 esac
@@ -40,9 +42,22 @@ mkdir -p $O/rows $V/simlingo $V/tfpp
 git rev-parse HEAD > $O/commit.txt
 
 # 1. merge
-DIRS=$(for j in $JOBS; do [ -d results/savio/$j ] && echo results/savio/$j; done)
+DIRS=$(for j in $JOBS; do if [ -d results/savio/$j ]; then echo results/savio/$j; fi; done)
+[ -n "$DIRS" ] || { echo "no job folder of JOBS exists"; exit 1; }
 python adapters/simlingo/score_routes.py $CONFIG $DIRS --output $O/merge > $O/merge.log; tail -1 $O/merge.log
 R=$O/merge/routes.jsonl
+if [ -n "${CUTOFF:-}" ]; then
+  python - $R "$(date -d "$CUTOFF" +%s)" <<'EOF' | tee $O/cutoff.txt
+import json, sys
+from pathlib import Path
+path, cut = Path(sys.argv[1]), float(sys.argv[2])
+rows = [json.loads(l) for l in path.read_text().splitlines()]
+keep = [r for r in rows if Path(f"results/savio/{r['job']}/route-{r['id']}/result.json").stat().st_mtime <= cut]
+path.write_text("".join(json.dumps(r) + "\n" for r in keep))
+print(json.dumps({"cutoff_epoch": cut, "routes_merged": len(rows), "routes_kept": len(keep)}))
+EOF
+  echo "CUTOFF $CUTOFF" >> $O/cutoff.txt
+fi
 python - "$CONFIG" "$O" <<'EOF'
 import json, sys, yaml
 from pathlib import Path
@@ -120,14 +135,18 @@ python $D/b3_infractions.py $C --output $T/b3_infraction.json
 python $D/train_saes.py $O/shards --layer $B7L --ks 18 --seeds 0 --output $T/b7/sae
 python -m discovery.emit_directives $O/shards --layer $B7L --sae $T/b7/sae/L${B7L}_k18_s0 --manifests $MANIFEST \
   --primary-dictionary L${B7L}_k18_s0 --m1-min-support 20 --output $T/b7/directives-ms20
-# SimLingo and TF++ (outcomes already read): image site llm10 (SIMLINGO_IMG=vit for the ViT bridge), query site dq at
-# layer 10; TF++ image site the fused backbone grid (vision_bridge), query site the last decoder join layer.
+# SimLingo and TF++ (outcomes already read), by Chris's rulings of 2026-11-22 (prereg-views.md, record after the tag):
+# SimLingo's image site is llm10, the 512 image tokens at layer 10, which is the unpooled experiment's llm10-mean row
+# (m03 on the 25-frame, 12.5 s approach window); its query site is dq at layer 10. TF++'s image site is the fused
+# backbone grid (vision_bridge) and its query site all decoder join tokens at the last layer (all_tokens). The other
+# reading of each (SimLingo's whole-sequence layer-10 mean, TF++'s last join call) is a reported-only pooled row.
 SC=$REF/f2d-dev/round2/simlingo/cache-w50.npz; TC=$REF/f2d-heldout/tfpp/cache-w50.npz
-SIMG=$([ "${SIMLINGO_IMG:-llm10}" = vit ] && echo "--site vision_bridge" || echo "--site all_tokens --layer 10")
-[ -f $V/simlingo/img-mean.json ] || python $D/cache_methods.py $SC --method m03 $SIMG --name img-mean --output $V/simlingo/img-mean.json
+SIMG=$REF/f2d-unpooled/simlingo-score/rows/llm10-mean.json
+[ -f $V/simlingo/img-mean-allseq.json ] || python $D/cache_methods.py $SC --method m03 --site all_tokens --layer 10 --name img-mean-allseq --output $V/simlingo/img-mean-allseq.json
 [ -f $V/simlingo/query-mean.json ] || python $D/cache_methods.py $SC --method m03 --site driving_queries --layer 10 --name query-mean --output $V/simlingo/query-mean.json
 [ -f $V/tfpp/img-mean.json ] || python $D/cache_methods.py $TC --method m03 --site vision_bridge --name img-mean --output $V/tfpp/img-mean.json
-[ -f $V/tfpp/query-mean.json ] || python $D/cache_methods.py $TC --method m03 --site driving_queries --layer-fraction 1 --name query-mean --output $V/tfpp/query-mean.json
+[ -f $V/tfpp/query-mean-alljoin.json ] || python $D/cache_methods.py $TC --method m03 --site all_tokens --layer-fraction 1 --name query-mean --output $V/tfpp/query-mean-alljoin.json
+[ -f $V/tfpp/query-mean-lastjoin.json ] || python $D/cache_methods.py $TC --method m03 --site driving_queries --layer-fraction 1 --name query-mean-lastjoin --output $V/tfpp/query-mean-lastjoin.json
 
 # 4. units and scores
 SR=$REF/f2d-test-simlingo/routes.jsonl; TR=$REF/f2d-test-tfpp/routes.jsonl
@@ -146,9 +165,14 @@ ROWS="$(row B3_behaviour $S/sprint/a3/b3_behaviour.json $H/b3_behaviour.json $T/
  $(row B7_pool $S/v1/plain/directives-ms20:B7_pool:L10_k64_s0 $H/b7/directives-ms20:B7_pool:L2_k18_s0 $T/b7/directives-ms20:B7_pool:L${B7L}_k18_s0)
  $(row m23 $S/sprint/batch4/m23.json $H/m23.json $T/m23.json)
  $(row m40 $S/sprint/batch4/pools/m40.json $H/m40.json $T/m40.json)
- $(row img-mean $V/simlingo/img-mean.json $V/tfpp/img-mean.json $T/img-mean.json)
- $(row query-mean $V/simlingo/query-mean.json $V/tfpp/query-mean.json $T/query-mean.json)"
+ $(row img-mean $SIMG $V/tfpp/img-mean.json $T/img-mean.json)
+ $(row query-mean $V/simlingo/query-mean.json $V/tfpp/query-mean-alljoin.json $T/query-mean.json)"
 ROWS_U=$(echo $ROWS | sed -E 's/ (simlingo|tfpp)=[^ ]+//g')
+# reported only, pooled: the other reading of each ruled site; UniAD's rows are the same in both
+ALT="$(row img-mean-allseq $V/simlingo/img-mean-allseq.json $V/tfpp/img-mean.json $T/img-mean.json)
+ $(row query-mean-lastjoin $V/simlingo/query-mean.json $V/tfpp/query-mean-lastjoin.json $T/query-mean.json)"
+# the best new view, re-selected in every draw (the caption row joins it in uniad_caption.sh)
+SEL="--select best_new img-mean query-mean --select-vs B3_behaviour m23"
 # the pooled manifest: the test pool's, plus the screen's entries on a dev run (ids are disjoint)
 python - $TEST_MANIFEST $MANIFEST $O/manifest-pooled.json <<'EOF'
 import json, sys
@@ -160,16 +184,25 @@ score() {  # name label units models...
   local name=$1 label=$2 units=$3; shift 3
   case "$name:$units" in uniad-*:*uniad:*|pooled-*:?*) ;; *) echo "$name: no unit, not scored" | tee $O/$name.log; return ;; esac
   python $E/view_score.py --manifest $O/manifest-pooled.json "$@" --gaps $units --primary-rival B3_behaviour \
-    --label "$label" --output $O/$name.json > $O/$name.log 2>&1 &
+    $SEL --label "$label" --output $O/$name.json > $O/$name.log 2>&1 &
 }
 U="--model uniad $R"; P="--model simlingo $SR --model tfpp $TR $U"
+# what uniad_caption.sh needs to rescore every row beside the caption row, on the same units
+cat > $O/score.env <<EOF
+R='$R'; SR='$SR'; TR='$TR'; TAG='$TAG'
+ROWS_U='$ROWS_U'
+ROWS_P='$ROWS $ALT'
+UNITS_U_NOWALL='$(echo $RULE_U | nowall)'; UNITS_U_RULE='$RULE_U'; UNITS_U_NAMED='$NAMED_U'
+UNITS_P_NOWALL='$(echo $RULE_S $RULE_T $RULE_U | nowall)'; UNITS_P_RULE='$RULE_S $RULE_T $RULE_U'
+UNITS_P_NAMED='$NAMED_S $NAMED_T $NAMED_U'
+EOF
 score uniad-rule-nowall "$TAG; UniAD alone, rule units without Wall (primary)" "$(echo $RULE_U | nowall)" $U $ROWS_U
 score uniad-rule "$TAG; UniAD alone, all rule units" "$RULE_U" $U $ROWS_U
 score uniad-named "$TAG; UniAD alone, named gaps" "$NAMED_U" $U $ROWS_U
 LBL="$TAG; pooled with SimLingo and TF++ (their outcomes already read)"
-score pooled-rule-nowall "$LBL, rule units without Wall (primary)" "$(echo $RULE_S $RULE_T $RULE_U | nowall)" $P $ROWS
-score pooled-rule "$LBL, all rule units" "$RULE_S $RULE_T $RULE_U" $P $ROWS
-score pooled-named "$LBL, named gaps" "$NAMED_S $NAMED_T $NAMED_U" $P $ROWS
+score pooled-rule-nowall "$LBL, rule units without Wall (primary)" "$(echo $RULE_S $RULE_T $RULE_U | nowall)" $P $ROWS $ALT
+score pooled-rule "$LBL, all rule units" "$RULE_S $RULE_T $RULE_U" $P $ROWS $ALT
+score pooled-named "$LBL, named gaps" "$NAMED_S $NAMED_T $NAMED_U" $P $ROWS $ALT
 wait
 cat $O/coverage.json $O/sites.txt
 tail -n +1 $O/units-uniad.txt $O/*.log

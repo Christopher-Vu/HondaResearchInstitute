@@ -14,6 +14,8 @@ unit (model, gap) weighs equally. The bootstrap resamples Fail2Drive pairs, ever
 --restrict keeps only the listed routes of a model (coverage-limited rows); gaps and the failing pool shrink with it.
 --select NAME ROW[:OWN] ...: in every draw the member with the highest rank-averaged score is taken, and the
 contrasts are that member minus its OWN comparator (if given) and minus each --select-vs row, on the same draw.
+Every pair of rows gets a paired A-minus-B interval on the same draws, and `ranks_above` lists, per row, the rows it
+ranks above (rabm interval above 0): the partial order of the decision rule.
 A row spec `runs:AXES.json` (to_axes.py's output, several runs) scores as the median over its runs, within every draw
 (the caption row, prereg-views.md); run r of every model is taken together.
 """
@@ -136,6 +138,14 @@ def main() -> None:
             r = col[args.primary_rival]
             out_rows[n]["vs_primary"] = {mt: interval(draws[mt][:, col[n]] - draws[mt][:, r],
                                                       float(point[mt][col[n]] - point[mt][r])) for mt in draws}
+    # every row minus every other row on the same draws: the partial order of the decision rule (prereg-views.md)
+    pairwise = {f"{a} - {b}": {mt: interval(draws[mt][:, col[a]] - draws[mt][:, col[b]],
+                                            float(point[mt][col[a]] - point[mt][col[b]])) for mt in draws}
+                for i, a in enumerate(names) for b in names[i + 1:]}
+    above = {n: sorted(m for m in names if m != n and
+                       (pairwise.get(f"{n} - {m}", {}).get("rabm", {}).get("interval", [0])[0] > 0 or
+                        pairwise.get(f"{m} - {n}", {}).get("rabm", {}).get("interval", [0, 0])[1] < 0))
+             for n in names}
     selections = {}
     for entry in args.select:
         members = [(m.split(":")[0], m.split(":")[1] if ":" in m else None) for m in entry[1:]]
@@ -156,12 +166,15 @@ def main() -> None:
         selections[entry[0]] = result
     report = {"label": args.label, "models": models, "routes": len(pool), "pairs": len(pairs),
               "units": {u: len(g) for u, g in gaps.items()}, "failing": {m: len(f) for m, f in failing.items()},
-              "rows": out_rows, "selections": selections}
+              "rows": out_rows, "pairwise": pairwise, "ranks_above": above, "selections": selections}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=1) + "\n")
     print(json.dumps({"units": report["units"], "routes": len(pool), "pairs": len(pairs)}))
     for n in names:
-        print(json.dumps({n: [round(out_rows[n]["rabm"], 3), round(out_rows[n]["best_top10"], 3)]}))
+        vs = out_rows[n].get("vs_primary", {}).get("rabm")
+        print(json.dumps({n: [round(out_rows[n]["rabm"], 3), round(out_rows[n]["best_top10"], 3)],
+                          "vs_primary": vs and [round(vs["delta"], 3)] + [round(x, 3) for x in vs["interval"]],
+                          "ranks_above": above[n]}))
     print(json.dumps(selections, indent=1))
 
 
