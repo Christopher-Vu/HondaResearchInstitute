@@ -59,7 +59,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--model", nargs=2, action="append", required=True, metavar=("NAME", "ROUTES"))
-    parser.add_argument("--restrict", nargs="*", default=[], metavar="MODEL=IDS")
+    parser.add_argument("--restrict", nargs="*", action="extend", default=[], metavar="MODEL=IDS")  # repeatable
     parser.add_argument("--gaps", nargs="+", required=True, metavar="MODEL:TYPE")
     parser.add_argument("--row", nargs="+", action="append", required=True, metavar="NAME MODEL=SPEC")
     parser.add_argument("--primary-rival", default="B3_behaviour")
