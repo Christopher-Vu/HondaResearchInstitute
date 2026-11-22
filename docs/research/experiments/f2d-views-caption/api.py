@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """The caption row on the Messages Batch API (docs/prereg-views.md, the record after the tag).
 
-    python api.py describe FRAMES OUT POOL      # one request per route folder FRAMES/POOL/<id>/f*.png
+    python api.py describe FRAMES OUT POOL [KIND]  # one request per route folder FRAMES/POOL/<id>/f*.png; with KIND
+                                                   # (e.g. describe-final) only folders with no OUT/POOL/<id>.json yet
     python api.py group OUT POOL                # 6 requests, one per OUT/POOL/group-input-<r>.txt (agents.py inputs)
     python api.py collect OUT POOL KIND         # waits for KIND's batches, writes OUT/POOL/<id>.json or group-<r>.json
 
@@ -67,11 +68,13 @@ def submit(client, requests: list, out: Path, pool: str, kind: str) -> None:
     (out / f"{pool}-records" / f"batches-{kind}.txt").write_text("\n".join(ids) + "\n")
 
 
-def describe(frames: Path, out: Path, pool: str) -> None:
+def describe(frames: Path, out: Path, pool: str, kind: str = "describe") -> None:
     (out / pool).mkdir(parents=True, exist_ok=True)
     (out / f"{pool}-records").mkdir(exist_ok=True)
     requests, record = [], []
     for folder in sorted(p for p in (frames / pool).iterdir() if p.is_dir()):
+        if kind != "describe" and (out / pool / f"{folder.name}.json").exists():
+            continue  # described at an earlier read (prereg: UniAD's descriptions are made once)
         pngs = sorted(folder.glob("f*.png"), key=lambda p: int(p.stem[1:]))
         data = [p.read_bytes() for p in pngs]
         content = [{"type": "image", "source": {"type": "base64", "media_type": "image/png",
@@ -80,9 +83,10 @@ def describe(frames: Path, out: Path, pool: str) -> None:
         requests.append((folder.name, params(content), sum(len(d) for d in data) * 4 // 3 + 4000))
         record.append({"id": folder.name, "frames": [{"file": p.name, "sha256": hashlib.sha256(d).hexdigest()}
                                                     for p, d in zip(pngs, data)]})
-    (out / f"{pool}-records" / "requests-describe.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "max_tokens": 16000, "prompt": DESCRIBE,
+    (out / f"{pool}-records" / f"requests-{kind}.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "max_tokens": 16000, "prompt": DESCRIBE,
                                                                    "routes": record}, indent=1) + "\n")
-    submit(anthropic.Anthropic(), requests, out, pool, "describe")
+    print(f"{len(requests)} routes to describe")
+    submit(anthropic.Anthropic(), requests, out, pool, kind)
 
 
 def group(out: Path, pool: str) -> None:
@@ -143,7 +147,7 @@ if __name__ == "__main__":
         os.environ["ANTHROPIC_API_KEY"] = key.read_text().strip()
     cmd, *rest = sys.argv[1:]
     if cmd == "describe":
-        describe(Path(rest[0]), Path(rest[1]), rest[2])
+        describe(Path(rest[0]), Path(rest[1]), rest[2], *rest[3:4])
     elif cmd == "group":
         group(Path(rest[0]), rest[1])
     else:
