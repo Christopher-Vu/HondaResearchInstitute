@@ -5,6 +5,19 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-22 — Second re-audit of the UniAD read: a dropped route restriction in the pooled caption row
+
+A second laptop worker re-audited Chris's fixed UniAD read independently of the first
+(`results/h21/reaudit-20261122-050757-21391/report.md`, merged in f50db6d). Chris had already answered the first
+re-audit's findings in 3e19141. One bug was still on main and was checked by hand: `view_score.py` declares
+`--restrict` so that a second use of the flag replaces the first, and `uniad_caption.sh` passes TF++'s restriction
+and then UniAD's. TF++ is therefore scored on all of its routes in the pooled caption row. On dev stand-in data its
+failing pool stays at 174 routes instead of 73 (measured, dev only). The UniAD-alone read is not affected. A
+heads-up went to Chris on #9 (issuecomment-7080063954) with the one-line fix; no script of his was edited and no
+UniAD file was read. The worker's test of the row ordering and the median over caption runs passes on main.
+
+---
+
 ## 2026-11-22 — Interim UniAD read: the track queries find UniAD's gaps better than its behaviour
 
 UniAD is the only model whose outcomes were blind when the views pre-registration (`docs/prereg-views.md`, tag
