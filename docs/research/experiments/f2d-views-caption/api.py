@@ -24,6 +24,7 @@ import anthropic
 
 MODEL = "claude-opus-5-5"
 EFFORT = "medium"  # the model's default, stated so it is recorded
+GROUP_TOKENS = 32000  # from 2026-11-22; describing keeps 16,000
 BATCH_BYTES = 180_000_000  # under the API's 256 MB per batch
 
 DESCRIBE = """You are looking at {n} frame(s) from the forward camera of a car driven by an AI in a driving simulator.
@@ -47,8 +48,8 @@ Answer with only a JSON object {{"modes": [{{"name": ..., "members": [ids]}}]}}.
 {lines}"""
 
 
-def params(content) -> dict:
-    return {"model": MODEL, "max_tokens": 16000, "thinking": {"type": "adaptive"},
+def params(content, max_tokens: int = 16000) -> dict:
+    return {"model": MODEL, "max_tokens": max_tokens, "thinking": {"type": "adaptive"},
             "output_config": {"effort": EFFORT}, "messages": [{"role": "user", "content": content}]}
 
 
@@ -89,7 +90,8 @@ def group(out: Path, pool: str) -> None:
     for r in range(6):
         text = (out / pool / f"group-input-{r}.txt").read_text(encoding="utf-8").strip()
         prompt = GROUP.format(k=len(text.splitlines()), lines=text)
-        requests.append((f"group-{r}", params([{"type": "text", "text": prompt}]), len(prompt) + 4000))
+        # a grouping answer lists every id, and with thinking it hit 16,000 tokens on UniAD's 552 routes
+        requests.append((f"group-{r}", params([{"type": "text", "text": prompt}], GROUP_TOKENS), len(prompt) + 4000))
         record.append({"run": r, "sha256": hashlib.sha256(text.encode()).hexdigest()})
     (out / f"{pool}-records" / "requests-group.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "prompt": GROUP,
                                                                 "runs": record}, indent=1) + "\n")

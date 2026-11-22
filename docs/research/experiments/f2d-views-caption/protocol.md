@@ -114,3 +114,16 @@ states it}. Use no other tool. Then reply with just "done".
 - No mode name matched the synonym list.
 - The audit found 4 frame reads and 0 breaches, and both agents reported `claude-opus-5-5`.
 - The outputs are in `C:/Users/CVuDev/caption-out/blank/`.
+
+## UniAD (pool e), interim read (2026-11-22)
+
+- **Frames** (`uniad_read.sh`, job 41693917): 552 failing routes of the 872 driven by Sat 09:00, each with 4 frames,
+  and none without frames.
+- **Describe:** 552 of 552 routes, all reported as `claude-opus-5-5`.
+  - One answer came back without JSON (`c6bef1e2489d`). Its identical request was sent once more and succeeded.
+  - Tokens: 818k in, 206k out, about $3.70 at batch prices.
+- **Group:** runs 0, 1, 3 and 5 finished (10, 9, 10 and 10 modes; 0 invented, 0 repeats, 0 unassigned), about $1.95.
+  - Runs 2 and 4 stopped at the 16,000-token cap. Thinking used most of it, and the answer was cut off inside the
+    id list. The cap is the script's, not H25's, so grouping's cap was raised to 32,000 (`api.py` `GROUP_TOKENS`),
+    and runs 2 and 4 were sent again with the same input.
+- **Scoring:** `docs/research/experiments/f2d-unpooled/uniad_caption.sh` on the read's folder.
