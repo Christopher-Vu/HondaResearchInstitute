@@ -17,7 +17,7 @@ contrasts are that member minus its OWN comparator (if given) and minus each --s
 Every pair of rows gets a paired A-minus-B interval on the same draws, and `ranks_above` lists, per row, the rows it
 ranks above (rabm interval above 0): the partial order of the decision rule.
 A row spec `runs:AXES.json` (to_axes.py's output, several runs) scores as the median over its runs, within every draw
-(the caption row, prereg-views.md); run r of every model is taken together.
+(the caption row, prereg-views.md): each model's median over its own runs, then the fixed mean over units.
 """
 from __future__ import annotations
 
@@ -65,6 +65,7 @@ def main() -> None:
     parser.add_argument("--primary-rival", default="B3_behaviour")
     parser.add_argument("--select", nargs="+", action="append", default=[], metavar="NAME ROW[:OWN]")
     parser.add_argument("--select-vs", nargs="*", default=[])
+    parser.add_argument("--reported-only", nargs="*", default=[], help="rows scored and listed but not ranked")
     parser.add_argument("--replicates", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--label", required=True)
@@ -111,8 +112,18 @@ def main() -> None:
         f = ranked if metric == "rabm" else sprint_score.best
         return float(np.mean([f(entry[u.split(":", 1)[0]], g, weight) for u, g in gaps.items()]))
 
+    by_model = {m: [(u, g) for u, g in gaps.items() if u.split(":", 1)[0] == m] for m in models}
+
     def score(name, metric, weight=None) -> float:
-        return float(np.median([score1(e, metric, weight) for e in run_rows[name]]))
+        """The fixed mean over units of each model's median over its own runs. Runs are independent per model, so
+        run r of one model is never paired with run r of another (2026-11-22, jerry-agent's re-audit N1)."""
+        f = ranked if metric == "rabm" else sprint_score.best
+        total = 0.0
+        for m, units in by_model.items():
+            if units:
+                per_run = [np.mean([f(run[m], g, weight) for _, g in units]) for run in run_rows[name]]
+                total += len(units) * float(np.median(per_run))
+        return total / len(gaps)
 
     for n, rr in run_rows.items():  # a multi-run row reports per unit from the run at its median (lower middle)
         if len(rr) > 1:
@@ -142,10 +153,11 @@ def main() -> None:
     pairwise = {f"{a} - {b}": {mt: interval(draws[mt][:, col[a]] - draws[mt][:, col[b]],
                                             float(point[mt][col[a]] - point[mt][col[b]])) for mt in draws}
                 for i, a in enumerate(names) for b in names[i + 1:]}
-    above = {n: sorted(m for m in names if m != n and
+    ranked_rows = [n for n in names if n not in args.reported_only]  # reported-only rows stay out of the order
+    above = {n: sorted(m for m in ranked_rows if m != n and
                        (pairwise.get(f"{n} - {m}", {}).get("rabm", {}).get("interval", [0])[0] > 0 or
                         pairwise.get(f"{m} - {n}", {}).get("rabm", {}).get("interval", [0, 0])[1] < 0))
-             for n in names}
+             for n in ranked_rows}
     selections = {}
     for entry in args.select:
         members = [(m.split(":")[0], m.split(":")[1] if ":" in m else None) for m in entry[1:]]
@@ -166,7 +178,10 @@ def main() -> None:
         selections[entry[0]] = result
     report = {"label": args.label, "models": models, "routes": len(pool), "pairs": len(pairs),
               "units": {u: len(g) for u, g in gaps.items()}, "failing": {m: len(f) for m, f in failing.items()},
-              "rows": out_rows, "pairwise": pairwise, "ranks_above": above, "selections": selections}
+              "rows": out_rows, "pairwise": pairwise, "ranks_above": above, "reported_only": args.reported_only,
+              "per_unit_note": "a multi-run row's per-unit numbers come from its lower-middle run, so they need not "
+                               "average to its score (the median within each model)",
+              "selections": selections}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=1) + "\n")
     print(json.dumps({"units": report["units"], "routes": len(pool), "pairs": len(pairs)}))
@@ -174,7 +189,7 @@ def main() -> None:
         vs = out_rows[n].get("vs_primary", {}).get("rabm")
         print(json.dumps({n: [round(out_rows[n]["rabm"], 3), round(out_rows[n]["best_top10"], 3)],
                           "vs_primary": vs and [round(vs["delta"], 3)] + [round(x, 3) for x in vs["interval"]],
-                          "ranks_above": above[n]}))
+                          "ranks_above": above.get(n, "reported only")}))
     print(json.dumps(selections, indent=1))
 
 

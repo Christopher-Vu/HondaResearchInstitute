@@ -18,6 +18,8 @@
 #    rule units without Wall (primary), all rule units, and the named gaps.
 set -euo pipefail
 MODE=${1:?dev or test}; READ=${2:-interim}
+[ "$READ" = final ] && [ -n "${CUTOFF:-}" ] && { echo "CUTOFF is for the late interim only, not the final read"; exit 2; }
+PIDS=()
 E=docs/research/experiments/f2d-unpooled
 D=docs/research/experiments/f2d-dev-simlingo
 REF=${REF:-/global/scratch/users/christophervu/hri-tfpp/results/savio}  # SimLingo and TF++ rows, routes and caches
@@ -112,7 +114,7 @@ print(" ".join(f"uniad:{g}" for g in named))
 EOF
 
 # 3. rows
-read -r IMG TRK B7L <<<"$(python - "$(head -1 $O/dirs.txt)" "$C" <<'EOF'
+SITES="$(python - "$(head -1 $O/dirs.txt)" "$C" <<'EOF'
 import sys, numpy as np, torch
 names = torch.load(f"{sys.argv[1]}/capture/steps.pt", map_location="cpu", weights_only=False)["layer_names"]
 last = lambda stage: names.index(max((n for n in names if n.startswith(stage + ".")), key=lambda n: int(n.split(".")[1])))
@@ -120,6 +122,7 @@ depth = np.load(sys.argv[2])["driving_queries"].shape[2]
 print(last("bev_encoder"), last("track_decoder"), min(depth - 1, int(np.floor(10 / 23 * (depth - 1) + 0.5))))
 EOF
 )"
+read -r IMG TRK B7L <<<"$SITES"
 echo "img-mean: all_tokens layer $IMG; query-mean: all_tokens layer $TRK; B7 at driving_queries layer $B7L" | tee $O/sites.txt
 T=$O/rows
 python $D/cache_methods.py $C --method m03 --site all_tokens --layer $IMG --name img-mean --output $T/img-mean.json
@@ -172,7 +175,7 @@ ROWS_U=$(echo $ROWS | sed -E 's/ (simlingo|tfpp)=[^ ]+//g')
 ALT="$(row img-mean-allseq $V/simlingo/img-mean-allseq.json $V/tfpp/img-mean.json $T/img-mean.json)
  $(row query-mean-lastjoin $V/simlingo/query-mean.json $V/tfpp/query-mean-lastjoin.json $T/query-mean.json)"
 # the best new view, re-selected in every draw (the caption row joins it in uniad_caption.sh)
-SEL="--select best_new img-mean query-mean --select-vs B3_behaviour m23"
+SEL="--select best_new_without_caption img-mean query-mean --select-vs B3_behaviour m23"
 # the pooled manifest: the test pool's, plus the screen's entries on a dev run (ids are disjoint)
 python - $TEST_MANIFEST $MANIFEST $O/manifest-pooled.json <<'EOF'
 import json, sys
@@ -184,7 +187,9 @@ score() {  # name label units models...
   local name=$1 label=$2 units=$3; shift 3
   case "$name:$units" in uniad-*:*uniad:*|pooled-*:?*) ;; *) echo "$name: no unit, not scored" | tee $O/$name.log; return ;; esac
   python $E/view_score.py --manifest $O/manifest-pooled.json "$@" --gaps $units --primary-rival B3_behaviour \
-    $SEL --label "$label" --output $O/$name.json > $O/$name.log 2>&1 &
+    $SEL --reported-only img-mean-allseq query-mean-lastjoin --label "$label" --output $O/$name.json \
+    > $O/$name.log 2>&1 &
+  PIDS+=($!)
 }
 U="--model uniad $R"; P="--model simlingo $SR --model tfpp $TR $U"
 # what uniad_caption.sh needs to rescore every row beside the caption row, on the same units
@@ -203,6 +208,8 @@ LBL="$TAG; pooled with SimLingo and TF++ (their outcomes already read)"
 score pooled-rule-nowall "$LBL, rule units without Wall (primary)" "$(echo $RULE_S $RULE_T $RULE_U | nowall)" $P $ROWS $ALT
 score pooled-rule "$LBL, all rule units" "$RULE_S $RULE_T $RULE_U" $P $ROWS $ALT
 score pooled-named "$LBL, named gaps" "$NAMED_S $NAMED_T $NAMED_U" $P $ROWS $ALT
-wait
+for p in "${PIDS[@]}"; do wait $p; done  # a failed scoring job stops the read
 cat $O/coverage.json $O/sites.txt
 tail -n +1 $O/units-uniad.txt $O/*.log
+[ -f $O/cutoff.txt ] && cat $O/cutoff.txt  # merge.log above counts every route; the read uses these
+true

@@ -80,7 +80,7 @@ def describe(frames: Path, out: Path, pool: str) -> None:
         requests.append((folder.name, params(content), sum(len(d) for d in data) * 4 // 3 + 4000))
         record.append({"id": folder.name, "frames": [{"file": p.name, "sha256": hashlib.sha256(d).hexdigest()}
                                                     for p, d in zip(pngs, data)]})
-    (out / f"{pool}-records" / "requests-describe.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "prompt": DESCRIBE,
+    (out / f"{pool}-records" / "requests-describe.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "max_tokens": 16000, "prompt": DESCRIBE,
                                                                    "routes": record}, indent=1) + "\n")
     submit(anthropic.Anthropic(), requests, out, pool, "describe")
 
@@ -93,7 +93,7 @@ def group(out: Path, pool: str) -> None:
         # a grouping answer lists every id, and with thinking it hit 16,000 tokens on UniAD's 552 routes
         requests.append((f"group-{r}", params([{"type": "text", "text": prompt}], GROUP_TOKENS), len(prompt) + 4000))
         record.append({"run": r, "sha256": hashlib.sha256(text.encode()).hexdigest()})
-    (out / f"{pool}-records" / "requests-group.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "prompt": GROUP,
+    (out / f"{pool}-records" / "requests-group.json").write_text(json.dumps({"model": MODEL, "effort": EFFORT, "max_tokens": GROUP_TOKENS, "prompt": GROUP,
                                                                 "runs": record}, indent=1) + "\n")
     submit(anthropic.Anthropic(), requests, out, pool, "group")
 

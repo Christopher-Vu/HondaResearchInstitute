@@ -15,6 +15,8 @@ REF=${REF:-/global/scratch/users/christophervu/hri-tfpp/results/savio}
 export PYTHONPATH=src:adapters/simlingo
 source $O/score.env
 C=$O/caption
+git rev-parse HEAD > $C/commit.txt
+PIDS=()
 python docs/research/experiments/h25-caption-cluster/to_axes.py $C/groups.json $O/caption-mapping.json --pool e \
   --output $C/axes.json | tee $C/to_axes.log
 # UniAD's kept routes: every passing route, and every failing route that has frames
@@ -34,7 +36,9 @@ score() {  # name label units args...
   local name=$1 label=$2 units=$3; shift 3
   [ -n "$(echo $units)" ] || { echo "$name: no unit, not scored" | tee $C/$name.log; return; }
   python $E/view_score.py --manifest $O/manifest-pooled.json "$@" --gaps $units --primary-rival B3_behaviour $SEL \
-    --label "$label" --output $C/$name.json > $C/$name.log 2>&1 &
+    --reported-only img-mean-allseq query-mean-lastjoin --label "$label" --output $C/$name.json \
+    > $C/$name.log 2>&1 &
+  PIDS+=($!)
 }
 U="--model uniad $R --restrict uniad=$C/routes-uniad.txt"
 RU="$ROWS_U --row caption uniad=runs:$C/axes.json"
@@ -50,6 +54,6 @@ if [ -n "$TC" ]; then
   score pooled-rule "$L, all rule units" "$UNITS_P_RULE" $P $RP
   score pooled-named "$L, named gaps" "$UNITS_P_NAMED" $P $RP
 fi
-wait
+for p in "${PIDS[@]}"; do wait $p; done  # a failed scoring job stops the script
 cat $C/coverage.txt
 tail -n +1 $C/*.log
