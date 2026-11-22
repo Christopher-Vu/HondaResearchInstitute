@@ -8,6 +8,30 @@ did. Dead ends count. "Turned out to be my typo" counts.
 
 ---
 
+
+## 2026-11-22 — `scontrol update ExcNodeList` replaces the list; moved jobs keep their CPU count
+
+**Expected:**
+- Adding n0264 with `scontrol update ExcNodeList=n0264.savio3` (2026-11-20) would add to the pending UniAD arrays'
+  exclusions.
+- TF++ jobs moved from the A5000 queue to the A40 queue (`scontrol update partition=... qos=... gres=...`) would
+  start like any A40 job.
+
+**Actual:**
+- `ExcNodeList` replaces the list. Arrays 41580714–18 lost the standing exclusions of n0214, n0215 and n0262
+  (`configs/cluster/savio.yaml`), and five UniAD tasks ran on n0262. All of them completed or were driving
+  normally: n0262's known fault kills CARLA at start, so it can't corrupt a drive.
+- The moved jobs kept `cpus-per-task=4` from the A5000 profile. The A40 QoS needs 8, so the s105b rerun sat in
+  `QOSMinCpuNotSatisfied`, and the TF++ export jobs would have done the same.
+
+**What we did:**
+- Set the full list (n0214, n0215, n0262, n0264) on every pending UniAD task.
+- Set `NumCPUs=8` on 41575660 and 41555298/9.
+- Rule from now on: when updating `ExcNodeList`, pass the profile's list plus the new node. When moving a job to
+  another GPU profile, also set that profile's CPU count.
+
+---
+
 ## 2026-11-20: one savio3 node failed every UniAD task it was given
 
 Expected: an A40 node runs UniAD routes like any other. What happened: n0264.savio3 failed 12 tasks of array
