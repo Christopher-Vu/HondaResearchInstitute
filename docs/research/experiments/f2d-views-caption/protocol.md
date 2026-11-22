@@ -157,3 +157,15 @@ states it}. Use no other tool. Then reply with just "done".
   for the pooled interim.
   - The first pooled run (41701329) is void: `view_score.py` kept only the last `--restrict`, so TF++ was not
     restricted. It was fixed (repeated `--restrict` now adds) and rerun.
+
+## UniAD, final read (recipe)
+
+1. On Savio, from hri-dev, with no `CUTOFF`: run `uniad_read.sh test final`. The salt is kept, so routes from the
+   interim keep their folder names.
+2. Copy `caption-frames/e` to the laptop. The interim's answers and grouping are kept as `caption-api/e-interim*`.
+3. Describe only the new folders: `api.py describe FRAMES OUT e describe-final`, then
+   `collect OUT e describe-final`.
+4. `agents.py inputs`, then `api.py group` and `collect` on every description (interim plus new), then
+   `agents.py groups` and `flags`.
+5. Copy `groups.json` to `<final read folder>/caption/`, then run `uniad_caption.sh` on it, with the TF++ caption
+   folder for the pooled row.
