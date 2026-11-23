@@ -13,8 +13,8 @@ interval lies above 0, i.e. the row ranks above what a fleet already sees.
 | Row | SimLingo alone¹ | TF++ alone¹ | UniAD alone (blind, interim) | Pooled, 3 models (interim) |
 |---|---|---|---|---|
 | **caption** (frames → descriptions → grouping) | 0.169<br>**+0.038 [0.006, 0.077]** | 0.169<br>**+0.103 [0.033, 0.143]** | 0.076<br>**+0.038 [0.005, 0.081]** | 0.152<br>**+0.062 [0.029, 0.090]** |
-| `query-mean` (query tokens, window mean) | pending² | 0.046<br>−0.019 [−0.052, −0.004] | 0.208<br>**+0.169 [0.047, 0.206]** | 0.125<br>+0.036 [−0.000, 0.064] |
-| `img-mean` (image tokens, window mean) | pending² | 0.063<br>−0.002 [−0.046, 0.038] | 0.112<br>+0.073 [−0.019, 0.123] | 0.098<br>+0.008 [−0.022, 0.033] |
+| `query-mean` (query tokens, window mean) | 0.157<br>+0.026 [−0.023, 0.089] | 0.046<br>−0.019 [−0.052, −0.004] | 0.208<br>**+0.169 [0.047, 0.206]** | 0.125<br>+0.036 [−0.000, 0.064] |
+| `img-mean` (image tokens, window mean) | 0.121<br>−0.010 [−0.033, 0.030] | 0.063<br>−0.002 [−0.046, 0.038] | 0.112<br>+0.073 [−0.019, 0.123] | 0.098<br>+0.008 [−0.022, 0.033] |
 | m23 (frozen activation finalist) | 0.150<br>+0.019 [−0.036, 0.089] | 0.062<br>−0.003 [−0.042, 0.032] | 0.037<br>−0.002 [−0.031, 0.010] | 0.096<br>+0.007 [−0.026, 0.038] |
 | m40 (second finalist) | 0.154<br>+0.023 [−0.049, 0.097] | 0.045<br>−0.020 [−0.055, −0.005] | 0.041<br>+0.002 [−0.027, 0.016] | 0.092<br>+0.003 [−0.034, 0.035] |
 | B3-infraction (rival: infraction log) | 0.147<br>+0.016 [−0.011, 0.051] | 0.106<br>**+0.040 [0.013, 0.076]** | 0.060<br>**+0.021 [0.003, 0.047]** | 0.115<br>**+0.026 [0.009, 0.048]** |
@@ -25,7 +25,6 @@ interval lies above 0, i.e. the row ranks above what a fleet already sees.
 | Units | 7 | 6 | 3 | 16 |
 
 ¹ Outcomes already read before these rows were scored (labelled so). UniAD is the only blind read.
-² SimLingo-alone `img-mean` / `query-mean` are being scored now (job 41710326); they are in the pooled column already.
 ³ TF++ frames come from a re-drive; only pairs whose failure reproduced are kept (172 of 257 pairs; route match 423/524).
 
 **Partial order (A ranks above B only if A − B's interval lies above 0):**
@@ -34,15 +33,16 @@ interval lies above 0, i.e. the row ranks above what a fleet already sees.
 - **UniAD alone:** `query-mean` ranks above every row including caption (+0.131 [0.033, 0.174]); selected in 96% of
   draws, +0.169 [0.075, 0.206]. Caption ranks above B3-behaviour, B7, m23, m40.
 - **TF++ alone:** caption ranks above every row except B3-infraction (tie). Selected in 100% of draws.
-- **SimLingo alone:** caption is the only row whose interval clears B3-behaviour.
+- **SimLingo alone:** caption is the only row whose interval clears B3-behaviour; it ranks above B3-behaviour,
+  B7 and `img-mean`, and ties `query-mean` (caption − query-mean −0.059 to +0.070).
 
 ## Other unit sets
 
 | Row minus B3-behaviour | SimLingo, all rule | SimLingo, named | TF++, all rule | TF++, named | UniAD, all rule | Pooled, all rule | Pooled, named |
 |---|---|---|---|---|---|---|---|
 | caption | **+0.041 [0.009, 0.080]** | +0.069 [−0.000, 0.146] | **+0.098 [0.033, 0.149]** | **+0.193 [0.023, 0.337]** | **+0.048 [0.019, 0.085]** | **+0.064 [0.030, 0.098]** | **+0.118 [0.026, 0.208]** |
-| `query-mean` | pending | pending | −0.029 [−0.059, −0.011] | −0.023 [−0.088, 0.000] | **+0.120 [0.030, 0.150]** | +0.021 [−0.008, 0.046] | +0.035 [−0.046, 0.123] |
-| `img-mean` | pending | pending | −0.010 [−0.050, 0.025] | −0.002 [−0.078, 0.091] | +0.047 [−0.022, 0.089] | −0.000 [−0.027, 0.021] | +0.015 [−0.043, 0.086] |
+| `query-mean` | +0.015 [−0.027, 0.071] | +0.074 [−0.031, 0.215] | −0.029 [−0.059, −0.011] | −0.023 [−0.088, 0.000] | **+0.120 [0.030, 0.150]** | +0.021 [−0.008, 0.046] | +0.035 [−0.046, 0.123] |
+| `img-mean` | −0.015 [−0.037, 0.019] | +0.027 [−0.040, 0.112] | −0.010 [−0.050, 0.025] | −0.002 [−0.078, 0.091] | +0.047 [−0.022, 0.089] | −0.000 [−0.027, 0.021] | +0.015 [−0.043, 0.086] |
 | m23 | **+0.055 [0.002, 0.118]** | +0.093 [−0.036, 0.247] | **+0.082 [0.038, 0.116]** | +0.023 [−0.062, 0.131] | −0.010 [−0.032, 0.004] | **+0.051 [0.019, 0.081]** | +0.065 [−0.033, 0.172] |
 | m40 | +0.060 [−0.019, 0.142] | +0.130 [−0.027, 0.291] | **+0.064 [0.025, 0.083]** | −0.016 [−0.081, 0.010] | −0.004 [−0.027, 0.008] | **+0.048 [0.008, 0.083]** | +0.072 [−0.036, 0.173] |
 | B3-infraction | +0.018 [−0.006, 0.048] | +0.027 [−0.021, 0.084] | **+0.038 [0.010, 0.070]** | +0.040 [−0.006, 0.131] | **+0.029 [0.008, 0.055]** | **+0.028 [0.010, 0.048]** | +0.033 [−0.007, 0.093] |
