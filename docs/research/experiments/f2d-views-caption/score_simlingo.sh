@@ -12,6 +12,8 @@ S=results/savio/f2d-dev/simlingo
 R=results/savio/f2d-dev/round2
 V=results/savio/f2d-views
 O=$V/caption-c
+VD=/global/scratch/users/christophervu/hri-dev/results/savio/f2d-views/simlingo  # the views' SimLingo rows (uniad_read.sh)
+IMG=results/savio/f2d-unpooled/simlingo-score/rows/llm10-mean.json  # img-mean: image tokens at layer 10
 python docs/research/experiments/h25-caption-cluster/to_axes.py $O/groups.json $V/caption-mapping-simlingo.json \
   --pool c --output $O/axes.json
 python $E/units_rule.py $MANIFEST $SR --model simlingo | tee $O/units.txt
@@ -22,7 +24,10 @@ NOWALL=$(echo $ALL | tr ' ' '\n' | grep -v F2D_Wall | tr '\n' ' ')
 ROWS="--row caption simlingo=runs:$O/axes.json --row B3_behaviour simlingo=$S/sprint/a3/b3_behaviour.json
  --row B3_infraction simlingo=$S/sprint/b3_infraction.json
  --row B7_pool simlingo=$S/v1/plain/directives-ms20:B7_pool:L10_k64_s0
- --row m23 simlingo=$S/sprint/batch4/m23.json --row m40 simlingo=$S/sprint/batch4/pools/m40.json"
+ --row m23 simlingo=$S/sprint/batch4/m23.json --row m40 simlingo=$S/sprint/batch4/pools/m40.json
+ --row img-mean simlingo=$IMG --row query-mean simlingo=$VD/query-mean.json
+ --row img-mean-allseq simlingo=$VD/img-mean-allseq.json"
+SEL="--select best_new img-mean query-mean caption --select-vs B3_behaviour m23 --reported-only img-mean-allseq B2_oracle"
 D=$S/v1/plain/directives-ms20
 ls $D/B2_taxonomy@* >/dev/null 2>&1 && ROWS="$ROWS --row B2_oracle simlingo=$D:B2_taxonomy"
 for U in named rule nowall; do
