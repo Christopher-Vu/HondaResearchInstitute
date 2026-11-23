@@ -32,7 +32,7 @@ D=$S/v1/plain/directives-ms20
 ls $D/B2_taxonomy@* >/dev/null 2>&1 && ROWS="$ROWS --row B2_oracle simlingo=$D:B2_taxonomy"
 for U in named rule nowall; do
   UNITS=$([ $U = named ] && echo $NAMED || ([ $U = rule ] && echo $ALL || echo $NOWALL))
-  python $E/view_score.py --manifest $MANIFEST --model simlingo $SR --gaps $UNITS $ROWS --primary-rival B3_behaviour \
+  python $E/view_score.py --manifest $MANIFEST --model simlingo $SR --gaps $UNITS $ROWS --primary-rival B3_behaviour $SEL \
     --label "SimLingo alone, caption row, $U units (outcomes already read)" --output $O/score-$U.json > $O/score-$U.log 2>&1 &
 done
 wait
