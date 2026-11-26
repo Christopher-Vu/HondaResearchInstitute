@@ -1,5 +1,33 @@
 # Comparison table: which view finds a driving model's Fail2Drive gaps
 
+## Final UniAD read (result of record; caption row still being scored)
+
+Job 41710304, `hri-dev/results/savio/f2d-views/uniad-test-final-20261122-1744/`. Coverage: 1,198 of 1,200 routes
+(598 of 600 twin pairs; 10301059 and 10501067 have no valid attempt), 837 failing, all with frames. The rule now
+admits **PedestriansOnRoad (16/30 vs 0/30), RightConstruction (11/30 vs 6/30) and Wall**; FullyBlocked drops out
+(30/30 vs 21/30, ratio 1.43 < 1.5). So the primary units are 2 on UniAD, and the named class is PedestriansOnRoad + Wall.
+
+| Row minus B3-behaviour | UniAD, primary | UniAD, all rule | UniAD, named | Pooled, primary | Pooled, all rule | Pooled, named |
+|---|---|---|---|---|---|---|
+| `query-mean` | +0.049 [−0.006, 0.138] | +0.025 [−0.011, 0.089] | +0.006 [−0.012, 0.049] | +0.010 [−0.019, 0.039] | −0.000 [−0.025, 0.025] | +0.029 [−0.026, 0.090] |
+| `img-mean` | +0.040 [−0.019, 0.160] | +0.020 [−0.020, 0.099] | −0.015 [−0.027, 0.028] | −0.005 [−0.026, 0.025] | −0.011 [−0.030, 0.014] | +0.011 [−0.026, 0.060] |
+| m23 | −0.009 [−0.025, −0.002] | −0.015 [−0.027, 0.007] | −0.019 [−0.033, 0.013] | +0.002 [−0.030, 0.036] | **+0.049 [0.017, 0.080]** | +0.038 [−0.027, 0.110] |
+| m40 | −0.002 [−0.012, 0.003] | −0.003 [−0.011, 0.006] | −0.003 [−0.013, 0.010] | −0.000 [−0.038, 0.033] | **+0.048 [0.009, 0.083]** | +0.051 [−0.024, 0.121] |
+| B3-infraction | **+0.015 [0.002, 0.042]** | **+0.018 [0.004, 0.041]** | **+0.024 [0.004, 0.056]** | **+0.023 [0.005, 0.046]** | **+0.022 [0.005, 0.044]** | +0.031 [−0.001, 0.078] |
+| B7-pool | −0.016 [−0.045, 0.005] | −0.033 [−0.060, −0.011] | −0.052 [−0.088, −0.021] | −0.042 [−0.071, −0.018] | −0.058 [−0.087, −0.034] | −0.028 [−0.081, 0.023] |
+| B3-behaviour (score) | 0.029 | 0.042 | 0.052 | 0.092 | 0.100 | 0.088 |
+
+Reading (activation rows; caption pending):
+- **On the blind model, no activation view ranks above the fleet's behaviour signal.** Best new view re-selected per
+  draw (`query-mean` 59%): +0.049 [−0.003, 0.163] on UniAD primary, a tie. It does rank above m23 (+0.058 [0.008, 0.173]).
+- **The interim's UniAD lead did not hold.** `query-mean` on PedestriansOnRoad fell from 0.42 (interim, 14 failing
+  routes in one cluster) to 0.07 with all 16 failing routes among 837 failures; per-unit final scores: `query-mean`
+  0.07 / 0.09 / 0.05 (Ped / RightConstr / Wall), `img-mean` 0.03 / 0.11 / 0.05, B3-behaviour 0.04 / 0.02 / 0.07.
+- The only row above behaviour everywhere on UniAD is B3-infraction (the infraction log), by small margins.
+- m23/m40 again lead only when Wall is in (pooled all-rule), as on dev and TF++.
+
+The interim tables below are kept as recorded; they are superseded for UniAD and pooled by this section.
+
 Built 2026-11-22 from the scored reports (paths at the end). The UniAD column is the **interim** blind read (routes
 driven by Sat 2026-11-21 09:00 PT); the final read (job 41710304) replaces it. Rules: `docs/prereg-views.md`.
 
