@@ -5,6 +5,31 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-25 — Final blind UniAD read: the caption row holds, the activation views' interim lead does not
+
+The last UniAD driving tasks finished on Nov 22, and the final read ran on 1,198 of the 1,200 test routes (two have
+no valid attempt; job 41710304, `hri-dev/results/savio/f2d-views/uniad-test-final-20261122-1744/`). With all 837
+failing routes in, the gap rule (generalisation routes failing at least 1.5× their base twins) admits
+PedestriansOnRoad, RightConstruction and Wall; FullyBlocked, which the interim had, falls just short (1.43×).
+
+Measured, on the primary units (rule units without Wall), each row minus the behaviour baseline with its 95%
+pair-bootstrap interval:
+- The **caption row** (camera frames described by Claude Opus 5.5, then grouped into failure modes) is +0.048
+  [0.010, 0.114] on UniAD alone and +0.065 [0.030, 0.095] pooled over the three models. Pooled, it ranks above every
+  other row. The 285 newly driven failures were described for $1.93; one of the six grouping runs returned no JSON
+  and was resent once, as in the interim.
+- The **activation views tie behaviour** on UniAD: track-query mean +0.049 [−0.006, 0.138], BEV-grid mean +0.040
+  [−0.019, 0.160]. The interim's large track-query lead (+0.169) came from one cluster that held exactly the 14
+  pedestrian failures; with all failures in, that unit's score fell from 0.42 to 0.07.
+- The SimLingo-tuned finalists (m23, m40) tie or lose to behaviour on UniAD.
+
+What it means: on the one model nobody looked at before the analysis was frozen, describing failure frames with a
+vision-language model finds the benchmark's failure modes better than clustering behaviour, while unsupervised
+clustering of the model's own activations does not. The interim-to-final change is the reason the prereg named the
+final read as the result of record. The full table is `docs/research/comparison-table.md` (SimLingo-alone activation
+rows were added there too, 41710340, after a fix that passes the selection flags, ccd291c). Left open for Chris: what
+to present, and whether to rerun the two missing routes.
+
 ## 2026-11-22 — Second re-audit of the UniAD read: a dropped route restriction in the pooled caption row
 
 A second laptop worker re-audited Chris's fixed UniAD read independently of the first

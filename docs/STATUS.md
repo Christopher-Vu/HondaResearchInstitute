@@ -6,7 +6,7 @@ Tick the matching done-conditions in `docs/steps/progress.yaml` at the same time
 and rewrite its `week` block each Friday; the status dashboard
 (https://failure-axis-status.vercel.app) reads it from GitHub.
 
-Last updated: 2026-11-22 ~07:45 (interim read and all three caption rows scored; final UniAD read waits on ~34 tasks)
+Last updated: 2026-11-25 (final UniAD read done, caption row included; `docs/research/comparison-table.md`)
 
 ## Needs Chris (each ~8 h Savio window)
 
@@ -14,12 +14,27 @@ Last updated: 2026-11-22 ~07:45 (interim read and all three caption rows scored;
 - [ ] **Every ~12 h:** `ssh savio` (PIN + code, then exit). Keep the laptop awake with Claude open.
 - [ ] **Review the interim UniAD read** (below), and confirm the pooled-caption reading recorded in the prereg on
   2026-11-22: each model's median over its own runs.
-- [ ] **Look at `query-mean`'s PedestriansOnRoad axis:** one axis is exactly that unit's 14 failing routes.
-- [ ] **Mon Nov 23:** the presentable comparison.
+- [x] ~~Look at `query-mean`'s PedestriansOnRoad axis~~: moot, it did not survive the final read (0.42 → 0.07).
+- [ ] **Read the final comparison** (`docs/research/comparison-table.md`) and decide what to present.
+- [ ] Two UniAD routes (10301059, 10501067) have no valid attempt; the final read used 1,198 of 1,200. Rerun only if
+  you want full coverage (it would make a second "final").
+- [ ] Rotate the Anthropic API key (captioning is done; ~$17.70 of $70 spent).
 
 ---
 
 ## Current position
+
+**2026-11-25: final blind UniAD read done (result of record).** Measured; `docs/research/comparison-table.md`.
+- **Coverage:** 1,198 of 1,200 routes, 598 of 600 pairs, 837 failing, all with frames (job 41710304). The rule admits
+  PedestriansOnRoad, RightConstruction and Wall; FullyBlocked drops out (ratio 1.43). UniAD primary = 2 units.
+- **Caption row** (job 41948480): UniAD primary +0.048 [0.010, 0.114] vs B3-behaviour, so above the fleet on the
+  blind model; ties the activation views there. Pooled primary +0.065 [0.030, 0.095], ranking above every row
+  including `query-mean` and m23.
+- **Activation views on UniAD tie behaviour:** `query-mean` +0.049 [−0.006, 0.138], `img-mean` +0.040 [−0.019,
+  0.160]. The interim `query-mean` lead (+0.169) did not hold: its PedestriansOnRoad axis fell from 0.42 to 0.07.
+- m23/m40 tie or lose to behaviour on UniAD; pooled, they lead only with Wall in.
+- B3-infraction is above behaviour on UniAD by small margins (+0.015 [0.002, 0.042]).
+- Nothing queued of ours. The other thread's `tfpp-unpooled` 41555299 waits on a failed dependency and will never run.
 
 **2026-11-22 ~04:00: interim UniAD read done (run late, Sat 09:00 cutoff); caption row and final read in progress.**
 - **Interim read** (job 41693917, `hri-dev/results/savio/f2d-views/uniad-test-interim-20261122-0332/`), measured:
