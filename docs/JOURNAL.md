@@ -5,6 +5,22 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-28 — Paper results section drafted from the final UniAD read
+
+The paper draft had no results section. This session wrote `docs/paper/results.tex` and placed it after the
+pre-registration history in `docs/paper/main.tex`. It is marked "Draft for Chris, pending the phase-2 rescore" at the
+top. Every number in it is copied from the "Final UniAD read" section of `docs/research/comparison-table.md`, with a
+comment naming the row; nothing was recomputed. It covers the question, the coverage (1,198 of 1,200 UniAD routes),
+the units the rule admitted (PedestriansOnRoad and RightConstruction primary; FullyBlocked out at 1.43×), the final
+table, and the reading: no activation view ranks above the behaviour baseline on UniAD, the caption row and the
+infraction log do, and the interim track-query lead did not hold because it rested on one cluster on one unit.
+
+Four other paper files said there were no results or that UniAD was unread; those sentences were changed in place
+(commit message lists each). Neither `latexmk` nor `pdflatex` is installed. `tectonic` compiled the TeX stage
+without errors or overfull boxes once bold was disabled in a scratch copy, but its offline cache lacks 9 pt fonts,
+so no PDF was produced. Not checked: the pooled unit count, and TransFuser++'s test-pool coverage behind the pooled
+activation columns, which the comparison table does not state.
+
 ## 2026-11-25 — Final blind UniAD read: the caption row holds, the activation views' interim lead does not
 
 The last UniAD driving tasks finished on Nov 22, and the final read ran on 1,198 of the 1,200 test routes (two have

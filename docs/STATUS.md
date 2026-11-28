@@ -16,6 +16,7 @@ Last updated: 2026-11-25 (final UniAD read done, caption row included; `docs/res
   2026-11-22: each model's median over its own runs.
 - [x] ~~Look at `query-mean`'s PedestriansOnRoad axis~~: moot, it did not survive the final read (0.42 → 0.07).
 - [ ] **Read the final comparison** (`docs/research/comparison-table.md`) and decide what to present.
+- [ ] **Review the paper's results draft** (`docs/paper/results.tex`, from the final read; not built to PDF here).
 - [ ] Two UniAD routes (10301059, 10501067) have no valid attempt; the final read used 1,198 of 1,200. Rerun only if
   you want full coverage (it would make a second "final").
 - [ ] Rotate the Anthropic API key (captioning is done; ~$17.70 of $70 spent).
