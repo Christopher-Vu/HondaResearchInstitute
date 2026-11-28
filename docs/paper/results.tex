@@ -1,0 +1,200 @@
+\section{Results}
+\label{sec:results}
+
+\begin{center}
+\fbox{\textbf{Draft for Chris, pending the phase-2 rescore}}
+\end{center}
+
+% Every number in this section is copied from docs/research/comparison-table.md,
+% section "Final UniAD read (result of record)", unless its tag names another part
+% of that file. Nothing here is computed anew.
+
+% \dci{difference}{low}{high}: a row minus B3-behaviour over its 95% interval
+\newcommand{\dci}[3]{\begin{tabular}[t]{@{}c@{}}$#1$\\[-1pt]{\scriptsize$[#2, #3]$}\end{tabular}}
+% \dcib: the same, bold, for an interval that lies above 0
+\newcommand{\dcib}[3]{\begin{tabular}[t]{@{}c@{}}$\boldsymbol{#1}$\\[-1pt]{\scriptsize$\boldsymbol{[#2, #3]}$}\end{tabular}}
+
+\paragraph{The question.}
+The views pre-registration (\S\ref{sec:prereg-views}) asks which way of looking
+at a driving model finds its Fail2Drive gaps best, and whether any way ranks
+above the car's behaviour, which a fleet already logs. A row ranks above the
+fleet if its 95\% interval against B3-behaviour lies above 0; otherwise it ties
+or ranks below. UniAD is the only model whose outcomes no row had seen, so the
+UniAD-alone columns are the blind test. The pooled columns add SimLingo and
+TransFuser++, whose outcomes had already been read. This section reports the
+final UniAD read, which the pre-registration names as the result of record. The
+interim read is reported only where it explains a change.
+
+\paragraph{Coverage.}
+% measured: 1,198 of 1,200 routes, 598 of 600 twin pairs, 837 failing, all with frames; job 41710304 (comparison-table.md, Final UniAD read, Coverage)
+The final read covers 1,198 of UniAD's 1,200 test routes and 598 of its 600
+twin pairs (job 41710304). Two routes, 10301059 and 10501067, have no valid
+attempt. Of the 1,198 routes, 837 fail, and every failing route has camera
+frames.
+% measured: 837 of 837 failing routes described, 6 grouping runs, run 1 resent once, 28 of 59 mode names flagged (comparison-table.md, Final UniAD read, caption job 41948480)
+The caption row described all 837 failing routes (job 41948480) and ran its six
+grouping runs; run 1 returned no structured output and was sent again once, as
+in the interim read. The synonym list flagged 28 of the 59 mode names, which
+means those names match Fail2Drive's type words.
+% measured: SimLingo 1,185 routes, 357 failing, 7 units; TF++ 1,071 routes, 230 failing, 6 units (comparison-table.md, Primary units table, Coverage and Units rows)
+% measured: 172 of 257 re-driven pairs reproduced, route match 423/524 (comparison-table.md, Primary units table, footnote 3)
+SimLingo's and TransFuser++'s outcomes do not change between the reads. In the
+interim table SimLingo's caption column covers 1,185 routes, 357 failing, over 7
+primary units. TransFuser++'s frames come from a re-drive, so its caption routes
+are only the pairs whose failure reproduced, 172 of 257 (\S\ref{sec:whatbroke}),
+with 1,071 routes and 230 failing over 6 primary units. The pooled caption row
+is scored on those re-driven routes. % source: docs/research/experiments/f2d-unpooled/uniad_read.sh step 4 (TR = f2d-test-tfpp/routes.jsonl); comparison-table.md, Final UniAD read, caption job paragraph
+The pooled activation columns of
+Table~\ref{tab:final} use TransFuser++'s own test-pool drive, so the activation
+rows in the caption files differ slightly from those columns. The table does not
+state that drive's coverage.
+
+\paragraph{The units the rule admitted.}
+% design: 1.5x and at least 5 failing routes (docs/prereg-views.md, Units, metric and intervals)
+The unit rule (\S\ref{sec:fail2drive}) runs inside each read, on that read's
+routes.
+% measured: PedestriansOnRoad 16/30 vs 0/30, RightConstruction 11/30 vs 6/30, Wall admitted; FullyBlocked 30/30 vs 21/30, ratio 1.43 (comparison-table.md, Final UniAD read)
+On the final read it admits three UniAD types. PedestriansOnRoad fails on 16 of
+30 generalisation routes and on none of 30 base twins. RightConstruction fails
+on 11 of 30 against 6 of 30. Wall also passes the rule. FullyBlocked drops out:
+it fails on all 30 generalisation routes but on 21 of 30 base twins, a ratio of
+1.43, below the rule's 1.5. Without Wall, UniAD therefore has two primary units,
+PedestriansOnRoad and RightConstruction. The named-gap class, from the gap rule
+of \S\ref{sec:fail2drive}, is PedestriansOnRoad and Wall. The interim read had
+admitted FullyBlocked as a third primary unit and had an empty named class.
+
+\paragraph{The table.}
+Table~\ref{tab:final} gives each row minus B3-behaviour, with its interval from
+the pair bootstrap, on the primary units, on all rule units and on the named
+gaps.
+% design: 2,000 draws (docs/prereg-views.md, Units, metric and intervals)
+The metric is rank-averaged best match (\S\ref{sec:scoring}) and the bootstrap
+has 2{,}000 draws. The table holds only this primary metric; the secondary
+metric, top-10 best match, is not in it and is not reported here.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+% measured: every cell (comparison-table.md, Final UniAD read, table "Row minus B3-behaviour")
+\begin{tabular}{@{}l*{6}{c}@{}}
+\toprule
+ & \multicolumn{3}{c}{UniAD alone (blind)} & \multicolumn{3}{c}{Pooled, three models} \\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Row & Primary & All rule & Named & Primary & All rule & Named \\
+\midrule
+\code{caption}
+  & \dcib{+0.048}{0.010}{0.114} & \dcib{+0.059}{0.026}{0.114} & \dcib{+0.083}{0.031}{0.163}
+  & \dcib{+0.065}{0.030}{0.095} & \dcib{+0.066}{0.033}{0.100} & \dcib{+0.108}{0.040}{0.177} \\
+\code{query-mean}
+  & \dci{+0.049}{-0.006}{0.138} & \dci{+0.025}{-0.011}{0.089} & \dci{+0.006}{-0.012}{0.049}
+  & \dci{+0.010}{-0.019}{0.039} & \dci{-0.000}{-0.025}{0.025} & \dci{+0.029}{-0.026}{0.090} \\
+\code{img-mean}
+  & \dci{+0.040}{-0.019}{0.160} & \dci{+0.020}{-0.020}{0.099} & \dci{-0.015}{-0.027}{0.028}
+  & \dci{-0.005}{-0.026}{0.025} & \dci{-0.011}{-0.030}{0.014} & \dci{+0.011}{-0.026}{0.060} \\
+m23
+  & \dci{-0.009}{-0.025}{-0.002} & \dci{-0.015}{-0.027}{0.007} & \dci{-0.019}{-0.033}{0.013}
+  & \dci{+0.002}{-0.030}{0.036} & \dcib{+0.049}{0.017}{0.080} & \dci{+0.038}{-0.027}{0.110} \\
+m40
+  & \dci{-0.002}{-0.012}{0.003} & \dci{-0.003}{-0.011}{0.006} & \dci{-0.003}{-0.013}{0.010}
+  & \dci{-0.000}{-0.038}{0.033} & \dcib{+0.048}{0.009}{0.083} & \dci{+0.051}{-0.024}{0.121} \\
+B3-infraction
+  & \dcib{+0.015}{0.002}{0.042} & \dcib{+0.018}{0.004}{0.041} & \dcib{+0.024}{0.004}{0.056}
+  & \dcib{+0.023}{0.005}{0.046} & \dcib{+0.022}{0.005}{0.044} & \dci{+0.031}{-0.001}{0.078} \\
+B7-pool
+  & \dci{-0.016}{-0.045}{0.005} & \dci{-0.033}{-0.060}{-0.011} & \dci{-0.052}{-0.088}{-0.021}
+  & \dci{-0.042}{-0.071}{-0.018} & \dci{-0.058}{-0.087}{-0.034} & \dci{-0.028}{-0.081}{0.023} \\
+\midrule
+B3-behaviour & 0.029 & 0.042 & 0.052 & 0.092 & 0.100 & 0.088 \\
+\bottomrule
+\end{tabular}
+\caption{Final UniAD read, the result of record. Each cell is a row's
+rank-averaged best match minus B3-behaviour's, over its 95\% pair-bootstrap
+interval. Bold marks an interval that lies above 0, so the row ranks above what
+a fleet already sees. The last line is B3-behaviour's own score. Primary units
+are the rule units without Wall; on UniAD they are PedestriansOnRoad and
+RightConstruction.}
+\label{tab:final}
+\end{table}
+
+\paragraph{No activation view ranks above behaviour on the blind model.}
+% measured: query-mean +0.049 [-0.006, 0.138], img-mean +0.040 [-0.019, 0.160] (comparison-table.md, Final UniAD read, rows query-mean and img-mean, UniAD primary)
+On UniAD's primary units the two new activation views come closest, with
+\code{query-mean} at $+0.049$ $[-0.006, 0.138]$ and \code{img-mean} at $+0.040$
+$[-0.019, 0.160]$. Both intervals include 0, so both tie behaviour.
+% measured: best new view without caption re-selected per draw, query-mean in 59%, +0.049 [-0.003, 0.163]; vs m23 +0.058 [0.008, 0.173] (comparison-table.md, Final UniAD read, Reading, third item)
+When the best activation view is chosen again in every draw, it is
+\code{query-mean} in 59\% of draws, and it still ties: $+0.049$ $[-0.003,
+0.163]$. That choice does rank above the frozen finalist m23, at $+0.058$
+$[0.008, 0.173]$.
+% measured: m23 -0.009 [-0.025, -0.002] on UniAD primary (comparison-table.md, Final UniAD read, row m23)
+The finalists tie behaviour or fall below it. On UniAD's primary units m23's
+interval, $[-0.025, -0.002]$, lies below 0.
+% measured: m23 +0.049 [0.017, 0.080], m40 +0.048 [0.009, 0.083] pooled all rule (comparison-table.md, Final UniAD read, rows m23 and m40)
+The only activation cells above behaviour are m23 and m40 on the pooled
+all-rule units, at $+0.049$ and $+0.048$. Those units include Wall, and m23 and
+m40 led only with Wall in on dev and on TransFuser++ as well. B7-pool is below behaviour or ties it in every
+column.
+
+\paragraph{The caption row and B3-infraction rank above behaviour.}
+% measured: caption UniAD primary +0.048 [0.010, 0.114], all rule +0.059, named +0.083; pooled primary +0.065 [0.030, 0.095] (comparison-table.md, Final UniAD read, row caption)
+The caption row's interval lies above 0 in every column. On UniAD's primary
+units it is $+0.048$ $[0.010, 0.114]$; on all rule units $+0.059$, and on the
+named gaps $+0.083$. Pooled over the three models, on the primary units, it is
+$+0.065$ $[0.030, 0.095]$.
+% measured: best new view incl. caption re-selected per draw, UniAD primary caption 51%, img-mean 31%, query-mean 17%, +0.049 [0.014, 0.165]; pooled primary caption 98%, +0.065 [0.032, 0.095] (comparison-table.md, Final UniAD read, Reading, second item)
+When the best of all three new views is chosen again in every draw, the choice
+still ranks above behaviour: on UniAD's primary units it is the caption row in
+51\% of draws, \code{img-mean} in 31\% and \code{query-mean} in 17\%, at
+$+0.049$ $[0.014, 0.165]$. Pooled, it is the caption row in 98\% of draws, at
+$+0.065$ $[0.032, 0.095]$.
+% measured: caption minus query-mean +0.001 [-0.082, 0.082] on UniAD; query-mean minus caption -0.055 [-0.096, -0.003] pooled primary (comparison-table.md, Final UniAD read, Reading, first item)
+Against the other rows directly the caption row is not ahead on UniAD alone. It
+ties \code{query-mean} there, at $+0.001$ $[-0.082, 0.082]$, and it ties
+\code{img-mean}. Pooled on the primary units it ranks above every other row; for
+\code{query-mean} the paired difference is $-0.055$ $[-0.096, -0.003]$ the
+other way.
+% measured: caption per unit on UniAD 0.11 / 0.03 / 0.15 (Ped / RightConstr / Wall) (comparison-table.md, Final UniAD read, Reading, first item)
+Per unit on UniAD, the caption row scores 0.11 on PedestriansOnRoad, 0.03 on
+RightConstruction and 0.15 on Wall.
+% measured: B3-infraction UniAD +0.015 [0.002, 0.042], +0.018 [0.004, 0.041], +0.024 [0.004, 0.056] (comparison-table.md, Final UniAD read, row B3-infraction)
+B3-infraction, which groups failures by the infraction log, is the only other
+row above behaviour in every UniAD column, by small margins: $+0.015$ $[0.002,
+0.042]$ on the primary units. It is a reported rival with no pass bar
+(\S\ref{sec:rivals}).
+The caption row uses an external language model, Claude Opus 5.5, on camera
+frames. It is a strong baseline that describes what is in view, not a reading
+of the driving model's internals. So the rows that rank above behaviour on the
+blind model are a description of the camera image and the infraction log, and
+no row that reads the model's activations.
+
+\paragraph{The interim lead of \code{query-mean} did not hold.}
+% measured: interim UniAD alone primary query-mean 0.208, +0.169 [0.047, 0.206]; 869 routes, 552 failing, 3 units (comparison-table.md, Primary units table, column "UniAD alone (blind, interim)")
+On the interim read, 869 routes of which 552 failed, \code{query-mean} scored
+0.208 on UniAD's three primary units, $+0.169$ $[0.047, 0.206]$ above
+behaviour.
+% measured: interim per unit query-mean FullyBlocked 0.08, PedestriansOnRoad 0.42, RightConstruction 0.13; one axis exactly PedestriansOnRoad's 14 failing routes (comparison-table.md, "Where the leads come from")
+The per-unit rows show where that lead came from. \code{query-mean} scored 0.42
+on PedestriansOnRoad against 0.08 and 0.13 on the other two units, and one of
+its clusters held exactly the 14 failing PedestriansOnRoad routes driven by
+then. The interim table flagged that one unit carried the lead.
+% measured: final query-mean PedestriansOnRoad 0.07 with all 16 failing routes among 837 failures; per unit query-mean 0.07 / 0.09 / 0.05, img-mean 0.03 / 0.11 / 0.05, B3-behaviour 0.04 / 0.02 / 0.07 (Ped / RightConstr / Wall) (comparison-table.md, Final UniAD read, Reading, fourth item)
+On the final read, with all 16 failing PedestriansOnRoad routes among 837
+failures, \code{query-mean} scores 0.07 on that unit. Its per-unit scores are
+0.07, 0.09 and 0.05 on PedestriansOnRoad, RightConstruction and Wall, against
+B3-behaviour's 0.04, 0.02 and 0.07. On the primary units its difference from
+behaviour is now $+0.049$, and the interval includes 0. m03 is fit on the pool
+it scores (\S\ref{sec:m03}), so the final read fits it on 1,198 routes instead
+of 869. The table records that the cluster did not form again, but not why. The
+pre-registration fixed before either read that the final read, not the interim,
+is the result of record (\S\ref{sec:prereg-views}).
+
+\paragraph{What the table does not show.}
+% measured: 219 tries at the views tag (docs/prereg-views.md; comparison-table.md, Caveats)
+The three new views are 3 of 219 tries counted at the views tag. Selection
+among them is paid for by choosing again in every draw. Only UniAD is blind;
+SimLingo's and TransFuser++'s outcomes were read before these rows were scored.
+UniAD's primary score is a mean over two units, so intervals are wide and one
+unit can move it a long way, as the interim lead showed. Recovery of known
+Fail2Drive types stands in for discovery of unknown failure groups
+(\S\ref{sec:limitations}).
