@@ -125,15 +125,18 @@ $[-0.019, 0.160]$. Both intervals include 0, so both tie behaviour.
 % measured: best new view without caption re-selected per draw, query-mean in 59%, +0.049 [-0.003, 0.163]; vs m23 +0.058 [0.008, 0.173] (comparison-table.md, Final UniAD read, Reading, third item)
 When the best activation view is chosen again in every draw, it is
 \code{query-mean} in 59\% of draws, and it still ties: $+0.049$ $[-0.003,
-0.163]$. That choice does rank above the frozen finalist m23, at $+0.058$
-$[0.008, 0.173]$.
+0.163]$. Against the frozen finalist m23 the same choice is $+0.058$
+$[0.008, 0.173]$. A choice made again in every draw is not a row, so this ranks
+no row above m23; \code{query-mean}'s own paired interval against m23 is not in
+the table.
 % measured: m23 -0.009 [-0.025, -0.002] on UniAD primary (comparison-table.md, Final UniAD read, row m23)
 The finalists tie behaviour or fall below it. On UniAD's primary units m23's
 interval, $[-0.025, -0.002]$, lies below 0.
 % measured: m23 +0.049 [0.017, 0.080], m40 +0.048 [0.009, 0.083] pooled all rule (comparison-table.md, Final UniAD read, rows m23 and m40)
 The only activation cells above behaviour are m23 and m40 on the pooled
-all-rule units, at $+0.049$ and $+0.048$. Those units include Wall, and m23 and
-m40 led only with Wall in on dev and on TransFuser++ as well. B7-pool is below behaviour or ties it in every
+all-rule units, at $+0.049$ and $+0.048$. Those units include Wall. On
+TransFuser++'s interim columns, too, m23 and m40 rank above behaviour only with
+Wall in. B7-pool is below behaviour or ties it in every
 column.
 
 \paragraph{The caption row and B3-infraction rank above behaviour.}
@@ -143,15 +146,16 @@ units it is $+0.048$ $[0.010, 0.114]$; on all rule units $+0.059$, and on the
 named gaps $+0.083$. Pooled over the three models, on the primary units, it is
 $+0.065$ $[0.030, 0.095]$.
 % measured: best new view incl. caption re-selected per draw, UniAD primary caption 51%, img-mean 31%, query-mean 17%, +0.049 [0.014, 0.165]; pooled primary caption 98%, +0.065 [0.032, 0.095] (comparison-table.md, Final UniAD read, Reading, second item)
-When the best of all three new views is chosen again in every draw, the choice
-still ranks above behaviour: on UniAD's primary units it is the caption row in
+When the best of all three new views is chosen again in every draw, the
+choice's interval against behaviour also lies above 0. This choice is reported
+beside the rows and ranks none of them. On UniAD's primary units it is the caption row in
 51\% of draws, \code{img-mean} in 31\% and \code{query-mean} in 17\%, at
 $+0.049$ $[0.014, 0.165]$. Pooled, it is the caption row in 98\% of draws, at
 $+0.065$ $[0.032, 0.095]$.
-% measured: caption minus query-mean +0.001 [-0.082, 0.082] on UniAD; query-mean minus caption -0.055 [-0.096, -0.003] pooled primary (comparison-table.md, Final UniAD read, Reading, first item)
+% measured: query-mean minus caption +0.001 [-0.082, 0.082] on UniAD (key order: uniad_caption.sh adds caption last); query-mean minus caption -0.055 [-0.096, -0.003] pooled primary (comparison-table.md, Final UniAD read, Reading, first item)
 Against the other rows directly the caption row is not ahead on UniAD alone. It
-ties \code{query-mean} there, at $+0.001$ $[-0.082, 0.082]$, and it ties
-\code{img-mean}. Pooled on the primary units it ranks above every other row; for
+ties \code{query-mean} there: \code{query-mean} minus caption is $+0.001$
+$[-0.082, 0.082]$. It also ties \code{img-mean}. Pooled on the primary units it ranks above every other row; for
 \code{query-mean} the paired difference is $-0.055$ $[-0.096, -0.003]$ the
 other way.
 % measured: caption per unit on UniAD 0.11 / 0.03 / 0.15 (Ped / RightConstr / Wall) (comparison-table.md, Final UniAD read, Reading, first item)

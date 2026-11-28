@@ -5,6 +5,30 @@ Newest entry first. Rules for writing entries are in `CLAUDE.md` under "Journal"
 
 ---
 
+## 2026-11-28 — Two independent checks of the final UniAD table
+
+Two laptop workers checked the "Final UniAD read" section of `docs/research/comparison-table.md` separately, from
+main only (reports: `results/h21/verify-final-20261128-002431-18247/report.md` and
+`results/h21/verify-final-20261128-002948/report.md`). Both found every bold cell right (42 of 42) and the stated
+unit counts consistent with the unit rule. They agree on these mismatches:
+
+- Table line 38 says B3-infraction is the only row above behaviour everywhere on UniAD. The caption row is too. The
+  line was written before the caption row existed and was not updated.
+- Line 34 says the best new view, chosen again in every draw, "does rank above m23". The prereg record (lines 59-60)
+  says a rank claim comes only from a row's own interval, and a per-draw choice is not a row.
+- Line 30 prints `+0.001 [-0.082, 0.082]` without saying it is `query-mean` minus caption. As caption minus
+  `query-mean`, it must be negative.
+- `units_rule.py:44` compares floats, so a type that fails exactly 1.5 times as often as its twins (for example 9/30
+  vs 6/30) is wrongly left out. The three stated types are not on that edge. Nobody can tell from main whether another
+  UniAD type was. A strict expected-failure test pins it (`tests/test_final_read_rules.py`).
+- Each pooled column mixes two TransFuser++ route sets: the caption cell uses only re-driven reproduced pairs, while
+  the activation cells use the full pool.
+
+None of these changes a number in the table. The results draft avoided the line 38 error but repeated the line 34
+and line 30 ones, and it also said the per-draw choice "ranks above behaviour". Those sentences were corrected in
+`docs/paper/results.tex`. With network access, `tectonic` fetched the missing 9 pt font and the draft
+built to a PDF. Phase 2 still waits: it rescores every cell from Chris's files with an independent scorer.
+
 ## 2026-11-28 — Paper results section drafted from the final UniAD read
 
 The paper draft had no results section. This session wrote `docs/paper/results.tex` and placed it after the
